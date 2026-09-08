@@ -1,6 +1,6 @@
 ---
 name: skill-router
-description: Use at the start of any non-trivial task to silently check whether one of the user's domain skills (agile-development, deep-learning, hep-analysis) applies before proceeding. Always consult this routing logic for any non-trivial software change (implement/fix/add/refactor/migrate/update, scoping, acceptance criteria, code review process), PyTorch model/training/DataLoader/debugging tasks, or HEP/CERN/ROOT/PyROOT/RDataFrame/uproot/Awkward/cutflow/systematics/fit/limit tasks - even if the user doesn't name a skill explicitly or use the word "skill."
+description: Use at the start of any non-trivial task to silently check whether one of the user's domain skills (agile-development, deep-learning, hep-analysis) applies before proceeding. Always consult this routing logic for any non-trivial software change (implement/fix/add/refactor/migrate/update, scoping, acceptance criteria, code review process), PyTorch model/training/DataLoader/debugging tasks, or HEP/CERN/ROOT/PyROOT/RDataFrame/uproot/Awkward/cutflow/systematics/fit/limit tasks, including detector subsystems (tracker, calorimeter, TRD, TOF, RICH, muon), event reconstruction, and Geant4/detector-simulation tasks - even if the user doesn't name a skill explicitly or use the word "skill."
 ---
 
 # Skill Router
@@ -28,7 +28,12 @@ its workflow.
   C++, PyROOT, RDataFrame, uproot/awkward columnar pipelines, ntuples, event
   selections, cutflows, histograms, efficiencies and scale factors, yields,
   backgrounds, unfolding, systematic uncertainties, RooFit/RooStats, pyhf,
-  Combine, CMake/root-config builds, and HEP plotting. Not for unrelated uses
+  Combine, CMake/root-config builds, and HEP plotting. Also the detector and
+  simulation layers beneath the analysis: detector subsystems and their physics
+  (tracker/spectrometer, ECAL/HCAL calorimetry, TRD, TOF, RICH/Cherenkov,
+  dE/dx, muon systems), particle identification, event reconstruction and
+  truth matching, event generators, Geant4 detector simulation and
+  digitization, and calibration/alignment. Not for unrelated uses
   of "root" (Linux root users, Android rooting, certificates, math or plant
   roots).
 

@@ -1,6 +1,6 @@
 ---
 name: hep-analysis
-description: Analyze high-energy physics experiment data and simulation, review or write ROOT C++, PyROOT, uproot/awkward-array, RDataFrame, and columnar analysis pipelines, construct statistical models, propagate systematic uncertainties, and validate measurements, fits, significance and limits. Use for collider or particle-physics event selections, cutflows, histograms/fits/plots, efficiencies/scale factors, yields, backgrounds, unfolding, RooFit/RooStats, pyhf or Combine, CMake/root-config builds, and debugging ROOT/PyROOT/RDataFrame errors; also jet clustering/JES/JER, b-tagging, MET, pileup jets; trigger tag-and-probe efficiency measurement, turn-on curves, prescales, luminosity normalization, pileup reweighting; and BDT/neural-network classifier training, feature engineering, and calibration for analysis - even if the user just says "my analysis script" or "this ROOT macro". Not for unrelated uses of ROOT (Linux root users, Android rooting, certificates, math/plant roots).
+description: Analyze high-energy physics experiment data and simulation, review or write ROOT C++, PyROOT, uproot/awkward-array, RDataFrame, and columnar analysis pipelines, construct statistical models, propagate systematic uncertainties, and validate measurements, fits, significance and limits. Use for collider or particle-physics event selections, cutflows, histograms/fits/plots, efficiencies/scale factors, yields, backgrounds, unfolding, RooFit/RooStats, pyhf or Combine, CMake/root-config builds, and debugging ROOT/PyROOT/RDataFrame errors; also jet clustering/JES/JER, b-tagging, MET, pileup jets; trigger tag-and-probe efficiency measurement, turn-on curves, prescales, luminosity normalization, pileup reweighting; and BDT/neural-network classifier training, feature engineering, and calibration for analysis. Also detector subsystems and their physics (tracker/spectrometer rigidity and multiple scattering, ECAL/HCAL calorimetry and shower development, TRD, TOF, RICH/Cherenkov, dE/dx, muon systems), particle identification and mass/isotope separation; event reconstruction (clustering, track finding, vertexing, particle flow, truth matching, reconstruction efficiency and fake rate); and the simulation chain (event generators, LHE/HepMC, Geant4 geometry, physics lists and production cuts, digitization, fast simulation, test-beam and in-situ calibration, alignment weak modes) - even if the user just says "my analysis script" or "this ROOT macro". Not for unrelated uses of ROOT (Linux root users, Android rooting, certificates, math/plant roots).
 ---
 
 # High-Energy Physics Experimental Analysis and Statistics
@@ -39,6 +39,8 @@ uproot for inspection, RDataFrame for production, ROOT files as interchange).
 - Propagate shape variations through object corrections, ordering, selections, missing transverse momentum, and category migration where affected. Changing only the final histogram weight is insufficient for a kinematic variation.
 - Preserve existing blinding rules and define masks for new analyses. Without authorized unblinding, do not expose masked observations through plots, ratios, logs, temporary tables, or optimization.
 - Do not tune a model to obtain a desired significance, exclusion, or goodness-of-fit value. Changes need physical justification and independent validation.
+- Do not tune simulation, calibration, or alignment parameters to remove a disagreement in the observable being measured. Tune only on independent control observables, with a stated physical justification, and carry the remaining freedom as a systematic.
+- Detector-level quantities are inferred, not observed. Rigidity is `p/q`, not momentum; efficiency is not acceptance; a matched object is matched under a stated criterion. State the definition whenever one of these is quoted.
 - Distinguish frequentist confidence intervals from Bayesian credible intervals. Report the statistic, tail convention, nuisance treatment, and validity conditions.
 - Never change cuts, weights, binning, or fit models silently during a refactor - if a change risks altering physics output, say so and propose a comparison method (event count per cut, histogram integrals, max absolute/relative bin difference, fit parameters/uncertainties).
 
@@ -68,6 +70,15 @@ uproot for inspection, RDataFrame for production, ROOT files as interchange).
 | Jet clustering, JES/JER, b-tagging, MET, pileup jets, overlap removal | [Physics objects](references/20-physics-objects-jets-btagging-met.md) |
 | Tag-and-probe, trigger turn-ons/prescales, luminosity, pileup reweighting | [Triggers, luminosity, pileup](references/21-triggers-luminosity-pileup.md) |
 | BDT/NN classifier choice, training, feature engineering, calibration | [Multivariate classifiers](references/22-multivariate-classifiers-bdt-nn.md) |
+| Subsystem layout, rigidity vs. momentum, material budget, acceptance, resolution vocabulary | [Detector systems overview](references/23-detector-systems-overview.md) |
+| Silicon/gas tracking, pattern recognition, Kalman fit, charge confusion, vertexing | [Tracking and vertexing](references/24-tracking-and-vertexing.md) |
+| EM/hadronic showers, sampling vs. homogeneous, stochastic/noise/constant terms, e/h non-compensation, leakage | [Calorimetry](references/25-calorimetry-ecal-hcal.md) |
+| TRD, TOF, RICH/Cherenkov, dE/dx, muon systems, combined PID likelihoods, isotope separation | [Particle identification](references/26-particle-identification.md) |
+| Hits to clusters to tracks to objects, particle flow, ambiguity resolution, reconstruction under pileup | [Event reconstruction](references/27-event-reconstruction.md) |
+| Truth matching, reconstruction efficiency/fake rate/purity, resolution and bias, scale factors | [Reconstruction performance](references/28-reconstruction-performance-and-truth-matching.md) |
+| Generators, LHE/HepMC, matching/merging, negative weights, PDF and scale variations | [Event generation](references/29-event-generation.md) |
+| Geant4 geometry/physics lists/production cuts, digitization, fast simulation, simulation validation | [Detector simulation](references/30-detector-simulation.md) |
+| Test-beam and in-situ calibration, alignment weak modes, conditions time dependence | [Calibration and alignment](references/31-calibration-and-alignment.md) |
 
 ## Code file requirement
 
@@ -91,11 +102,17 @@ for the full naming, comment, and documentation convention.
 - `scripts/make_yield_table.py`: render a yield CSV (region/sample/yield[/uncertainty]) as Markdown tables (standard library only).
 - `scripts/tag_and_probe_efficiency.py`: exact Clopper-Pearson binomial confidence interval for a pass/total efficiency measurement (standard library only; not a Gaussian/Wald approximation).
 - `scripts/pileup_reweight.py`: per-bin data/MC pileup reweighting factors from two profile histograms, with a closure-check mean and explicit flagging (not silent inf/0) of data-populated bins where MC has zero probability (standard library only).
+- `scripts/multiple_scattering.py`: PDG Highland scattering angle, accumulated material budget, and the scattering/intrinsic terms of a magnetic spectrometer's rigidity resolution, with the crossover rigidity and maximum detectable rigidity (standard library only; a design-level estimate, **not** a substitute for a track fit).
+- `scripts/calorimeter_resolution.py`: fit and evaluate the three-term calorimeter resolution `(sigma_E/E)^2 = a^2/E + b^2/E^2 + c^2`. The model is linear in `(a^2, b^2, c^2)`, so the fit is an exact linear least squares with no minimizer; a coefficient that fits negative is reported as a failed separation rather than square-rooted into a NaN (standard library only).
+- `scripts/pid_separation_power.py`: species separation in sigma for time-of-flight, Bethe-Bloch ionization, and directly-supplied velocity resolution, with the mass resolution's `gamma^2` degradation and the momentum ceiling where separation is lost. The dE/dx evaluation **omits the density-effect correction** and flags when it is in the relativistic rise (standard library only).
+- `scripts/cherenkov_angle.py`: RICH threshold momenta, Cherenkov angle and its saturation, photon yield, per-track angular resolution, and the resulting velocity/mass resolution and species separation (standard library only; a design estimate, not a ring-reconstruction simulation).
 - `scripts/summarize_histogram_statistics.py`: entries, integral, sum of weights, bin edges, negative bins for a histogram in a ROOT file (requires PyROOT).
 - `scripts/roofit_workspace_summary.py`: summarize a `RooWorkspace` (variables, PDFs, datasets, functions, snapshots) (requires PyROOT).
 - `scripts/validate_skill_bundle.py`: check that this package's own files (SKILL.md, README.md, references, scripts, assets, tests) are all present and non-empty, and that SKILL.md/README.md have their expected structure (standard library only).
 - `assets/histograms.example.json`: synthetic audit input for `audit_histograms.py`; see the [schema](references/12-validation.md).
 - `assets/pileup_profiles.example.json`: synthetic data/MC pileup profile pair for `pileup_reweight.py`.
+- `assets/detector_stack.example.json`: synthetic layered detector stack (material budget per layer, field, lever arm, point resolution) for `multiple_scattering.py`. Illustrative geometry, not any real experiment.
+- `assets/calorimeter_response.example.json`: synthetic `(E, sigma_E/E)` points generated exactly from stated `a`, `b`, `c` values, so a correct fit recovers them; input for `calorimeter_resolution.py`.
 - `assets/analysis-contract.yaml`, `assets/systematics.csv`, `assets/report-template.md`: reusable analysis, correlation, and reporting templates.
 - `assets/pyhf-counting.json`: a synthetic single-bin workspace. Never present its values as experimental results.
 - `assets/uproot_awkward_analysis.py`, `assets/pyroot_rdataframe_analysis.py`, `assets/cpp_rdataframe_analysis.cpp`, `assets/rdf_analysis.cpp`: starting templates (copy and adapt) for uproot+awkward and RDataFrame (Python/C++) selection-and-histogram skeletons.
@@ -116,5 +133,10 @@ Resolve relative paths from the skill directory. Read a script's `--help` before
 - "My uproot script gives different yields after a refactor - help me find why."
 - "Check that my JES Up/Down systematic histograms aren't swapped or empty."
 - "Build a CMake project for this ROOT C++ analysis."
+- "Why does my spectrometer's rigidity resolution get worse both below 5 GV and above 200 GV?"
+- "Up to what momentum can this TOF separate pions from kaons, and would a RICH do better?"
+- "My data and simulation disagree in tracking efficiency at low momentum but agree at high - where should I look?"
+- "Review how this analysis defines truth matching and reconstruction efficiency."
+- "What should I check before trusting fast simulation for this measurement?"
 
 See [README.md](README.md) for installation and cross-agent use. For the broader engineering workflow around this code (scoping, tests, review discipline), pair with a general software-engineering skill if one is available.

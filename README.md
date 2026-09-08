@@ -13,7 +13,7 @@ service.
 | [`skill-router`](skill-router/) | Triage step run at the start of any non-trivial task; routes to the right domain skill below. |
 | [`agile-development`](agile-development/) | Turning a software request into a small, verified, reviewable increment: scoping, acceptance criteria, validation plans, code review, incident response. |
 | [`deep-learning`](deep-learning/) | PyTorch engineering: models, training/eval loops, DataLoaders, mixed precision, DDP, LoRA, profiling, export, and debugging NaNs/shapes/perf. |
-| [`hep-analysis`](hep-analysis/) | High-energy physics analysis and statistics: ROOT C++, PyROOT, uproot/awkward, RDataFrame, cutflows, systematics, fits, limits, unfolding. |
+| [`hep-analysis`](hep-analysis/) | High-energy physics: ROOT C++, PyROOT, uproot/awkward, RDataFrame, cutflows, systematics, fits, limits, unfolding — plus detector subsystems (tracking, calorimetry, TRD/TOF/RICH particle ID), event reconstruction, and the generator→Geant4→calibration simulation chain. |
 
 ## Installation
 

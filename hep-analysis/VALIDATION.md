@@ -146,6 +146,105 @@ standard library and were verified numerically, not just for syntax:
 - 16 new tests were added to `tests/test_helpers.py` (13 pre-existing + 16 new =
   29 total, `python3 -m unittest discover -s tests -v`) covering all of the above.
 
+## Detector, reconstruction, and simulation expansion pass (2026-09-09)
+
+Added nine reference files covering the detector, reconstruction, and simulation
+layers beneath the existing analysis/statistics content, organized by detector
+technology with no assumed experiment:
+`references/23-detector-systems-overview.md`,
+`references/24-tracking-and-vertexing.md`,
+`references/25-calorimetry-ecal-hcal.md`,
+`references/26-particle-identification.md`,
+`references/27-event-reconstruction.md`,
+`references/28-reconstruction-performance-and-truth-matching.md`,
+`references/29-event-generation.md`,
+`references/30-detector-simulation.md`, and
+`references/31-calibration-and-alignment.md`. Added four new standard-library
+scripts implementing the formulas those references rely on -
+`scripts/multiple_scattering.py`, `scripts/calorimeter_resolution.py`,
+`scripts/pid_separation_power.py`, and `scripts/cherenkov_angle.py` - plus
+`assets/detector_stack.example.json` and
+`assets/calorimeter_response.example.json` as synthetic inputs. `SKILL.md`'s
+reference-routing table, executable-resources list, analysis invariants (two new
+entries: no tuning of simulation/calibration to the measured observable, and
+detector quantities are inferred rather than observed), example requests, and
+frontmatter `description`; `README.md`'s coverage section and quick checks;
+`references/13-sources.md`; `agents/openai.yaml`; and
+`scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` were all updated to match
+(bundle now reports 74 files, up from 59). The sibling `skill-router` skill and
+the repository README were extended with the same routing keywords.
+
+All four new scripts are pure Python standard library and were verified
+numerically against independently recomputed closed forms, not merely for syntax:
+
+- `multiple_scattering.py` was checked against the PDG Highland expression
+  recomputed inline in the tests, including its exact `1/(beta p)` scaling
+  (doubling rigidity halves the angle to 15 decimal places), the `sqrt(x/X0)`
+  scaling with the logarithmic correction accounted for separately, and the fact
+  that the explicit charge factors cancel in the prefactor (`p = zR`) and survive
+  only inside the logarithm. The logarithmic correction turns negative for
+  extremely thin layers; the clamp to zero (an RMS may not be negative) was
+  verified rather than left to produce a negative angle. The Gluckstern intrinsic
+  term was checked against its closed form, its exact linearity in rigidity, and
+  its quadratic improvement with lever arm (a factor 4 for a doubled arm, to 12
+  decimal places). The crossover rigidity was verified to be exactly where the two
+  terms are equal, and the maximum detectable rigidity to be exactly where the
+  quadrature sum reaches 1. For the shipped example stack the resulting values
+  (0.0357 total x/X0, a 1.07% scattering term, a 33.2 GV crossover, a 3.1 TV MDR)
+  were also confirmed by hand.
+- `calorimeter_resolution.py` was validated by exact closure: the shipped asset is
+  generated analytically from a = 0.10 sqrt(GeV), b = 0.20 GeV, c = 0.007, and the
+  fit recovers all three to better than 1e-10 with a maximum residual in squared
+  resolution of 2.6e-17. Three further parameter sets were recovered the same way,
+  including one with a genuinely zero noise term (recovered to ~7e-9 absolute,
+  limited by the conditioning of the 1/E^2 column). The determined case - exactly
+  three distinct energies for three unknowns - was confirmed to pass through every
+  point. The three analytic crossover energies (b^2/a^2, a^2/c^2, b/c) were checked
+  both against their closed forms and by confirming the corresponding term
+  contributions are equal there. A fit whose input keeps falling faster than
+  1/sqrt(E) drives the constant term negative; that case was verified to be
+  reported as a flagged failed separation with `constant: null`, not square-rooted
+  into a NaN.
+- `pid_separation_power.py` was checked against the defining identity
+  `p = m beta gamma`, against the exact inversion `m = p sqrt(1/beta^2 - 1)`, and
+  against the `dm/m = gamma^2 dbeta/beta` amplification that the reference text
+  claims. Time of flight was checked against `L/(beta c)`, the timing-to-velocity
+  conversion against `beta c sigma_t / L`, and TOF separation was confirmed to fall
+  as roughly the inverse square of momentum (a factor between 3.5 and 4.5 for a
+  doubled momentum). The separation ceiling was verified to be exactly where
+  separation equals the requested threshold, to rise with both a longer path and
+  better timing, and to be reported as `None` when a species pair is never
+  separated. The Bethe-Bloch evaluation reproduces the textbook ionization minimum:
+  scanning muons in silicon places it at beta*gamma = 3.17 with a loss of
+  1.694 MeV cm^2/g, against the PDG value of about 1.66 MeV cm^2/g near
+  beta*gamma = 3.5 - the small excess and the slightly lower position are the
+  expected consequence of omitting the density-effect correction, which the script
+  reports explicitly (`density_effect_omitted`) and flags when evaluated in the
+  relativistic rise. The exact `z^2` charge scaling was verified to 9 decimal
+  places.
+- `cherenkov_angle.py` was checked against `cos(theta_c) = 1/(n beta)` directly,
+  against the threshold `p_thr = m/sqrt(n^2 - 1)` (and, independently, by
+  confirming that beta at that momentum equals exactly 1/n), against the
+  saturation angle `arccos(1/n)` and the approach to it at high momentum, against
+  the `sin^2(theta_c)` photon yield, the `1/sqrt(N)` improvement of the per-track
+  angular resolution, and the `dbeta/beta = tan(theta_c) sigma_theta` propagation.
+  Threshold ordering across pion, kaon, and proton was confirmed, and a
+  below-threshold species was verified to report no ring rather than a spurious
+  angle. For an n = 1.05 radiator the resulting thresholds (0.436, 1.542 and
+  2.931 GeV/c) and the 309.8 mrad saturation angle were confirmed by hand.
+- All four CLIs were exercised for invalid input (a stack file missing a required
+  field, fewer than three distinct energies, two identical species, a refractive
+  index below 1) and confirmed to fail with a clear one-line message and a nonzero
+  exit code rather than a raw traceback.
+- 69 new tests were added to `tests/test_helpers.py` (29 pre-existing + 69 new =
+  98 total, `python3 -m unittest discover -s tests -v`) covering all of the above.
+
+Additional structural checks for this pass: every relative Markdown link in the
+package was confirmed to resolve to an existing file, and the new references,
+scripts, and assets were grepped for experiment names (AMS, CMS, ATLAS, ALICE,
+LHCb and others) to confirm the technology-organized, experiment-agnostic framing
+holds and that no synthetic value is presented as a real detector's measurement.
+
 ## Limitations
 
 - ROOT is not installed in the validation environment, so `check_root_cpp_env.sh`
@@ -156,6 +255,19 @@ standard library and were verified numerically, not just for syntax:
   Python syntax only, not executed or compiled against real ROOT headers/libraries.
   This mirrors the same limitation already recorded for RooFit/pyhf/Combine snippets
   before the merge.
+- Geant4 is not installed in the validation environment, and no detector
+  simulation, reconstruction framework, generator, or conditions database was run.
+  The detector, reconstruction, and simulation references
+  (`23`-`31`) are methodological guidance checked for internal consistency and
+  against the cited PDG and Geant4 documentation; they were not validated against
+  a running simulation or a real detector's performance. The four new scripts
+  compute design-level analytic estimates (Highland/Gluckstern, the three-term
+  calorimeter parameterization, Bethe-Bloch without the density effect, Cherenkov
+  kinematics with a single refractive index) and are not substitutes for a track
+  fit, a shower simulation, or a ring-reconstruction algorithm.
+- The `pid_separation_power.py` dE/dx mode omits the density-effect correction, so
+  its numbers above the ionization minimum are optimistic; this is flagged in the
+  output rather than silently applied.
 - No real experiment data, full-production regression, coverage study, or
   collaboration approval was available. Helper tests do not establish the physical
   correctness of arbitrary analyses.

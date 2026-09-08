@@ -11,6 +11,11 @@ This package is original operational guidance, not a complete summary of the man
 | pyhf preservation | [pyhf paper](https://arxiv.org/abs/2211.15838) | Background on HistFactory serialization |
 | Combine | [Official documentation](https://cms-analysis.github.io/HiggsAnalysis-CombinedLimit/latest/) | Match methods/options to the installed release |
 | uproot | [Official getting-started guide](https://uproot.readthedocs.io/en/latest/basic.html) | Chunked I/O and array APIs |
+| Passage of particles through matter | [PDG review](https://pdg.lbl.gov/2025/reviews/rpp2025-rev-passage-particles-matter.pdf) | Bethe-Bloch, Highland multiple scattering, radiation length, Cherenkov and transition radiation |
+| Particle detectors at accelerators | [PDG review](https://pdg.lbl.gov/2025/reviews/rpp2025-rev-particle-detectors-accel.pdf) | Detector technologies, resolution parameterizations, calorimeter terms |
+| Particle detectors for non-accelerator physics | [PDG review](https://pdg.lbl.gov/2025/reviews/rpp2025-rev-particle-detectors-non-accel.pdf) | Spectrometer, TOF, and Cherenkov practice outside collider geometries |
+| Particle masses and properties | [PDG Particle Listings](https://pdg.lbl.gov/) | Masses used by `pid_separation_power.py` and `cherenkov_angle.py` |
+| Geant4 physics | [Physics Reference Manual](https://geant4.web.cern.ch/support/user_documentation) | Physics lists, production cuts, hadronic model validity ranges |
 | Claude Code skills | [Official documentation](https://code.claude.com/docs/en/skills) | Skill directories and invocation |
 
-Do not claim that an API is supported by the latest version without checking. Read local version/help output and lock files, then consult matching release documentation. Mark unverified points when network access is unavailable. Example luminosities, cross sections, and model parameters in documentation are not experimental inputs.
+Do not claim that an API is supported by the latest version without checking. Read local version/help output and lock files, then consult matching release documentation. Mark unverified points when network access is unavailable. Example luminosities, cross sections, and model parameters in documentation are not experimental inputs. The detector geometries, material budgets, and resolution values in this package's assets and examples are synthetic and illustrative; they are not measurements of any real apparatus.

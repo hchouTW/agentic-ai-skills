@@ -32,10 +32,14 @@ python3 scripts/counting_reference.py --observed 0 --background 0 --level 0.95
 python3 scripts/make_yield_table.py --help
 python3 scripts/tag_and_probe_efficiency.py --pass-count 92 --total 100
 python3 scripts/pileup_reweight.py assets/pileup_profiles.example.json
+python3 scripts/multiple_scattering.py assets/detector_stack.example.json --rigidity 100
+python3 scripts/calorimeter_resolution.py --fit assets/calorimeter_response.example.json
+python3 scripts/pid_separation_power.py --mode tof --species pi K --momentum 2.0 --path 1.2 --time-resolution 60
+python3 scripts/cherenkov_angle.py --index 1.05 --species pi K --momentum 10
 bash scripts/check_root_cpp_env.sh
 ```
 
-The first six use only the Python standard library. `check_root_cpp_env.sh` and the
+The first ten use only the Python standard library. `check_root_cpp_env.sh` and the
 remaining `scripts/*_root*`/`inspect_root_file.*`/`compare_root_histograms.py`/
 `summarize_histogram_statistics.py`/`roofit_workspace_summary.py` scripts require a
 ROOT/PyROOT installation to run (they were syntax-checked, not executed, in an
@@ -47,6 +51,8 @@ implied by the helper tests.
 ## Coverage and boundaries
 
 The package covers data quality, object selection, triggers, MC normalization, histograms, efficiencies, data-driven backgrounds, systematic uncertainties, joint likelihoods, fit diagnostics, significance, CLs, intervals, Bayesian inference, cross sections, unfolding, ML validation, and preservation - plus the ROOT C++/PyROOT/RDataFrame/uproot coding layer itself: API selection, event-loop and histogram code patterns, CMake/root-config builds, debugging ROOT/PyROOT errors, and code style/naming/documentation conventions. It also covers physics-object-level detail (jet clustering/JES/JER, b-tagging, MET, pileup jets, overlap removal), trigger and luminosity methodology (tag-and-probe efficiency measurement with exact binomial intervals, turn-on curves, prescales, luminosity normalization, pileup reweighting), and multivariate-classifier practice (choosing between BDTs/NNs/cuts, feature engineering, training, calibration, and validating classifier stability under systematic variations).
+
+It further covers the detector, reconstruction, and simulation layers beneath all of that, organized by detector technology and assuming no particular experiment: subsystem layout, magnetic spectrometry (rigidity versus momentum, material budget, multiple scattering, maximum detectable rigidity, charge confusion), silicon and gas tracking with pattern recognition and Kalman fitting, vertexing, electromagnetic and hadronic calorimetry (shower development, the stochastic/noise/constant resolution decomposition, e/h non-compensation, leakage), and particle identification across TRD, time-of-flight, RICH/Cherenkov, dE/dx, and muon systems including combined PID likelihoods and isotope separation. On top of that it covers event reconstruction (clustering, track-cluster association and particle-flow subtraction, ambiguity resolution, reconstruction under pileup) and reconstruction performance (truth-matching criteria, efficiency versus fake rate versus purity, resolution and bias, scale factors, closure tests), and the full simulation chain from event generation (matching/merging, negative weights, PDF and scale variations) through Geant4 full simulation (geometry and material budget, physics lists, production cuts, digitization, fast simulation) to calibration and alignment (test-beam versus in-situ, alignment weak modes and charge-antisymmetric rigidity bias, time-dependent conditions).
 
 It primarily addresses event counts, templates, and common particle-physics measurements. Time-dependent oscillations, full amplitude analyses, heavy-ion centrality and flow, hardware calibration, and lattice QCD require additional specialized models. Follow the experiment's data-governance and unblinding rules when using internal data.
 
