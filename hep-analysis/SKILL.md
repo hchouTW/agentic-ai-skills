@@ -1,0 +1,120 @@
+---
+name: hep-analysis
+description: Analyze high-energy physics experiment data and simulation, review or write ROOT C++, PyROOT, uproot/awkward-array, RDataFrame, and columnar analysis pipelines, construct statistical models, propagate systematic uncertainties, and validate measurements, fits, significance and limits. Use for collider or particle-physics event selections, cutflows, histograms/fits/plots, efficiencies/scale factors, yields, backgrounds, unfolding, RooFit/RooStats, pyhf or Combine, CMake/root-config builds, and debugging ROOT/PyROOT/RDataFrame errors; also jet clustering/JES/JER, b-tagging, MET, pileup jets; trigger tag-and-probe efficiency measurement, turn-on curves, prescales, luminosity normalization, pileup reweighting; and BDT/neural-network classifier training, feature engineering, and calibration for analysis - even if the user just says "my analysis script" or "this ROOT macro". Not for unrelated uses of ROOT (Linux root users, Android rooting, certificates, math/plant roots).
+---
+
+# High-Energy Physics Experimental Analysis and Statistics
+
+Produce physically traceable, statistically sound, reproducible analyses. Support design, implementation, debugging, review, and explanation. Follow the user's language and established project tools; do not assume an experiment, collision energy, era, or input format. This skill and its reusable resources are maintained in English. Preserve existing physics behavior (cuts, weights, binning, fit models) unless the user explicitly asks for a physics change.
+
+## Working procedure
+
+1. Identify whether the task is inspection, analysis production, statistical inference, refactoring, or review. Inspect project instructions, configurations, entry points, build system, and a small available sample before changing the analysis.
+2. Establish the physics objective, data/MC distinction, units, observables, selections, normalization, signal/control/validation regions, parameter of interest (POI), and blinding state. Continue independent inspection when information is missing, and state assumptions. Never invent luminosities, cross sections, calibration values, or correlations for a reported result.
+3. Choose the simplest matching API for the task (see API selection below), and read only the relevant references below. Complete a minimal verifiable analysis before scaling to the full dataset. Record software, configuration, sample, and calibration versions.
+4. Distinguish successful execution, numerical validation, physical plausibility, and demonstrated statistical coverage. State which checks were not run and why.
+5. Deliver the relevant code/configuration, build+run commands, reproduction commands, cutflow, statistical model and diagnostics, assumptions (units, tree/branch names, weights), validation evidence, and limitations. Scale deliverables to the task rather than requiring a full report for every small question.
+
+## API selection
+
+| API | Use for |
+|---|---|
+| C++ `ROOT::RDataFrame` | new compiled event loops, multithreaded columnar processing, many histograms from one selection, snapshots |
+| PyROOT `ROOT.RDataFrame` | ROOT-native workflow with Python orchestration, no compiled helpers needed |
+| uproot + awkward-array | Python-native analysis, jagged arrays, fast inspection, no full interactive ROOT |
+| `TTreeReader` | manual C++ loops, custom object handling, where RDataFrame would obscure a simple algorithm |
+| `SetBranchAddress` | legacy maintenance only - validate addresses/lifetimes carefully |
+| RooFit/RooStats, pyhf, Combine | likelihood models, constrained fits, workspaces, toys, limits, intervals |
+
+Don't mix more APIs than needed in one script. If mixing, keep boundaries clear (e.g.
+uproot for inspection, RDataFrame for production, ROOT files as interchange).
+
+## Analysis invariants
+
+- Do not silently change cuts, object ordering, binning, weights, corrections, models, parameter bounds, or nuisance correlations during a refactor.
+- Preserve signed generator weights. Normalize with the sum of generator weights for the corresponding full production, not the selected entry count. Store both sumw and sumw2.
+- Do not count the same events, MC statistical information, or auxiliary measurement twice as independent likelihood information. Remove region overlaps or model them jointly.
+- Label observed counts, weighted yields, Asimov expectations, and toy data separately. Arbitrary weighted or background-subtracted data are not ordinary Poisson observations.
+- Poisson expectations must be nonnegative. Do not silently clip negative bins; investigate signed weights, sample statistics, binning, or model suitability.
+- Propagate shape variations through object corrections, ordering, selections, missing transverse momentum, and category migration where affected. Changing only the final histogram weight is insufficient for a kinematic variation.
+- Preserve existing blinding rules and define masks for new analyses. Without authorized unblinding, do not expose masked observations through plots, ratios, logs, temporary tables, or optimization.
+- Do not tune a model to obtain a desired significance, exclusion, or goodness-of-fit value. Changes need physical justification and independent validation.
+- Distinguish frequentist confidence intervals from Bayesian credible intervals. Report the statistic, tail convention, nuisance treatment, and validity conditions.
+- Never change cuts, weights, binning, or fit models silently during a refactor - if a change risks altering physics output, say so and propose a comparison method (event count per cut, histogram integrals, max absolute/relative bin difference, fit parameters/uncertainties).
+
+## Reference routing
+
+| Task | Read |
+|---|---|
+| Analysis design, quality masks, triggers, blinding | [Analysis contract](references/01-analysis-design.md) |
+| ROOT/columnar I/O, event loops, performance, ownership | [Data pipelines](references/02-data-pipelines.md) |
+| Luminosity, cross sections, signed weights, cutflows | [Normalization](references/03-weights-normalization.md) |
+| Histograms, efficiencies, covariance, plotting (statistics) | [Histograms and uncertainties](references/04-histograms-efficiencies.md) |
+| Control regions, ABCD, fake rates, sidebands, transfer factors | [Background estimation](references/05-backgrounds.md) |
+| Detector/theory uncertainties, MC statistics, correlations, variation implementation | [Systematics](references/06-systematics.md) |
+| Binned/unbinned likelihoods, RooFit, nuisance parameters, workspace inspection | [Models and fitting](references/07-likelihood-fitting.md) |
+| Intervals, significance, CLs, toys, Bayesian inference | [Statistical inference](references/08-inference.md) |
+| pyhf, HistFactory, Combine workspaces/datacards | [Statistical tools](references/09-statistical-tools.md) |
+| Cross sections, response matrices, unfolding, combinations | [Measurements and unfolding](references/10-measurements-unfolding.md) |
+| Classifiers, leakage, mass sculpting | [Machine learning](references/11-ml-analysis.md) |
+| Debugging, verification, preservation, review | [Validation](references/12-validation.md) |
+| Versions and methodological sources | [Primary sources](references/13-sources.md) |
+| C++/ROOT/RDataFrame code patterns, TTreeReader, style, build commands | [C++/ROOT coding](references/14-cpp-root-coding.md) |
+| CMake and root-config builds, project scaffolding | [Build setup](references/15-cmake-and-build.md) |
+| Debugging ROOT/PyROOT/C++ (missing symbols, dictionaries, fits) | [Debugging ROOT](references/16-debugging-root.md) |
+| Python CLI structure, PyROOT/uproot/awkward code conventions | [Python coding](references/17-python-hep-coding.md) |
+| Naming conventions, comments, file-level documentation requirement | [Code conventions](references/18-code-conventions.md) |
+| General C++ class/struct/RAII/ownership/inheritance design | [C++ design guidelines](references/19-cpp-balanced-design-guidelines.md) |
+| Jet clustering, JES/JER, b-tagging, MET, pileup jets, overlap removal | [Physics objects](references/20-physics-objects-jets-btagging-met.md) |
+| Tag-and-probe, trigger turn-ons/prescales, luminosity, pileup reweighting | [Triggers, luminosity, pileup](references/21-triggers-luminosity-pileup.md) |
+| BDT/NN classifier choice, training, feature engineering, calibration | [Multivariate classifiers](references/22-multivariate-classifiers-bdt-nn.md) |
+
+## Code file requirement
+
+When creating or modifying any code file (C++ source/headers, ROOT macros, PyROOT/
+uproot scripts, CMake files, config loaders), include a short introductory comment
+block at the top covering purpose, what the code does, and usage notes/dependencies/
+assumptions (build/run command, expected input format and tree/branch names, units,
+weight conventions, ROOT version, preconditions). For existing files, add it if
+missing or update it if outdated. See [Code conventions](references/18-code-conventions.md)
+for the full naming, comment, and documentation convention.
+
+## Executable resources
+
+- `scripts/audit_histograms.py`: audit the JSON histogram bundle defined by this skill. Detect malformed arrays, nonfinite values, negative variances, negative Poisson rates, missing variations, and identical templates. It does not read ROOT, prove physical correctness, or infer whether Up/Down labels are reversed.
+- `scripts/counting_reference.py`: exact Poisson tails and flat-signal-prior Bayesian bounds for a single bin with known background. This is a small-model cross-check, **not a general CLs or nuisance-parameter calculator**.
+- `scripts/inspect_root_file.py` / `scripts/inspect_root_file.C`: list keys, trees, branches, and histogram metadata in a real ROOT file (requires PyROOT/ROOT).
+- `scripts/check_root_cpp_env.sh`: verify ROOT/root-config/compiler availability and print resolved versions.
+- `scripts/new_root_cpp_project.sh`: scaffold a CMake-based ROOT C++ project.
+- `scripts/check_systematic_variations.py`: verify Up/Down variation histograms in a real ROOT file exist, aren't swapped, aren't byte-identical to nominal, and share nominal binning (requires PyROOT; complements `audit_histograms.py`, which works on the JSON bundle format instead).
+- `scripts/compare_root_histograms.py`: diff two histograms across ROOT files (integral, bin-by-bin, max abs/relative difference) for regression checks (requires PyROOT).
+- `scripts/make_yield_table.py`: render a yield CSV (region/sample/yield[/uncertainty]) as Markdown tables (standard library only).
+- `scripts/tag_and_probe_efficiency.py`: exact Clopper-Pearson binomial confidence interval for a pass/total efficiency measurement (standard library only; not a Gaussian/Wald approximation).
+- `scripts/pileup_reweight.py`: per-bin data/MC pileup reweighting factors from two profile histograms, with a closure-check mean and explicit flagging (not silent inf/0) of data-populated bins where MC has zero probability (standard library only).
+- `scripts/summarize_histogram_statistics.py`: entries, integral, sum of weights, bin edges, negative bins for a histogram in a ROOT file (requires PyROOT).
+- `scripts/roofit_workspace_summary.py`: summarize a `RooWorkspace` (variables, PDFs, datasets, functions, snapshots) (requires PyROOT).
+- `scripts/validate_skill_bundle.py`: check that this package's own files (SKILL.md, README.md, references, scripts, assets, tests) are all present and non-empty, and that SKILL.md/README.md have their expected structure (standard library only).
+- `assets/histograms.example.json`: synthetic audit input for `audit_histograms.py`; see the [schema](references/12-validation.md).
+- `assets/pileup_profiles.example.json`: synthetic data/MC pileup profile pair for `pileup_reweight.py`.
+- `assets/analysis-contract.yaml`, `assets/systematics.csv`, `assets/report-template.md`: reusable analysis, correlation, and reporting templates.
+- `assets/pyhf-counting.json`: a synthetic single-bin workspace. Never present its values as experimental results.
+- `assets/uproot_awkward_analysis.py`, `assets/pyroot_rdataframe_analysis.py`, `assets/cpp_rdataframe_analysis.cpp`, `assets/rdf_analysis.cpp`: starting templates (copy and adapt) for uproot+awkward and RDataFrame (Python/C++) selection-and-histogram skeletons.
+- `assets/pyroot_roofit_signal_background.py`, `assets/fit_histogram.cpp`, `assets/plot_branch.C`: RooFit signal+background fit and fitting/plotting macro templates.
+- `assets/CMakeLists.txt`, `assets/analysis_config.yaml`, `assets/systematics_config.yaml`, `assets/statistical_histogram_config.yaml`, `assets/combine_datacard_template.txt`: build and config templates (copy and adapt).
+- `tests/test_helpers.py`: standard-library tests for `audit_histograms.py`/`counting_reference.py`/`tag_and_probe_efficiency.py`/`pileup_reweight.py`. Run `python3 -m unittest discover -s tests -v`.
+
+Resolve relative paths from the skill directory. Read a script's `--help` before use. Write analysis outputs to the appropriate user-project location. Use the project's existing ROOT, PyROOT, uproot, or pyhf environment; loading this skill does not require installing the full software stack, but the PyROOT-dependent scripts above need one.
+
+## Example requests
+
+- "Review this NanoAOD selection and explain the yield difference for the negative-weight sample."
+- "Design a simultaneous likelihood for three control regions and identify shared nuisances."
+- "Review my CLs limit, including low-statistics and parameter-boundary effects."
+- "Build a reproducible differential cross-section analysis with response uncertainties and covariance."
+- "Inspect this NanoAOD file and list the muon-related branches."
+- "Write an RDataFrame selection for >=2 muons with pT>25 GeV and make a pT histogram with a cutflow."
+- "My uproot script gives different yields after a refactor - help me find why."
+- "Check that my JES Up/Down systematic histograms aren't swapped or empty."
+- "Build a CMake project for this ROOT C++ analysis."
+
+See [README.md](README.md) for installation and cross-agent use. For the broader engineering workflow around this code (scoping, tests, review discipline), pair with a general software-engineering skill if one is available.

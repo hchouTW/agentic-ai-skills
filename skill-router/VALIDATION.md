@@ -1,0 +1,59 @@
+# Package Validation Record
+
+Validation date: 2026-09-05. Helper test environment: Python 3, standard library
+only.
+
+## Completeness pass (2026-09-05)
+
+This pass brought the package in line with the completeness level already
+established for `hep-analysis` in this collection: a structural bundle validator,
+an automated test suite, dual-environment (Codex/Claude Code) install docs
+(`README.md`, `agents/openai.yaml`), and this validation record. `skill-router`
+previously shipped as a single `SKILL.md` file with no `scripts/`, `tests/`, or
+`agents/` - this pass added all three alongside the pre-existing `README.md`.
+
+- `scripts/validate_skill_bundle.py` was added. Beyond the standard file-presence/
+  frontmatter/README-section checks used across this collection's other skills, it
+  also parses SKILL.md's routing-rule bullets into a skill-name list and, when run
+  next to the other skill folders (as it is in the installed collection), notes any
+  routed name with no matching sibling folder - informationally only, since
+  routing to an uninstalled skill is expected behavior, not a bug, per this
+  package's own documented design ("it only routes to skills that are actually
+  installed").
+- `tests/test_skill_router.py` was added (7 tests,
+  `python3 -m unittest discover -s tests -v`):
+  - `extract_routed_skill_names` was checked against the real, shipped `SKILL.md`
+    (correctly recovers `agile-development`, `deep-learning`, `hep-analysis` in
+    order), against a synthetic two-entry routing table, and against prose
+    containing bold text outside a routing-bullet position (correctly yields
+    nothing).
+  - `find_sibling_skill_dirs` was checked against a scratch directory tree: it
+    finds a sibling folder that contains its own `SKILL.md`, excludes the skill's
+    own folder from the result, and returns an empty set when no sibling looks
+    like an installed skill.
+  - The `validate_skill_bundle.py` CLI was run against the real, shipped bundle
+    (passes) and against a scratch copy with every README section header removed
+    on purpose (correctly fails with `README.md is missing sections`).
+- `README.md`'s documented quick check (parsing `SKILL.md`'s frontmatter with
+  PyYAML) was run as documented and succeeds.
+- `agents/openai.yaml` was parsed with PyYAML and confirmed to carry
+  `display_name`/`short_description`/`default_prompt`.
+
+No behavioral defects were found in `SKILL.md` itself during this pass - the
+routing rules, trigger keywords, and behavior steps were reviewed for internal
+consistency and matched correctly against the three domain skills' own
+frontmatter descriptions (`agile-development`, `deep-learning`, `hep-analysis`).
+
+## Limitations
+
+- `skill-router` contains no code that acts on real user requests - its entire
+  effect is instructing an LLM which other skill to invoke. This cannot be
+  exercised by an automated test in the way a CLI script can; the tests above
+  validate the bundle's structure and the routing table's machine-parseable shape,
+  not whether an LLM actually follows the routing instructions correctly on a
+  given prompt.
+- The sibling-folder check in `validate_skill_bundle.py` is opportunistic: it only
+  runs meaningfully when this folder sits next to other skill folders (as in the
+  installed `~/.agentic_ai_skills` collection). Run standalone, or copied
+  elsewhere without its sibling skills, that check is silently skipped rather than
+  failing.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "HEP Experimental Analysis and Statistics"
+  short_description: "HEP ROOT/PyROOT/RDataFrame coding, systematics, inference, and validation"
+  default_prompt: "Use $hep-analysis to review my analysis configuration, weights, and statistical model, then produce reproducible results and validation."

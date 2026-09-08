@@ -1,0 +1,47 @@
+# pyhf, HistFactory, and Combine
+
+## Model mapping
+
+A pyhf workspace contains channels, observations, measurements, and a version. A `normfactor` commonly represents a free strength; `normsys` specifies multiplicative rate changes; `histosys` accepts absolute varied bin yields; `shapesys` accepts absolute per-bin uncertainties. Reusing names affects shared parameters and must match the correlation inventory. See the [pyhf likelihood specification](https://scikit-hep.org/pyhf/likelihood.html).
+
+Do not assume a modifier supplies a meaningful model for zero nominal yield with nonzero MC uncertainty. Check the precise behavior and correlations of `shapesys` and `staterror`. Do not apply both to the same statistical source without a justified decomposition.
+
+`assets/pyhf-counting.json` is synthetic: one bin with signal=5, background=20, and observation=20. Its 10% background-rate uncertainty is illustrative, not an experimental input. The integer observation is a demonstration, not a complete Asimov workflow.
+
+```python
+# Adaptation example: requires pyhf; fit synthetic input and test fixed mu.
+import json
+import pyhf
+with open("assets/pyhf-counting.json", encoding="utf-8") as stream:
+    workspace = pyhf.Workspace(json.load(stream))
+model = workspace.model()
+data = workspace.data(model)  # Includes auxiliary data; do not append it twice.
+pars = pyhf.infer.mle.fit(data, model)
+cls = pyhf.infer.hypotest(1.0, data, model, return_expected_set=True)
+print(model.config.par_order, pars, cls)
+```
+
+Production inference additionally requires convergence diagnostics, bounds, scans, version records, and assessment of coverage conditions. A successful function call does not establish validation.
+
+## Combine
+
+Follow project datacards and the installed release. Check alignment of bin/process/rate columns, process IDs, shape-file and object patterns, observations, nuisance rows, rateParam, and autoMCStats. Interpret the relationship between template integrals and card rates before applying normalization again.
+
+Before fitting, document: channels, categories, and regions; observed counts or
+binned observed histograms; signal and background process names, with process
+identifiers following the tool's sign convention (Combine expects non-positive signal
+IDs); rate or shape-template names; nuisance-parameter names, types, affected
+processes, and correlations; and the shape-file path and histogram-naming convention.
+Then check that every process has a matching nominal histogram or rate, every shape
+nuisance has nominal/up/down templates, template binning matches within each channel,
+empty background templates are justified or protected by the framework's convention,
+negative bins are handled according to the tool's requirements, and rate uncertainties
+are not double-counted as both a normalization and a shape effect.
+
+A common workflow creates a workspace and runs fit diagnostics, asymptotic limits, or suitable toy calculations. Verify options through the release's help and [official documentation](https://cms-analysis.github.io/HiggsAnalysis-CombinedLimit/latest/). Blinded work uses authorized expected/Asimov modes; do not default to commands that inspect observations.
+
+Check the naming, correlations, positivity, interpolation, and bounds of rate, shape, normalization, and MC-statistical constraints. Translating textual fields between tools does not necessarily create equivalent likelihoods.
+
+## Cross-backend verification
+
+First compare main expected counts and auxiliary terms at identical parameter points. Then compare delta-NLL, fitted parameters, and profile curves before comparing limits. Absolute NLL values may differ by constants. Align statistics, bounds, constraint parameterizations, global observations, interpolation, and optimizer tolerances. Agreement of a final limit alone is insufficient evidence of equivalence.
