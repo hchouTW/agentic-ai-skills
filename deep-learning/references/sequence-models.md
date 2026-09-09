@@ -1,7 +1,7 @@
 # Sequence Model Reference (RNN/LSTM/GRU)
 
 For attention-based sequence models see
-[references/transformer-architectures.md](transformer-architectures.md). This file
+[transformer-architectures.md](transformer-architectures.md). This file
 covers recurrent architectures, which remain a reasonable default for small
 datasets, strict latency/memory budgets, or strictly online/streaming inputs where
 a fixed-size recurrent state is a better fit than a growing attention context.
@@ -111,4 +111,4 @@ torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 If loss still explodes with clipping in place, suspect the learning rate, an
 unmasked padded loss contribution, or a missing gradient-zeroing call before
 `backward()` - see the debugging checklist in
-[references/debugging-pytorch.md](debugging-pytorch.md).
+[debugging-pytorch.md](debugging-pytorch.md).

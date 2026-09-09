@@ -2,9 +2,9 @@
 
 Covers taking a trained model out of the training script and into a servable form.
 For inference-only weight loading and checkpoint format, see
-[references/checkpointing.md](checkpointing.md). For `torch.compile`'s use *during*
+[checkpointing.md](checkpointing.md). For `torch.compile`'s use *during*
 training/eager inference, see the brief note in
-[references/performance-memory.md](performance-memory.md) - this file goes deeper
+[performance-memory.md](performance-memory.md) - this file goes deeper
 on compile modes and covers the export formats it doesn't.
 
 ## Before exporting anything
@@ -76,7 +76,7 @@ torch.onnx.export(
 ## `torch.compile` deployment modes
 
 Beyond the basic `torch.compile(model)` shown in
-[references/performance-memory.md](performance-memory.md):
+[performance-memory.md](performance-memory.md):
 
 - `mode="reduce-overhead"` targets small-batch, latency-sensitive inference (uses
   CUDA graphs where possible) - most relevant to serving, as opposed to
@@ -94,7 +94,7 @@ Beyond the basic `torch.compile(model)` shown in
 
 ## Quantization for deployment
 
-See [references/efficient-finetuning.md](efficient-finetuning.md) for
+See [efficient-finetuning.md](efficient-finetuning.md) for
 quantization's use during fine-tuning; for pure inference deployment, the same
 dynamic/static/QAT choices apply, with static (calibrated) quantization typically
 the best throughput/accuracy trade-off for a fixed, known deployment target, and
@@ -103,14 +103,14 @@ dynamic quantization the fastest to try first.
 ## Inference-serving checklist
 
 - `model.eval()` and `torch.inference_mode()` (not just `no_grad()` - see
-  [references/training-loop.md](training-loop.md)) around every inference call.
+  [training-loop.md](training-loop.md)) around every inference call.
 - Batch requests where latency budget allows; single-example inference wastes
   hardware parallelism.
 - Pin the exact PyTorch/CUDA/cuDNN/ONNX-Runtime versions used for export alongside
   the exported artifact - a version mismatch between export and serving
   environments is a common source of subtle numerical drift or outright load
   failures. Record this the same way as
-  [references/reproducibility.md](reproducibility.md)'s experiment records.
+  [reproducibility.md](reproducibility.md)'s experiment records.
 - Re-run the numerical-equivalence check (above) as part of CI/release, not only
   once at export time - a dependency bump in the serving environment can silently
   change results.

@@ -1,7 +1,7 @@
 # Generative Model Reference (VAE / GAN / Diffusion)
 
 Training loops, losses, and failure modes specific to generative models. Assumes
-familiarity with [references/training-loop.md](training-loop.md); this file covers
+familiarity with [training-loop.md](training-loop.md); this file covers
 what differs from a standard supervised loop.
 
 ## Variational autoencoder (VAE)
@@ -94,7 +94,7 @@ def diffusion_training_step(model, x0, noise_scheduler, optimizer):
   the clean image directly - `t` must be passed into the model (typically via a
   sinusoidal timestep embedding, conceptually the same construction as the
   positional encoding in
-  [references/transformer-architectures.md](transformer-architectures.md)).
+  [transformer-architectures.md](transformer-architectures.md)).
 - Training is comparatively stable (a single well-behaved MSE loss, no adversarial
   dynamics to balance) but **sampling is expensive**: generating one sample requires
   iterating the reverse process across many (or, with modern samplers, few but

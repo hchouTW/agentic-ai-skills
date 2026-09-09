@@ -196,6 +196,37 @@ implementation references they sit on top of (1-7 links each); and their lengths
 (4.2-6.8 KB) sit inside the range of the bundle's existing content references, so the
 terse, code-forward house style is preserved.
 
+## Consistency audit (2026-09-10)
+
+A "check and reorganize" pass with no new content: read every reference file in
+full, checked every relative Markdown link's display text against its actual
+target, verified the eight architect-level references each still end in a
+`## Deliverables` section, re-ran every README-documented command, and
+`py_compile`'d every script/asset/test file.
+
+- Found and fixed **17 link-text/target mismatches across 6 files**
+  (`custom-autograd-and-hooks.md` x3, `efficient-finetuning.md` x3,
+  `generative-models.md` x2, `export-and-deployment.md` x6,
+  `transformer-architectures.md` x1, `sequence-models.md` x2): each showed a
+  `references/`-prefixed path as the link's visible text while the href
+  (correctly, since these files live inside `references/` themselves) pointed
+  at the bare sibling filename. The links all resolved, so this was never a
+  broken-link bug, but the display text was misleading to a reader scanning
+  cross-references. All 17 now show the bare filename as both text and
+  target, matching the convention most of the package's files (e.g.
+  `parallelism-strategy.md`, `training-at-scale.md`) already followed.
+- Re-ran every command in `README.md`'s Quick Checks section, including the
+  five standard-library estimator scripts against their shipped example
+  assets: all match documented behavior and exit codes
+  (`check_split_integrity.py` still exits 1 on its deliberately-leaky example).
+- Confirmed `references/cpp-balanced-design-guidelines.md` is still
+  byte-identical to `agile-development`'s copy (untouched by this pass).
+- No other inconsistencies found: `SKILL.md`'s reference-routing list, helper-
+  script list, and asset list all match the files that actually exist on
+  disk (no orphans, no dangling references either direction).
+- Bundle validator and the full test suite (106 tests, 2 skipped) re-run
+  clean after the fixes.
+
 ## Limitations
 
 - **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that

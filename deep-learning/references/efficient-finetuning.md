@@ -1,7 +1,7 @@
 # Efficient Fine-Tuning Reference (PEFT, Quantization)
 
 For full fine-tuning, head replacement, and freezing/unfreezing strategy, see
-[references/transfer-learning.md](transfer-learning.md) first. This file covers
+[transfer-learning.md](transfer-learning.md) first. This file covers
 techniques for fine-tuning large models under tighter compute/memory budgets.
 
 ## When to reach for parameter-efficient fine-tuning (PEFT)
@@ -91,7 +91,7 @@ memory and, on supported hardware, increase throughput.
 ## Gradient checkpointing alongside PEFT
 
 Combine PEFT with activation (gradient) checkpointing - see
-[references/custom-autograd-and-hooks.md](custom-autograd-and-hooks.md) - when even
+[custom-autograd-and-hooks.md](custom-autograd-and-hooks.md) - when even
 a PEFT-sized set of trainable parameters doesn't fit the activation memory budget
 for the sequence lengths/batch sizes you need; the two techniques address different
 memory costs (parameter/optimizer-state memory vs. activation memory) and are
@@ -106,7 +106,7 @@ commonly used together.
   `filter(lambda p: p.requires_grad, model.parameters())`.
 - Put the model in the right mode per component if `dropout`/`BatchNorm` exist in
   the frozen base - see the `BatchNorm` guidance in
-  [references/transfer-learning.md](transfer-learning.md); it applies identically
+  [transfer-learning.md](transfer-learning.md); it applies identically
   here.
 - Save only the trainable adapter state for lightweight checkpoints
   (`{k: v for k, v in model.state_dict().items() if "lora_" in k}`), and document

@@ -110,7 +110,7 @@ rate warmup, whereas post-norm often diverges early in deep stacks without one.
   including pad positions.
 - **Decoder-only** (GPT-style): causal mask, autoregressive next-token objective;
   used for generation. Training computes all positions' loss in parallel via
-  teacher forcing (see [references/sequence-models.md](sequence-models.md)); inference
+  teacher forcing (see [sequence-models.md](sequence-models.md)); inference
   is sequential and needs a KV cache (below) to be tractable.
 - **Encoder-decoder** (T5/original Transformer-style): encoder attends bidirectionally
   over the source; decoder self-attends causally over the target and cross-attends

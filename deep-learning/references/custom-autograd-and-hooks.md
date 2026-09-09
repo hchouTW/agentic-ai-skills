@@ -99,7 +99,7 @@ class CheckpointedBlock(nn.Module):
   conv stages) rather than the whole model - checkpointing the entire model gives
   the most memory savings but the most recompute overhead; profile to find the
   actual bottleneck (see
-  [references/performance-memory.md](performance-memory.md)) rather than
+  [performance-memory.md](performance-memory.md)) rather than
   checkpointing everything by default.
 - Expect roughly 20-30% slower training per step in exchange for a large reduction
   in peak activation memory - this is the standard way to fit a larger batch size
@@ -115,7 +115,7 @@ class CheckpointedBlock(nn.Module):
   `torch.utils.checkpoint`, but a custom source of randomness (e.g. calling into a
   non-PyTorch RNG) will silently break this and produce incorrect gradients.
 - Combine with mixed precision and PEFT (see
-  [references/efficient-finetuning.md](efficient-finetuning.md)) when a single
+  [efficient-finetuning.md](efficient-finetuning.md)) when a single
   technique isn't enough to fit the target batch size/sequence length.
 
 ## Debugging with `gradcheck` and anomaly detection
@@ -126,5 +126,5 @@ class CheckpointedBlock(nn.Module):
 - `torch.autograd.set_detect_anomaly(True)` (debugging only, slow) surfaces the
   forward operation that produced a NaN/Inf during backward, rather than only
   reporting where the NaN was noticed - see the NaN checklist in
-  [references/debugging-pytorch.md](debugging-pytorch.md) for the broader
+  [debugging-pytorch.md](debugging-pytorch.md) for the broader
   workflow this fits into.
