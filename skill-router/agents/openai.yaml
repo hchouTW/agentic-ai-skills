@@ -1,4 +1,4 @@
 interface:
   display_name: "Skill Router"
-  short_description: "Silently routes tasks to agile-development, deep-learning, or hep-analysis before work begins"
-  default_prompt: "Use $skill-router to check whether this task matches agile-development, deep-learning, or hep-analysis, then invoke the matching skill(s)."
+  short_description: "Silently routes tasks to academic-papers, agile-development, deep-learning, or hep-analysis before work begins"
+  default_prompt: "Use $skill-router to check whether this task matches academic-papers, agile-development, deep-learning, or hep-analysis, then invoke the matching skill(s)."

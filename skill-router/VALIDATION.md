@@ -71,6 +71,19 @@ a coding-domain one), and that exclusion is now reversed.
   stated "not part of `skill-router`'s routing set" - that statement is now
   false and was corrected in the same change (see that file's own history).
 
+**Follow-up consistency check (2026-09-10, same day):** a subsequent "check
+and reorganize" pass over this package caught one file the addition above
+missed - `agents/openai.yaml`'s `short_description` and `default_prompt`
+still enumerated only the original three skills (`agile-development`,
+`deep-learning`, `hep-analysis`). Neither `validate_skill_bundle.py` nor the
+test suite parses this file's routing-relevant text (only its presence and
+YAML-parseability are checked), so a hand review was the only way to catch
+it. Fixed to include `academic-papers`; re-parsed with `yaml.safe_load` to
+confirm it's still valid YAML. No other staleness found on this pass:
+`SKILL.md`'s per-skill routing bullets were cross-checked against each
+target skill's actual current content (all four still accurate) and
+`README.md`/`VALIDATION.md` were re-read end to end.
+
 ## Limitations
 
 - `skill-router` contains no code that acts on real user requests - its entire
