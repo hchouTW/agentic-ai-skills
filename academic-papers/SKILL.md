@@ -1,6 +1,6 @@
 ---
 name: academic-papers
-description: Read, understand, and write scientific research papers — from critically working through someone else's paper to producing an arXiv-ready, conference-ready, or journal-ready manuscript of your own. Covers physics/HEP conventions specifically (PRL, PRD, PRX, JHEP, EPJC, REVTeX/JHEP-class formatting, INSPIRE-HEP bibliographies, collaboration author lists, systematics tables), astroparticle-physics and cosmic-ray conventions (JCAP, ApJ/ApJL, Astroparticle Physics journal, ADS/bibcode citations, exposure vs. luminosity, arrival-direction/anisotropy sections, pre-trial vs. post-trial significance, ground-array/IACT/space-detector collaboration author lists), and statistics/machine-learning conventions (NeurIPS, ICML, ICLR, AAAI, ACL/EMNLP/NAACL, JMLR, TMLR, statistics journals like JASA/Annals of Statistics/Biometrika, OpenReview/single-shot rebuttals, reproducibility checklists, Limitations/Broader-Impact sections, arXiv/DBLP/ACL-Anthology citations, p-value/effect-size/multiple-comparison reporting language) as well as general academic scientific reading and writing. Use whenever the user asks to find or search for relevant literature on a topic, snowball citations from a seed paper, or set up a literature-alert workflow; summarize, critique, or extract the method/results from a paper or a stack of papers; build a literature review or a paper's "related work"/Introduction section; verify citation identity and claim support; screen studies for a systematic review; audit a paper's reproducibility artifacts and execution evidence; audit equations, notation, and manuscript consistency; map claims to evidence; provide a reviewer-style assessment; plan supplementary material; assess research gaps and novelty; restructure scientific arguments; optimize abstracts and titles; track revision impacts across manuscript artifacts; draft data/code availability and author-contribution statements; write accessible figure descriptions; check a manuscript for plagiarism or self-plagiarism/text reuse; draft conflict-of-interest, funding, or ethics/IRB statements; reconcile a preprint version against the published journal version; reformat a manuscript's content across two venues (e.g. conference-to-journal extension); turn a paper into a conference poster or talk slide deck; write a preregistration or registered report; package code/data for public release alongside a paper; draft a grant or fellowship proposal; draft, restructure, or polish a paper or section (abstract, introduction, results, discussion, conclusion, limitations); format a manuscript in LaTeX/REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ICLR/ACL class; build or clean a BibTeX/.bib file, ADS bibcode, or DBLP/ACL-Anthology reference; design figures/tables (including skymaps, energy-spectrum plots, learning curves, ablation/leaderboard tables) for publication; tighten scientific prose; respond to referee reports or write a conference rebuttal; or prepare a paper for arXiv/conference/journal submission. Trigger this even for requests that only mention one piece of the process (e.g. "what does this paper actually claim", "compare these three papers", "write my abstract", "fix these referee comments", "write my NeurIPS rebuttal") — those are all part of the same reading-to-writing pipeline.
+description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, building a literature review or related-work section, finding/searching literature, verifying citations or claim support, auditing reproducibility/equations/manuscript consistency, systematic-review screening, drafting or restructuring a paper section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR, etc.), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing publication figures/tables, responding to referee reports or a rebuttal, or an adjacent artifact (poster/talk, preregistration, grant proposal, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle/cosmic-ray, and statistics/ML conventions, plus general academic writing. Trigger for even one piece of this pipeline (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
 ---
 
 # Academic Papers
@@ -58,6 +58,8 @@ Use it for any of:
   single-shot conference rebuttal
 - A pre-submission pass: checking length limits, undefined references, missing
   labels, or a reproducibility checklist
+
+**Adjacent document types** (related genres, not paper sections themselves)
 - Converting a paper's results into a conference poster or a talk's slide deck
 - Drafting a preregistration document or a registered report's Stage 1/Stage 2
 - Packaging the user's own code and data for public release alongside a paper
@@ -103,6 +105,7 @@ a figure caption, or a formatted document of your own.
 Use these modes when requested or needed to substantiate the paper's claims;
 an ordinary summary does not require a full audit.
 
+**Verification and auditing**
 - **Citation verification:** check reference identity, version, publication status,
   and whether the cited text supports the manuscript's claim. Read
   `references/citation-verification.md`. A resolving DOI or valid BibTeX entry
@@ -121,14 +124,16 @@ an ordinary summary does not require a full audit.
 - **Claim–evidence mapping:** connect central claims to results, derivations, and
   citations, and identify unsupported generalizations. Read
   `references/claim-evidence-mapping.md`.
-- **Reviewer-style assessment:** assess contribution, validity, comparisons, and
-  actionable concerns using `references/reviewer-style-assessment.md`.
-- **Supplementary-material planning:** allocate derivations, checks, and artifact
-  details between the main paper and supplements using
-  `references/supplementary-material-planning.md`.
 - **Manuscript consistency auditing:** reconcile repeated results, uncertainty
   conventions, dataset descriptions, and conclusions across the paper using
   `references/manuscript-consistency-auditing.md`.
+- **Plagiarism and text-reuse checking:** distinguish copied/paraphrased text
+  from legitimate quotation, self-citation, or boilerplate using
+  `references/plagiarism-and-text-reuse-checking.md`.
+
+**Assessment and restructuring**
+- **Reviewer-style assessment:** assess contribution, validity, comparisons, and
+  actionable concerns using `references/reviewer-style-assessment.md`.
 - **Research-gap and novelty assessment:** compare the proposed contribution with
   verified close prior work using the novelty-assessment section of
   `references/literature-review.md`.
@@ -138,30 +143,34 @@ an ordinary summary does not require a full audit.
 - **Abstract and title optimization:** create accurate variants for an audience,
   venue, or length limit using the abstract-and-title-variants section of
   `references/paper-structure.md`.
+- **Supplementary-material planning:** allocate derivations, checks, and artifact
+  details between the main paper and supplements using
+  `references/supplementary-material-planning.md`.
+
+**Tracking and cross-version reconciliation**
 - **Revision-impact tracking:** trace changed results and reviewer requests through
   manuscript artifacts and response letters using
   `references/revision-impact-tracking.md`.
-- **Data and code availability statements:** describe verified repositories,
-  versions, restrictions, and missing artifacts using the availability-statements
-  section of `references/citations-and-bibliography.md`.
-- **Authorship and contribution statements:** organize supplied contributions,
-  acknowledgments, and disclosures using the authorship-and-contributions section
-  of `references/submission-and-peer-review.md`; do not infer credit or author order.
-- **Accessible scientific communication:** write figure descriptions and inspect
-  visual encodings using the accessible-descriptions section of
-  `references/figures-and-tables.md`.
-- **Plagiarism and text-reuse checking:** distinguish copied/paraphrased text
-  from legitimate quotation, self-citation, or boilerplate using
-  `references/plagiarism-and-text-reuse-checking.md`.
-- **Conflict-of-interest and ethics statements:** draft COI, funding,
-  IRB/ethics-approval, and consent statements using
-  `references/conflict-of-interest-and-ethics-statements.md`.
 - **Preprint-to-journal reconciliation:** diff a preprint version against the
   published version and identify substantive differences using
   `references/preprint-to-journal-reconciliation.md`.
 - **Multi-venue reformatting:** adapt one manuscript's content across two
   venues (conference/journal extension, letter/full-paper companion) using
   `references/multi-venue-reformatting.md`.
+
+**Disclosure and compliance statements**
+- **Data and code availability statements:** describe verified repositories,
+  versions, restrictions, and missing artifacts using the availability-statements
+  section of `references/citations-and-bibliography.md`.
+- **Authorship and contribution statements:** organize supplied contributions,
+  acknowledgments, and disclosures using the authorship-and-contributions section
+  of `references/submission-and-peer-review.md`; do not infer credit or author order.
+- **Conflict-of-interest and ethics statements:** draft COI, funding,
+  IRB/ethics-approval, and consent statements using
+  `references/conflict-of-interest-and-ethics-statements.md`.
+- **Accessible scientific communication:** write figure descriptions and inspect
+  visual encodings using the accessible-descriptions section of
+  `references/figures-and-tables.md`.
 
 ## Core workflow: writing
 
@@ -255,8 +264,9 @@ journal/APS/SISSA/Springer/AAS/Elsevier/conference site once the venue is fixed.
 ## Reference files
 
 Read these as needed — don't load them all up front unless doing a full draft or
-review:
+review. Grouped by function; within a group, order roughly follows the workflow.
 
+**Reading and discovery**
 - `references/literature-discovery-and-search.md` — finding relevant papers
   before there's anything to triage: database/tool choice by field, query
   formulation, forward/backward citation snowballing, alerts, and knowing
@@ -271,6 +281,8 @@ review:
 - `references/literature-review.md` — organizing a review or related-work section
   (chronological vs. thematic vs. methodological), building a comparison matrix,
   synthesis patterns vs. citation-stuffing, spotting research gaps
+
+**Structure, venue, and formatting**
 - `references/paper-structure.md` — section-by-section guidance, HEP vs. theory vs.
   thesis vs. proceedings vs. astroparticle vs. statistics/ML papers, what a referee
   expects in each section, plus writing a plain-language public/outreach summary
@@ -292,6 +304,8 @@ review:
 - `references/latex-and-formatting.md` — REVTeX/JHEP/Springer/JCAP/AASTeX/
   Elsevier/NeurIPS/ICML/ICLR/ACL/JMLR setup, common compile errors, equations/
   units conventions, length-limit tricks
+
+**Prose, figures, and citations**
 - `references/figures-and-tables.md` — plot design for publication (following on from
   ROOT/matplotlib output made under `hep-analysis`), caption writing, table
   conventions, skymap/cosmic-ray-spectrum figures, and learning-curve/ablation/
@@ -303,16 +317,41 @@ review:
   hedging, common non-native-English pitfalls, physics-specific,
   astroparticle-specific, and statistical/ML-specific (p-values, effect sizes,
   multiple-comparison correction) phrasing conventions
+
+**Submission and peer review**
 - `references/submission-and-peer-review.md` — pre-submission checklist, cover
   letters, referee response structure, revision tracking, arXiv submission
   mechanics (including collaborations that skip arXiv entirely), and single-shot
   conference rebuttals
+
+**Verification and auditing**
+- `references/citation-verification.md` — reference identity/version checks and
+  whether cited text supports the manuscript's claim
+- `references/systematic-review-screening.md` — eligibility criteria, reproducible
+  search logs, deduplication, and screening-decision records
+- `references/reproducibility-auditing.md` — tracing results to methods, data,
+  code, configurations, and available execution evidence
+- `references/equation-and-notation-auditing.md` — definitions, dimensions,
+  index/shape consistency, and derivation-step checks
+- `references/claim-evidence-mapping.md` — connecting central claims to results,
+  derivations, and citations; flagging unsupported generalizations
+- `references/manuscript-consistency-auditing.md` — reconciling repeated results,
+  uncertainty conventions, dataset descriptions, and conclusions across a paper
 - `references/plagiarism-and-text-reuse-checking.md` — distinguishing verbatim
   copying, close paraphrase, and legitimate reuse (quotation, self-citation,
   boilerplate) in a manuscript or against the user's own prior publications
+- `references/reviewer-style-assessment.md` — mock referee reports and
+  submission-readiness reviews: contribution, validity, comparisons, concerns
+- `references/supplementary-material-planning.md` — allocating derivations,
+  checks, and artifact details between the main paper and supplements
+
+**Disclosure, reconciliation, and cross-venue**
 - `references/conflict-of-interest-and-ethics-statements.md` — venue-specific
   COI/competing-interests, funding, IRB/ethics-approval, and consent
   statements, kept separate from authorship-and-contribution statements
+- `references/revision-impact-tracking.md` — tracing a changed result or reviewer
+  request through manuscript artifacts and response letters during an active
+  revision
 - `references/preprint-to-journal-reconciliation.md` — diffing an arXiv/
   preprint version against the published journal version, classifying
   differences, and updating preprint metadata after publication
@@ -320,6 +359,8 @@ review:
   venues with different class files or length limits (conference→journal
   extension, journal letter→full-paper companion), including duplicate-
   publication disclosure requirements
+
+**Adjacent document types**
 - `references/poster-and-talk-design.md` — re-laying-out a paper's results
   for a conference poster (viewing-distance figures, walkable panel order)
   or a slide deck (one-idea-per-slide, matching depth to slot length)
