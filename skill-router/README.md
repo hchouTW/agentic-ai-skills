@@ -1,6 +1,6 @@
 # Skill Router
 
-A portable Agent Skill maintained entirely in English. It contains no scripts or assets - `SKILL.md` is a lightweight triage rule set that routes a task to one of this collection's domain skills (`agile-development`, `deep-learning`, `hep-analysis`) before work begins. It requires no specific MCP server, cloud account, or paid service.
+A portable Agent Skill maintained entirely in English. It contains no scripts or assets - `SKILL.md` is a lightweight triage rule set that routes a task to one of this collection's domain skills (`academic-papers`, `agile-development`, `deep-learning`, `hep-analysis`) before work begins. It requires no specific MCP server, cloud account, or paid service.
 
 ## Installation and invocation
 
@@ -10,7 +10,7 @@ Extract the archive and keep the complete `skill-router/` folder alongside the d
 - **Claude Code:** copy it to `.claude/skills/skill-router/` in the project or `~/.claude/skills/skill-router/` for personal use. It is designed to trigger automatically from its description; `/skill-router` also works if you want to invoke the check explicitly. See the [official Claude Code skill documentation](https://code.claude.com/docs/en/skills).
 - **Other agents:** instruct the agent to read `SKILL.md` first and check the routing rules before proceeding with any other work.
 
-This delivery creates a single folder; it does not change other global agent settings. It only routes to skills that are actually installed - if you don't install `agile-development`, `deep-learning`, or `hep-analysis`, the corresponding routing row is simply never triggered.
+This delivery creates a single folder; it does not change other global agent settings. It only routes to skills that are actually installed - if you don't install `academic-papers`, `agile-development`, `deep-learning`, or `hep-analysis`, the corresponding routing row is simply never triggered.
 
 ## Quick checks
 
@@ -30,13 +30,15 @@ expected when you haven't installed every domain skill.
 
 ## Coverage and boundaries
 
-The package covers triage only: matching a task's keywords/intent against `agile-development` (non-trivial software changes, scoping, review process), `deep-learning` (PyTorch engineering), and `hep-analysis` (collider/particle-physics data, ROOT/PyROOT/RDataFrame, statistics). It explicitly excludes unrelated senses of overlapping words (e.g. "root" as a Linux user or Android rooting).
+The package covers triage only: matching a task's keywords/intent against `academic-papers` (reading/writing/formatting a scientific paper), `agile-development` (non-trivial software changes, scoping, review process), `deep-learning` (PyTorch engineering), and `hep-analysis` (collider/particle-physics data, ROOT/PyROOT/RDataFrame, statistics). It explicitly excludes unrelated senses of overlapping words (e.g. "root" as a Linux user or Android rooting).
 
 It does not perform the underlying work itself - once it identifies a match, it hands off to that domain skill's own workflow. If none of the rules apply, it stays silent and out of the way.
 
 All maintained instructions and metadata are in English. The skill can still answer a user in their requested language.
 
 ## Example prompts
+
+"Summarize this paper's method and check whether the comparison baseline was fairly tuned." (routes to `academic-papers`)
 
 "Add an endpoint that lets admins export a CSV of active users." (routes to `agile-development`)
 

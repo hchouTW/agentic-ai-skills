@@ -21,7 +21,10 @@ class ExtractRoutedSkillNamesTests(unittest.TestCase):
     def test_extracts_names_from_real_skill_md(self):
         text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
         names = validate_skill_bundle.extract_routed_skill_names(text)
-        self.assertEqual(names, ["agile-development", "deep-learning", "hep-analysis"])
+        self.assertEqual(
+            names,
+            ["academic-papers", "agile-development", "deep-learning", "hep-analysis"],
+        )
 
     def test_extracts_names_from_synthetic_routing_table(self):
         text = (

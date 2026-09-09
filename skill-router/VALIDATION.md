@@ -44,6 +44,33 @@ routing rules, trigger keywords, and behavior steps were reviewed for internal
 consistency and matched correctly against the three domain skills' own
 frontmatter descriptions (`agile-development`, `deep-learning`, `hep-analysis`).
 
+## Add academic-papers to the routing table (2026-09-10)
+
+Added `academic-papers` as a fourth routing rule (placed first, alphabetically),
+by explicit request rather than as a bug fix - this skill was previously and
+deliberately excluded from routing (it's a reading/writing/formatting skill, not
+a coding-domain one), and that exclusion is now reversed.
+
+- `SKILL.md`: added the frontmatter `description` keywords for paper reading/
+  writing/formatting/rebuttal tasks, and a new `- **academic-papers** - ...`
+  routing bullet, explicit that it's the write-up layer, not the underlying
+  statistical/ML/physics analysis (which still routes to `deep-learning`/
+  `hep-analysis`).
+- `tests/test_skill_router.py`: `test_extracts_names_from_real_skill_md`'s
+  expected list was updated to
+  `["academic-papers", "agile-development", "deep-learning", "hep-analysis"]`
+  (order-sensitive, since it asserts the real, shipped `SKILL.md`'s bullet
+  order) - this is the only test that needed a change, since the parsing logic
+  itself (`extract_routed_skill_names`) is already generic over bullet count.
+- `README.md`: updated every place that enumerated the three routed skills by
+  name (the intro paragraph, "it only routes to..." caveat, the coverage
+  paragraph) to include `academic-papers`, and added a matching example prompt.
+- Re-ran `scripts/validate_skill_bundle.py` (now reports 4 routing entries,
+  up from 3) and the full test suite (7 tests, unchanged count) - both clean.
+- The top-level repository `README.md`'s `academic-papers` row previously
+  stated "not part of `skill-router`'s routing set" - that statement is now
+  false and was corrected in the same change (see that file's own history).
+
 ## Limitations
 
 - `skill-router` contains no code that acts on real user requests - its entire

@@ -1,6 +1,6 @@
 ---
 name: skill-router
-description: Use at the start of any non-trivial task to silently check whether one of the user's domain skills (agile-development, deep-learning, hep-analysis) applies before proceeding. Always consult this routing logic for any non-trivial software change (implement/fix/add/refactor/migrate/update, scoping, acceptance criteria, code review process), PyTorch model/training/DataLoader/debugging tasks, including architecture selection, parallelism strategy, compute/serving budgeting, ablation discipline, and data/evaluation strategy, or HEP/CERN/ROOT/PyROOT/RDataFrame/uproot/Awkward/cutflow/systematics/fit/limit tasks, including detector subsystems (tracker, calorimeter, TRD, TOF, RICH, muon), event reconstruction, and Geant4/detector-simulation tasks - even if the user doesn't name a skill explicitly or use the word "skill."
+description: Use at the start of any non-trivial task to silently check whether one of the user's domain skills (academic-papers, agile-development, deep-learning, hep-analysis) applies before proceeding. Always consult this routing logic for any non-trivial software change (implement/fix/add/refactor/migrate/update, scoping, acceptance criteria, code review process), PyTorch model/training/DataLoader/debugging tasks, including architecture selection, parallelism strategy, compute/serving budgeting, ablation discipline, and data/evaluation strategy, HEP/CERN/ROOT/PyROOT/RDataFrame/uproot/Awkward/cutflow/systematics/fit/limit tasks, including detector subsystems (tracker, calorimeter, TRD, TOF, RICH, muon), event reconstruction, and Geant4/detector-simulation tasks, or reading/critiquing/summarizing a scientific paper, building a literature review, drafting or formatting a manuscript (LaTeX/REVTeX/JHEP/NeurIPS/ICML/ACL), managing a BibTeX/.bib file, or responding to referee reports or a conference rebuttal - even if the user doesn't name a skill explicitly or use the word "skill."
 ---
 
 # Skill Router
@@ -12,6 +12,17 @@ its workflow.
 
 ## Routing rules
 
+- **academic-papers** - reading, critiquing, or summarizing a scientific paper
+  or a stack of papers; building a literature review or a paper's "related
+  work"/Introduction section; drafting, restructuring, or polishing a paper or
+  section; formatting a manuscript in LaTeX (REVTeX, JHEP, JCAP, AASTeX,
+  NeurIPS/ICML/ICLR/ACL-family style files, JMLR/TMLR); building or cleaning a
+  BibTeX/.bib file or an ADS/DBLP/ACL-Anthology reference; designing figures/
+  tables for publication; tightening scientific prose; responding to referee
+  reports; or writing a single-shot conference rebuttal. Not for the
+  underlying statistical/ML/physics analysis itself - see `deep-learning` or
+  `hep-analysis` for that; this is the reading/writing/formatting layer on
+  top of it.
 - **agile-development** - any non-trivial software change: new features, bug
   fixes, refactors, endpoints, UI work, migrations, dependency updates. Also
   scoping, task breakdown, acceptance criteria, validation plans, and code
