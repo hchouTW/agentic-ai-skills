@@ -159,6 +159,33 @@ contradiction sweep above is clean; and the diff was reviewed for unrelated chur
 since a change about surgical edits that sprawled into adjacent text would contradict
 its own content.
 
+## Consistency audit (2026-09-10)
+
+A "check and reorganize" pass with no new content: read every reference file in
+full, checked every relative Markdown link's display text against its actual
+target, and cross-checked `SKILL.md`/`README.md` claims (documented flags,
+required README sections, file coverage) against the scripts and files
+themselves.
+
+- Found and fixed three link-text/target mismatches, where a link inside
+  `references/` displayed a `references/`-prefixed path as its text while
+  pointing (correctly) at a bare sibling filename - confusing to a reader
+  scanning link text, though the links themselves resolved:
+  `references/engineering-playbook.md`'s pointer to `communication.md`, and
+  two pointers in `references/design-and-estimation.md` (one to
+  `product-framing.md`, used twice, one to `engineering-playbook.md`). All
+  three now show the bare filename as both text and target, matching the
+  convention already used everywhere else (e.g.
+  `references/implementation-discipline.md`).
+- No other inconsistencies found: every heading structure, cross-reference,
+  documented CLI flag (`create_story_card.py`, `validate_agile_notes.py`), and
+  README-section requirement checked out against the actual files.
+  `references/cpp-balanced-design-guidelines.md` was confirmed still
+  byte-identical to `deep-learning`'s copy and was not edited, consistent with
+  the shared-file note in Limitations below.
+- Bundle validator and the full test suite (32 tests) re-run clean after the
+  fixes.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

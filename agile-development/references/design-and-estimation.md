@@ -6,7 +6,7 @@ something will take and how confident that number is.
 
 ## When a change needs a design doc first
 
-Most changes this skill handles (see [references/product-framing.md](product-framing.md)'s
+Most changes this skill handles (see [product-framing.md](product-framing.md)'s
 slicing guidance) don't need one - go straight to acceptance criteria and
 implementation. Write a short design doc first when at least one of these is true:
 the change affects a shared interface or data model other teams/consumers depend
@@ -52,7 +52,7 @@ erodes trust the first time it's wrong for a reason nobody flagged in advance.
   guess about *effort*, not a guess about *scope* - "implement the feature" is
   usually a scope guess in disguise; "add the validated input field," "wire it to
   the existing save endpoint," "add the empty/error states" are effort guesses.
-  See [references/product-framing.md](product-framing.md)'s Slicing section for
+  See [product-framing.md](product-framing.md)'s Slicing section for
   the same breakdown applied to user-visible value instead of estimation.
 - When genuine uncertainty about the *approach* (not just the effort) dominates
   the estimate, timebox a **spike**: a short, explicitly throwaway investigation
@@ -85,7 +85,7 @@ reduce the risk of a change rather than only as a product-experimentation tool:
   rollout control - plan its removal (both branches collapse to one) as part of
   the work, not as an unscheduled future cleanup; an accumulation of permanently-
   on flags makes the codebase harder to reason about and is exactly the kind of
-  debt [references/engineering-playbook.md](engineering-playbook.md)'s Legacy
+  debt [engineering-playbook.md](engineering-playbook.md)'s Legacy
   Code guidance exists to prevent from forming in the first place.
 - For a change too risky or too large to flag cleanly (a data migration, an
   infrastructure change), the rollback plan in the design doc above substitutes
