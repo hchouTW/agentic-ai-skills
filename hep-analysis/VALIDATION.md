@@ -346,6 +346,100 @@ hyperlinks only for stable, well-known official homepages (PDG, Auger,
 IceCube, CTA) rather than a specific document path not independently
 confirmed.
 
+## AMS-02 case study and cosmic-ray flux/statistics pass (2026-09-09)
+
+Added one reference file, `references/40-ams02-case-study.md`, applying the
+generic detector-technology references (`23`-`26`) and
+[space-based direct detection](37-space-based-direct-detection.md) to the
+Alpha Magnetic Spectrometer (AMS-02) on the ISS as a worked example: its
+actual subsystem stack (permanent-magnet tracker, TRD, TOF, RICH, ECAL),
+what is distinctive about a decade-plus space-based mission (no on-orbit
+repair, orbital thermal cycling, a time-varying geomagnetic cutoff along the
+orbit, a mission spanning multiple solar cycles), and the shared
+rare-species-measurement pattern (positron fraction, antiproton/proton ratio,
+antihelium search). Added four new standard-library scripts -
+`scripts/orbit_averaged_geomagnetic_cutoff.py`,
+`scripts/solar_modulation_force_field.py`,
+`scripts/particle_ratio_with_uncertainty.py`, and `scripts/cosmic_ray_flux.py`
+(the last per explicit request for general cosmic-ray flux calculation and
+statistics, not AMS-02-specific) - plus `tests/test_ams02.py` (36 new tests).
+`SKILL.md`'s frontmatter `description`, reference-routing table,
+executable-resources list, two new analysis-invariant entries (exact Poisson
+statistics for low-count flux, and correlation-aware ratio/fraction
+uncertainty), and example requests; `README.md`'s quick checks, coverage
+section, and example prompts; `references/13-sources.md` (an AMS-02 entry,
+left without a pinned URL per this skill's sourcing discipline, since no
+specific NASA/AMS page URL was independently confirmed in this pass); and
+`scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` were all updated to
+match (bundle now reports 94 files, up from 88). The sibling `skill-router`
+skill and the repository README were extended with the same routing
+keywords.
+
+All four new scripts were verified numerically, not merely for syntax, and
+two real defects were found and fixed during this pass:
+
+- **Defect found and fixed**: `orbit_averaged_geomagnetic_cutoff.py`'s
+  quadrature ceiling-search helper had its bracket-growth condition
+  inverted - it grew the search bound while the tail probability was *above*
+  a threshold instead of *below* it, which for `cosmic_ray_flux.py`'s exact
+  Poisson interval search (reused independently, see below) caused every
+  call to spuriously report the interval as unbounded. Fixed to grow the
+  bracket only while the (monotonically increasing) tail has not yet reached
+  the target probability, matching the standard bisection precondition.
+- **Defect found and fixed**: `cosmic_ray_flux.py`'s exact Poisson interval
+  had its lower- and upper-bound target probabilities swapped (using
+  `1 - alpha/2` where the Garwood formula requires `alpha/2` for the lower
+  bound, and vice versa for the upper bound), which silently produced a
+  lower bound greater than the upper bound. Caught by cross-checking the
+  n=42 interval against an independently computed `scipy.stats.chi2`
+  Garwood-formula value during development (35.545043400971, 49.5323366625
+  at 68.27% confidence) and confirming the two disagreed before the fix and
+  matched to 9+ significant figures afterward; also re-checked at 90%
+  confidence (31.938130721517, 54.323946486754) with the same exact
+  agreement. `scipy` was used only for this one independent development-time
+  cross-check and is not a dependency of the shipped script or test suite
+  (both remain standard-library only; the test file hardcodes the
+  cross-checked expected values).
+- `orbit_averaged_geomagnetic_cutoff.py` was further checked to reduce to the
+  single-latitude `geomagnetic_cutoff.py` value for a near-equatorial
+  (1-degree) inclination, to have its minimum cutoff fall monotonically with
+  increasing inclination, to bracket the equator-to-turning-point latitude
+  range exactly, and to reject inclinations outside (0, 90] degrees.
+- `solar_modulation_force_field.py` was checked for an exact round trip
+  (`--modulate` then `--demodulate` on the resulting TOA flux recovers the
+  original LIS flux to 8+ decimal places), for the `phi=0` identity (TOA
+  flux equals LIS flux exactly when there is no modulation), for the
+  modulation direction (a positive `phi` suppresses low-energy flux, as
+  physically required), and for a larger energy shift at higher charge at
+  fixed `phi` (consistent with `E_LIS = E_TOA + |Z|*phi`).
+- `particle_ratio_with_uncertainty.py` was checked against direct arithmetic
+  for the central ratio and fraction values, against the closed-form
+  independent-quadrature uncertainty formula, for a zero uncertainty on both
+  inputs giving exactly zero propagated uncertainty, and for a positive
+  correlation coefficient reducing (not increasing) the propagated ratio
+  uncertainty as the covariance term requires.
+- `cosmic_ray_flux.py` was additionally checked for the flux central value
+  matching direct division by exposure and bin width, for background
+  subtraction correctly reducing the net count and the reported flux, for a
+  larger exposure giving a smaller flux at fixed counts, for a count beyond
+  the underlying exact tool's practical range raising a clear error rather
+  than silently returning a truncated interval, and for the zero-observed
+  case giving a zero lower bound with a positive upper bound.
+- All four CLIs were exercised for invalid input (out-of-range inclination,
+  missing required LIS parameters, nonpositive yields, a negative count) and
+  confirmed to fail with a clear message and nonzero exit code rather than a
+  raw traceback, and each CLI was confirmed to match its underlying library
+  function's result exactly.
+
+Additional structural checks: every relative Markdown link in
+`references/40-ams02-case-study.md` was confirmed to resolve to an existing
+file. The file was checked to distinguish real, named AMS-02 subsystems and
+mission facts (a permanent, not superconducting, magnet; a TRD, TOF, RICH,
+and ECAL; ISS orbital parameters used only descriptively) from any specific
+numeric instrument parameter or published measurement value, none of which
+are asserted here - the file explicitly directs a reader to verify any such
+concrete value against an AMS collaboration publication before quoting it.
+
 ## Limitations
 
 - ROOT is not installed in the validation environment, so `check_root_cpp_env.sh`
@@ -398,6 +492,23 @@ confirmed.
   (`32`-`39`) are methodological guidance checked for internal consistency and
   against the cited textbook/journal sources, not against a running simulation or a
   real observatory's performance.
+- `orbit_averaged_geomagnetic_cutoff.py` treats orbital latitude as geomagnetic
+  latitude (ignoring the real dipole's tilt/offset from the rotation axis) and
+  assumes a circular orbit; it is a planning-level estimate, not a substitute for
+  backtracing a real ephemeris through a full field model (see
+  references/40-ams02-case-study.md).
+- `solar_modulation_force_field.py` implements only the one-parameter force-field
+  approximation; it does not capture charge-sign-dependent drift, heliolatitude
+  dependence, or short-timescale transients (Forbush decreases, SEP events), all
+  flagged in references/37-space-based-direct-detection.md.
+- `particle_ratio_with_uncertainty.py` uses first-order (delta-method/Gaussian) error
+  propagation; it is not reliable when either yield's relative uncertainty is large,
+  per its own docstring caveat.
+- `references/40-ams02-case-study.md` is a methodological case study, not a
+  reproduction of any AMS collaboration technical specification or published result;
+  no specific numeric instrument parameter or measurement value from AMS-02 is
+  asserted in this package, and the sources table intentionally does not pin an
+  unverified URL for it.
 
 In an environment with ROOT/PyROOT and skill-creator, additionally run the
 ROOT-dependent scripts against a real file and `quick_validate.py`. In the target

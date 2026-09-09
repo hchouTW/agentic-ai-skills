@@ -77,6 +77,7 @@ REQUIRED_PATHS = [
     "references/37-space-based-direct-detection.md",
     "references/38-multimessenger-analysis.md",
     "references/39-astroparticle-statistics.md",
+    "references/40-ams02-case-study.md",
     "assets/pileup_profiles.example.json",
     "assets/cosmic_ray_spectrum.example.json",
     "assets/detector_stack.example.json",
@@ -102,9 +103,14 @@ REQUIRED_PATHS = [
     "scripts/geomagnetic_cutoff.py",
     "scripts/cr_spectrum_powerlaw_fit.py",
     "scripts/xmax_gaisser_hillas.py",
+    "scripts/orbit_averaged_geomagnetic_cutoff.py",
+    "scripts/solar_modulation_force_field.py",
+    "scripts/particle_ratio_with_uncertainty.py",
+    "scripts/cosmic_ray_flux.py",
     "scripts/validate_skill_bundle.py",
     "tests/test_helpers.py",
     "tests/test_astroparticle.py",
+    "tests/test_ams02.py",
 ]
 
 REQUIRED_README_SECTIONS = [

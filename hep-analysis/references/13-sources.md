@@ -23,6 +23,7 @@ This package is original operational guidance, not a complete summary of the man
 | Pierre Auger Observatory | [Official site](https://www.auger.org/) | Hybrid surface-array/fluorescence UHECR methodology and publications |
 | IceCube Neutrino Observatory | [Official site](https://icecube.wisc.edu/) | In-ice Cherenkov neutrino-telescope methodology and publications |
 | CTA Observatory | [Official site](https://www.cta-observatory.org/) | Imaging atmospheric Cherenkov technique and next-generation IACT array design |
+| Alpha Magnetic Spectrometer (AMS-02) | NASA and AMS collaboration mission/science pages (exact URL not pinned here - verify current link before citing) | Official mission overview for the AMS-02 case study in reference 40; check any specific instrument parameter or published result against an AMS collaboration publication before quoting it |
 | Claude Code skills | [Official documentation](https://code.claude.com/docs/en/skills) | Skill directories and invocation |
 
 Do not claim that an API is supported by the latest version without checking. Read local version/help output and lock files, then consult matching release documentation. Mark unverified points when network access is unavailable. Example luminosities, cross sections, and model parameters in documentation are not experimental inputs. The detector geometries, material budgets, and resolution values in this package's assets and examples are synthetic and illustrative; they are not measurements of any real apparatus.

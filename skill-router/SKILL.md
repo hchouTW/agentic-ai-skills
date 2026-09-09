@@ -47,10 +47,11 @@ its workflow.
   air showers and X_max, ground-based arrays (surface detector, fluorescence,
   hybrid), imaging atmospheric Cherenkov gamma-ray astronomy, high-energy
   neutrino telescopes, space-based/balloon direct detection (geomagnetic
-  cutoff, solar modulation), multi-messenger analysis, and Li & Ma
-  significance/trials-factor statistics. Not for unrelated uses
-  of "root" (Linux root users, Android rooting, certificates, math or plant
-  roots).
+  cutoff, solar modulation), multi-messenger analysis, Li & Ma
+  significance/trials-factor statistics, the AMS-02 (ISS spectrometer) case
+  study, and cosmic-ray flux calculation from counts/exposure. Not for
+  unrelated uses of "root" (Linux root users, Android rooting, certificates,
+  math or plant roots).
 
 ## Behavior
 
