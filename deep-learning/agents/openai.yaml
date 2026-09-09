@@ -1,4 +1,4 @@
 interface:
   display_name: "PyTorch Engineering"
-  short_description: "Write, debug, and review PyTorch models, training loops, data pipelines, and performance"
+  short_description: "PyTorch engineering plus architecture, scaling, serving, data and evaluation strategy"
   default_prompt: "Use $deep-learning to review or write this PyTorch code - model, training loop, or data pipeline - then validate it and flag correctness or performance issues."

@@ -1,6 +1,6 @@
 ---
 name: deep-learning
-description: Use whenever writing, debugging, refactoring, reviewing, or explaining PyTorch code - models (nn.Module), training/eval loops, datasets and DataLoaders, losses, optimizers, schedulers, mixed precision, gradient accumulation, checkpointing, distributed training (DDP), reproducibility, inference, and performance/memory tuning. Also covers debugging tensor shape/device/dtype errors, NaNs, exploding gradients, and slow dataloaders; Transformer/attention architectures and positional encoding; RNN/LSTM/GRU sequence models; generative models (VAE/GAN/diffusion); parameter-efficient fine-tuning (LoRA) and quantization; custom autograd functions, hooks, and gradient checkpointing; and model export/deployment (TorchScript, ONNX, torch.compile). Trigger this for any "train a model", "my loss is NaN", "fix this PyTorch error", "set up a DataLoader", "build a transformer", "fine-tune with LoRA", "export my model to ONNX", or "review my training script" request, even if the user doesn't say "PyTorch" explicitly.
+description: Use whenever writing, debugging, refactoring, reviewing, or explaining PyTorch code - models (nn.Module), training/eval loops, datasets and DataLoaders, losses, optimizers, schedulers, mixed precision, gradient accumulation, checkpointing, distributed training (DDP), reproducibility, inference, and performance/memory tuning. Also covers debugging tensor shape/device/dtype errors, NaNs, exploding gradients, and slow dataloaders; Transformer/attention architectures and positional encoding; RNN/LSTM/GRU sequence models; generative models (VAE/GAN/diffusion); parameter-efficient fine-tuning (LoRA) and quantization; custom autograd functions, hooks, and gradient checkpointing; and model export/deployment (TorchScript, ONNX, torch.compile). Also covers architect-level decisions around the code: choosing and sizing an architecture, scaling laws, compute/memory/cost budgeting, choosing a parallelism strategy (DDP vs. FSDP/ZeRO vs. tensor/pipeline/sequence parallel), MFU and throughput at scale, ablation discipline and seed variance, dataset design, splits and leakage, evaluation strategy and ship criteria, inference serving capacity and latency budgets, drift monitoring, rollout and retraining. Trigger this for any "train a model", "my loss is NaN", "fix this PyTorch error", "set up a DataLoader", "build a transformer", "fine-tune with LoRA", "export my model to ONNX", "review my training script", "should I use FSDP or tensor parallel", "how much will this training run cost", "is this improvement real", "how many replicas do we need", or "how should I split this dataset" request, even if the user doesn't say "PyTorch" explicitly.
 ---
 
 # PyTorch Engineering
@@ -123,6 +123,7 @@ file as a whole, not individual lines.
 - **Checkpoint save/load/resume** -> [references/checkpointing.md](references/checkpointing.md)
 - **DDP / multi-GPU** -> [references/distributed-training.md](references/distributed-training.md)
   (don't introduce DDP unless asked or required)
+- **Choosing a parallelism strategy (DDP vs. FSDP/ZeRO vs. tensor/pipeline/sequence), the memory equation, what is binding** -> [references/parallelism-strategy.md](references/parallelism-strategy.md)
 - **Metrics for classification/regression** -> [references/evaluation-metrics.md](references/evaluation-metrics.md)
 - **Speed/memory tuning** -> [references/performance-memory.md](references/performance-memory.md)
 - **Seeding and determinism caveats** -> [references/reproducibility.md](references/reproducibility.md)
@@ -135,6 +136,16 @@ file as a whole, not individual lines.
 - **TorchScript/ONNX export, torch.compile deployment modes, inference serving** -> [references/export-and-deployment.md](references/export-and-deployment.md)
 - **LibTorch, custom ops, CUDA/C++ extensions** -> [references/cpp-balanced-design-guidelines.md](references/cpp-balanced-design-guidelines.md)
 
+Architect-level references - decisions made before or around the code:
+
+- **Choosing/sizing an architecture, inductive bias, scaling laws, reviewing a proposal** -> [references/architecture-selection.md](references/architecture-selection.md)
+- **Proving a change helped: seed variance, matched budgets, ablations, confounds** -> [references/ablation-and-design-review.md](references/ablation-and-design-review.md)
+- **MFU and throughput, compute/cost budgeting, batch-size and LR scaling, failure recovery, HP search** -> [references/training-at-scale.md](references/training-at-scale.md)
+- **Serving latency/throughput/cost budgets, batching, KV cache limits, capacity planning** -> [references/serving-architecture.md](references/serving-architecture.md)
+- **Drift and monitoring, regression suites, shadow/canary rollout, versioning, retraining triggers** -> [references/monitoring-and-lifecycle.md](references/monitoring-and-lifecycle.md)
+- **Dataset design, label quality, splits, leakage, deduplication, imbalance** -> [references/data-strategy.md](references/data-strategy.md)
+- **Eval harness design, slices, behavioral tests, offline-online gap, ship criteria** -> [references/evaluation-strategy.md](references/evaluation-strategy.md)
+
 ## Helper Scripts & Templates
 
 Run diagnostics with `python3` before assuming a fix worked:
@@ -145,6 +156,19 @@ Run diagnostics with `python3` before assuming a fix worked:
 - `scripts/check_dataset_contract.py` - verify a `Dataset` returns consistent shapes/dtypes.
 - `scripts/find_nan_batches.py` - scan a dataloader for non-finite inputs/targets.
 - `scripts/benchmark_model.py` - time forward/backward passes for a model.
+- `scripts/estimate_training_memory.py` - per-GPU training memory (params, grads,
+  optimizer states, activations) under a precision/optimizer/ZeRO/TP/PP configuration,
+  with the binding term and what to change.
+- `scripts/estimate_compute_budget.py` - training FLOPs, GPU-hours, wall-clock, cost,
+  and MFU, plus the tokens-per-parameter sizing regime.
+- `scripts/compare_model_runs.py` - paired comparison of two configurations across
+  seeds, with a bootstrap interval on the difference and the seed-noise floor.
+- `scripts/serving_capacity.py` - replicas, utilization, and estimated p99 latency for
+  an inference service against a latency budget.
+- `scripts/check_split_integrity.py` - train/val/test overlap, duplicates, group
+  leakage, and temporal violations; exits nonzero so it can gate a pipeline.
+
+The five scripts above are standard library only and do not require PyTorch.
 - `scripts/validate_skill_bundle.py` - check that this package's own files (SKILL.md,
   README.md, references, scripts, assets, tests) are all present and non-empty, and
   that SKILL.md/README.md have their expected structure (standard library only, does
@@ -163,6 +187,13 @@ Starting points to copy and adapt:
   sequence classification.
 - `assets/lora_finetune.py` - LoRA adapter wrapper and a fine-tuning loop that
   trains only the adapter parameters against a frozen base model.
+- `assets/scaling_plan.example.json` - synthetic 7B-class training plan for
+  `scripts/estimate_training_memory.py`.
+- `assets/eval_runs.example.json` - synthetic per-seed scores for
+  `scripts/compare_model_runs.py`.
+- `assets/dataset_splits.example.json` - synthetic split manifest, deliberately
+  containing a group leak and a temporal violation, for
+  `scripts/check_split_integrity.py`.
 
 ## Debugging Checklist
 
@@ -208,6 +239,11 @@ corrected snippet -> a quick diagnostic print/assert to confirm the fix.
 - "Add mixed precision and gradient accumulation to this script."
 - "Review this `Dataset`/`DataLoader` for correctness and performance."
 - "Convert this single-GPU training script to DDP."
+- "This 7B model OOMs on 8 A100s - should I use FSDP, tensor parallel, or something else?"
+- "How long and how much would it cost to train this model, and is it the right size?"
+- "Is this 0.4% accuracy gain real, or is it seed noise?"
+- "How many replicas do we need to serve 500 QPS under a 250 ms p99 budget?"
+- "Review how this dataset is split before we trust the eval numbers."
 
 ## Caveats
 

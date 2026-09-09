@@ -100,15 +100,121 @@ execution:
   existing files that now point to them) were checked against the files that
   actually exist on disk: none broken.
 
+## Senior-architect expansion pass (2026-09-09)
+
+Added eight reference files covering the decisions made around the code rather than
+in it: `references/architecture-selection.md`,
+`references/ablation-and-design-review.md`, `references/parallelism-strategy.md`,
+`references/training-at-scale.md`, `references/serving-architecture.md`,
+`references/monitoring-and-lifecycle.md`, `references/data-strategy.md`, and
+`references/evaluation-strategy.md`. Added five new standard-library scripts -
+`estimate_training_memory.py`, `estimate_compute_budget.py`, `compare_model_runs.py`,
+`serving_capacity.py`, and `check_split_integrity.py` - plus
+`assets/scaling_plan.example.json`, `assets/eval_runs.example.json`, and
+`assets/dataset_splits.example.json`. `SKILL.md`'s reference routing, helper-script
+list, example prompts and frontmatter `description`; `README.md`'s quick checks and
+coverage section; `agents/openai.yaml`; and `scripts/validate_skill_bundle.py`'s
+`REQUIRED_PATHS` were updated to match (bundle now reports 56 files, up from 40). The
+sibling `skill-router` skill and the repository README were extended with the same
+routing keywords.
+
+**Scope decision: TensorFlow was deliberately excluded.** The request that prompted
+this pass named "PyTorch/TensorFlow", and the framework question was put explicitly;
+the answer was architect content, PyTorch only. `SKILL.md`'s "Not in scope: non-PyTorch
+deep learning frameworks" boundary, `README.md`'s "explicitly PyTorch-only" statement,
+and `skill-router`'s matching exclusion were therefore all left intact. A
+TensorFlow/Keras layer remains a clean separate pass; nothing added here blocks it.
+
+Unlike the previous passes, PyTorch **is** installed in this environment (2.11.0), so
+the memory model was validated against real allocations rather than only against closed
+forms:
+
+- `estimate_training_memory.py`'s parameter formula was checked against a real
+  `nn.Module` transformer built to the same geometry (4 layers, hidden 256, 8 heads,
+  FFN ratio 4, vocab 1000): predicted and actual parameter counts agree **exactly**
+  (3,401,728 both ways), not approximately. Its bytes-per-parameter table was checked
+  by building that model, running a real forward/backward and an `Adam` step, and
+  summing actual tensor bytes: measured 4.000 bytes/param for parameters, 4.000 for
+  gradients, and 8.000 for optimizer state, against the table's 4/4/8, and the
+  predicted total model-state bytes equalled the measured 54,427,648 to the byte.
+  The sharding arithmetic was checked separately: ZeRO-1 shards only optimizer state,
+  ZeRO-2 also gradients, ZeRO-3 all three, each by exactly the data-parallel degree,
+  and tensor parallelism shards weights independently of the ZeRO stage. Activation
+  formulas were checked against the closed forms of Korthikanti et al.
+  (arXiv:2205.05198) for all three recomputation modes, including the strict ordering
+  none > selective > full, exact linearity in microbatch, superlinearity in sequence
+  length, and the fact that sequence parallelism divides activations by exactly the
+  tensor-parallel degree while tensor parallelism alone leaves an unsharded remainder.
+- `estimate_compute_budget.py`'s `6ND` rule reproduces the published GPT-3-scale
+  training compute: 175e9 parameters over 300e9 tokens gives 3.15e23 FLOPs against the
+  widely quoted ~3.14e23, agreeing to within 1%. The MFU calculation was verified by
+  round-trip: feeding back the throughput implied by a chosen MFU recovers that MFU to
+  12 decimal places. The tokens-per-parameter regime classifier correctly labels
+  GPT-3's 1.7 tokens/param as undertrained, 20 as near compute-optimal, and 1000 as
+  overtrained.
+- `compare_model_runs.py`'s percentile bootstrap was checked against the analytic
+  `mean +/- 1.96 * stderr` interval on a 20-point sample, agreeing within 30% of one
+  standard error; reproducibility under a fixed seed and widening with confidence level
+  were verified directly. The minimum-detectable-effect formula was checked against its
+  closed form and its `1/sqrt(n)` scaling. Identical arms are correctly reported as not
+  significant, a uniform paired improvement as significant, and a single lucky seed
+  triggers the best-of-N warning. The shipped asset is the instructive case: the paired
+  difference is real while being smaller than either arm's own seed spread, and both
+  facts are reported.
+- `serving_capacity.py`'s replica sizing, utilization, and M/M/1 p99 sojourn time were
+  checked against closed forms, including the ceiling behavior (utilization never
+  exceeds the configured cap for any load from 10 to 9000 QPS) and the tail divergence
+  as utilization approaches 1, which is the quantitative claim the reference makes
+  about provisioning headroom. The batch-fill check has an exact analytic floor:
+  because utilization is capped, per-replica arrivals are bounded and the fill time
+  cannot fall below `batch_size / (capacity * max_utilization)` regardless of total
+  load - verified at 50.0 ms for the example configuration.
+- `check_split_integrity.py` was checked on constructed inputs with known answers for
+  duplicates, pairwise overlap, group leakage, and temporal violations. The key case is
+  covered explicitly: a manifest whose split IDs do **not** overlap at all but whose
+  groups do is correctly reported as leaking, which is the failure no metric shows.
+  The shipped asset exercises it and exits nonzero.
+- All five CLIs were exercised for invalid input (a plan file missing a required field,
+  a `TP x PP` factorization that does not divide world size, an out-of-range MFU, a
+  single-element score array, a nonexistent file) and confirmed to exit nonzero with a
+  one-line message rather than a traceback.
+- 102 new tests were added to `tests/test_deep_learning_skill.py` (4 pre-existing +
+  102 new = 106 total, `python3 -m unittest discover -s tests -v`), of which 3 are the
+  PyTorch cross-checks above and skip cleanly when PyTorch is absent.
+
+Two defects were found and fixed during this pass rather than shipped: the
+memory estimator initially advised dropping to plain DDP whenever utilization was low,
+including for configurations whose unsharded states would not fit at all (it now
+computes the stage-0 total and only suggests a lower stage when that would actually
+fit), and the serving planner's batch-fill condition compared the full fill time
+against twice the timeout, conflating it with the average wait (now compared directly,
+with the fill time itself reported).
+
+Structural checks: every relative Markdown link in the package resolves; all eight new
+references end in a `## Deliverables` section and cross-link down into the
+implementation references they sit on top of (1-7 links each); and their lengths
+(4.2-6.8 KB) sit inside the range of the bundle's existing content references, so the
+terse, code-forward house style is preserved.
+
 ## Limitations
 
-- PyTorch is not installed in this validation environment and could not be
-  installed (PyPI is blocked by network egress policy here), so the actual
-  tensor/model code paths in all six `scripts/*.py` files and all eight
-  `assets/*.py` templates were checked for syntax (`python3 -m py_compile`) and,
-  for the six diagnostic scripts, for correct argument parsing and graceful
-  degradation - not executed against real tensors, a real model, or a GPU/MPS
-  device.
+- **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that
+  PyTorch could not be installed here. PyTorch 2.11.0 *is* available in the current
+  environment, and was used to validate `estimate_training_memory.py` against real
+  allocations. The original limitation still stands for the files it named: the
+  tensor/model code paths in the six PyTorch-dependent `scripts/*.py` and the eight
+  `assets/*.py` templates were checked for syntax, argument parsing, and graceful
+  degradation at the time of those passes, and have not since been executed
+  end to end against real data or a GPU/MPS device.
+- No GPU is available here, so all memory and throughput figures are analytic
+  estimates validated against CPU-side tensor accounting; they were not compared
+  against `torch.cuda` allocator reports, and they exclude fragmentation,
+  communication buffers, and CUDA context overhead.
+- The five new standard-library scripts are design-level estimators. The serving
+  planner assumes Poisson arrivals and exponential service, which overstates the
+  latency tail for regular workloads and understates it for bursty ones; no load test
+  was run. `check_split_integrity.py` detects exact-ID and group leakage only, not
+  near-duplicates.
 - No real dataset, training run, or checkpoint file was available, so
   `assets/train_classifier.py`, `assets/vision_transfer.py`,
   `assets/ddp_train_skeleton.py`, and the synthetic-data `create_dataset()`

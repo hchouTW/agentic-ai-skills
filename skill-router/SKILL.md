@@ -1,6 +1,6 @@
 ---
 name: skill-router
-description: Use at the start of any non-trivial task to silently check whether one of the user's domain skills (agile-development, deep-learning, hep-analysis) applies before proceeding. Always consult this routing logic for any non-trivial software change (implement/fix/add/refactor/migrate/update, scoping, acceptance criteria, code review process), PyTorch model/training/DataLoader/debugging tasks, or HEP/CERN/ROOT/PyROOT/RDataFrame/uproot/Awkward/cutflow/systematics/fit/limit tasks, including detector subsystems (tracker, calorimeter, TRD, TOF, RICH, muon), event reconstruction, and Geant4/detector-simulation tasks - even if the user doesn't name a skill explicitly or use the word "skill."
+description: Use at the start of any non-trivial task to silently check whether one of the user's domain skills (agile-development, deep-learning, hep-analysis) applies before proceeding. Always consult this routing logic for any non-trivial software change (implement/fix/add/refactor/migrate/update, scoping, acceptance criteria, code review process), PyTorch model/training/DataLoader/debugging tasks, including architecture selection, parallelism strategy, compute/serving budgeting, ablation discipline, and data/evaluation strategy, or HEP/CERN/ROOT/PyROOT/RDataFrame/uproot/Awkward/cutflow/systematics/fit/limit tasks, including detector subsystems (tracker, calorimeter, TRD, TOF, RICH, muon), event reconstruction, and Geant4/detector-simulation tasks - even if the user doesn't name a skill explicitly or use the word "skill."
 ---
 
 # Skill Router
@@ -22,8 +22,13 @@ its workflow.
   precision, gradient accumulation, checkpointing, distributed training (DDP),
   reproducibility, inference, and performance/memory tuning. Also debugging
   tensor shape/device/dtype errors, NaNs, exploding gradients, and slow
-  dataloaders. Not for TensorFlow, JAX, or other frameworks - that skill is
-  explicitly PyTorch-only.
+  dataloaders. Covers senior-architect decisions around that code too:
+  choosing and sizing an architecture, scaling laws, parallelism strategy
+  (DDP vs. ZeRO/FSDP vs. tensor/pipeline/sequence), compute and cost
+  budgeting, MFU, ablation discipline and seed variance, dataset design and
+  split leakage, evaluation strategy and ship criteria, inference serving
+  capacity, and drift monitoring and rollout. Not for TensorFlow, JAX, or
+  other frameworks - that skill is explicitly PyTorch-only.
 - **hep-analysis** - collider and particle-physics data and simulation: ROOT
   C++, PyROOT, RDataFrame, uproot/awkward columnar pipelines, ntuples, event
   selections, cutflows, histograms, efficiencies and scale factors, yields,

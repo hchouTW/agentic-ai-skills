@@ -25,13 +25,20 @@ python3 scripts/check_dataset_contract.py --help
 python3 scripts/find_nan_batches.py --help
 python3 scripts/profile_dataloader.py --help
 python3 scripts/benchmark_model.py --help
+python3 scripts/estimate_training_memory.py assets/scaling_plan.example.json
+python3 scripts/estimate_compute_budget.py --params 7e9 --tokens 1.4e12 --gpus 64
+python3 scripts/compare_model_runs.py assets/eval_runs.example.json
+python3 scripts/serving_capacity.py --qps 500 --batch-size 16 --batch-latency-ms 40 --latency-budget-ms 250
+python3 scripts/check_split_integrity.py assets/dataset_splits.example.json
 ```
 
-All six require PyTorch to actually run (`check_pytorch_env.py` reports its absence clearly; the other five accept `--help` and fail with a clear message rather than a raw traceback when PyTorch is missing). None require a GPU; they fall back to CPU.
+The five estimator/checker scripts (`estimate_training_memory.py`, `estimate_compute_budget.py`, `compare_model_runs.py`, `serving_capacity.py`, `check_split_integrity.py`) are standard-library only and run without PyTorch; `check_split_integrity.py` exits nonzero on the shipped example, which deliberately contains a group leak. The other six require PyTorch to actually run (`check_pytorch_env.py` reports its absence clearly; the other five accept `--help` and fail with a clear message rather than a raw traceback when PyTorch is missing). None require a GPU; they fall back to CPU.
 
 ## Coverage and boundaries
 
 The package covers writing and reviewing PyTorch code: `nn.Module` models, training and evaluation loops, datasets and DataLoaders, losses, optimizers, schedulers, mixed precision, gradient accumulation, checkpointing, distributed training (DDP), reproducibility, inference, and performance/memory tuning, plus debugging tensor shape/device/dtype errors, NaNs, and slow dataloaders. It also covers Transformer/attention architectures and positional encoding, RNN/LSTM/GRU sequence models (packed sequences, teacher forcing, seq2seq), generative models (VAE/GAN/diffusion training loops and their characteristic failure modes), parameter-efficient fine-tuning (LoRA) and quantization, custom `autograd.Function`s/hooks/activation checkpointing, and model export and deployment (TorchScript, ONNX, `torch.compile` serving modes).
+
+It also covers the architect-level decisions around that code: choosing and sizing an architecture (inductive bias against data scale, depth/width, scaling laws and their limits, reviewing an architecture proposal); establishing that a change actually helped (seed variance as the noise floor, matched compute and tuning budgets, leave-one-out and add-one-in ablations, paired comparisons and the common confounds); training at scale (the memory equation and choosing among DDP, ZeRO/FSDP, tensor, pipeline and sequence parallelism; MFU, compute and cost budgeting, compute-optimal sizing, batch-size and learning-rate scaling, checkpointing and failure recovery, hyperparameter search under a budget); production serving (latency percentile and cost budgets, dynamic and continuous batching, KV-cache concurrency limits, capacity planning with utilization headroom); the model lifecycle (drift versus upstream data breakage, monitoring layers, regression suites, shadow/canary/staged rollout, versioning, retraining triggers, incident response); and data and evaluation strategy (label quality, splits that survive, group and temporal leakage, deduplication and contamination, imbalance, eval harness design, slice evaluation, behavioral tests, the offline-online gap, and ship criteria).
 
 It is explicitly PyTorch-only - not TensorFlow, JAX, or other frameworks - and does not cover general C++ unrelated to LibTorch/custom ops. For broader engineering process (scoping, testing, review), pair it with `agile-development`.
 
