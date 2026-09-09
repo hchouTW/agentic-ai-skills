@@ -1,6 +1,6 @@
 ---
 name: academic-papers
-description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, building a literature review or related-work section, finding/searching literature, verifying citations or claim support, auditing reproducibility/equations/manuscript consistency, systematic-review screening, drafting or restructuring a paper section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR, etc.), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing publication figures/tables, responding to referee reports or a rebuttal, or an adjacent artifact (poster/talk, preregistration, grant proposal, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle/cosmic-ray, and statistics/ML conventions, plus general academic writing. Trigger for even one piece of this pipeline (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
+description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR etc.), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
 ---
 
 # Academic Papers
@@ -65,6 +65,7 @@ Use it for any of:
 - Packaging the user's own code and data for public release alongside a paper
 - Drafting a grant or fellowship proposal (Specific Aims, budget justification,
   broader-impacts sections) — a related but distinct genre from a paper
+- Assembling a thesis or dissertation from the user's own already-published papers
 
 Do **not** reach for this skill for pure numerical/statistical work (fitting, limit
 setting, unfolding — `hep-analysis`; ablations, seed variance, proving an ML result
@@ -157,6 +158,12 @@ an ordinary summary does not require a full audit.
 - **Multi-venue reformatting:** adapt one manuscript's content across two
   venues (conference/journal extension, letter/full-paper companion) using
   `references/multi-venue-reformatting.md`.
+- **Comment/Reply exchange:** draft a formal post-publication Comment
+  disputing a specific claim, or a Reply to one, using
+  `references/comment-and-reply-exchange.md`.
+- **Erratum and corrigendum drafting:** classify and draft a correction
+  notice once the decision to correct the record is made, using
+  `references/erratum-and-corrigendum-drafting.md`.
 
 **Disclosure and compliance statements**
 - **Data and code availability statements:** describe verified repositories,
@@ -359,6 +366,12 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   venues with different class files or length limits (conference→journal
   extension, journal letter→full-paper companion), including duplicate-
   publication disclosure requirements
+- `references/comment-and-reply-exchange.md` — drafting a formal
+  post-publication Comment or Reply (PRL/PRD-family article type), distinct
+  from a pre-publication referee response
+- `references/erratum-and-corrigendum-drafting.md` — classifying and
+  drafting an erratum/corrigendum/addendum once the decision to correct the
+  published record has been made
 
 **Adjacent document types**
 - `references/poster-and-talk-design.md` — re-laying-out a paper's results
@@ -375,6 +388,10 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   research-statement structure, preliminary-results vs. proposed-work
   separation, broader-impacts sections, and budget-justification handling
   for a grant or fellowship proposal (a distinct genre from a paper)
+- `references/thesis-by-publication-assembly.md` — assembling a thesis from
+  the user's own already-published papers: institutional requirements,
+  copyright/reuse permissions, connective-material synthesis, per-chapter
+  contribution statements, and cross-paper inconsistency reconciliation
 
 ## Bundled scripts
 
