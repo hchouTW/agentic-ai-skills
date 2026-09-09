@@ -245,6 +245,107 @@ scripts, and assets were grepped for experiment names (AMS, CMS, ATLAS, ALICE,
 LHCb and others) to confirm the technology-organized, experiment-agnostic framing
 holds and that no synthetic value is presented as a real detector's measurement.
 
+## Astroparticle physics expansion pass (2026-09-09)
+
+Added eight reference files covering astroparticle and cosmic-ray physics
+alongside the existing collider-physics content:
+`references/32-cosmic-ray-spectrum-and-composition.md`,
+`references/33-extensive-air-showers.md`,
+`references/34-ground-based-detection-arrays.md`,
+`references/35-imaging-atmospheric-cherenkov.md`,
+`references/36-neutrino-astronomy.md`,
+`references/37-space-based-direct-detection.md`,
+`references/38-multimessenger-analysis.md`, and
+`references/39-astroparticle-statistics.md`. Added four new standard-library
+scripts implementing the formulas those references rely on -
+`scripts/li_ma_significance.py`, `scripts/geomagnetic_cutoff.py`,
+`scripts/cr_spectrum_powerlaw_fit.py`, and `scripts/xmax_gaisser_hillas.py` -
+plus `assets/cosmic_ray_spectrum.example.json` as a synthetic input, and
+`tests/test_astroparticle.py` as a separate test module (kept apart from
+`tests/test_helpers.py` given the distinct domain). `SKILL.md`'s title,
+frontmatter `description`, reference-routing table, executable-resources list,
+analysis invariants (three new entries: ON/OFF region non-overlap and trials
+accounting, top-of-atmosphere vs. modulated flux and cutoff reporting, and no
+single-observable composition claims given the muon-content/X_max
+discrepancy), and example requests; `README.md`'s title, quick checks,
+coverage section, and example prompts; `references/13-sources.md` (new
+citations, using plain-text book/journal citations rather than a guessed URL
+for sources without one, and hyperlinks only to stable official homepages);
+`agents/openai.yaml` was left unchanged (its metadata is already
+domain-agnostic); and `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`
+were all updated to match (bundle now reports 88 files, up from 74). The
+sibling `skill-router` skill and the repository README were extended with the
+same routing keywords.
+
+All four new scripts are pure Python standard library and were verified
+numerically, not merely for syntax:
+
+- `li_ma_significance.py` was checked against the closed-form boundary cases:
+  `N_off = 0` reduces to `S = sqrt(2*N_on*ln(2))` for alpha=1 (confirmed to
+  10 decimal places), `N_on = N_off = 0` returns exactly zero by convention,
+  and `N_on = alpha*N_off` (zero excess) returns exactly zero rather than a
+  tiny nonzero value from floating-point cancellation in the radicand. The
+  sign of the significance was confirmed to track the sign of the excess in
+  both directions (a symmetric-magnitude check swapping `N_on`/`N_off`), and
+  significance was confirmed to increase monotonically with a growing excess
+  at fixed alpha. Invalid input (negative or non-integer counts, nonpositive
+  alpha) was confirmed to raise a clear error, and the CLI was confirmed to
+  match the library function and to fail cleanly (no traceback) on bad input.
+- `geomagnetic_cutoff.py` was checked against the textbook equatorial value
+  (`59.6 / (1+sqrt(2))^2 ~= 10.23 GV` at the geomagnetic equator, sea level,
+  matching the standard dipole-approximation figure quoted in the cosmic-ray
+  literature), confirmed to fall monotonically from equator to pole, to be
+  symmetric under latitude sign, to vanish at the pole, and to decrease with
+  increasing altitude (larger `r`). The kinetic-energy-per-nucleon conversion
+  was checked to stay strictly below the rigidity (momentum) it derives from,
+  as required for a nonzero rest mass, and to reject non-positive or
+  inconsistent (A < Z) charge/mass-number input. The CLI was confirmed to
+  match the library function.
+- `cr_spectrum_powerlaw_fit.py` was validated by exact closure: a single
+  power law generated with no scatter at index 2.7 is recovered to 8+ decimal
+  places with a max log-flux residual below 1e-8, and a two-segment synthetic
+  spectrum (index 2.7 below and 3.1 above a break at 4e15 eV, continuous at
+  the break) has both indices and their difference recovered to 8+ decimal
+  places by the segmented fit - while a single power law forced onto the same
+  broken spectrum shows a residual more than 10x larger than either segment
+  of the correct fit, confirming the tool actually distinguishes a genuine
+  break from noise rather than trivially reporting a good fit either way. A
+  weighted fit (per-point `sigma_flux` supplied) was confirmed to still
+  recover the known index. Degenerate input (fewer than two distinct
+  energies, non-positive energy/flux, too few points on one side of a
+  requested break) was confirmed to raise a clear error, and the CLI was
+  confirmed to match the library function on the shipped asset and to fail
+  cleanly on a missing file.
+- `xmax_gaisser_hillas.py` was checked against the profile's defining
+  property `N(X_max) = N_max` to 1e-9 relative precision, confirmed to be
+  smaller on both sides of `X_max` (unimodality), and confirmed undefined
+  (`NaN`, not an exception) at or before the depth offset `X0`. The shower
+  age was confirmed to equal exactly 1 at `X_max` and 0 at `X0`, and to
+  increase monotonically with depth. The half-maximum-depth bisection was
+  confirmed to bracket `X_max` (one root below, one above) and to land within
+  0.01% of `N_max/2` at both roots. Geometrically invalid input
+  (`X_max <= X0`) was confirmed to raise a clear error rather than producing
+  a nonsensical or complex result, and the CLI was confirmed to match the
+  library function and fail cleanly on bad geometry.
+- 38 new tests were added in `tests/test_astroparticle.py` (98 pre-existing
+  in `tests/test_helpers.py` + 38 new = 136 total,
+  `python3 -m unittest discover -s tests -v`) covering all of the above.
+
+Additional structural checks for this pass: every relative Markdown link in
+the eight new reference files was confirmed to resolve to an existing file.
+The new references were grepped for named real observatories (Pierre Auger
+Observatory, Telescope Array, IceCube, KM3NeT, H.E.S.S., MAGIC, VERITAS, CTA,
+AMS-02) - each appears only as a canonical, publicly documented example of a
+detection *technique* (e.g. "hybrid surface-array/fluorescence design" or
+"in-ice Cherenkov telescope"), never with a specific numeric value presented
+as that facility's measurement, consistent with the same requirement enforced
+in the detector/reconstruction/simulation pass above. The sources table's new
+entries were checked to use plain-text citations (author/title/venue/year)
+for books and pre-arXiv journal papers rather than a guessed URL, and
+hyperlinks only for stable, well-known official homepages (PDG, Auger,
+IceCube, CTA) rather than a specific document path not independently
+confirmed.
+
 ## Limitations
 
 - ROOT is not installed in the validation environment, so `check_root_cpp_env.sh`
@@ -275,6 +376,28 @@ holds and that no synthetic value is presented as a real detector's measurement.
   at most 500. Extreme tails can underflow in floating-point arithmetic. It is not a
   general statistics package and does not calculate CLs.
 - The skill-creator `quick_validate.py` was not run in this environment.
+- `geomagnetic_cutoff.py` computes the idealized vertical Stormer dipole cutoff only;
+  it does not backtrace particles through a real (non-dipolar, epoch-specific) field
+  model, so it does not capture off-vertical arrival directions or the geomagnetic
+  penumbra, both flagged explicitly in its docstring and in
+  references/37-space-based-direct-detection.md.
+- `xmax_gaisser_hillas.py` evaluates a given or externally supplied Gaisser-Hillas
+  parameter set; it does not fit those four parameters from raw (X, N) shower-profile
+  samples, since that is a nonlinear least-squares problem outside this skill's
+  closed-form, no-minimizer script convention (see references/33-extensive-air-showers.md).
+- `cr_spectrum_powerlaw_fit.py` fits a spectral index directly from flux points; it
+  does not forward-fold through an instrument's energy migration matrix, so it should
+  not be used as a substitute for the forward-folding analysis a steeply falling,
+  finite-resolution measurement actually requires (see
+  references/39-astroparticle-statistics.md).
+- `li_ma_significance.py` computes a single ON/OFF significance only; it does not
+  itself apply a trials/look-elsewhere correction for a scan over multiple positions,
+  energy bins, or time windows (see references/39-astroparticle-statistics.md).
+- No real air-shower simulation (CORSIKA or similar), neutrino-telescope Monte Carlo,
+  or IACT instrument-response package was run; the astroparticle references
+  (`32`-`39`) are methodological guidance checked for internal consistency and
+  against the cited textbook/journal sources, not against a running simulation or a
+  real observatory's performance.
 
 In an environment with ROOT/PyROOT and skill-creator, additionally run the
 ROOT-dependent scripts against a real file and `quick_validate.py`. In the target

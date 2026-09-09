@@ -42,7 +42,13 @@ its workflow.
   (tracker/spectrometer, ECAL/HCAL calorimetry, TRD, TOF, RICH/Cherenkov,
   dE/dx, muon systems), particle identification, event reconstruction and
   truth matching, event generators, Geant4 detector simulation and
-  digitization, and calibration/alignment. Not for unrelated uses
+  digitization, and calibration/alignment. Also astroparticle and cosmic-ray
+  physics: the cosmic-ray spectrum and composition (knee/ankle/GZK), extensive
+  air showers and X_max, ground-based arrays (surface detector, fluorescence,
+  hybrid), imaging atmospheric Cherenkov gamma-ray astronomy, high-energy
+  neutrino telescopes, space-based/balloon direct detection (geomagnetic
+  cutoff, solar modulation), multi-messenger analysis, and Li & Ma
+  significance/trials-factor statistics. Not for unrelated uses
   of "root" (Linux root users, Android rooting, certificates, math or plant
   roots).
 

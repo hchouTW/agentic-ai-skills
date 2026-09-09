@@ -1,9 +1,9 @@
 ---
 name: hep-analysis
-description: Analyze high-energy physics experiment data and simulation, review or write ROOT C++, PyROOT, uproot/awkward-array, RDataFrame, and columnar analysis pipelines, construct statistical models, propagate systematic uncertainties, and validate measurements, fits, significance and limits. Use for collider or particle-physics event selections, cutflows, histograms/fits/plots, efficiencies/scale factors, yields, backgrounds, unfolding, RooFit/RooStats, pyhf or Combine, CMake/root-config builds, and debugging ROOT/PyROOT/RDataFrame errors; also jet clustering/JES/JER, b-tagging, MET, pileup jets; trigger tag-and-probe efficiency measurement, turn-on curves, prescales, luminosity normalization, pileup reweighting; and BDT/neural-network classifier training, feature engineering, and calibration for analysis. Also detector subsystems and their physics (tracker/spectrometer rigidity and multiple scattering, ECAL/HCAL calorimetry and shower development, TRD, TOF, RICH/Cherenkov, dE/dx, muon systems), particle identification and mass/isotope separation; event reconstruction (clustering, track finding, vertexing, particle flow, truth matching, reconstruction efficiency and fake rate); and the simulation chain (event generators, LHE/HepMC, Geant4 geometry, physics lists and production cuts, digitization, fast simulation, test-beam and in-situ calibration, alignment weak modes) - even if the user just says "my analysis script" or "this ROOT macro". Not for unrelated uses of ROOT (Linux root users, Android rooting, certificates, math/plant roots).
+description: Analyze high-energy physics and astroparticle physics experiment data and simulation, review or write ROOT C++, PyROOT, uproot/awkward-array, RDataFrame, and columnar analysis pipelines, construct statistical models, propagate systematic uncertainties, and validate measurements, fits, significance and limits. Use for collider or particle-physics event selections, cutflows, histograms/fits/plots, efficiencies/scale factors, yields, backgrounds, unfolding, RooFit/RooStats, pyhf or Combine, CMake/root-config builds, and debugging ROOT/PyROOT/RDataFrame errors; also jet clustering/JES/JER, b-tagging, MET, pileup jets; trigger tag-and-probe efficiency measurement, turn-on curves, prescales, luminosity normalization, pileup reweighting; and BDT/neural-network classifier training, feature engineering, and calibration for analysis. Also detector subsystems and their physics (tracker/spectrometer rigidity and multiple scattering, ECAL/HCAL calorimetry and shower development, TRD, TOF, RICH/Cherenkov, dE/dx, muon systems), particle identification and mass/isotope separation; event reconstruction (clustering, track finding, vertexing, particle flow, truth matching, reconstruction efficiency and fake rate); and the simulation chain (event generators, LHE/HepMC, Geant4 geometry, physics lists and production cuts, digitization, fast simulation, test-beam and in-situ calibration, alignment weak modes). Also astroparticle physics and cosmic-ray physics: the cosmic-ray energy spectrum and composition (knee, ankle, GZK), acceleration and propagation, extensive air showers and X_max, ground-based arrays (surface detector, fluorescence, hybrid reconstruction), imaging atmospheric Cherenkov gamma-ray astronomy (IACT, Hillas parameters, ON/OFF significance), high-energy neutrino telescopes (IceCube/KM3NeT-style track and cascade events, atmospheric background rejection), space-based/balloon direct detection (rigidity spectrometers, geomagnetic cutoff, solar modulation), multi-messenger coincidence analysis, and the Li & Ma significance/trials-factor statistics specific to point-source searches - even if the user just says "my analysis script", "this ROOT macro", "my air shower simulation", or "my gamma-ray/neutrino source search". Not for unrelated uses of ROOT (Linux root users, Android rooting, certificates, math/plant roots).
 ---
 
-# High-Energy Physics Experimental Analysis and Statistics
+# High-Energy Physics and Astroparticle Physics Experimental Analysis and Statistics
 
 Produce physically traceable, statistically sound, reproducible analyses. Support design, implementation, debugging, review, and explanation. Follow the user's language and established project tools; do not assume an experiment, collision energy, era, or input format. This skill and its reusable resources are maintained in English. Preserve existing physics behavior (cuts, weights, binning, fit models) unless the user explicitly asks for a physics change.
 
@@ -43,6 +43,9 @@ uproot for inspection, RDataFrame for production, ROOT files as interchange).
 - Detector-level quantities are inferred, not observed. Rigidity is `p/q`, not momentum; efficiency is not acceptance; a matched object is matched under a stated criterion. State the definition whenever one of these is quoted.
 - Distinguish frequentist confidence intervals from Bayesian credible intervals. Report the statistic, tail convention, nuisance treatment, and validity conditions.
 - Never change cuts, weights, binning, or fit models silently during a refactor - if a change risks altering physics output, say so and propose a comparison method (event count per cut, histogram integrals, max absolute/relative bin difference, fit parameters/uncertainties).
+- In an ON/OFF or blind sky-scan search, the OFF/background region must not overlap the ON region, and a reported significance must account for the number of independent trials (positions, energy bins, time windows, source catalogs) actually tested, not just the one presented.
+- Distinguish a flux measured at the top of the atmosphere or at an instrument from one corrected to the local interstellar spectrum; state the solar-modulation epoch/potential and the geomagnetic cutoff applied whenever a low-rigidity cosmic-ray flux is reported.
+- Do not draw a composition conclusion from a single shower observable (X_max or muon content alone) without stating the hadronic interaction model assumed and checking consistency against the other observable, given the current muon-content/X_max modeling discrepancy.
 
 ## Reference routing
 
@@ -79,6 +82,14 @@ uproot for inspection, RDataFrame for production, ROOT files as interchange).
 | Generators, LHE/HepMC, matching/merging, negative weights, PDF and scale variations | [Event generation](references/29-event-generation.md) |
 | Geant4 geometry/physics lists/production cuts, digitization, fast simulation, simulation validation | [Detector simulation](references/30-detector-simulation.md) |
 | Test-beam and in-situ calibration, alignment weak modes, conditions time dependence | [Calibration and alignment](references/31-calibration-and-alignment.md) |
+| Cosmic-ray spectrum features (knee/ankle/GZK), composition, acceleration, propagation, solar modulation | [Cosmic-ray spectrum and composition](references/32-cosmic-ray-spectrum-and-composition.md) |
+| Extensive air showers, Heitler-Matthews model, Gaisser-Hillas/Greisen profiles, X_max, muon puzzle | [Extensive air showers](references/33-extensive-air-showers.md) |
+| Surface detector arrays, fluorescence detectors, hybrid reconstruction, atmospheric monitoring | [Ground-based detection arrays](references/34-ground-based-detection-arrays.md) |
+| IACT gamma-ray astronomy, Hillas parameters, gamma/hadron separation, ON/OFF significance | [Imaging atmospheric Cherenkov](references/35-imaging-atmospheric-cherenkov.md) |
+| Neutrino telescopes, track/cascade/double-bang topologies, atmospheric background rejection | [Neutrino astronomy](references/36-neutrino-astronomy.md) |
+| Balloon/satellite direct detection, geomagnetic cutoff, solar modulation, antiparticle excesses | [Space-based direct detection](references/37-space-based-direct-detection.md) |
+| Multi-messenger coincidence analysis, alert follow-up, trials/timing/pointing systematics | [Multi-messenger analysis](references/38-multimessenger-analysis.md) |
+| Li & Ma significance, sky-scan/catalog trials factor, exposure/forward-folding for steep spectra | [Astroparticle statistics](references/39-astroparticle-statistics.md) |
 
 ## Code file requirement
 
@@ -108,11 +119,16 @@ for the full naming, comment, and documentation convention.
 - `scripts/cherenkov_angle.py`: RICH threshold momenta, Cherenkov angle and its saturation, photon yield, per-track angular resolution, and the resulting velocity/mass resolution and species separation (standard library only; a design estimate, not a ring-reconstruction simulation).
 - `scripts/summarize_histogram_statistics.py`: entries, integral, sum of weights, bin edges, negative bins for a histogram in a ROOT file (requires PyROOT).
 - `scripts/roofit_workspace_summary.py`: summarize a `RooWorkspace` (variables, PDFs, datasets, functions, snapshots) (requires PyROOT).
+- `scripts/li_ma_significance.py`: exact Li & Ma (1983) likelihood-ratio significance for an ON/OFF counting measurement, including the N_on=0/N_off=0 boundary terms (standard library only; no trials/look-elsewhere correction - see reference 39).
+- `scripts/geomagnetic_cutoff.py`: analytic vertical Stormer dipole geomagnetic cutoff rigidity at a given geomagnetic latitude/altitude, with an optional conversion to minimum kinetic energy per nucleon for a given (Z, A) (standard library only; an idealized-dipole first-order estimate, **not** a substitute for particle backtracing through a full field model).
+- `scripts/cr_spectrum_powerlaw_fit.py`: exact (weighted) linear least-squares power-law fit to a flux-vs-energy spectrum in log-log space, single or two-segment (given a break energy), reporting the index(es) and their uncertainty (standard library only).
+- `scripts/xmax_gaisser_hillas.py`: evaluate the Gaisser-Hillas air-shower longitudinal profile, shower age, and half-maximum depths for a given or externally fitted parameter set (standard library only; an evaluator, not a nonlinear curve fitter).
 - `scripts/validate_skill_bundle.py`: check that this package's own files (SKILL.md, README.md, references, scripts, assets, tests) are all present and non-empty, and that SKILL.md/README.md have their expected structure (standard library only).
 - `assets/histograms.example.json`: synthetic audit input for `audit_histograms.py`; see the [schema](references/12-validation.md).
 - `assets/pileup_profiles.example.json`: synthetic data/MC pileup profile pair for `pileup_reweight.py`.
 - `assets/detector_stack.example.json`: synthetic layered detector stack (material budget per layer, field, lever arm, point resolution) for `multiple_scattering.py`. Illustrative geometry, not any real experiment.
 - `assets/calorimeter_response.example.json`: synthetic `(E, sigma_E/E)` points generated exactly from stated `a`, `b`, `c` values, so a correct fit recovers them; input for `calorimeter_resolution.py`.
+- `assets/cosmic_ray_spectrum.example.json`: synthetic broken-power-law flux points generated exactly from stated indices and a break energy, so a segmented fit recovers them; input for `cr_spectrum_powerlaw_fit.py`.
 - `assets/analysis-contract.yaml`, `assets/systematics.csv`, `assets/report-template.md`: reusable analysis, correlation, and reporting templates.
 - `assets/pyhf-counting.json`: a synthetic single-bin workspace. Never present its values as experimental results.
 - `assets/uproot_awkward_analysis.py`, `assets/pyroot_rdataframe_analysis.py`, `assets/cpp_rdataframe_analysis.cpp`, `assets/rdf_analysis.cpp`: starting templates (copy and adapt) for uproot+awkward and RDataFrame (Python/C++) selection-and-histogram skeletons.
@@ -138,5 +154,10 @@ Resolve relative paths from the skill directory. Read a script's `--help` before
 - "My data and simulation disagree in tracking efficiency at low momentum but agree at high - where should I look?"
 - "Review how this analysis defines truth matching and reconstruction efficiency."
 - "What should I check before trusting fast simulation for this measurement?"
+- "Is a 4.8-sigma excess in my ON/OFF gamma-ray source search significant after accounting for the sky scan?"
+- "Why does my composition analysis using X_max disagree with the one using muon content?"
+- "Estimate the geomagnetic cutoff for a low-inclination low-Earth orbit and what minimum rigidity my spectrometer needs to see."
+- "Review my IceCube-style point-source likelihood - is the background estimation and trials factor right?"
+- "Fit the spectral break in this cosmic-ray flux and check whether it's consistent with a knee-like feature."
 
 See [README.md](README.md) for installation and cross-agent use. For the broader engineering workflow around this code (scoping, tests, review discipline), pair with a general software-engineering skill if one is available.

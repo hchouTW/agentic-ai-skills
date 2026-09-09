@@ -1,4 +1,4 @@
-# High-Energy Physics Experimental Analysis and Statistics Skill
+# High-Energy Physics and Astroparticle Physics Experimental Analysis and Statistics Skill
 
 A portable Agent Skill maintained entirely in English. Its core is `SKILL.md` plus references resolved through relative paths. It requires no specific MCP server, cloud account, or paid service. It supplies analysis decisions and verification procedures, not experiment-internal calibrations or official collaboration policy.
 
@@ -36,10 +36,14 @@ python3 scripts/multiple_scattering.py assets/detector_stack.example.json --rigi
 python3 scripts/calorimeter_resolution.py --fit assets/calorimeter_response.example.json
 python3 scripts/pid_separation_power.py --mode tof --species pi K --momentum 2.0 --path 1.2 --time-resolution 60
 python3 scripts/cherenkov_angle.py --index 1.05 --species pi K --momentum 10
+python3 scripts/li_ma_significance.py --on 15 --off 5 --alpha 0.5
+python3 scripts/geomagnetic_cutoff.py --latitude 41.5
+python3 scripts/cr_spectrum_powerlaw_fit.py --input assets/cosmic_ray_spectrum.example.json --break-energy 4.0e15
+python3 scripts/xmax_gaisser_hillas.py --n-max 2e7 --x-max 750 --x0 -60 --lambda-param 60 --depths 400,750,900
 bash scripts/check_root_cpp_env.sh
 ```
 
-The first ten use only the Python standard library. `check_root_cpp_env.sh` and the
+The first thirteen use only the Python standard library. `check_root_cpp_env.sh` and the
 remaining `scripts/*_root*`/`inspect_root_file.*`/`compare_root_histograms.py`/
 `summarize_histogram_statistics.py`/`roofit_workspace_summary.py` scripts require a
 ROOT/PyROOT installation to run (they were syntax-checked, not executed, in an
@@ -54,6 +58,8 @@ The package covers data quality, object selection, triggers, MC normalization, h
 
 It further covers the detector, reconstruction, and simulation layers beneath all of that, organized by detector technology and assuming no particular experiment: subsystem layout, magnetic spectrometry (rigidity versus momentum, material budget, multiple scattering, maximum detectable rigidity, charge confusion), silicon and gas tracking with pattern recognition and Kalman fitting, vertexing, electromagnetic and hadronic calorimetry (shower development, the stochastic/noise/constant resolution decomposition, e/h non-compensation, leakage), and particle identification across TRD, time-of-flight, RICH/Cherenkov, dE/dx, and muon systems including combined PID likelihoods and isotope separation. On top of that it covers event reconstruction (clustering, track-cluster association and particle-flow subtraction, ambiguity resolution, reconstruction under pileup) and reconstruction performance (truth-matching criteria, efficiency versus fake rate versus purity, resolution and bias, scale factors, closure tests), and the full simulation chain from event generation (matching/merging, negative weights, PDF and scale variations) through Geant4 full simulation (geometry and material budget, physics lists, production cuts, digitization, fast simulation) to calibration and alignment (test-beam versus in-situ, alignment weak modes and charge-antisymmetric rigidity bias, time-dependent conditions).
 
+It also covers astroparticle and cosmic-ray physics: the cosmic-ray spectrum and its knee/ankle/GZK features, composition observables and the muon-content/X_max discrepancy, Fermi acceleration and the Hillas criterion, Galactic propagation and secondary/primary ratios, extensive air showers (Heitler-Matthews toy model, Gaisser-Hillas/Greisen longitudinal profiles, shower universality), ground-based detection (surface arrays, fluorescence, hybrid reconstruction, atmospheric monitoring), imaging atmospheric Cherenkov gamma-ray astronomy (Hillas-parameter and multivariate gamma/hadron separation, ON/OFF background estimation), high-energy neutrino telescopes (track/cascade/double-bang topologies, atmospheric-background rejection), space-based and balloon direct detection (geomagnetic cutoff, solar modulation, antiparticle-excess interpretation), multi-messenger coincidence analysis, and the Li & Ma significance and sky-scan/catalog trials-factor statistics this domain requires.
+
 It primarily addresses event counts, templates, and common particle-physics measurements. Time-dependent oscillations, full amplitude analyses, heavy-ion centrality and flow, hardware calibration, and lattice QCD require additional specialized models. Follow the experiment's data-governance and unblinding rules when using internal data.
 
 All maintained instructions, templates, metadata, comments, and validation notes are in English. The skill can still answer a user in their requested language.
@@ -65,3 +71,5 @@ All maintained instructions, templates, metadata, comments, and validation notes
 "Use this skill to build a nuisance-correlation table and likelihood from my SR/CR templates. Start with Asimov data, assess fit diagnostics and coverage requirements, then calculate the expected limit."
 
 "Write an RDataFrame selection for >=2 muons with pT>25 GeV, make a pT histogram with a cutflow, and set up the CMake build for it."
+
+"Use this skill to check whether my gamma-ray source excess is significant once the sky-scan trials factor is included, and to fit the cosmic-ray spectrum's break energy from my flux table."
