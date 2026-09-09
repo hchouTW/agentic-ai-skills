@@ -18,6 +18,7 @@ chapters. Read the relevant subsection rather than the whole file when time-pres
 - [Thesis chapters](#thesis-chapters)
 - [Proceedings](#proceedings)
 - [Astroparticle and cosmic-ray papers](#astroparticle-and-cosmic-ray-papers)
+- [Outreach and public-facing summaries](#outreach-and-public-facing-summaries)
 
 ## Title
 
@@ -176,3 +177,34 @@ systematics. See `astroparticle-and-cosmic-ray-papers.md` for the full treatment
 including venue-specific conventions (JCAP, ApJ/ApJL, Astroparticle Physics),
 collaboration author-list handling for ground arrays/IACTs/space detectors, and
 skymap/energy-spectrum figure conventions.
+
+## Outreach and public-facing summaries
+
+A different document from the paper itself: a plain-language summary for a
+collaboration or institution website, aimed at a general audience rather than
+referees. AMS-02's `ams02.space/physics/*` pages are a good worked example — each
+one is a short public summary paired 1:1 with a specific PRL result (e.g. "Towards
+Understanding Origin of Cosmic-Ray Positrons" summarizing the corresponding PRL
+paper). Structure:
+
+1. **One headline sentence in plain language** — the result, not the method, with
+   jargon either cut or immediately explained ("cosmic rays — high-energy particles
+   from space — ...").
+2. **One analogy or framing sentence** for the physics question, aimed at a reader
+   with no physics background.
+3. **One figure**, usually the paper's own headline plot, simplified or re-labeled
+   if the original axis labels assume physics literacy.
+4. **A short "why it matters" close** — connects to a bigger open question (dark
+   matter, the origin of cosmic rays, antimatter in the universe) without
+   overselling.
+
+Rules that don't relax just because the audience is general:
+- **Never state a number, uncertainty, or significance not in the paper itself** —
+  a public summary can omit precision, not invent it.
+- **Match the paper's own significance language**: if the paper says "excess" or
+  "hint," the public summary should not upgrade that to "discovery" — see
+  `scientific-style.md`'s significance-language table, which applies to outreach
+  writing just as much as the paper itself.
+- Simplify the *explanation*, not the *claim* — a public summary that makes the
+  result sound bigger than the paper's own abstract is a form of overstating
+  significance, even without a technical error in it.

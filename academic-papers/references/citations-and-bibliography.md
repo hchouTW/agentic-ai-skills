@@ -6,6 +6,7 @@
 - [BibTeX hygiene](#bibtex-hygiene)
 - [Citation style by venue](#citation-style-by-venue)
 - [What to cite, and how much](#what-to-cite-and-how-much)
+- [Linking supplemental material and data](#linking-supplemental-material-and-data)
 - [Avoiding common bibliography mistakes](#avoiding-common-bibliography-mistakes)
 
 ## INSPIRE-HEP workflow
@@ -91,6 +92,25 @@ handle it; manual tweaks break on any bibliography addition/removal.
   differ.
 - Avoid citation stuffing (a string of 5+ references for an uncontroversial
   general statement) — pick the 1-2 most relevant/foundational.
+
+## Linking supplemental material and data
+
+Beyond the reference list itself, point readers to where the underlying numbers
+live:
+
+- **HEPData** (`hepdata.net`) is the standard repository for collider-physics
+  digitized tables, cutflows, and machine-readable versions of a paper's plots —
+  link it explicitly in the paper (footnote or a dedicated "Data availability"
+  statement) rather than assuming a reader will find it by searching.
+- **Some collaborations host supplemental data on their own site instead of, or in
+  addition to, HEPData.** AMS-02 is a concrete example: its publications page
+  (`ams02.space/publications`) links "supplemental material and data" per paper
+  directly alongside the journal DOI, separate from any HEPData record. Check the
+  specific collaboration's convention before assuming HEPData is the only place a
+  result's tables will be published.
+- State clearly in the paper *which* venue holds the data (HEPData record number,
+  a collaboration data-release URL, or a Zenodo/institutional DOI) rather than a
+  vague "data available upon request," which most venues now discourage or forbid.
 
 ## Avoiding common bibliography mistakes
 

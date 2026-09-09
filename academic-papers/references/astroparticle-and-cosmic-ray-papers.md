@@ -17,6 +17,7 @@ that physics is already worked out and focuses on how to write it up.
 - [Journals and venues](#journals-and-venues)
 - [Collaboration author lists and acknowledgments](#collaboration-author-lists-and-acknowledgments)
 - [Citations: ADS vs. INSPIRE-HEP](#citations-ads-vs-inspire-hep)
+- [Worked example: AMS-02's publication pattern](#worked-example-ams-02s-publication-pattern)
 - [Figures: spectra, skymaps, and exposure](#figures-spectra-skymaps-and-exposure)
 - [Phrasing conventions specific to this field](#phrasing-conventions-specific-to-this-field)
 - [Reading checklist additions](#reading-checklist-additions)
@@ -119,6 +120,52 @@ astronomy (rather than particle-physics) readership:
   (`\citep{}`/`\citet{}`) rather than the numbered style collider-physics venues use
   — check the specific venue's current style file rather than assuming numbered
   citations carry over.
+
+## Worked example: AMS-02's publication pattern
+
+The Alpha Magnetic Spectrometer (AMS-02) collaboration (source: `ams02.space`,
+cross-checked against INSPIRE-HEP records) is a useful concrete illustration of
+several points above, precisely because it deviates from the "typical" pattern in a
+few visible ways:
+
+- **Single-venue, letter-only publishing.** Of AMS-02's ~30 collaboration papers
+  (2013–2026), essentially all are Physical Review Letters — short, headline-result
+  papers rather than long PRD-style methods papers. Don't assume every large
+  collaboration spreads results across PRL *and* PRD the way collider experiments
+  often do; check the specific collaboration's own publication list rather than
+  defaulting to the collider pattern.
+- **No arXiv preprint, by design.** Checking INSPIRE-HEP directly (not just the
+  collaboration's own site) confirms AMS-02's PRL papers carry no `arxiv_eprints`
+  field at all — e.g. "Properties of Iron Primary Cosmic Rays" (PRL 126, 041104,
+  2021) and the 2016 antiproton-flux PRL are both published with no arXiv companion.
+  This is a deliberate collaboration policy, not a missing upload: **do not assume
+  every physics paper has, or will get, an arXiv preprint** — ask the user which
+  policy their own collaboration follows before defaulting to "post to arXiv first."
+- **One long review alongside many short letters.** "The Alpha Magnetic Spectrometer
+  on the International Space Station: Part II — Results from the First Seven Years"
+  is published in *Physics Reports*, not PRL — a single comprehensive review sitting
+  alongside dozens of individual-result letters. This is the review-article pattern
+  from `paper-structure.md`'s "Review articles" section applied at collaboration
+  scale: a Phys. Rept. periodically consolidates and cross-references the individual
+  PRL results rather than duplicating their derivations.
+- **A very large, structured author list.** AMS-02 is 44 institutions across the
+  Americas, Europe, and Asia, with one PI (Samuel C. C. Ting) and six named deputy
+  PIs, operating out of CERN (which hosts the Payload Operations Control Center) in
+  partnership with NASA and ESA. This is exactly the scale where
+  "Collaboration author lists and acknowledgments" above applies literally — get the
+  current author-list macro and acknowledgments boilerplate from the collaboration
+  rather than drafting anything by hand.
+- **Per-paper supplemental data links, separate from the journal.** AMS-02's own
+  publications page links "supplemental material and data" for each paper directly
+  from the collaboration website, alongside (not instead of) the journal's own DOI
+  and an INSPIRE-HEP citation-count link. When citing or building on an AMS-02
+  result, check the collaboration site for this supplemental link, not just the
+  journal page — the underlying flux tables are often published there rather than
+  (or in addition to) HEPData.
+
+For the physics/instrument content behind these papers (the AMS-02 detector,
+analysis techniques, and results themselves), see `hep-analysis`'s dedicated case
+study — this section is only about the publication pattern.
 
 ## Figures: spectra, skymaps, and exposure
 

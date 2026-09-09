@@ -38,6 +38,8 @@ Use it for any of:
 - Drafting a paper from scratch, given results/notes/plots the user already has
 - Structuring or restructuring a section (abstract, intro, results, discussion, conclusion)
 - Converting an internal analysis note into a paper draft, or a paper into a talk/proceedings
+- Writing a plain-language public/outreach summary of a published result for a
+  collaboration or institution website
 - LaTeX formatting: REVTeX (PRL/PRD/PRX), JHEP class, EPJC/Springer, JCAP, AASTeX
   (ApJ/ApJL), Elsevier `elsarticle` (Astroparticle Physics journal), general `article`
 - Building, cleaning, or deduplicating a BibTeX file; fixing INSPIRE-HEP citation
@@ -171,7 +173,9 @@ review:
   and cosmic-ray papers (ground arrays, IACTs, neutrino observatories, space-based
   direct detection): exposure vs. luminosity, arrival-direction/anisotropy sections,
   JCAP/ApJ/Astroparticle Physics venues, ADS/bibcode citations, skymap conventions,
-  pre-trial vs. post-trial significance
+  pre-trial vs. post-trial significance, and a worked AMS-02 publication-pattern
+  case study (letter-only/no-arXiv publishing, a Phys. Rept. review alongside PRL
+  letters, 44-institution author-list scale)
 - `references/latex-and-formatting.md` — REVTeX/JHEP/Springer setup, common compile
   errors, equations/units conventions, length-limit tricks
 - `references/figures-and-tables.md` — plot design for publication (following on from
