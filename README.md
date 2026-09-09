@@ -11,7 +11,7 @@ service.
 | Skill | What it covers |
 |---|---|
 | [`skill-router`](skill-router/) | Triage step run at the start of any non-trivial task; routes to the right domain skill below. |
-| [`agile-development`](agile-development/) | Turning a software request into a small, verified, reviewable increment: scoping, acceptance criteria, validation plans, code review, incident response. |
+| [`agile-development`](agile-development/) | Turning a software request into a small, verified, reviewable increment: scoping, acceptance criteria, validation plans, code review, incident response — plus implementation discipline: ask vs. assume, minimum code, surgical diffs, verifiable done. |
 | [`deep-learning`](deep-learning/) | PyTorch engineering: models, training/eval loops, DataLoaders, mixed precision, DDP, LoRA, profiling, export, and debugging NaNs/shapes/perf — plus architect-level work: architecture selection and scaling laws, parallelism strategy and compute budgeting, ablation discipline, serving capacity, and data/evaluation strategy. |
 | [`hep-analysis`](hep-analysis/) | High-energy physics: ROOT C++, PyROOT, uproot/awkward, RDataFrame, cutflows, systematics, fits, limits, unfolding — plus detector subsystems (tracking, calorimetry, TRD/TOF/RICH particle ID), event reconstruction, and the generator→Geant4→calibration simulation chain. |
 

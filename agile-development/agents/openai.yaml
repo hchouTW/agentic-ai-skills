@@ -1,4 +1,4 @@
 interface:
   display_name: "Agile Development Workflow"
-  short_description: "Scope, implement, test, and report software changes as small reviewable increments"
+  short_description: "Scope, implement, test, and report software changes as small, surgical, verified increments"
   default_prompt: "Use $agile-development to scope this change, write acceptance criteria and a validation plan, implement the smallest reviewable slice, and report what changed and what was verified."

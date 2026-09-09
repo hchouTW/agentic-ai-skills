@@ -25,6 +25,7 @@ REQUIRED_PATHS = [
     "references/cpp-balanced-design-guidelines.md",
     "references/design-and-estimation.md",
     "references/engineering-playbook.md",
+    "references/implementation-discipline.md",
     "references/product-framing.md",
     "references/risk-and-quality.md",
     "references/validation-and-done.md",

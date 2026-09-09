@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import subprocess
+import tempfile
 import sys
 import unittest
 from pathlib import Path
@@ -130,3 +131,164 @@ class ValidateAgileNotesTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PlanStepParsingTests(unittest.TestCase):
+    """Parsing numbered plan steps and their verification clauses."""
+
+    def test_parses_step_number_text_and_verification(self):
+        steps = validate_agile_notes.find_plan_steps(
+            "1. Add the parser -> verify: unit test covers the new flag\n")
+        self.assertEqual(steps, [(1, "Add the parser", "unit test covers the new flag")])
+
+    def test_step_without_verification_reports_none(self):
+        steps = validate_agile_notes.find_plan_steps("2. Ship it\n")
+        self.assertEqual(steps, [(2, "Ship it", None)])
+
+    def test_accepts_arrow_and_bare_verify_forms(self):
+        for line in ("1. Do a thing -> verify: the test passes",
+                     "1. Do a thing \u2192 verify: the test passes",
+                     "1. Do a thing --> verify: the test passes",
+                     "1. Do a thing. verify: the test passes"):
+            with self.subTest(line=line):
+                steps = validate_agile_notes.find_plan_steps(line)
+                self.assertEqual(len(steps), 1)
+                self.assertEqual(steps[0][2], "the test passes")
+
+    def test_accepts_verification_spelling_and_is_case_insensitive(self):
+        steps = validate_agile_notes.find_plan_steps("3. Do it -> Verification: CI is green")
+        self.assertEqual(steps[0][2], "CI is green")
+
+    def test_accepts_paren_numbering(self):
+        self.assertEqual(
+            validate_agile_notes.find_plan_steps("4) Do it -> verify: it exits zero"),
+            [(4, "Do it", "it exits zero")])
+
+    def test_ignores_lines_that_are_not_numbered_steps(self):
+        text = "# Plan\n\nSome prose about verify: not a step\n- bullet\n"
+        self.assertEqual(validate_agile_notes.find_plan_steps(text), [])
+
+    def test_parses_a_multi_step_plan_in_order(self):
+        text = ("1. First -> verify: a\n"
+                "2. Second -> verify: b\n"
+                "3. Third\n")
+        steps = validate_agile_notes.find_plan_steps(text)
+        self.assertEqual([n for n, _, _ in steps], [1, 2, 3])
+        self.assertEqual([v for _, _, v in steps], ["a", "b", None])
+
+
+class WeakVerificationTests(unittest.TestCase):
+    """A verification that asserts nothing checkable is not a verification."""
+
+    def test_placeholders_are_rejected(self):
+        for weak in ("looks right", "Looks Right", "it works", "works",
+                     "should work", "done.", "  fine  ", "no errors"):
+            with self.subTest(weak=weak):
+                self.assertTrue(validate_agile_notes.is_weak_verification(weak))
+
+    def test_real_verifications_are_accepted(self):
+        for strong in ("the unit test passes", "CI is green",
+                       "python3 -m unittest discover -s tests exits zero",
+                       "the endpoint returns 404 for a missing id",
+                       "throughput measured above 1000 rps"):
+            with self.subTest(strong=strong):
+                self.assertFalse(validate_agile_notes.is_weak_verification(strong))
+
+
+class PlanVerificationCheckTests(unittest.TestCase):
+    """The opt-in plan check, including the no-plan case."""
+
+    GOOD = ("1. Add the flag -> verify: unit test covers it\n"
+            "2. Wire it up -> verify: CLI exits 1 on a bad note\n")
+
+    def test_fully_verified_plan_passes(self):
+        self.assertEqual(validate_agile_notes.check_plan_verification(self.GOOD), [])
+
+    def test_missing_verification_is_reported_with_its_step_number(self):
+        problems = validate_agile_notes.check_plan_verification(self.GOOD + "3. Ship it\n")
+        self.assertEqual(len(problems), 1)
+        self.assertIn("step 3", problems[0])
+        self.assertIn("no verification", problems[0])
+
+    def test_placeholder_verification_is_reported_separately(self):
+        problems = validate_agile_notes.check_plan_verification(
+            self.GOOD + "3. Update docs -> verify: looks right\n")
+        self.assertEqual(len(problems), 1)
+        self.assertIn("placeholder", problems[0])
+        self.assertIn("looks right", problems[0])
+
+    def test_both_problem_kinds_are_reported_together(self):
+        problems = validate_agile_notes.check_plan_verification(
+            self.GOOD + "3. Update docs -> verify: works\n4. Ship it\n")
+        self.assertEqual(len(problems), 2)
+
+    def test_absent_plan_is_a_problem_not_a_pass(self):
+        problems = validate_agile_notes.check_plan_verification("# Story\n\nprose only\n")
+        self.assertEqual(len(problems), 1)
+        self.assertIn("no numbered plan steps", problems[0])
+
+    def test_long_step_text_is_truncated_in_the_message(self):
+        long_step = "1. " + "x" * 200 + "\n"
+        problems = validate_agile_notes.check_plan_verification(long_step)
+        self.assertIn("...", problems[0])
+        self.assertLess(len(problems[0]), 120)
+
+
+class ValidateNotesCliOptInTests(unittest.TestCase):
+    """The new flags are opt-in: default behavior must be unchanged."""
+
+    SCRIPT = str(ROOT / "scripts/validate_agile_notes.py")
+    NOTE = ("# Story\n\n## Acceptance Criteria\n\n## Validation\n\n## Risks\n\n"
+            "1. Add the flag -> verify: unit test covers it\n"
+            "2. Ship it\n")
+
+    def _write(self, text):
+        handle = tempfile.NamedTemporaryFile("w", suffix=".md", delete=False)
+        handle.write(text)
+        handle.close()
+        self.addCleanup(lambda: Path(handle.name).unlink(missing_ok=True))
+        return handle.name
+
+    def _run(self, path, *flags):
+        return subprocess.run([sys.executable, self.SCRIPT, path, *flags],
+                              capture_output=True, text=True)
+
+    def test_default_run_ignores_an_unverified_plan(self):
+        # The regression gate: a note that fails the new check must still pass by default.
+        result = self._run(self._write(self.NOTE))
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertIn("ok", result.stdout)
+
+    def test_plan_flag_fails_the_same_note(self):
+        result = self._run(self._write(self.NOTE), "--require-plan-verification")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("step 2", result.stdout)
+
+    def test_plan_flag_passes_a_fully_verified_note(self):
+        good = self.NOTE.replace("2. Ship it", "2. Ship it -> verify: the release job is green")
+        result = self._run(self._write(good), "--require-plan-verification")
+        self.assertEqual(result.returncode, 0, result.stdout)
+
+    def test_assumptions_flag_adds_to_defaults_rather_than_replacing(self):
+        result = self._run(self._write(self.NOTE), "--require-assumptions")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("assumptions", result.stdout)
+        # The default sections are still required alongside it.
+        bare = self._run(self._write("# Assumptions\n"), "--require-assumptions")
+        self.assertEqual(bare.returncode, 1)
+        self.assertIn("story", bare.stdout)
+
+    def test_assumptions_flag_passes_when_the_heading_is_present(self):
+        result = self._run(self._write(self.NOTE + "\n## Assumptions\n"),
+                           "--require-assumptions")
+        self.assertEqual(result.returncode, 0, result.stdout)
+
+    def test_shipped_story_card_still_passes_by_default(self):
+        result = self._run(str(ROOT / "assets/story-card.md"))
+        self.assertEqual(result.returncode, 0, result.stdout)
+
+    def test_missing_file_still_exits_two_with_the_new_flags(self):
+        result = self._run(str(ROOT / "tests/does-not-exist.md"),
+                           "--require-plan-verification")
+        self.assertEqual(result.returncode, 2)
+        self.assertNotIn("Traceback", result.stderr)

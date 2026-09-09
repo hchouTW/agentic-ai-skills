@@ -15,8 +15,12 @@ its workflow.
 - **agile-development** - any non-trivial software change: new features, bug
   fixes, refactors, endpoints, UI work, migrations, dependency updates. Also
   scoping, task breakdown, acceptance criteria, validation plans, and code
-  review process. Triggers on "implement", "fix", "add", "refactor",
-  "migrate", or "update" code, even without the word "Agile".
+  review process. Also implementation discipline: whether to ask or assume on
+  an ambiguous request, keeping a change minimal and surgical rather than
+  overcomplicated, avoiding scope creep and unrelated refactors, and defining
+  verifiable success criteria. Triggers on "implement", "fix", "add",
+  "refactor", "migrate", or "update" code, and on "is this overcomplicated" or
+  "am I over-engineering this", even without the word "Agile".
 - **deep-learning** - PyTorch engineering: nn.Module models, training and eval
   loops, datasets and DataLoaders, losses, optimizers, schedulers, mixed
   precision, gradient accumulation, checkpointing, distributed training (DDP),
