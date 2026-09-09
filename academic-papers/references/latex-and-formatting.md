@@ -24,6 +24,7 @@ version from the authoritative source:
 - JHEP: SISSA's JHEP author guidelines page (`JHEP3.cls`, `JHEP.bst`).
 - EPJC: Springer's `svjour3`/`spphys` LaTeX package for Physics journals.
 - Nature family: Nature's LaTeX template page (or submit in Word, per journal).
+- JCAP / ApJ / Astroparticle Physics (Elsevier): see "Astroparticle venues" below.
 
 If offline or unsure of the exact current filename/version, tell the user to
 pull it fresh from the journal's site rather than guessing — a stale or

@@ -1,8 +1,9 @@
 # Paper Structure
 
 Detailed section-by-section guidance for physics papers, plus notes on how the
-structure shifts for theory papers, review articles, proceedings, and thesis
-chapters. Read the relevant subsection rather than the whole file when time-pressed.
+structure shifts for theory papers, review articles, proceedings, thesis chapters,
+astroparticle/cosmic-ray papers, and public-facing outreach summaries. Read the
+relevant subsection rather than the whole file when time-pressed.
 
 ## Table of contents
 - [Title](#title)
@@ -151,7 +152,7 @@ a conclusion restating a single result.
 
 Similar backbone to a paper but expanded: include material a paper would cut
 for space (fuller derivations, more validation plots, negative results/things
-tried that didn't work, more detailor on personal contribution vs.
+tried that didn't work, more detail on personal contribution vs.
 collaboration-wide work). A thesis chapter based on a published paper should
 still be written in the author's own words, not pasted from the paper, both
 for originality and because the fuller thesis context changes what needs

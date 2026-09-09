@@ -1,5 +1,8 @@
 # Submission and Peer Review
 
+What to check immediately before submission, how to write a cover letter and an
+arXiv submission, and how to structure a referee response once reviews come back.
+
 ## Table of contents
 - [Pre-submission checklist](#pre-submission-checklist)
 - [Cover letters](#cover-letters)
@@ -52,6 +55,12 @@ persuasive than superlatives.
 - For collaboration papers, follow the collaboration's internal approval
   process before arXiv submission — arXiv submission is often the public
   step *after* internal review, not a substitute for it.
+- Don't assume every collaboration posts an arXiv preprint at all — some
+  (e.g. AMS-02) publish directly to the journal with no arXiv companion, by
+  policy, not oversight. Confirm the collaboration's own practice (check its
+  recent papers on INSPIRE-HEP for a populated `arXiv:` field) before
+  defaulting to "submit to arXiv first." See
+  `astroparticle-and-cosmic-ray-papers.md`'s AMS-02 case study.
 
 ## Responding to referee reports
 

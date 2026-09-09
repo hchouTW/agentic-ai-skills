@@ -26,12 +26,13 @@ academic-papers/
 ├── references/
 │   ├── reading-papers.md         # three-pass reading method, claims-vs-evidence, critical-reading checklist
 │   ├── literature-review.md      # organizing a review/related-work section, comparison matrices, synthesis
-│   ├── paper-structure.md        # section-by-section writing guidance (+ theory/thesis/proceedings variants)
+│   ├── paper-structure.md        # section-by-section writing guidance (+ theory/thesis/proceedings/astroparticle/outreach variants)
 │   ├── astroparticle-and-cosmic-ray-papers.md  # venue/structure/citation/figure conventions for cosmic-ray & astroparticle papers
 │   ├── latex-and-formatting.md   # REVTeX/JHEP/JCAP/AASTeX/Springer setup, compile errors, length-limit tactics
-│   ├── figures-and-tables.md     # publication figure design, captions, table conventions
-│   ├── citations-and-bibliography.md  # INSPIRE-HEP workflow, BibTeX hygiene
-│   └── scientific-style.md       # sentence-level prose guidance, significance-language conventions
+│   ├── figures-and-tables.md     # publication figure design, captions, table conventions, skymaps/spectra
+│   ├── citations-and-bibliography.md  # INSPIRE-HEP/ADS workflow, BibTeX hygiene, supplemental-data linking
+│   ├── scientific-style.md       # sentence-level prose guidance, significance-language conventions
+│   └── submission-and-peer-review.md  # pre-submission checklist, cover letters, referee responses
 ├── scripts/
 │   ├── build_lit_matrix.py       # CSV of reading notes -> formatted markdown comparison table
 │   ├── check_manuscript.py       # pre-submission checker for the user's .tex/.bib files

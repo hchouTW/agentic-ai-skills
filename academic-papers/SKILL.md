@@ -161,13 +161,15 @@ review:
 
 - `references/reading-papers.md` — the three-pass reading method, separating claims
   from evidence, a critical-reading checklist (fair baselines, statistical rigor,
-  reproducibility), and HEP-specific things to check (dataset/luminosity, systematics
-  treatment, look-elsewhere effect)
+  reproducibility), HEP-specific things to check (dataset/luminosity, systematics
+  treatment, look-elsewhere effect), and astroparticle-specific things to check
+  (exposure/livetime, trials factor, hadronic-model dependence)
 - `references/literature-review.md` — organizing a review or related-work section
   (chronological vs. thematic vs. methodological), building a comparison matrix,
   synthesis patterns vs. citation-stuffing, spotting research gaps
 - `references/paper-structure.md` — section-by-section guidance, HEP vs. theory vs.
-  thesis vs. proceedings, what a referee expects in each section
+  thesis vs. proceedings vs. astroparticle papers, what a referee expects in each
+  section, plus writing a plain-language public/outreach summary
 - `references/astroparticle-and-cosmic-ray-papers.md` — how structure, venues,
   author lists, citations, figures, and phrasing shift for astroparticle-physics
   and cosmic-ray papers (ground arrays, IACTs, neutrino observatories, space-based
@@ -176,16 +178,20 @@ review:
   pre-trial vs. post-trial significance, and a worked AMS-02 publication-pattern
   case study (letter-only/no-arXiv publishing, a Phys. Rept. review alongside PRL
   letters, 44-institution author-list scale)
-- `references/latex-and-formatting.md` — REVTeX/JHEP/Springer setup, common compile
-  errors, equations/units conventions, length-limit tricks
+- `references/latex-and-formatting.md` — REVTeX/JHEP/Springer/JCAP/AASTeX/Elsevier
+  setup, common compile errors, equations/units conventions, length-limit tricks
 - `references/figures-and-tables.md` — plot design for publication (following on from
-  ROOT/matplotlib output made under `hep-analysis`), caption writing, table conventions
-- `references/citations-and-bibliography.md` — INSPIRE-HEP workflow, BibTeX hygiene,
-  citation style by venue, avoiding orphaned/duplicate entries
+  ROOT/matplotlib output made under `hep-analysis`), caption writing, table
+  conventions, skymap and cosmic-ray-spectrum figure types
+- `references/citations-and-bibliography.md` — INSPIRE-HEP and ADS workflows, BibTeX
+  hygiene, citation style by venue, linking supplemental material/data, avoiding
+  orphaned/duplicate entries
 - `references/scientific-style.md` — sentence-level prose guidance: tense, voice,
-  hedging, common non-native-English pitfalls, physics-specific phrasing conventions
-- `references/submission-and-peer-review.md` — cover letters, referee response
-  structure, revision tracking, arXiv submission mechanics
+  hedging, common non-native-English pitfalls, physics-specific and
+  astroparticle-specific phrasing conventions
+- `references/submission-and-peer-review.md` — pre-submission checklist, cover
+  letters, referee response structure, revision tracking, arXiv submission
+  mechanics (including collaborations that skip arXiv entirely)
 
 ## Bundled scripts
 

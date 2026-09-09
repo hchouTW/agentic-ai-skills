@@ -1,5 +1,8 @@
 # Citations and Bibliography
 
+Where to source BibTeX entries, how to keep a `.bib` file clean as a paper evolves,
+and venue-specific citation-style expectations.
+
 ## Table of contents
 - [INSPIRE-HEP workflow](#inspire-hep-workflow)
 - [ADS for astroparticle/astronomy-facing venues](#ads-for-astroparticleastronomy-facing-venues)
