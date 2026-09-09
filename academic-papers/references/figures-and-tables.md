@@ -41,6 +41,8 @@ publication-quality figures with correct, complete captions.
 | Correlation between two quantities | 2D scatter or profile histogram, or a correlation-coefficient table for many variables |
 | Cutflow / selection efficiency | Table, not a figure, unless efficiency vs. a continuous variable is the point |
 | Systematic breakdown | Stacked or grouped bar chart, or a table if there are more than ~6 sources |
+| Cosmic-ray energy spectrum | Flux scaled by `E^n` (`n` ~2.6-3) vs. energy, log-log — see `astroparticle-and-cosmic-ray-papers.md` |
+| Arrival-direction / significance skymap | All-sky equal-area projection (Mollweide/Hammer-Aitoff), coordinate system stated explicitly — see `astroparticle-and-cosmic-ray-papers.md` |
 
 Avoid 3D plots for print publications — they rarely survive being flattened to
 a static page and are hard to read precisely; a 2D projection or a pair of 2D

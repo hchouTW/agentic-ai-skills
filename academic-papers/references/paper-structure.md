@@ -17,6 +17,7 @@ chapters. Read the relevant subsection rather than the whole file when time-pres
 - [Review articles](#review-articles)
 - [Thesis chapters](#thesis-chapters)
 - [Proceedings](#proceedings)
+- [Astroparticle and cosmic-ray papers](#astroparticle-and-cosmic-ray-papers)
 
 ## Title
 
@@ -162,3 +163,16 @@ result: Introduction (brief) → the one or two key plots/results shown at the
 conference → brief conclusion. Assume the reader has seen, or could look up,
 the full paper this proceeding is based on — proceedings should not duplicate
 a full paper's derivations.
+
+## Astroparticle and cosmic-ray papers
+
+The same backbone applies, with "Detector" becoming "Instrument"/"Observatory"/
+"Array," "luminosity" becoming "exposure," and — for point-source or anisotropy
+searches — an arrival-direction section with its own pre-trial/post-trial
+significance treatment, separate from the energy-spectrum section. Atmospheric and
+hadronic-interaction-model systematics (QGSJET, EPOS, Sibyll, ...) typically dominate
+the systematics section for air-shower analyses, in place of detector-alignment
+systematics. See `astroparticle-and-cosmic-ray-papers.md` for the full treatment,
+including venue-specific conventions (JCAP, ApJ/ApJL, Astroparticle Physics),
+collaboration author-list handling for ground arrays/IACTs/space detectors, and
+skymap/energy-spectrum figure conventions.

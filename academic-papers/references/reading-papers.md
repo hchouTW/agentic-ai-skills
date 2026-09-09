@@ -8,6 +8,7 @@ arXiv listing or working through a paper the user needs to reuse a method from.
 - [Separating claims from evidence](#separating-claims-from-evidence)
 - [A critical-reading checklist](#a-critical-reading-checklist)
 - [HEP-specific things to check](#hep-specific-things-to-check)
+- [Astroparticle/cosmic-ray-specific things to check](#astroparticlecosmic-ray-specific-things-to-check)
 - [Reading at scale](#reading-at-scale)
 - [Taking notes](#taking-notes)
 
@@ -95,6 +96,25 @@ phrasing of it.
   value and its context are consistent with the corresponding PDG (Particle Data
   Group) average or HEPData record, when relevant — a large unexplained tension with
   the existing world average is worth flagging, not silently accepting.
+
+## Astroparticle/cosmic-ray-specific things to check
+
+- **Exposure and livetime**: stated explicitly, and consistent with the
+  instrument's/array's known operating history for the quoted period?
+- **Trials factor**: for a point-source or anisotropy search, is a post-trial
+  (global) significance given alongside the pre-trial number — the same
+  look-elsewhere-effect concern as collider searches, but easy to miss since the
+  "trials" here are sky positions or energy bins rather than mass bins.
+- **Hadronic-interaction-model dependence**: for shower-based composition results, is
+  the model-dependence of the conclusion itself discussed (not just shown as a
+  systematic-uncertainty band with no comment on whether the qualitative conclusion
+  survives a different model choice)?
+- **Solar-cycle/epoch context**: for a direct-detection flux result below ~30
+  GeV/nucleon, is the solar activity period stated, and relevant to any comparison
+  drawn against another experiment's data from a different epoch?
+
+See `astroparticle-and-cosmic-ray-papers.md` for how these interact with the paper's
+structure and figures, not just what to check while reading.
 
 ## Reading at scale
 

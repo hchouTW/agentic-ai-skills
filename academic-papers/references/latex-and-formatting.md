@@ -9,6 +9,7 @@ drafting.
 - [REVTeX (PRL / PRD / PRX)](#revtex-prl--prd--prx)
 - [JHEP](#jhep)
 - [EPJC / Springer](#epjc--springer)
+- [Astroparticle venues (JCAP / AASTeX / Elsevier)](#astroparticle-venues-jcap--aastex--elsevier)
 - [arXiv-specific rules](#arxiv-specific-rules)
 - [Units, numbers, and equations](#units-numbers-and-equations)
 - [Common compile errors](#common-compile-errors)
@@ -108,6 +109,24 @@ Use Springer's `svjour3` class with the `spphys` style option. Structurally
 closer to JHEP (numbered sections) than to REVTeX's PRL mode. Springer's
 author guidelines page has the current template and a Word alternative if the
 group doesn't use LaTeX.
+
+## Astroparticle venues (JCAP / AASTeX / Elsevier)
+
+- **JCAP** uses SISSA's `jcappub.cls`, structurally close to `JHEP3.cls` (numbered
+  sections, `\flushbottom`, JHEP-compatible bibliography style) — pull the current
+  class from JCAP's author-guidelines page.
+- **ApJ / ApJL** use AASTeX (`\documentclass[modern]{aastexN}` for the current major
+  version `N`) — get the exact current version from the AAS journals author-resources
+  page, since AASTeX version bumps have changed author-list and table syntax before.
+  `natbib`-style author-year citations (`\citep{}`/`\citet{}`) are the default, not
+  the numbered style used by REVTeX/JHEP.
+- **Astroparticle Physics (Elsevier)** uses `elsarticle.cls`; get it from Elsevier's
+  author-support page along with the current citation-style option the journal
+  specifies (Elsevier journals vary in numbered vs. author-year style by title).
+
+See `astroparticle-and-cosmic-ray-papers.md` for the structural and citation-database
+(ADS vs. INSPIRE-HEP) differences that go along with these venues, not just the class
+files.
 
 ## arXiv-specific rules
 

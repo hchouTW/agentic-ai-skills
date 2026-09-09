@@ -1,6 +1,6 @@
 ---
 name: academic-papers
-description: Read, understand, and write scientific research papers — from critically working through someone else's paper to producing an arXiv-ready or journal-ready manuscript of your own. Covers physics/HEP conventions specifically (PRL, PRD, PRX, JHEP, EPJC, REVTeX/JHEP-class formatting, INSPIRE-HEP bibliographies, collaboration author lists, systematics tables) as well as general academic scientific reading and writing. Use whenever the user asks to summarize, critique, or extract the method/results from a paper or a stack of papers; build a literature review or a paper's "related work"/Introduction section; draft, restructure, or polish a paper or section (abstract, introduction, results, discussion, conclusion); format a manuscript in LaTeX/REVTeX/JHEP class; build or clean a BibTeX/.bib file; design figures/tables for publication; tighten scientific prose; respond to referee/reviewer reports; or prepare a paper for arXiv/journal submission. Trigger this even for requests that only mention one piece of the process (e.g. "what does this paper actually claim", "compare these three papers", "write my abstract", "fix these referee comments") — those are all part of the same reading-to-writing pipeline.
+description: Read, understand, and write scientific research papers — from critically working through someone else's paper to producing an arXiv-ready or journal-ready manuscript of your own. Covers physics/HEP conventions specifically (PRL, PRD, PRX, JHEP, EPJC, REVTeX/JHEP-class formatting, INSPIRE-HEP bibliographies, collaboration author lists, systematics tables) plus astroparticle-physics and cosmic-ray conventions (JCAP, ApJ/ApJL, Astroparticle Physics journal, ADS/bibcode citations, exposure vs. luminosity, arrival-direction/anisotropy sections, pre-trial vs. post-trial significance, ground-array/IACT/space-detector collaboration author lists) as well as general academic scientific reading and writing. Use whenever the user asks to summarize, critique, or extract the method/results from a paper or a stack of papers; build a literature review or a paper's "related work"/Introduction section; draft, restructure, or polish a paper or section (abstract, introduction, results, discussion, conclusion); format a manuscript in LaTeX/REVTeX/JHEP/JCAP/AASTeX class; build or clean a BibTeX/.bib file or ADS bibcode reference; design figures/tables (including skymaps and energy-spectrum plots) for publication; tighten scientific prose; respond to referee/reviewer reports; or prepare a paper for arXiv/journal submission. Trigger this even for requests that only mention one piece of the process (e.g. "what does this paper actually claim", "compare these three papers", "write my abstract", "fix these referee comments") — those are all part of the same reading-to-writing pipeline.
 ---
 
 # Academic Papers
@@ -8,15 +8,19 @@ description: Read, understand, and write scientific research papers — from cri
 A skill for the full lifecycle around scientific papers: reading and critically
 understanding one or many papers, synthesizing them into a literature review or a
 paper's own related-work section, and then drafting, formatting, and submitting a
-manuscript of your own. It is written with physics and high-energy-physics (HEP)
-conventions front and center, but the reading strategies, prose guidance, and
-structural conventions apply to scientific writing generally.
+manuscript of your own. It is written with physics conventions front and center —
+collider/high-energy-physics (HEP) as well as astroparticle physics and cosmic-ray
+science (ground-based air-shower arrays, imaging Cherenkov telescopes, neutrino
+observatories, space-based direct detection) — but the reading strategies, prose
+guidance, and structural conventions apply to scientific writing generally.
 
 Pairs well with `hep-analysis` (the physics content: cutflows, fits, systematics,
-limits) and `deep-learning` (if a paper's or the user's own result involves an ML
-method that needs careful read-through or its own methods section). This skill owns
-the *reading and writing*, not the analysis itself — if the user still needs to run a
-fit, produce a limit, or debug a plot, hand that off to `hep-analysis` first.
+limits, and — for the astroparticle side — spectrum/composition/anisotropy analysis
+and astroparticle statistics) and `deep-learning` (if a paper's or the user's own
+result involves an ML method that needs careful read-through or its own methods
+section). This skill owns the *reading and writing*, not the analysis itself — if the
+user still needs to run a fit, produce a limit, or debug a plot, hand that off to
+`hep-analysis` first.
 
 ## When to use this skill
 
@@ -34,8 +38,10 @@ Use it for any of:
 - Drafting a paper from scratch, given results/notes/plots the user already has
 - Structuring or restructuring a section (abstract, intro, results, discussion, conclusion)
 - Converting an internal analysis note into a paper draft, or a paper into a talk/proceedings
-- LaTeX formatting: REVTeX (PRL/PRD/PRX), JHEP class, EPJC/Springer, general `article`
-- Building, cleaning, or deduplicating a BibTeX file; fixing INSPIRE-HEP citation keys
+- LaTeX formatting: REVTeX (PRL/PRD/PRX), JHEP class, EPJC/Springer, JCAP, AASTeX
+  (ApJ/ApJL), Elsevier `elsarticle` (Astroparticle Physics journal), general `article`
+- Building, cleaning, or deduplicating a BibTeX file; fixing INSPIRE-HEP citation
+  keys, or pulling ADS/bibcode entries for astronomy-facing venues
 - Designing or captioning figures and tables for publication
 - Tightening prose: cutting hedging, fixing tense/voice consistency, trimming length
 - Drafting responses to referee reports, or a cover letter to an editor
@@ -119,8 +125,10 @@ A typical experimental HEP paper (PRL/PRD/JHEP style) runs, roughly:
 | Summary / Conclusion | Restate result, implications, outlook — no new claims | 3–8 sentences |
 | Acknowledgments | Funding agencies, collaboration boilerplate | fixed by collaboration |
 
-Full guidance, including how this differs for theory papers, review articles, and
-thesis chapters, is in `references/paper-structure.md`.
+Full guidance, including how this differs for theory papers, review articles,
+thesis chapters, and astroparticle/cosmic-ray papers (exposure instead of luminosity,
+arrival-direction/anisotropy sections, multi-messenger context), is in
+`references/paper-structure.md` and `references/astroparticle-and-cosmic-ray-papers.md`.
 
 ## Journal / venue conventions (quick reference)
 
@@ -131,14 +139,18 @@ thesis chapters, is in `references/paper-structure.md`.
 | JHEP | `JHEP3.cls` | No hard limit | SISSA house style, `\bibliographystyle{JHEP}` |
 | EPJC | Springer `svjour3`/`spphys` | No hard limit | Springer LaTeX templates |
 | Nature / Nat. Phys. | Nature LaTeX template or Word | ~2000–3000 words main text | Methods/refs often separate |
+| JCAP (astroparticle) | SISSA's `jcappub.cls` | No hard limit | JHEP-family style; common venue for cosmic-ray/dark-matter theory and phenomenology |
+| ApJ / ApJL (astroparticle) | AASTeX (current `aastexN.cls`) | ApJL is letter-length | natbib author-year citations by default |
+| Astroparticle Physics (Elsevier) | `elsarticle.cls` | No hard limit | Elsevier house style |
 | arXiv preprint | Whatever the target journal uses, or `article` | Match target venue | Always include `\usepackage{hyperref}` sparingly per arXiv rules |
 
 Details, obtaining the right class file, and common compile errors are in
-`references/latex-and-formatting.md`. A generic starting skeleton (not tied to any
-journal's copyrighted class file) is in `assets/templates/paper_skeleton.tex`, paired
-with an example INSPIRE-HEP-formatted entry in `assets/templates/references.bib` —
-copy the actual class file from the journal/APS/SISSA/Springer site once the venue is
-fixed.
+`references/latex-and-formatting.md`; astroparticle-specific venues and author-list
+conventions are in `references/astroparticle-and-cosmic-ray-papers.md`. A generic
+starting skeleton (not tied to any journal's copyrighted class file) is in
+`assets/templates/paper_skeleton.tex`, paired with an example INSPIRE-HEP-formatted
+entry in `assets/templates/references.bib` — copy the actual class file from the
+journal/APS/SISSA/Springer/AAS/Elsevier site once the venue is fixed.
 
 ## Reference files
 
@@ -154,6 +166,12 @@ review:
   synthesis patterns vs. citation-stuffing, spotting research gaps
 - `references/paper-structure.md` — section-by-section guidance, HEP vs. theory vs.
   thesis vs. proceedings, what a referee expects in each section
+- `references/astroparticle-and-cosmic-ray-papers.md` — how structure, venues,
+  author lists, citations, figures, and phrasing shift for astroparticle-physics
+  and cosmic-ray papers (ground arrays, IACTs, neutrino observatories, space-based
+  direct detection): exposure vs. luminosity, arrival-direction/anisotropy sections,
+  JCAP/ApJ/Astroparticle Physics venues, ADS/bibcode citations, skymap conventions,
+  pre-trial vs. post-trial significance
 - `references/latex-and-formatting.md` — REVTeX/JHEP/Springer setup, common compile
   errors, equations/units conventions, length-limit tricks
 - `references/figures-and-tables.md` — plot design for publication (following on from

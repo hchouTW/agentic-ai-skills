@@ -4,9 +4,12 @@ A portable [Agent Skill](https://code.claude.com/docs/en/skills) covering the fu
 lifecycle around scientific papers: reading and critically understanding one or many
 papers, synthesizing them into a literature review, and drafting, formatting, and
 submitting a manuscript of your own. Physics/HEP conventions (REVTeX, JHEP,
-INSPIRE-HEP, PRL/PRD-style significance language, look-elsewhere effect) are built in
-alongside general academic reading and writing guidance. Self-contained: no MCP
-server, cloud account, or paid service required.
+INSPIRE-HEP, PRL/PRD-style significance language, look-elsewhere effect) are built in,
+alongside astroparticle-physics and cosmic-ray conventions (JCAP/AASTeX/Elsevier
+venues, ADS/bibcode citations, exposure vs. luminosity, pre-trial vs. post-trial
+significance, skymap and energy-spectrum figures) and general academic reading and
+writing guidance. Self-contained: no MCP server, cloud account, or paid service
+required.
 
 Designed to sit alongside `hep-analysis` and `deep-learning` in the
 [agentic-ai-skills](https://github.com/hchouTW/agentic-ai-skills) bundle — this skill
@@ -24,7 +27,8 @@ academic-papers/
 │   ├── reading-papers.md         # three-pass reading method, claims-vs-evidence, critical-reading checklist
 │   ├── literature-review.md      # organizing a review/related-work section, comparison matrices, synthesis
 │   ├── paper-structure.md        # section-by-section writing guidance (+ theory/thesis/proceedings variants)
-│   ├── latex-and-formatting.md   # REVTeX/JHEP/Springer setup, compile errors, length-limit tactics
+│   ├── astroparticle-and-cosmic-ray-papers.md  # venue/structure/citation/figure conventions for cosmic-ray & astroparticle papers
+│   ├── latex-and-formatting.md   # REVTeX/JHEP/JCAP/AASTeX/Springer setup, compile errors, length-limit tactics
 │   ├── figures-and-tables.md     # publication figure design, captions, table conventions
 │   ├── citations-and-bibliography.md  # INSPIRE-HEP workflow, BibTeX hygiene
 │   └── scientific-style.md       # sentence-level prose guidance, significance-language conventions

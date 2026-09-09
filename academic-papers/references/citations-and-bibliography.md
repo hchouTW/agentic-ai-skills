@@ -2,6 +2,7 @@
 
 ## Table of contents
 - [INSPIRE-HEP workflow](#inspire-hep-workflow)
+- [ADS for astroparticle/astronomy-facing venues](#ads-for-astroparticleastronomy-facing-venues)
 - [BibTeX hygiene](#bibtex-hygiene)
 - [Citation style by venue](#citation-style-by-venue)
 - [What to cite, and how much](#what-to-cite-and-how-much)
@@ -28,6 +29,26 @@ Never fabricate a citation or a plausible-looking INSPIRE key — if the exact
 reference can't be located, mark it (`[CITATION NEEDED: original ATLAS
 combined mass paper]`) rather than inventing one.
 
+## ADS for astroparticle/astronomy-facing venues
+
+For astroparticle-physics and cosmic-ray papers targeting ApJ/ApJL, A&A, or MNRAS
+(rather than PRD/JHEP/JCAP), the NASA Astrophysics Data System (ADS,
+`ui.adsabs.harvard.edu`) is the dominant citation database, not INSPIRE-HEP:
+
+1. Search ADS by title, author, or arXiv number; export the BibTeX entry using its
+   `bibcode` key format (e.g. `2017ApJ...848L..12A`), analogous to INSPIRE's
+   `Aad:2012tfa`-style keys.
+2. Keep the bibcode key as-is for the same reason INSPIRE keys are kept as-is —
+   referees and co-authors on astronomy-side venues expect it.
+3. When a paper needs both HEP-side and astronomy-side citations (common for
+   multi-messenger or dark-matter-search papers), pull from whichever database
+   covers that specific reference better and combine into one `.bib` file;
+   deduplicate by DOI if the same paper is pulled from both databases under
+   different keys.
+
+See `astroparticle-and-cosmic-ray-papers.md` for when to prefer ADS vs. INSPIRE-HEP
+by venue, and for the `natbib` author-year citation style common to these journals.
+
 ## BibTeX hygiene
 
 - One `.bib` file per paper (or per collaboration-shared library), not one
@@ -51,6 +72,8 @@ combined mass paper]`) rather than inventing one.
 | JHEP | Numbered, `\bibliographystyle{JHEP}` | Expects INSPIRE-formatted entries with `eprint`/`archivePrefix` |
 | EPJC (Springer) | Numbered, Springer physics style | Similar expectations to JHEP |
 | Nature family | Numbered, superscript, Nature `.bst` | Very compressed reference format; check current author guidelines for the exact fields required |
+| JCAP (astroparticle) | Numbered, `\bibliographystyle{JHEP}` | Same expectations as JHEP; INSPIRE-formatted entries |
+| ApJ/ApJL, A&A, MNRAS | `natbib` author-year (`\citep{}`/`\citet{}`) | ADS-sourced entries are the norm; check the venue's current `.bst` |
 
 Do not hand-adjust citation numbering or format — let the `.bst` style file
 handle it; manual tweaks break on any bibliography addition/removal.

@@ -7,6 +7,7 @@ to scientific writing generally; a few items are physics-specific conventions.
 - [Tense and voice](#tense-and-voice)
 - [Hedging and precision](#hedging-and-precision)
 - [Significance language](#significance-language)
+- [Astroparticle-specific phrasing](#astroparticle-specific-phrasing)
 - [Sentence and paragraph shape](#sentence-and-paragraph-shape)
 - [Common non-native-English pitfalls](#common-non-native-english-pitfalls)
 - [Words and phrases to cut](#words-and-phrases-to-cut)
@@ -50,6 +51,22 @@ Standard HEP convention (not universal, but widely expected by referees):
 
 State the exact significance number alongside the word, not instead of it
 ("a 3.4σ excess, corresponding to evidence for...").
+
+## Astroparticle-specific phrasing
+
+Extends the table above for astroparticle-physics and cosmic-ray writing (see
+`astroparticle-and-cosmic-ray-papers.md` for the full treatment):
+
+- Always state whether a quoted significance is **pre-trial or post-trial** when a
+  search scanned more than one direction, energy bin, or source candidate — a bare
+  "5σ" for a point-source search is ambiguous and referees will ask which.
+- **"Exposure"** (area × solid angle × time, folding in geometric acceptance and duty
+  cycle) is not interchangeable with **"livetime"** (raw observing time) — use the
+  term that matches what the quoted uncertainty was actually derived from.
+- Composition claims ("proton-dominated," "mixed composition") should name the
+  hadronic-interaction model(s) used to infer them in the same sentence or the
+  immediately following one — these inferences are model-dependent, and omitting the
+  model reads as more certain than the result supports.
 
 ## Sentence and paragraph shape
 
