@@ -8,6 +8,7 @@ to scientific writing generally; a few items are physics-specific conventions.
 - [Hedging and precision](#hedging-and-precision)
 - [Significance language](#significance-language)
 - [Astroparticle-specific phrasing](#astroparticle-specific-phrasing)
+- [Statistical and ML reporting language](#statistical-and-ml-reporting-language)
 - [Sentence and paragraph shape](#sentence-and-paragraph-shape)
 - [Common non-native-English pitfalls](#common-non-native-english-pitfalls)
 - [Words and phrases to cut](#words-and-phrases-to-cut)
@@ -67,6 +68,39 @@ Extends the table above for astroparticle-physics and cosmic-ray writing (see
   hadronic-interaction model(s) used to infer them in the same sentence or the
   immediately following one — these inferences are model-dependent, and omitting the
   model reads as more certain than the result supports.
+
+## Statistical and ML reporting language
+
+The physics significance-language table above (σ-based, "evidence"/"observation")
+doesn't transfer directly to statistics or ML writing, which has its own reporting
+conventions (see `statistics-and-ml-papers.md` for the venue/process context this
+phrasing sits inside):
+
+- **"Statistically significant" is not the same claim as "practically
+  meaningful."** A large sample size can make a tiny, unimportant effect reach
+  `p < 0.05`; state the effect size (not just the p-value) alongside any
+  significance claim, and say explicitly if a statistically significant effect is
+  too small to matter for the paper's actual conclusion.
+- **State the multiple-comparison correction applied**, if more than one
+  hypothesis/metric was tested (Bonferroni, Holm, false-discovery-rate/Benjamini-
+  Hochberg) — an uncorrected p-value reported alongside several other tests
+  overstates significance the same way an uncorrected local significance does in
+  physics (see the astroparticle pre-trial/post-trial convention above for the
+  direct analogue).
+- **Distinguish a confidence interval from a credible interval** explicitly when
+  reporting either — "95% CI" defaults to the frequentist reading unless the paper
+  is explicitly Bayesian, and conflating the two misstates what the interval
+  actually means (mirrors the frequentist/Bayesian distinction
+  `astroparticle-and-cosmic-ray-papers.md` and the physics literature draw for
+  intervals generally).
+- **Report variance across seeds/runs, not a single number**, for any ML result
+  claiming an improvement — "we observe a 1.2% improvement" with no variance
+  reported invites the same skepticism as an unstated systematic uncertainty in a
+  physics measurement. State how many runs/seeds and what the spread was.
+- **"Outperforms" is a comparison claim, not just a bigger number** — state
+  whether the comparison used a matched compute/tuning budget (see
+  `deep-learning`'s `ablation-and-design-review.md`); a claim of outperforming an
+  under-tuned baseline should be phrased accordingly, not as an unconditional win.
 
 ## Sentence and paragraph shape
 

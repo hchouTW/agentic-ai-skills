@@ -9,6 +9,7 @@ arXiv listing or working through a paper the user needs to reuse a method from.
 - [A critical-reading checklist](#a-critical-reading-checklist)
 - [HEP-specific things to check](#hep-specific-things-to-check)
 - [Astroparticle/cosmic-ray-specific things to check](#astroparticlecosmic-ray-specific-things-to-check)
+- [Statistics/ML-specific things to check](#statisticsml-specific-things-to-check)
 - [Reading at scale](#reading-at-scale)
 - [Taking notes](#taking-notes)
 
@@ -115,6 +116,27 @@ phrasing of it.
 
 See `astroparticle-and-cosmic-ray-papers.md` for how these interact with the paper's
 structure and figures, not just what to check while reading.
+
+## Statistics/ML-specific things to check
+
+- **Baseline fairness**: are baselines tuned to a comparable degree as the
+  proposed method, or is the comparison against an under-tuned baseline from an
+  older paper?
+- **Statistical significance across seeds/splits**: is a reported improvement
+  backed by multiple seeds/runs with a variance estimate, or a single run that
+  could be seed noise?
+- **Train/test contamination**: for a public benchmark or a pretrained model, is
+  there a check that the test set didn't leak into pretraining or fine-tuning
+  data?
+- **Code/data availability**: is the result actually reproducible from what's
+  released, or does the paper claim reproducibility while withholding a
+  load-bearing detail?
+- **Effect size vs. statistical significance**: is a statistically significant
+  effect also practically meaningful, or just detectable because of a very large
+  sample size?
+
+See `statistics-and-ml-papers.md` for how these interact with the paper's
+structure, venue, and review process, not just what to check while reading.
 
 ## Reading at scale
 

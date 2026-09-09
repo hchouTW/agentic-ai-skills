@@ -8,6 +8,7 @@ arXiv submission, and how to structure a referee response once reviews come back
 - [Cover letters](#cover-letters)
 - [arXiv submission mechanics](#arxiv-submission-mechanics)
 - [Responding to referee reports](#responding-to-referee-reports)
+- [Conference-style rebuttals](#conference-style-rebuttals)
 - [Tracking revisions](#tracking-revisions)
 
 ## Pre-submission checklist
@@ -81,6 +82,37 @@ referee's report:
 5. End with a short summary of the overall changes if the revision was
    substantial, so the editor doesn't have to reconstruct it from the
    point-by-point list.
+
+## Conference-style rebuttals
+
+ML/AI conferences (NeurIPS, ICML, ICLR, AAAI, CVPR/ICCV/ECCV) replace the
+multi-round referee-response cycle above with a single-shot rebuttal, and the
+difference in mechanics changes how to write the response:
+
+- **One window, no further revision round.** Unlike a journal, there is no
+  "revise and resubmit" — the rebuttal is the only chance to respond before the
+  accept/reject decision, so address every reviewer's concern concretely within
+  the given space rather than promising a fix for "the camera-ready version"
+  unless the venue explicitly allows that.
+- **Strict length limits** (often a fixed word or character count, sometimes a
+  single PDF page) mean prioritizing what could actually flip a borderline
+  score over addressing every minor point exhaustively — triage the reviewer
+  comments by which ones matter most to the final decision.
+- **The rebuttal is often a public record** (OpenReview, for ICLR and
+  increasingly other venues) — write it knowing it may be read by anyone, not
+  as a private letter to an editor the way a journal response letter is.
+- **Area chairs and meta-reviews sit above the raw reviewer scores** — a
+  rebuttal that changes how one reviewer frames their concern can matter even if
+  the numeric score doesn't move, since the meta-review weighs the discussion
+  holistically.
+- **Camera-ready deadlines are hard and non-negotiable** — unlike a journal's
+  more flexible production schedule, missing it can mean the paper doesn't
+  appear in the proceedings at all, so don't leave a promised post-acceptance
+  fix until the last possible day.
+
+See `statistics-and-ml-papers.md` for the fuller venue-by-venue picture,
+including ACL Rolling Review's different (journal-like, revision-carrying)
+cadence.
 
 ## Tracking revisions
 

@@ -6,6 +6,7 @@ and venue-specific citation-style expectations.
 ## Table of contents
 - [INSPIRE-HEP workflow](#inspire-hep-workflow)
 - [ADS for astroparticle/astronomy-facing venues](#ads-for-astroparticleastronomy-facing-venues)
+- [arXiv, DBLP, and ACL Anthology for statistics/ML venues](#arxiv-dblp-and-acl-anthology-for-statisticsml-venues)
 - [BibTeX hygiene](#bibtex-hygiene)
 - [Citation style by venue](#citation-style-by-venue)
 - [What to cite, and how much](#what-to-cite-and-how-much)
@@ -53,6 +54,34 @@ For astroparticle-physics and cosmic-ray papers targeting ApJ/ApJL, A&A, or MNRA
 See `astroparticle-and-cosmic-ray-papers.md` for when to prefer ADS vs. INSPIRE-HEP
 by venue, and for the `natbib` author-year citation style common to these journals.
 
+## arXiv, DBLP, and ACL Anthology for statistics/ML venues
+
+Statistics and ML papers have no single dominant citation database the way
+physics has INSPIRE-HEP — which source to use depends on where the specific paper
+was actually published:
+
+1. **arXiv's own BibTeX export** for a preprint that was never separately
+   published, or when the point being made depends on a specific arXiv version
+   (`v1`, `v2`, ...) — cite the version number explicitly if content changed
+   between versions, since an arXiv preprint is mutable in a way a published
+   paper is not.
+2. **DBLP** (`dblp.org`) for a conference-proceedings paper — strong, clean
+   per-paper BibTeX export with a stable key, especially good for ML/AI
+   conferences (NeurIPS, ICML, ICLR, AAAI, CVPR/ICCV/ECCV).
+3. **ACL Anthology** (`aclanthology.org`) for any ACL/EMNLP/NAACL paper — the
+   canonical source for NLP-venue papers, with its own BibTeX export matching
+   the venue's own citation key conventions.
+4. **Semantic Scholar** (web export or API) as a fallback that covers most of the
+   above plus general citation-graph lookups, useful when quickly locating a
+   paper's canonical published venue is the actual blocker.
+
+A large fraction of the field's own citations are to arXiv preprints that were
+never formally published elsewhere, or where the arXiv version and the
+camera-ready conference version differ non-trivially — this is normal here in a
+way it isn't in physics, so don't treat an arXiv-only citation as necessarily
+incomplete. See `statistics-and-ml-papers.md` for the venue-specific citation
+*style* (numbered vs. `natbib` author-year) that goes with these sources.
+
 ## BibTeX hygiene
 
 - One `.bib` file per paper (or per collaboration-shared library), not one
@@ -78,6 +107,9 @@ by venue, and for the `natbib` author-year citation style common to these journa
 | Nature family | Numbered, superscript, Nature `.bst` | Very compressed reference format; check current author guidelines for the exact fields required |
 | JCAP (astroparticle) | Numbered, `\bibliographystyle{JHEP}` | Same expectations as JHEP; INSPIRE-formatted entries |
 | ApJ/ApJL, A&A, MNRAS | `natbib` author-year (`\citep{}`/`\citet{}`) | ADS-sourced entries are the norm; check the venue's current `.bst` |
+| NeurIPS/ICML/ICLR/AAAI/CVPR | Numbered, conference-specific `.bst` | DBLP-sourced entries are common; many entries are arXiv-only |
+| ACL/EMNLP/NAACL | `natbib` author-year via shared ACL style file | ACL Anthology-sourced entries expected |
+| JMLR/TMLR, statistics journals | Varies by venue; often `natbib` author-year | Check the specific journal/venue's current style |
 
 Do not hand-adjust citation numbering or format — let the `.bst` style file
 handle it; manual tweaks break on any bibliography addition/removal.

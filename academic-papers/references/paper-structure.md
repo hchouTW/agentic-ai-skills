@@ -2,8 +2,9 @@
 
 Detailed section-by-section guidance for physics papers, plus notes on how the
 structure shifts for theory papers, review articles, proceedings, thesis chapters,
-astroparticle/cosmic-ray papers, and public-facing outreach summaries. Read the
-relevant subsection rather than the whole file when time-pressed.
+astroparticle/cosmic-ray papers, statistics/ML papers, and public-facing outreach
+summaries. Read the relevant subsection rather than the whole file when
+time-pressed.
 
 ## Table of contents
 - [Title](#title)
@@ -19,6 +20,7 @@ relevant subsection rather than the whole file when time-pressed.
 - [Thesis chapters](#thesis-chapters)
 - [Proceedings](#proceedings)
 - [Astroparticle and cosmic-ray papers](#astroparticle-and-cosmic-ray-papers)
+- [Statistics and ML papers](#statistics-and-ml-papers)
 - [Outreach and public-facing summaries](#outreach-and-public-facing-summaries)
 
 ## Title
@@ -178,6 +180,21 @@ systematics. See `astroparticle-and-cosmic-ray-papers.md` for the full treatment
 including venue-specific conventions (JCAP, ApJ/ApJL, Astroparticle Physics),
 collaboration author-list handling for ground arrays/IACTs/space detectors, and
 skymap/energy-spectrum figure conventions.
+
+## Statistics and ML papers
+
+The backbone shifts more here than for any other variant in this file: Related
+Work is usually its own section rather than woven into the Introduction, and
+Limitations and (at several venues) a Broader Impact/Ethics Statement are
+required, separately-labeled sections rather than closing remarks. A
+reproducibility checklist is often a required submission component, not optional
+prose, and the appendix routinely carries full hyperparameter tables and
+additional experiments that reviewers are expected to actually read - unlike a
+physics paper's supplemental material, which a referee may or may not open. See
+`statistics-and-ml-papers.md` for the full treatment, including venue-specific
+conventions (NeurIPS/ICML/ICLR/ACL vs. JMLR/TMLR vs. statistics journals),
+author-contribution statements, arXiv-first citation practice, and the
+single-shot rebuttal process that replaces a journal's multi-round revision.
 
 ## Outreach and public-facing summaries
 

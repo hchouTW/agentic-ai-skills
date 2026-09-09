@@ -10,6 +10,7 @@ drafting.
 - [JHEP](#jhep)
 - [EPJC / Springer](#epjc--springer)
 - [Astroparticle venues (JCAP / AASTeX / Elsevier)](#astroparticle-venues-jcap--aastex--elsevier)
+- [Statistics and ML venues](#statistics-and-ml-venues)
 - [arXiv-specific rules](#arxiv-specific-rules)
 - [Units, numbers, and equations](#units-numbers-and-equations)
 - [Common compile errors](#common-compile-errors)
@@ -25,6 +26,8 @@ version from the authoritative source:
 - EPJC: Springer's `svjour3`/`spphys` LaTeX package for Physics journals.
 - Nature family: Nature's LaTeX template page (or submit in Word, per journal).
 - JCAP / ApJ / Astroparticle Physics (Elsevier): see "Astroparticle venues" below.
+- NeurIPS / ICML / ICLR / AAAI / ACL family / JMLR / TMLR: see "Statistics and ML
+  venues" below.
 
 If offline or unsure of the exact current filename/version, tell the user to
 pull it fresh from the journal's site rather than guessing — a stale or
@@ -127,6 +130,32 @@ group doesn't use LaTeX.
 
 See `astroparticle-and-cosmic-ray-papers.md` for the structural and citation-database
 (ADS vs. INSPIRE-HEP) differences that go along with these venues, not just the class
+files.
+
+## Statistics and ML venues
+
+- **NeurIPS / ICML / ICLR / AAAI** each publish a `.sty`/class file for that
+  specific year's conference — pull the *current year's* template, not a cached
+  one from a prior year: margins, font, and section-numbering rules change
+  year to year and several of these venues run an automated formatting checker
+  at submission that rejects a paper built on a stale template.
+- **ACL / EMNLP / NAACL** share a common ACL Anthology style file
+  (`acl.sty`/`emnlp.sty` depending on year), with `\citep`/`\citet` author-year
+  citations via that same style — get it from the ACL Anthology's author
+  resources, not a general LaTeX template site.
+- **JMLR / TMLR** each have their own dedicated LaTeX template (JMLR's is a
+  long-running stable style, closer to a journal's `article`-based class than a
+  yearly-changing conference one).
+- **Statistics journals** (JASA, Annals of Statistics, Biometrika, JRSS-B) rarely
+  mandate a specific heavily-branded class file the way REVTeX/AASTeX do — most
+  accept a plain `article`-based submission with the journal's own reference
+  style; check the specific journal's current author guidelines rather than
+  assuming a house class exists.
+
+See `statistics-and-ml-papers.md` for the structural differences (Limitations and
+Broader Impact/Ethics as required sections, reproducibility checklists, appendix
+conventions) and the review-process differences (single-shot rebuttal vs. a
+journal's multi-round revision) that go with these venues, not just the class
 files.
 
 ## arXiv-specific rules

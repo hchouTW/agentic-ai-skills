@@ -7,9 +7,11 @@ submitting a manuscript of your own. Physics/HEP conventions (REVTeX, JHEP,
 INSPIRE-HEP, PRL/PRD-style significance language, look-elsewhere effect) are built in,
 alongside astroparticle-physics and cosmic-ray conventions (JCAP/AASTeX/Elsevier
 venues, ADS/bibcode citations, exposure vs. luminosity, pre-trial vs. post-trial
-significance, skymap and energy-spectrum figures) and general academic reading and
-writing guidance. Self-contained: no MCP server, cloud account, or paid service
-required.
+significance, skymap and energy-spectrum figures), statistics/machine-learning
+conventions (NeurIPS/ICML/ICLR/ACL-family/JMLR/TMLR venues, reproducibility
+checklists, arXiv/DBLP/ACL-Anthology citations, single-shot OpenReview rebuttals,
+p-value/effect-size reporting language), and general academic reading and writing
+guidance. Self-contained: no MCP server, cloud account, or paid service required.
 
 Designed to sit alongside `hep-analysis` and `deep-learning` in the
 [agentic-ai-skills](https://github.com/hchouTW/agentic-ai-skills) bundle — this skill
@@ -26,13 +28,14 @@ academic-papers/
 ├── references/
 │   ├── reading-papers.md         # three-pass reading method, claims-vs-evidence, critical-reading checklist
 │   ├── literature-review.md      # organizing a review/related-work section, comparison matrices, synthesis
-│   ├── paper-structure.md        # section-by-section writing guidance (+ theory/thesis/proceedings/astroparticle/outreach variants)
+│   ├── paper-structure.md        # section-by-section writing guidance (+ theory/thesis/proceedings/astroparticle/statistics-ML/outreach variants)
 │   ├── astroparticle-and-cosmic-ray-papers.md  # venue/structure/citation/figure conventions for cosmic-ray & astroparticle papers
-│   ├── latex-and-formatting.md   # REVTeX/JHEP/JCAP/AASTeX/Springer setup, compile errors, length-limit tactics
-│   ├── figures-and-tables.md     # publication figure design, captions, table conventions, skymaps/spectra
-│   ├── citations-and-bibliography.md  # INSPIRE-HEP/ADS workflow, BibTeX hygiene, supplemental-data linking
-│   ├── scientific-style.md       # sentence-level prose guidance, significance-language conventions
-│   └── submission-and-peer-review.md  # pre-submission checklist, cover letters, referee responses
+│   ├── statistics-and-ml-papers.md  # venue/structure/citation/review-process conventions for statistics & ML papers
+│   ├── latex-and-formatting.md   # REVTeX/JHEP/JCAP/AASTeX/Springer/NeurIPS/ICML/ICLR/ACL setup, compile errors, length-limit tactics
+│   ├── figures-and-tables.md     # publication figure design, captions, table conventions, skymaps/spectra/learning curves/ablation tables
+│   ├── citations-and-bibliography.md  # INSPIRE-HEP/ADS/arXiv/DBLP/ACL-Anthology workflow, BibTeX hygiene, supplemental-data linking
+│   ├── scientific-style.md       # sentence-level prose guidance, significance-language & statistical-reporting conventions
+│   └── submission-and-peer-review.md  # pre-submission checklist, cover letters, referee responses, conference rebuttals
 ├── scripts/
 │   ├── build_lit_matrix.py       # CSV of reading notes -> formatted markdown comparison table
 │   ├── check_manuscript.py       # pre-submission checker for the user's .tex/.bib files
