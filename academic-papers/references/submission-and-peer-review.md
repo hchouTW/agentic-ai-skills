@@ -6,6 +6,7 @@ arXiv submission, and how to structure a referee response once reviews come back
 ## Table of contents
 - [Pre-submission checklist](#pre-submission-checklist)
 - [Cover letters](#cover-letters)
+- [Authorship and contributions](#authorship-and-contributions)
 - [arXiv submission mechanics](#arxiv-submission-mechanics)
 - [Responding to referee reports](#responding-to-referee-reports)
 - [Conference-style rebuttals](#conference-style-rebuttals)
@@ -42,6 +43,36 @@ A cover letter to an editor is short (typically under one page) and states:
 Keep it factual; avoid overselling ("groundbreaking," "unprecedented") —
 editors read these constantly and plain, specific language is more
 persuasive than superlatives.
+
+## Authorship and contributions
+
+Use to organize author-provided contributions, acknowledgments, funding, and
+disclosures. Start from the supplied author list and contribution records or an
+existing approved statement. Preserve names, order, affiliations, equal-contribution
+notes, and corresponding-author designations unless the user supplies a correction.
+Do not infer credit, seniority, author order, or authorship eligibility from job
+titles, commit counts, or the amount of prose someone wrote.
+
+Map supplied activities to the requested format. If a venue requests CRediT or
+another taxonomy, consult its official current definitions and venue instructions;
+roles describe contributions and do not themselves determine authorship. Several
+authors may share a role and one author may have several roles. Flag ambiguous
+mappings rather than assigning unstated work or imposing a contribution quota.
+
+Keep authorship, acknowledged assistance, funding, and competing-interest
+disclosures distinct. Use exact supplied funder names and grant identifiers.
+Never infer "no competing interests" from silence or invent consent to be named
+in acknowledgments. Record missing declarations as inputs needed from the relevant
+authors; do not resolve an authorship dispute by choosing a side.
+
+For large collaborations, use the provided collaboration convention and approved
+boilerplate rather than forcing individual roles onto a collective author list.
+If an AI-use disclosure is requested or required by the venue, describe the actual
+assistance from known records without inventing tool versions or usage details.
+
+Deliver the formatted statement, a role-to-author mapping when helpful, and
+unresolved factual questions. Distinguish draft wording from author-confirmed
+declarations; drafting does not authorize contacting authors or submitting forms.
 
 ## arXiv submission mechanics
 
@@ -115,6 +146,10 @@ including ACL Rolling Review's different (journal-like, revision-carrying)
 cadence.
 
 ## Tracking revisions
+
+For tracing a changed result or reviewer request across the paper, figures,
+supplements, and response letter, use `revision-impact-tracking.md`. It provides
+a dependency ledger and distinguishes edits made from changes actually verified.
 
 - Keep a `CHANGES.md` or similar running log during revision, noting what
   changed and why — this becomes the raw material for the response letter

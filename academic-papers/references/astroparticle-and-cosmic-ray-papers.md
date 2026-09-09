@@ -128,12 +128,14 @@ cross-checked against INSPIRE-HEP records) is a useful concrete illustration of
 several points above, precisely because it deviates from the "typical" pattern in a
 few visible ways:
 
-- **Single-venue, letter-only publishing.** Of AMS-02's ~30 collaboration papers
-  (2013–2026), essentially all are Physical Review Letters — short, headline-result
-  papers rather than long PRD-style methods papers. Don't assume every large
-  collaboration spreads results across PRL *and* PRD the way collider experiments
-  often do; check the specific collaboration's own publication list rather than
-  defaulting to the collider pattern.
+- **Single-venue, letter-only publishing.** Of AMS-02's collaboration papers (31 as
+  of 2026-09-10, verified against `ams02.space/publications` and cross-checked
+  against raw page content — see the verification note below), essentially all are
+  Physical Review Letters — short, headline-result papers rather than long
+  PRD-style methods papers. Don't assume every large collaboration spreads results
+  across PRL *and* PRD the way collider experiments often do; check the specific
+  collaboration's own publication list rather than defaulting to the collider
+  pattern.
 - **No arXiv preprint, by design.** Checking INSPIRE-HEP directly (not just the
   collaboration's own site) confirms AMS-02's PRL papers carry no `arxiv_eprints`
   field at all — e.g. "Properties of Iron Primary Cosmic Rays" (PRL 126, 041104,
@@ -162,6 +164,18 @@ few visible ways:
   result, check the collaboration site for this supplemental link, not just the
   journal page — the underlying flux tables are often published there rather than
   (or in addition to) HEPData.
+
+**Verification note (this is a live-changing fact, not a fixed one):** the counts
+above were checked by fetching the collaboration page directly and cross-checking
+against its raw content (not just an AI-summarized paraphrase of it — a first-pass
+summary claimed 42 publications, which was wrong; an itemized listing and an
+independent raw-content check both confirmed 31). This collaboration publishes a
+few papers a year, so this count will drift. Re-verify against
+`ams02.space/publications` (and INSPIRE-HEP) before citing an exact number, and
+update the stamped date above when you do — don't carry this specific number
+forward past its verification date as if it were still current. This is
+`citation-verification.md`'s "record the lookup date" requirement applied to a
+worked example rather than a manuscript claim.
 
 For the physics/instrument content behind these papers (the AMS-02 detector,
 analysis techniques, and results themselves), see `hep-analysis`'s dedicated case

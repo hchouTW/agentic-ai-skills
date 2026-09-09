@@ -1,0 +1,35 @@
+# Claim–evidence mapping
+
+Use when checking whether a paper's conclusions follow from its evidence. For
+external reference checks, use `citation-verification.md`; for actual reruns, use
+`reproducibility-auditing.md`.
+
+Extract the central claims from the title, abstract, contribution statements,
+results, and conclusion. Split compound claims when their parts need different
+evidence. Preserve qualifiers, dataset/regime, comparison, and uncertainty rather
+than paraphrasing a narrow claim into a universal one.
+
+Build a matrix with: claim ID and location; claim text; type (empirical,
+theoretical, methodological, or interpretive); evidence locator; conditions and
+assumptions; support verdict; gap; proposed action. Evidence may be a figure,
+table, derivation, controlled comparison, or external source. Its mere presence
+does not establish that it tests the claim.
+
+Check whether the evidence addresses the exact claim:
+
+- A benchmark improvement needs the relevant metric, comparator, evaluation
+  conditions, and uncertainty; one dataset does not establish universal superiority.
+- A mechanism or causal claim needs evidence that separates plausible competing
+  explanations; correlation alone supports an association.
+- A theoretical claim depends on its assumptions and domain. Empirical examples
+  illustrate a theorem but do not prove it.
+- A robustness/generalization claim needs tests over the variation named in the
+  claim. Several plots from the same sample are not independent confirmations.
+- An exclusion, null result, or absence-of-effect claim must retain its sensitivity,
+  confidence/credible-level convention, and tested range.
+
+Use supported, partially supported, unsupported, or unresolved. Missing evidence
+is not proof that a claim is false. For each gap, propose either narrower wording,
+an existing evidence link, or a specific additional analysis; do not fabricate
+results or perform new experiments merely to complete the matrix. Prioritize gaps
+that affect the central conclusion and state the mapping's coverage.

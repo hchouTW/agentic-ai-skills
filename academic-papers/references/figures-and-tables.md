@@ -11,6 +11,7 @@ publication-quality figures with correct, complete captions.
 - [Caption writing](#caption-writing)
 - [Tables](#tables)
 - [Color and accessibility](#color-and-accessibility)
+- [Accessible descriptions](#accessible-descriptions)
 - [File formats and resolution](#file-formats-and-resolution)
 
 ## What makes a figure publication-ready
@@ -96,6 +97,43 @@ figure itself.
   addition to color for curves.
 - Do not rely on color alone to distinguish more than ~4-5 categories; add
   markers or hatching.
+
+For every scientifically meaningful distinction, provide a non-color cue when
+needed, even with only two categories. Inspect at the intended display/print size:
+text, markers, error bars, and line patterns must remain distinguishable. A palette
+name alone does not establish accessibility; check actual contrast and encodings.
+
+## Accessible descriptions
+
+Use for figure alt text, longer descriptions, and accessible presentation of
+scientific findings. Inspect the actual figure and caption before describing it;
+if unavailable, label any draft based on supplied text as provisional. Preserve
+the scientific claim and uncertainty when simplifying language.
+
+Write concise alt text identifying the figure's purpose, plot type, variables,
+and main observed relationship. Include units, scale, or uncertainty when needed
+to interpret that relationship. Describe series by scientific identity rather
+than color alone. Do not transcribe every tick or repeat a nearby caption verbatim;
+use the caption for methodological detail and the description for access to visual
+information that would otherwise be lost.
+
+For a dense or multi-panel figure, supply a longer description with panel order,
+axes/scales, series, key patterns, and exceptions. Distinguish visible trends from
+statistical conclusions requiring analysis: overlapping error bars alone do not
+establish a significance test. Use source data for exact values; do not invent
+precision from pixels. Link a machine-readable table when detailed lookup matters.
+
+For tables, retain text-based cells, explicit headers and units, clear missing-value
+definitions, and a sensible reading order. Avoid conveying a winner, significance,
+or grouping solely through color, boldface, or spatial placement. Explain those
+meanings in text without overstating what the analysis establishes.
+
+Deliver descriptions mapped to stable figure/table labels and concrete visual fixes.
+If editing the artifact, use the format's supported alt-text, tagging, and reading-
+order features and inspect the exported result with available document tools.
+Writing an alt-text draft does not prove it is embedded in the final PDF or that
+the document is accessible. State what was actually checked; consult current
+official requirements before claiming compliance with a named standard or venue.
 
 ## File formats and resolution
 

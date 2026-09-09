@@ -9,6 +9,8 @@ time-pressed.
 ## Table of contents
 - [Title](#title)
 - [Abstract](#abstract)
+- [Abstract and title variants](#abstract-and-title-variants)
+- [Argument restructuring](#argument-restructuring)
 - [Introduction](#introduction)
 - [Detector / Dataset / Methods](#detector--dataset--methods)
 - [Analysis](#analysis)
@@ -52,6 +54,55 @@ Do not cite references in the abstract (most venues disallow it). Do not
 introduce new terminology in the abstract that isn't defined in the main text.
 Write the abstract *last*, after the results are final — it should never be
 the place where a number is decided.
+
+## Abstract and title variants
+
+Use when asked to optimize a title/abstract or adapt it to a venue, audience, or
+length limit. Establish the intended reader and constraints from the request;
+verify current official venue rules when needed. Treat the generic conventions
+above as defaults, not universal requirements. A methods paper can appropriately
+foreground its method rather than a measurement.
+
+Extract the factual core from the manuscript: question, approach, dataset/regime,
+main result and uncertainty, and bounded implication. Preserve this core across
+variants. If a result is missing, mark the missing input; do not invent a number or
+convert a planned experiment into a completed one.
+
+Produce meaningfully different variants only as useful or requested, such as one
+for specialists and one for a broader scientific readership. Label the purpose
+and give measured word/character counts when a limit applies, stating the counting
+convention if ambiguous. Improve specificity and searchability with accurate field
+terms, without keyword stuffing or claims of guaranteed discoverability.
+
+Check each version against the Results and limitations: preserve qualifiers,
+uncertainty conventions, tested scope, and the distinction between association
+and causation or evidence and discovery. A shorter version may omit secondary
+detail but must not broaden the conclusion. Recommend the version that fits the
+stated constraints and explain any substantive wording tradeoff briefly.
+
+## Argument restructuring
+
+Use when a draft's logic or organization needs improvement. Build a reverse
+outline: each paragraph/section's purpose, claim, evidence, and prerequisites.
+Trace the central chain from question to method to result to interpretation using
+`claim-evidence-mapping.md` when support is disputed.
+
+Identify missing premises, circular reasoning, definitions introduced too late,
+duplicated arguments, abrupt shifts, and conclusions broader than the evidence.
+Distinguish a presentation gap from a missing analysis: rearranging text cannot
+repair an unsupported scientific inference.
+
+Propose a revised outline with each section's role and an old-to-new location map
+for substantial moves. Put prerequisites before dependent claims while following
+the target genre; a review, theory paper, and experimental report need different
+structures. Preserve caveats beside the claims they qualify and avoid moving
+essential evidence to supplements merely to simplify the narrative.
+
+If editing is requested, make the structural changes, repair transitions and
+cross-references, and preserve supported technical content and author voice.
+Flag required evidence or author decisions rather than supplying invented bridges.
+Deliver the revised draft/outline with a brief explanation of the consequential
+moves and remaining logical gaps.
 
 ## Introduction
 

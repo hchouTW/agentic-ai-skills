@@ -8,6 +8,7 @@ coherent literature review or a paper's own related-work/Introduction section.
 - [Building a comparison matrix](#building-a-comparison-matrix)
 - [Synthesis, not a list](#synthesis-not-a-list)
 - [Spotting the gap](#spotting-the-gap)
+- [Novelty assessment](#novelty-assessment)
 - [Common pitfalls](#common-pitfalls)
 
 ## Organizing structure
@@ -95,6 +96,32 @@ matrix:
 State the gap in one or two sentences, directly connected to what the current paper
 (or the review's own conclusion) does about it — a gap identified but never
 addressed in the rest of the paper reads as an unfulfilled promise to the reader.
+
+## Novelty assessment
+
+Use when evaluating a proposed contribution or substantiating an Introduction's
+novelty claim. State the contribution precisely: new question, method, proof,
+measurement, dataset, regime, precision, or validation. Separate novelty from
+usefulness and evidentiary strength; an incremental contribution can be valuable.
+
+Search current primary literature using both the proposed terminology and nearby
+methods or older names for the same idea. Follow references and subsequent work
+from the closest papers. Record sources searched, queries, date, and coverage
+limits; use `citation-verification.md` to verify what the nearest sources actually
+establish. Search-result snippets and titles alone cannot establish equivalence.
+
+Build a focused comparison: prior work/version, question, assumptions, method,
+data/regime, result, overlap with the proposal, and substantive difference. Account
+for preprint/published versions of the same work. Distinguish a conceptual change
+from a new application, larger sample, implementation change, or stronger test.
+Do not infer priority solely from publication year when version dates matter.
+
+Deliver a defensible gap statement, the closest competing contributions with
+evidence locators, and what must be demonstrated to substantiate the difference.
+Qualify coverage: "not found in the sources searched" is not proof of absence.
+Avoid "first" or "unprecedented" unless the evidence supports the stated scope.
+If the novelty depends on unresolved equivalence or inaccessible prior work,
+mark it unresolved rather than declaring the proposal novel or unoriginal.
 
 ## Common pitfalls
 

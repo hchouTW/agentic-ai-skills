@@ -11,6 +11,7 @@ and venue-specific citation-style expectations.
 - [Citation style by venue](#citation-style-by-venue)
 - [What to cite, and how much](#what-to-cite-and-how-much)
 - [Linking supplemental material and data](#linking-supplemental-material-and-data)
+- [Availability statements](#availability-statements)
 - [Avoiding common bibliography mistakes](#avoiding-common-bibliography-mistakes)
 
 ## INSPIRE-HEP workflow
@@ -146,6 +147,36 @@ live:
 - State clearly in the paper *which* venue holds the data (HEPData record number,
   a collaboration data-release URL, or a Zenodo/institutional DOI) rather than a
   vague "data available upon request," which most venues now discourage or forbid.
+
+## Availability statements
+
+Use to draft or revise data and code availability statements from actual release
+information. Inventory separately the raw data, processed data, figure/table source
+data, analysis code, configurations, and model weights that support the results.
+For each relevant artifact record its owner/source, version or commit, persistent
+identifier or URL, access status, and any verified restrictions or license.
+
+Distinguish publicly released, controlled-access, embargoed/planned, and unavailable
+artifacts. Verify links and versions when possible; an existing repository does not
+prove that it contains the specific artifacts needed for this paper. Do not claim
+open licensing because code is visible, or claim data are public because a request
+form is available. State unverified access explicitly.
+
+Draft concrete statements covering what is available, where, which version, and
+how access works. For restricted materials, use the author-provided reason and
+actual access procedure; do not invent privacy, contractual, or legal grounds,
+promise future release, or imply requests will be granted. Distinguish third-party
+materials from those the authors can distribute. Cite repository records alongside
+the paper when they are separate scholarly objects.
+
+Check current official venue requirements if compliance is requested. Use missing-
+input markers for absent identifiers, licenses, or release dates rather than
+publishing placeholders as facts. An availability statement describes access;
+it does not certify reproducibility (see `reproducibility-auditing.md`).
+
+Deliver publication-ready wording where facts are established and a short list of
+unresolved inputs elsewhere. Depositing files, changing repository visibility, or
+releasing restricted artifacts is outside the statement-writing task.
 
 ## Avoiding common bibliography mistakes
 
