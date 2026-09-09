@@ -90,12 +90,13 @@ a figure caption, or a formatted document of your own.
 
 ## Core workflow: writing
 
-1. **Scope the paper.** Before writing a word, pin down: target venue (PRL / PRD / JHEP
-   / EPJC / thesis chapter / proceedings / internal note), length limit, single result
-   or full analysis, and whether this is a from-scratch draft or an edit of existing
-   text. Ambiguity here wastes the most time downstream — ask if it's genuinely
-   unclear, but if the user has already given enough (e.g. "PRL letter on the Higgs
-   mass measurement"), proceed without a clarifying round-trip.
+1. **Scope the paper.** Before writing a word, pin down: target venue (PRL / PRD /
+   JHEP / EPJC / JCAP / ApJ / NeurIPS / ICML / ACL / JMLR / thesis chapter /
+   proceedings / internal note), length limit, single result or full analysis, and
+   whether this is a from-scratch draft or an edit of existing text. Ambiguity here
+   wastes the most time downstream — ask if it's genuinely unclear, but if the user
+   has already given enough (e.g. "PRL letter on the Higgs mass measurement" or
+   "NeurIPS submission on this method"), proceed without a clarifying round-trip.
 2. **Build the skeleton first.** Write section headers and one-sentence placeholders for
    each ("This section will show the fit is consistent with SM at 1.2σ.") before
    writing full prose. This catches structural problems — missing systematics
@@ -109,9 +110,10 @@ a figure caption, or a formatted document of your own.
 4. **Build figures and tables alongside the text**, not after. A figure that needs a
    paragraph of caption to be understood usually needs redesigning, not more caption.
    See `references/figures-and-tables.md`.
-5. **Manage citations as you write**, not in a final sweep — pull keys from
-   INSPIRE-HEP as each claim is made, reusing any reading notes already gathered above,
-   so nothing gets forgotten. See `references/citations-and-bibliography.md`.
+5. **Manage citations as you write**, not in a final sweep — pull keys from the
+   right source for the venue (INSPIRE-HEP, ADS, arXiv, DBLP, or ACL Anthology) as
+   each claim is made, reusing any reading notes already gathered above, so nothing
+   gets forgotten. See `references/citations-and-bibliography.md`.
 6. **Typeset in the target class file** from early on if the venue is known (REVTeX,
    JHEP, etc.) — page/length limits interact with formatting in ways that are painful
    to discover after the fact. See `references/latex-and-formatting.md`.
@@ -120,7 +122,8 @@ a figure caption, or a formatted document of your own.
    before the user sends the draft anywhere. Then do a human read-aloud pass for prose
    using `references/scientific-style.md`.
 8. **If reviews come back**, use `references/submission-and-peer-review.md` for how to
-   structure a referee response and cover letter.
+   structure a referee response and cover letter, or a single-shot conference
+   rebuttal if the venue uses that process instead.
 
 ## Physics/HEP paper structure (quick reference)
 
