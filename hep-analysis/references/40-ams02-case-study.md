@@ -1,7 +1,7 @@
 # AMS-02 Case Study: A Long-Duration Space-Based Spectrometer
 
 Applies the generic detector-technology references
-([references/23-detector-systems-overview.md](23-detector-systems-overview.md)
+([23-detector-systems-overview.md](23-detector-systems-overview.md)
 through [particle identification](26-particle-identification.md)) and
 [space-based direct detection](37-space-based-direct-detection.md) to a specific,
 real instrument: the Alpha Magnetic Spectrometer (AMS-02), operating on the
@@ -10,17 +10,17 @@ generic principles combine in one apparatus, not a substitute for the AMS
 collaboration's own technical publications - instrument parameters and results
 quoted from a real publication must be cited to that publication; anything not so
 cited here is illustrative only, per this skill's general sourcing discipline (see
-[references/13-sources.md](13-sources.md)).
+[13-sources.md](13-sources.md)).
 
 ## Subsystem stack
 
 AMS-02 combines, in the layered order described generically in
-[references/23-detector-systems-overview.md](23-detector-systems-overview.md):
+[23-detector-systems-overview.md](23-detector-systems-overview.md):
 
 - **A silicon microstrip tracker inside a permanent magnet**, giving rigidity via
   curvature as in any magnetic spectrometer - see the rigidity, maximum-detectable-
   rigidity, and multiple-scattering treatment in
-  [references/23-detector-systems-overview.md](23-detector-systems-overview.md) and
+  [23-detector-systems-overview.md](23-detector-systems-overview.md) and
   `scripts/multiple_scattering.py`. The magnet is a **permanent** magnet, not a
   superconducting one - a deliberate choice for a decade-plus space mission with no
   possibility of on-orbit cryogenic servicing, trading a smaller bending power
@@ -104,7 +104,7 @@ analysis structure worth naming explicitly:
    (approximately) the same acceptance**, which cancels a large part of the
    acceptance/exposure systematic that an absolute flux measurement cannot avoid -
    the same logic as an efficiency ratio in
-   [references/04-histograms-efficiencies.md](04-histograms-efficiencies.md).
+   [04-histograms-efficiencies.md](04-histograms-efficiencies.md).
    `scripts/particle_ratio_with_uncertainty.py` implements the corresponding exact
    error propagation for two independent yields with their own uncertainties.
 2. **The background for the rarer species is the far more abundant one
@@ -118,8 +118,8 @@ analysis structure worth naming explicitly:
 3. **A null or marginal result (e.g. an antihelium search) is reported as an
    exposure-normalized upper limit**, using the same Poisson/likelihood machinery as
    any other rare-event search in
-   [references/08-inference.md](08-inference.md) and
-   [references/39-astroparticle-statistics.md](39-astroparticle-statistics.md), not as
+   [08-inference.md](08-inference.md) and
+   [39-astroparticle-statistics.md](39-astroparticle-statistics.md), not as
    an absence-of-evidence claim.
 
 ## Deliverables

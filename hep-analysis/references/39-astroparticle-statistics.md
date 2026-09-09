@@ -5,9 +5,9 @@ significance, the look-elsewhere problem in its astroparticle forms (blind sky s
 source catalogs, time windows), and exposure/effective-area weighting for a
 steeply falling flux. General likelihood, interval, and combination machinery
 (profile likelihoods, CLs, Asimov data, RooFit/pyhf) is unchanged from
-[references/07-likelihood-fitting.md](07-likelihood-fitting.md) through
-[references/09-statistical-tools.md](09-statistical-tools.md) and
-[references/08-inference.md](08-inference.md) and applies here without
+[07-likelihood-fitting.md](07-likelihood-fitting.md) through
+[09-statistical-tools.md](09-statistical-tools.md) and
+[08-inference.md](08-inference.md) and applies here without
 modification; this file covers what is different about the astroparticle setting,
 not a restatement of general HEP statistics.
 
@@ -47,7 +47,7 @@ recur in review of this statistic:
 ## The look-elsewhere effect in its astroparticle forms
 
 The trials-factor correction (see
-[references/08-inference.md](08-inference.md) for the general treatment) takes
+[08-inference.md](08-inference.md) for the general treatment) takes
 specific, recurring forms in this domain that are easy to under-count:
 
 - **Blind all-sky or source-catalog scans**: testing a significance map at many
@@ -83,7 +83,7 @@ counts by a single acceptance and unfolding bin-by-bin - the same steep-spectrum
 argument stated in
 [cosmic-ray spectrum and composition](32-cosmic-ray-spectrum-and-composition.md),
 [imaging Cherenkov](35-imaging-atmospheric-cherenkov.md), and
-[references/10-measurements-unfolding.md](10-measurements-unfolding.md). A quoted
+[10-measurements-unfolding.md](10-measurements-unfolding.md). A quoted
 upper limit or best-fit flux that does not state the assumed spectral shape used in
 the exposure weighting is not reproducible, because a harder or softer assumed
 spectrum shifts the effective exposure (and hence the limit) systematically.

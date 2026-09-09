@@ -440,6 +440,56 @@ numeric instrument parameter or published measurement value, none of which
 are asserted here - the file explicitly directs a reader to verify any such
 concrete value against an AMS collaboration publication before quoting it.
 
+## Consistency audit (2026-09-10)
+
+A "check and reorganize" pass with no new content: cross-checked
+`scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` against every file
+actually present under `references/`, `scripts/`, and `assets/` (no orphans,
+no dangling entries either direction), cross-checked `SKILL.md`'s reference-
+routing table against all 40 files under `references/` (every file linked
+exactly once, no stale links), read every relative Markdown link's display
+text against its actual target, re-ran all 17 standard-library-only quick-
+check commands from `README.md` exactly as documented, and `py_compile`'d
+every Python file in the package.
+
+- Found and fixed **58 link-text/target mismatches across 19 files**
+  (`20-physics-objects-jets-btagging-met.md`,
+  `21-triggers-luminosity-pileup.md`, `22-multivariate-classifiers-bdt-nn.md`,
+  `23-detector-systems-overview.md`, `24-tracking-and-vertexing.md`,
+  `25-calorimetry-ecal-hcal.md`, `26-particle-identification.md`,
+  `27-event-reconstruction.md`,
+  `28-reconstruction-performance-and-truth-matching.md`,
+  `29-event-generation.md`, `30-detector-simulation.md`,
+  `31-calibration-and-alignment.md`,
+  `32-cosmic-ray-spectrum-and-composition.md`,
+  `33-extensive-air-showers.md`, `34-ground-based-detection-arrays.md`,
+  `35-imaging-atmospheric-cherenkov.md`, `37-space-based-direct-detection.md`,
+  `39-astroparticle-statistics.md`, `40-ams02-case-study.md`): each showed a
+  `references/`-prefixed path as the link's visible text while the href
+  (correctly, since these files live inside `references/` themselves)
+  pointed at the bare sibling filename. Every one of these links already
+  resolved correctly - this doesn't change or weaken any "every relative
+  Markdown link resolves" claim made in the passes above - the fix is purely
+  to the misleading display text, bringing it in line with the majority of
+  cross-references in this same file set that already used the bare
+  filename as both text and target. This is the same class of bug found and
+  fixed in the sibling `agile-development` (3 occurrences) and
+  `deep-learning` (17 occurrences) skills in this collection.
+- Confirmed `references/19-cpp-balanced-design-guidelines.md` is **not**
+  claimed byte-identical to `agile-development`'s/`deep-learning`'s shared
+  copy of the same base file anywhere in this package's own docs (unlike
+  those two skills, which do make and verify that claim of each other) - it
+  legitimately carries an extra hep-analysis-specific scope-setting
+  paragraph pointing to `14-cpp-root-coding.md`/`18-code-conventions.md`, so
+  no inconsistency here; left untouched.
+- All 17 standard-library quick-check commands in `README.md` still exit 0
+  and match documented behavior; the ROOT/PyROOT-dependent scripts still
+  only parse (`py_compile`) in this environment, consistent with the
+  Limitations below (PyROOT itself fails to import here with an unrelated
+  Python-ABI error, distinct from "ROOT not installed").
+- Bundle validator and the full test suite (172 tests) re-run clean after
+  the fixes.
+
 ## Limitations
 
 - ROOT is not installed in the validation environment, so `check_root_cpp_env.sh`

@@ -1,7 +1,7 @@
 # Ground-Based Detection Arrays: Surface Detectors and Fluorescence
 
 Covers the two complementary techniques for observing an extensive air shower (see
-[references/33-extensive-air-showers.md](33-extensive-air-showers.md)) from the
+[33-extensive-air-showers.md](33-extensive-air-showers.md)) from the
 ground - sampling it at one depth with a surface array, or imaging its full
 longitudinal development with fluorescence telescopes - and the hybrid combination
 that dominates modern ultra-high-energy cosmic-ray observatories. Detector-technology
@@ -29,7 +29,7 @@ energy, since the shower footprint grows with energy). Each station records a si
   simulation) to be the distance at which shower-to-shower fluctuations in the
   lateral distribution are minimized, so that the density-to-energy conversion is as
   model-independent as practical. This is a direct application of shower
-  universality (see [references/33-extensive-air-showers.md](33-extensive-air-showers.md)):
+  universality (see [33-extensive-air-showers.md](33-extensive-air-showers.md)):
   the conversion still carries residual hadronic-model and composition dependence,
   which must be calibrated against an independent energy estimator (fluorescence, in
   a hybrid detector) rather than assumed from simulation alone.
@@ -68,7 +68,7 @@ rather than of the shower physics.
   fluorescence measurement is treated as the more direct energy calibration in a
   hybrid design.
 - **`X_max` is read directly off the fitted longitudinal profile** (Gaisser-Hillas,
-  see [references/33-extensive-air-showers.md](33-extensive-air-showers.md)), making
+  see [33-extensive-air-showers.md](33-extensive-air-showers.md)), making
   fluorescence the primary composition-measuring technique among ground-based methods.
 - **Duty cycle is roughly 10-15%**: fluorescence light is faint UV, requiring dark,
   clear, moonless nights, so only a fraction of showers that trigger a co-located

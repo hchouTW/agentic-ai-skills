@@ -1,8 +1,8 @@
 # Triggers, Luminosity, and Pileup Reweighting
 
 Complements the trigger/luminosity cautions already listed in
-[references/01-analysis-design.md](01-analysis-design.md) and the weight-composition
-conventions in [references/03-weights-normalization.md](03-weights-normalization.md)
+[01-analysis-design.md](01-analysis-design.md) and the weight-composition
+conventions in [03-weights-normalization.md](03-weights-normalization.md)
 with the concrete measurement and reweighting methodology.
 
 ## Trigger efficiency measurement: tag-and-probe
@@ -47,7 +47,7 @@ not a flat number, and its shape uncertainty documented explicitly.
 A prescaled trigger accepts only a random subset (1-in-N) of events that would
 otherwise pass, to control output rate; each accepted event's *effective* weight must
 account for this. Do not apply a flat luminosity-normalization weight (as in
-[references/03-weights-normalization.md](03-weights-normalization.md)) to data
+[03-weights-normalization.md](03-weights-normalization.md)) to data
 collected with a prescaled trigger without folding in the prescale, and be aware that
 prescale values are frequently time-dependent (changed run-by-run or by
 luminosity-block as instantaneous luminosity varies over a fill) - a single
@@ -74,7 +74,7 @@ not in the certified list, or a certified run excluded from the luminosity sum,
 biases the normalization); reconcile this explicitly rather than assuming the
 production-level bookkeeping already guarantees it, per the run/luminosity-block
 duplicate-counting caution in
-[references/01-analysis-design.md](01-analysis-design.md).
+[01-analysis-design.md](01-analysis-design.md).
 
 ## Pileup reweighting
 

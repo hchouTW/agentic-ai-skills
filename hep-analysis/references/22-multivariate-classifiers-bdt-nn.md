@@ -1,6 +1,6 @@
 # Multivariate Classifiers: BDTs and Neural Networks in Analysis
 
-Extends [references/11-ml-analysis.md](11-ml-analysis.md)'s splits/weights/validation
+Extends [11-ml-analysis.md](11-ml-analysis.md)'s splits/weights/validation
 principles with concrete guidance on training and choosing between classifier
 families. Read 11-ml-analysis.md first; this file assumes it.
 
@@ -50,7 +50,7 @@ in categories with re-derived background shapes).
   memorize individual high-weight events rather than learning a generalizable
   boundary - check the effective (weighted) statistics per leaf, not just the raw
   event count, especially in samples with large weight variance (see
-  [references/03-weights-normalization.md](03-weights-normalization.md) on negative
+  [03-weights-normalization.md](03-weights-normalization.md) on negative
   and highly variable weights).
 - Use k-fold cross-training/application (train on k-1 folds, apply to the held-out
   fold, rotate) rather than a single train/test split when MC statistics are limited
@@ -92,7 +92,7 @@ reference (e.g. isotonic regression or Platt scaling against a validation sample
 using the score only through its rank/selection threshold rather than its literal
 value as though it were a probability. Document which convention is used, since
 downstream statistical combination methods
-([references/09-statistical-tools.md](09-statistical-tools.md)) may implicitly assume
+([09-statistical-tools.md](09-statistical-tools.md)) may implicitly assume
 one.
 
 ## Validation beyond 11-ml-analysis.md's checklist

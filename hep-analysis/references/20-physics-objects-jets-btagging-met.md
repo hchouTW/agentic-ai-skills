@@ -29,7 +29,7 @@ should be justified, not assumed for convenience. Jet energy resolution smearing
 (applied to MC to match the resolution observed in data) is a separate correction from
 scale, with its own uncertainty, and both must be varied consistently with the same
 random seed handling described for other stochastic corrections in
-[references/03-weights-normalization.md](03-weights-normalization.md).
+[03-weights-normalization.md](03-weights-normalization.md).
 
 ## b-tagging
 
@@ -81,7 +81,7 @@ Physics objects reconstructed from overlapping detector signatures (an electron
 depositing energy also clustered into a nearby jet; a jet built from the same tracks
 as a nearby muon) must have a documented, order-sensitive overlap-removal procedure -
 see the general caution on ordering in
-[references/01-analysis-design.md](01-analysis-design.md). State the removal order
+[01-analysis-design.md](01-analysis-design.md). State the removal order
 (commonly leptons resolved against jets after jet energy corrections, but this varies
 by analysis and object definitions) and the matching radius/criterion used, since
 applying removal before vs. after corrections, or with a different matching radius,

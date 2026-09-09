@@ -7,7 +7,7 @@ quantities. The subsystem physics feeding this chain is in
 [calorimetry](25-calorimetry-ecal-hcal.md), and
 [particle identification](26-particle-identification.md); the object-level corrections
 applied afterwards are in
-[references/20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md),
+[20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md),
 and how to measure whether reconstruction worked is in
 [reconstruction performance and truth matching](28-reconstruction-performance-and-truth-matching.md).
 
@@ -112,7 +112,7 @@ reasons unrelated to physics.
 
 Overlap removal (which object wins when two definitions claim the same energy) is
 specified at the analysis level and is covered in
-[references/20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md);
+[20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md);
 what matters here is that the reconstruction-level and analysis-level removals must be
 consistent with each other, and that the ordering of removal steps changes the result.
 
@@ -138,7 +138,7 @@ correct object energies.
 Two points are easy to get wrong. Pileup mitigation is a *correction with an
 uncertainty*, not a clean removal, and its residual must appear as a systematic. And
 because the pileup distribution differs between data and simulation, the reweighting of
-[references/21-triggers-luminosity-pileup.md](21-triggers-luminosity-pileup.md) must be
+[21-triggers-luminosity-pileup.md](21-triggers-luminosity-pileup.md) must be
 applied consistently with the mitigation - reweighting to a data pileup profile while
 reconstructing with a mitigation tuned for a different profile leaves a residual that
 neither step catches.

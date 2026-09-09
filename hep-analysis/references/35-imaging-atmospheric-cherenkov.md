@@ -8,7 +8,7 @@ pure electromagnetic cascade, described by the Greisen profile) and shares its
 significance and background-estimation methodology with
 [astroparticle statistics](39-astroparticle-statistics.md). Not to be confused with
 the ring-imaging Cherenkov (RICH) *particle-identification* detectors in
-[references/26-particle-identification.md](26-particle-identification.md), which
+[26-particle-identification.md](26-particle-identification.md), which
 image single-particle Cherenkov cones in a dense radiator rather than a whole air
 shower's Cherenkov light pool in the atmosphere.
 
@@ -106,7 +106,7 @@ technique's low-energy threshold (set by the night-sky-background noise floor an
 the reduced Cherenkov yield of low-energy showers) - the same steep-spectrum
 forward-folding preference stated in
 [cosmic-ray spectrum and composition](32-cosmic-ray-spectrum-and-composition.md) and
-[references/10-measurements-unfolding.md](10-measurements-unfolding.md).
+[10-measurements-unfolding.md](10-measurements-unfolding.md).
 
 ## Deliverables
 

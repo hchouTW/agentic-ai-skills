@@ -111,14 +111,14 @@ A calibration update is therefore not a local change:
 - Re-derive, do not reuse, any scale factor or data-driven background estimate that
   was measured with the old constants.
 - Re-validate classifiers whose input distributions have moved, following
-  [references/22-multivariate-classifiers-bdt-nn.md](22-multivariate-classifiers-bdt-nn.md).
+  [22-multivariate-classifiers-bdt-nn.md](22-multivariate-classifiers-bdt-nn.md).
 - Compare the affected distributions before and after with an explicit method - event
   counts per cut, histogram integrals, maximum absolute and relative bin difference -
   as required for any change that risks altering physics output.
 - Keep the calibration uncertainty correlated across regions and samples where it
   shares a source; treating the same energy-scale uncertainty as independent between a
   signal and a control region is a standard way to understate a systematic. See
-  [references/06-systematics.md](06-systematics.md).
+  [06-systematics.md](06-systematics.md).
 
 ## Deliverables
 

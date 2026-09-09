@@ -39,7 +39,7 @@ its crudeness, correctly predicts the two results that dominate composition anal
   in single-shower energy, the sum over `A` sub-showers gives *more* muons for a
   nucleus than for a proton of the same total energy `E0` - the origin of the
   muon-content composition observable in
-  [references/32-cosmic-ray-spectrum-and-composition.md](32-cosmic-ray-spectrum-and-composition.md).
+  [32-cosmic-ray-spectrum-and-composition.md](32-cosmic-ray-spectrum-and-composition.md).
   Superposition also predicts an earlier shower maximum for a heavier nucleus (each
   sub-shower has less energy and so develops less deeply), consistent with the
   `X_max` composition observable below.

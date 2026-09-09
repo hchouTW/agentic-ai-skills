@@ -204,7 +204,7 @@ easy to violate:
   with a prior on species abundance, and in a sample where one species outnumbers
   another by orders of magnitude, a modest likelihood ratio does not establish the rare
   species. This is the same reasoning as background estimation in
-  [references/05-backgrounds.md](05-backgrounds.md), and mis-identification should
+  [05-backgrounds.md](05-backgrounds.md), and mis-identification should
   appear as an explicit background component in the likelihood, with its rate
   constrained by a measurement.
 - **Quote efficiency and contamination together, differentially.** A PID working point

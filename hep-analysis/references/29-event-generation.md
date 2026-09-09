@@ -2,9 +2,9 @@
 
 Covers the layer upstream of the detector: producing the particle-level events that
 detector simulation then propagates. Deliberately complements rather than repeats
-[references/03-weights-normalization.md](03-weights-normalization.md), which owns
+[03-weights-normalization.md](03-weights-normalization.md), which owns
 luminosity, cross-section normalization, and the sum-of-weights convention, and
-[references/06-systematics.md](06-systematics.md), which owns how theory variations
+[06-systematics.md](06-systematics.md), which owns how theory variations
 enter the likelihood. What is added here is the structure of the generation chain and
 the failure modes specific to it. The downstream stage is
 [detector simulation](30-detector-simulation.md).
@@ -72,7 +72,7 @@ Handling them correctly is a hard requirement:
   a genuine modeling problem, and treat the bin properly in the likelihood.
 - **Normalization uses the sum of weights of the full production**, not the selected
   entry count. This is the rule in
-  [references/03-weights-normalization.md](03-weights-normalization.md) and it is
+  [03-weights-normalization.md](03-weights-normalization.md) and it is
   violated most often when a sample is split across production batches or partially
   reprocessed.
 

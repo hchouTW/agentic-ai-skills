@@ -6,7 +6,7 @@ enter an analysis as efficiency loss, fakes, or charge confusion. Builds on the
 rigidity and multiple-scattering material in
 [detector systems overview](23-detector-systems-overview.md); the downstream use of
 reconstructed tracks in jets, b-tagging, and missing transverse momentum is in
-[references/20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md).
+[20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md).
 
 ## Sensor technologies
 
@@ -134,7 +134,7 @@ tracking system), or a sample of known charge sign. Analyses of charge ratios,
 antiparticle fractions, or any rare oppositely-signed species should treat charge
 confusion as a dedicated background component in the likelihood, with its own
 nuisance parameter, following
-[references/05-backgrounds.md](05-backgrounds.md).
+[05-backgrounds.md](05-backgrounds.md).
 
 ## Vertexing
 

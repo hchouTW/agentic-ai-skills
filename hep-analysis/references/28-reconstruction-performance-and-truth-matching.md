@@ -4,11 +4,11 @@ Covers how to measure whether reconstruction worked: efficiency, fake rate, puri
 resolution, and bias - all of which rest on a **truth-matching criterion** that must be
 stated explicitly, because changing it changes every number. Complements the
 statistical treatment of efficiencies in
-[references/04-histograms-efficiencies.md](04-histograms-efficiencies.md), the
+[04-histograms-efficiencies.md](04-histograms-efficiencies.md), the
 data-driven efficiency measurement in
-[references/21-triggers-luminosity-pileup.md](21-triggers-luminosity-pileup.md), and
+[21-triggers-luminosity-pileup.md](21-triggers-luminosity-pileup.md), and
 the response-matrix formalism in
-[references/10-measurements-unfolding.md](10-measurements-unfolding.md).
+[10-measurements-unfolding.md](10-measurements-unfolding.md).
 
 ## Truth matching is a definition, not a measurement
 
@@ -114,7 +114,7 @@ not be mixed:
 - **Correct the data** - divide by efficiency and unfold the resolution to obtain a
   particle-level result. This requires the response matrix and its regularization, and
   makes the result comparable to theory directly. Follow
-  [references/10-measurements-unfolding.md](10-measurements-unfolding.md).
+  [10-measurements-unfolding.md](10-measurements-unfolding.md).
 - **Fold the prediction** - apply efficiency and resolution to the simulated
   prediction and compare at detector level. Statistically cleaner (no unfolding
   regularization, no ill-conditioned inversion), but the result is
@@ -123,7 +123,7 @@ not be mixed:
 Whichever is chosen, the same performance inputs must be used consistently across
 signal, background, and control regions, and their uncertainties treated as correlated
 where they share a common source - see
-[references/06-systematics.md](06-systematics.md).
+[06-systematics.md](06-systematics.md).
 
 ## Validating performance itself
 

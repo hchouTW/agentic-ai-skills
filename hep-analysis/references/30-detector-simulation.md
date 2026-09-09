@@ -96,7 +96,7 @@ checking explicitly:
   turn-on that will be misattributed to physics.
 - **Pileup overlay** must reproduce the data's pileup distribution and its
   out-of-time structure, consistently with the reweighting applied later - see
-  [references/21-triggers-luminosity-pileup.md](21-triggers-luminosity-pileup.md) and
+  [21-triggers-luminosity-pileup.md](21-triggers-luminosity-pileup.md) and
   the pileup discussion in [event reconstruction](27-event-reconstruction.md).
 - **Simulated events must be reconstructed with the same code and configuration as
   data.** Any divergence between the two reconstruction paths becomes a systematic

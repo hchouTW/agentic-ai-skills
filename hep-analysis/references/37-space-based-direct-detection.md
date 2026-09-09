@@ -5,8 +5,8 @@ balloon magnetic spectrometers and calorimeters, e.g. AMS-02-class instruments),
 individual nuclei are measured directly rather than inferred from an air shower. The
 detector technology - magnetic spectrometry, calorimetry, TOF, TRD, RICH - is exactly
 the material in
-[references/23-detector-systems-overview.md](23-detector-systems-overview.md) through
-[references/26-particle-identification.md](26-particle-identification.md), applied
+[23-detector-systems-overview.md](23-detector-systems-overview.md) through
+[26-particle-identification.md](26-particle-identification.md), applied
 unchanged; this file covers what is specific to the near-Earth space environment:
 geomagnetic and solar effects that ground- and space-based measurements alike must
 correct for, and that have no collider-physics analog.
@@ -14,7 +14,7 @@ correct for, and that have no collider-physics analog.
 ## Rigidity, not energy, is the natural variable
 
 As in any magnetic spectrometer (see
-[references/23-detector-systems-overview.md](23-detector-systems-overview.md)), a
+[23-detector-systems-overview.md](23-detector-systems-overview.md)), a
 space-based instrument directly measures rigidity `R = pc/(Ze)`, and every
 geomagnetic and solar effect below acts on rigidity, not on energy or momentum
 separately - because both the geomagnetic field's confinement and a Fermi-accelerated
@@ -96,7 +96,7 @@ exclude from the integration time window, rather than average over silently.
 ## Direct-detection composition and the local antiparticle excesses
 
 Because a space-based spectrometer measures charge and mass directly (through the
-PID chain in [references/26-particle-identification.md](26-particle-identification.md)),
+PID chain in [26-particle-identification.md](26-particle-identification.md)),
 it gives an unambiguous species and isotope identification that no ground-based
 technique provides - the reason direct detection remains the reference measurement
 for composition, isotopic ratios, and antiparticle fluxes, even though its

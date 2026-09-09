@@ -4,8 +4,8 @@ Orients the detector-level references that follow
 ([tracking](24-tracking-and-vertexing.md), [calorimetry](25-calorimetry-ecal-hcal.md),
 [particle identification](26-particle-identification.md)) and connects them to the
 analysis-level material already in
-[references/01-analysis-design.md](01-analysis-design.md) and
-[references/20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md),
+[01-analysis-design.md](01-analysis-design.md) and
+[20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md),
 which start from reconstructed objects and treat the detector as given. This file is
 organized by detector *technology* and deliberately assumes no particular experiment,
 geometry, or beam configuration; quote scaling relations and orders of magnitude
@@ -76,7 +76,7 @@ with a symmetric-in-curvature resolution function: a steeply falling spectrum
 combined with a curvature-Gaussian smearing produces a net migration upward in
 rigidity that is not symmetric and cannot be corrected by a symmetric bin-by-bin
 factor. Handle it with a response matrix built in the measured variable - see
-[references/10-measurements-unfolding.md](10-measurements-unfolding.md).
+[10-measurements-unfolding.md](10-measurements-unfolding.md).
 
 ## Material budget and multiple scattering
 
@@ -125,7 +125,7 @@ particle inside the acceptance is actually reconstructed and selected, and is me
 from data wherever possible. Merging them into a single simulation-derived correction
 hides the part that should have been data-driven and validated - see
 [reconstruction performance](28-reconstruction-performance-and-truth-matching.md) and
-[references/04-histograms-efficiencies.md](04-histograms-efficiencies.md).
+[04-histograms-efficiencies.md](04-histograms-efficiencies.md).
 
 Acceptance depends on the simulated input spectrum whenever it is computed by
 integrating over a distribution. Quote the generator-level assumption used, and check

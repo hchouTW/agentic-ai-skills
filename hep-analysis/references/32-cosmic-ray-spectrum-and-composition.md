@@ -10,8 +10,8 @@ observable this whole domain measures - the differential flux of cosmic rays as 
 function of energy, species, arrival direction, and time - and the astrophysical
 processes (acceleration, propagation) that shape it. Detector-level material
 (rigidity, material budget, PID) is in
-[references/23-detector-systems-overview.md](23-detector-systems-overview.md) through
-[references/26-particle-identification.md](26-particle-identification.md) and applies
+[23-detector-systems-overview.md](23-detector-systems-overview.md) through
+[26-particle-identification.md](26-particle-identification.md) and applies
 unchanged to space-based spectrometers; this file is about the physics of the flux
 itself, not how any one instrument measures it.
 
@@ -50,7 +50,7 @@ at fixed measured energy - report the absolute energy-scale uncertainty explicit
 whenever a spectral index or a feature location (knee, ankle, cutoff energy) is
 quoted, and prefer forward-folding the assumed spectrum through the resolution rather
 than unfolding a steeply falling flux bin-by-bin (see
-[references/10-measurements-unfolding.md](10-measurements-unfolding.md), which this
+[10-measurements-unfolding.md](10-measurements-unfolding.md), which this
 domain inherits unchanged).
 
 ## Composition and its observables

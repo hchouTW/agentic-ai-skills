@@ -5,7 +5,7 @@ why hadronic calorimetry is fundamentally harder than electromagnetic, and how
 calorimeter information feeds particle identification. Assumes the material-budget and
 resolution vocabulary of [detector systems overview](23-detector-systems-overview.md);
 jet energy scale and its calibration are treated at the object level in
-[references/20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md),
+[20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md),
 and the calibration machinery itself in
 [calibration and alignment](31-calibration-and-alignment.md).
 
@@ -45,7 +45,7 @@ energy in the first layers, and the lateral spread separate electrons and photon
 hadrons with rejection factors that can be large but are strongly
 energy-dependent - and are exactly the kind of variable that a classifier will exploit
 and that must therefore be validated for data/MC agreement before use, following
-[references/22-multivariate-classifiers-bdt-nn.md](22-multivariate-classifiers-bdt-nn.md).
+[22-multivariate-classifiers-bdt-nn.md](22-multivariate-classifiers-bdt-nn.md).
 
 ## Homogeneous versus sampling calorimeters
 
@@ -123,7 +123,7 @@ a *derived, calibrated* quantity with its own substantial uncertainty, and it is
 routinely one of the leading systematics in any analysis using jets or missing
 transverse momentum - which is why jet energy scale and resolution get their own
 variation treatment in
-[references/06-systematics.md](06-systematics.md).
+[06-systematics.md](06-systematics.md).
 
 ## Leakage, dead material, and containment
 
