@@ -49,7 +49,8 @@ bash scripts/check_root_cpp_env.sh
 
 The first seventeen use only the Python standard library. `check_root_cpp_env.sh` and the
 remaining `scripts/*_root*`/`inspect_root_file.*`/`compare_root_histograms.py`/
-`summarize_histogram_statistics.py`/`roofit_workspace_summary.py` scripts require a
+`summarize_histogram_statistics.py`/`roofit_workspace_summary.py`/
+`check_systematic_variations.py` scripts require a
 ROOT/PyROOT installation to run (they were syntax-checked, not executed, in an
 environment without ROOT - see [VALIDATION.md](VALIDATION.md)). See
 [VALIDATION.md](VALIDATION.md) for results and limitations. ROOT, uproot, pyhf, and
