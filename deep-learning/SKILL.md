@@ -136,6 +136,10 @@ file as a whole, not individual lines.
 - **Custom autograd.Function, hooks, activation/gradient checkpointing** -> [references/custom-autograd-and-hooks.md](references/custom-autograd-and-hooks.md)
 - **TorchScript/ONNX export, torch.compile deployment modes, inference serving** -> [references/export-and-deployment.md](references/export-and-deployment.md)
 - **LibTorch, custom ops, CUDA/C++ extensions** -> [references/cpp-balanced-design-guidelines.md](references/cpp-balanced-design-guidelines.md)
+- **Authoring a canonical worked example** (Weak vs. Expert contrast) for
+  `examples/` -> `agile-development`'s
+  [references/example-authoring.md](../agile-development/references/example-authoring.md)
+  (requires `agile-development` installed alongside this skill)
 
 Architect-level references - decisions made before or around the code:
 
@@ -254,6 +258,8 @@ corrected snippet -> a quick diagnostic print/assert to confirm the fix.
 - "Is this classifier's 0.99 confidence actually a calibrated probability?"
 - "This surrogate model is accurate in its training range but we're running it outside that range - is that OK?"
 - "The latent space shows clusters that match a known physical category - does that mean the model learned the physics?"
+- "Generate a canonical `examples/` entry for this skill contrasting a weak vs. expert
+  DataLoader/training loop for an imbalanced dataset."
 
 ## Caveats
 

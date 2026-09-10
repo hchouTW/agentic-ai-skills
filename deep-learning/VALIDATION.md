@@ -280,6 +280,67 @@ PyTorch execution was needed or performed.
   the final file set; each is addressed by the diagnostic flow, principle, or
   checklist in the relevant new/expanded reference.
 
+## Example-authoring rollout pass (2026-09-10)
+
+Added this skill's first `examples/` entry, per Phase 3 of `agile-development`'s
+example-authoring initiative (see that skill's `references/example-authoring.md`
+for the generation prompt and format spec this follows). One pilot example, not
+a bulk batch.
+
+- Added a one-line pointer to `agile-development`'s
+  `references/example-authoring.md` under "When to Read a Reference" in
+  `SKILL.md`, explicitly noting the cross-skill dependency (requires
+  `agile-development` installed alongside this skill), plus one new "Example
+  Prompts This Skill Handles Well" entry.
+- Scaffolded `examples/01-imbalanced-dataloader-training-loop.md` with
+  `agile-development`'s `generate_skill_example.py --skill deep-learning --role
+  "Senior ML Systems Engineer" --use-case "a DataLoader and training loop for an
+  imbalanced binary-classification dataset"`, then filled it in by hand: a
+  fraud-style 95/5 binary classifier where the weak training loop seeds the
+  DataLoader shuffle from the *global* RNG stream (so an unrelated random draw
+  elsewhere in the pipeline silently changes the trained weights) and leaves the
+  loss unweighted (so accuracy alone hides a large minority-recall gap); the
+  expert version gives the DataLoader its own `torch.Generator`, class-weights
+  the loss, reports per-class recall alongside accuracy, and checkpoints the
+  seed/RNG state alongside the model/optimizer state.
+- All claims in the example were independently executed against PyTorch 2.11.0
+  (available in this environment), not just hand-derived - not merely a syntax
+  check:
+  - Extracted both code blocks verbatim from the finished markdown file with a
+    regex, compiled them (`py_compile`), and imported them as real modules.
+  - Confirmed the reproducibility claim directly: one unrelated `torch.randn(1)`
+    call inserted between model construction and the first training step
+    changed the weak version's final trained weights (`state_dict` no longer
+    equal), while the expert version's dedicated generator produced
+    byte-for-byte identical weights with and without the same call - checked
+    with `torch.equal` on every parameter tensor, not just final accuracy.
+  - Ran both versions three times each on the same synthetic 95/5 dataset and
+    confirmed the reported accuracy/recall numbers are stable to four decimal
+    places: weak (unweighted) 99.75% accuracy / 95.65% minority recall; expert
+    (weighted) 98.25% accuracy / 100% minority recall. The file's prose was
+    corrected to match these exact numbers after two earlier draft harnesses
+    produced different figures - both were miscalibrated test setups (an
+    unshuffled dataset that put the entire minority class outside the sampled
+    training slice, and a full-dataset batch size that made shuffle order
+    irrelevant) rather than errors in the shipped code; the final numbers above
+    are from the actual code in the file, re-extracted and re-run after every
+    edit.
+  - `python3 scripts/validate_skill_example.py` (from `agile-development`)
+    reports `ok` - no structural or placeholder findings.
+- Added `examples/README.md` (one-row index table, linking back to
+  `agile-development`'s reference) and added both new files to
+  `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`. Bundle now reports 64
+  files, up from 62.
+- Re-ran `python3 scripts/validate_skill_bundle.py` (64 files OK) and
+  `python3 -m unittest discover -s tests -v` (106 tests, 2 skipped - unrelated
+  pre-existing PyTorch-version-gated skips, unchanged by this pass) after the
+  change.
+
+This content is a worked domain example with runnable code, not prose
+guidance, so it was held to a higher verification bar than this file's existing
+"Limitations" note about process/workflow guidance being reviewed rather than
+run - see the bullets above for what was actually executed.
+
 ## Limitations
 
 - **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that

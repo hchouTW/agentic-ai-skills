@@ -80,6 +80,8 @@ REQUIRED_PATHS = [
     "scripts/profile_dataloader.py",
     "scripts/validate_skill_bundle.py",
     "tests/test_deep_learning_skill.py",
+    "examples/README.md",
+    "examples/01-imbalanced-dataloader-training-loop.md",
 ]
 
 REQUIRED_README_SECTIONS = [
