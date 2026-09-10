@@ -45,3 +45,14 @@ python3 -m unittest discover -s tests -v
 ```
 
 See each skill's `VALIDATION.md` for what is checked.
+
+## `examples/` worked examples
+
+Every skill in this collection now ships an `examples/` directory: one or more
+canonical worked examples contrasting a "Common Weak Approach" with an
+"Expert-Level Best Practice," plus key takeaways, for a realistic scenario in
+that skill's domain (see each skill's `examples/README.md` for its index).
+`agile-development`'s `references/example-authoring.md` documents the
+generation prompt and format spec, and its `scripts/generate_skill_example.py`/
+`scripts/validate_skill_example.py` scaffold and validate new entries for any
+installed skill - see that skill's own `README.md` for the commands.
