@@ -93,6 +93,47 @@ GeV/nucleon - are both short-timescale contaminants that a Galactic-cosmic-ray f
 measurement must identify (from neutron-monitor or space-weather-instrument data) and
 exclude from the integration time window, rather than average over silently.
 
+## Searching for periodicity and time structure in a flux time series
+
+Beyond excluding transients, a long-duration mission's flux time series is itself
+a measurement: heliospheric transport imprints known periodicities on top of the
+smooth force-field trend, and finding or bounding them is a distinct statistical
+task from fitting the time-averaged spectrum.
+
+- **Know what period you're looking for before choosing a method.** A **known**
+  period (the ~27-day solar (Bartels) rotation and its harmonics, or a diurnal
+  cycle tied to the detector's own orbital/attitude geometry) is best tested with
+  **epoch-folding / superposed-epoch analysis**: fold the time series at the
+  candidate period and look for a coherent, above-noise modulation, rather than a
+  free periodogram search, which pays an unnecessary trials penalty for a period
+  you already have a physical reason to test. Reserve a periodogram (e.g.
+  Lomb-Scargle, which handles the uneven sampling and data gaps a satellite
+  time series generally has) for a genuinely unknown or approximate period, and
+  correct its detection significance for the number of independent frequencies
+  scanned - the same look-elsewhere-effect discipline as
+  [39-astroparticle-statistics.md](39-astroparticle-statistics.md)'s trials-factor
+  treatment, applied to frequency space instead of a sky position or mass bin.
+- **Bin fine enough to resolve the structure, coarse enough to keep bins
+  statistics-limited rather than systematics-limited.** A daily-flux time series
+  needs per-day acceptance, livetime, and geomagnetic-cutoff corrections at that
+  same cadence (see the per-event cutoff treatment above) - a periodicity search
+  is only as good as the systematic stability of the bin-to-bin normalization it
+  sits on top of.
+- **Charge-sign dependence is itself a diagnostic, not just a nuisance.** Because
+  the heliospheric magnetic polarity cycle produces genuinely different transport
+  (gradient/curvature drift-dominated vs. diffusion-dominated, alternating roughly
+  every 11 years) for positively- and negatively-charged particles, comparing the
+  *same* candidate periodicity's amplitude and phase between a particle and its
+  antiparticle (or between species of opposite sign, e.g. protons vs. electrons)
+  tests whether an observed structure is drift-related or a shared instrumental/
+  environmental artifact that would affect both signs identically.
+- **State the epoch and solar-activity phase a periodicity claim covers.** A
+  periodicity's amplitude and even its presence is not stationary across a solar
+  cycle - report the date range and solar-activity phase (rising/maximum/
+  declining/minimum) a detection or non-detection applies to, the same way the
+  solar-modulation discussion above requires stating the modulation potential
+  for a spectrum.
+
 ## Direct-detection composition and the local antiparticle excesses
 
 Because a space-based spectrometer measures charge and mass directly (through the

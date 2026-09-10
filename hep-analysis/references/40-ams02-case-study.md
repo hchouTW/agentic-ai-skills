@@ -146,6 +146,68 @@ analysis structure worth naming explicitly:
    [39-astroparticle-statistics.md](39-astroparticle-statistics.md), not as
    an absence-of-evidence claim.
 
+## Primary/secondary composition as a propagation diagnostic
+
+AMS-02's elemental-spectrum measurements are a concrete instance of the generic
+secondary-to-primary propagation diagnostic in
+[cosmic-ray spectrum and composition](32-cosmic-ray-spectrum-and-composition.md#propagation):
+a falling secondary-to-primary ratio with rising rigidity signals less material
+traversed (shorter effective path length) at higher rigidity, constraining the
+Galactic propagation model rather than the source spectrum.
+
+- AMS-02's own published catalog separates cleanly along this line: **primaries**
+  it has measured include He, C, O, Fe, Ne, Mg, Si, N, Na, and Al (accelerated and
+  injected directly at the source), while **secondaries** include Li, Be, B, and F
+  (produced by spallation of primaries on the interstellar medium during
+  propagation, per the generic treatment in
+  [cosmic-ray spectrum and composition](32-cosmic-ray-spectrum-and-composition.md)).
+  Sorting a claimed measurement into the correct bucket before interpreting a
+  rigidity dependence is the first check - a primary's spectral shape carries
+  source/acceleration information directly, while a secondary's carries mostly
+  propagation information convolved with its parent primaries' spectra.
+- **Precision Measurement of the Boron to Carbon Flux Ratio**, Phys. Rev. Lett.
+  117, 231102 (2016), is AMS-02's direct instance of the B/C propagation
+  diagnostic named generically in
+  [cosmic-ray spectrum and composition](32-cosmic-ray-spectrum-and-composition.md).
+- **Observation of the Identical Rigidity Dependence of He, C, and O Cosmic Rays
+  at High Rigidities**, Phys. Rev. Lett. 119, 251101 (2017), is the complementary
+  primary-side result: multiple primary species sharing the same rigidity
+  dependence at high rigidity is itself evidence about shared acceleration/
+  propagation history, distinct from what a single species' spectrum alone could
+  establish - the same "compare species, not just fit one spectrum in isolation"
+  logic the case study's rare-species pattern above applies to ratios.
+
+## Temporal structure and periodicity analysis
+
+A large fraction of AMS-02's published output is a time-series analysis of its
+own flux measurements, applying the periodicity-search technique in
+[space-based direct detection](37-space-based-direct-detection.md#searching-for-periodicity-and-time-structure-in-a-flux-time-series)
+to a decade-plus, multi-solar-cycle dataset that few other instruments have the
+duration to support:
+
+- *Observation of Fine Time Structures in the Cosmic Proton and Helium Fluxes...*,
+  Phys. Rev. Lett. 121, 051101 (2018), and its electron/positron counterpart,
+  *Observation of Complex Time Structures in the Cosmic-Ray Electron and Positron
+  Fluxes*, Phys. Rev. Lett. 121, 051102 (2018) - published as a matched pair,
+  consistent with the charge-sign-comparison diagnostic named generically above:
+  the same time structure checked across species of different charge sign.
+- *Periodicities in the Daily Proton Fluxes from 2011 to 2019... from 1 to 100
+  GV*, Phys. Rev. Lett. 127, 271102 (2021), and *Properties of Daily Helium
+  Fluxes*, Phys. Rev. Lett. 128, 231102 (2022) - a multi-year daily-cadence
+  analysis, the regime where the bin-cadence-versus-systematic-stability tradeoff
+  named generically above is most consequential.
+- *Temporal Structures in Positron Spectra and Charge-Sign Effects...*, Phys.
+  Rev. Lett. 131, 151002 (2023), and *Temporal Structures in Electron Spectra and
+  Charge Sign Effects...*, Phys. Rev. Lett. 130, 161001 (2023) - again published
+  as a matched particle/antiparticle (or opposite-charge-species) pair, for the
+  same reason: a shared instrumental or environmental artifact would show up
+  identically in both, while a genuine heliospheric-transport effect should not.
+
+The consistent pattern across this cluster - publish matched pairs across a
+charge-sign boundary rather than a single species' time series alone - is worth
+recognizing as a deliberate analysis design choice, not a coincidence of what
+happened to be measured.
+
 ## Analysis-technique improvements are sometimes their own publication
 
 Not every incremental analysis improvement a long-running collaboration makes
