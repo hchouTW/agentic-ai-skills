@@ -1,6 +1,6 @@
 ---
 name: academic-papers
-description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, interpreting a figure/plot/graphic in a paper, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency/logical-argument-uniformity, reviewing code that accompanies a paper and producing a code review report, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR etc.), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
+description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, interpreting a figure/plot/graphic, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency/logical-argument-uniformity, reviewing accompanying code, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions, plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
 ---
 
 # Academic Papers
@@ -385,10 +385,16 @@ review. Grouped by function; within a group, order roughly follows the workflow.
 - `references/plagiarism-and-text-reuse-checking.md` — distinguishing verbatim
   copying, close paraphrase, and legitimate reuse (quotation, self-citation,
   boilerplate) in a manuscript or against the user's own prior publications
+
+**Assessment and restructuring**
 - `references/reviewer-style-assessment.md` — mock referee reports and
   submission-readiness reviews: contribution, validity, comparisons, concerns
 - `references/supplementary-material-planning.md` — allocating derivations,
   checks, and artifact details between the main paper and supplements
+- Research-gap/novelty assessment and scientific-argument restructuring are
+  covered as sections within `references/literature-review.md` and
+  `references/paper-structure.md` respectively, not standalone files — see
+  those files' tables of contents
 
 **Disclosure, reconciliation, and cross-venue**
 - `references/conflict-of-interest-and-ethics-statements.md` — venue-specific
