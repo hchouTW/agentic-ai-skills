@@ -24,6 +24,7 @@ time-pressed.
 - [Astroparticle and cosmic-ray papers](#astroparticle-and-cosmic-ray-papers)
 - [Statistics and ML papers](#statistics-and-ml-papers)
 - [Outreach and public-facing summaries](#outreach-and-public-facing-summaries)
+- [Outreach: collaboration voice vs. syndicated commentary](#outreach-collaboration-voice-vs-syndicated-commentary)
 
 ## Title
 
@@ -253,10 +254,7 @@ single-shot rebuttal process that replaces a journal's multi-round revision.
 
 A different document from the paper itself: a plain-language summary for a
 collaboration or institution website, aimed at a general audience rather than
-referees. AMS-02's `ams02.space/physics/*` pages are a good worked example — each
-one is a short public summary paired 1:1 with a specific PRL result (e.g. "Towards
-Understanding Origin of Cosmic-Ray Positrons" summarizing the corresponding PRL
-paper). Structure:
+referees. Structure:
 
 1. **One headline sentence in plain language** — the result, not the method, with
    jargon either cut or immediately explained ("cosmic rays — high-energy particles
@@ -279,3 +277,50 @@ Rules that don't relax just because the audience is general:
 - Simplify the *explanation*, not the *claim* — a public summary that makes the
   result sound bigger than the paper's own abstract is a form of overstating
   significance, even without a technical error in it.
+
+## Outreach: collaboration voice vs. syndicated commentary
+
+Not every "physics highlight" page on a collaboration's own website is written by
+the collaboration. AMS-02's `ams02.space/physics/*` pages are a useful worked
+example precisely because checking the actual byline on each one — rather than
+assuming collaboration authorship because the page lives on the collaboration's
+domain — turns up three different genres:
+
+- **Journalist-written recap**, e.g. "AMS Releases New Cosmic-Ray Measurements"
+  (byline: Emma Hattersley, dated 2026-06-26) — third-person journalistic voice
+  ("reports," "describes"), built around direct quotes from collaboration
+  spokespeople (Samuel Ting, Sunil Gupta) rather than a first-person collaboration
+  statement.
+- **APS *Physics Magazine* Synopsis**, e.g. "Lithium Cosmic Rays Are Not
+  Primordial" (byline: Rachel Berkowitz, "Corresponding Editor for *Physics
+  Magazine*") — a neutral staff-written recap syndicated from `physics.aps.org`,
+  not authored by the collaboration at all.
+- **APS *Physics Magazine* Viewpoint**, e.g. "Antiprotons Beyond the Solar
+  System" (byline: N. Eugene Engelbrecht and R. Du Toit Strauss, Centre for Space
+  Research, North-West University, cited as *Physics* 18, 19 (2025)) — an
+  *invited outside expert's* independent commentary and context, carrying its
+  own citable byline, affiliation, and issue number, distinct from both the
+  collaboration's and a journalist's voice.
+
+All three end with a "Publication" call-out box giving the underlying PRL's full
+citation and DOI — a reusable design pattern regardless of which of the three
+voices is in use.
+
+Why this distinction matters when drafting one of these for a user:
+- **Ask which of the three is actually wanted** before drafting: an in-house
+  collaboration-voice press release ("we report...") is a different document,
+  with a different acceptable level of first-person collaboration claims, than a
+  pitch written in third-person journalistic voice, or a Viewpoint — which only
+  an actual outside expert can author, not something to draft on someone else's
+  behalf and attribute to them.
+- **Never draft one of these and attribute it to the wrong voice** — labeling a
+  drafted Viewpoint or Synopsis as collaboration-authored (or vice versa)
+  misrepresents its independence to a reader.
+- **When citing one**, treat it as secondary commentary, not primary literature —
+  see `citations-and-bibliography.md`'s note on citing an accompanying Viewpoint
+  or Synopsis.
+
+(Verified 2026-09-10 by checking each page's own byline directly rather than
+assuming authorship from the hosting domain — re-check before reusing this as a
+current example, since AMS periodically publishes new physics-highlight pages
+and the mix of voices may change.)

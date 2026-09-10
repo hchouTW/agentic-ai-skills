@@ -12,6 +12,7 @@ and venue-specific citation-style expectations.
 - [Citation style by venue](#citation-style-by-venue)
 - [What to cite, and how much](#what-to-cite-and-how-much)
 - [Linking supplemental material and data](#linking-supplemental-material-and-data)
+- [Citing an accompanying Viewpoint or Synopsis](#citing-an-accompanying-viewpoint-or-synopsis)
 - [Availability statements](#availability-statements)
 - [Avoiding common bibliography mistakes](#avoiding-common-bibliography-mistakes)
 
@@ -191,6 +192,27 @@ live:
 - State clearly in the paper *which* venue holds the data (HEPData record number,
   a collaboration data-release URL, or a Zenodo/institutional DOI) rather than a
   vague "data available upon request," which most venues now discourage or forbid.
+
+## Citing an accompanying Viewpoint or Synopsis
+
+A result covered by an APS *Physics Magazine* Viewpoint/Synopsis, a Nature "News &
+Views," or similar outlet commentary is not itself the primary literature — it is
+secondary commentary *about* the primary paper, written either by an outside
+invited expert (Viewpoint) or a science journalist/editor (Synopsis), not by the
+paper's own authors.
+
+- Cite the primary paper (the PRL/PRD/journal article) as the actual reference for
+  any physics claim — never substitute the commentary piece's citation for the
+  paper it discusses.
+- If citing the commentary itself (e.g. the manuscript discusses how a result was
+  received, or quotes the commentary's own framing), cite it separately with its
+  own byline and venue — an APS Viewpoint has its own citable identity, e.g.
+  `Physics 18, 19 (2025)`, distinct from the paper it comments on.
+- Don't assume a page hosted on a collaboration's own domain is collaboration-
+  authored — check the byline before citing or characterizing its authorship. See
+  `paper-structure.md`'s outreach-summaries section for a worked AMS-02 example
+  where three same-looking pages turn out to be three different bylines (a
+  journalist's recap, an APS Synopsis, and an APS Viewpoint).
 
 ## Availability statements
 

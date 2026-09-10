@@ -309,6 +309,8 @@ review. Grouped by function; within a group, order roughly follows the workflow.
 - `references/paper-structure.md` — section-by-section guidance, HEP vs. theory vs.
   thesis vs. proceedings vs. astroparticle vs. statistics/ML papers, what a referee
   expects in each section, plus writing a plain-language public/outreach summary
+  and telling apart collaboration-voice outreach from syndicated third-party
+  commentary (a journalist's recap, an APS Synopsis, an APS Viewpoint)
 - `references/astroparticle-and-cosmic-ray-papers.md` — how structure, venues,
   author lists, citations, figures, and phrasing shift for astroparticle-physics
   and cosmic-ray papers (ground arrays, IACTs, neutrino observatories, space-based
@@ -316,7 +318,9 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   JCAP/ApJ/Astroparticle Physics venues, ADS/bibcode citations, skymap conventions,
   pre-trial vs. post-trial significance, and a worked AMS-02 publication-pattern
   case study (letter-only/no-arXiv publishing, a Phys. Rept. review alongside PRL
-  letters, 44-institution author-list scale)
+  letters, 44-institution author-list scale, a web-only non-citable
+  "advances-in-data-analysis" technical-progress genre, and syndicated vs.
+  collaboration-authored outreach pages)
 - `references/statistics-and-ml-papers.md` — how structure, venues, author-
   contribution statements, citations, and review process shift for statistics and
   machine-learning papers: required Limitations/Broader-Impact sections,
@@ -344,7 +348,8 @@ review. Grouped by function; within a group, order roughly follows the workflow.
 - `references/citations-and-bibliography.md` — INSPIRE-HEP, ADS, and arXiv/DBLP/
   ACL-Anthology workflows, BibTeX hygiene, managing a personal reference library
   (Zotero/JabRef) across papers/projects, citation style by venue, linking
-  supplemental material/data, avoiding orphaned/duplicate entries
+  supplemental material/data, citing an accompanying Viewpoint or Synopsis
+  separately from the primary paper, avoiding orphaned/duplicate entries
 - `references/scientific-style.md` — sentence-level prose guidance: tense, voice,
   hedging, common non-native-English pitfalls, physics-specific,
   astroparticle-specific, and statistical/ML-specific (p-values, effect sizes,

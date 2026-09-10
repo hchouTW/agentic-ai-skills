@@ -164,6 +164,26 @@ few visible ways:
   result, check the collaboration site for this supplemental link, not just the
   journal page — the underlying flux tables are often published there rather than
   (or in addition to) HEPData.
+- **A dedicated "web-only, deliberately non-citable" technical-progress genre.**
+  AMS-02's `ams02.space/advances-data-analysis` section documents incremental
+  analysis-method improvements (tracker charge-sign identification, coordinate-
+  measurement precision, a new ECAL reconstruction method) that are never
+  published as standalone papers, technical notes, or conference proceedings —
+  checking one such page directly shows it citing only an *older* PRL for
+  comparison, with no DOI, arXiv ID, or proceedings reference for the improvement
+  itself. Don't treat this kind of page as a citable source the way a HEPData
+  record or a technical note would be: if a specific analysis improvement matters
+  for a manuscript claim, either find where a later peer-reviewed paper
+  incorporates and describes it, or cite the web page explicitly as a website
+  (with an access date), never as if it were peer-reviewed literature. Ask the
+  user's own collaboration whether it maintains an equivalent "advances" page
+  before assuming an unpublished analysis tweak has no citable form at all.
+- **The `ams02.space/physics/*` "highlight" pages are not collaboration-authored
+  outreach**, despite living on the collaboration's own domain — see
+  `paper-structure.md`'s "Outreach: collaboration voice vs. syndicated
+  commentary" section for the worked byline-by-byline breakdown (a journalist's
+  recap, an APS *Physics Magazine* Synopsis, and an APS *Physics Magazine*
+  Viewpoint, none written by the collaboration itself).
 
 **Verification note (this is a live-changing fact, not a fixed one):** the counts
 above were checked by fetching the collaboration page directly and cross-checking
