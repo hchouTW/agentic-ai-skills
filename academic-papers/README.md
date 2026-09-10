@@ -42,12 +42,13 @@ academic-papers/
 │   ├── latex-and-formatting.md                  # venue-specific class-file setup and skeletons (REVTeX/JHEP/JCAP/AASTeX/Springer/NeurIPS/ICML/ICLR/ACL)
 │   ├── latex-mechanics-and-tooling.md           # venue-agnostic LaTeX: cleveref, siunitx/longtable, latexdiff, latexmk, bibtex vs. biber, multi-file docs
 │   ├── figures-and-tables.md                    # publication figure design, captions, table conventions, accessible descriptions
-│   ├── citations-and-bibliography.md            # INSPIRE-HEP/ADS/arXiv/DBLP/ACL-Anthology workflow, BibTeX hygiene, availability statements
+│   ├── citations-and-bibliography.md            # INSPIRE-HEP/ADS/arXiv/DBLP/ACL-Anthology workflow, BibTeX hygiene, Zotero/JabRef library management, availability statements
 │   ├── scientific-style.md                      # sentence-level prose guidance, significance-language & statistical-reporting conventions
 │   ├── submission-and-peer-review.md            # pre-submission checklist, cover letters, referee responses, conference rebuttals
 │   ├── citation-verification.md                 # reference identity/version checks, whether cited text supports the claim
 │   ├── systematic-review-screening.md           # eligibility criteria, reproducible search logs, deduplication, screening records
 │   ├── reproducibility-auditing.md              # tracing results to methods, data, code, configs, and execution evidence
+│   ├── code-review-report.md                    # paper-to-code alignment, documentation, and packaging review; delegates deep technical review to deep-learning/hep-analysis
 │   ├── equation-and-notation-auditing.md        # definitions, dimensions, index/shape consistency, derivation-step checks
 │   ├── claim-evidence-mapping.md                # connecting central claims to results/derivations/citations, flagging unsupported generalizations
 │   ├── logical-consistency-and-argument-uniformity.md  # cross-section contradictions, dropped assumptions, fallacious inference, definitional drift

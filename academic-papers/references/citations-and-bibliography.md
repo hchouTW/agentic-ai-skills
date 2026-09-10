@@ -8,6 +8,7 @@ and venue-specific citation-style expectations.
 - [ADS for astroparticle/astronomy-facing venues](#ads-for-astroparticleastronomy-facing-venues)
 - [arXiv, DBLP, and ACL Anthology for statistics/ML venues](#arxiv-dblp-and-acl-anthology-for-statisticsml-venues)
 - [BibTeX hygiene](#bibtex-hygiene)
+- [Managing a personal reference library](#managing-a-personal-reference-library)
 - [Citation style by venue](#citation-style-by-venue)
 - [What to cite, and how much](#what-to-cite-and-how-much)
 - [Linking supplemental material and data](#linking-supplemental-material-and-data)
@@ -97,6 +98,49 @@ incomplete. See `statistics-and-ml-papers.md` for the venue-specific citation
 - For preprints that were later published, prefer the published version's
   entry (with `doi`) once available, keeping the `eprint` field for the
   arXiv number as backup.
+
+## Managing a personal reference library
+
+The rest of this file assumes one `.bib` file per paper. That breaks down once
+someone is tracking hundreds of references across many papers and projects —
+at that scale, use a reference manager (Zotero or JabRef) as the source of
+truth and export per-paper `.bib` subsets from it, rather than maintaining
+each paper's `.bib` by hand.
+
+1. **Pick based on workflow, not features.** Zotero is a GUI-first library
+   with a browser connector (one-click import from INSPIRE/ADS/arXiv pages),
+   collections/groups for organizing by project, and cloud sync across
+   machines — but it needs the **Better BibTeX** plugin to generate stable,
+   predictable citation keys (INSPIRE- or ADS-style keys) instead of its own
+   `AuthorYearTitleWord` default. JabRef is BibTeX-native: it stores the
+   library as a plain `.bib` file (or a set of them), which diffs cleanly in
+   git and needs no plugin to keep INSPIRE/ADS keys intact, at the cost of a
+   less polished one-click web import than Zotero's connector.
+2. **Sync INSPIRE-HEP (or ADS) exports without creating duplicates.** Before
+   importing a new BibTeX entry, check whether the library already has that
+   paper under its INSPIRE key or arXiv ID — not by title/author string match,
+   which misses formatting differences (see "Duplicate physical papers under
+   different keys" below). Zotero: search by arXiv ID or DOI before adding: its
+   built-in duplicate detector catches some but not all near-duplicates from
+   repeated imports. JabRef: use its "Find Duplicates" function, which compares
+   normalized fields rather than exact key strings.
+3. **Keep the INSPIRE/ADS key format through the reference manager.** The same
+   reasons given in "INSPIRE-HEP workflow" above for keeping INSPIRE's native
+   key apply here — Zotero's Better BibTeX plugin should be configured to
+   preserve the imported key (`pinning` the citation key) rather than
+   regenerating one from its own template, since collaborators and referees
+   expect the INSPIRE/ADS form.
+4. **Export a project-specific `.bib` subset**, not the whole library, into
+   each paper's repository. Zotero: export a collection (not the full
+   library) via "Export Collection... → BibTeX"; JabRef: select the entries
+   for this paper and "Export Selected Entries...". Re-export (rather than
+   hand-edit the paper's `.bib`) whenever an entry's metadata changes in the
+   library, so corrections don't have to be made twice.
+5. **Verify the exported subset against the manuscript** the same way any
+   other `.bib` file is checked — run `scripts/check_manuscript.py` against
+   the paper's directory after exporting, since an export scoped to the wrong
+   collection produces exactly the orphaned-entry/missing-entry problems that
+   script is meant to catch.
 
 ## Citation style by venue
 

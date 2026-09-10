@@ -1,6 +1,6 @@
 ---
 name: academic-papers
-description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, interpreting a figure/plot/graphic in a paper, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency/logical-argument-uniformity, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR etc.), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
+description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, interpreting a figure/plot/graphic in a paper, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency/logical-argument-uniformity, reviewing code that accompanies a paper and producing a code review report, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR etc.), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
 ---
 
 # Academic Papers
@@ -121,6 +121,11 @@ an ordinary summary does not require a full audit.
   configurations, and available execution evidence. Read
   `references/reproducibility-auditing.md`. Distinguish documentation inspection
   from an actual rerun; use `hep-analysis` or `deep-learning` for relevant execution.
+- **Code review report:** review code accompanying a paper for paper-to-code
+  alignment, documentation, and packaging, producing a severity-ranked findings
+  report. Read `references/code-review-report.md`. Distinct from reproducibility
+  auditing (execution evidence, not code review); delegate framework-specific
+  correctness to `deep-learning` or `hep-analysis`.
 - **Equation and notation auditing:** check definitions, dimensions, index/shape
   consistency, assumptions, and derivation steps. Read
   `references/equation-and-notation-auditing.md`.
@@ -337,7 +342,8 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   conventions, skymap/cosmic-ray-spectrum figures, and learning-curve/ablation/
   leaderboard tables
 - `references/citations-and-bibliography.md` — INSPIRE-HEP, ADS, and arXiv/DBLP/
-  ACL-Anthology workflows, BibTeX hygiene, citation style by venue, linking
+  ACL-Anthology workflows, BibTeX hygiene, managing a personal reference library
+  (Zotero/JabRef) across papers/projects, citation style by venue, linking
   supplemental material/data, avoiding orphaned/duplicate entries
 - `references/scientific-style.md` — sentence-level prose guidance: tense, voice,
   hedging, common non-native-English pitfalls, physics-specific,
@@ -357,6 +363,10 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   search logs, deduplication, and screening-decision records
 - `references/reproducibility-auditing.md` — tracing results to methods, data,
   code, configurations, and available execution evidence
+- `references/code-review-report.md` — reviewing code accompanying a paper for
+  paper-to-code alignment, documentation, and packaging, producing a
+  severity-ranked findings report; delegates framework-specific correctness to
+  `deep-learning`/`hep-analysis`
 - `references/equation-and-notation-auditing.md` — definitions, dimensions,
   index/shape consistency, and derivation-step checks
 - `references/claim-evidence-mapping.md` — connecting central claims to results,
