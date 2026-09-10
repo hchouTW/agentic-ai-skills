@@ -112,3 +112,40 @@ a bulk batch.
   files, which still reports `OK` with no orphan or missing-reference findings.
 - Re-ran `python3 -m unittest discover -s tests -v` (27 tests, unchanged - this
   pass added content, not new test code) after the change.
+
+## Consistency audit and `agents/openai.yaml` addition (2026-09-10)
+
+A "check and reorganize" pass covering this whole collection had already been run
+against the other four skills (`skill-router`, `agile-development`,
+`deep-learning`, `hep-analysis`, each with its own "Consistency audit" entry
+dated the same day) but had not yet reached `academic-papers`. This pass closes
+that gap.
+
+- **Found and fixed a real structural gap**: this was the only skill in the
+  collection without an `agents/openai.yaml`. Added one with the same
+  `interface: display_name/short_description/default_prompt` shape used by all
+  four siblings, parsed with `yaml.safe_load` to confirm it's valid YAML. Updated
+  `README.md`'s file-tree diagram and "Per-agent invocation" section (previously
+  a single merged "Codex and other skill-aware agents" bullet with no mention of
+  `agents/openai.yaml`) to match the Codex bullet style used by every sibling
+  README.
+- Read `SKILL.md`, `README.md`, and every `references/*.md`/`examples/*.md` file's
+  relative Markdown links with an anchor-aware resolver (stripping `#fragment`s
+  before checking the target exists on disk): zero broken links found.
+- Checked specifically for the `references/`-prefixed-display-text-with-bare-
+  target mismatch pattern that the sibling audits found and fixed (3 occurrences
+  in `agile-development`, 17 in `deep-learning`, 58 in `hep-analysis`): none found
+  here - every cross-reference in this package already showed the bare filename
+  as both link text and target.
+- Checked specifically for `[[wiki-link]]` double-bracket syntax (found and fixed
+  in `agile-development`, `deep-learning`, and `hep-analysis` in this same
+  cross-repository pass): none found in this package - its cross-skill mentions
+  (`hep-analysis`, `deep-learning`) already used plain backticks throughout.
+- `scripts/validate_skill_bundle.py` does not check for `agents/` at all (only
+  `references/`, `scripts/`, `assets/`), so adding the new file could not trigger
+  a false "orphaned file" or "missing reference" finding; confirmed by re-running
+  it (`OK`, no findings) both before and after the addition.
+- Re-ran `python3 scripts/validate_skill_bundle.py` (`OK`) and
+  `python3 -m unittest discover -s tests -v` (27 tests, unchanged - this pass
+  added a metadata file and documentation, not new test-relevant code) after the
+  changes.

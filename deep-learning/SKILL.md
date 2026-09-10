@@ -268,8 +268,8 @@ corrected snippet -> a quick diagnostic print/assert to confirm the fix.
 - Deterministic mode (`cudnn.deterministic=True`) trades performance for
   reproducibility - mention this tradeoff when you enable it.
 - For broader engineering process (scoping, testing, review), pair with
-  [[agile-development]].
+  `agile-development`.
 - For the scientific/statistical validity of conclusions drawn from model outputs -
   likelihoods, confidence intervals, discovery/exclusion claims - pair with
-  [[academic-papers]]; this skill covers whether the model itself is trained,
+  `academic-papers`; this skill covers whether the model itself is trained,
   evaluated, calibrated, and robust.

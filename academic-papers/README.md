@@ -31,6 +31,8 @@ academic-papers/
 ├── SKILL.md                      # entry point: reading + writing workflows, quick-reference tables
 ├── README.md                     # this file
 ├── VALIDATION.md                 # what the integrity checker verifies
+├── agents/
+│   └── openai.yaml                # optional Codex UI metadata (display name, short description, default prompt)
 ├── references/
 │   ├── literature-discovery-and-search.md      # finding papers before there's anything to triage: databases, query formulation, citation snowballing
 │   ├── reading-papers.md                        # three-pass reading method, claims-vs-evidence, critical-reading checklist
@@ -105,8 +107,12 @@ cp -r academic-papers ~/.codex/skills/
   review, drafting or formatting a manuscript, bibliography cleanup, referee
   responses, etc.) — no explicit invocation needed. You can also just say "use the
   academic-papers skill".
-- **Codex** and other skill-aware agents: consult that agent's own documentation for
-  how installed `SKILL.md` files are surfaced; the file format here follows the same
+- **Codex**: place the folder in the skill directory used by your environment,
+  commonly `~/.codex/skills/`, or import it through the mechanism supported by your
+  version. Reload skills and invoke `$academic-papers`. `agents/openai.yaml` supplies
+  optional Codex UI metadata.
+- **Other skill-aware agents**: consult that agent's own documentation for how
+  installed `SKILL.md` files are surfaced; the file format here follows the same
   portable convention used by the other skills in this bundle.
 
 ## Using the bundled scripts directly

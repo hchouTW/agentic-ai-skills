@@ -256,6 +256,21 @@ example-authoring initiative: one pilot, not a bulk batch.
   tooling pass above - this pass added content, not new test code) after the
   change.
 
+## Cross-repository consistency follow-up (2026-09-10)
+
+A second "check and reorganize" pass across the whole collection (this skill plus
+its four siblings) caught one thing the same-day Consistency audit above missed:
+`SKILL.md`'s Caveats section referenced `[[deep-learning]]` and `[[hep-analysis]]`
+using `[[wiki-link]]` double-bracket syntax - the linking convention this
+repository's own memory files use, not skill markdown, and not the convention
+used anywhere else in this file or its siblings (a plain backtick-quoted skill
+name, e.g. `` `deep-learning` ``). It rendered as literal double brackets rather
+than a link and was inconsistent with every other cross-skill mention in the
+package. Fixed both to plain backticks. A repository-wide `grep -rn '\[\['`
+confirmed this was the only such occurrence in this skill (two more were found
+and fixed the same way in the sibling `deep-learning` and `hep-analysis`
+packages). Bundle validator and full test suite re-run clean after the fix.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

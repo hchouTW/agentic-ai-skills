@@ -341,6 +341,22 @@ guidance, so it was held to a higher verification bar than this file's existing
 "Limitations" note about process/workflow guidance being reviewed rather than
 run - see the bullets above for what was actually executed.
 
+## Cross-repository consistency follow-up (2026-09-10)
+
+A second "check and reorganize" pass across the whole collection (this skill plus
+its four siblings) caught one thing the same-day Consistency audit above missed:
+`SKILL.md`'s Caveats section referenced `[[agile-development]]` and
+`[[academic-papers]]` using `[[wiki-link]]` double-bracket syntax - the linking
+convention this repository's own memory files use, not skill markdown, and not
+the convention used anywhere else in this file or its siblings (a plain
+backtick-quoted skill name, e.g. `` `agile-development` ``). It rendered as
+literal double brackets rather than a link and was inconsistent with every other
+cross-skill mention in the package. Fixed both to plain backticks. A
+repository-wide `grep -rn '\[\['` confirmed this was the only such occurrence in
+this skill (two more were found and fixed the same way in the sibling
+`agile-development` and `hep-analysis` packages). Bundle validator and full test
+suite re-run clean after the fix.
+
 ## Limitations
 
 - **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that

@@ -350,7 +350,7 @@ confirmed.
 
 Added one reference file, `references/40-ams02-case-study.md`, applying the
 generic detector-technology references (`23`-`26`) and
-[space-based direct detection](37-space-based-direct-detection.md) to the
+[space-based direct detection](references/37-space-based-direct-detection.md) to the
 Alpha Magnetic Spectrometer (AMS-02) on the ISS as a worked example: its
 actual subsystem stack (permanent-magnet tracker, TRD, TOF, RICH, ECAL),
 what is distinctive about a decade-plus space-based mission (no on-orbit
@@ -541,6 +541,33 @@ a bulk batch.
 - Re-ran `python3 scripts/validate_skill_bundle.py` (96 files OK) and
   `python3 -m unittest discover -s tests -v` (172 tests, unchanged - this pass
   added content, not new test code) after the change.
+
+## Cross-repository consistency follow-up (2026-09-10)
+
+A second "check and reorganize" pass across the whole collection (this skill plus
+its four siblings) caught two things the same-day Consistency audit above missed:
+
+- `references/22-multivariate-classifiers-bdt-nn.md` referenced `[[deep-learning]]`
+  using `[[wiki-link]]` double-bracket syntax - the linking convention this
+  repository's own memory files use, not skill markdown, and not the convention
+  used anywhere else in this package (a plain backtick-quoted skill name, e.g.
+  `` `deep-learning` ``). It rendered as literal double brackets rather than a
+  link. Fixed to a plain backtick. A repository-wide `grep -rn '\[\['` confirmed
+  this was the only such occurrence in this skill (two more were found and fixed
+  the same way in the sibling `agile-development` and `deep-learning` packages).
+- This file's own AMS-02 case-study entry linked
+  `[space-based direct detection](37-space-based-direct-detection.md)` with no
+  `references/` prefix. The earlier Consistency audit's link-text/target check
+  only covered links *inside* `references/*.md` files (where a bare sibling
+  filename is correct); it didn't catch this prose link inside `VALIDATION.md`
+  itself, which sits at the skill root, one directory above the file it points to
+  - so the link was genuinely broken, not just misleadingly labeled. Fixed to
+  `references/37-space-based-direct-detection.md`. A full anchor-aware relative-
+  link check (stripping `#fragment`s before resolving, unlike the quick check
+  that first flagged this) was re-run across every `.md` file at the skill root
+  and confirmed no other file-level links are broken.
+
+Bundle validator and full test suite (172 tests) re-run clean after both fixes.
 
 ## Limitations
 

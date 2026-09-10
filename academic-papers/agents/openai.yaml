@@ -1,0 +1,4 @@
+interface:
+  display_name: "Academic Papers"
+  short_description: "Reads, critiques, and writes scientific papers - literature reviews, manuscript drafting/formatting, citations, and referee/rebuttal responses"
+  default_prompt: "Use $academic-papers to read, critique, or draft this paper or section - literature review, manuscript formatting, citations, or a referee response - following the target venue's conventions."
