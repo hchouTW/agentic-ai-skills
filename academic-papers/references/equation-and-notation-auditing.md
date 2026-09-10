@@ -3,7 +3,7 @@
 Use for checking equations or notation in a manuscript, not as a substitute for
 validating the underlying analysis. Establish which sections and derivations are
 in scope; report unchecked portions explicitly. If drift is found and the source
-is still being written, `latex-and-formatting.md`'s cross-referencing-and-
+is still being written, `latex-mechanics-and-tooling.md`'s cross-referencing-and-
 notation-macros section covers preventing it going forward with `\newcommand`
 rather than hand-retyping a symbol throughout.
 

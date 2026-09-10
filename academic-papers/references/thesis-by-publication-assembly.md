@@ -5,7 +5,7 @@ already-published (or submitted) papers, rather than writing one
 continuous document from scratch. Use the thesis-chapter guidance in
 `paper-structure.md` for how a single chapter is structured,
 `plagiarism-and-text-reuse-checking.md` for the self-plagiarism/reuse
-questions this specifically raises, and `latex-and-formatting.md`'s
+questions this specifically raises, and `latex-mechanics-and-tooling.md`'s
 multi-file-document-structuring section for the actual `\include{}`/
 `\includeonly{}` mechanics of combining chapter files; this file is about
 the decisions involved in assembling multiple papers into one coherent

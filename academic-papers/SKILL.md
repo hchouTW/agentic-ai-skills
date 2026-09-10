@@ -320,9 +320,12 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   arXiv-first citation culture (DBLP, ACL Anthology, Semantic Scholar), and
   single-shot OpenReview rebuttals vs. a journal's multi-round revision
 - `references/latex-and-formatting.md` — REVTeX/JHEP/Springer/JCAP/AASTeX/
-  Elsevier/NeurIPS/ICML/ICLR/ACL/JMLR setup, common compile errors, equations/
-  units conventions, length-limit tricks, cross-referencing (`cleveref`) and
-  `\newcommand` notation macros, `siunitx`/`multirow`/`longtable` table
+  Elsevier/NeurIPS/ICML/ICLR/ACL/JMLR venue-specific setup and skeletons,
+  arXiv-specific rules, units/equation conventions, common compile errors,
+  length-limit tricks
+- `references/latex-mechanics-and-tooling.md` — cross-cutting LaTeX
+  mechanics that apply regardless of venue: cross-referencing (`cleveref`)
+  and `\newcommand` notation macros, `siunitx`/`multirow`/`longtable` table
   syntax, tagged-PDF accessibility, `latexdiff` tracked-changes diffing,
   `latexmk` build automation, bibtex-vs-biber/biblatex engine choice,
   `\include`/`\includeonly` multi-file document structuring, and non-ASCII

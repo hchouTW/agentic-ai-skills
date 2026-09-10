@@ -111,7 +111,7 @@ Use for figure alt text, longer descriptions, and accessible presentation of
 scientific findings. Inspect the actual figure and caption before describing it;
 if unavailable, label any draft based on supplied text as provisional. Preserve
 the scientific claim and uncertainty when simplifying language. This section is
-about writing the description; see `latex-and-formatting.md`'s PDF-accessibility
+about writing the description; see `latex-mechanics-and-tooling.md`'s PDF-accessibility
 section for actually embedding it in a tagged PDF's structure tree, which is what
 a screen reader needs to reach it.
 
