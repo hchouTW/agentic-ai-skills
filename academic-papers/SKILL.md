@@ -1,6 +1,6 @@
 ---
 name: academic-papers
-description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, interpreting a figure/plot/graphic, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency/logical-argument-uniformity, reviewing accompanying code, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions, plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
+description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, interpreting a figure/plot/graphic, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency/logical-argument-uniformity/statistical-or-mathematical-rigor, reviewing accompanying code, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions, plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
 ---
 
 # Academic Papers
@@ -129,6 +129,19 @@ an ordinary summary does not require a full audit.
 - **Equation and notation auditing:** check definitions, dimensions, index/shape
   consistency, assumptions, and derivation steps. Read
   `references/equation-and-notation-auditing.md`.
+- **Mathematical reasoning and proof status:** check whether a derivation's
+  assumptions are sound and its claimed proof status (formal, analytic,
+  perturbative, asymptotic, heuristic, numerical, empirical, conjecture)
+  matches what was actually established. Read
+  `references/mathematical-reasoning-and-proof.md`.
+- **Statistical inference for physics:** check whether a likelihood, test,
+  interval, or limit is correctly set up and whether the stated conclusion
+  matches what the inference actually established. Read
+  `references/statistical-inference-for-physics.md`.
+- **Numerical and computational methods:** check whether a numerical or
+  computational result (integral, fit, simulation, scan) is actually
+  validated — convergence, stability, independent cross-check — rather than
+  merely having run. Read `references/numerical-and-computational-methods.md`.
 - **Claim–evidence mapping:** connect central claims to results, derivations, and
   citations, and identify unsupported generalizations. Read
   `references/claim-evidence-mapping.md`.
@@ -379,7 +392,21 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   severity-ranked findings report; delegates framework-specific correctness to
   `deep-learning`/`hep-analysis`
 - `references/equation-and-notation-auditing.md` — definitions, dimensions,
-  index/shape consistency, and derivation-step checks
+  index/shape consistency, derivation-step checks, and distinguishing an actual
+  inconsistency from a mere notation/convention difference
+- `references/mathematical-reasoning-and-proof.md` — the assumptions →
+  definitions → derivation → result workflow, proof-status taxonomy (formal
+  through conjecture), approximation validity, mathematical checks
+  (limiting cases, symmetry, order-of-magnitude), and counterexample search
+- `references/statistical-inference-for-physics.md` — likelihood construction,
+  frequentist and Bayesian inference, asymptotic-approximation validity,
+  systematic-uncertainty propagation, common probability errors, and
+  statistical-claim-calibration language (not-excluded vs. supported,
+  local vs. global significance, confidence vs. credible interval)
+- `references/numerical-and-computational-methods.md` — numerical reliability
+  and convergence, optimization pitfalls, Monte Carlo/MCMC validation,
+  scientific-computing scope (vs. `agile-development`), and recognizing
+  circular validation/data leakage in a computational experiment
 - `references/claim-evidence-mapping.md` — connecting central claims to results,
   derivations, and citations; flagging unsupported generalizations
 - `references/logical-consistency-and-argument-uniformity.md` — checking the
