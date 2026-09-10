@@ -78,6 +78,23 @@ Iterate on validation. Reserve test for the final check. If it has been used hea
 say so and construct a fresh one before making a claim. Hold out a genuinely untouched
 set for the ship decision where the stakes justify it.
 
+## Evaluation hierarchy
+
+Predictive performance, calibration, robustness, and downstream/scientific validity
+are different properties and each needs its own check - a strong aggregate benchmark
+metric is not sufficient evidence for every claim built on top of it:
+
+```text
+Correctness -> Predictive performance -> Calibration -> Slice behavior -> Robustness -> Distribution shift -> Scientific/downstream validity
+```
+
+Not every task needs every level - an internal exploratory model may stop at slice
+behavior; a model backing a scientific or safety-relevant claim needs the full chain.
+See [uncertainty-and-calibration.md](uncertainty-and-calibration.md) for calibration
+and [robustness-and-distribution-shift.md](robustness-and-distribution-shift.md) for
+the robustness/shift levels; for the statistical validity of a downstream scientific
+conclusion itself, see `academic-papers`.
+
 ## Deciding to ship
 
 Write the criteria before seeing the results, or the results will shape the criteria:
@@ -104,3 +121,5 @@ what keeps it honest.
 - The measured offline-online gap, or a statement that it is unmeasured.
 - Test-set usage history, and whether a fresh set is needed for the claim.
 - Ship criteria written before results, including what regressed.
+- Which level of the evaluation hierarchy this result actually reached, and what
+  would be needed for the next level.

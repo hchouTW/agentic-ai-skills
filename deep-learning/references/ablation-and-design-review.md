@@ -82,6 +82,25 @@ than a problem: report both when they differ.
 A result that cannot survive these questions is not necessarily wrong - it is
 unsupported, which is a different and more common condition.
 
+## Ablation evidence vs. causal explanation
+
+An ablation result is evidence about component *contribution*, not automatically
+about *mechanism*. Distinguish:
+
+```text
+Removing component X reduces metric Y.
+```
+
+from:
+
+```text
+The model uses X for reason Z.
+```
+
+The second is a stronger, separate claim - it requires the interpretability checks in
+[interpretability-and-explainability.md](interpretability-and-explainability.md)
+(perturbation, stability, alternative methods), not just the ablation result.
+
 ## Deliverables
 
 - Number of seeds and the observed spread for both baseline and variant.
@@ -91,3 +110,5 @@ unsupported, which is a different and more common condition.
 - Per-component ablation, or an explicit statement that results are bundled.
 - The checkpoint-selection rule, confirmed not to involve the test set.
 - Practical significance: the cost of the change alongside its benefit.
+- Whether any causal/mechanistic claim was made beyond the ablation's own scope, and
+  what supports it.

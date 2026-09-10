@@ -40,6 +40,12 @@ vision at large scale and lose at small scale for exactly this reason. **Ask how
 data there is before choosing.** For genuinely tabular problems, a gradient-boosted
 tree is frequently the right answer and a neural network is not.
 
+When the inductive bias in question is a symmetry (permutation, rotation, a physics
+group like Lorentz), the enforcement decision - architecture vs. augmentation vs.
+objective, and whether it should be exact or approximate - has its own reasoning
+sequence; see
+[geometric-and-equivariant-learning.md](geometric-and-equivariant-learning.md).
+
 ## Sizing: capacity against data
 
 - **Underfitting** (training loss plateaus high) is a capacity, optimization, or data

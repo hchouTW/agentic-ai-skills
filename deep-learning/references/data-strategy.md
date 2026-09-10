@@ -60,6 +60,13 @@ is a live concern: the evaluation set may be in the pretraining data. Check wher
 possible, and prefer held-out sets constructed after the pretraining cutoff for claims
 that matter.
 
+For scientific ML built on simulated data, also inspect whether metadata or
+simulation-specific artifacts (an exact generator seed, a preprocessing quirk, a
+detector-simulation shortcut) let the model solve an easier unintended problem instead
+of the intended physical one - this is target leakage's simulation-specific form. See
+[robustness-and-distribution-shift.md](robustness-and-distribution-shift.md)'s
+simulation-to-data section.
+
 ## Imbalance
 
 Class imbalance is a metric and threshold problem more often than a sampling problem.
