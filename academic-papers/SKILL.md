@@ -1,6 +1,6 @@
 ---
 name: academic-papers
-description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency/logical-argument-uniformity, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR etc.), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
+description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, interpreting a figure/plot/graphic in a paper, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency/logical-argument-uniformity, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR etc.), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
 ---
 
 # Academic Papers
@@ -87,7 +87,9 @@ a figure caption, or a formatted document of your own.
 2. **Read for claims and evidence separately.** What does the paper claim, and what
    evidence actually supports each claim (dataset, method, statistical test,
    comparison baseline)? Keep these visibly distinct in notes — conflating "the paper
-   says X" with "X is well-supported" is the most common reading error.
+   says X" with "X is well-supported" is the most common reading error. When the
+   evidence is a figure, see `references/interpreting-scientific-graphics.md` for
+   reading it correctly rather than taking its visual impression at face value.
 3. **Take structured notes as you read**, not after — use
    `assets/templates/reading_notes_template.md` as a starting shape (claim / method /
    evidence / limitations / relevance-to-my-work). Notes taken during reading are far
@@ -289,6 +291,11 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   (exposure/livetime, trials factor, hadronic-model dependence), and
   statistics/ML-specific things to check (baseline fairness, cross-seed
   significance, train/test contamination)
+- `references/interpreting-scientific-graphics.md` — the reading-side counterpart
+  to figure design: reading common plot types correctly (exclusion contours,
+  corner plots, ROC curves, skymaps, learning curves), extracting approximate
+  values when no data table is given, spotting misleading visualization
+  techniques, and separating visual impression from statistical significance
 - `references/literature-review.md` — organizing a review or related-work section
   (chronological vs. thematic vs. methodological), building a comparison matrix,
   synthesis patterns vs. citation-stuffing, spotting research gaps

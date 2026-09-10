@@ -3,7 +3,9 @@
 Publication figures are a different design problem than analysis plots made for
 yourself or a collaboration meeting. This assumes plots already exist (e.g. from
 ROOT/matplotlib work under `hep-analysis`) and focuses on turning them into
-publication-quality figures with correct, complete captions.
+publication-quality figures with correct, complete captions. This is the design
+side; use `interpreting-scientific-graphics.md` for the reading side — critically
+interpreting a figure already in someone else's paper.
 
 ## Table of contents
 - [What makes a figure publication-ready](#what-makes-a-figure-publication-ready)

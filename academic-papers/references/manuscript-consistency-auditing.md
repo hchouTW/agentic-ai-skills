@@ -30,7 +30,9 @@ Compare like with like before flagging a conflict:
   categories may overlap, so establish their relationship first.
 - Compare figure axes, legends, captions, and table headings with prose. If values
   are read from an image, record approximate precision rather than treating them
-  as exact source data.
+  as exact source data — see `interpreting-scientific-graphics.md` for how to read
+  a value off a plot (gridline-relative reading, log-scale interpolation) and what
+  to check before trusting the figure's own visual impression.
 - Ensure abstract and conclusion preserve the conditions and caveats of the
   results. Check that revised numbers have corresponding revised interpretation.
 

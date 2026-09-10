@@ -30,7 +30,10 @@ worth bookmarking for later? Do not attempt to understand the method in detail y
 Read the paper more carefully, but skip proofs/derivations on a first pass through
 them — note the assumptions and the result, not necessarily every algebraic step.
 Look closely at figures and tables: identify axes, units, and what a "good" result
-looks like on that plot. Note unfamiliar references worth chasing later. After this
+looks like on that plot — see `interpreting-scientific-graphics.md` for reading
+specific plot types correctly (exclusion contours, corner plots, ROC curves, and
+others) and spotting a misleading axis choice or an unstated significance
+convention. Note unfamiliar references worth chasing later. After this
 pass you should be able to summarize the paper's contribution, method, and result to
 someone else in a few sentences, and should know whether a full pass-3 read is needed.
 
