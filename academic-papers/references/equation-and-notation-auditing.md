@@ -17,6 +17,10 @@ Check the following where applicable:
 - Terms added or equated have compatible dimensions and shapes; free indices
   agree and dummy indices are contracted consistently. Check transpose versus
   conjugate transpose and the measure in sums, integrals, and expectations.
+- Metric signature, Lorentz-index placement (upper/lower) and contraction, and
+  Fourier-transform convention (sign and 2π placement) are stated when a result
+  depends on them; a Jacobian or phase-space factor (e.g. `d^3p/(2π)^3 2E`) is
+  present wherever a variable change or a Lorentz-invariant measure requires one.
 - Logarithms and exponentials have dimensionless arguments under the stated
   convention. Establish natural units, normalized variables, or absorbed constants
   before reporting a dimensional error.
@@ -31,9 +35,15 @@ Check the following where applicable:
 
 For a suspected error, show the specific step or counterexample and the convention
 used. Distinguish definite inconsistency, ambiguous notation, and an unverified
-derivation. Symbolic simplification and numerical spot checks may corroborate a
-finding but do not establish a general proof; record assumptions and test domains.
-Never silently repair a scientific formula whose intended meaning is unclear.
+derivation — and distinguish all three from a mere **convention difference**
+(a metric signature, a Fourier 2π placement, a normalization choice) that
+differs from another paper's but is internally consistent. Report a convention
+difference as a finding only when it produces an internal inconsistency or
+changes a physically observable result, not merely because it differs from a
+convention used elsewhere. Symbolic simplification and numerical spot checks
+may corroborate a finding but do not establish a general proof; record
+assumptions and test domains. Never silently repair a scientific formula whose
+intended meaning is unclear.
 
 Deliver findings with equation/line locator, issue, supporting calculation,
 scientific impact, and minimal proposed correction. Separate cosmetic notation
