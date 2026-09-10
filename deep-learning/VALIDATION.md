@@ -227,6 +227,59 @@ target, verified the eight architect-level references each still end in a
 - Bundle validator and the full test suite (106 tests, 2 skipped) re-run
   clean after the fixes.
 
+## Research-grade scientific reasoning expansion pass (2026-09-10)
+
+Strengthened the skill from PyTorch engineering into research-grade deep-learning
+reasoning for scientific ML/HEP, per a capability audit against the actual repository
+(SKILL.md, README.md, and all 26 non-shared reference files were read in full before
+any file was created). Added six reference files -
+`references/optimization-and-training-dynamics.md`,
+`references/uncertainty-and-calibration.md`,
+`references/robustness-and-distribution-shift.md`,
+`references/scientific-machine-learning.md`,
+`references/geometric-and-equivariant-learning.md`, and
+`references/interpretability-and-explainability.md` (the last folding in
+representation learning rather than adding a seventh file). Declined two of the
+spec's optional files: representation learning folded into
+`interpretability-and-explainability.md`, and experiment provenance folded into an
+expansion of the existing `references/reproducibility.md` (new "Reproducibility
+levels" and "Experiment provenance" sections) rather than a new file, per the reuse-
+before-create ordering the spec itself specifies. Also lightly extended
+`references/evaluation-strategy.md` (an "Evaluation hierarchy" section),
+`references/data-strategy.md` (a simulation-artifact leakage note),
+`references/architecture-selection.md` (a symmetry cross-link), and
+`references/ablation-and-design-review.md` (an ablation-vs-causal-explanation
+distinction). `SKILL.md`'s frontmatter `description`, its "Architect-level
+references" routing list, its example prompts, and its Caveats section (a new
+`academic-papers` boundary line); `README.md`'s coverage section; `agents/openai.yaml`;
+and `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` were all updated to match
+(bundle now reports 62 files, up from 56).
+
+This is a markdown-only pass; no scripts, assets, or tests changed in content, so no
+PyTorch execution was needed or performed.
+
+- `scripts/validate_skill_bundle.py` was run and confirmed all 62 expected files
+  present and non-empty.
+- `python3 -m unittest discover -s tests -v` was re-run and still passes (106 tests,
+  2 skipped for absent PyTorch) - unaffected by this pass, confirmed rather than
+  assumed.
+- Every relative Markdown link added or edited in this pass was checked against the
+  files that actually exist on disk: none broken (including the two deliberately
+  forward-declared links in Task 1/Task 4 that resolve once later tasks in the same
+  pass complete).
+- All six new references end in a `## Deliverables` section, matching the convention
+  the "Senior-architect expansion pass" established.
+- Checked for accidental duplication of `academic-papers` (statistical inference,
+  likelihoods, coverage, discovery/exclusion) and `agile-development` (service
+  architecture, deployment design) responsibilities: none found: the new content
+  stays at "is the model trained/calibrated/robust," not "is the resulting scientific
+  claim statistically valid" or "how should this service be architected."
+- Mentally ran the ten capability-test scenarios from the driving task spec (training
+  failure, generalization failure, calibration, scientific performance, simulation
+  shift, interpretation, representation, equivariance, lucky seed, emulator) against
+  the final file set; each is addressed by the diagnostic flow, principle, or
+  checklist in the relevant new/expanded reference.
+
 ## Limitations
 
 - **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that
