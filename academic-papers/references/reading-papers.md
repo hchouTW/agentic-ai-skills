@@ -92,10 +92,14 @@ phrasing of it.
 - **Look-elsewhere effect**: for any reported local significance, check whether a
   global significance (accounting for the number of places an excess could have
   appeared) is also quoted — a "3σ local" excess is often much less significant
-  globally.
+  globally. See `statistical-inference-for-physics.md`'s frequentist-inference
+  section for the actual trials-correction/global-significance check.
 - **Systematics treatment**: are systematic uncertainties itemized by source (not
   just a single lumped number), and is it clear how they were evaluated (data-driven
-  vs. simulation-based)?
+  vs. simulation-based)? See `statistical-inference-for-physics.md`'s systematic-
+  uncertainty section for what "accounted for" should actually mean (nuisance
+  modeling, correlation, propagation) before accepting the itemized list at
+  face value.
 - **Cross-checking numbers**: for headline measurements, check whether the quoted
   value and its context are consistent with the corresponding PDG (Particle Data
   Group) average or HEPData record, when relevant — a large unexplained tension with
@@ -130,7 +134,9 @@ structure and figures, not just what to check while reading.
   could be seed noise?
 - **Train/test contamination**: for a public benchmark or a pretrained model, is
   there a check that the test set didn't leak into pretraining or fine-tuning
-  data?
+  data? See `numerical-and-computational-methods.md`'s computational-experiment-
+  design section for the general circular-validation pattern this is one
+  instance of.
 - **Code/data availability**: is the result actually reproducible from what's
   released, or does the paper claim reproducibility while withholding a
   load-bearing detail?

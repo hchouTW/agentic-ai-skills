@@ -36,7 +36,15 @@ Check whether the evidence addresses the exact claim:
 - A mechanism or causal claim needs evidence that separates plausible competing
   explanations; correlation alone supports an association.
 - A theoretical claim depends on its assumptions and domain. Empirical examples
-  illustrate a theorem but do not prove it.
+  illustrate a theorem but do not prove it. Use
+  `mathematical-reasoning-and-proof.md`'s proof-status ladder to state how
+  strong the theoretical evidence actually is (formal/analytic/perturbative/
+  asymptotic/heuristic/numerical/empirical/conjecture) rather than defaulting
+  to a bare supported/unsupported verdict.
+- A statistical claim (a significance, an exclusion, a correlation) needs the
+  inference actually behind it, not just the reported number — check it
+  against `statistical-inference-for-physics.md`'s claim-calibration table
+  before accepting the paper's own characterization of its result.
 - A robustness/generalization claim needs tests over the variation named in the
   claim. Several plots from the same sample are not independent confirmations.
 - An exclusion, null result, or absence-of-effect claim must retain its sensitivity,
