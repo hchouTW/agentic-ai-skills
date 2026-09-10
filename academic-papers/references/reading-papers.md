@@ -112,7 +112,9 @@ phrasing of it.
 - **Trials factor**: for a point-source or anisotropy search, is a post-trial
   (global) significance given alongside the pre-trial number — the same
   look-elsewhere-effect concern as collider searches, but easy to miss since the
-  "trials" here are sky positions or energy bins rather than mass bins.
+  "trials" here are sky positions or energy bins rather than mass bins. See
+  `statistical-inference-for-physics.md`'s frequentist-inference section for the
+  actual trials-correction/global-significance check.
 - **Hadronic-interaction-model dependence**: for shower-based composition results, is
   the model-dependence of the conclusion itself discussed (not just shown as a
   systematic-uncertainty band with no comment on whether the qualitative conclusion

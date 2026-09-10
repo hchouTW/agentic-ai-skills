@@ -193,7 +193,9 @@ critical-reading checklist with:
   red flag, not a formality being skipped.
 - **Train/test contamination**: for anything using a public benchmark or a
   pretrained model, is there a check that the test set (or something derived from
-  it) didn't leak into pretraining or fine-tuning data?
+  it) didn't leak into pretraining or fine-tuning data? See
+  `numerical-and-computational-methods.md`'s computational-experiment-design
+  section for the general circular-validation pattern this is one instance of.
 - **Code/data availability**: is the result actually reproducible from what's
   released, or does the paper claim reproducibility while withholding a
   load-bearing detail (a specific hyperparameter, a data preprocessing step, a

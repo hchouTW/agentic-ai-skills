@@ -39,8 +39,8 @@ Check whether the evidence addresses the exact claim:
   illustrate a theorem but do not prove it. Use
   `mathematical-reasoning-and-proof.md`'s proof-status ladder to state how
   strong the theoretical evidence actually is (formal/analytic/perturbative/
-  asymptotic/heuristic/numerical/empirical/conjecture) rather than defaulting
-  to a bare supported/unsupported verdict.
+  asymptotic/heuristic/numerical/empirical/conjecture) as a companion to the
+  verdict below, which on its own doesn't say how strong the evidence is.
 - A statistical claim (a significance, an exclusion, a correlation) needs the
   inference actually behind it, not just the reported number — check it
   against `statistical-inference-for-physics.md`'s claim-calibration table

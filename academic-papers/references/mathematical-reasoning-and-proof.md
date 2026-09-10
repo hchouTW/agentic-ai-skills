@@ -20,6 +20,7 @@ mathematical derivation's own soundness.
 - [Mathematical checks](#mathematical-checks)
 - [Counterexample search](#counterexample-search)
 - [Separating derivation from verification](#separating-derivation-from-verification)
+- [Evidence-strength ladder](#evidence-strength-ladder)
 
 ## Reasoning workflow
 
@@ -168,8 +169,8 @@ independent rules.
 
 When recording a theoretical claim in `claim-evidence-mapping.md`'s evidence
 matrix, state its justified strength using the proof-status categories above
-(exact/formal, analytically derived under stated assumptions, asymptotically
-justified, numerically validated, empirically observed, heuristically
-motivated, speculative) rather than a bare "supported"/"unsupported" verdict —
-the verdict answers whether the evidence matches the claim; this ladder answers
-how strong that evidence actually is on its own terms.
+(formal proof, analytic derivation, perturbative argument, asymptotic
+argument, heuristic argument, numerical evidence, empirical observation,
+conjecture) rather than a bare "supported"/"unsupported" verdict — the verdict
+answers whether the evidence matches the claim; this ladder answers how strong
+that evidence actually is on its own terms.
