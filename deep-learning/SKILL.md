@@ -1,6 +1,6 @@
 ---
 name: deep-learning
-description: "Use whenever writing, debugging, refactoring, reviewing, or explaining PyTorch code - models (nn.Module), training/eval loops, datasets and DataLoaders, losses, optimizers, schedulers, mixed precision, gradient accumulation, checkpointing, distributed training (DDP), reproducibility, inference, and performance/memory tuning. Also covers debugging tensor shape/device/dtype errors, NaNs, exploding gradients, and slow dataloaders; Transformer/attention architectures and positional encoding; RNN/LSTM/GRU sequence models; generative models (VAE/GAN/diffusion); parameter-efficient fine-tuning (LoRA) and quantization; custom autograd functions, hooks, and gradient checkpointing; and model export/deployment (TorchScript, ONNX, torch.compile). Also covers architect-level decisions around the code: choosing and sizing an architecture, scaling laws, compute/memory/cost budgeting, choosing a parallelism strategy (DDP vs. FSDP/ZeRO vs. tensor/pipeline/sequence parallel), MFU and throughput at scale, ablation discipline and seed variance, dataset design, splits and leakage, evaluation strategy and ship criteria, inference serving capacity and latency budgets, drift monitoring, rollout and retraining. Trigger this for any 'train a model', 'my loss is NaN', 'fix this PyTorch error', 'set up a DataLoader', 'build a transformer', 'fine-tune with LoRA', 'export my model to ONNX', 'review my training script', 'should I use FSDP or tensor parallel', 'how much will this training run cost', 'is this improvement real', 'how many replicas do we need', or 'how should I split this dataset' request, even if the user doesn't say 'PyTorch' explicitly."
+description: "Use whenever writing, debugging, refactoring, reviewing, or explaining PyTorch code - models (nn.Module), training/eval loops, datasets and DataLoaders, losses, optimizers, schedulers, mixed precision, gradient accumulation, checkpointing, distributed training (DDP), reproducibility, inference, and performance/memory tuning. Also covers debugging tensor shape/device/dtype errors, NaNs, exploding gradients, and slow dataloaders; Transformer/attention architectures and positional encoding; RNN/LSTM/GRU sequence models; generative models (VAE/GAN/diffusion); parameter-efficient fine-tuning (LoRA) and quantization; custom autograd functions, hooks, and gradient checkpointing; and model export/deployment (TorchScript, ONNX, torch.compile). Also covers architect-level decisions around the code: choosing and sizing an architecture, scaling laws, compute/memory/cost budgeting, choosing a parallelism strategy (DDP vs. FSDP/ZeRO vs. tensor/pipeline/sequence parallel), MFU and throughput at scale, ablation discipline and seed variance, dataset design, splits and leakage, evaluation strategy and ship criteria, inference serving capacity and latency budgets, drift monitoring, rollout and retraining. Also covers research-grade scientific reasoning: training-failure diagnosis (implementation/optimization/capacity/data/generalization/numerical/objective-mismatch), predictive uncertainty and calibration (aleatoric/epistemic, ECE/NLL/Brier, temperature scaling), robustness and distribution shift including simulation-to-data shift, physics-informed constraints and surrogate models/emulators for scientific ML, symmetry and equivariant learning (sets/graphs/point clouds, Lorentz-aware modeling for HEP), and interpretation discipline for attribution/attention/representations. Trigger this for any 'train a model', 'my loss is NaN', 'fix this PyTorch error', 'set up a DataLoader', 'build a transformer', 'fine-tune with LoRA', 'export my model to ONNX', 'review my training script', 'should I use FSDP or tensor parallel', 'how much will this training run cost', 'is this improvement real', 'how many replicas do we need', 'how should I split this dataset', 'is this confidence score calibrated', 'does this hold up outside the training distribution', or 'is this latent-space clustering actually physics' request, even if the user doesn't say 'PyTorch' explicitly."
 ---
 
 # PyTorch Engineering
@@ -145,6 +145,12 @@ Architect-level references - decisions made before or around the code:
 - **Drift and monitoring, regression suites, shadow/canary rollout, versioning, retraining triggers** -> [references/monitoring-and-lifecycle.md](references/monitoring-and-lifecycle.md)
 - **Dataset design, label quality, splits, leakage, deduplication, imbalance** -> [references/data-strategy.md](references/data-strategy.md)
 - **Eval harness design, slices, behavioral tests, offline-online gap, ship criteria** -> [references/evaluation-strategy.md](references/evaluation-strategy.md)
+- **Training failure diagnosis: distinguishing implementation, optimization, capacity, data, generalization, numerical, and objective-mismatch failure; LR/batch-size/gradient interactions** -> [references/optimization-and-training-dynamics.md](references/optimization-and-training-dynamics.md)
+- **Confidence, calibration, predictive uncertainty, aleatoric vs. epistemic** -> [references/uncertainty-and-calibration.md](references/uncertainty-and-calibration.md)
+- **OOD behavior, domain/nuisance/simulation-to-data shift, robustness beyond IID** -> [references/robustness-and-distribution-shift.md](references/robustness-and-distribution-shift.md)
+- **Physics constraints, surrogate models/emulators, simulation-based inference, scientific ML** -> [references/scientific-machine-learning.md](references/scientific-machine-learning.md)
+- **Symmetry, invariance/equivariance, sets/graphs/point clouds, Lorentz-aware modeling** -> [references/geometric-and-equivariant-learning.md](references/geometric-and-equivariant-learning.md)
+- **Saliency/attribution/attention interpretation, representation learning, embeddings, scientific claims about learned structure** -> [references/interpretability-and-explainability.md](references/interpretability-and-explainability.md)
 
 ## Helper Scripts & Templates
 
@@ -244,6 +250,9 @@ corrected snippet -> a quick diagnostic print/assert to confirm the fix.
 - "Is this 0.4% accuracy gain real, or is it seed noise?"
 - "How many replicas do we need to serve 500 QPS under a 250 ms p99 budget?"
 - "Review how this dataset is split before we trust the eval numbers."
+- "Is this classifier's 0.99 confidence actually a calibrated probability?"
+- "This surrogate model is accurate in its training range but we're running it outside that range - is that OK?"
+- "The latent space shows clusters that match a known physical category - does that mean the model learned the physics?"
 
 ## Caveats
 
@@ -253,3 +262,7 @@ corrected snippet -> a quick diagnostic print/assert to confirm the fix.
   reproducibility - mention this tradeoff when you enable it.
 - For broader engineering process (scoping, testing, review), pair with
   [[agile-development]].
+- For the scientific/statistical validity of conclusions drawn from model outputs -
+  likelihoods, confidence intervals, discovery/exclusion claims - pair with
+  [[academic-papers]]; this skill covers whether the model itself is trained,
+  evaluated, calibrated, and robust.
