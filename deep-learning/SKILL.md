@@ -116,6 +116,7 @@ file as a whole, not individual lines.
 ## When to Read a Reference
 
 - **Training loop shape, grad clipping, accumulation** -> [references/training-loop.md](references/training-loop.md)
+- **Training loss not decreasing, instability, plateaus, vanishing/exploding gradients, LR/weight-decay behavior** -> [references/optimization-and-training-dynamics.md](references/optimization-and-training-dynamics.md)
 - **Debugging shape/device/dtype/NaN errors** -> [references/debugging-pytorch.md](references/debugging-pytorch.md)
   and [references/tensor-shapes.md](references/tensor-shapes.md)
 - **Dataset/DataLoader design, collate functions** -> [references/data-loading.md](references/data-loading.md)

@@ -5,7 +5,7 @@ constraint, surrogate model, or inverse-problem method is justified and how to
 validate it. This is a scientific-reasoning reference, not a physics textbook - it
 does not teach what a constraint or a surrogate is, only how to decide whether to use
 one and how to check it. For the statistical/inference validity of the resulting
-scientific claim (likelihoods, coverage, discovery significance) see
+scientific claim (likelihoods, discovery significance) see
 `academic-papers`, not this file - see the boundary note in `SKILL.md`. For
 symmetry-specific architecture decisions see
 [geometric-and-equivariant-learning.md](geometric-and-equivariant-learning.md).

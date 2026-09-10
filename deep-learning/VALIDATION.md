@@ -231,7 +231,7 @@ target, verified the eight architect-level references each still end in a
 
 Strengthened the skill from PyTorch engineering into research-grade deep-learning
 reasoning for scientific ML/HEP, per a capability audit against the actual repository
-(SKILL.md, README.md, and all 26 non-shared reference files were read in full before
+(SKILL.md, README.md, and all 25 non-shared reference files were read in full before
 any file was created). Added six reference files -
 `references/optimization-and-training-dynamics.md`,
 `references/uncertainty-and-calibration.md`,
@@ -271,7 +271,7 @@ PyTorch execution was needed or performed.
   the "Senior-architect expansion pass" established.
 - Checked for accidental duplication of `academic-papers` (statistical inference,
   likelihoods, coverage, discovery/exclusion) and `agile-development` (service
-  architecture, deployment design) responsibilities: none found: the new content
+  architecture, deployment design) responsibilities: none found. The new content
   stays at "is the model trained/calibrated/robust," not "is the resulting scientific
   claim statistically valid" or "how should this service be architected."
 - Mentally ran the ten capability-test scenarios from the driving task spec (training

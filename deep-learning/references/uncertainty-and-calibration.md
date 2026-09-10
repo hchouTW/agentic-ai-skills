@@ -7,6 +7,11 @@ metric computation see [evaluation-metrics.md](evaluation-metrics.md); for evalu
 design see [evaluation-strategy.md](evaluation-strategy.md); for behavior under shift
 see [robustness-and-distribution-shift.md](robustness-and-distribution-shift.md).
 
+This is predictive-probability calibration - a different sense of "calibration" from
+the quantization calibration data used in
+[efficient-finetuning.md](efficient-finetuning.md) and
+[export-and-deployment.md](export-and-deployment.md).
+
 ## Confidence is not calibration
 
 **A model's confidence score is not automatically a calibrated probability of

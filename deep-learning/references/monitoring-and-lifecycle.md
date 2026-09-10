@@ -14,7 +14,7 @@ differ:
 |---|---|---|
 | Covariate shift | Input distribution | Yes |
 | Label shift | Outcome base rates | Partly, via prediction distribution |
-| Concept drift | Input-output relationship | No - needs labels or a proxy |
+| Concept drift (called "concept shift" in robustness-and-distribution-shift.md's research-time framing) | Input-output relationship | No - needs labels or a proxy |
 | Upstream data change | A feature's meaning or availability | Yes, via data validation |
 | Feedback loop | The model influences its own future inputs | Only with a holdout |
 
@@ -22,6 +22,10 @@ differ:
 not really drift - a renamed column, a changed unit, a silently-failing feature
 pipeline. Validate input schema, ranges, and null rates at serving time; this catches
 more real incidents than any distributional test.
+
+For evaluating this same shift taxonomy at research time, before a model ships or when
+diagnosing a result rather than monitoring production, see
+[robustness-and-distribution-shift.md](robustness-and-distribution-shift.md).
 
 **Feedback loops** deserve specific attention: a recommender that shapes what users see
 also shapes its own training data. Without a small randomized holdout, the model's
