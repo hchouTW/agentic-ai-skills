@@ -115,6 +115,15 @@ REQUIRED_PATHS = [
     "examples/01-jes-systematic-cutflow.md",
     "examples/02-tag-and-probe-background-subtraction.md",
     "examples/03-li-ma-significance-iact.md",
+    "examples/04-trajectory-cutflow-normalization-mismatch.md",
+    "examples/05-trajectory-systematic-template-migration-flag.md",
+    "examples/06-trajectory-abcd-closure-failure.md",
+    "examples/07-gated-pipeline-systematic-uncertainty-closure-gate.md",
+    "examples/08-gated-pipeline-unfolded-cross-section.md",
+    "examples/09-gated-pipeline-alignment-propagation.md",
+    "examples/10-decision-tree-control-region-excess-triage.md",
+    "examples/11-decision-tree-tracking-efficiency-drop-triage.md",
+    "examples/12-decision-tree-multimessenger-alert-triage.md",
 ]
 
 REQUIRED_README_SECTIONS = [

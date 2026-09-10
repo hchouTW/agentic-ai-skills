@@ -616,6 +616,122 @@ entries with genuinely different content each.
   `python3 -m unittest discover -s tests -v` (172 tests, unchanged - this pass
   added content, not new test code) after the changes.
 
+## Example-authoring: Execution Trajectory pilot (2026-09-11)
+
+Added this skill's first non-Contrast example, per Phase 3 of
+`agile-development`'s four-archetype example-authoring revision (see that
+skill's `references/example-authoring.md` for the full archetype spec; this
+skill depends on `agile-development` being installed alongside it for the
+tooling).
+
+- Scaffolded and filled `examples/04-trajectory-cutflow-normalization-
+  mismatch.md` (Execution Trajectory archetype, role "Senior Experimental
+  Particle Physicist"): a signal MC cutflow yield measuring ~15% high,
+  uniformly, at every selection step. Grounded the root cause directly in
+  `references/03-weights-normalization.md`'s "Basic convention" (`w_event = (L
+  x sigma x k x filter_efficiency / sum_full_gen_weights) x w_gen x
+  product(corrections)`, and its explicit warning that "the denominator must
+  cover the corresponding production... normally from preselection
+  metadata"): a `sum_full_gen_weights` denominator computed from a metadata
+  snapshot taken before 6 of 40 production jobs were resubmitted after a
+  first-attempt failure, so the merged ntuples' numerator reflects all 40
+  jobs while the denominator only reflected 34 - a shape-preserving, uniform
+  normalization error rather than a selection-logic bug, which is why no
+  single cutflow step was implicated.
+- The worked arithmetic (a 1.15 ratio reproducing the reported ~15% excess at
+  every step, and the corrected yields matching an independent validation
+  skim within stated uncertainty) was checked for internal consistency across
+  all four cutflow steps before being written into the example, not just
+  asserted.
+- `python3 ../agile-development/scripts/validate_skill_example.py
+  examples/04-trajectory-cutflow-normalization-mismatch.md` passes with no
+  structural or placeholder findings.
+- Added one row to `examples/README.md`'s index (now four columns) and added
+  the new file to `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`.
+  Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 99 files
+  present and non-empty.", up from 98) and
+  `python3 -m unittest discover -s tests -v` ("Ran 172 tests" / "OK",
+  unchanged - this pass added example content, not new test code).
+- Also generalized the "Authoring a canonical worked example" pointer in
+  `SKILL.md`'s reference table from "(Weak vs. Expert contrast)" to name all
+  four archetypes, matching `agile-development`'s own updated wording.
+
+**Backlog (explicitly deferred, not silently missing):** three archetypes
+remain unpiloted for this skill, per the source initiative's Phase 3 backlog
+table - Contrast (a systematics writeup, weak vs. expert - distinct from the
+three Contrast examples already shipped), Gated Pipeline (systematic-
+uncertainty estimation with a closure-test gate), and Decision-Tree (an
+unexpected excess in a control region: background vs. new physics vs.
+detector effect vs. statistical fluctuation). None were started in this pass.
+
+**Superseded by the pass below (2026-09-11):** the Gated Pipeline and
+Decision-Tree backlog items above were fulfilled the same day, each expanded
+to three examples rather than a single pilot. The Contrast backlog item (a
+systematics writeup) remains open.
+
+## Archetype expansion to three examples each (2026-09-11)
+
+Expanded Execution Trajectory, Gated Pipeline, and Decision-Tree from one
+pilot each (the previous entry above) to three examples each, per an explicit
+follow-up request that every skill's `examples/` carry three genuinely
+different examples per archetype, matching the shape already established for
+Contrast. Added 8 new files (`05`-`12`); this skill's `examples/` now holds
+12 files total: 3 Contrast, 3 Trajectory, 3 Gated Pipeline, 3 Decision-Tree.
+
+- **Trajectory** (`05`, `06`): a JES systematic template that looks inverted
+  in its highest-pt bin - resisting the tempting "swap the Up/Down labels"
+  fix per `references/06-systematics.md`'s explicit warning that migration
+  can legitimately lower a bin for an Up variation, and instead finding a
+  real correction-file copy-paste bug while independently confirming the one
+  genuinely-inverted bin via generator-truth migration counts; and an ABCD
+  background closure failure traced to a real correlation between the two
+  discriminating variables, resolved with a `kappa` correction factor
+  measured in an independent validation region (`references/05-backgrounds.md`'s
+  "ABCD" section) and verified to reproduce that region's own observation
+  exactly.
+- **Gated Pipeline** (`07`-`09`): a b-tagging systematic-uncertainty budget
+  with a closure-test gate (the backlog item), where the red-team phase finds
+  a uniform era-correlation assumption was wrongly double-suppressing a
+  calibration-statistics component (`references/06-systematics.md`'s "Source
+  inventory" rule against blanket correlation assumptions); an unfolded
+  cross-section measurement (`references/10-measurements-unfolding.md`) whose
+  red-team phase finds genuine truth-model dependence in one bin via a
+  rebuilt response matrix, and excludes that bin explicitly rather than
+  quoting an ad hoc extra uncertainty; and an alignment-propagation pipeline
+  (`references/31-calibration-and-alignment.md`) whose red-team phase finds a
+  single cosmic-ray comparison cannot alone bound a charge-antisymmetric weak
+  mode, adding an independent `E/p` symmetry check.
+- **Decision-Tree** (`10`-`12`): the backlog's control-region-excess triage
+  (background mismodeling vs. new physics vs. detector effect vs. statistical
+  fluctuation), selecting the mismodeling branch and tracing it to sideband
+  functional-form uncertainty; a tracking-efficiency-drop triage
+  (`references/24-tracking-and-vertexing.md`, cross-linking
+  `references/31-calibration-and-alignment.md`) selecting a pattern-
+  recognition search-window branch and quantifying its efficiency/fake-rate
+  tradeoff; and a multi-messenger alert triage
+  (`references/38-multimessenger-analysis.md`) selecting the post-hoc-window
+  branch and computing a trials-corrected p-value.
+- All numeric/arithmetic claims were independently executed with Python
+  before being written into the files, not just hand-derived - this caught
+  one defect: the multi-messenger trials-corrected p-value was first
+  mis-stated as 0.858 and corrected to the actual computed value, 0.847,
+  after running `1 - (1 - 0.014)**133` rather than trusting mental
+  arithmetic.
+- Every new file was validated individually with
+  `python3 ../agile-development/scripts/validate_skill_example.py <file>`
+  (all report `ok`) before being wired up.
+- Added all 8 new file paths to `scripts/validate_skill_bundle.py`'s
+  `REQUIRED_PATHS` and one row per file to `examples/README.md`'s index.
+  Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 107 files
+  present and non-empty.", up from 99) and
+  `python3 -m unittest discover -s tests -v` ("Ran 172 tests" / "OK",
+  unchanged - this pass added example content, not new test code).
+
+**Remaining backlog:** Contrast still has only its original 3 examples (a
+systematics writeup, weak vs. expert, from the source initiative's backlog
+table, remains unstarted); the other three archetypes are now at parity with
+Contrast at 3 examples each.
+
 ## Limitations
 
 - ROOT is not installed in the validation environment, so `check_root_cpp_env.sh`
