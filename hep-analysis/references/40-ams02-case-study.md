@@ -38,9 +38,20 @@ AMS-02 combines, in the layered order described generically in
   downward-going cosmic rays from upward-going albedo/backscattered particles is a
   TOF-timing measurement, not an assumption, per the general TOF discussion in
   [particle identification](26-particle-identification.md).
-- **A ring-imaging Cherenkov detector (RICH)** below the tracker, giving a
-  precise independent velocity measurement for charge and, combined with rigidity,
-  isotope separation - the most demanding PID application described in
+- **Anti-coincidence counters (ACC)**, a scintillator veto lining the magnet bore
+  around the tracker, rejecting tracks from particles entering through the side
+  rather than along the instrument's acceptance cone. This is the second
+  independent handle (alongside TOF timing/directionality) for excluding
+  non-genuine tracks before any charge or rigidity measurement is trusted - an
+  event failing the ACC veto should not enter a flux or ratio measurement's
+  denominator at all, rather than being corrected for downstream.
+- **A ring-imaging Cherenkov detector (RICH)** below the tracker, with two
+  radiators of different refractive index (a sodium-fluoride radiator and a
+  silica-aerogel radiator, per the collaboration's own site - verify the exact
+  configuration against the instrument publication before quoting it) giving
+  velocity coverage across a wider β range than a single radiator could, plus a
+  precise independent velocity measurement for charge and, combined with
+  rigidity, isotope separation - the most demanding PID application described in
   [particle identification](26-particle-identification.md).
 - **An electromagnetic calorimeter (ECAL)** at the bottom, giving an independent
   energy measurement and shower-shape discrimination that, combined with the TRD and
@@ -60,14 +71,27 @@ likelihood or a sequential-cut selection, exactly the combination discipline in
 
 ## What is distinctive about a decade-plus space-based mission
 
-- **No on-orbit repair of the tracking/magnet system.** Unlike a collider detector
-  with scheduled shutdowns for maintenance, AMS-02's core subsystems must be stable,
-  self-monitoring, and degrade gracefully for the mission's full duration. Any
-  time-dependent drift in tracker alignment or magnet field (from thermal cycling on
-  each ISS orbit, or long-term aging) must be tracked and corrected per data-taking
+- **Servicing is the rare, hard-won exception, not the default to assume.** Most
+  space-based instruments get zero post-launch hardware access; AMS-02 is a
+  notable exception precisely because it was not designed for it. NASA astronauts
+  performed a multi-EVA campaign (November 2019-January 2020) to repair its
+  thermal/cooling system - reported independently by NASA, *Scientific American*,
+  phys.org (as among "the most challenging spacewalks since Hubble"), and
+  NASASpaceflight.com - and the collaboration's own site describes a 2025 Tracker
+  Layer-0 hardware upgrade (an added tracker plane, +300% acceptance). Neither
+  changes the general planning assumption for *other* missions - budget for zero
+  servicing unless a mission specifically provides for it - but for AMS-02
+  specifically, an analysis spanning these dates must account for the actual
+  hardware configuration active in each period, not assume the instrument was
+  static for its full run. Any time-dependent drift in tracker alignment or
+  magnet field within a stable-hardware period (from thermal cycling on each ISS
+  orbit, or long-term aging) must still be tracked and corrected per data-taking
   period, not calibrated once - see
   [calibration and alignment](31-calibration-and-alignment.md) for the general
   alignment-weak-mode and conditions-time-dependence treatment this requires.
+  Verify the exact servicing/upgrade dates and scope against NASA/AMS collaboration
+  sources before citing them in an analysis; this summary is current as of
+  2026-09-10 (see [13-sources.md](13-sources.md)).
 - **Orbital thermal cycling.** The ISS orbit produces a roughly 90-minute thermal
   cycle (day/night per orbit) that can measurably shift detector alignment and gain;
   an analysis spanning many orbits must either correct for or bin out this periodic
@@ -122,6 +146,42 @@ analysis structure worth naming explicitly:
    [39-astroparticle-statistics.md](39-astroparticle-statistics.md), not as
    an absence-of-evidence claim.
 
+## Analysis-technique improvements are sometimes their own publication
+
+Not every incremental analysis improvement a long-running collaboration makes
+stays internal - some are published as dedicated instrumentation papers, separate
+from the physics-result letters. Two concrete, independently citable examples for
+AMS-02's tracker and calorimeter:
+
+- **A cross-strip charge-division nonlinearity correction for tracker coordinate
+  measurement**, published in G. Ambrosi et al., *Nucl. Instrum. Methods Phys.
+  Res. A* **869**, 29 (2017): the standard two-strip amplitude-ratio position
+  estimator is corrected by a charge-dependent function derived from the known
+  isotropy of cosmic-ray arrival directions (deviations from a uniform position
+  distribution reveal the detector's own nonlinearity), improving position
+  resolution by roughly a factor of 2 for carbon and more for heavier nuclei.
+  This is a concrete instance of the general position-resolution treatment in
+  the tracking references - a correction derived from a physics prior (isotropy)
+  applied to remove a detector-response artifact, not a physics effect.
+- **A seven-parameter three-dimensional shower parametrization for ECAL energy
+  reconstruction**, published in A. Kounine et al., *Nucl. Instrum. Methods Phys.
+  Res. A* **869**, 110 (2017): shower energy, three-dimensional shower-maximum
+  position, two axis angles, and a longitudinal scale parameter, fit per-event to
+  the cell-by-cell energy deposition. A concrete worked instance of the
+  shower-shape-based reconstruction and discrimination discussed generically for
+  calorimetry.
+
+**The lesson for any collaboration's own "advances" page or internal analysis
+notes**: don't assume a uniform answer to "is this citable literature or just an
+internal note" across an entire category of page. Checking `ams02.space/
+advances-data-analysis` directly shows a mixed picture - the two techniques above
+each resolve to a specific NIM A paper, while other pages on the same site
+section (checked for a different purpose in `academic-papers`'s coverage of this
+site) show no such citation for a *different*, apparently more recent in-house
+improvement. Check each specific claimed technique's publication status
+individually (INSPIRE-HEP, the journal, or asking the collaboration) rather than
+generalizing from one checked example to the whole category, in either direction.
+
 ## Deliverables
 
 - Which subsystems' PID information contributed to a reported selection, the
@@ -133,9 +193,17 @@ analysis structure worth naming explicitly:
   averaged) the resulting systematic.
 - The tracker/magnet alignment and gain calibration cadence relative to the orbital
   thermal cycle and to any long-term aging trend.
+- Whether the analyzed period spans a known hardware-configuration change (the
+  2019-2020 cooling-system EVA repair, the 2025 Tracker Layer-0 upgrade, or any
+  later servicing) - if so, whether the analysis treats the periods separately or
+  states why a combined treatment is still valid.
 - For a fraction/ratio measurement: confirmation that the two yields share
   (approximately) the same acceptance, and the exact error propagation used (see
   `scripts/particle_ratio_with_uncertainty.py`) rather than a naive quadrature
   combination that assumes independence when the two yields may share systematics.
 - For any concrete instrument parameter or published result quoted from AMS-02: the
   specific publication or official source it was checked against.
+- For any claimed analysis-technique improvement: whether it resolves to a
+  specific instrumentation paper (as with the two NIM A examples above) or is
+  only illustrative in-house/website content - checked individually, not assumed
+  from another technique's citation status.
