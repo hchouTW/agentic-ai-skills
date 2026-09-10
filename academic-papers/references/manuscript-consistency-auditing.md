@@ -3,7 +3,10 @@
 Use to reconcile a manuscript's repeated facts and conclusions across the title,
 abstract, body, tables, figures/captions, appendices, and supplements. Include only
 provided versions and state any missing artifacts. Local reference checks in
-`check_manuscript.py` do not validate numerical or scientific consistency.
+`check_manuscript.py` do not validate numerical or scientific consistency. This
+file checks *numeric and factual* consistency; for the same failure mode applied
+to a term's meaning or an argument's logical structure rather than a value, use
+`logical-consistency-and-argument-uniformity.md`.
 
 Create a result ledger for consequential repeated facts: quantity or claim,
 definition, dataset/selection, units, central value, uncertainty type, interval

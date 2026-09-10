@@ -2,7 +2,9 @@
 
 Use when checking whether a paper's conclusions follow from its evidence. For
 external reference checks, use `citation-verification.md`; for actual reruns, use
-`reproducibility-auditing.md`.
+`reproducibility-auditing.md`; for a contradiction or fallacy in the argument's
+logical structure itself, independent of whether evidence is strong enough, use
+`logical-consistency-and-argument-uniformity.md`.
 
 Extract the central claims from the title, abstract, contribution statements,
 results, and conclusion. Split compound claims when their parts need different

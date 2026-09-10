@@ -1,6 +1,6 @@
 ---
 name: academic-papers
-description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR etc.), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
+description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency/logical-argument-uniformity, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR etc.), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
 ---
 
 # Academic Papers
@@ -125,6 +125,10 @@ an ordinary summary does not require a full audit.
 - **Claim–evidence mapping:** connect central claims to results, derivations, and
   citations, and identify unsupported generalizations. Read
   `references/claim-evidence-mapping.md`.
+- **Logical consistency and argument uniformity:** check for cross-section
+  contradictions, dropped assumptions, fallacious inference, and definitional
+  drift in the argument itself (not just numeric values) using
+  `references/logical-consistency-and-argument-uniformity.md`.
 - **Manuscript consistency auditing:** reconcile repeated results, uncertainty
   conventions, dataset descriptions, and conclusions across the paper using
   `references/manuscript-consistency-auditing.md`.
@@ -347,6 +351,10 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   index/shape consistency, and derivation-step checks
 - `references/claim-evidence-mapping.md` — connecting central claims to results,
   derivations, and citations; flagging unsupported generalizations
+- `references/logical-consistency-and-argument-uniformity.md` — checking the
+  argument's logical structure itself: cross-section contradictions, dropped/
+  changed assumptions, fallacious inference patterns, definitional drift, and
+  scope mismatch between the conclusion and what was actually argued
 - `references/manuscript-consistency-auditing.md` — reconciling repeated results,
   uncertainty conventions, dataset descriptions, and conclusions across a paper
 - `references/plagiarism-and-text-reuse-checking.md` — distinguishing verbatim

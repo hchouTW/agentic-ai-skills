@@ -85,7 +85,9 @@ stated constraints and explain any substantive wording tradeoff briefly.
 Use when a draft's logic or organization needs improvement. Build a reverse
 outline: each paragraph/section's purpose, claim, evidence, and prerequisites.
 Trace the central chain from question to method to result to interpretation using
-`claim-evidence-mapping.md` when support is disputed.
+`claim-evidence-mapping.md` when support is disputed, or
+`logical-consistency-and-argument-uniformity.md` for a full diagnostic pass over
+contradictions, fallacies, and dropped assumptions before restructuring.
 
 Identify missing premises, circular reasoning, definitions introduced too late,
 duplicated arguments, abrupt shifts, and conclusions broader than the evidence.
