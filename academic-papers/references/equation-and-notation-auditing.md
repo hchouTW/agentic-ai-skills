@@ -2,7 +2,10 @@
 
 Use for checking equations or notation in a manuscript, not as a substitute for
 validating the underlying analysis. Establish which sections and derivations are
-in scope; report unchecked portions explicitly.
+in scope; report unchecked portions explicitly. If drift is found and the source
+is still being written, `latex-and-formatting.md`'s cross-referencing-and-
+notation-macros section covers preventing it going forward with `\newcommand`
+rather than hand-retyping a symbol throughout.
 
 Build a symbol ledger as needed: symbol, definition, first-use location, units or
 dimensions, scalar/vector/tensor shape, index range, and local scope. Distinguish

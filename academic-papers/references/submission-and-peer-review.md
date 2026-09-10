@@ -154,7 +154,8 @@ a dependency ledger and distinguishes edits made from changes actually verified.
 - Keep a `CHANGES.md` or similar running log during revision, noting what
   changed and why — this becomes the raw material for the response letter
   and for the collaboration's internal review trail.
-- Use `\textcolor{}` or `latexdiff`-style tracked changes for a version
+- Use `\textcolor{}` or `latexdiff` (see `latex-and-formatting.md`'s
+  tracked-changes-and-diffing section for the actual commands) for a version
   sent to co-authors/collaboration reviewers, but strip all tracked-change
   markup before the actual journal resubmission unless the venue explicitly
   requests a marked-up version.
