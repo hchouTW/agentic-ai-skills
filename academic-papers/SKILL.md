@@ -380,6 +380,13 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   mechanics (including collaborations that skip arXiv entirely), and single-shot
   conference rebuttals
 
+**Authoring a canonical worked example**
+- Authoring a canonical worked example (Weak vs. Expert contrast) for this or
+  another skill's `examples/` directory is covered by `agile-development`'s
+  [example-authoring reference](../agile-development/references/example-authoring.md),
+  not a file in this bundle — requires `agile-development` installed alongside
+  this skill.
+
 **Verification and auditing**
 - `references/citation-verification.md` — reference identity/version checks and
   whether cited text supports the manuscript's claim
