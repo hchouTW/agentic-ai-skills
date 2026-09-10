@@ -381,8 +381,9 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   conference rebuttals
 
 **Authoring a canonical worked example**
-- Authoring a canonical worked example (Weak vs. Expert contrast) for this or
-  another skill's `examples/` directory is covered by `agile-development`'s
+- Authoring a canonical worked example (Contrast, Execution Trajectory, Gated
+  Pipeline, or Decision-Tree archetype) for this or another skill's
+  `examples/` directory is covered by `agile-development`'s
   [example-authoring reference](../agile-development/references/example-authoring.md),
   not a file in this bundle — requires `agile-development` installed alongside
   this skill.
