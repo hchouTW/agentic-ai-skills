@@ -84,6 +84,49 @@ confirm it's still valid YAML. No other staleness found on this pass:
 target skill's actual current content (all four still accurate) and
 `README.md`/`VALIDATION.md` were re-read end to end.
 
+## Example-authoring rollout and discoverability pass (2026-09-10)
+
+Two related changes from `agile-development`'s example-authoring initiative
+(see that skill's `references/example-authoring.md` for the generation prompt
+and format spec):
+
+**Phase 3 - this skill's own pilot example.** Added
+`examples/01-adding-a-routing-rule-without-overlap.md`, scaffolded with
+`agile-development`'s `generate_skill_example.py --skill skill-router --role
+"Senior Platform / Developer-Experience Engineer" --use-case "adding a new
+routing rule to the table without creating overlap or ambiguity with an
+existing rule"`, then filled in by hand around a real gap in this skill's own
+tooling: `extract_routed_skill_names` in `scripts/validate_skill_bundle.py`
+checks routing-bullet *format*, not semantic overlap between rules. Verified
+directly, not just asserted: imported `extract_routed_skill_names` from the
+real script and ran it against both the weak and expert routing-rule text
+extracted from the finished example file - both parse to the identical
+`['data-engineering']`, confirming the validator cannot distinguish a
+well-scoped rule from an ambiguous one, which is the example's central point.
+`python3 scripts/validate_skill_example.py` (from `agile-development`) reports
+`ok` on the finished file.
+
+Added `examples/README.md` and both new files to
+`scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` (bundle now reports 8
+files, up from 6). This broke `tests/test_skill_router.py`'s
+`test_cli_reports_missing_readme_section`, which builds a synthetic scratch
+bundle by hand and didn't include the new `examples/` files - it was failing
+on "missing files" before ever reaching the README-section check the test is
+actually about. Fixed by adding stub `examples/README.md` and
+`examples/01-adding-a-routing-rule-without-overlap.md` files to the scratch
+bundle fixture; this is a regression the `REQUIRED_PATHS` change caused
+directly, not a pre-existing issue.
+
+**Phase 4 - discoverability.** Extended the `agile-development` bullet in
+`SKILL.md`'s routing table with one clause routing "author or generate a
+canonical worked example for this or another installed skill's `examples/`
+directory" to `agile-development`, and added a matching example prompt to
+`README.md`'s "Example prompts" section.
+
+Re-ran `python3 scripts/validate_skill_bundle.py` (8 files OK, 4 routing
+entries) and `python3 -m unittest discover -s tests -v` (7 tests, all passing
+including the fixed one) after both changes.
+
 ## Limitations
 
 - `skill-router` contains no code that acts on real user requests - its entire

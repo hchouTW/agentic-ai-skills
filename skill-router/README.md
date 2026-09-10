@@ -47,3 +47,5 @@ All maintained instructions and metadata are in English. The skill can still ans
 "Write an RDataFrame selection for >=2 muons with pT>25 GeV." (routes to `hep-analysis`)
 
 "Fix this bug in my PyTorch training loop." (routes to `deep-learning` primary, with `agile-development` for scoping/review)
+
+"Generate a canonical `examples/` entry for the `hep-analysis` skill." (routes to `agile-development`)

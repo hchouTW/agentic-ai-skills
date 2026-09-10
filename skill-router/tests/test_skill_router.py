@@ -83,10 +83,13 @@ class ValidateSkillBundleCliTests(unittest.TestCase):
             (scratch / "scripts").mkdir()
             (scratch / "tests").mkdir()
             (scratch / "agents").mkdir()
+            (scratch / "examples").mkdir()
             for rel in ("scripts/validate_skill_bundle.py", "tests/test_skill_router.py"):
                 (scratch / rel).write_text("# placeholder\n")
             (scratch / "agents/openai.yaml").write_text("interface:\n  display_name: x\n")
             (scratch / "VALIDATION.md").write_text("# placeholder\n")
+            (scratch / "examples/README.md").write_text("# placeholder\n")
+            (scratch / "examples/01-adding-a-routing-rule-without-overlap.md").write_text("# placeholder\n")
             (scratch / "SKILL.md").write_text("---\nname: skill-router\ndescription: x\n---\n# Skill Router\n")
             # README is missing every required section on purpose.
             (scratch / "README.md").write_text("# Skill Router\n\nNo sections here.\n")

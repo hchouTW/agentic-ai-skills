@@ -27,6 +27,8 @@ REQUIRED_PATHS = [
     "agents/openai.yaml",
     "scripts/validate_skill_bundle.py",
     "tests/test_skill_router.py",
+    "examples/README.md",
+    "examples/01-adding-a-routing-rule-without-overlap.md",
 ]
 
 REQUIRED_README_SECTIONS = [
