@@ -29,6 +29,7 @@ REQUIRED_PATHS = [
     "references/product-framing.md",
     "references/risk-and-quality.md",
     "references/validation-and-done.md",
+    "references/example-authoring.md",
     "assets/completion-summary.md",
     "assets/definition-of-done.md",
     "assets/risk-register.md",
@@ -36,7 +37,12 @@ REQUIRED_PATHS = [
     "scripts/create_story_card.py",
     "scripts/validate_agile_notes.py",
     "scripts/validate_skill_bundle.py",
+    "scripts/generate_skill_example.py",
+    "scripts/validate_skill_example.py",
     "tests/test_agile_skill.py",
+    "tests/test_example_authoring.py",
+    "examples/README.md",
+    "examples/01-bug-fix-scoping-review.md",
 ]
 
 REQUIRED_README_SECTIONS = [

@@ -1,6 +1,6 @@
 ---
 name: agile-development
-description: "Use for any non-trivial software change - new features, bug fixes, refactors, endpoints, UI work, migrations, or dependency updates. Turns a request into a small, verified, reviewable increment with clear acceptance criteria and a validation plan. Also covers reviewing someone else's change/pull request, production incident response and postmortems, working safely in legacy code without tests, recognizing and reasoning about architectural decisions (boundaries, dependency direction, data ownership, ADRs), and writing a lightweight design doc, estimating work, or planning a feature-flagged/progressive rollout for larger or riskier changes. Invoke this whenever the user asks to 'implement', 'fix', 'add', 'refactor', 'migrate', or 'update' code, review a PR, respond to an outage, or asks how a change should be scoped, estimated, tested, or reviewed. Also covers implementation discipline: whether to ask or assume when a request is ambiguous, keeping a change minimal and surgical rather than overcomplicated or over-engineered, avoiding scope creep and unrelated refactors, and turning a vague task into verifiable success criteria - trigger it for 'is this overcomplicated', 'keep the change minimal', 'am I over-engineering this', or 'what does done mean here' - even if they don't mention 'Agile' by name."
+description: "Use for any non-trivial software change - new features, bug fixes, refactors, endpoints, UI work, migrations, or dependency updates. Turns a request into a small, verified, reviewable increment with clear acceptance criteria and a validation plan. Also covers reviewing someone else's change/pull request, production incident response and postmortems, working safely in legacy code without tests, recognizing and reasoning about architectural decisions (boundaries, dependency direction, data ownership, ADRs), and writing a lightweight design doc, estimating work, or planning a feature-flagged/progressive rollout for larger or riskier changes. Invoke this whenever the user asks to 'implement', 'fix', 'add', 'refactor', 'migrate', or 'update' code, review a PR, respond to an outage, or asks how a change should be scoped, estimated, tested, or reviewed. Also covers implementation discipline: whether to ask or assume when a request is ambiguous, keeping a change minimal and surgical rather than overcomplicated or over-engineered, avoiding scope creep and unrelated refactors, and turning a vague task into verifiable success criteria - trigger it for 'is this overcomplicated', 'keep the change minimal', 'am I over-engineering this', or 'what does done mean here' - even if they don't mention 'Agile' by name. Also covers authoring a canonical worked example (a Weak vs. Expert contrast plus key takeaways) for this or another skill's `examples/` directory - trigger it for 'generate/author a canonical example for <skill>' or 'add a worked example to examples/'."
 ---
 
 # Agile Development
@@ -94,6 +94,9 @@ code.
   [references/engineering-playbook.md](references/engineering-playbook.md)
 - **Reviewing someone else's change** -> see the Reviewing Someone Else's Change
   section in [references/risk-and-quality.md](references/risk-and-quality.md)
+- **Authoring a canonical worked example** (Weak vs. Expert contrast) for this or
+  another skill's `examples/` directory ->
+  [references/example-authoring.md](references/example-authoring.md)
 
 ## Reusable Templates
 
@@ -150,6 +153,8 @@ Run with `python3`. Read a script before changing it.
 - "Bump the `requests` dependency and make sure nothing breaks."
 - "I have a bug report saying the cart total is wrong with discount codes - find and fix it."
 - "Review my diff before I open a PR."
+- "Generate a canonical `examples/` entry for the `hep-analysis` skill contrasting a
+  weak vs. expert systematics writeup."
 
 ## Caveats
 

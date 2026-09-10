@@ -186,6 +186,76 @@ themselves.
 - Bundle validator and the full test suite (32 tests) re-run clean after the
   fixes.
 
+## Example-authoring capability pass (2026-09-10)
+
+Added a reusable procedure for producing a canonical `<skill>/examples/` entry - a
+"Common Weak Approach" vs. "Expert-Level Best Practice" contrast plus N key
+takeaways - starting with `agile-development` itself, per the parameterized
+generation prompt supplied for this initiative.
+
+- Added `references/example-authoring.md` (the generation prompt, workflow,
+  format spec, and correctness-review/cross-skill-dependency notes), hooked into
+  `SKILL.md`'s reference-routing list, one new "Example Prompts This Skill
+  Handles Well" entry, and the frontmatter `description`.
+- Added `scripts/generate_skill_example.py` (stdlib-only scaffold: emits
+  frontmatter + the four required section headers with placeholder markers,
+  `--skill`/`--role`/`--use-case`/`--takeaways`/`--output`, same CLI shape as
+  `create_story_card.py`) and `scripts/validate_skill_example.py` (stdlib-only:
+  checks frontmatter fields, section presence/order, a 3-6 item Key Takeaways
+  list, and a placeholder scan for TODO/TBD/FIXME/XXX, Lorem ipsum, bracketed
+  stand-ins, leftover scaffold comments, and standalone `...` lines - same
+  contract as `validate_agile_notes.py`, including a clean exit 2 with no
+  traceback on a missing file).
+- Added `tests/test_example_authoring.py` (20 new tests, function-level and CLI
+  subprocess coverage for both scripts, including a test that the scaffold
+  script's own output fails validation until filled in - the regression gate
+  that proves the two scripts are actually wired together correctly).
+- Extended `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` with the four
+  new files above (bundle now reports 24 files, up from 20) and documented the
+  two new commands in `README.md`'s Quick checks and Coverage and boundaries
+  sections.
+- Confirmed `python3 scripts/validate_skill_bundle.py` (24 files OK) and
+  `python3 -m unittest discover -s tests -v` (52 tests: the 32 pre-existing plus
+  20 new, none modified) both pass.
+
+No defects were found in this pass; the scaffold/validator round-trip
+(scaffold -> intentionally fails validation -> fill in the shipped good-example
+fixture in the test suite -> passes) was the main design risk and is covered by
+`test_generated_scaffold_fails_validation_until_filled_in` and
+`test_valid_example_passes`.
+
+## Dogfood pilot example pass (2026-09-10)
+
+Added `agile-development`'s own first `examples/` entry, per Phase 2 of the
+example-authoring initiative: one pilot, not a bulk batch.
+
+- Scaffolded `examples/01-bug-fix-scoping-review.md` with
+  `generate_skill_example.py --role "Staff Software Engineer" --use-case
+  "scoping and reviewing a bug fix for a cart total that is wrong when a
+  discount code is applied"`, then filled it in by hand: a cart-total bug where
+  a percentage discount and a flat discount stack incorrectly (the fourth
+  report against the same code path, after three one-off patches for other
+  code-pair combinations). The weak approach special-cases the exact reported
+  code pair with no test; the expert approach writes a failing parametrized test
+  first, root-causes the missing stacking contract and `float` rounding, then
+  replaces the ad hoc branches with a typed `PercentDiscount`/`FlatDiscount`
+  model over `Decimal`, and deletes the three superseded one-off patches in the
+  same change.
+- The expert approach's code and all five test-case numbers were independently
+  executed (not just hand-checked) to confirm the arithmetic is actually
+  correct, per this skill's own "never claim a command passed unless it
+  actually ran" rule - all five passed.
+- `python3 scripts/validate_skill_example.py examples/01-bug-fix-scoping-review.md`
+  passes with no placeholder or structural findings.
+- Added `examples/README.md` (one-row index table) and added both new files to
+  `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`, per Open Question 4 of
+  the initiative's task plan (don't require `examples/` until it is actually
+  populated). Bundle now reports 26 files, up from 24.
+- Re-ran `python3 scripts/validate_skill_bundle.py` (26 files OK) and
+  `python3 -m unittest discover -s tests -v` (52 tests, unchanged from the
+  tooling pass above - this pass added content, not new test code) after the
+  change.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to
