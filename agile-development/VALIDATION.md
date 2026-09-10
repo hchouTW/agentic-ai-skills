@@ -271,6 +271,64 @@ confirmed this was the only such occurrence in this skill (two more were found
 and fixed the same way in the sibling `deep-learning` and `hep-analysis`
 packages). Bundle validator and full test suite re-run clean after the fix.
 
+## Examples expansion to three canonical entries (2026-09-10)
+
+Expanded `examples/` from the single Phase 2 pilot (`01-bug-fix-scoping-review.md`)
+to three, per the next phase of the example-authoring initiative: one new-feature
+scoping example and one production-incident-response example, chosen to be
+genuinely different scenario types from the bug-fix pilot and from each other.
+
+- Scaffolded `examples/02-new-feature-slicing-and-acceptance-criteria.md` with
+  `generate_skill_example.py --role "Staff Software Engineer" --use-case
+  "scoping a new \"let admins export a CSV of active users\" feature request"`
+  (the exact feature prompt already listed in this skill's own README/SKILL.md
+  "Example Prompts" section), then filled it in by hand: the weak approach
+  skips acceptance criteria, bundles a dashboard page, a background job queue,
+  and an email notifier into one unreviewable PR, and silently picks a
+  definition of "active user" inside a query; the expert approach writes
+  given/when/then acceptance criteria (vocabulary and pattern from
+  `references/product-framing.md`'s Slicing section), states the "active
+  user" definition as a visible assumption instead of guessing it, ships the
+  smallest vertical slice (a synchronous, streamed CSV download), defers the
+  job-queue/email/dashboard pieces as named follow-up tickets rather than
+  scope creep, and adds a proportional test asserting the endpoint issues
+  multiple bounded queries against a 5,000-row table instead of loading it all
+  into memory at once.
+- Scaffolded `examples/03-production-incident-response-postmortem.md` with
+  `generate_skill_example.py --role "Staff Software Engineer / Incident
+  Commander" --use-case "responding to and writing the postmortem for a
+  production incident where a database migration run during a deploy caused a
+  20-minute checkout outage"`, then filled it in by hand, following
+  `references/engineering-playbook.md`'s Incident Response section: the weak
+  approach root-causes during the live outage instead of stabilizing first,
+  then writes a non-blameless postmortem that names the migration's author,
+  has no real timeline, and ends in "be more careful next time" with no
+  concrete action items; the expert approach rolls back first and separately
+  identifies and kills the lock-holding migration process (a code rollback
+  does not release an already-held table lock), then writes a blameless,
+  timestamped postmortem that names the missing safeguards (no
+  statement-timeout guard on migrations, no production-scale staging
+  rehearsal, no locking-behavior item on the review checklist) rather than the
+  person, and ends with four concrete, owned, dated action items.
+- `python3 scripts/validate_skill_example.py
+  examples/02-new-feature-slicing-and-acceptance-criteria.md` and the same
+  command against `examples/03-production-incident-response-postmortem.md`
+  each printed `<file>: ok` with zero structural or placeholder findings.
+- Added both new file paths to `scripts/validate_skill_bundle.py`'s
+  `REQUIRED_PATHS` and added one row per example to `examples/README.md`'s
+  index table (same three-column format as the existing row).
+- Checked `tests/test_agile_skill.py` and `tests/test_example_authoring.py`
+  for the skill-router-style pattern of hand-building a scratch fixture
+  directory from a hardcoded copy of `REQUIRED_PATHS`: no such coupling exists
+  in this skill's test suite (both files test the scripts' functions and CLIs
+  directly, with no fixture list mirroring `REQUIRED_PATHS`), so no test edits
+  were needed for the two new example files.
+- Re-ran `python3 scripts/validate_skill_bundle.py`, which reported
+  "Bundle OK: 28 files present and non-empty." (up from 26), and
+  `python3 -m unittest discover -s tests -v`, which reported "Ran 52 tests in
+  0.429s" / "OK" - the same 52 tests as the prior pass, since this pass added
+  example content, not new test code.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

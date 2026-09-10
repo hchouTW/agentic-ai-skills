@@ -29,6 +29,8 @@ REQUIRED_PATHS = [
     "tests/test_skill_router.py",
     "examples/README.md",
     "examples/01-adding-a-routing-rule-without-overlap.md",
+    "examples/02-multi-skill-primary-secondary-routing.md",
+    "examples/03-negative-carve-out-not-a-match.md",
 ]
 
 REQUIRED_README_SECTIONS = [

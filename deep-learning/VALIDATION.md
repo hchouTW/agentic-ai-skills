@@ -341,6 +341,57 @@ guidance, so it was held to a higher verification bar than this file's existing
 "Limitations" note about process/workflow guidance being reviewed rather than
 run - see the bullets above for what was actually executed.
 
+## Example expansion to three (2026-09-10)
+
+Expanded `examples/` from the one pilot entry above to three, per the user's
+request to bring every installed skill's `examples/` up to three entries with
+genuinely different content each.
+
+- Scaffolded `examples/02-nan-loss-mixed-precision.md` (role "Senior ML
+  Systems Engineer") and `examples/03-ddp-vs-fsdp-parallelism-choice.md`
+  (role "Distributed Training / ML Infrastructure Architect") with
+  `agile-development`'s `generate_skill_example.py`, then filled both in by
+  hand, grounded in this skill's own reference material:
+  - `02` is a hand-rolled attention softmax that runs entirely under fp16
+    `autocast` instead of using `F.softmax` (which `autocast`'s op policy
+    keeps in fp32 automatically); unnormalized dot-product scores on a
+    2048-token sequence exceed fp16's ~65504 max before the softmax
+    normalizes them, so `exp_scores.sum()` overflows to `inf` and the next
+    divide produces `nan`. The weak approach reacts by lowering the learning
+    rate and clipping harder with no localization; the expert approach uses
+    `torch.autograd.set_detect_anomaly(True)` plus `torch.isfinite` guards to
+    localize the failure to that module, then forces the score/softmax
+    computation to run in fp32 explicitly. Both code blocks were extracted
+    from the finished markdown and compiled (`py_compile`) to confirm they
+    parse as valid Python with no undefined names.
+  - `03` is built on this skill's own `scripts/estimate_training_memory.py`
+    and `references/parallelism-strategy.md`'s 2+2+12-bytes/param mixed
+    precision + Adam breakdown. Rather than hand-deriving the memory numbers,
+    both estimator invocations quoted in the file were re-run independently
+    with the exact same flags (`--params 7e9 --layers 32 --hidden 4096
+    --heads 32 --seq-len 4096 --micro-batch 2 --gpus 8 --gpu-memory-gb 80
+    --precision mixed --optimizer adam --recompute selective`, at
+    `--zero-stage 0` and `--zero-stage 3`) and the output matched the
+    markdown's quoted figures exactly: 138.31 GB total / optimizer-binding at
+    stage 0, 47.04 GB total / activations-binding at stage 3. The
+    2+2+12-bytes/param row was independently confirmed present in
+    `references/parallelism-strategy.md` (line 39) rather than assumed.
+  - `python3 ../agile-development/scripts/validate_skill_example.py` reports
+    `ok` for both files - no structural or placeholder findings.
+- Added both new rows to `examples/README.md`'s index table and both new
+  files to `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`. Bundle now
+  reports 66 files, up from 64.
+- Re-ran `python3 scripts/validate_skill_bundle.py` (66 files OK) and
+  `python3 -m unittest discover -s tests -v` (106 tests, 2 skipped -
+  unrelated pre-existing PyTorch-version-gated skips, unchanged by this pass)
+  after the changes.
+
+Held to the same higher verification bar as the pilot entry above: the NaN
+example's code was compiled and its numeric-overflow claim checked against
+fp16's actual max magnitude, and the parallelism example's two memory-budget
+tables were independently re-executed against the shipped estimator rather
+than accepted as hand-derived.
+
 ## Cross-repository consistency follow-up (2026-09-10)
 
 A second "check and reorganize" pass across the whole collection (this skill plus

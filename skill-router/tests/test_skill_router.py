@@ -90,6 +90,8 @@ class ValidateSkillBundleCliTests(unittest.TestCase):
             (scratch / "VALIDATION.md").write_text("# placeholder\n")
             (scratch / "examples/README.md").write_text("# placeholder\n")
             (scratch / "examples/01-adding-a-routing-rule-without-overlap.md").write_text("# placeholder\n")
+            (scratch / "examples/02-multi-skill-primary-secondary-routing.md").write_text("# placeholder\n")
+            (scratch / "examples/03-negative-carve-out-not-a-match.md").write_text("# placeholder\n")
             (scratch / "SKILL.md").write_text("---\nname: skill-router\ndescription: x\n---\n# Skill Router\n")
             # README is missing every required section on purpose.
             (scratch / "README.md").write_text("# Skill Router\n\nNo sections here.\n")

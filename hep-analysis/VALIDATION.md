@@ -569,6 +569,53 @@ its four siblings) caught two things the same-day Consistency audit above missed
 
 Bundle validator and full test suite (172 tests) re-run clean after both fixes.
 
+## Example expansion to three (2026-09-10)
+
+Expanded this skill's `examples/` from the one pilot entry to three, per the
+user's request to bring every installed skill's `examples/` up to three
+entries with genuinely different content each.
+
+- Scaffolded `examples/02-tag-and-probe-background-subtraction.md` (role
+  "Senior Experimental Particle Physicist") and
+  `examples/03-li-ma-significance-iact.md` (role "Astroparticle Physicist /
+  IACT Analyst") with `agile-development`'s `generate_skill_example.py`, then
+  filled both in by hand, grounded in this skill's own reference material
+  rather than invented independently:
+  - `02` is built on `references/04-histograms-efficiencies.md`'s guidance
+    that "tag-and-probe requires background modeling ... and closure" and its
+    stated efficiency-ratio propagation formula `Var(e) ~= Var(A)/B^2 +
+    A^2*Var(B)/B^4 - 2*A*Cov(A,B)/B^3`. The weak approach counts raw
+    pass/fail window totals as pure signal (efficiency 0.7761, no
+    uncertainty); the expert approach sideband-subtracts the signal yield in
+    each category first (efficiency 0.8800 +/- 0.0143) and reports a
+    background-model systematic (+0.0098) from an alternative sideband
+    extrapolation. All four numbers were independently re-executed from the
+    finished markdown's own code blocks (not merely hand-derived) and matched
+    to 4 decimal places. The weak-approach discussion also notes that the
+    shipped `scripts/tag_and_probe_efficiency.py` (exact Clopper-Pearson on a
+    pure binomial pass/total count) does not fix this scenario either, since
+    it assumes a background-free count - checked by reading that script's own
+    docstring rather than assumed.
+  - `03` is built on `references/39-astroparticle-statistics.md`'s Li & Ma
+    (1983) formula and its look-elsewhere-effect discussion. The weak
+    approach uses the naive Gaussian `(N_on - alpha*N_off)/sqrt(N_on +
+    alpha^2*N_off)` formula on `N_on=10, N_off=20, alpha=0.2` and reports an
+    uncorrected single-trial 1.826 sigma; the expert approach uses the Li & Ma
+    likelihood-ratio significance (2.222 sigma) and then applies a Sidak-style
+    trials correction for 25 independent scan positions, collapsing it to a
+    global 0.578 sigma. The Li & Ma implementation embedded in the example was
+    cross-checked line-for-line against the shipped
+    `scripts/li_ma_significance.py --on 10 --off 20 --alpha 0.2`, which
+    returns the identical `2.2219814487593066` significance.
+  - `python3 ../agile-development/scripts/validate_skill_example.py` reports
+    `ok` for both files - no structural or placeholder findings.
+- Added both new files to `examples/README.md`'s index table and to
+  `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`. Bundle now reports 98
+  files, up from 96.
+- Re-ran `python3 scripts/validate_skill_bundle.py` (98 files OK) and
+  `python3 -m unittest discover -s tests -v` (172 tests, unchanged - this pass
+  added content, not new test code) after the changes.
+
 ## Limitations
 
 - ROOT is not installed in the validation environment, so `check_root_cpp_env.sh`

@@ -127,6 +127,55 @@ Re-ran `python3 scripts/validate_skill_bundle.py` (8 files OK, 4 routing
 entries) and `python3 -m unittest discover -s tests -v` (7 tests, all passing
 including the fixed one) after both changes.
 
+## Example expansion to three (2026-09-10)
+
+Expanded `examples/` from the one pilot entry above to three, per the user's
+request to bring every installed skill's `examples/` up to three entries with
+genuinely different content each. Unlike the pilot entry (which is about
+*authoring* a new routing rule), both new entries are about applying the
+existing routing logic to a real incoming request.
+
+- Scaffolded `examples/02-multi-skill-primary-secondary-routing.md` and
+  `examples/03-negative-carve-out-not-a-match.md` with `agile-development`'s
+  `generate_skill_example.py --skill skill-router`, then filled both in by
+  hand, grounded in the actual text of `SKILL.md` rather than paraphrased
+  from memory:
+  - `02` is a request ("write the systematics paragraph for my paper's
+    cutflow-based cross-section measurement") that matches both
+    `hep-analysis` ("cutflows... systematic uncertainties") and
+    `academic-papers` ("tightening scientific prose") at once. The weak
+    approach invokes only the first-matching rule and treats the request as
+    fully handled; the expert approach checks every rule before invoking
+    any, then follows `SKILL.md`'s own Behavior rule 3 verbatim - stating
+    "Using `hep-analysis` skill (primary), with `academic-papers` for
+    manuscript prose," matching the exact phrasing pattern `SKILL.md` itself
+    gives as an example ("Using `deep-learning` skill (primary), with
+    `agile-development` for task breakdown").
+  - `03` is a CI-permissions request containing the substring "root" ("fix
+    the root cause of this failing CI job... permission to write to
+    `/opt/build-cache`"), which superficially matches `hep-analysis`'s "ROOT
+    C++, PyROOT" text. `hep-analysis`'s own routing rule was quoted verbatim
+    from `SKILL.md` to confirm its carve-out text is exactly "Not for
+    unrelated uses of 'root' (Linux root users, Android rooting,
+    certificates, math or plant roots)" - the request is a Linux
+    file-permissions problem, squarely inside that exclusion. The weak
+    approach pattern-matches the keyword and invokes `hep-analysis` anyway;
+    the expert approach checks the carve-out, finds no rule applies, and
+    follows Behavior rule 4 ("proceed normally without mentioning this
+    skill") verbatim.
+  - `python3 ../agile-development/scripts/validate_skill_example.py` reports
+    `ok` for both files - no structural or placeholder findings.
+- Added both new rows to `examples/README.md`'s index table and both new
+  files to `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`. As with the
+  pilot addition above, this required adding matching stub files to
+  `tests/test_skill_router.py`'s `test_cli_reports_missing_readme_section`
+  scratch-bundle fixture (same regression mechanism as before, fixed the same
+  way) - confirmed by re-running the full suite, not just re-reading the
+  pilot's note and assuming the same fix still applied.
+- Re-ran `python3 scripts/validate_skill_bundle.py` (10 files OK, 4 routing
+  entries) and `python3 -m unittest discover -s tests -v` (7 tests, all
+  passing) after the changes.
+
 ## Limitations
 
 - `skill-router` contains no code that acts on real user requests - its entire

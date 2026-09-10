@@ -82,6 +82,8 @@ REQUIRED_PATHS = [
     "tests/test_deep_learning_skill.py",
     "examples/README.md",
     "examples/01-imbalanced-dataloader-training-loop.md",
+    "examples/02-nan-loss-mixed-precision.md",
+    "examples/03-ddp-vs-fsdp-parallelism-choice.md",
 ]
 
 REQUIRED_README_SECTIONS = [

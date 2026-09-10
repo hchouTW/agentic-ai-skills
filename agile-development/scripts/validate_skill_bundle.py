@@ -43,6 +43,8 @@ REQUIRED_PATHS = [
     "tests/test_example_authoring.py",
     "examples/README.md",
     "examples/01-bug-fix-scoping-review.md",
+    "examples/02-new-feature-slicing-and-acceptance-criteria.md",
+    "examples/03-production-incident-response-postmortem.md",
 ]
 
 REQUIRED_README_SECTIONS = [

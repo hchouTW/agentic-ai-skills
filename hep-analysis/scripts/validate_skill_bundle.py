@@ -113,6 +113,8 @@ REQUIRED_PATHS = [
     "tests/test_ams02.py",
     "examples/README.md",
     "examples/01-jes-systematic-cutflow.md",
+    "examples/02-tag-and-probe-background-subtraction.md",
+    "examples/03-li-ma-significance-iact.md",
 ]
 
 REQUIRED_README_SECTIONS = [

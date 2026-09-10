@@ -113,6 +113,50 @@ a bulk batch.
 - Re-ran `python3 -m unittest discover -s tests -v` (27 tests, unchanged - this
   pass added content, not new test code) after the change.
 
+## `examples/` expansion to three entries (2026-09-10)
+
+Expanded this skill's `examples/` directory from one entry to three, per a
+follow-up request to bring every skill's `examples/` to three worked
+examples with genuinely different content.
+
+- Scaffolded `examples/02-related-work-synthesis.md` with
+  `agile-development`'s `generate_skill_example.py --skill academic-papers
+  --role "Senior Postdoctoral Researcher / Literature Review Editor"
+  --use-case "synthesizing a related-work section from a stack of papers
+  instead of listing them"`, then filled it in by hand against
+  `references/literature-review.md`'s own "list vs. synthesis" and
+  "spotting the gap" guidance: five papers on dark-matter direct-detection
+  combination methods, contrasting an annotated-bibliography-style paragraph
+  (one sentence per paper, no comparison, no gap statement) against a
+  paragraph organized methodologically by each prior method's specific
+  approximation and the evidence against it, closing with a checkable
+  coverage-gap statement.
+- Scaffolded `examples/03-citation-claim-verification.md` with `--role
+  "Research Integrity Reviewer / Co-Author" --use-case "verifying that a
+  citation actually supports the specific numeric claim attached to it
+  before submission"`, then filled it in against
+  `references/citation-verification.md`'s verification-steps and ledger
+  format: a manuscript cites a review article for a specific local
+  dark-matter density value; the weak pass approves the citation on an
+  abstract-level topic match, the expert pass traces the claim to the
+  review's actual stated range, finds the specific number unsupported as
+  stated, and produces a verification-ledger entry with a support verdict
+  and a downstream fix (recomputing a rate prediction that depended on the
+  corrected value).
+- Both new files were checked with `python3
+  ../agile-development/scripts/validate_skill_example.py examples/<file>` -
+  both report `ok` (no missing sections, no out-of-order sections, 4 Key
+  Takeaways each, zero placeholder markers).
+- Confirmed (again, not assumed) that this skill's `validate_skill_bundle.py`
+  still only scans `references/`, `scripts/`, and `assets/` for its orphan
+  and existence checks - `examples/` is untouched by it, so no
+  `REQUIRED_PATHS`-equivalent update was needed for the two new files, unlike
+  the sibling skills whose validators track `examples/` explicitly.
+- Added both new rows to `examples/README.md`'s index table.
+- Re-ran `python3 scripts/validate_skill_bundle.py` (`OK`) and `python3 -m
+  unittest discover -s tests -v` (27 tests, unchanged) after the additions -
+  both clean.
+
 ## Consistency audit and `agents/openai.yaml` addition (2026-09-10)
 
 A "check and reorganize" pass covering this whole collection had already been run
