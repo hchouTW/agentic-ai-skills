@@ -48,11 +48,16 @@ See each skill's `VALIDATION.md` for what is checked.
 
 ## `examples/` worked examples
 
-Every skill in this collection now ships an `examples/` directory: one or more
-canonical worked examples contrasting a "Common Weak Approach" with an
-"Expert-Level Best Practice," plus key takeaways, for a realistic scenario in
-that skill's domain (see each skill's `examples/README.md` for its index).
-`agile-development`'s `references/example-authoring.md` documents the
-generation prompt and format spec, and its `scripts/generate_skill_example.py`/
-`scripts/validate_skill_example.py` scaffold and validate new entries for any
+Every skill in this collection ships an `examples/` directory: canonical
+worked examples for a realistic scenario in that skill's domain, in one of
+four archetypes - **Contrast** (a "Common Weak Approach" vs. "Expert-Level
+Best Practice" plus key takeaways), **Execution Trajectory** (a step-by-step
+task resolution), **Gated Pipeline** (a multi-phase build with explicit
+acceptance gates), or **Decision-Tree** (a branching triage matrix plus an
+end-to-end execution script) - see each skill's `examples/README.md` for its
+index and which archetype each entry uses. `agile-development`'s
+`references/example-authoring.md` documents all four generation prompts, an
+archetype-selection guide, and the format spec, and its
+`scripts/generate_skill_example.py`/`scripts/validate_skill_example.py`
+scaffold and validate new entries, in any of the four archetypes, for any
 installed skill - see that skill's own `README.md` for the commands.
