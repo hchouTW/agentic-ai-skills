@@ -1,6 +1,6 @@
 ---
 name: agile-development
-description: Use for any non-trivial software change - new features, bug fixes, refactors, endpoints, UI work, migrations, or dependency updates. Turns a request into a small, verified, reviewable increment with clear acceptance criteria and a validation plan. Also covers reviewing someone else's change/pull request, production incident response and postmortems, working safely in legacy code without tests, and writing a lightweight design doc, estimating work, or planning a feature-flagged/progressive rollout for larger or riskier changes. Invoke this whenever the user asks to "implement", "fix", "add", "refactor", "migrate", or "update" code, review a PR, respond to an outage, or asks how a change should be scoped, estimated, tested, or reviewed. Also covers implementation discipline: whether to ask or assume when a request is ambiguous, keeping a change minimal and surgical rather than overcomplicated or over-engineered, avoiding scope creep and unrelated refactors, and turning a vague task into verifiable success criteria - trigger it for "is this overcomplicated", "keep the change minimal", "am I over-engineering this", or "what does done mean here" - even if they don't mention "Agile" by name.
+description: "Use for any non-trivial software change - new features, bug fixes, refactors, endpoints, UI work, migrations, or dependency updates. Turns a request into a small, verified, reviewable increment with clear acceptance criteria and a validation plan. Also covers reviewing someone else's change/pull request, production incident response and postmortems, working safely in legacy code without tests, recognizing and reasoning about architectural decisions (boundaries, dependency direction, data ownership, ADRs), and writing a lightweight design doc, estimating work, or planning a feature-flagged/progressive rollout for larger or riskier changes. Invoke this whenever the user asks to 'implement', 'fix', 'add', 'refactor', 'migrate', or 'update' code, review a PR, respond to an outage, or asks how a change should be scoped, estimated, tested, or reviewed. Also covers implementation discipline: whether to ask or assume when a request is ambiguous, keeping a change minimal and surgical rather than overcomplicated or over-engineered, avoiding scope creep and unrelated refactors, and turning a vague task into verifiable success criteria - trigger it for 'is this overcomplicated', 'keep the change minimal', 'am I over-engineering this', or 'what does done mean here' - even if they don't mention 'Agile' by name."
 ---
 
 # Agile Development
@@ -86,6 +86,9 @@ code.
   vs. inheritance, error handling) -> [references/cpp-balanced-design-guidelines.md](references/cpp-balanced-design-guidelines.md)
 - **Design docs/RFCs, estimation and spikes, feature flags and progressive rollout** ->
   [references/design-and-estimation.md](references/design-and-estimation.md)
+- **Software architecture, component boundaries, dependency direction, data
+  ownership, architectural tradeoffs, or ADRs** ->
+  [references/software-architecture.md](references/software-architecture.md)
 - **Production incidents/outages, working safely in legacy code without tests** ->
   see the Incident Response and Legacy Code Without Tests sections in
   [references/engineering-playbook.md](references/engineering-playbook.md)

@@ -30,7 +30,11 @@ purpose. At minimum:
   approach actually addresses it.
 - **Options considered**: including "do nothing" or "the smallest possible
   version" as one of them when relevant - a design doc with only one option was
-  not really a decision, it was a proposal looking for approval.
+  not really a decision, it was a proposal looking for approval. If the
+  decision is architectural (boundaries, dependency direction, data
+  ownership, a shared contract), pull the relevant drivers and constraints
+  from [software-architecture.md](software-architecture.md) before comparing
+  options.
 - **Chosen approach and why**: the tradeoffs that made this option win, stated
   concretely enough that someone could disagree with the reasoning if they had
   different information.
