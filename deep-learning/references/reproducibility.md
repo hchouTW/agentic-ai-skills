@@ -60,6 +60,55 @@ Save enough information to reproduce or compare runs:
 - Dataset version and split identifiers.
 - Checkpoint with model, optimizer, scheduler, epoch, best metric, and config.
 
+## Reproducibility levels
+
+"Reproducible" is not one property - distinguish what is actually being claimed:
+
+- **Rerunning the same checkpoint** - only requires the checkpoint and inference code.
+- **Reproducing evaluation** - requires the checkpoint plus the exact eval set,
+  preprocessing, and metric code.
+- **Reproducing training** - requires everything in Experiment records above: code
+  revision, config, dataset and split version, preprocessing version, seed,
+  environment.
+- **Reproducing across seeds** - requires training reproducibility plus running
+  multiple seeds and reporting the spread - see
+  [ablation-and-design-review.md](ablation-and-design-review.md).
+- **Reproducing across environments** - requires training reproducibility on
+  different hardware/library versions; exact numerical reproduction is not
+  guaranteed even then (see the determinism caveat above), so define what
+  "reproduces" means (same conclusion, not bit-identical numbers) before claiming it.
+- **Reproducing conclusions with an independent implementation** - the strongest
+  level; requires someone else's separately-written code to reach the same
+  qualitative conclusion.
+
+Do not claim a stronger level than was actually demonstrated - "we reproduced the
+result" after only reloading a checkpoint and reproducing evaluation is a narrower
+claim than it sounds.
+
+## Experiment provenance
+
+For results that matter, every number should be traceable to:
+
+```text
+Result
+├── code revision
+├── configuration
+├── dataset version
+├── split version
+├── preprocessing version
+├── random seed
+├── environment (library/hardware versions)
+├── checkpoint
+└── evaluation version (eval set + metric code version)
+```
+
+This is the same information as Experiment records above, organized as an explicit
+traceability chain rather than a save-this-list - use whatever recording mechanism
+already exists in the project (a config file, a flat log, a tracked spreadsheet); this
+does not require adopting a specific experiment-tracking vendor. See
+[training-at-scale.md](training-at-scale.md)'s "Experiment tracking" section for the
+scale-specific version of the same requirement.
+
 ## Hyperparameter sweeps
 
 A single held-out validation split reused across many configurations is itself a
