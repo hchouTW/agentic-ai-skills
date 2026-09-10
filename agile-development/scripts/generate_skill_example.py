@@ -1,22 +1,27 @@
 #!/usr/bin/env python3
 """Scaffold an empty canonical example for a skill's `examples/` directory.
 
-Purpose: give every `<skill>/examples/*.md` file the same shape - frontmatter plus
-Scenario / Common Weak Approach / Expert-Level Best Practice / Key Takeaways
-sections - before an agent fills in the actual domain content. Mirrors how
-`create_story_card.py` scaffolds a story card without inventing the story.
+Purpose: give every `<skill>/examples/*.md` file the right shape - frontmatter
+plus the fixed section headers for its archetype - before an agent fills in the
+actual domain content. Mirrors how `create_story_card.py` scaffolds a story card
+without inventing the story.
 
-What it does: prints (or writes) a markdown skeleton with `role`/`skill`/`use_case`
-frontmatter and the four required section headers, with one HTML-comment
-placeholder per section and one placeholder bullet per requested takeaway. It does
-not generate content - see references/example-authoring.md for the generation
-prompt and format spec, and `validate_skill_example.py` for checking a filled-in
-file.
+What it does: prints (or writes) a markdown skeleton for one of four archetypes
+(`contrast`, `trajectory`, `gated-pipeline`, `decision-tree`), each with its own
+frontmatter scenario field and fixed section headers, one HTML-comment
+placeholder per section, and (for `contrast` only) one placeholder bullet per
+requested takeaway. It does not generate content - see
+references/example-authoring.md for the four generation prompts and format
+spec, and `validate_skill_example.py` for checking a filled-in file.
 
-Usage: `python3 scripts/generate_skill_example.py --skill hep-analysis --role
-"Senior Experimental Particle Physicist" --use-case "..." [--takeaways 4]
-[--output ../hep-analysis/examples/01-slug.md]`. Prints to stdout when `--output`
-is omitted. Standard library only.
+Usage: `python3 scripts/generate_skill_example.py --archetype
+{contrast,trajectory,gated-pipeline,decision-tree} --skill hep-analysis --role
+"Senior Experimental Particle Physicist" <scenario-flag> "..." [--output
+../hep-analysis/examples/01-slug.md]`. The scenario flag depends on the
+archetype: `--use-case` (contrast), `--problem-input` (trajectory),
+`--high-stakes-task` (gated-pipeline), or `--scenario` (decision-tree).
+`--takeaways` (3-6, default 4) is valid only with `--archetype contrast`.
+Prints to stdout when `--output` is omitted. Standard library only.
 """
 
 from __future__ import annotations
@@ -27,19 +32,30 @@ from pathlib import Path
 MIN_TAKEAWAYS = 3
 MAX_TAKEAWAYS = 6
 
+ARCHETYPES = ["contrast", "trajectory", "gated-pipeline", "decision-tree"]
 
-def build_skeleton(args: argparse.Namespace) -> str:
+# Maps each archetype to its frontmatter scenario field name and the CLI flag
+# that supplies it.
+SCENARIO_FIELD = {
+    "contrast": ("use_case", "--use-case"),
+    "trajectory": ("problem_input", "--problem-input"),
+    "gated-pipeline": ("high_stakes_task", "--high-stakes-task"),
+    "decision-tree": ("scenario", "--scenario"),
+}
+
+
+def _frontmatter(args: argparse.Namespace) -> str:
+    field, _ = SCENARIO_FIELD[args.archetype]
+    scenario_value = getattr(args, field)
+    return f"---\nrole: {args.role}\nskill: {args.skill}\narchetype: {args.archetype}\n{field}: {scenario_value}\n---\n"
+
+
+def _build_contrast(args: argparse.Namespace) -> str:
     takeaway_lines = "\n".join(
         f"- <!-- Takeaway {i}: why the expert approach differs architecturally, not just what changed. -->"
         for i in range(1, args.takeaways + 1)
     )
-
-    return f"""---
-role: {args.role}
-skill: {args.skill}
-use_case: {args.use_case}
----
-
+    return f"""{_frontmatter(args)}
 ## Scenario
 
 <!-- 2-4 sentences describing the realistic scenario: {args.use_case} -->
@@ -58,23 +74,133 @@ use_case: {args.use_case}
 """
 
 
-def parse_args() -> argparse.Namespace:
+def _build_trajectory(args: argparse.Namespace) -> str:
+    return f"""{_frontmatter(args)}
+## 1. Task Input & Context
+
+<!-- The realistic, raw input as received: {args.problem_input} -->
+
+## 2. Root-Cause Triage & Action Plan
+
+<!-- How the root cause was found and the plan to resolve it. -->
+
+## 3. Surgical Execution
+
+<!-- At least one literal command, diff, or code block - not a description of one. -->
+
+## 4. Verification Evidence
+
+<!-- A literal log excerpt or test-runner output proving the fix, not a description of one. -->
+
+## 5. Final Deliverable Summary
+
+<!-- What shipped and what changed, in a few sentences. -->
+"""
+
+
+def _build_gated_pipeline(args: argparse.Namespace) -> str:
+    return f"""{_frontmatter(args)}
+## Phase 1: Input Extraction & Gap Formulation
+
+<!-- Extract the inputs and name the gaps for: {args.high_stakes_task} -->
+
+**Gate:** <!-- explicit pass/fail criterion before moving to Phase 2 -->
+
+## Phase 2: Draft Synthesis
+
+<!-- Must name the specific regulatory/evaluation criteria this aligns to, e.g. a
+cited references/...md section for this skill - not a vague "best practices". -->
+
+**Gate:** <!-- explicit pass/fail criterion before moving to Phase 3 -->
+
+## Phase 3: Red-Team Review & Final Artifact Packaging
+
+<!-- Must list at least one assumption that was stress-tested and what changed
+as a result. -->
+
+**Gate:** <!-- the final release/merge criterion, not an intermediate one -->
+"""
+
+
+def _build_decision_tree(args: argparse.Namespace) -> str:
+    return f"""{_frontmatter(args)}
+## Triage Matrix
+
+<!-- Given: {args.scenario} -->
+
+| Trigger | Resolution Strategy |
+|---|---|
+| <!-- trigger 1 --> | <!-- resolution 1 --> |
+| <!-- trigger 2 --> | <!-- resolution 2 --> |
+| <!-- trigger 3 --> | <!-- resolution 3 --> |
+
+## Selected Branch
+
+<!-- Which row was chosen, and why, given the scenario. -->
+
+## End-to-End Execution Script
+
+<!-- The full walkthrough for that branch: exact actions, any communication
+script verbatim (not summarized). -->
+
+## Fallback Safeguards
+
+<!-- What happens if the chosen branch's primary action fails, or the trigger
+was misclassified. -->
+"""
+
+
+BUILDERS = {
+    "contrast": _build_contrast,
+    "trajectory": _build_trajectory,
+    "gated-pipeline": _build_gated_pipeline,
+    "decision-tree": _build_decision_tree,
+}
+
+
+def build_skeleton(args: argparse.Namespace) -> str:
+    return BUILDERS[args.archetype](args)
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Scaffold an empty canonical example skeleton for a skill's examples/ directory."
     )
+    parser.add_argument("--archetype", required=True, choices=ARCHETYPES, help="Example archetype to scaffold.")
     parser.add_argument("--skill", required=True, help="Target skill folder name, e.g. hep-analysis.")
-    parser.add_argument("--role", required=True, help="Senior role to author as, e.g. 'Staff Software Engineer'.")
-    parser.add_argument("--use-case", required=True, dest="use_case", help="Realistic, narrow domain scenario.")
+    parser.add_argument("--role", required=True, help="Role to author as, e.g. 'Staff Software Engineer'.")
+    parser.add_argument("--use-case", dest="use_case", help="Contrast only: realistic, narrow domain scenario.")
+    parser.add_argument("--problem-input", dest="problem_input", help="Trajectory only: realistic, raw problem input.")
+    parser.add_argument(
+        "--high-stakes-task", dest="high_stakes_task", help="Gated Pipeline only: complex, high-stakes task."
+    )
+    parser.add_argument(
+        "--scenario", dest="scenario", help="Decision-Tree only: challenging scenario with edge cases."
+    )
     parser.add_argument(
         "--takeaways",
         type=int,
-        default=4,
-        help=f"Number of key-takeaway placeholders ({MIN_TAKEAWAYS}-{MAX_TAKEAWAYS}, default 4).",
+        default=None,
+        help=f"Contrast only: number of key-takeaway placeholders ({MIN_TAKEAWAYS}-{MAX_TAKEAWAYS}, default 4).",
     )
     parser.add_argument("--output", type=Path, help="Optional output path. Prints to stdout when omitted.")
-    args = parser.parse_args()
-    if not MIN_TAKEAWAYS <= args.takeaways <= MAX_TAKEAWAYS:
-        parser.error(f"--takeaways must be between {MIN_TAKEAWAYS} and {MAX_TAKEAWAYS}")
+    args = parser.parse_args(argv)
+
+    field, flag_name = SCENARIO_FIELD[args.archetype]
+    if not getattr(args, field):
+        parser.error(f"--archetype {args.archetype} requires {flag_name}")
+    for other_archetype, (other_field, other_flag) in SCENARIO_FIELD.items():
+        if other_archetype != args.archetype and getattr(args, other_field):
+            parser.error(f"{other_flag} is only valid with --archetype {other_archetype}")
+
+    if args.archetype == "contrast":
+        if args.takeaways is None:
+            args.takeaways = 4
+        if not MIN_TAKEAWAYS <= args.takeaways <= MAX_TAKEAWAYS:
+            parser.error(f"--takeaways must be between {MIN_TAKEAWAYS} and {MAX_TAKEAWAYS}")
+    elif args.takeaways is not None:
+        parser.error("--takeaways is only valid with --archetype contrast")
+
     return args
 
 

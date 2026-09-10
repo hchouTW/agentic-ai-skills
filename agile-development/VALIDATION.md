@@ -329,6 +329,213 @@ genuinely different scenario types from the bug-fix pilot and from each other.
   0.429s" / "OK" - the same 52 tests as the prior pass, since this pass added
   example content, not new test code.
 
+## Four-archetype example-authoring revision, tooling pass (2026-09-11)
+
+Extended the example-authoring capability from a single archetype (Contrast)
+to four - Contrast, `[A]` Execution Trajectory, `[B]` Gated Pipeline, and `[C]`
+Decision-Tree - per a supplied revision to the original initiative. This pass
+covers Phase 0 (design docs) and Phase 1 (tooling) only, scoped to
+`agile-development` itself; no other skill folder or existing example file was
+touched, and no new `examples/*.md` content was authored yet.
+
+- Rewrote `references/example-authoring.md` to document all four generation
+  prompts, the role/seniority escalation convention (senior -> senior ->
+  principal -> lead), a short archetype-selection decision guide, and the full
+  per-archetype format spec (required sections/order, frontmatter scenario
+  field, and each archetype's extra structural rule). Updated `SKILL.md`'s
+  "When to Load References" line, frontmatter `description`, and added one new
+  "Example Prompts This Skill Handles Well" entry per archetype (reusing this
+  skill's own already-named scenarios: the discount-code bug for Contrast,
+  the same bug walked end-to-end for Trajectory, a feature-flagged rollout RFC
+  for Gated Pipeline, and incident-page triage for Decision-Tree - matching
+  Phase 2's scenario table in the source initiative). Updated `README.md`'s
+  Quick checks (one invocation per archetype) and Coverage and boundaries
+  sections to match.
+- Rewrote `scripts/generate_skill_example.py` to be archetype-aware:
+  `--archetype {contrast,trajectory,gated-pipeline,decision-tree}` selects one
+  of four skeleton builders, each emitting that archetype's fixed section
+  headers and an `archetype:` frontmatter field alongside the matching
+  scenario flag (`--use-case` / `--problem-input` / `--high-stakes-task` /
+  `--scenario`). The CLI rejects a scenario flag that doesn't match the chosen
+  archetype, a missing one for the chosen archetype, and `--takeaways` used
+  outside `--archetype contrast`.
+- Rewrote `scripts/validate_skill_example.py` to read the `archetype:`
+  frontmatter field and pick that archetype's rule set: Trajectory requires a
+  fenced code block in both "3. Surgical Execution" and "4. Verification
+  Evidence"; Gated Pipeline requires a non-empty `**Gate:**` line in all three
+  phases plus assumption-language in Phase 3; Decision-Tree requires a Triage
+  Matrix table with a Trigger/Resolution Strategy header and at least 3 data
+  rows; Contrast keeps its existing 3-6 item Key Takeaways check. **A file
+  with no `archetype:` frontmatter field is treated as `contrast`** - this was
+  a deliberate design decision (not in the source initiative's literal spec,
+  which lists `archetype:` as always-required) made to satisfy this phase's
+  own acceptance check ("zero changes to any other skill folder yet"): all 15
+  pre-existing example files across this repository's five skills predate the
+  `archetype:` field, and requiring it unconditionally would have broken every
+  one of them or forced touching four other skills' folders in what is
+  supposed to be an `agile-development`-only phase. An explicit but unknown
+  `archetype:` value (e.g. a typo) is still rejected, not defaulted.
+- Rewrote `tests/test_example_authoring.py` with one good-example fixture per
+  archetype (function-level `validate()` coverage plus CLI subprocess
+  coverage), covering: valid-example-passes, the pre-revision legacy-fixture
+  (no `archetype:` field) still passing, missing/out-of-order sections,
+  archetype-specific structural failures (missing code fence, missing Gate
+  line, Phase 3 without assumption language, missing/too-small Triage Matrix
+  table), unknown `archetype:` value, CLI flag validation (wrong scenario flag
+  for the archetype, missing scenario flag, `--takeaways` rejected outside
+  Contrast), and the existing placeholder/regression-gate tests carried
+  forward unchanged. 73 tests total, up from 52 (21 new; none of the 52
+  pre-existing tests were deleted, though several were adapted to pass
+  `archetype=` and the now-required `None` defaults for the other three
+  scenario fields through `_scaffold_args`).
+- Verified all 15 pre-existing example files (3 per skill across
+  `agile-development`, `deep-learning`, `hep-analysis`, `academic-papers`,
+  `skill-router`) still pass `validate_skill_example.py` unchanged, confirming
+  the backward-compatibility decision above actually holds in practice, not
+  just in the test fixtures.
+- No `REQUIRED_PATHS` change was needed in `scripts/validate_skill_bundle.py`:
+  this phase modified existing required files only and added no new ones.
+  `python3 scripts/validate_skill_bundle.py` reports "Bundle OK: 28 files
+  present and non-empty." (unchanged from the prior pass), and
+  `python3 -m unittest discover -s tests -v` reports "Ran 73 tests" / "OK".
+
+One defect was found and fixed during scaffolding: a first draft of the
+Decision-Tree test for "too few matrix rows" removed only one row from the
+4-row good fixture, leaving 3 - still at the documented minimum, so the
+expected failure never fired. Fixed by removing two rows to actually cross
+the threshold; caught by running the suite, not by inspection.
+
+Explicitly out of scope for this pass, per the source initiative's own
+phasing (Phase 2 dogfooding within `agile-development` and Phase 3 rollout to
+the other four skills each require authored domain content and are tracked as
+separate follow-up passes): no new `examples/*.md` file was scaffolded or
+filled in for any of the three new archetypes, `examples/README.md`'s index
+was not changed, and no other skill's `SKILL.md`/`README.md`/`VALIDATION.md`
+was touched.
+
+## Four-archetype revision, Phase 2 dogfood pilots (2026-09-11)
+
+Added the three new archetypes' first `agile-development`-own examples, per
+Phase 2 of the four-archetype revision - scenarios reused from this skill's
+own already-named material rather than invented, so the pilot set also
+validates that the archetypes fit the scenarios they were assigned:
+
+- `examples/04-trajectory-discount-stacking-bug.md` (Execution Trajectory):
+  the same discount-stacking bug family as `01-bug-fix-scoping-review.md`,
+  walked as a single start-to-finish trajectory rather than a weak/expert
+  contrast. Root cause: `apply_discounts` recomputed each discount from the
+  original `total` instead of the running result, so only the last code in
+  the loop took effect; fix compounds onto the running result in a canonical
+  percent-then-flat order and deletes three superseded one-off patches. The
+  arithmetic (`50.00 -> 40.00` for a 10%-then-$5 stack, order-independent) was
+  independently executed in Python, not just hand-checked, before writing it
+  into the example.
+- `examples/05-gated-pipeline-payment-provider-rollout-rfc.md` (Gated
+  Pipeline): drafting an RFC for a feature-flagged payment-provider rollout.
+  Phase 2's "specific regulatory/evaluation criteria" requirement is met by
+  citing this skill's own `references/design-and-estimation.md` by exact
+  section name ("What a lightweight design doc should contain", "Feature
+  flags and progressive rollout as risk-reduction tools") rather than a vague
+  "best practices" - both section names were confirmed against the actual
+  file's headings before writing the citation. Phase 3's red-team pass finds
+  a false idempotency assumption in the draft and adds a required fix before
+  the final merge gate.
+- `examples/06-decision-tree-incident-mitigation-triage.md` (Decision-Tree):
+  formalizes `references/engineering-playbook.md`'s Incident Response step 2
+  (mitigate before fully understanding: rollback / flag-disable / traffic
+  shift / kill switch, with an explicit exception when the mitigation itself
+  is risky) into a 5-row Triage Matrix - the section's actual content was
+  read first and the matrix's rows and their order were checked against it
+  rather than invented independently.
+- All three pass `python3 scripts/validate_skill_example.py <file>` with no
+  structural or placeholder findings. One typo (a stray `°` character from a
+  find-and-replace slip in the Gated Pipeline draft's "100%" rollout stage)
+  was caught by re-reading the file and fixed before validation, not by the
+  validator itself - a reminder that the validator checks structure and
+  placeholders, not prose correctness.
+- Added one row per new example to `examples/README.md`'s index (now four
+  columns: `Example | Archetype | Scenario | One-line takeaway`, generalized
+  from the three-column Contrast-only table) and added all three new files to
+  `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`.
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 31 files
+  present and non-empty.", up from 28) and
+  `python3 -m unittest discover -s tests -v` ("Ran 73 tests" / "OK", unchanged
+  from the tooling pass - this pass added example content, not new test code).
+
+## Expand each new archetype to three examples (2026-09-11)
+
+Brought Execution Trajectory, Gated Pipeline, and Decision-Tree up to three
+examples each (matching Contrast's existing count), per an explicit request
+that the additional examples within an archetype have genuinely different
+content - different scenario and different reference material grounding each
+one, not a variation on the same theme as the Phase 2 pilot or on each other.
+
+- **Execution Trajectory** (`07`, `08`, alongside the existing `04`):
+  - `07-trajectory-database-migration-lock.md`: a single-statement `ADD
+    COLUMN ... NOT NULL` migration holds an `ACCESS EXCLUSIVE` lock
+    proportional to table size because NOT NULL validation runs under the
+    same lock as the metadata change, walked through a three-step nullable-
+    add / batched-backfill / `NOT VALID` + `VALIDATE CONSTRAINT` fix. Grounds
+    the fix in `references/risk-and-quality.md`'s "Data and Persistence"
+    section ("prefer backward-compatible schema migrations that support
+    rolling deployment") and `references/engineering-playbook.md`'s Database
+    Migration playbook - neither used by any existing example in this skill.
+  - `08-trajectory-dependency-update-silent-break.md`: a "minor" dependency
+    version bump silently changes a rounding default (round-half-up to
+    round-half-to-even), causing a $0.01-per-invoice discrepancy caught only
+    by finance reconciliation weeks later, because no existing test fixture
+    used an exact rounding-boundary value. Grounds the triage in
+    `references/engineering-playbook.md`'s Dependency Update playbook. The
+    rounding arithmetic (`12.345` -> `12.35` half-up vs. `12.34` half-even)
+    was independently verified with Python's `decimal` module before being
+    written into the example, not just asserted.
+- **Gated Pipeline** (`09`, `10`, alongside the existing `05`):
+  - `09-gated-pipeline-legacy-billing-strangler-fig.md`: replacing a legacy,
+    untested billing module while it stays load-bearing. Grounds Phase 1/2 in
+    `references/engineering-playbook.md`'s "Legacy Code Without Tests"
+    playbook (characterize first, find a seam, strangler-fig rollout) and a
+    dependency-direction decision in `references/software-architecture.md`'s
+    "Boundaries and dependencies" section. Phase 3's red-team pass finds a
+    false per-request independence assumption (old/new implementations round
+    proration differently, so splitting one customer's invoices mid-cycle
+    between them doesn't reconcile) and fixes the routing granularity.
+  - `10-gated-pipeline-public-api-contract-change.md`: adding a required
+    field to a shared public API contract without breaking six existing
+    external integrations. Grounds Phase 1/2 in
+    `references/risk-and-quality.md`'s "API and Interface Changes" section
+    and an ADR per `references/software-architecture.md`'s "Recording the
+    decision" section (named there as exactly this kind of consequential,
+    hard-to-reverse case). Phase 3 finds one partner's strict response-schema
+    parsing would break even on an "optional" field - a different failure
+    mode from example `09`'s red-team finding, not a repeat of it.
+- **Decision-Tree** (`11`, `12`, alongside the existing `06`):
+  - `11-decision-tree-pr-review-response-triage.md`: formalizes
+    `references/risk-and-quality.md`'s "Reviewing Someone Else's Change"
+    section into a 5-row finding-to-response matrix; selects "verify the
+    claim directly" for a PR whose description claims a passing suite while
+    its own linked CI run shows a failing test covering the exact changed
+    behavior.
+  - `12-decision-tree-staging-vs-production-parity-triage.md`: formalizes
+    `references/risk-and-quality.md`'s "Configuration and Environments" and
+    "Observability" sections into a config/flag/scale/infrastructure/data
+    elimination-order matrix; selects the missing-production-secret branch
+    for a silently-failing scheduled email and fixes both the missing secret
+    and the silent-failure (`os.environ.get` swallowing a missing required
+    key) that hid it.
+- All six new files pass `python3 scripts/validate_skill_example.py <file>`
+  with no structural or placeholder findings.
+- Added one row per new file to `examples/README.md`'s index and all six new
+  paths to `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`.
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 37 files
+  present and non-empty.", up from 31) and
+  `python3 -m unittest discover -s tests -v` ("Ran 73 tests" / "OK", unchanged
+  - this pass added example content, not new test code).
+
+This pass is scoped to `agile-development` only, per the request; the other
+four skills (`deep-learning`, `hep-analysis`, `academic-papers`,
+`skill-router`) each still have exactly one pilot for their rolled-out
+archetype and are not touched here.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

@@ -2,17 +2,29 @@
 """Validate a filled-in canonical `<skill>/examples/*.md` file.
 
 Purpose: mechanically reject structural defects and placeholder content in a
-worked example (Weak vs. Expert contrast) before it ships - mirrors
-`validate_agile_notes.py`'s role for delivery notes. See
-references/example-authoring.md for the format this checks against.
+worked example before it ships - mirrors `validate_agile_notes.py`'s role for
+delivery notes. See references/example-authoring.md for the four archetypes and
+the format each checks against.
 
-What it does: checks that role/skill/use_case frontmatter fields are present and
-non-empty, that the four required sections (Scenario, Common Weak Approach,
-Expert-Level Best Practice, Key Takeaways) are present in that order, that Key
-Takeaways has between 3 and 6 bullet items, and that no placeholder markers
+What it does: reads the frontmatter `archetype:` field (`contrast`, `trajectory`,
+`gated-pipeline`, or `decision-tree`) to pick that archetype's rule set - a file
+with no `archetype:` field is treated as `contrast`, for backward compatibility
+with examples written before this script became archetype-aware. It then checks
+that `role`/`skill`/the archetype's scenario field are present and non-empty in
+frontmatter, that the archetype's fixed sections are present in order, the
+archetype-specific structural rules below, and that no placeholder markers
 (TODO/TBD/XXX/FIXME, Lorem ipsum, bracketed stand-ins, leftover scaffold
 comments, standalone ellipsis lines) remain anywhere in the file. It cannot judge
 domain correctness - that is a review step, not something this script does.
+
+Archetype-specific rules:
+- `contrast`: Key Takeaways has 3-6 bullet items.
+- `trajectory`: "3. Surgical Execution" and "4. Verification Evidence" each
+  contain a fenced code block.
+- `gated-pipeline`: each of the three phase sections contains a `**Gate:**`
+  line; "Phase 3: ..." additionally mentions an "assumption" it stress-tested.
+- `decision-tree`: "Triage Matrix" contains a markdown table with a
+  Trigger/Resolution Strategy header and at least 3 data rows.
 
 Usage: `python3 scripts/validate_skill_example.py <file.md>`. Exits 0 and prints
 "<file>: ok" on success; exits 1 with a description of every problem found;
@@ -26,18 +38,41 @@ import argparse
 import re
 from pathlib import Path
 
-REQUIRED_SECTIONS = [
-    "Scenario",
-    "Common Weak Approach",
-    "Expert-Level Best Practice",
-    "Key Takeaways",
-]
-FRONTMATTER_FIELDS = ["role", "skill", "use_case"]
+ARCHETYPES = ["contrast", "trajectory", "gated-pipeline", "decision-tree"]
+
+SCENARIO_FIELD = {
+    "contrast": "use_case",
+    "trajectory": "problem_input",
+    "gated-pipeline": "high_stakes_task",
+    "decision-tree": "scenario",
+}
+
+REQUIRED_SECTIONS = {
+    "contrast": ["Scenario", "Common Weak Approach", "Expert-Level Best Practice", "Key Takeaways"],
+    "trajectory": [
+        "1. Task Input & Context",
+        "2. Root-Cause Triage & Action Plan",
+        "3. Surgical Execution",
+        "4. Verification Evidence",
+        "5. Final Deliverable Summary",
+    ],
+    "gated-pipeline": [
+        "Phase 1: Input Extraction & Gap Formulation",
+        "Phase 2: Draft Synthesis",
+        "Phase 3: Red-Team Review & Final Artifact Packaging",
+    ],
+    "decision-tree": ["Triage Matrix", "Selected Branch", "End-to-End Execution Script", "Fallback Safeguards"],
+}
+
 MIN_TAKEAWAYS = 3
 MAX_TAKEAWAYS = 6
 
 SECTION_HEADING_RE = re.compile(r"^##\s+(.+?)\s*$", re.MULTILINE)
 BULLET_RE = re.compile(r"^- \S")
+CODE_FENCE_RE = re.compile(r"^```", re.MULTILINE)
+GATE_RE = re.compile(r"\*\*Gate:\*\*\s*\S")
+TABLE_ROW_RE = re.compile(r"^\|.*\|\s*$")
+TABLE_SEPARATOR_RE = re.compile(r"^\|[\s:|-]+\|\s*$")
 
 PLACEHOLDER_PATTERNS = [
     (re.compile(r"\b(TODO|TBD|FIXME|XXX)\b"), "placeholder marker"),
@@ -66,28 +101,41 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
     return fields, parts[2]
 
 
-def check_frontmatter(fields: dict[str, str]) -> list[str]:
+def resolve_archetype(fields: dict[str, str]) -> tuple[str | None, list[str]]:
+    """Returns (archetype, problems). Missing archetype defaults to 'contrast'."""
+    raw = fields.get("archetype", "").strip()
+    if not raw:
+        return "contrast", []
+    if raw not in ARCHETYPES:
+        return None, [f"unknown archetype {raw!r} (expected one of {', '.join(ARCHETYPES)})"]
+    return raw, []
+
+
+def check_frontmatter(fields: dict[str, str], archetype: str) -> list[str]:
     problems = []
     if not fields:
-        problems.append("missing frontmatter block (expected a leading '---' section "
-                         "with role/skill/use_case)")
+        problems.append(
+            "missing frontmatter block (expected a leading '---' section with "
+            f"role/skill/{SCENARIO_FIELD[archetype]})"
+        )
         return problems
-    for field in FRONTMATTER_FIELDS:
+    for field in ("role", "skill", SCENARIO_FIELD[archetype]):
         if not fields.get(field):
             problems.append(f"frontmatter is missing a non-empty '{field}' field")
     return problems
 
 
-def check_sections(body: str) -> list[str]:
+def check_sections(body: str, archetype: str) -> list[str]:
+    required = REQUIRED_SECTIONS[archetype]
     headings = SECTION_HEADING_RE.findall(body)
-    missing = [s for s in REQUIRED_SECTIONS if s not in headings]
+    missing = [s for s in required if s not in headings]
     if missing:
         return [f"missing required section(s): {', '.join(missing)}"]
 
-    positions = [headings.index(s) for s in REQUIRED_SECTIONS]
+    positions = [headings.index(s) for s in required]
     if positions != sorted(positions):
         return [f"required sections are present but out of order: found {headings}, "
-                f"expected order {REQUIRED_SECTIONS}"]
+                f"expected order {required}"]
     return []
 
 
@@ -111,6 +159,54 @@ def check_takeaway_count(body: str) -> list[str]:
     return []
 
 
+def check_trajectory(body: str) -> list[str]:
+    problems = []
+    for section in ("3. Surgical Execution", "4. Verification Evidence"):
+        text = section_text(body, section)
+        if len(CODE_FENCE_RE.findall(text)) < 2:
+            problems.append(f'"{section}" must contain a fenced code block, not just prose')
+    return problems
+
+
+def check_gated_pipeline(body: str) -> list[str]:
+    problems = []
+    for section in REQUIRED_SECTIONS["gated-pipeline"]:
+        text = section_text(body, section)
+        if not GATE_RE.search(text):
+            problems.append(f'"{section}" is missing a non-empty "**Gate:**" line')
+    phase3_text = section_text(body, "Phase 3: Red-Team Review & Final Artifact Packaging")
+    if "assumption" not in phase3_text.lower():
+        problems.append(
+            '"Phase 3: Red-Team Review & Final Artifact Packaging" must mention at least '
+            'one stress-tested assumption'
+        )
+    return problems
+
+
+def check_decision_tree(body: str) -> list[str]:
+    problems = []
+    matrix_text = section_text(body, "Triage Matrix")
+    rows = [line for line in matrix_text.splitlines() if TABLE_ROW_RE.match(line)]
+    if len(rows) < 2:
+        problems.append('"Triage Matrix" is missing a markdown table')
+        return problems
+    header, rest = rows[0], rows[1:]
+    if "Trigger" not in header or "Resolution Strategy" not in header:
+        problems.append('"Triage Matrix" table header must have "Trigger" and "Resolution Strategy" columns')
+    data_rows = [row for row in rest if not TABLE_SEPARATOR_RE.match(row)]
+    if len(data_rows) < 3:
+        problems.append(f'"Triage Matrix" table has {len(data_rows)} data row(s), expected at least 3')
+    return problems
+
+
+ARCHETYPE_CHECKS = {
+    "contrast": check_takeaway_count,
+    "trajectory": check_trajectory,
+    "gated-pipeline": check_gated_pipeline,
+    "decision-tree": check_decision_tree,
+}
+
+
 def check_placeholders(text: str) -> list[str]:
     problems = []
     for pattern, label in PLACEHOLDER_PATTERNS:
@@ -127,10 +223,13 @@ def check_placeholders(text: str) -> list[str]:
 
 def validate(text: str) -> list[str]:
     fields, body = parse_frontmatter(text)
-    problems = check_frontmatter(fields)
-    problems += check_sections(body)
+    archetype, problems = resolve_archetype(fields)
+    if archetype is None:
+        return problems
+    problems += check_frontmatter(fields, archetype)
+    problems += check_sections(body, archetype)
     if not problems:
-        problems += check_takeaway_count(body)
+        problems += ARCHETYPE_CHECKS[archetype](body)
     problems += check_placeholders(text)
     return problems
 

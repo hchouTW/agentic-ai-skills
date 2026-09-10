@@ -45,6 +45,15 @@ REQUIRED_PATHS = [
     "examples/01-bug-fix-scoping-review.md",
     "examples/02-new-feature-slicing-and-acceptance-criteria.md",
     "examples/03-production-incident-response-postmortem.md",
+    "examples/04-trajectory-discount-stacking-bug.md",
+    "examples/05-gated-pipeline-payment-provider-rollout-rfc.md",
+    "examples/06-decision-tree-incident-mitigation-triage.md",
+    "examples/07-trajectory-database-migration-lock.md",
+    "examples/08-trajectory-dependency-update-silent-break.md",
+    "examples/09-gated-pipeline-legacy-billing-strangler-fig.md",
+    "examples/10-gated-pipeline-public-api-contract-change.md",
+    "examples/11-decision-tree-pr-review-response-triage.md",
+    "examples/12-decision-tree-staging-vs-production-parity-triage.md",
 ]
 
 REQUIRED_README_SECTIONS = [
