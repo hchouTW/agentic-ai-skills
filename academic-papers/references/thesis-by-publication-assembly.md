@@ -3,7 +3,7 @@
 Use when assembling a thesis or dissertation from the user's own
 already-published (or submitted) papers, rather than writing one
 continuous document from scratch. Use the thesis-chapter guidance in
-`paper-structure.md` for how a single chapter is structured,
+`paper-genre-variants.md` for how a single chapter is structured,
 `plagiarism-and-text-reuse-checking.md` for the self-plagiarism/reuse
 questions this specifically raises, and `latex-mechanics-and-tooling.md`'s
 multi-file-document-structuring section for the actual `\include{}`/

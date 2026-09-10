@@ -5,6 +5,11 @@ State the operational scope explicitly: documentation inspection, rerunning
 provided artifacts, or independent reimplementation. These provide different
 evidence and should not share an unexplained pass/fail label.
 
+## Table of contents
+- [Trace results to artifacts](#trace-results-to-artifacts)
+- [Execute only the agreed scope](#execute-only-the-agreed-scope)
+- [Report evidence and limits](#report-evidence-and-limits)
+
 ## Trace results to artifacts
 
 For each selected claim/table/figure, record the paper version and expected result,

@@ -1,10 +1,12 @@
 # Paper Structure
 
-Detailed section-by-section guidance for physics papers, plus notes on how the
-structure shifts for theory papers, review articles, proceedings, thesis chapters,
-astroparticle/cosmic-ray papers, statistics/ML papers, and public-facing outreach
-summaries. Read the relevant subsection rather than the whole file when
-time-pressed.
+Detailed section-by-section guidance for the standard experimental-physics paper
+backbone: Title, Abstract, Introduction, Methods, Analysis, Systematics, Results,
+Summary. For how this backbone shifts for theory papers, review articles, thesis
+chapters, proceedings, astroparticle/cosmic-ray papers, and statistics/ML papers,
+see `paper-genre-variants.md`; for a plain-language public/outreach summary, see
+`outreach-and-public-facing-summaries.md`. Read the relevant subsection rather
+than the whole file when time-pressed.
 
 ## Table of contents
 - [Title](#title)
@@ -17,14 +19,6 @@ time-pressed.
 - [Systematic uncertainties](#systematic-uncertainties)
 - [Results](#results)
 - [Summary / Conclusion](#summary--conclusion)
-- [Theory papers](#theory-papers)
-- [Review articles](#review-articles)
-- [Thesis chapters](#thesis-chapters)
-- [Proceedings](#proceedings)
-- [Astroparticle and cosmic-ray papers](#astroparticle-and-cosmic-ray-papers)
-- [Statistics and ML papers](#statistics-and-ml-papers)
-- [Outreach and public-facing summaries](#outreach-and-public-facing-summaries)
-- [Outreach: collaboration voice vs. syndicated commentary](#outreach-collaboration-voice-vs-syndicated-commentary)
 
 ## Title
 
@@ -182,145 +176,7 @@ moves and remaining logical gaps.
   detector). Do not oversell; referees notice.
 - No new citations here except perhaps a forward pointer to planned/ongoing work.
 
----
-
-## Theory papers
-
-The template shifts: Introduction → Model/Formalism → Calculation → Results/
-Phenomenology → Discussion. Expect (and budget space for):
-- A longer, self-contained derivation section — theory referees expect to be
-  able to follow the calculation, not just cite the result.
-- Explicit statement of assumptions and their validity range early, since the
-  entire paper's conclusions are conditional on them.
-- A phenomenology section translating the formal result into observable
-  predictions, ideally compared against existing or near-future experimental
-  sensitivity.
-
-## Review articles
-
-Structured more like a textbook chapter: broad Introduction, then organized by
-sub-topic rather than by "what we did" — since there is no single "we did X."
-Expect a much larger reference list, an explicit statement of scope (what is
-and isn't covered, and why), and a closing "open questions" section rather than
-a conclusion restating a single result.
-
-## Thesis chapters
-
-Similar backbone to a paper but expanded: include material a paper would cut
-for space (fuller derivations, more validation plots, negative results/things
-tried that didn't work, more detail on personal contribution vs.
-collaboration-wide work). A thesis chapter based on a published paper should
-still be written in the author's own words, not pasted from the paper, both
-for originality and because the fuller thesis context changes what needs
-explaining.
-
-## Proceedings
-
-Short (often 4-10 pages), summarizing a talk rather than presenting a full new
-result: Introduction (brief) → the one or two key plots/results shown at the
-conference → brief conclusion. Assume the reader has seen, or could look up,
-the full paper this proceeding is based on — proceedings should not duplicate
-a full paper's derivations.
-
-## Astroparticle and cosmic-ray papers
-
-The same backbone applies, with "Detector" becoming "Instrument"/"Observatory"/
-"Array," "luminosity" becoming "exposure," and — for point-source or anisotropy
-searches — an arrival-direction section with its own pre-trial/post-trial
-significance treatment, separate from the energy-spectrum section. Atmospheric and
-hadronic-interaction-model systematics (QGSJET, EPOS, Sibyll, ...) typically dominate
-the systematics section for air-shower analyses, in place of detector-alignment
-systematics. See `astroparticle-and-cosmic-ray-papers.md` for the full treatment,
-including venue-specific conventions (JCAP, ApJ/ApJL, Astroparticle Physics),
-collaboration author-list handling for ground arrays/IACTs/space detectors, and
-skymap/energy-spectrum figure conventions.
-
-## Statistics and ML papers
-
-The backbone shifts more here than for any other variant in this file: Related
-Work is usually its own section rather than woven into the Introduction, and
-Limitations and (at several venues) a Broader Impact/Ethics Statement are
-required, separately-labeled sections rather than closing remarks. A
-reproducibility checklist is often a required submission component, not optional
-prose, and the appendix routinely carries full hyperparameter tables and
-additional experiments that reviewers are expected to actually read - unlike a
-physics paper's supplemental material, which a referee may or may not open. See
-`statistics-and-ml-papers.md` for the full treatment, including venue-specific
-conventions (NeurIPS/ICML/ICLR/ACL vs. JMLR/TMLR vs. statistics journals),
-author-contribution statements, arXiv-first citation practice, and the
-single-shot rebuttal process that replaces a journal's multi-round revision.
-
-## Outreach and public-facing summaries
-
-A different document from the paper itself: a plain-language summary for a
-collaboration or institution website, aimed at a general audience rather than
-referees. Structure:
-
-1. **One headline sentence in plain language** — the result, not the method, with
-   jargon either cut or immediately explained ("cosmic rays — high-energy particles
-   from space — ...").
-2. **One analogy or framing sentence** for the physics question, aimed at a reader
-   with no physics background.
-3. **One figure**, usually the paper's own headline plot, simplified or re-labeled
-   if the original axis labels assume physics literacy.
-4. **A short "why it matters" close** — connects to a bigger open question (dark
-   matter, the origin of cosmic rays, antimatter in the universe) without
-   overselling.
-
-Rules that don't relax just because the audience is general:
-- **Never state a number, uncertainty, or significance not in the paper itself** —
-  a public summary can omit precision, not invent it.
-- **Match the paper's own significance language**: if the paper says "excess" or
-  "hint," the public summary should not upgrade that to "discovery" — see
-  `scientific-style.md`'s significance-language table, which applies to outreach
-  writing just as much as the paper itself.
-- Simplify the *explanation*, not the *claim* — a public summary that makes the
-  result sound bigger than the paper's own abstract is a form of overstating
-  significance, even without a technical error in it.
-
-## Outreach: collaboration voice vs. syndicated commentary
-
-Not every "physics highlight" page on a collaboration's own website is written by
-the collaboration. AMS-02's `ams02.space/physics/*` pages are a useful worked
-example precisely because checking the actual byline on each one — rather than
-assuming collaboration authorship because the page lives on the collaboration's
-domain — turns up three different genres:
-
-- **Journalist-written recap**, e.g. "AMS Releases New Cosmic-Ray Measurements"
-  (byline: Emma Hattersley, dated 2026-06-26) — third-person journalistic voice
-  ("reports," "describes"), built around direct quotes from collaboration
-  spokespeople (Samuel Ting, Sunil Gupta) rather than a first-person collaboration
-  statement.
-- **APS *Physics Magazine* Synopsis**, e.g. "Lithium Cosmic Rays Are Not
-  Primordial" (byline: Rachel Berkowitz, "Corresponding Editor for *Physics
-  Magazine*") — a neutral staff-written recap syndicated from `physics.aps.org`,
-  not authored by the collaboration at all.
-- **APS *Physics Magazine* Viewpoint**, e.g. "Antiprotons Beyond the Solar
-  System" (byline: N. Eugene Engelbrecht and R. Du Toit Strauss, Centre for Space
-  Research, North-West University, cited as *Physics* 18, 19 (2025)) — an
-  *invited outside expert's* independent commentary and context, carrying its
-  own citable byline, affiliation, and issue number, distinct from both the
-  collaboration's and a journalist's voice.
-
-All three end with a "Publication" call-out box giving the underlying PRL's full
-citation and DOI — a reusable design pattern regardless of which of the three
-voices is in use.
-
-Why this distinction matters when drafting one of these for a user:
-- **Ask which of the three is actually wanted** before drafting: an in-house
-  collaboration-voice press release ("we report...") is a different document,
-  with a different acceptable level of first-person collaboration claims, than a
-  pitch written in third-person journalistic voice, or a Viewpoint — which only
-  an actual outside expert can author, not something to draft on someone else's
-  behalf and attribute to them.
-- **Never draft one of these and attribute it to the wrong voice** — labeling a
-  drafted Viewpoint or Synopsis as collaboration-authored (or vice versa)
-  misrepresents its independence to a reader.
-- **When citing one**, treat it as secondary commentary, not primary literature —
-  see `citations-and-bibliography.md`'s note on citing an accompanying Viewpoint
-  or Synopsis.
-
-(Verified 2026-09-10 by checking each page's own byline directly rather than
-assuming authorship from the hosting domain — re-check before reusing this as a
-current example, since AMS periodically publishes new physics-highlight pages
-and the mix of voices may change.)
+For theory papers, review articles, thesis chapters, proceedings, and the
+astroparticle/statistics-ML variants of this backbone, see
+`paper-genre-variants.md`. For a plain-language public/outreach summary, see
+`outreach-and-public-facing-summaries.md`.

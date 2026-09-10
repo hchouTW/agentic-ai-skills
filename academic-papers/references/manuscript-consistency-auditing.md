@@ -8,11 +8,21 @@ file checks *numeric and factual* consistency; for the same failure mode applied
 to a term's meaning or an argument's logical structure rather than a value, use
 `logical-consistency-and-argument-uniformity.md`.
 
+## Table of contents
+- [Building the result ledger](#building-the-result-ledger)
+- [Comparing like with like](#comparing-like-with-like)
+- [Classifying and reporting findings](#classifying-and-reporting-findings)
+- [Editing and delivery](#editing-and-delivery)
+
+## Building the result ledger
+
 Create a result ledger for consequential repeated facts: quantity or claim,
 definition, dataset/selection, units, central value, uncertainty type, interval
 level, source artifact/version, and every manuscript location. Use an identified
 analysis output or author-specified source as authoritative when available; do not
 choose the most frequently repeated value as the truth.
+
+## Comparing like with like
 
 Compare like with like before flagging a conflict:
 
@@ -36,10 +46,14 @@ Compare like with like before flagging a conflict:
 - Ensure abstract and conclusion preserve the conditions and caveats of the
   results. Check that revised numbers have corresponding revised interpretation.
 
+## Classifying and reporting findings
+
 Classify findings as confirmed contradiction, explainable difference needing a
 label, or unresolved source conflict. Provide both locations, the comparison and
 its context, impact, and proposed correction. When no authoritative value exists,
 ask for the source or flag the conflict rather than overwriting scientific results.
+
+## Editing and delivery
 
 If editing is authorized, propagate verified corrections to all affected locations
 and reread the resulting sentences and captions. Deliver a compact discrepancy

@@ -6,16 +6,28 @@ external reference checks, use `citation-verification.md`; for actual reruns, us
 logical structure itself, independent of whether evidence is strong enough, use
 `logical-consistency-and-argument-uniformity.md`.
 
+## Table of contents
+- [Extracting claims](#extracting-claims)
+- [Building the evidence matrix](#building-the-evidence-matrix)
+- [Checking evidence against claim type](#checking-evidence-against-claim-type)
+- [Verdicts and reporting](#verdicts-and-reporting)
+
+## Extracting claims
+
 Extract the central claims from the title, abstract, contribution statements,
 results, and conclusion. Split compound claims when their parts need different
 evidence. Preserve qualifiers, dataset/regime, comparison, and uncertainty rather
 than paraphrasing a narrow claim into a universal one.
+
+## Building the evidence matrix
 
 Build a matrix with: claim ID and location; claim text; type (empirical,
 theoretical, methodological, or interpretive); evidence locator; conditions and
 assumptions; support verdict; gap; proposed action. Evidence may be a figure,
 table, derivation, controlled comparison, or external source. Its mere presence
 does not establish that it tests the claim.
+
+## Checking evidence against claim type
 
 Check whether the evidence addresses the exact claim:
 
@@ -29,6 +41,8 @@ Check whether the evidence addresses the exact claim:
   claim. Several plots from the same sample are not independent confirmations.
 - An exclusion, null result, or absence-of-effect claim must retain its sensitivity,
   confidence/credible-level convention, and tested range.
+
+## Verdicts and reporting
 
 Use supported, partially supported, unsupported, or unresolved. Missing evidence
 is not proof that a claim is false. For each gap, propose either narrower wording,

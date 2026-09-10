@@ -210,7 +210,7 @@ paper's own authors.
   `Physics 18, 19 (2025)`, distinct from the paper it comments on.
 - Don't assume a page hosted on a collaboration's own domain is collaboration-
   authored — check the byline before citing or characterizing its authorship. See
-  `paper-structure.md`'s outreach-summaries section for a worked AMS-02 example
+  `outreach-and-public-facing-summaries.md` for a worked AMS-02 example
   where three same-looking pages turn out to be three different bylines (a
   journalist's recap, an APS Synopsis, and an APS Viewpoint).
 

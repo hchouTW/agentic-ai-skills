@@ -36,7 +36,9 @@ academic-papers/
 │   ├── reading-papers.md                        # three-pass reading method, claims-vs-evidence, critical-reading checklist
 │   ├── interpreting-scientific-graphics.md      # reading exclusion contours/corner plots/ROC curves/skymaps correctly, spotting misleading visualization
 │   ├── literature-review.md                     # organizing a review/related-work section, comparison matrices, synthesis, novelty assessment
-│   ├── paper-structure.md                       # section-by-section writing guidance (+ theory/thesis/proceedings/outreach variants, argument restructuring)
+│   ├── paper-structure.md                       # section-by-section writing guidance for the standard physics-paper backbone, argument restructuring
+│   ├── paper-genre-variants.md                  # how the backbone shifts for theory/review/thesis/proceedings papers
+│   ├── outreach-and-public-facing-summaries.md  # plain-language public summaries; collaboration voice vs. syndicated commentary (AMS-02 example)
 │   ├── astroparticle-and-cosmic-ray-papers.md   # venue/structure/citation/figure conventions for cosmic-ray & astroparticle papers, AMS-02 case study
 │   ├── statistics-and-ml-papers.md              # venue/structure/citation/review-process conventions for statistics & ML papers
 │   ├── latex-and-formatting.md                  # venue-specific class-file setup and skeletons (REVTeX/JHEP/JCAP/AASTeX/Springer/NeurIPS/ICML/ICLR/ACL)

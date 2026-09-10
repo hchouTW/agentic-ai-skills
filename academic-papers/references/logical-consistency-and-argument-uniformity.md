@@ -12,6 +12,14 @@ contradiction, a dropped assumption, or a conclusion that doesn't follow.
 Use the argument-restructuring section of `paper-structure.md` once a gap
 is found and the fix requires reorganizing text, not just noting it.
 
+## Table of contents
+- [Scope and the inference ledger](#scope-and-the-inference-ledger)
+- [What to check for](#what-to-check-for)
+- [Distinguishing real defects from style](#distinguishing-real-defects-from-style)
+- [Classifying and delivering findings](#classifying-and-delivering-findings)
+
+## Scope and the inference ledger
+
 Establish scope (full paper, a specific argument, or a disputed section)
 before starting; report unchecked portions explicitly.
 
@@ -20,7 +28,7 @@ major step's stated premises/assumptions, its location, and the claim it's
 meant to establish. Trace the full chain from motivating question through
 method, result, and interpretation.
 
-Check for:
+## What to check for
 
 - **Cross-section contradiction**: a definition, assumption, or claim
   stated in one section that conflicts with one stated elsewhere,
@@ -53,10 +61,14 @@ Check for:
   → interpretation has a genuinely missing link — not weakly evidenced,
   but logically absent (a jump with no stated bridging premise at all).
 
+## Distinguishing real defects from style
+
 Distinguish a real logical defect from informal-but-resolvable phrasing —
 colloquial shorthand that a careful reading disambiguates without changing
 the argument's validity is not a finding; over-flagging rhetorical style as
 fallacy wastes author time and erodes trust in real findings.
+
+## Classifying and delivering findings
 
 Classify each finding as: confirmed contradiction, named fallacy pattern,
 dropped/changed assumption, definitional drift, scope mismatch, or missing

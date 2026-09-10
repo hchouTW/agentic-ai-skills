@@ -3,8 +3,8 @@
 Use when converting a paper's content into a conference poster or an oral
 presentation's slide deck. This is downstream of the paper, not a
 replacement for it — use `figures-and-tables.md` for the publication-quality
-figures themselves and `paper-structure.md`'s public/outreach-summary
-section for a plain-language write-up; this file is about re-laying-out
+figures themselves and `outreach-and-public-facing-summaries.md`
+for a plain-language write-up; this file is about re-laying-out
 already-established results for a room or a poster board, not re-deriving
 prose structure.
 

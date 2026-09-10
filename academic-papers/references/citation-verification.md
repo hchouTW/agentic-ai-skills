@@ -4,6 +4,13 @@ Use for a reference audit, questionable attribution, or checking the evidence
 behind manuscript claims. For export and formatting, use
 `citations-and-bibliography.md`.
 
+## Table of contents
+- [Verification steps](#verification-steps)
+- [Deliverable](#deliverable)
+- [Tooling note](#tooling-note)
+
+## Verification steps
+
 1. Establish scope: all references, a specified section, or selected consequential
    claims. If sampling, report the selection and do not certify the whole paper.
 2. Resolve each reference against the publisher, original repository, or relevant
@@ -28,11 +35,15 @@ behind manuscript claims. For export and formatting, use
    relevant version, or supply a verified replacement. Preserve citation keys
    unless renaming is necessary; update their callers together if changed.
 
+## Deliverable
+
 Deliver a ledger with: manuscript location and claim; citation key and stable
 identifier/version; evidence locator and source link; metadata/status findings;
 support verdict (supported, partial, unsupported, or unverified); proposed fix.
 Keep metadata correctness separate from evidentiary support. Report unresolved
 items explicitly, including sources available only as abstracts.
+
+## Tooling note
 
 `check_manuscript.py` checks local reference consistency; it does not establish
 that a source exists, remains current, or supports a scientific claim.

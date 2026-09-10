@@ -243,11 +243,12 @@ A typical experimental HEP paper (PRL/PRD/JHEP style) runs, roughly:
 | Summary / Conclusion | Restate result, implications, outlook — no new claims | 3–8 sentences |
 | Acknowledgments | Funding agencies, collaboration boilerplate | fixed by collaboration |
 
-Full guidance, including how this differs for theory papers, review articles,
-thesis chapters, astroparticle/cosmic-ray papers (exposure instead of luminosity,
-arrival-direction/anisotropy sections, multi-messenger context), and statistics/ML
-papers (required Limitations/Broader-Impact sections, reproducibility checklists,
-single-shot rebuttals), is in `references/paper-structure.md`,
+Full guidance for this backbone is in `references/paper-structure.md`. How it
+differs for theory papers, review articles, thesis chapters, astroparticle/
+cosmic-ray papers (exposure instead of luminosity, arrival-direction/anisotropy
+sections, multi-messenger context), and statistics/ML papers (required
+Limitations/Broader-Impact sections, reproducibility checklists, single-shot
+rebuttals) is in `references/paper-genre-variants.md`,
 `references/astroparticle-and-cosmic-ray-papers.md`, and
 `references/statistics-and-ml-papers.md`.
 
@@ -306,11 +307,16 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   synthesis patterns vs. citation-stuffing, spotting research gaps
 
 **Structure, venue, and formatting**
-- `references/paper-structure.md` — section-by-section guidance, HEP vs. theory vs.
-  thesis vs. proceedings vs. astroparticle vs. statistics/ML papers, what a referee
-  expects in each section, plus writing a plain-language public/outreach summary
-  and telling apart collaboration-voice outreach from syndicated third-party
-  commentary (a journalist's recap, an APS Synopsis, an APS Viewpoint)
+- `references/paper-structure.md` — section-by-section guidance for the standard
+  experimental-physics backbone (Title through Summary/Conclusion), what a
+  referee expects in each section
+- `references/paper-genre-variants.md` — how that backbone shifts for theory
+  papers, review articles, thesis chapters, and proceedings, plus pointers to
+  the dedicated astroparticle and statistics/ML variant files
+- `references/outreach-and-public-facing-summaries.md` — writing a
+  plain-language public/outreach summary, and telling apart collaboration-voice
+  outreach from syndicated third-party commentary (a journalist's recap, an
+  APS Synopsis, an APS Viewpoint)
 - `references/astroparticle-and-cosmic-ray-papers.md` — how structure, venues,
   author lists, citations, figures, and phrasing shift for astroparticle-physics
   and cosmic-ray papers (ground arrays, IACTs, neutrino observatories, space-based

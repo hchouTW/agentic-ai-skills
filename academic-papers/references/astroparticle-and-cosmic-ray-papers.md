@@ -147,7 +147,7 @@ few visible ways:
   on the International Space Station: Part II — Results from the First Seven Years"
   is published in *Physics Reports*, not PRL — a single comprehensive review sitting
   alongside dozens of individual-result letters. This is the review-article pattern
-  from `paper-structure.md`'s "Review articles" section applied at collaboration
+  from `paper-genre-variants.md`'s "Review articles" section applied at collaboration
   scale: a Phys. Rept. periodically consolidates and cross-references the individual
   PRL results rather than duplicating their derivations.
 - **A very large, structured author list.** AMS-02 is 44 institutions across the
@@ -180,8 +180,8 @@ few visible ways:
   before assuming an unpublished analysis tweak has no citable form at all.
 - **The `ams02.space/physics/*` "highlight" pages are not collaboration-authored
   outreach**, despite living on the collaboration's own domain — see
-  `paper-structure.md`'s "Outreach: collaboration voice vs. syndicated
-  commentary" section for the worked byline-by-byline breakdown (a journalist's
+  `outreach-and-public-facing-summaries.md`'s "Collaboration voice vs.
+  syndicated commentary" section for the worked byline-by-byline breakdown (a journalist's
   recap, an APS *Physics Magazine* Synopsis, and an APS *Physics Magazine*
   Viewpoint, none written by the collaboration itself).
 
