@@ -164,20 +164,26 @@ few visible ways:
   result, check the collaboration site for this supplemental link, not just the
   journal page — the underlying flux tables are often published there rather than
   (or in addition to) HEPData.
-- **A dedicated "web-only, deliberately non-citable" technical-progress genre.**
-  AMS-02's `ams02.space/advances-data-analysis` section documents incremental
-  analysis-method improvements (tracker charge-sign identification, coordinate-
-  measurement precision, a new ECAL reconstruction method) that are never
-  published as standalone papers, technical notes, or conference proceedings —
-  checking one such page directly shows it citing only an *older* PRL for
-  comparison, with no DOI, arXiv ID, or proceedings reference for the improvement
-  itself. Don't treat this kind of page as a citable source the way a HEPData
-  record or a technical note would be: if a specific analysis improvement matters
-  for a manuscript claim, either find where a later peer-reviewed paper
-  incorporates and describes it, or cite the web page explicitly as a website
-  (with an access date), never as if it were peer-reviewed literature. Ask the
-  user's own collaboration whether it maintains an equivalent "advances" page
-  before assuming an unpublished analysis tweak has no citable form at all.
+- **A mixed-citability technical-progress genre — check each page, don't
+  generalize from one.** AMS-02's `ams02.space/advances-data-analysis` section
+  documents incremental analysis-method improvements, and checking three of them
+  directly shows a genuinely mixed picture, not a uniform one: the
+  coordinate-measurement-precision page resolves to a dedicated instrumentation
+  paper (G. Ambrosi et al., *Nucl. Instrum. Methods Phys. Res. A* **869**, 29
+  (2017)), and the ECAL-reconstruction page to another (A. Kounine et al.,
+  *Nucl. Instrum. Methods Phys. Res. A* **869**, 110 (2017)) — while the
+  tracker-charge-sign-identification page cites only an *older* PRL for
+  comparison, with no DOI, arXiv ID, or proceedings reference for the
+  improvement it actually describes. Don't assume a page's citability from
+  another page in the same site section, in either direction: some incremental
+  analysis improvements get a dedicated NIM A–style paper of their own, and some
+  stay web-only. Check the specific page: if it names a paper, cite that paper
+  directly (not the web page) for the technique; if it doesn't, either find
+  where a later peer-reviewed paper incorporates and describes it, or cite the
+  web page explicitly as a website (with an access date), never as if it were
+  peer-reviewed literature on its own. Ask the user's own collaboration whether
+  it maintains an equivalent "advances" page and what fraction of its entries
+  get a dedicated write-up before assuming either way.
 - **The `ams02.space/physics/*` "highlight" pages are not collaboration-authored
   outreach**, despite living on the collaboration's own domain — see
   `outreach-and-public-facing-summaries.md`'s "Collaboration voice vs.
