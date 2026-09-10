@@ -111,6 +111,8 @@ REQUIRED_PATHS = [
     "tests/test_helpers.py",
     "tests/test_astroparticle.py",
     "tests/test_ams02.py",
+    "examples/README.md",
+    "examples/01-jes-systematic-cutflow.md",
 ]
 
 REQUIRED_README_SECTIONS = [

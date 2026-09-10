@@ -93,6 +93,7 @@ uproot for inspection, RDataFrame for production, ROOT files as interchange).
 | Multi-messenger coincidence analysis, alert follow-up, trials/timing/pointing systematics | [Multi-messenger analysis](references/38-multimessenger-analysis.md) |
 | Li & Ma significance, sky-scan/catalog trials factor, exposure/forward-folding for steep spectra | [Astroparticle statistics](references/39-astroparticle-statistics.md) |
 | AMS-02 (ISS spectrometer): TRD/tracker/TOF/RICH/ACC/ECAL combination, orbital/solar-cycle systematics, positron-fraction/antiproton-ratio pattern, primary/secondary composition (B/C ratio), temporal-structure worked examples, servicing/upgrade history | [AMS-02 case study](references/40-ams02-case-study.md) |
+| Authoring a canonical worked example (Weak vs. Expert contrast) for `examples/` | `agile-development`'s [example-authoring reference](../agile-development/references/example-authoring.md) (requires `agile-development` installed alongside this skill) |
 
 ## Code file requirement
 
@@ -158,6 +159,8 @@ Resolve relative paths from the skill directory. Read a script's `--help` before
 - "Build a CMake project for this ROOT C++ analysis."
 - "Why does my spectrometer's rigidity resolution get worse both below 5 GV and above 200 GV?"
 - "Up to what momentum can this TOF separate pions from kaons, and would a RICH do better?"
+- "Generate a canonical `examples/` entry for this skill contrasting a weak vs. expert
+  JES systematic on a cutflow-based cross-section measurement."
 - "My data and simulation disagree in tracking efficiency at low momentum but agree at high - where should I look?"
 - "Review how this analysis defines truth matching and reconstruction efficiency."
 - "What should I check before trusting fast simulation for this measurement?"

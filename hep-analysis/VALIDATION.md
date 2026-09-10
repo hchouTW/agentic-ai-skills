@@ -490,6 +490,58 @@ every Python file in the package.
 - Bundle validator and the full test suite (172 tests) re-run clean after
   the fixes.
 
+## Example-authoring rollout pass (2026-09-10)
+
+Added this skill's first `examples/` entry, per Phase 3 of `agile-development`'s
+example-authoring initiative (see that skill's `references/example-authoring.md`
+for the generation prompt and format spec this follows). One pilot example, not
+a bulk batch.
+
+- Added a one-line pointer to `agile-development`'s
+  `references/example-authoring.md` to the "Reference routing" table in
+  `SKILL.md`, explicitly noting the cross-skill dependency (requires
+  `agile-development` installed alongside this skill), plus one new "Example
+  requests" entry.
+- Scaffolded `examples/01-jes-systematic-cutflow.md` with
+  `agile-development`'s `generate_skill_example.py --skill hep-analysis --role
+  "Senior Experimental Particle Physicist" --use-case "estimating the
+  jet-energy-scale systematic uncertainty on a cutflow-based cross-section
+  measurement"`, then filled it in by hand around the specific bug named in
+  this skill's own `references/06-systematics.md`: "failing to recompute
+  [selections] for a shape variation that moves objects across thresholds."
+  The weak approach reuses the nominal selection mask for the JES up/down
+  variations instead of recomputing it against the shifted jet `p_T`; the
+  expert approach recomputes the selection independently per variation and
+  reports the resulting migration counts.
+- All numeric claims were independently executed with NumPy on a 200,000-event
+  synthetic leading-jet `p_T` sample (seeded, `default_rng(20260910)`), not
+  merely hand-derived:
+  - Extracted both code blocks verbatim from the finished markdown file with a
+    regex and imported them as real modules.
+  - Weak approach: `eff_up = eff_down = eff_nominal = 0.3213` and a reported
+    JES relative uncertainty of exactly `0.000%` - confirmed this is an
+    artifact of the unapplied shift, not a coincidence, since `n_up`/`n_down`
+    both reduce to `mask_nominal.sum()` by construction.
+  - Expert approach: `eff_nominal=0.3213`, `eff_up=0.3340`, `eff_down=0.3079`,
+    JES relative uncertainty `4.059%`, with 2,539 events migrating into the
+    selection under the +3% shift and 2,677 migrating out under the −3% shift.
+  - `python3 scripts/validate_skill_example.py` (from `agile-development`)
+    reports `ok` - no structural or placeholder findings.
+- No ROOT/PyROOT/uproot installation was available in this environment, so the
+  example uses plain NumPy array masking as a dependency-free stand-in for the
+  same columnar selection-mask logic `references/17-python-hep-coding.md`
+  documents for uproot/awkward pipelines; this is stated explicitly in the
+  file's `## Scenario` framing rather than presented as a ROOT-integrated
+  analysis. This is a real limitation of this pass, not of the underlying
+  physics point, which does not depend on the I/O layer.
+- Added `examples/README.md` (one-row index table, linking back to
+  `agile-development`'s reference) and added both new files to
+  `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`. Bundle now reports 96
+  files, up from 94.
+- Re-ran `python3 scripts/validate_skill_bundle.py` (96 files OK) and
+  `python3 -m unittest discover -s tests -v` (172 tests, unchanged - this pass
+  added content, not new test code) after the change.
+
 ## Limitations
 
 - ROOT is not installed in the validation environment, so `check_root_cpp_env.sh`
