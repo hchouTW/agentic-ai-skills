@@ -84,6 +84,15 @@ REQUIRED_PATHS = [
     "examples/01-imbalanced-dataloader-training-loop.md",
     "examples/02-nan-loss-mixed-precision.md",
     "examples/03-ddp-vs-fsdp-parallelism-choice.md",
+    "examples/04-trajectory-exploding-gradient-nan-after-epoch3.md",
+    "examples/05-trajectory-group-leakage-val-metric-collapse.md",
+    "examples/06-trajectory-checkpoint-missing-optimizer-state.md",
+    "examples/07-gated-pipeline-architecture-proposal-lstm-to-transformer.md",
+    "examples/08-gated-pipeline-ddp-to-fsdp-migration.md",
+    "examples/09-gated-pipeline-model-release.md",
+    "examples/10-decision-tree-training-failure-classification.md",
+    "examples/11-decision-tree-serving-latency-regression.md",
+    "examples/12-decision-tree-eval-metric-anomaly.md",
 ]
 
 REQUIRED_README_SECTIONS = [

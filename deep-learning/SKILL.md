@@ -136,8 +136,9 @@ file as a whole, not individual lines.
 - **Custom autograd.Function, hooks, activation/gradient checkpointing** -> [references/custom-autograd-and-hooks.md](references/custom-autograd-and-hooks.md)
 - **TorchScript/ONNX export, torch.compile deployment modes, inference serving** -> [references/export-and-deployment.md](references/export-and-deployment.md)
 - **LibTorch, custom ops, CUDA/C++ extensions** -> [references/cpp-balanced-design-guidelines.md](references/cpp-balanced-design-guidelines.md)
-- **Authoring a canonical worked example** (Weak vs. Expert contrast) for
-  `examples/` -> `agile-development`'s
+- **Authoring a canonical worked example** (Contrast, Execution Trajectory,
+  Gated Pipeline, or Decision-Tree archetype) for `examples/` ->
+  `agile-development`'s
   [references/example-authoring.md](../agile-development/references/example-authoring.md)
   (requires `agile-development` installed alongside this skill)
 

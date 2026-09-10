@@ -408,6 +408,127 @@ this skill (two more were found and fixed the same way in the sibling
 `agile-development` and `hep-analysis` packages). Bundle validator and full test
 suite re-run clean after the fix.
 
+## Example-authoring: Execution Trajectory pilot (2026-09-11)
+
+Added this skill's first non-Contrast example, per Phase 3 of
+`agile-development`'s four-archetype example-authoring revision (see that
+skill's `references/example-authoring.md` for the full archetype spec; this
+skill has no local copy of the tooling and depends on `agile-development`
+being installed alongside it).
+
+- Scaffolded and filled `examples/04-trajectory-exploding-gradient-nan-after-
+  epoch3.md` (Execution Trajectory archetype, role "Senior ML Systems
+  Engineer"): a training run whose loss turns to `nan` at the start of epoch
+  4 with no code changes. Deliberately chosen to be a *different* root cause
+  from the existing `02-nan-loss-mixed-precision.md` Contrast example (an
+  fp16 attention-softmax overflow at a specific step) rather than a rehash:
+  here an LSTM layer's gradient norm grows unbounded across three full
+  epochs before overflowing, localized via a `register_full_backward_hook`
+  per `references/optimization-and-training-dynamics.md`'s "Vanishing and
+  exploding gradients" guidance, triaged with the `isfinite` checks from
+  `references/debugging-pytorch.md`'s NaN section, and fixed with gradient
+  clipping plus a short LR warmup (not a lower learning rate).
+- `python3 ../agile-development/scripts/validate_skill_example.py
+  examples/04-trajectory-exploding-gradient-nan-after-epoch3.md` passes with
+  no structural or placeholder findings. The `clip_grad_norm_` return-value
+  formatting in the example's code block was corrected to call `.item()`
+  before use in an f-string, since a 0-dim tensor's `__format__` behavior
+  under a numeric format spec is not something to rely on across PyTorch
+  versions - caught by review, not by the validator.
+- Added one row to `examples/README.md`'s index (now four columns:
+  `Example | Archetype | Scenario | One-line takeaway`) and added the new
+  file to `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`. Re-ran
+  `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 67 files present
+  and non-empty.", up from 66) and `python3 -m unittest discover -s tests -v`
+  ("Ran 106 tests" / "OK (skipped=2)", unchanged - this pass added example
+  content, not new test code).
+- Also generalized the "Authoring a canonical worked example" pointer in
+  `SKILL.md`'s reference-routing table from "(Weak vs. Expert contrast)" to
+  name all four archetypes, matching `agile-development`'s own updated
+  wording.
+
+**Backlog (explicitly deferred, not silently missing):** this skill has three
+remaining archetypes not yet piloted, per the source initiative's own
+Phase 3 backlog table - Contrast (a naive vs. reproducible training loop -
+distinct from the two Contrast examples already shipped), Gated Pipeline (a
+new-architecture design proposal via `references/architecture-selection.md`
+and `references/ablation-and-design-review.md`), and Decision-Tree (a
+serving-latency regression triage). None of these were started in this pass.
+
+## Example-authoring: expansion to three examples per new archetype (2026-09-11)
+
+Per a follow-up request to bring every non-Contrast archetype in every skill's
+`examples/` to three genuinely different examples (not variations on one
+theme), added 8 new files to this skill's `examples/`: 2 more Execution
+Trajectory, 3 Gated Pipeline, and 3 Decision-Tree. This also fulfills the
+Gated Pipeline and Decision-Tree items from the "Backlog" note above; the
+Contrast backlog item (a naive vs. reproducible training loop) remains
+deliberately out of scope for this pass, which only targeted the three
+non-Contrast archetypes.
+
+Each new example was grounded in a distinct reference file rather than
+reusing the territory already covered by an existing example in this skill:
+
+- `05-trajectory-group-leakage-val-metric-collapse.md`: a 0.98
+  offline/0.71 production AUC gap traced to row-level random splitting over
+  a dataset with repeated per-customer rows, via `references/data-strategy.md`'s
+  "Splits that survive contact with reality" (group leakage).
+- `06-trajectory-checkpoint-missing-optimizer-state.md`: a post-resume loss
+  spike traced to a checkpoint function using
+  `references/checkpointing.md`'s "Inference-only weights" pattern instead of
+  its "Save training checkpoint" pattern, silently discarding optimizer/
+  scheduler state on every resume.
+- `07-gated-pipeline-architecture-proposal-lstm-to-transformer.md`: an
+  LSTM-to-Transformer architecture proposal gated against
+  `references/architecture-selection.md`'s "Reviewing an architecture
+  proposal" checklist, whose red-team phase applies
+  `references/ablation-and-design-review.md`'s "Seed variance is the floor"
+  guidance to downgrade an unsupported best-of-3-vs-single-run comparison.
+- `08-gated-pipeline-ddp-to-fsdp-migration.md`: a DDP-to-FSDP migration
+  gated against `references/parallelism-strategy.md`'s "Diagnosing the
+  binding constraint", whose red-team phase finds a real multi-node
+  evaluation-metric aggregation bug per `references/distributed-training.md`'s
+  "Metric aggregation" section (missing `dist.all_reduce`).
+- `09-gated-pipeline-model-release.md`: a production model release gated
+  against `references/monitoring-and-lifecycle.md`'s "Releasing a new model",
+  whose red-team phase applies `references/evaluation-strategy.md`'s "The
+  offline-online gap" to find both a selection-bias artifact and a real
+  training/serving feature-computation skew.
+- `10-decision-tree-training-failure-classification.md`: formalizes
+  `references/optimization-and-training-dynamics.md`'s "Training failure
+  classification" table and "Diagnostic flow" directly into a 5-row triage
+  matrix.
+- `11-decision-tree-serving-latency-regression.md`: formalizes
+  `references/serving-architecture.md`'s "Latency has parts" decomposition
+  into a 5-row triage matrix, selecting the non-model-legs branch for a
+  same-compute-time regression traced to a dropped fast-tokenizer backend.
+- `12-decision-tree-eval-metric-anomaly.md`: combines
+  `references/evaluation-strategy.md`'s "Protect the test set"/"The
+  offline-online gap" with `references/data-strategy.md`'s "Versioning" into
+  a 4-row matrix, distinguishing a genuine contamination fix from a newly
+  introduced leak rather than assuming either by default.
+
+Verification performed:
+- Every code/diff/log block was checked for internal consistency before
+  writing (e.g. the group-leakage example's split logic, the checkpoint
+  diff's save/load symmetry, the DDP/FSDP example's binding-term arithmetic
+  implied by the stated percentages).
+- `python3 ../agile-development/scripts/validate_skill_example.py
+  examples/<file>.md` was run on all 8 new files individually and printed
+  `: ok` for each, with no structural or placeholder findings.
+- Added one row per new file to `examples/README.md`'s index (still 4
+  columns) and all 8 new paths to `scripts/validate_skill_bundle.py`'s
+  `REQUIRED_PATHS`.
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 75 files
+  present and non-empty.", up from 67) and
+  `python3 -m unittest discover -s tests -v` ("Ran 106 tests" / "OK
+  (skipped=2)", unchanged - this pass added example content, not new test
+  code) and confirmed both pass clean.
+
+No defects were found in the new content itself. This skill's `examples/`
+directory now has 3 Contrast, 3 Execution Trajectory, 3 Gated Pipeline, and 3
+Decision-Tree examples (12 total), closing out all four archetypes at parity.
+
 ## Limitations
 
 - **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that
