@@ -312,7 +312,10 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   Elsevier/NeurIPS/ICML/ICLR/ACL/JMLR setup, common compile errors, equations/
   units conventions, length-limit tricks, cross-referencing (`cleveref`) and
   `\newcommand` notation macros, `siunitx`/`multirow`/`longtable` table
-  syntax, tagged-PDF accessibility, and `latexdiff` tracked-changes diffing
+  syntax, tagged-PDF accessibility, `latexdiff` tracked-changes diffing,
+  `latexmk` build automation, bibtex-vs-biber/biblatex engine choice,
+  `\include`/`\includeonly` multi-file document structuring, and non-ASCII
+  author-name encoding
 
 **Prose, figures, and citations**
 - `references/figures-and-tables.md` — plot design for publication (following on from

@@ -3,10 +3,13 @@
 Use when assembling a thesis or dissertation from the user's own
 already-published (or submitted) papers, rather than writing one
 continuous document from scratch. Use the thesis-chapter guidance in
-`paper-structure.md` for how a single chapter is structured, and
+`paper-structure.md` for how a single chapter is structured,
 `plagiarism-and-text-reuse-checking.md` for the self-plagiarism/reuse
-questions this specifically raises; this file is about assembling multiple
-papers into one coherent document.
+questions this specifically raises, and `latex-and-formatting.md`'s
+multi-file-document-structuring section for the actual `\include{}`/
+`\includeonly{}` mechanics of combining chapter files; this file is about
+the decisions involved in assembling multiple papers into one coherent
+document, not the LaTeX syntax itself.
 
 1. Confirm the institution's specific requirements before drafting — most
    graduate schools that permit thesis-by-publication require: a stated
