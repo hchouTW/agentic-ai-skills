@@ -32,9 +32,10 @@ its workflow.
   verifiable success criteria. Triggers on "implement", "fix", "add",
   "refactor", "migrate", or "update" code, and on "is this overcomplicated" or
   "am I over-engineering this", even without the word "Agile". Also handles
-  authoring or generating a canonical worked example (a Weak vs. Expert
-  contrast plus key takeaways) for this or another installed skill's
-  `examples/` directory.
+  authoring or generating a canonical worked example - Contrast (a Weak vs.
+  Expert comparison plus key takeaways), Execution Trajectory, Gated Pipeline,
+  or Decision-Tree - for this or another installed skill's `examples/`
+  directory.
 - **deep-learning** - PyTorch engineering: nn.Module models, training and eval
   loops, datasets and DataLoaders, losses, optimizers, schedulers, mixed
   precision, gradient accumulation, checkpointing, distributed training (DDP),

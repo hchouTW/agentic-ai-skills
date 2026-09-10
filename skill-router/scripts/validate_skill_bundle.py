@@ -31,6 +31,15 @@ REQUIRED_PATHS = [
     "examples/01-adding-a-routing-rule-without-overlap.md",
     "examples/02-multi-skill-primary-secondary-routing.md",
     "examples/03-negative-carve-out-not-a-match.md",
+    "examples/04-decision-tree-multi-skill-ambiguous-routing.md",
+    "examples/05-trajectory-single-clean-match-academic-papers.md",
+    "examples/06-trajectory-generic-verb-vs-domain-specific-rule.md",
+    "examples/07-trajectory-clean-no-match-proceed-normally.md",
+    "examples/08-gated-pipeline-adding-a-new-rule.md",
+    "examples/09-gated-pipeline-disambiguating-figure-interpretation.md",
+    "examples/10-gated-pipeline-expanding-a-carve-out.md",
+    "examples/11-decision-tree-figure-interpretation-routing.md",
+    "examples/12-decision-tree-multiple-false-positive-keywords.md",
 ]
 
 REQUIRED_README_SECTIONS = [

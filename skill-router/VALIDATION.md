@@ -176,6 +176,129 @@ existing routing logic to a real incoming request.
   entries) and `python3 -m unittest discover -s tests -v` (7 tests, all
   passing) after the changes.
 
+## Example-authoring: Decision-Tree pilot (2026-09-11)
+
+Added this skill's first non-Contrast example, per Phase 3 of
+`agile-development`'s four-archetype example-authoring revision (see that
+skill's `references/example-authoring.md` for the full archetype spec; this
+skill depends on `agile-development` being installed alongside it for the
+tooling).
+
+- Scaffolded and filled
+  `examples/04-decision-tree-multi-skill-ambiguous-routing.md` (Decision-Tree
+  archetype, role "Lead Platform / Developer-Experience Engineer"): a request
+  touching multiple skills at once ("refactor this PyTorch training loop so a
+  paper's reproducibility section can describe it accurately"), the exact
+  scenario named in the source initiative's Phase 3 table for this skill.
+  Formalizes `SKILL.md`'s Behavior rules 2-4 into a 5-row triage matrix, and
+  adds one row not directly in those rules but implicit in them: when a
+  domain skill's own specific rule (`deep-learning`'s "training and eval
+  loops") already covers a code-change verb that `agile-development`'s
+  generic rule would also match, the domain skill is treated as sufficient
+  and `agile-development` is not separately invoked as a third skill.
+- `python3 ../agile-development/scripts/validate_skill_example.py
+  examples/04-decision-tree-multi-skill-ambiguous-routing.md` passes with no
+  structural or placeholder findings.
+- Added one row to `examples/README.md`'s index (now four columns) and the
+  new file to `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`. As with
+  every prior addition to this skill's `examples/`, this required adding a
+  matching stub file to `tests/test_skill_router.py`'s
+  `test_cli_reports_missing_readme_section` scratch-bundle fixture (same
+  regression mechanism noted in the two prior passes above, fixed the same
+  way) - the full suite was run and caught the omission on the first attempt
+  (1 failure), not assumed fixed from the pattern alone.
+- Re-ran `python3 scripts/validate_skill_bundle.py` (11 files OK, 4 routing
+  entries) and `python3 -m unittest discover -s tests -v` (7 tests, all
+  passing) after the fix.
+- Updated `SKILL.md`'s `agile-development` routing-rule bullet (Phase 4.1 of
+  the source initiative) to name all four archetypes by name instead of only
+  "a Weak vs. Expert contrast plus key takeaways."
+
+**Backlog (explicitly deferred, not silently missing):** three archetypes
+remain unpiloted for this skill, per the source initiative's Phase 3 backlog
+table - Contrast (routing-rule wording, ambiguous vs. precise), Execution
+Trajectory (one raw ambiguous request walked through rule-matching to
+invocation), and Gated Pipeline (adding a new routing rule without keyword
+collision, phase-gated on a collision check). None were started in this pass.
+
+## Example-authoring: expansion to 3 examples per archetype (2026-09-11)
+
+Per an explicit follow-up request ("expand number of examples to three
+examples per each archetype... These examples have very different
+content"), expanded Execution Trajectory, Gated Pipeline, and Decision-Tree
+from 1 example each to 3 each - 8 new files total (`05`-`12`), closing the
+Trajectory and Gated Pipeline backlog items noted above in full. The
+Contrast backlog item (routing-rule wording, ambiguous vs. precise) remains
+open and out of scope for this pass.
+
+Every new example is grounded in this skill's own live `SKILL.md` text (read
+fresh before writing, not paraphrased from memory) or in `scripts/
+validate_skill_bundle.py`'s actual parsing logic, and every literal command/
+grep/regex output shown was actually run and its real output used - two were
+caught and corrected during authoring, not after: a claimed `True` result
+from a substring check that was actually `False` until whitespace
+normalization was added (the routing bullets wrap across lines), and a
+claimed "zero collision" grep result for the word "pipeline" that was
+actually two real hits (`deep-learning`'s "tensor/pipeline/sequence" and
+`hep-analysis`'s "columnar pipelines") once the exact command was run instead
+of assumed clean.
+
+- **Execution Trajectory** (`05`-`07`, alongside existing `04`): `05` walks a
+  clean single-rule match (`academic-papers`) for a manuscript-abstract
+  request that is physics-adjacent but not analysis work; `06` routes a
+  "refactor... fix" ROOT-macro request to `hep-analysis` alone, since its
+  domain-specific rule outranks `agile-development`'s generic code-change
+  trigger for that exact code path (the same reasoning example `04`'s matrix
+  states, applied here as a single-request walk-through instead of a general
+  rule); `07` is a clean no-match case (a Wi-Fi troubleshooting request) with
+  zero keyword overlap with any rule at all, distinct from `03`'s single
+  false-positive-keyword case.
+- **Gated Pipeline** (`08`-`10`): `08` adds a new `devops-infrastructure`
+  routing rule, catches a real "pipeline" collision with two existing rules
+  at the Phase 1/2 collision-check gate, and catches a second, later
+  collision ("build," from the draft's own prose) only at the Phase 3
+  red-team stage - demonstrating why the final gate re-checks the drafted
+  bullet's *own* text, not just the original candidate keyword list; `09`
+  resolves a real observed ambiguity between `academic-papers` and
+  `hep-analysis` for figure/plot-interpretation requests, and its red-team
+  phase confirms a genuine two-layer request should still trigger the
+  existing primary/secondary rule rather than be treated as newly resolved;
+  `10` expands `hep-analysis`'s existing "root" carve-out after a real
+  false-positive category (a dental "root canal" question) and honestly logs
+  - rather than papering over - the structural fact that an enumerated
+  carve-out list can never be exhaustive against open-ended English idioms.
+- **Decision-Tree** (`11`-`12`, alongside existing `04`): `11` formalizes the
+  figure-interpretation boundary from `09` into a reusable 5-row matrix
+  covering `academic-papers`/`hep-analysis`/`deep-learning`; `12` handles a
+  request with four simultaneous surface keyword hits across two different
+  rules (LaTeX, fix, refactor, update, in a personal-resume request) where
+  every single hit resolves to "does not apply" on inspection - a harder case
+  than `03`'s one-keyword carve-out, and distinct from `04`'s "genuine
+  multi-skill match" case in the opposite direction (many surface matches,
+  zero real ones).
+- `python3 ../agile-development/scripts/validate_skill_example.py` reports
+  `ok` for all 8 new files - no structural or placeholder findings.
+- Added 8 rows to `examples/README.md`'s index and 8 new file paths to
+  `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`. As with every prior
+  addition to this skill's `examples/`, this required adding 8 matching stub
+  files to `tests/test_skill_router.py`'s
+  `test_cli_reports_missing_readme_section` scratch-bundle fixture (the same
+  regression mechanism noted in the two prior passes) - this time the fix
+  was applied before running the suite rather than found by a failure, and
+  the full suite was still run afterward to confirm rather than assumed.
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 19 files
+  present and non-empty, 4 routing entries", up from 11) and
+  `python3 -m unittest discover -s tests -v` ("Ran 7 tests" / "OK", unchanged
+  - this pass added example content and one test fixture update, not new
+  test cases) after all changes.
+
+**Archetype coverage is now symmetric**: every archetype (Contrast,
+Execution Trajectory, Gated Pipeline, Decision-Tree) has exactly 3 examples
+in this skill's `examples/`. The only remaining backlog item from the source
+initiative's Phase 3 table is the Contrast one noted above (routing-rule
+wording, ambiguous vs. precise) - not started here, since Contrast already
+has 3 examples and this pass's brief was the three non-Contrast archetypes.
+
 ## Limitations
 
 - `skill-router` contains no code that acts on real user requests - its entire
