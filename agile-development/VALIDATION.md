@@ -536,6 +536,42 @@ four skills (`deep-learning`, `hep-analysis`, `academic-papers`,
 `skill-router`) each still have exactly one pilot for their rolled-out
 archetype and are not touched here.
 
+## Consistency audit (2026-09-11)
+
+A second "check and reorganize" pass with no new content: re-read `SKILL.md`
+and `README.md` against the actual `references/` directory, diffed
+`scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` against every real file
+on disk, checked all relative Markdown links across the package for broken
+targets and the link-text/target mismatch pattern found in the 2026-09-10
+audit, re-ran every README-documented CLI command as written, and validated
+all 12 shipped `examples/*.md` files.
+
+- Found and fixed one real gap: `references/software-architecture.md` (added
+  during the four-archetype example-authoring work, used by examples `09` and
+  `10`, and already linked from `SKILL.md`'s "When to Load References") was
+  never added to `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`, so the
+  bundle validator was silently not checking that file's presence, and it was
+  never mentioned in `README.md`'s "Coverage and boundaries" paragraph, so the
+  package's own coverage summary was incomplete. Added the path (alphabetical
+  slot between `risk-and-quality.md` and `validation-and-done.md`, matching
+  the list's existing order) and one clause to the README paragraph
+  (architectural-decision recognition, boundaries/dependency direction, data
+  ownership, ADRs), in the same style as the paragraph's other reference
+  summaries.
+- No other inconsistencies found: every relative Markdown link resolves and
+  none show the link-text/target mismatch fixed on 2026-09-10; every
+  `references/*.md` file is linked from `SKILL.md`; `examples/README.md`'s
+  12-row index matches the 12 files actually in `examples/`; every
+  README-documented quick-check command (`create_story_card.py`,
+  `validate_agile_notes.py`, all four `generate_skill_example.py`
+  archetypes) was re-run and matched its documented behavior; no leftover
+  placeholder markers outside the documented zero-placeholder rule text
+  itself; `agents/openai.yaml` still consistent with `SKILL.md`.
+- Bundle validator now reports "Bundle OK: 38 files present and non-empty."
+  (up from 37 - the previously-untracked file, not new content). Full test
+  suite (73 tests) and all 12 `validate_skill_example.py` runs re-confirmed
+  clean after the fix.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

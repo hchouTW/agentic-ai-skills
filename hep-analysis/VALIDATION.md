@@ -732,6 +732,64 @@ systematics writeup, weak vs. expert, from the source initiative's backlog
 table, remains unstarted); the other three archetypes are now at parity with
 Contrast at 3 examples each.
 
+## Consistency audit (2026-09-11)
+
+A further "check and reorganize" pass, in the same spirit as the same-day
+audits of the four sibling skills (each of which found and fixed a real
+coverage-documentation gap in `README.md` or its equivalent). Diffed
+`scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` against every real file
+on disk, checked every relative Markdown link in the package for a broken
+target (using an anchor-aware resolver, matching the method from the
+2026-09-10 Cross-repository consistency follow-up above), swept for
+`[[wiki-link]]` syntax, confirmed every `references/*.md`/`scripts/*`/
+`assets/*` file is mentioned in `SKILL.md`, re-ran all 17 stdlib-only
+README-documented quick-check commands plus `check_root_cpp_env.sh` live,
+syntax-checked every `scripts/*.py` file, and validated all 12 shipped
+`examples/*.md` files.
+
+- **Found and fixed a real gap**, the same class found the same day in
+  `agile-development`, `deep-learning`, and `academic-papers`:
+  `README.md`'s "Coverage and boundaries" paragraph omitted two topics that
+  `SKILL.md`'s own reference-routing table links to explicitly -
+  `references/09-statistical-tools.md` (pyhf/HistFactory/Combine
+  workspace-and-datacard model mapping: channels, `normfactor`/`normsys`/
+  `histosys`/`shapesys`, shared-parameter naming) and
+  `references/19-cpp-balanced-design-guidelines.md` (general C++ class/
+  struct/RAII/ownership design, as distinct from the ROOT-specific coding
+  conventions already named in the same sentence). The only pre-existing
+  mentions of "pyhf"/"Combine" in `README.md` were in the "Quick checks"
+  section's execution-environment caveat, not in the coverage description
+  itself. Added one clause for each to the first coverage paragraph, in the
+  same itemized style as the surrounding text; left `SKILL.md`'s own
+  frontmatter `description` unchanged, since (unlike `deep-learning`'s, which
+  is an exhaustive itemized list) it is already a deliberately terser summary
+  that omits many other reference topics by name (debugging, code
+  conventions, Python HEP coding) and already names pyhf/Combine once via
+  "RooFit/RooStats/pyhf/Combine".
+- Considered `references/13-sources.md` (primary-source/version-check
+  methodology) for the same treatment and judged it out of scope: it is
+  process guidance about how this package sources its own content, not a
+  user-facing analysis topic the coverage paragraph enumerates elsewhere
+  (comparable to `VALIDATION.md` itself not being described in coverage).
+- No other inconsistencies found: `REQUIRED_PATHS` (107 entries) matches the
+  file tree exactly in both directions; the one `VALIDATION.md` hit from a
+  broken-link grep was a false positive - quoted historical text inside this
+  file's own 2026-09-10 entry describing an already-fixed bug, not a live
+  link (confirmed by reading the surrounding paragraph and the actual live
+  link two paragraphs above it, which already carries the `references/`
+  prefix); the one `[[wiki-link]]` hit was the same kind of historical quote
+  inside that same entry; all 17 stdlib scripts plus `check_root_cpp_env.sh`
+  ran exactly as documented; every `.py` file under `scripts/` parses with no
+  syntax errors; all 12 examples pass `agile-development`'s
+  `validate_skill_example.py`, 3 per archetype, `examples/README.md`'s index
+  (12 rows) matches; `agents/openai.yaml` is a high-level category summary
+  (same design choice as `deep-learning`'s and `skill-router`'s) and needed
+  no change.
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 107 files
+  present and non-empty.", unchanged - no new files) and
+  `python3 -m unittest discover -s tests -v` ("Ran 172 tests" / "OK",
+  unchanged) after the fix.
+
 ## Limitations
 
 - ROOT is not installed in the validation environment, so `check_root_cpp_env.sh`

@@ -28,6 +28,7 @@ REQUIRED_PATHS = [
     "references/implementation-discipline.md",
     "references/product-framing.md",
     "references/risk-and-quality.md",
+    "references/software-architecture.md",
     "references/validation-and-done.md",
     "references/example-authoring.md",
     "assets/completion-summary.md",

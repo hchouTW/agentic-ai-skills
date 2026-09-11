@@ -309,3 +309,52 @@ entry's backlog. The only remaining deferred item for this skill is the
 Contrast archetype's fourth topic (a referee-response rewrite distinct from
 the three Contrast examples already shipped) - not part of this follow-up
 request, since it asked specifically about the three non-Contrast archetypes.
+
+## Consistency audit (2026-09-11)
+
+A further "check and reorganize" pass, in the same spirit as the sibling
+`agile-development`/`deep-learning` audits run the same day, which found and
+fixed a real coverage-documentation gap in each of those packages. Re-ran
+`scripts/validate_skill_bundle.py` and the full test suite, checked every
+relative Markdown link across the package for a broken target, swept for
+`[[wiki-link]]` syntax, cross-checked `README.md`'s "What's inside" file-tree
+diagram (this package documents its layout as a literal tree with a one-line
+comment per file, unlike the prose "Coverage and boundaries" paragraph used
+by the sibling skills) against every actual file under `references/`, and
+validated all 12 shipped `examples/*.md` files.
+
+- **Found and fixed a real gap**, the same class already found the same day
+  in `agile-development` and `deep-learning`: `scripts/validate_skill_bundle.py`
+  only checks that every `references/`/`scripts/`/`assets/` file is mentioned
+  *somewhere in `SKILL.md`* (it passed, correctly - all three files are
+  linked there), so it cannot catch a file missing from `README.md`'s
+  separate file-tree diagram, which is documentation, not something the
+  validator checks. Three existing, `SKILL.md`-linked reference files were
+  missing from that tree: `references/mathematical-reasoning-and-proof.md`,
+  `references/statistical-inference-for-physics.md`, and
+  `references/numerical-and-computational-methods.md` (all three sit between
+  `equation-and-notation-auditing.md` and `claim-evidence-mapping.md` in
+  `SKILL.md`'s own "Verification and auditing" ordering, which is where they
+  were inserted into the tree, each with a one-line summary drawn from its
+  `SKILL.md` description). Also added an `examples/` entry to the same tree
+  (a two-line group summary rather than all 12 files individually, matching
+  the tree's existing terseness for `tests/`), since the entire directory -
+  12 example files plus its own `README.md` - was absent from a diagram that
+  otherwise claims to be the package's file layout.
+- No other inconsistencies found: every `references/*.md` filename now
+  appears in `README.md`'s tree (verified by grepping each of the 34 actual
+  filenames against the file); no broken relative links; no live
+  `[[wiki-link]]` syntax (only the historical, already-fixed mention inside
+  this file's own 2026-09-10 entry above); `agents/openai.yaml`'s
+  `short_description` remains a high-level category summary rather than an
+  enumeration (consistent with the same design choice made for `deep-learning`
+  and `skill-router`'s `openai.yaml` files), so it needed no change for the
+  three newly-tree-documented files; all 12 examples pass
+  `agile-development`'s `validate_skill_example.py`, 3 per archetype,
+  `examples/README.md`'s index (12 rows) matches; both bundled scripts
+  (`build_lit_matrix.py`, `check_manuscript.py`) were re-run exactly as
+  `README.md` documents and matched.
+- Re-ran `python3 scripts/validate_skill_bundle.py` (`OK: ... passed all
+  checks.`) and `python3 -m unittest discover -s tests -v` (27 tests,
+  unchanged - this pass edited `README.md` documentation only, no new
+  test-relevant code) after the fix.

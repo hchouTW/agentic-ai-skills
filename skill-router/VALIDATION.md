@@ -299,6 +299,35 @@ initiative's Phase 3 table is the Contrast one noted above (routing-rule
 wording, ambiguous vs. precise) - not started here, since Contrast already
 has 3 examples and this pass's brief was the three non-Contrast archetypes.
 
+## Consistency audit, no defects found (2026-09-11)
+
+A "check and reorganize" pass with no content changes: re-ran the bundle
+validator and full test suite, diffed `REQUIRED_PATHS` against every file
+actually on disk, checked every relative Markdown link across the package
+(including `examples/README.md`'s cross-repository link into
+`agile-development/references/example-authoring.md`) for a broken target,
+swept for `[[wiki-link]]` syntax, validated all 12 `examples/*.md` files with
+`agile-development`'s `validate_skill_example.py`, cross-checked
+`examples/README.md`'s Archetype column against each file's actual
+`archetype:` frontmatter (or its absence, for the three pre-archetype-field
+legacy files `01`-`03`, which the shared validator treats as Contrast), and
+re-read `SKILL.md`, `README.md`, and `agents/openai.yaml` end to end for
+staleness against each other.
+
+- No defects found. `scripts/validate_skill_bundle.py` reports "Bundle OK: 19
+  files present and non-empty, 4 routing entries found (academic-papers,
+  agile-development, deep-learning, hep-analysis)." with no path missing from
+  `REQUIRED_PATHS` or vice versa; all 7 tests in
+  `tests/test_skill_router.py` pass, including the scratch-bundle fixture in
+  `test_cli_reports_missing_readme_section`, which still lists all 12
+  `examples/` stub files; all 12 real example files validate clean; every
+  link resolves; `agents/openai.yaml`'s `short_description`/`default_prompt`
+  still name all four routed skills.
+- This is a smaller surface than `agile-development`'s equivalent audit the
+  same day (which found and fixed a real gap): `skill-router` ships no
+  `references/` or `assets/` directory and only one script, so there was
+  correspondingly less for documentation to drift out of sync with.
+
 ## Limitations
 
 - `skill-router` contains no code that acts on real user requests - its entire

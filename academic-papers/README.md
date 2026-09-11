@@ -54,6 +54,9 @@ academic-papers/
 │   ├── reproducibility-auditing.md              # tracing results to methods, data, code, configs, and execution evidence
 │   ├── code-review-report.md                    # paper-to-code alignment, documentation, and packaging review; delegates deep technical review to deep-learning/hep-analysis
 │   ├── equation-and-notation-auditing.md        # definitions, dimensions, index/shape consistency, derivation-step checks
+│   ├── mathematical-reasoning-and-proof.md      # proof-status taxonomy (formal through conjecture), approximation validity, counterexample search
+│   ├── statistical-inference-for-physics.md     # likelihood/frequentist/Bayesian inference checks, significance-language calibration
+│   ├── numerical-and-computational-methods.md   # numerical convergence, optimization pitfalls, MCMC validation, circular-validation/leakage detection
 │   ├── claim-evidence-mapping.md                # connecting central claims to results/derivations/citations, flagging unsupported generalizations
 │   ├── logical-consistency-and-argument-uniformity.md  # cross-section contradictions, dropped assumptions, fallacious inference, definitional drift
 │   ├── manuscript-consistency-auditing.md       # reconciling repeated results, uncertainty conventions, and conclusions across a paper
@@ -71,6 +74,9 @@ academic-papers/
 │   ├── artifact-packaging-for-release.md        # preparing code/data for public release: README, pinned environment, license
 │   ├── grant-and-fellowship-proposal-writing.md # Specific Aims, preliminary-results vs. proposed-work, broader-impacts, budget justification
 │   └── thesis-by-publication-assembly.md        # assembling a thesis from already-published papers, permissions, per-chapter contributions
+├── examples/
+│   ├── README.md                  # index of the 12 canonical worked examples below (3 per archetype)
+│   └── 01-...12-*.md              # Contrast/Execution-Trajectory/Gated-Pipeline/Decision-Tree worked examples in this skill's own domain
 ├── scripts/
 │   ├── build_lit_matrix.py       # CSV of reading notes -> formatted markdown comparison table
 │   ├── check_manuscript.py       # pre-submission checker for the user's .tex/.bib files

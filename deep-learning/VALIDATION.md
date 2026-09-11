@@ -529,6 +529,53 @@ No defects were found in the new content itself. This skill's `examples/`
 directory now has 3 Contrast, 3 Execution Trajectory, 3 Gated Pipeline, and 3
 Decision-Tree examples (12 total), closing out all four archetypes at parity.
 
+## Consistency audit (2026-09-11)
+
+A "check and reorganize" pass with no new reference/asset/example content:
+diffed `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` against every
+real file on disk, checked every relative Markdown link across the package
+for a broken target, swept for `[[wiki-link]]` syntax, confirmed every
+`references/*.md` and `scripts/*.py`/`assets/*` file is mentioned at least
+once in `SKILL.md`, re-ran every README-documented quick-check command live
+(including the PyTorch-dependent ones - `check_pytorch_env.py` reports
+PyTorch 2.11.0 present in this environment, unlike the 2026-09-05 pass's
+environment, so this pass could exercise them directly rather than relying on
+`--help`/absence-message checks alone), validated all 12 shipped
+`examples/*.md` files, and cross-checked `examples/README.md`'s Archetype
+column against each file's actual `archetype:` frontmatter.
+
+- Found and fixed one real gap, the same class as the one found the same day
+  in the sibling `agile-development` audit: `README.md`'s "Coverage and
+  boundaries" paragraph, and `SKILL.md`'s frontmatter `description`, both
+  enumerate this package's reference topics one by one but omitted two
+  reference files that exist, are non-empty, are in `REQUIRED_PATHS`, and are
+  linked from `SKILL.md`'s "When to Load References" table -
+  `references/transfer-learning.md` (replacing a classifier head,
+  freezing/unfreezing, backbone-vs-head optimizer parameter groups, BatchNorm
+  under freezing) and `references/evaluation-metrics.md` (batch/rank-aware
+  metric aggregation, classification metrics including macro F1/per-class
+  recall/ROC-AUC/PR-AUC for imbalance, MAE/RMSE for regression, and
+  validation-protocol pitfalls like leaking a scaler/tokenizer fit into
+  validation data). Added one clause per file to `README.md`'s coverage
+  paragraph and to `SKILL.md`'s frontmatter description, in the same
+  itemized style as the surrounding text. Also tightened the adjacent
+  C++/LibTorch boundary sentence in `README.md` from a pure double-negative
+  ("does not cover general C++ unrelated to LibTorch/custom ops") to state
+  the positive coverage first, matching how every other reference is
+  described in that paragraph.
+- No other inconsistencies found: `REQUIRED_PATHS` (75 entries) matches the
+  actual file tree exactly in both directions; no broken links; no live
+  `[[wiki-link]]` syntax (only the historical, already-fixed mention inside
+  this file's own earlier entry describing that fix); every other
+  `references/*.md`/script/asset is mentioned in `SKILL.md`; all 12 examples
+  pass `agile-development`'s `validate_skill_example.py` with no structural
+  or placeholder findings, 3 per archetype, index and frontmatter agree.
+- Bundle validator and full test suite re-run clean after the fix:
+  `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 75 files present
+  and non-empty.", unchanged - no new files, only two existing files edited)
+  and `python3 -m unittest discover -s tests -v` ("Ran 106 tests" / "OK
+  (skipped=2)", unchanged).
+
 ## Limitations
 
 - **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that
