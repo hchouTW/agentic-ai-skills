@@ -1,7 +1,7 @@
 # Authoring a Canonical Skill Example
 
 How to produce a `<skill>/examples/` entry: a complete, production-ready worked
-example for a realistic scenario in that skill's domain, in whichever of four
+example for a realistic scenario in that skill's domain, in whichever of eight
 **archetypes** fits the scenario. Use this when asked to "author," "generate,"
 or "add a canonical example" (in any archetype) for `agile-development` itself
 or for another installed skill.
@@ -17,18 +17,25 @@ package's own Decision-Tree archetype in miniature:
 | Walking a single raw input (a bug report, an incident page) start-to-finish through triage, execution, and verification | **[A] Execution Trajectory** |
 | Building one complex artifact incrementally, where each stage must clear an explicit acceptance gate before the next starts | **[B] Gated Pipeline** |
 | Choosing among several plausible responses to an ambiguous trigger, then committing to and executing one | **[C] Decision-Tree** |
+| Starting from a vague, underspecified request and needing to demonstrate structured clarification before committing to a spec | **[E] Interactive Elicitation ("Grill-Me")** |
+| Stress-testing a seemingly sound artifact to surface non-obvious failure modes before it ships | **[R] Adversarial Audit / Red-Teaming** |
+| Demonstrating a strict test-first workflow for a demanding, checkable target | **[T] Test-First / Red-to-Green** |
+| Reconstructing a high-severity incident from first alert to permanent fix | **[P] Incident Postmortem & RCA** |
 
 If a scenario could fit two archetypes, prefer the one whose fixed sections
 already match the scenario's natural shape (e.g. a scenario with real
 pass/fail checkpoints is Gated Pipeline even if it could be flattened into a
-Trajectory).
+Trajectory; a scenario driven by an ambiguous *request* is Elicitation, while
+one driven by a finished *artifact* under attack is Adversarial Audit).
 
-## The four generation prompts
+## The eight generation prompts
 
 The reusable core - each archetype's literal template, with its blanks bound
-to concrete values before running it. All four share the same opening clause
-and a seniority word that escalates with the archetype's scope and authority
-(see "Role/seniority convention" below).
+to concrete values before running it. The first four share the same opening
+clause and a seniority word that escalates with the archetype's scope and
+authority (see "Role/seniority convention" below). The second four - [E], [R],
+[T], [P] - instead attach a distinct actor *stance* per archetype rather than
+scaling on seniority alone (see "Actor-stance convention" below).
 
 **Contrast**
 ```
@@ -71,13 +78,59 @@ complete, end-to-end execution script showing exact actions, communication
 scripts, and fallback safeguards.
 ```
 
+**[E] Interactive Elicitation ("Grill-Me")**
+```
+Act as a principal {role} to create an interactive elicitation example for
+`{skill}/examples/` in the `{skill}` skill. Starting from an underspecified, vague
+{user_request}, demonstrate how the agent avoids hallucination and conducts a
+structured inquiry. Structure the artifact as: 1. Raw Ambiguous Input, 2. Missing
+Constraint Analysis, 3. Socratic Clarification Round (3-4 high-impact,
+multiple-choice questions), 4. User Feedback Integration, and 5. Final
+Mutually-Agreed Specification Document.
+```
+
+**[R] Adversarial Audit / Red-Teaming**
+```
+Act as a ruthless {role} (e.g., Lead Auditor / Red-Teamer) to create an
+adversarial stress-testing example for `{skill}/examples/` in the `{skill}`
+skill. Given a seemingly sound {candidate_artifact}, actively attack it to
+uncover non-obvious failure modes. Structure the artifact as: 1. Initial
+Candidate Artifact, 2. Attack Vectors & Stress-Tests (identifying specific
+mathematical, logical, or security flaws), 3. Concrete Counter-Example / Exploit
+Proof, 4. Hardened Architectural Patch, and 5. Proof of Robustness Post-Fix.
+```
+
+**[T] Test-First / Red-to-Green**
+```
+Act as a test-driven {role} to create a Red-to-Green specification example for
+`{skill}/examples/` in the `{skill}` skill. For a demanding {target}, demonstrate
+a strict test-first implementation workflow. Structure the artifact as:
+1. Acceptance Invariants & Boundary Constraints, 2. Executable Failing Test (Red)
+with raw terminal failure output, 3. Minimal Code Implementation, 4. Verified
+Passing Execution (Green) with performance metrics, and 5. Regression Guard
+Summary.
+```
+
+**[P] Incident Postmortem & RCA**
+```
+Act as a Site Reliability / Principal {role} to create a postmortem
+incident-response example for `{skill}/examples/` in the `{skill}` skill.
+Reconstruct a high-severity {incident} from triage to permanent fix. Structure
+the artifact as: 1. Incident Symptom & Alert Payload, 2. Immediate Triage &
+Blast-Radius Mitigation (rollback or bypass), 3. 5-Whys Root Cause Deep-Dive,
+4. Permanent Surgical Fix (Diff), and 5. Blameless Postmortem & Preventative
+Monitoring Rules.
+```
+
 Common blanks:
 - `{role}` - a specific seniority + specialty (e.g. "Staff Software Engineer",
   "Senior Experimental Particle Physicist"), not a generic "expert."
 - `{skill}` - the target skill's folder name (e.g. `hep-analysis`).
 - `{domain_use_case}` / `{problem_input}` / `{high_stakes_task}` /
-  `{challenging_scenario_with_edge_cases}` - a concrete, narrow scenario
-  grounded in that skill's own reference material, not invented or generic.
+  `{challenging_scenario_with_edge_cases}` / `{user_request}` /
+  `{candidate_artifact}` / `{target}` / `{incident}` - a concrete, narrow
+  scenario grounded in that skill's own reference material, not invented or
+  generic.
 - `{n}` (Contrast only) - the number of key takeaways; default 4, minimum 3,
   maximum 6.
 
@@ -99,11 +152,24 @@ Each archetype escalates the actor's seniority on purpose:
 | Gated Pipeline | **principal** | High-stakes, multi-phase construction against external (regulatory/evaluation) criteria - needs the authority to define acceptance gates. |
 | Decision-Tree | **lead** | Requires the standing to define a triage matrix and commit to a branch on others' behalf, including fallback/communication responsibility. |
 
+### Actor-stance convention (second wave - not a plain seniority ladder)
+
+[E]/[R]/[T]/[P] don't scale on seniority alone - each attaches a distinct
+*stance* the generating agent must adopt. Keep this as an authoring rule:
+
+| Archetype | Actor framing | Why that framing matters |
+|---|---|---|
+| [E] Elicitation | principal {role} | Needs standing to decide the specification is final, not just to ask questions. |
+| [R] Adversarial Audit | **ruthless** {role} (Lead Auditor / Red-Teamer) | The example fails its purpose if the "attack" is polite or superficial - the stance word is load-bearing, not decorative. |
+| [T] Test-First | **test-driven** {role} | The workflow only teaches the right lesson if Red genuinely comes before Green - a role note, reinforced by section order. |
+| [P] Postmortem | Site Reliability / Principal {role} | Needs incident-command authority (can order a rollback) and blameless-postmortem authority (can write the final RCA). |
+
 ## Workflow
 
 1. **Scaffold.** Run `scripts/generate_skill_example.py` with `--archetype`,
    `--skill`, `--role`, and that archetype's scenario flag (`--use-case` /
-   `--problem-input` / `--high-stakes-task` / `--scenario`; `--takeaways` is
+   `--problem-input` / `--high-stakes-task` / `--scenario` / `--user-request` /
+   `--candidate-artifact` / `--target` / `--incident`; `--takeaways` is
    valid only with `--archetype contrast`) to emit an empty skeleton with the
    right frontmatter and section headers at the right path - mirrors how
    `create_story_card.py` scaffolds a story card without inventing the story.
@@ -124,11 +190,12 @@ Each archetype escalates the actor's seniority on purpose:
 
 ## Format specification
 
-Shared conventions across all four archetypes:
+Shared conventions across all eight archetypes:
 
 - **File location:** `<skill>/examples/<NN>-<archetype>-<slug>.md`, where
   `archetype` is one of `contrast`, `trajectory`, `gated-pipeline`,
-  `decision-tree` - a two-digit prefix for stable ordering, plus one
+  `decision-tree`, `elicitation`, `adversarial-audit`, `test-first`,
+  `postmortem` - a two-digit prefix for stable ordering, plus one
   `<skill>/examples/README.md` index.
 - **Frontmatter:** `role:`, `skill:`, `archetype:`, plus one archetype-specific
   scenario field (see below), so the validator and index generator can read it
@@ -143,6 +210,14 @@ Shared conventions across all four archetypes:
   complete and literal, not illustrative.
 - **Language.** English, matching this repository's rule that all maintained
   instructions, templates, and metadata are in English.
+- **Diversity rule (second wave: [E]/[R]/[T]/[P]).** When authoring a batch of
+  examples in one of these four archetypes across multiple skills, no two
+  files sharing an `archetype:` value should also share a `skill:` value -
+  each archetype's examples should be drawn from different domains so the
+  differentiation is structural, not just stylistic.
+  `scripts/check_example_diversity.py` checks this mechanically across a set
+  of files; it is a floor (same skill never repeats within an archetype), not
+  a substitute for curating conceptually distinct failure modes or scenarios.
 
 **Contrast** - `## Scenario`, `## Common Weak Approach`, `## Expert-Level Best
 Practice`, `## Key Takeaways` (bulleted, default N = 4, min 3 / max 6).
@@ -175,6 +250,45 @@ branch: actions, any communication script verbatim, not summarized), `##
 Fallback Safeguards` (what happens if the chosen branch's primary action fails
 or the trigger was misclassified). Frontmatter scenario field: `scenario:`.
 
+**[E] Elicitation** - five fixed sections in order: `## 1. Raw Ambiguous
+Input`, `## 2. Missing Constraint Analysis`, `## 3. Socratic Clarification
+Round`, `## 4. User Feedback Integration`, `## 5. Final Mutually-Agreed
+Specification Document`. Section 3 must contain exactly 3 or 4 questions,
+each with lettered multiple-choice options (a numbered question line followed
+by `a)`/`b)`/... option lines) - a question with no options fails.
+Frontmatter scenario field: `user_request:`.
+
+**[R] Adversarial Audit** - `## 1. Initial Candidate Artifact`, `## 2. Attack
+Vectors & Stress-Tests`, `## 3. Concrete Counter-Example / Exploit Proof`,
+`## 4. Hardened Architectural Patch`, `## 5. Proof of Robustness Post-Fix`.
+Section 2 must enumerate at least 2 distinct, separately-labeled attack
+vectors (not one paragraph of prose); section 3 must contain a literal
+artifact (failing input, exploit payload, or a disproof step), not a
+description of one; section 4 must be a diff or an explicit corrected
+artifact, not prose describing a fix. Frontmatter scenario field:
+`candidate_artifact:`.
+
+**[T] Test-First** - `## 1. Acceptance Invariants & Boundary Constraints`,
+`## 2. Executable Failing Test (Red)`, `## 3. Minimal Code Implementation`,
+`## 4. Verified Passing Execution (Green)`, `## 5. Regression Guard Summary`.
+Section 2 must contain a fenced block showing an actual failure (`FAILED`,
+`AssertionError`, non-zero exit, or equivalent) - prose alone fails
+validation; section 4 must contain a fenced block showing a pass plus at
+least one concrete numeric metric (latency, throughput, tolerance, coverage
+%). Frontmatter scenario field: `target:`.
+
+**[P] Postmortem** - `## 1. Incident Symptom & Alert Payload`, `## 2.
+Immediate Triage & Blast-Radius Mitigation`, `## 3. 5-Whys Root Cause
+Deep-Dive`, `## 4. Permanent Surgical Fix (Diff)`, `## 5. Blameless
+Postmortem & Preventative Monitoring Rules`. Section 1 must include a
+literal fenced alert/log payload; section 3 must contain exactly 5 numbered
+"Why" steps, each one cause-to-effect sentence, terminating in a genuine
+root cause (not "human error" as a stopping point - that fails a
+lightweight blamelessness check); section 4 must be a diff; section 5 must
+name at least one concrete, checkable monitoring rule (a metric + threshold
++ action), not "add more monitoring". Frontmatter scenario field:
+`incident:`.
+
 ## Correctness review
 
 The validator enforces structure, per-archetype rules (gate lines, table
@@ -187,6 +301,15 @@ not a mechanical one. Treat all of this as a review step, not something to
 automate away: before merging a new example, have it read (or, for runnable
 code, executed) by someone - or an agent with that skill's own `references/`
 loaded - able to judge that domain.
+
+Postmortem's "5-Whys must reach a real root cause" check is only lightly
+mechanical: the validator can grep for "human error" as a lazy stop, but it
+cannot verify the causal chain is *actually* correct - that stays a
+domain-review responsibility, same as for the other archetypes' technical
+content. Likewise, `check_example_diversity.py` only guarantees distinct
+skills per archetype; it cannot guarantee the failure modes are conceptually
+distinct - treat it as a floor on top of hand-curated scenario selection, not
+a substitute for it.
 
 ## Cross-skill use
 

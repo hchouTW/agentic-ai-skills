@@ -572,6 +572,69 @@ all 12 shipped `examples/*.md` files.
   suite (73 tests) and all 12 `validate_skill_example.py` runs re-confirmed
   clean after the fix.
 
+## Second-wave example-authoring tooling pass (2026-09-12)
+
+Extended the example-authoring capability with four new archetypes -
+Interactive Elicitation ("Grill-Me"), Adversarial Audit / Red-Teaming,
+Test-First / Red-to-Green, and Incident Postmortem & RCA - alongside the
+existing Contrast/Trajectory/Gated Pipeline/Decision-Tree set, plus a new
+cross-skill diversity rule and checker. This pass covers the tooling only
+(Phase 0/1); the 12 planned examples across 5 skills land in a later pass.
+
+- `references/example-authoring.md`: added the four archetypes' generation
+  prompts, format specs, and section rules; added the "Actor-stance
+  convention (second wave)" table (Elicitation: principal; Adversarial
+  Audit: ruthless; Test-First: test-driven; Postmortem: Site
+  Reliability/Principal); added the "Diversity rule" to the shared-conventions
+  list; added a caveat under "Correctness review" noting the 5-Whys
+  root-cause check and the diversity checker are both mechanical floors, not
+  substitutes for domain/curation review; extended "Which archetype fits?"
+  with all four new triggers.
+- `SKILL.md`: extended the "Authoring a canonical worked example" reference
+  line to name all eight archetypes, added one example prompt per new
+  archetype, and re-worded the frontmatter `description` to name all eight
+  archetypes while trimming two other clauses ("lightweight" ->  dropped,
+  "even without saying" -> "without saying") to stay within the 1024-char
+  frontmatter budget (984 -> 1015 chars).
+- `scripts/generate_skill_example.py`: added `elicitation`,
+  `adversarial-audit`, `test-first`, and `postmortem` to `ARCHETYPES` and
+  `SCENARIO_FIELD`, added a `_build_*` skeleton function and CLI flag
+  (`--user-request`/`--candidate-artifact`/`--target`/`--incident`) for each -
+  the existing mutual-exclusion and required-scenario-flag validation in
+  `parse_args` is generic over `SCENARIO_FIELD` and needed no changes.
+- `scripts/validate_skill_example.py`: added the same four archetypes to
+  `ARCHETYPES`/`SCENARIO_FIELD`/`REQUIRED_SECTIONS`, plus one check function
+  each: `check_elicitation` (exactly 3-4 numbered questions, each with
+  lettered options), `check_adversarial_audit` (>=2 distinctly-numbered
+  "Attack Vector" labels, fenced artifacts in sections 3 and 4),
+  `check_test_first` (a raw failure marker in section 2's fenced block, a
+  numeric metric in section 4's), and `check_postmortem` (a fenced
+  alert/log payload in section 1, exactly 5 numbered Why-steps with no
+  "human error" stop in section 3, a fenced diff in section 4, a
+  metric+action monitoring rule in section 5).
+- `scripts/check_example_diversity.py` (new): groups a set of example files
+  by `archetype:`/`skill:` frontmatter and reports any archetype group where
+  two files share a skill. Reuses `validate_skill_example.parse_frontmatter`
+  rather than re-implementing frontmatter parsing.
+- `scripts/validate_skill_bundle.py`: added `scripts/check_example_diversity.py`
+  to `REQUIRED_PATHS`.
+- `README.md`: added the five new-archetype/diversity-checker commands to
+  "Quick checks" (all re-run as documented, including a deliberate check that
+  `check_example_diversity.py` correctly flags the 12 existing
+  same-skill examples as violations for their own archetypes - expected,
+  since the diversity rule is scoped to the new second-wave archetypes, not
+  retroactive); extended the "Coverage and boundaries" archetype list to all
+  eight.
+- `tests/test_example_authoring.py`: added one scaffold test and one
+  `Validate*Tests` class per new archetype (18 new tests: valid-passes,
+  1-2 targeted violation cases, and scaffold-fails-until-filled, mirroring
+  the existing four archetypes' test shape), plus a `DiversityCheckerTests`
+  class (4 tests: no-violation across skills, violation on repeated skill,
+  and both as CLI invocations). Full suite: 98 tests, all passing
+  (`python3 -m unittest discover -s tests -v`).
+- `scripts/validate_skill_bundle.py` reports "Bundle OK: 40 files present and
+  non-empty." (up from 38 - one new script).
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

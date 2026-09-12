@@ -41,6 +41,7 @@ REQUIRED_PATHS = [
     "scripts/validate_skill_bundle.py",
     "scripts/generate_skill_example.py",
     "scripts/validate_skill_example.py",
+    "scripts/check_example_diversity.py",
     "tests/test_agile_skill.py",
     "tests/test_example_authoring.py",
     "examples/README.md",

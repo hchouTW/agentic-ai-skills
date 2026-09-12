@@ -7,8 +7,9 @@ delivery notes. See references/example-authoring.md for the four archetypes and
 the format each checks against.
 
 What it does: reads the frontmatter `archetype:` field (`contrast`, `trajectory`,
-`gated-pipeline`, or `decision-tree`) to pick that archetype's rule set - a file
-with no `archetype:` field is treated as `contrast`, for backward compatibility
+`gated-pipeline`, `decision-tree`, `elicitation`, `adversarial-audit`,
+`test-first`, or `postmortem`) to pick that archetype's rule set - a file with
+no `archetype:` field is treated as `contrast`, for backward compatibility
 with examples written before this script became archetype-aware. It then checks
 that `role`/`skill`/the archetype's scenario field are present and non-empty in
 frontmatter, that the archetype's fixed sections are present in order, the
@@ -25,6 +26,20 @@ Archetype-specific rules:
   line; "Phase 3: ..." additionally mentions an "assumption" it stress-tested.
 - `decision-tree`: "Triage Matrix" contains a markdown table with a
   Trigger/Resolution Strategy header and at least 3 data rows.
+- `elicitation`: "3. Socratic Clarification Round" has exactly 3 or 4
+  numbered questions, each with lettered multiple-choice options.
+- `adversarial-audit`: "2. Attack Vectors & Stress-Tests" enumerates at least
+  2 distinct, separately-labeled attack vectors; "4. Hardened Architectural
+  Patch" contains a fenced code block (diff or corrected artifact).
+- `test-first`: "2. Executable Failing Test (Red)" contains a fenced block
+  with a failure marker (FAILED/AssertionError/Error/non-zero exit); "4.
+  Verified Passing Execution (Green)" contains a fenced block plus a numeric
+  metric.
+- `postmortem`: "1. Incident Symptom & Alert Payload" contains a fenced
+  block; "3. 5-Whys Root Cause Deep-Dive" has exactly 5 numbered Why steps and
+  does not stop at "human error"; "4. Permanent Surgical Fix (Diff)" contains
+  a fenced diff block; "5. Blameless Postmortem & Preventative Monitoring
+  Rules" names a concrete metric+threshold monitoring rule.
 
 Usage: `python3 scripts/validate_skill_example.py <file.md>`. Exits 0 and prints
 "<file>: ok" on success; exits 1 with a description of every problem found;
@@ -38,13 +53,26 @@ import argparse
 import re
 from pathlib import Path
 
-ARCHETYPES = ["contrast", "trajectory", "gated-pipeline", "decision-tree"]
+ARCHETYPES = [
+    "contrast",
+    "trajectory",
+    "gated-pipeline",
+    "decision-tree",
+    "elicitation",
+    "adversarial-audit",
+    "test-first",
+    "postmortem",
+]
 
 SCENARIO_FIELD = {
     "contrast": "use_case",
     "trajectory": "problem_input",
     "gated-pipeline": "high_stakes_task",
     "decision-tree": "scenario",
+    "elicitation": "user_request",
+    "adversarial-audit": "candidate_artifact",
+    "test-first": "target",
+    "postmortem": "incident",
 }
 
 REQUIRED_SECTIONS = {
@@ -62,6 +90,34 @@ REQUIRED_SECTIONS = {
         "Phase 3: Red-Team Review & Final Artifact Packaging",
     ],
     "decision-tree": ["Triage Matrix", "Selected Branch", "End-to-End Execution Script", "Fallback Safeguards"],
+    "elicitation": [
+        "1. Raw Ambiguous Input",
+        "2. Missing Constraint Analysis",
+        "3. Socratic Clarification Round",
+        "4. User Feedback Integration",
+        "5. Final Mutually-Agreed Specification Document",
+    ],
+    "adversarial-audit": [
+        "1. Initial Candidate Artifact",
+        "2. Attack Vectors & Stress-Tests",
+        "3. Concrete Counter-Example / Exploit Proof",
+        "4. Hardened Architectural Patch",
+        "5. Proof of Robustness Post-Fix",
+    ],
+    "test-first": [
+        "1. Acceptance Invariants & Boundary Constraints",
+        "2. Executable Failing Test (Red)",
+        "3. Minimal Code Implementation",
+        "4. Verified Passing Execution (Green)",
+        "5. Regression Guard Summary",
+    ],
+    "postmortem": [
+        "1. Incident Symptom & Alert Payload",
+        "2. Immediate Triage & Blast-Radius Mitigation",
+        "3. 5-Whys Root Cause Deep-Dive",
+        "4. Permanent Surgical Fix (Diff)",
+        "5. Blameless Postmortem & Preventative Monitoring Rules",
+    ],
 }
 
 MIN_TAKEAWAYS = 3
@@ -73,6 +129,22 @@ CODE_FENCE_RE = re.compile(r"^```", re.MULTILINE)
 GATE_RE = re.compile(r"\*\*Gate:\*\*\s*\S")
 TABLE_ROW_RE = re.compile(r"^\|.*\|\s*$")
 TABLE_SEPARATOR_RE = re.compile(r"^\|[\s:|-]+\|\s*$")
+QUESTION_LINE_RE = re.compile(r"^\s*\d+\.\s+\S")
+MC_OPTION_RE = re.compile(r"^\s*[a-dA-D]\)\s*\S")
+ATTACK_VECTOR_RE = re.compile(r"attack vector\s*#?\s*(\d+)", re.IGNORECASE)
+FAILURE_MARKER_RE = re.compile(
+    r"\bFAILED\b|AssertionError|Traceback|non-zero exit|exit code [1-9]|exit status [1-9]|\bError\b",
+    re.IGNORECASE,
+)
+METRIC_RE = re.compile(
+    r"\d+(\.\d+)?\s*(%|ms|milliseconds|seconds?|minutes?|req/s|rps|qps|samples/sec|MB|GB|x\b)",
+    re.IGNORECASE,
+)
+ACTION_WORD_RE = re.compile(
+    r"\b(alert|page|trigger|rollback|block|gate|notify|escalate)\b", re.IGNORECASE
+)
+HUMAN_ERROR_RE = re.compile(r"human error", re.IGNORECASE)
+WHY_STEP_RE = re.compile(r"^\s*\d+\.\s+\S")
 
 PLACEHOLDER_PATTERNS = [
     (re.compile(r"\b(TODO|TBD|FIXME|XXX)\b"), "placeholder marker"),
@@ -199,11 +271,94 @@ def check_decision_tree(body: str) -> list[str]:
     return problems
 
 
+def check_elicitation(body: str) -> list[str]:
+    problems = []
+    section = "3. Socratic Clarification Round"
+    text = section_text(body, section)
+    lines = text.splitlines()
+    question_starts = [i for i, line in enumerate(lines) if QUESTION_LINE_RE.match(line)]
+    count = len(question_starts)
+    if not 3 <= count <= 4:
+        problems.append(f'"{section}" has {count} question(s), expected 3-4')
+    for pos, start in enumerate(question_starts):
+        end = question_starts[pos + 1] if pos + 1 < len(question_starts) else len(lines)
+        options = [line for line in lines[start + 1 : end] if MC_OPTION_RE.match(line)]
+        if not options:
+            snippet = lines[start].strip()[:60]
+            problems.append(f'"{section}" question {snippet!r} has no lettered multiple-choice options')
+    return problems
+
+
+def check_adversarial_audit(body: str) -> list[str]:
+    problems = []
+    attack_section = "2. Attack Vectors & Stress-Tests"
+    attack_text = section_text(body, attack_section)
+    vector_numbers = set(ATTACK_VECTOR_RE.findall(attack_text))
+    if len(vector_numbers) < 2:
+        problems.append(f'"{attack_section}" must enumerate at least 2 distinct, separately-labeled attack vectors')
+    proof_section = "3. Concrete Counter-Example / Exploit Proof"
+    proof_text = section_text(body, proof_section)
+    if len(CODE_FENCE_RE.findall(proof_text)) < 2:
+        problems.append(f'"{proof_section}" must contain a literal fenced artifact, not a description of one')
+    patch_section = "4. Hardened Architectural Patch"
+    patch_text = section_text(body, patch_section)
+    if len(CODE_FENCE_RE.findall(patch_text)) < 2:
+        problems.append(f'"{patch_section}" must contain a diff or explicit corrected artifact, not prose')
+    return problems
+
+
+def check_test_first(body: str) -> list[str]:
+    problems = []
+    red_section = "2. Executable Failing Test (Red)"
+    red_text = section_text(body, red_section)
+    if len(CODE_FENCE_RE.findall(red_text)) < 2:
+        problems.append(f'"{red_section}" must contain a fenced code block, not just prose')
+    elif not FAILURE_MARKER_RE.search(red_text):
+        problems.append(f'"{red_section}" must show a raw failure (FAILED/AssertionError/non-zero exit)')
+    green_section = "4. Verified Passing Execution (Green)"
+    green_text = section_text(body, green_section)
+    if len(CODE_FENCE_RE.findall(green_text)) < 2:
+        problems.append(f'"{green_section}" must contain a fenced code block, not just prose')
+    if not METRIC_RE.search(green_text):
+        problems.append(f'"{green_section}" must include at least one concrete numeric metric')
+    return problems
+
+
+def check_postmortem(body: str) -> list[str]:
+    problems = []
+    symptom_section = "1. Incident Symptom & Alert Payload"
+    symptom_text = section_text(body, symptom_section)
+    if len(CODE_FENCE_RE.findall(symptom_text)) < 2:
+        problems.append(f'"{symptom_section}" must contain a literal fenced alert/log payload')
+    whys_section = "3. 5-Whys Root Cause Deep-Dive"
+    whys_text = section_text(body, whys_section)
+    why_steps = sum(1 for line in whys_text.splitlines() if WHY_STEP_RE.match(line))
+    if why_steps != 5:
+        problems.append(f'"{whys_section}" has {why_steps} numbered "Why" step(s), expected exactly 5')
+    if HUMAN_ERROR_RE.search(whys_text):
+        problems.append(f'"{whys_section}" stops at "human error" instead of a genuine root cause')
+    fix_section = "4. Permanent Surgical Fix (Diff)"
+    fix_text = section_text(body, fix_section)
+    if len(CODE_FENCE_RE.findall(fix_text)) < 2:
+        problems.append(f'"{fix_section}" must contain a fenced diff')
+    monitoring_section = "5. Blameless Postmortem & Preventative Monitoring Rules"
+    monitoring_text = section_text(body, monitoring_section)
+    if not (METRIC_RE.search(monitoring_text) and ACTION_WORD_RE.search(monitoring_text)):
+        problems.append(
+            f'"{monitoring_section}" must name a concrete monitoring rule (a metric + threshold + action)'
+        )
+    return problems
+
+
 ARCHETYPE_CHECKS = {
     "contrast": check_takeaway_count,
     "trajectory": check_trajectory,
     "gated-pipeline": check_gated_pipeline,
     "decision-tree": check_decision_tree,
+    "elicitation": check_elicitation,
+    "adversarial-audit": check_adversarial_audit,
+    "test-first": check_test_first,
+    "postmortem": check_postmortem,
 }
 
 

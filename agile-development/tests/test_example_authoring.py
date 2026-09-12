@@ -1,9 +1,10 @@
 """Behavioral tests for the example-authoring helper scripts.
 
-Purpose: cover `generate_skill_example.py` (scaffold) and
-`validate_skill_example.py` (structural + placeholder checks) across all four
-archetypes (contrast, trajectory, gated-pipeline, decision-tree) - the tooling
-behind references/example-authoring.md.
+Purpose: cover `generate_skill_example.py` (scaffold), `validate_skill_example.py`
+(structural + placeholder checks), and `check_example_diversity.py` across all
+eight archetypes (contrast, trajectory, gated-pipeline, decision-tree,
+elicitation, adversarial-audit, test-first, postmortem) - the tooling behind
+references/example-authoring.md.
 
 Usage: run from the skill directory with
 `python3 -m unittest discover -s tests -v`. Standard library only; no external
@@ -20,6 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+import check_example_diversity  # noqa: E402
 import generate_skill_example  # noqa: E402
 import validate_skill_example  # noqa: E402
 
@@ -195,6 +197,197 @@ cause rather than continuing to wait on the rollback alone.
 """
 
 
+GOOD_ELICITATION = """---
+role: Staff Software Engineer
+skill: agile-development
+archetype: elicitation
+user_request: can you make the checkout faster?
+---
+
+## 1. Raw Ambiguous Input
+
+"Can you make the checkout faster?" - no target latency, no named step, no
+traffic profile given.
+
+## 2. Missing Constraint Analysis
+
+No baseline latency, no target threshold, no identification of which step
+(cart, payment, confirmation) is slow, and no traffic profile (peak vs.
+average) was named.
+
+## 3. Socratic Clarification Round
+
+1. Which checkout step is slow?
+   a) Cart summary load
+   b) Payment authorization
+   c) Order confirmation
+   d) The whole flow end-to-end
+2. What is the current p95 latency, and what is the target?
+   a) Unknown baseline, target under 2s
+   b) ~4s baseline, target under 1s
+   c) ~6s baseline, target under 3s
+3. Is this under normal load or peak traffic?
+   a) Normal traffic only
+   b) Peak traffic (e.g. flash sale)
+   c) Both
+
+## 4. User Feedback Integration
+
+The user answered: payment authorization (b), current p95 is ~4s with a
+target under 1s (a partial match with option b), and this happens under peak
+traffic (b).
+
+## 5. Final Mutually-Agreed Specification Document
+
+Reduce payment-authorization p95 latency from ~4s to under 1s under peak
+traffic, without regressing cart or confirmation step latency.
+"""
+
+GOOD_ADVERSARIAL_AUDIT = """---
+role: Staff Machine Learning Engineer
+skill: deep-learning
+archetype: adversarial-audit
+candidate_artifact: a training writeup claiming 95% accuracy, SOTA
+---
+
+## 1. Initial Candidate Artifact
+
+The writeup reports 95% test accuracy on a binary classifier, trained with a
+single fixed random seed and a train/test split performed after feature
+normalization was fit on the full dataset.
+
+## 2. Attack Vectors & Stress-Tests
+
+Attack Vector 1: Normalization was fit on the full dataset (train + test)
+before splitting, leaking test-set statistics into the training features.
+
+Attack Vector 2: Only one random seed was reported; no variance across seeds
+or folds is shown, so the 95% figure could be a favorable outlier.
+
+## 3. Concrete Counter-Example / Exploit Proof
+
+```python
+mean, std = full_dataset.mean(), full_dataset.std()  # leak: fit before split
+X = (full_dataset - mean) / std
+X_train, X_test = split(X)  # test statistics already baked into X_train
+```
+Re-running with normalization fit only on `X_train` drops accuracy to 81%.
+
+## 4. Hardened Architectural Patch
+
+```diff
+-mean, std = full_dataset.mean(), full_dataset.std()
+-X = (full_dataset - mean) / std
+-X_train, X_test = split(X)
++X_train_raw, X_test_raw = split(full_dataset)
++mean, std = X_train_raw.mean(), X_train_raw.std()
++X_train = (X_train_raw - mean) / std
++X_test = (X_test_raw - mean) / std
+```
+
+## 5. Proof of Robustness Post-Fix
+
+Re-running the corrected pipeline across 5 seeds gives 81.4% +/- 1.1%
+accuracy, with no leakage path from test to train statistics.
+"""
+
+GOOD_TEST_FIRST = """---
+role: Staff Machine Learning Engineer
+skill: deep-learning
+archetype: test-first
+target: DataLoader must sustain >= 500 samples/sec without starving the GPU
+---
+
+## 1. Acceptance Invariants & Boundary Constraints
+
+Throughput must be >= 500 samples/sec sustained over 1000 batches, and GPU
+utilization must stay >= 90% during that window.
+
+## 2. Executable Failing Test (Red)
+
+```python
+def test_dataloader_sustains_throughput():
+    throughput, gpu_util = measure_loader(loader, batches=1000)
+    assert throughput >= 500, f"{throughput} samples/sec"
+    assert gpu_util >= 0.90, f"{gpu_util} util"
+```
+```
+$ python3 -m pytest tests/test_loader_throughput.py
+FAILED tests/test_loader_throughput.py::test_dataloader_sustains_throughput
+AssertionError: 212 samples/sec
+```
+
+## 3. Minimal Code Implementation
+
+```python
+loader = DataLoader(dataset, batch_size=256, num_workers=8,
+                     pin_memory=True, persistent_workers=True,
+                     prefetch_factor=4)
+```
+
+## 4. Verified Passing Execution (Green)
+
+```
+$ python3 -m pytest tests/test_loader_throughput.py
+1 passed in 12.3s
+throughput=612 samples/sec, gpu_util=93%
+```
+
+## 5. Regression Guard Summary
+
+This test now guards against a regression to single-worker, non-pinned
+loading, which previously silently starved the GPU to 40% utilization.
+"""
+
+GOOD_POSTMORTEM = """---
+role: Site Reliability Engineer
+skill: agile-development
+archetype: postmortem
+incident: production API outage (500s spike) after a bad deploy
+---
+
+## 1. Incident Symptom & Alert Payload
+
+```
+ALERT: api-5xx-rate > 5% for 5m
+service=checkout-api region=us-east-1 rate=18.4% started=2026-03-01T14:02:00Z
+```
+
+## 2. Immediate Triage & Blast-Radius Mitigation
+
+Rolled back `checkout-api` to the prior release with `deploy rollback
+checkout-api --to-previous`; error rate returned to baseline within 90
+seconds.
+
+## 3. 5-Whys Root Cause Deep-Dive
+
+1. Why did the 5xx rate spike? Because the new deploy crashed on startup
+   for a subset of pods.
+2. Why did it crash on startup? Because it read a config key that did not
+   exist in the production config map.
+3. Why did it read a missing key? Because a new required field was added to
+   the config schema without a default value.
+4. Why was there no default value? Because the schema-validation step in CI
+   does not check for backward-compatible defaults on new required fields.
+5. Why does CI not check that? Because the config-schema linter was scoped
+   to type checks only when it was introduced, and was never extended to
+   cover default-value compatibility.
+
+## 4. Permanent Surgical Fix (Diff)
+
+```diff
+-  new_field: str
++  new_field: str = "legacy-default"
+```
+
+## 5. Blameless Postmortem & Preventative Monitoring Rules
+
+No individual is at fault; the config-schema linter had a coverage gap.
+Added a monitoring rule: alert and automatically rollback if `api-5xx-rate`
+exceeds 2% for 2 consecutive minutes within 10 minutes of a deploy.
+"""
+
+
 def _scaffold_args(**overrides) -> argparse.Namespace:
     defaults = dict(
         archetype="contrast",
@@ -204,6 +397,10 @@ def _scaffold_args(**overrides) -> argparse.Namespace:
         problem_input=None,
         high_stakes_task=None,
         scenario=None,
+        user_request=None,
+        candidate_artifact=None,
+        target=None,
+        incident=None,
         takeaways=4,
         output=None,
     )
@@ -268,6 +465,65 @@ class GenerateSkillExampleTests(unittest.TestCase):
         positions = [skeleton.index(s) for s in sections]
         self.assertEqual(positions, sorted(positions))
         self.assertIn("| Trigger | Resolution Strategy |", skeleton)
+
+    def test_elicitation_skeleton_has_five_sections_in_order(self):
+        args = _scaffold_args(archetype="elicitation", use_case=None, user_request="make it faster", takeaways=None)
+        skeleton = generate_skill_example.build_skeleton(args)
+        self.assertIn("archetype: elicitation", skeleton)
+        self.assertIn("user_request: make it faster", skeleton)
+        sections = [
+            "## 1. Raw Ambiguous Input",
+            "## 2. Missing Constraint Analysis",
+            "## 3. Socratic Clarification Round",
+            "## 4. User Feedback Integration",
+            "## 5. Final Mutually-Agreed Specification Document",
+        ]
+        positions = [skeleton.index(s) for s in sections]
+        self.assertEqual(positions, sorted(positions))
+
+    def test_adversarial_audit_skeleton_has_five_sections_in_order(self):
+        args = _scaffold_args(
+            archetype="adversarial-audit", use_case=None, candidate_artifact="a training writeup", takeaways=None
+        )
+        skeleton = generate_skill_example.build_skeleton(args)
+        self.assertIn("archetype: adversarial-audit", skeleton)
+        sections = [
+            "## 1. Initial Candidate Artifact",
+            "## 2. Attack Vectors & Stress-Tests",
+            "## 3. Concrete Counter-Example / Exploit Proof",
+            "## 4. Hardened Architectural Patch",
+            "## 5. Proof of Robustness Post-Fix",
+        ]
+        positions = [skeleton.index(s) for s in sections]
+        self.assertEqual(positions, sorted(positions))
+
+    def test_test_first_skeleton_has_five_sections_in_order(self):
+        args = _scaffold_args(archetype="test-first", use_case=None, target="a throughput invariant", takeaways=None)
+        skeleton = generate_skill_example.build_skeleton(args)
+        self.assertIn("archetype: test-first", skeleton)
+        sections = [
+            "## 1. Acceptance Invariants & Boundary Constraints",
+            "## 2. Executable Failing Test (Red)",
+            "## 3. Minimal Code Implementation",
+            "## 4. Verified Passing Execution (Green)",
+            "## 5. Regression Guard Summary",
+        ]
+        positions = [skeleton.index(s) for s in sections]
+        self.assertEqual(positions, sorted(positions))
+
+    def test_postmortem_skeleton_has_five_sections_in_order(self):
+        args = _scaffold_args(archetype="postmortem", use_case=None, incident="an outage", takeaways=None)
+        skeleton = generate_skill_example.build_skeleton(args)
+        self.assertIn("archetype: postmortem", skeleton)
+        sections = [
+            "## 1. Incident Symptom & Alert Payload",
+            "## 2. Immediate Triage & Blast-Radius Mitigation",
+            "## 3. 5-Whys Root Cause Deep-Dive",
+            "## 4. Permanent Surgical Fix (Diff)",
+            "## 5. Blameless Postmortem & Preventative Monitoring Rules",
+        ]
+        positions = [skeleton.index(s) for s in sections]
+        self.assertEqual(positions, sorted(positions))
 
     def test_cli_rejects_takeaways_out_of_range(self):
         result = subprocess.run(
@@ -525,6 +781,205 @@ class ValidateDecisionTreeTests(unittest.TestCase):
         args = _scaffold_args(archetype="decision-tree", use_case=None, scenario="an ambiguous incident page", takeaways=None)
         skeleton = generate_skill_example.build_skeleton(args)
         self.assertNotEqual(validate_skill_example.validate(skeleton), [])
+
+
+class ValidateElicitationTests(unittest.TestCase):
+    def test_valid_example_passes(self):
+        self.assertEqual(validate_skill_example.validate(GOOD_ELICITATION), [])
+
+    def test_wrong_question_count_is_reported(self):
+        broken = GOOD_ELICITATION.replace(
+            "3. Is this under normal load or peak traffic?\n"
+            "   a) Normal traffic only\n"
+            "   b) Peak traffic (e.g. flash sale)\n"
+            "   c) Both\n",
+            "",
+        )
+        problems = validate_skill_example.validate(broken)
+        self.assertTrue(any("has 2 question(s), expected 3-4" in p for p in problems))
+
+    def test_question_without_options_is_reported(self):
+        broken = GOOD_ELICITATION.replace(
+            "1. Which checkout step is slow?\n"
+            "   a) Cart summary load\n"
+            "   b) Payment authorization\n"
+            "   c) Order confirmation\n"
+            "   d) The whole flow end-to-end\n",
+            "1. Which checkout step is slow?\n",
+        )
+        problems = validate_skill_example.validate(broken)
+        self.assertTrue(any("no lettered multiple-choice options" in p for p in problems))
+
+    def test_generated_scaffold_fails_validation_until_filled_in(self):
+        args = _scaffold_args(archetype="elicitation", use_case=None, user_request="make it faster", takeaways=None)
+        skeleton = generate_skill_example.build_skeleton(args)
+        self.assertNotEqual(validate_skill_example.validate(skeleton), [])
+
+
+class ValidateAdversarialAuditTests(unittest.TestCase):
+    def test_valid_example_passes(self):
+        self.assertEqual(validate_skill_example.validate(GOOD_ADVERSARIAL_AUDIT), [])
+
+    def test_single_attack_vector_is_reported(self):
+        broken = GOOD_ADVERSARIAL_AUDIT.replace(
+            "Attack Vector 2: Only one random seed was reported; no variance across seeds\n"
+            "or folds is shown, so the 95% figure could be a favorable outlier.\n",
+            "",
+        )
+        problems = validate_skill_example.validate(broken)
+        self.assertTrue(any("at least 2 distinct" in p for p in problems))
+
+    def test_prose_only_patch_is_reported(self):
+        broken = GOOD_ADVERSARIAL_AUDIT.replace(
+            "```diff\n"
+            "-mean, std = full_dataset.mean(), full_dataset.std()\n"
+            "-X = (full_dataset - mean) / std\n"
+            "-X_train, X_test = split(X)\n"
+            "+X_train_raw, X_test_raw = split(full_dataset)\n"
+            "+mean, std = X_train_raw.mean(), X_train_raw.std()\n"
+            "+X_train = (X_train_raw - mean) / std\n"
+            "+X_test = (X_test_raw - mean) / std\n"
+            "```",
+            "Fit normalization on the training split only, after splitting.",
+        )
+        problems = validate_skill_example.validate(broken)
+        self.assertTrue(any("Hardened Architectural Patch" in p and "diff" in p for p in problems))
+
+    def test_generated_scaffold_fails_validation_until_filled_in(self):
+        args = _scaffold_args(
+            archetype="adversarial-audit", use_case=None, candidate_artifact="a training writeup", takeaways=None
+        )
+        skeleton = generate_skill_example.build_skeleton(args)
+        self.assertNotEqual(validate_skill_example.validate(skeleton), [])
+
+
+class ValidateTestFirstTests(unittest.TestCase):
+    def test_valid_example_passes(self):
+        self.assertEqual(validate_skill_example.validate(GOOD_TEST_FIRST), [])
+
+    def test_red_section_without_failure_marker_is_reported(self):
+        broken = GOOD_TEST_FIRST.replace(
+            "```\n$ python3 -m pytest tests/test_loader_throughput.py\n"
+            "FAILED tests/test_loader_throughput.py::test_dataloader_sustains_throughput\n"
+            "AssertionError: 212 samples/sec\n```",
+            "```\n$ python3 -m pytest tests/test_loader_throughput.py\nran the suite\n```",
+        )
+        problems = validate_skill_example.validate(broken)
+        self.assertTrue(any("Executable Failing Test (Red)" in p and "raw failure" in p for p in problems))
+
+    def test_green_section_without_metric_is_reported(self):
+        broken = GOOD_TEST_FIRST.replace(
+            "```\n$ python3 -m pytest tests/test_loader_throughput.py\n"
+            "1 passed in 12.3s\nthroughput=612 samples/sec, gpu_util=93%\n```",
+            "```\n$ python3 -m pytest tests/test_loader_throughput.py\n1 passed\n```",
+        )
+        problems = validate_skill_example.validate(broken)
+        self.assertTrue(any("Verified Passing Execution (Green)" in p and "numeric metric" in p for p in problems))
+
+    def test_generated_scaffold_fails_validation_until_filled_in(self):
+        args = _scaffold_args(archetype="test-first", use_case=None, target="a throughput invariant", takeaways=None)
+        skeleton = generate_skill_example.build_skeleton(args)
+        self.assertNotEqual(validate_skill_example.validate(skeleton), [])
+
+
+class ValidatePostmortemTests(unittest.TestCase):
+    def test_valid_example_passes(self):
+        self.assertEqual(validate_skill_example.validate(GOOD_POSTMORTEM), [])
+
+    def test_wrong_why_step_count_is_reported(self):
+        broken = GOOD_POSTMORTEM.replace(
+            "5. Why does CI not check that? Because the config-schema linter was scoped\n"
+            "   to type checks only when it was introduced, and was never extended to\n"
+            "   cover default-value compatibility.\n",
+            "",
+        )
+        problems = validate_skill_example.validate(broken)
+        self.assertTrue(any("expected exactly 5" in p for p in problems))
+
+    def test_human_error_stopping_point_is_reported(self):
+        broken = GOOD_POSTMORTEM.replace(
+            "5. Why does CI not check that? Because the config-schema linter was scoped\n"
+            "   to type checks only when it was introduced, and was never extended to\n"
+            "   cover default-value compatibility.",
+            "5. Why does CI not check that? Because of human error during setup.",
+        )
+        problems = validate_skill_example.validate(broken)
+        self.assertTrue(any('stops at "human error"' in p for p in problems))
+
+    def test_monitoring_section_without_metric_is_reported(self):
+        broken = GOOD_POSTMORTEM.replace(
+            "Added a monitoring rule: alert and automatically rollback if `api-5xx-rate`\n"
+            "exceeds 2% for 2 consecutive minutes within 10 minutes of a deploy.",
+            "We will add more monitoring going forward.",
+        )
+        problems = validate_skill_example.validate(broken)
+        self.assertTrue(any("must name a concrete monitoring rule" in p for p in problems))
+
+    def test_generated_scaffold_fails_validation_until_filled_in(self):
+        args = _scaffold_args(archetype="postmortem", use_case=None, incident="an outage", takeaways=None)
+        skeleton = generate_skill_example.build_skeleton(args)
+        self.assertNotEqual(validate_skill_example.validate(skeleton), [])
+
+
+class DiversityCheckerTests(unittest.TestCase):
+    def _write(self, tmp_dir: Path, name: str, content: str) -> Path:
+        path = tmp_dir / name
+        path.write_text(content, encoding="utf-8")
+        return path
+
+    def test_no_violation_across_different_skills(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            a = self._write(tmp_path, "a.md", GOOD_ADVERSARIAL_AUDIT)  # skill: deep-learning
+            b = self._write(
+                tmp_path, "b.md", GOOD_ADVERSARIAL_AUDIT.replace("skill: deep-learning", "skill: hep-analysis")
+            )
+            violations = check_example_diversity.find_violations([a, b])
+            self.assertEqual(violations, [])
+
+    def test_violation_when_same_archetype_and_skill_repeat(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            a = self._write(tmp_path, "a.md", GOOD_ADVERSARIAL_AUDIT)
+            b = self._write(tmp_path, "b.md", GOOD_ADVERSARIAL_AUDIT)
+            violations = check_example_diversity.find_violations([a, b])
+            self.assertEqual(len(violations), 1)
+            self.assertIn("adversarial-audit", violations[0])
+            self.assertIn("deep-learning", violations[0])
+
+    def test_cli_ok_on_diverse_set(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            a = self._write(tmp_path, "a.md", GOOD_ADVERSARIAL_AUDIT)
+            b = self._write(
+                tmp_path, "b.md", GOOD_ADVERSARIAL_AUDIT.replace("skill: deep-learning", "skill: hep-analysis")
+            )
+            result = subprocess.run(
+                [sys.executable, str(ROOT / "scripts/check_example_diversity.py"), str(a), str(b)],
+                capture_output=True, text=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stdout)
+            self.assertIn("ok: no diversity violations", result.stdout)
+
+    def test_cli_fails_on_violation(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            a = self._write(tmp_path, "a.md", GOOD_ADVERSARIAL_AUDIT)
+            b = self._write(tmp_path, "b.md", GOOD_ADVERSARIAL_AUDIT)
+            result = subprocess.run(
+                [sys.executable, str(ROOT / "scripts/check_example_diversity.py"), str(a), str(b)],
+                capture_output=True, text=True,
+            )
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("diversity violation(s) found", result.stdout)
 
 
 if __name__ == "__main__":
