@@ -134,13 +134,6 @@ Common blanks:
 - `{n}` (Contrast only) - the number of key takeaways; default 4, minimum 3,
   maximum 6.
 
-This step is content generation, not something a stdlib script can do
-correctly for physics or ML domain content - domain correctness needs an agent
-actually reasoning through the example with the target skill's own
-`references/` loaded, the way a person would. The scaffold and validator
-scripts below only produce and check structure; they do not write or judge the
-domain content itself.
-
 ### Role/seniority convention (keep this, don't flatten it)
 
 Each archetype escalates the actor's seniority on purpose:
@@ -163,6 +156,13 @@ Each archetype escalates the actor's seniority on purpose:
 | [R] Adversarial Audit | **ruthless** {role} (Lead Auditor / Red-Teamer) | The example fails its purpose if the "attack" is polite or superficial - the stance word is load-bearing, not decorative. |
 | [T] Test-First | **test-driven** {role} | The workflow only teaches the right lesson if Red genuinely comes before Green - a role note, reinforced by section order. |
 | [P] Postmortem | Site Reliability / Principal {role} | Needs incident-command authority (can order a rollback) and blameless-postmortem authority (can write the final RCA). |
+
+Running one of the eight prompts above is content generation, not something a
+stdlib script can do correctly for physics or ML domain content - domain
+correctness needs an agent actually reasoning through the example with the
+target skill's own `references/` loaded, the way a person would. The scaffold
+and validator scripts in the workflow below only produce and check structure;
+they do not write or judge the domain content itself.
 
 ## Workflow
 

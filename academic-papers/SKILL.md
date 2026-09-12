@@ -320,7 +320,8 @@ review. Grouped by function; within a group, order roughly follows the workflow.
 
 **Authoring a canonical worked example**
 - Authoring a canonical worked example (Contrast, Execution Trajectory, Gated
-  Pipeline, or Decision-Tree archetype) for this or another skill's
+  Pipeline, Decision-Tree, Interactive Elicitation, Adversarial Audit,
+  Test-First, or Postmortem archetype) for this or another skill's
   `examples/` directory is covered by `agile-development`'s
   [example-authoring reference](../agile-development/references/example-authoring.md),
   not a file in this bundle — requires `agile-development` installed alongside

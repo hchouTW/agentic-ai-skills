@@ -130,7 +130,8 @@ the code. Distinct from inline comments above - this describes the file as a who
 - **TorchScript/ONNX export, torch.compile deployment modes, inference serving** -> [references/export-and-deployment.md](references/export-and-deployment.md)
 - **LibTorch, custom ops, CUDA/C++ extensions** -> [references/cpp-balanced-design-guidelines.md](references/cpp-balanced-design-guidelines.md)
 - **Authoring a canonical worked example** (Contrast, Execution Trajectory,
-  Gated Pipeline, or Decision-Tree archetype) for `examples/` ->
+  Gated Pipeline, Decision-Tree, Interactive Elicitation, Adversarial Audit,
+  Test-First, or Postmortem archetype) for `examples/` ->
   `agile-development`'s
   [references/example-authoring.md](../agile-development/references/example-authoring.md)
   (requires `agile-development` installed alongside this skill)
