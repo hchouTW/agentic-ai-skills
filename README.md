@@ -67,11 +67,10 @@ failure modes), **Test-First / Red-to-Green** (a failing test through a
 minimal fix to a verified, metric-backed pass), or **Incident Postmortem**
 (alert through blameless 5-Whys RCA to a permanent fix and a concrete
 monitoring rule) - see each skill's `examples/README.md` for its index and
-which archetype each entry uses. `agile-development`'s
-`references/example-authoring.md` documents all eight generation prompts, an
-archetype-selection guide, the actor-stance conventions, the cross-skill
-diversity rule, and the format spec, and its
-`scripts/generate_skill_example.py`/`scripts/validate_skill_example.py`/
-`scripts/check_example_diversity.py` scaffold, validate, and diversity-check
-new entries, in any of the eight archetypes, for any installed skill - see
-that skill's own `README.md` for the commands.
+which archetype each entry uses. Every skill carries 3 examples per archetype
+(24 total). `agile-development`'s `references/example-authoring.md` documents
+all eight generation prompts, an archetype-selection guide, the actor-stance
+conventions, the diversity rule, and the format spec, and its
+`scripts/generate_skill_example.py`/`scripts/validate_skill_example.py`
+scaffold and validate new entries, in any of the eight archetypes, for any
+installed skill - see that skill's own `README.md` for the commands.
