@@ -613,6 +613,85 @@ pass adds Adversarial Audit, Test-First, and Postmortem).
   pre-existing PyTorch-unavailable skips, unrelated to this pass) after the
   change.
 
+## Expand all four second-wave archetypes to three examples per skill (2026-09-12)
+
+Every archetype now ships 3 examples per skill (not 3 total, one per skill) -
+matching how Contrast/Trajectory/Gated-Pipeline/Decision-Tree already work
+here. Added 9 new examples (16-24) to close the gap: Adversarial Audit and
+Test-First and Postmortem each had 1, now have 3; Elicitation had none, now
+has 3.
+
+- `examples/16-18` (Elicitation): "make training faster", "fix the model's
+  accuracy", "make the model smaller" - three underspecified requests
+  resolved via `references/performance-memory.md`/`data-loading.md`,
+  `references/evaluation-strategy.md`, and
+  `references/efficient-finetuning.md`/`export-and-deployment.md`
+  respectively.
+- `examples/19-20` (Adversarial Audit): attack a "linear scaling: 8x on 8
+  GPUs" DDP benchmark (warm-up steps left in the average, an unstated
+  global-vs-per-GPU batch comparison) and a "well-calibrated, ECE=0.01"
+  model card (same-split temperature fit and ECE, a rare-class ECE hidden by
+  aggregate binning), grounded in `references/distributed-training.md`/
+  `parallelism-strategy.md` and `references/uncertainty-and-calibration.md`.
+- `examples/21-22` (Test-First): a checkpoint-restore optimizer-state
+  bit-exactness invariant and a mixed-precision-vs-fp32 tolerance invariant,
+  grounded in `references/checkpointing.md` and `references/mixed-precision.md`
+  - both red runs demonstrate a real, specific failure mode (a one-step-stale
+  momentum buffer; several inputs collapsing to an identical fp16 z-score)
+  rather than a synthetic one.
+- `examples/23-24` (Postmortem): a serving p99 latency regression after a
+  "safe" dependency upgrade, and a silent label-leakage bug discovered only
+  after shipping, grounded in `references/serving-architecture.md`/
+  `monitoring-and-lifecycle.md` and `references/data-strategy.md`/
+  `robustness-and-distribution-shift.md`; both 5-Whys chains terminate in a
+  monitoring/process gap, not "human error".
+- All 9 pass `agile-development/scripts/validate_skill_example.py`; zero
+  placeholder markers.
+- `examples/README.md`: added 9 rows (16-24), 24 rows total.
+- `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` extended with the 9
+  new example files.
+- `agile-development/scripts/check_example_diversity.py`'s cross-skill
+  constraint no longer applies to this skill's second-wave archetypes (each
+  now deliberately repeats this skill 3x per archetype) - see
+  `agile-development/references/example-authoring.md`'s revised "Diversity
+  rule". This batch was hand-curated instead: each trio targets a
+  conceptually distinct bottleneck/claim/invariant/incident.
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 87 files
+  present and non-empty") and `python3 -m unittest discover -s tests -v`
+  (106 tests, 2 skipped - the same pre-existing PyTorch-unavailable skips,
+  unrelated to this pass) after the change.
+
+## Renumber examples into canonical per-archetype order (2026-09-12)
+
+The `examples/` numbering had drifted into an inconsistent, historically-
+accreted order (the same archetype landing at different numbers in different
+skills, and some archetypes' 3 examples not even contiguous within one skill -
+e.g. this skill's own Postmortem trio was split across two ranges). Renamed
+files (content unchanged) so every skill now uses the same canonical layout:
+`01-03` Contrast, `04-06` Trajectory, `07-09` Gated-Pipeline, `10-12`
+Decision-Tree, `13-15` Elicitation, `16-18` Adversarial-Audit, `19-21`
+Test-First, `22-24` Postmortem - identical across all 5 skills. Updated
+`examples/README.md`'s table (re-sorted into the new order) and, where
+present, `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`; left every
+prior dated entry in this file untouched, so filenames named in earlier
+entries above refer to a file's *former* name - use the mapping below to
+resolve them to the current filename.
+
+Old name -> new name (this skill only):
+
+- `16-elicitation-training-speed-ambiguous-request.md` -> `13-elicitation-training-speed-ambiguous-request.md`
+- `17-elicitation-model-accuracy-ambiguous-request.md` -> `14-elicitation-model-accuracy-ambiguous-request.md`
+- `18-elicitation-model-size-ambiguous-request.md` -> `15-elicitation-model-size-ambiguous-request.md`
+- `13-adversarial-audit-sota-accuracy-claim.md` -> `16-adversarial-audit-sota-accuracy-claim.md`
+- `19-adversarial-audit-ddp-scaling-claim.md` -> `17-adversarial-audit-ddp-scaling-claim.md`
+- `20-adversarial-audit-calibration-claim.md` -> `18-adversarial-audit-calibration-claim.md`
+- `14-test-first-dataloader-throughput-invariant.md` -> `19-test-first-dataloader-throughput-invariant.md`
+- `21-test-first-checkpoint-restore-invariant.md` -> `20-test-first-checkpoint-restore-invariant.md`
+- `22-test-first-mixed-precision-tolerance-invariant.md` -> `21-test-first-mixed-precision-tolerance-invariant.md`
+- `15-postmortem-distributed-training-divergence.md` -> `22-postmortem-distributed-training-divergence.md`
+
+Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 87 files present and non-empty") and `python3 -m unittest discover -s tests -v` (106 tests, 2 skipped - the same pre-existing PyTorch-unavailable skips) after the rename. All 24 example files individually re-validated with `agile-development/scripts/validate_skill_example.py` ("ok").
+
 ## Limitations
 
 - **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that

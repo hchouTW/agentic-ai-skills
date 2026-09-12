@@ -93,9 +93,18 @@ REQUIRED_PATHS = [
     "examples/10-decision-tree-training-failure-classification.md",
     "examples/11-decision-tree-serving-latency-regression.md",
     "examples/12-decision-tree-eval-metric-anomaly.md",
-    "examples/13-adversarial-audit-sota-accuracy-claim.md",
-    "examples/14-test-first-dataloader-throughput-invariant.md",
-    "examples/15-postmortem-distributed-training-divergence.md",
+    "examples/13-elicitation-training-speed-ambiguous-request.md",
+    "examples/14-elicitation-model-accuracy-ambiguous-request.md",
+    "examples/15-elicitation-model-size-ambiguous-request.md",
+    "examples/16-adversarial-audit-sota-accuracy-claim.md",
+    "examples/17-adversarial-audit-ddp-scaling-claim.md",
+    "examples/18-adversarial-audit-calibration-claim.md",
+    "examples/19-test-first-dataloader-throughput-invariant.md",
+    "examples/20-test-first-checkpoint-restore-invariant.md",
+    "examples/21-test-first-mixed-precision-tolerance-invariant.md",
+    "examples/22-postmortem-distributed-training-divergence.md",
+    "examples/23-postmortem-serving-latency-regression.md",
+    "examples/24-postmortem-label-leakage-discovered-in-production.md",
 ]
 
 REQUIRED_README_SECTIONS = [
