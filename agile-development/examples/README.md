@@ -1,6 +1,6 @@
 # agile-development Examples
 
-Canonical worked examples in this skill's own domain, one of four archetypes
+Canonical worked examples in this skill's own domain, one of eight archetypes
 each - see [../references/example-authoring.md](../references/example-authoring.md)
 for the archetype-selection guide and how these are generated and validated.
 
@@ -18,3 +18,5 @@ for the archetype-selection guide and how these are generated and validated.
 | [10-gated-pipeline-public-api-contract-change.md](10-gated-pipeline-public-api-contract-change.md) | Gated Pipeline | Adding a required field to a shared public API contract without breaking existing external integrations | Three gates - a per-partner capability inventory, an ADR choosing a phased optional-field rollout over an immediate breaking change, and a red-team pass that finds one partner's strict response-schema parsing would break even on an "optional" field |
 | [11-decision-tree-pr-review-response-triage.md](11-decision-tree-pr-review-response-triage.md) | Decision-Tree | Reviewing a colleague's pull request and deciding how to respond to each category of finding | Formalizes this skill's own severity-distinction review guidance into a finding-to-response matrix, selects "verify the claim directly" for a PR whose description contradicts its own linked CI run, and defines fallback re-triage for a flaky-vs-real failure |
 | [12-decision-tree-staging-vs-production-parity-triage.md](12-decision-tree-staging-vs-production-parity-triage.md) | Decision-Tree | A feature works in staging but misbehaves in production, cause unknown | Formalizes a config/flag/scale/infrastructure/data elimination order into a triage matrix, selects the missing-production-secret branch for a silently-failing scheduled email, and fixes both the missing secret and the silent-failure pattern that hid it |
+| [13-elicitation-checkout-latency-ambiguous-request.md](13-elicitation-checkout-latency-ambiguous-request.md) | Elicitation | "Can you make the checkout faster?" - no step, baseline, target, or load condition named | Four clarification questions resolve the request to a single step (payment authorization), a numeric OKR target (p95 under 2s), and a specific load condition (peak-only), scoped as a project rather than an incident |
+| [14-postmortem-production-api-outage-bad-deploy.md](14-postmortem-production-api-outage-bad-deploy.md) | Postmortem | A production API outage (500s spike) after a routine checkout-api deploy | Traces a config/code deploy-ordering race through 5 Whys to a missing pipeline precondition, fixes it with a blocking dependency check, and adds a monitoring rule that pages on a skipped precondition rather than waiting for customer impact |
