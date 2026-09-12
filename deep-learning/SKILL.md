@@ -132,9 +132,9 @@ the code. Distinct from inline comments above - this describes the file as a who
 - **Authoring a canonical worked example** (Contrast, Execution Trajectory,
   Gated Pipeline, Decision-Tree, Interactive Elicitation, Adversarial Audit,
   Test-First, or Postmortem archetype) for `examples/` ->
-  `agile-development`'s
-  [references/example-authoring.md](../agile-development/references/example-authoring.md)
-  (requires `agile-development` installed alongside this skill)
+  `task-authoring`'s
+  [references/example-authoring.md](../task-authoring/references/example-authoring.md)
+  (requires `task-authoring` installed alongside this skill)
 
 Architect-level references - decisions made before or around the code:
 

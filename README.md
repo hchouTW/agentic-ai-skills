@@ -15,6 +15,7 @@ require an MCP server, cloud account, or paid service.
 | [`deep-learning`](deep-learning/) | PyTorch engineering: models, training/eval loops, DataLoaders, mixed precision, DDP, LoRA, profiling, export, and debugging NaNs/shapes/perf — plus architect-level work: architecture selection and scaling laws, parallelism strategy and compute budgeting, ablation discipline, serving capacity, and data/evaluation strategy. |
 | [`hep-analysis`](hep-analysis/) | High-energy physics: ROOT C++, PyROOT, uproot/awkward, RDataFrame, cutflows, systematics, fits, limits, unfolding — plus detector subsystems (tracking, calorimetry, TRD/TOF/RICH particle ID), event reconstruction, the generator→Geant4→calibration simulation chain, and astroparticle/cosmic-ray physics (spectrum and composition, extensive air showers, ground-based arrays, imaging atmospheric Cherenkov, neutrino telescopes, space-based direct detection, multi-messenger analysis, an AMS-02 case study, and cosmic-ray flux calculation). |
 | [`academic-papers`](academic-papers/) | Reading and critically evaluating scientific papers, building literature reviews, and drafting/formatting/submitting a manuscript — REVTeX/JHEP/JCAP/AASTeX/Elsevier/NeurIPS/ICML/ICLR/ACL LaTeX, INSPIRE-HEP/ADS/arXiv/DBLP bibliographies, HEP/astroparticle/cosmic-ray and statistics/ML conventions (exposure vs. luminosity, pre-/post-trial significance, skymaps, reproducibility checklists, single-shot rebuttals). |
+| [`task-authoring`](task-authoring/) | Turning a short natural-language request into an implementation-ready Task Markdown document, vendor-neutral across Claude Code, Codex, Antigravity, and other repository-aware agents — reads the applicable authoring reference, inspects the target repository, and classifies findings as Confirmed/Inferred/Unresolved instead of fabricating project-specific details. |
 
 ## Installation
 
@@ -22,19 +23,19 @@ Copy the skill folders you want into your agent's skill directory:
 
 ```bash
 # Claude Code (personal)
-cp -r academic-papers agile-development deep-learning hep-analysis skill-router ~/.claude/skills/
+cp -r academic-papers agile-development deep-learning hep-analysis skill-router task-authoring ~/.claude/skills/
 
 # Claude Code (project-scoped)
-cp -r academic-papers agile-development deep-learning hep-analysis skill-router .claude/skills/
+cp -r academic-papers agile-development deep-learning hep-analysis skill-router task-authoring .claude/skills/
 
 # Codex
-cp -r academic-papers agile-development deep-learning hep-analysis skill-router ~/.codex/skills/
+cp -r academic-papers agile-development deep-learning hep-analysis skill-router task-authoring ~/.codex/skills/
 
 # Antigravity (workspace-scoped; falls back to .agent/skills/ on older installs)
-cp -r academic-papers agile-development deep-learning hep-analysis skill-router .agents/skills/
+cp -r academic-papers agile-development deep-learning hep-analysis skill-router task-authoring .agents/skills/
 
 # Antigravity (global)
-cp -r academic-papers agile-development deep-learning hep-analysis skill-router ~/.gemini/config/skills/
+cp -r academic-papers agile-development deep-learning hep-analysis skill-router task-authoring ~/.gemini/config/skills/
 ```
 
 Each skill's own `README.md` has per-agent invocation details. `skill-router` only
@@ -67,8 +68,11 @@ failure modes), **Test-First / Red-to-Green** (a failing test through a
 minimal fix to a verified, metric-backed pass), or **Incident Postmortem**
 (alert through blameless 5-Whys RCA to a permanent fix and a concrete
 monitoring rule) - see each skill's `examples/README.md` for its index and
-which archetype each entry uses. Every skill carries 3 examples per archetype
-(24 total). `agile-development`'s `references/example-authoring.md` documents
+which archetype each entry uses. Every skill except `task-authoring` carries
+3 examples per archetype (24 total); `task-authoring`'s `examples/` instead
+carries one worked example per task category (feature, bug, performance,
+research), documented in its own `README.md`. `task-authoring`'s
+`references/example-authoring.md` documents
 all eight generation prompts, an archetype-selection guide, the actor-stance
 conventions, the diversity rule, and the format spec, and its
 `scripts/generate_skill_example.py`/`scripts/validate_skill_example.py`

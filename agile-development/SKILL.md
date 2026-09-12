@@ -1,6 +1,6 @@
 ---
 name: agile-development
-description: "Use when making any non-trivial software change - features, bug fixes, refactors, endpoints, UI work, migrations, dependency updates - turning a request into a small, verified, reviewable increment with acceptance criteria and a validation plan. Also covers reviewing a PR, incident response/postmortems, working safely in legacy code without tests, architectural decisions (boundaries, dependency direction, data ownership, ADRs), design docs, estimation, and feature-flagged rollout planning. Triggers on 'implement', 'fix', 'add', 'refactor', 'migrate', 'update', or scoping/reviewing a change, without saying 'Agile'. Also covers implementation discipline (ask vs. assume on ambiguity, minimal changes, avoiding scope creep, verifiable done) - trigger for 'is this overcomplicated', 'am I over-engineering this'. Also covers authoring a canonical worked example - Contrast, Trajectory, Gated Pipeline, Decision-Tree, Elicitation, Adversarial Audit, Test-First, or Postmortem - for a skill's examples/ directory."
+description: "Use when making any non-trivial software change - features, bug fixes, refactors, endpoints, UI work, migrations, dependency updates - turning a request into a small, verified, reviewable increment with acceptance criteria and a validation plan. Also covers reviewing a PR, incident response/postmortems, working safely in legacy code without tests, architectural decisions (boundaries, dependency direction, data ownership, ADRs), design docs, estimation, and feature-flagged rollout planning. Triggers on 'implement', 'fix', 'add', 'refactor', 'migrate', 'update', or scoping/reviewing a change, without saying 'Agile'. Also covers implementation discipline (ask vs. assume on ambiguity, minimal changes, avoiding scope creep, verifiable done) - trigger for 'is this overcomplicated', 'am I over-engineering this'."
 ---
 
 # Agile Development
@@ -94,15 +94,13 @@ the file's complexity, and review it in the diff so it doesn't drift from the co
   [references/engineering-playbook.md](references/engineering-playbook.md)
 - **Reviewing someone else's change** -> see the Reviewing Someone Else's Change
   section in [references/risk-and-quality.md](references/risk-and-quality.md)
-- **Authoring a canonical worked example** in any of eight archetypes -
-  Contrast (Weak vs. Expert), Execution Trajectory, Gated Pipeline,
-  Decision-Tree, Interactive Elicitation ("Grill-Me"), Adversarial Audit /
-  Red-Teaming, Test-First / Red-to-Green, or Incident Postmortem & RCA - for
-  this or another skill's `examples/` directory ->
-  [references/example-authoring.md](references/example-authoring.md)
-- **Designing or budgeting a prompt for an LLM call** - agent skills, prompt
-  templates, structured-output contracts, model-tier choice, token budgets ->
-  [references/prompt-engineering-and-token-optimization.md](references/prompt-engineering-and-token-optimization.md)
+- **Authoring a canonical worked example** for this or another skill's
+  `examples/` directory, or **designing/budgeting a prompt for an LLM call** ->
+  `task-authoring`'s
+  [references/example-authoring.md](../task-authoring/references/example-authoring.md)
+  and
+  [references/prompt-engineering-and-token-optimization.md](../task-authoring/references/prompt-engineering-and-token-optimization.md)
+  (requires `task-authoring` installed alongside this skill)
 
 ## Reusable Templates
 
@@ -159,22 +157,6 @@ Run with `python3`. Read a script before changing it.
 - "Bump the `requests` dependency and make sure nothing breaks."
 - "I have a bug report saying the cart total is wrong with discount codes - find and fix it."
 - "Review my diff before I open a PR."
-- "Generate a canonical `examples/` entry for the `hep-analysis` skill contrasting a
-  weak vs. expert systematics writeup." (Contrast archetype)
-- "Walk the cart-total discount-code bug report through a full triage-to-verified-fix
-  trajectory for `agile-development/examples/`." (Execution Trajectory archetype)
-- "Author a gated-pipeline example showing how to draft and red-team an RFC for a
-  feature-flagged rollout." (Gated Pipeline archetype)
-- "Author a decision-tree example for triaging an ambiguous production incident page."
-  (Decision-Tree archetype)
-- "Generate a Grill-Me elicitation example for `hep-analysis` starting from
-  'can you check if there's a signal in this dataset?'" (Elicitation archetype)
-- "Red-team this 'SOTA accuracy' training writeup for leakage or a cherry-picked
-  seed." (Adversarial Audit archetype)
-- "Write a test-first example for a DataLoader throughput invariant, red test
-  through green with metrics." (Test-First archetype)
-- "Author a postmortem example for a distributed training run that diverged at
-  hour 30." (Postmortem archetype)
 
 ## Caveats
 

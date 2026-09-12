@@ -102,8 +102,10 @@ When a feature strings multiple LLM calls together (e.g. extract -> classify
 ## Extending the User Story Template
 
 When a story's behavior depends on an LLM call, add two optional lines to
-[assets/story-card.md](../assets/story-card.md)'s Story section - keep them
-only when they carry a real constraint, and treat them as acceptance
+`agile-development`'s
+[assets/story-card.md](../../agile-development/assets/story-card.md)'s Story
+section (requires `agile-development` installed alongside this skill) - keep
+them only when they carry a real constraint, and treat them as acceptance
 criteria, not documentation:
 
 ```md
@@ -123,8 +125,8 @@ A change that alters the prompt without meeting the stated budget is not done.
   change, rather than judging a new prompt "looks right."
 - Don't stand up a new metrics dashboard for a single-feature change; if the
   project already tracks LLM cost/latency, report the change against those
-  existing numbers - see this skill's Decision Rules on writing the minimum
-  that solves the problem.
+  existing numbers - see `agile-development`'s Decision Rules on writing the
+  minimum that solves the problem.
 
 ## Quick Reference
 

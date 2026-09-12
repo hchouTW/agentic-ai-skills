@@ -3,7 +3,7 @@
 How to produce a `<skill>/examples/` entry: a complete, production-ready worked
 example for a realistic scenario in that skill's domain, in whichever of eight
 **archetypes** fits the scenario. Use this when asked to "author," "generate,"
-or "add a canonical example" (in any archetype) for `agile-development` itself
+or "add a canonical example" (in any archetype) for `task-authoring` itself
 or for another installed skill.
 
 ## Which archetype fits?
@@ -172,7 +172,8 @@ they do not write or judge the domain content itself.
    `--candidate-artifact` / `--target` / `--incident`; `--takeaways` is
    valid only with `--archetype contrast`) to emit an empty skeleton with the
    right frontmatter and section headers at the right path - mirrors how
-   `create_story_card.py` scaffolds a story card without inventing the story.
+   `agile-development`'s `create_story_card.py` scaffolds a story card without
+   inventing the story.
 2. **Fill.** Replace every skeleton placeholder with real content per that
    archetype's format spec below. Zero placeholders (see below).
 3. **Validate.** Run `scripts/validate_skill_example.py <file>` - it reads the
@@ -322,11 +323,10 @@ now-historical constraint - see the Diversity rule above.)
 
 ## Cross-skill use
 
-This reference lives only in `agile-development` and is shared by cross-link
-rather than copied into each skill - the routing rule in
-`skill-router/SKILL.md` and each rollout skill's own "When to Load
-References"-equivalent section point back here. That means a skill installed
-without `agile-development` alongside it cannot use this capability; call that
+This reference lives only in `task-authoring` and is shared by cross-link
+rather than copied into each skill - each rollout skill's own "When to Load
+References"-equivalent section points back here. That means a skill installed
+without `task-authoring` alongside it cannot use this capability; call that
 out explicitly wherever the pointer is added, matching how this repository's
 root README already documents partial installs as supported.
 

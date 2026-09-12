@@ -717,6 +717,12 @@ Old name -> new name (this skill only):
 
 Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 52 files present and non-empty") and `python3 -m unittest discover -s tests -v` (98 tests, all passing) after the rename. All 24 example files individually re-validated with `scripts/validate_skill_example.py` ("ok").
 
+## Move example-authoring and prompt-engineering-and-token-optimization to task-authoring (2026-09-12)
+
+Relocated `references/example-authoring.md`, `references/prompt-engineering-and-token-optimization.md`, and the example-authoring tooling (`scripts/generate_skill_example.py`, `scripts/validate_skill_example.py`, `scripts/check_example_diversity.py`, `tests/test_example_authoring.py`) to `task-authoring`, since the capability is a repo-wide authoring meta-tool used by every skill's `examples/` directory, not specific to this skill's software-change domain. This skill's own `examples/` directory (24 files) and `examples/README.md` are unchanged; `references/example-authoring.md` remains the generation/validation authority for them, now cross-linked from `task-authoring` (requires `task-authoring` installed alongside this skill to regenerate or add entries). Updated `SKILL.md` (frontmatter description, "When to Load References", removed the 8 archetype-authoring example prompts that now live in `task-authoring/SKILL.md`), `README.md` (Quick checks, Coverage and boundaries), `examples/README.md`'s pointer, and `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` (removed the 6 moved files, 54 -> 48).
+
+Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 48 files present and non-empty") and `python3 -m unittest discover -s tests -v` (32 tests, all passing).
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Authoring Workflow"
+  short_description: "Turn a short natural-language request into an implementation-ready Task Markdown document"
+  default_prompt: "Use $task-authoring to read the applicable authoring reference, inspect the target repository, classify information as Confirmed/Inferred/Unresolved, and write an implementation-ready Task Markdown document without fabricating project-specific details."

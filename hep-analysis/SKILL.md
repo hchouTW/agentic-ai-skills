@@ -91,7 +91,7 @@ Don't mix more APIs than needed in one script; if mixing, keep boundaries clear 
 | Multi-messenger coincidence analysis, alert follow-up, trials/timing/pointing systematics | [Multi-messenger analysis](references/38-multimessenger-analysis.md) |
 | Li & Ma significance, sky-scan/catalog trials factor, exposure/forward-folding for steep spectra | [Astroparticle statistics](references/39-astroparticle-statistics.md) |
 | AMS-02 (ISS spectrometer): TRD/tracker/TOF/RICH/ACC/ECAL combination, orbital/solar-cycle systematics, positron-fraction/antiproton-ratio pattern, primary/secondary composition (B/C ratio), temporal-structure worked examples, servicing/upgrade history | [AMS-02 case study](references/40-ams02-case-study.md) |
-| Authoring a canonical worked example (Contrast, Execution Trajectory, Gated Pipeline, Decision-Tree, Interactive Elicitation, Adversarial Audit, Test-First, or Postmortem archetype) for `examples/` | `agile-development`'s [example-authoring reference](../agile-development/references/example-authoring.md) (requires `agile-development` installed alongside this skill) |
+| Authoring a canonical worked example (Contrast, Execution Trajectory, Gated Pipeline, Decision-Tree, Interactive Elicitation, Adversarial Audit, Test-First, or Postmortem archetype) for `examples/` | `task-authoring`'s [example-authoring reference](../task-authoring/references/example-authoring.md) (requires `task-authoring` installed alongside this skill) |
 
 ## Code file requirement
 

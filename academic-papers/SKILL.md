@@ -322,9 +322,9 @@ review. Grouped by function; within a group, order roughly follows the workflow.
 - Authoring a canonical worked example (Contrast, Execution Trajectory, Gated
   Pipeline, Decision-Tree, Interactive Elicitation, Adversarial Audit,
   Test-First, or Postmortem archetype) for this or another skill's
-  `examples/` directory is covered by `agile-development`'s
-  [example-authoring reference](../agile-development/references/example-authoring.md),
-  not a file in this bundle — requires `agile-development` installed alongside
+  `examples/` directory is covered by `task-authoring`'s
+  [example-authoring reference](../task-authoring/references/example-authoring.md),
+  not a file in this bundle — requires `task-authoring` installed alongside
   this skill.
 
 **Verification, assessment, tracking, and disclosure**

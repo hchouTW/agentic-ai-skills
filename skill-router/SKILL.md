@@ -26,15 +26,14 @@ on a match.
   scoping, task breakdown, acceptance criteria, validation plans, code review
   process; implementation discipline (ask vs. assume on an ambiguous request,
   minimal/surgical changes vs. overcomplicating, avoiding scope creep and
-  unrelated refactors, verifiable success criteria); and authoring a
-  canonical worked example - Contrast (a Weak vs. Expert comparison plus key
-  takeaways), Execution Trajectory, Gated Pipeline, Decision-Tree,
-  Interactive Elicitation ("Grill-Me"), Adversarial Audit / Red-Teaming,
-  Test-First / Red-to-Green, or Incident Postmortem & RCA - for this or
-  another skill's `examples/` directory. Triggers on "implement", "fix",
-  "add", "refactor", "migrate", "update", "is this overcomplicated", "am I
-  over-engineering this", or "author/generate a Grill-Me / red-team /
-  test-first / postmortem example", even without the word "Agile".
+  unrelated refactors, verifiable success criteria). Triggers on "implement",
+  "fix", "add", "refactor", "migrate", "update", "is this overcomplicated", or
+  "am I over-engineering this", even without the word "Agile". Authoring a
+  canonical worked example (Contrast, Execution Trajectory, Gated Pipeline,
+  Decision-Tree, Interactive Elicitation, Adversarial Audit, Test-First, or
+  Postmortem archetype) for a skill's `examples/` directory, and designing or
+  budgeting a prompt for an LLM call, are `task-authoring` capabilities not
+  routed through this table - see that skill's own `SKILL.md`.
 - **deep-learning** - PyTorch engineering: nn.Module models, training/eval
   loops, datasets and DataLoaders, losses, optimizers, schedulers, mixed
   precision, gradient accumulation, checkpointing, distributed training (DDP),

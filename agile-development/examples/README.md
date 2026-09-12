@@ -1,8 +1,10 @@
 # agile-development Examples
 
 Canonical worked examples in this skill's own domain, one of eight archetypes
-each - see [../references/example-authoring.md](../references/example-authoring.md)
-for the archetype-selection guide and how these are generated and validated.
+each - see `task-authoring`'s
+[references/example-authoring.md](../../task-authoring/references/example-authoring.md)
+for the archetype-selection guide and how these are generated and validated
+(requires `task-authoring` installed alongside this skill).
 
 | Example | Archetype | Scenario | One-line takeaway |
 |---|---|---|---|
