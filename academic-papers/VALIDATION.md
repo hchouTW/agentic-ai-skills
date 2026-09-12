@@ -358,3 +358,40 @@ validated all 12 shipped `examples/*.md` files.
   checks.`) and `python3 -m unittest discover -s tests -v` (27 tests,
   unchanged - this pass edited `README.md` documentation only, no new
   test-relevant code) after the fix.
+
+## Second-wave example-authoring pass: Elicitation, Adversarial Audit (2026-09-12)
+
+Added two new canonical examples in `agile-development`'s second-wave
+archetypes, continuing the four-archetype example-authoring plan (Contrast/
+Trajectory/Gated Pipeline/Decision-Tree already covered this skill; this
+pass adds Elicitation and Adversarial Audit).
+
+- `examples/13-elicitation-improve-paper-before-submission.md`: an
+  underspecified "can you make my paper better before I submit it?" request
+  resolved via 4 clarification questions grounded in
+  `references/paper-structure.md` and `references/submission-and-peer-review.md`
+  (target venue, deadline, resubmission status, co-author scope) to a fully
+  specified pre-submission checklist scope.
+- `examples/14-adversarial-audit-statistical-significance-derivation.md`:
+  attacks a manuscript's claimed "5.0σ combined discovery," finding an
+  uncorrected look-elsewhere effect that contradicts the manuscript's own
+  Methods section and an unjustified independence assumption in a
+  two-channel Fisher combination, both grounded in
+  `references/mathematical-reasoning-and-proof.md`; the honest combined
+  significance (3.91σ, numerically verified in-session with `scipy.stats`)
+  is evidence, not discovery.
+- Both pass `agile-development/scripts/validate_skill_example.py` and the
+  diversity checker (`check_example_diversity.py`) shows no archetype/skill
+  repeats across the 12-file second-wave batch.
+- `examples/README.md`'s intro line updated from "four archetypes" to
+  "eight archetypes"; two rows added to its index (14 rows total).
+  `README.md`'s "What's inside" file-tree comment updated from "12 canonical
+  worked examples ... 3 per archetype" / four named archetypes to "14
+  canonical worked examples" / six named archetypes (this package's own
+  `scripts/validate_skill_bundle.py` does not track `examples/` in its
+  orphan/required-path checks - confirmed unchanged from the prior pass's
+  note on this - so no script change was needed here, only the README
+  documentation).
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("OK: ... passed all
+  checks.") and `python3 -m unittest discover -s tests -v` (27 tests, all
+  passing, unchanged) after the change.
