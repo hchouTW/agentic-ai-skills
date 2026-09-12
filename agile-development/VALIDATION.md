@@ -635,6 +635,88 @@ cross-skill diversity rule and checker. This pass covers the tooling only
 - `scripts/validate_skill_bundle.py` reports "Bundle OK: 40 files present and
   non-empty." (up from 38 - one new script).
 
+## Expand all four second-wave archetypes to three examples per skill (2026-09-12)
+
+Superseded the second-wave batch's original "3 examples total per archetype,
+one per skill, no skill repeated" shape with "3 examples per archetype, per
+skill" - matching how Contrast/Trajectory/Gated-Pipeline/Decision-Tree have
+always worked. Every skill (`academic-papers`, `agile-development`,
+`deep-learning`, `hep-analysis`, `skill-router`) now carries all eight
+archetypes x 3 examples = 24 example files; 48 new files were authored across
+the 5 skills to close the gap (agile-development's own share: 10 new files,
+examples 15-24).
+
+- `references/example-authoring.md`: rewrote the "Diversity rule" bullet -
+  it now states the requirement as intra-skill content distinctness (3
+  genuinely different scenarios per `<skill>/archetype` pair, hand-curated,
+  not mechanically checked) rather than cross-skill non-repetition. Marked
+  `scripts/check_example_diversity.py` as historical: it enforced the
+  original narrower "one example per skill, no repeats" batch and is not run
+  as a gate on new example batches. Updated the "Correctness review" section's
+  parallel note the same way.
+- `README.md`: removed `check_example_diversity.py` from "Quick checks" and
+  from the Coverage-and-boundaries cross-reference; updated the
+  `validate_skill_example.py`/`generate_skill_example.py` description
+  paragraph to drop the retired diversity-checker mention.
+- `scripts/validate_skill_bundle.py`: added `examples/15-*.md` through
+  `examples/24-*.md` (the 10 new agile-development example files) to
+  `REQUIRED_PATHS`. `check_example_diversity.py` itself is left in place
+  (and still in `REQUIRED_PATHS`) as working, documented-as-historical
+  tooling - not deleted, since it remains correct for the narrower
+  constraint it was built to check, just no longer the constraint this
+  repository enforces going forward.
+- `examples/README.md`: added 10 rows (15-24) covering the new
+  elicitation/adversarial-audit/test-first/postmortem examples in this
+  skill's own domain (database migration and caching elicitation; a hotfix
+  PR, a backward-compatibility claim, and an acceptance-criteria claim for
+  adversarial audit; the story-card generator, risk-register entry, and
+  Definition-of-Done checklist for test-first; a feature-flag gap and a
+  migration table-lock for postmortem).
+- `root README.md` and `academic-papers/README.md`: updated stale counts and
+  cross-skill-diversity wording repo-wide to match the new per-skill shape
+  (academic-papers' file-tree comment: 14 -> 24 examples).
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 52 files
+  present and non-empty") and `python3 -m unittest discover -s tests -v`
+  (98 tests, all passing, unchanged - no test asserted the old cross-skill
+  diversity constraint as a gate) after the change. All 10 new example files
+  individually pass `scripts/validate_skill_example.py`.
+
+## Renumber examples into canonical per-archetype order (2026-09-12)
+
+The `examples/` numbering had drifted into an inconsistent, historically-
+accreted order (the same archetype landing at different numbers in different
+skills, and some archetypes' 3 examples not even contiguous within one skill -
+e.g. this skill's own Postmortem trio was split across two ranges). Renamed
+files (content unchanged) so every skill now uses the same canonical layout:
+`01-03` Contrast, `04-06` Trajectory, `07-09` Gated-Pipeline, `10-12`
+Decision-Tree, `13-15` Elicitation, `16-18` Adversarial-Audit, `19-21`
+Test-First, `22-24` Postmortem - identical across all 5 skills. Updated
+`examples/README.md`'s table (re-sorted into the new order) and, where
+present, `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`; left every
+prior dated entry in this file untouched, so filenames named in earlier
+entries above refer to a file's *former* name - use the mapping below to
+resolve them to the current filename.
+
+Old name -> new name (this skill only):
+
+- `07-trajectory-database-migration-lock.md` -> `05-trajectory-database-migration-lock.md`
+- `08-trajectory-dependency-update-silent-break.md` -> `06-trajectory-dependency-update-silent-break.md`
+- `05-gated-pipeline-payment-provider-rollout-rfc.md` -> `07-gated-pipeline-payment-provider-rollout-rfc.md`
+- `09-gated-pipeline-legacy-billing-strangler-fig.md` -> `08-gated-pipeline-legacy-billing-strangler-fig.md`
+- `10-gated-pipeline-public-api-contract-change.md` -> `09-gated-pipeline-public-api-contract-change.md`
+- `06-decision-tree-incident-mitigation-triage.md` -> `10-decision-tree-incident-mitigation-triage.md`
+- `15-elicitation-database-migration-ambiguous-request.md` -> `14-elicitation-database-migration-ambiguous-request.md`
+- `16-elicitation-add-caching-ambiguous-request.md` -> `15-elicitation-add-caching-ambiguous-request.md`
+- `17-adversarial-audit-hotfix-pr-description.md` -> `16-adversarial-audit-hotfix-pr-description.md`
+- `18-adversarial-audit-backward-compatible-design-doc.md` -> `17-adversarial-audit-backward-compatible-design-doc.md`
+- `19-adversarial-audit-acceptance-criteria-completeness.md` -> `18-adversarial-audit-acceptance-criteria-completeness.md`
+- `20-test-first-story-card-generator-invariant.md` -> `19-test-first-story-card-generator-invariant.md`
+- `21-test-first-risk-register-entry-invariant.md` -> `20-test-first-risk-register-entry-invariant.md`
+- `22-test-first-definition-of-done-invariant.md` -> `21-test-first-definition-of-done-invariant.md`
+- `14-postmortem-production-api-outage-bad-deploy.md` -> `22-postmortem-production-api-outage-bad-deploy.md`
+
+Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 52 files present and non-empty") and `python3 -m unittest discover -s tests -v` (98 tests, all passing) after the rename. All 24 example files individually re-validated with `scripts/validate_skill_example.py` ("ok").
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

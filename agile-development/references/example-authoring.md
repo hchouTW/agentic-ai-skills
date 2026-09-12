@@ -210,14 +210,21 @@ Shared conventions across all eight archetypes:
   complete and literal, not illustrative.
 - **Language.** English, matching this repository's rule that all maintained
   instructions, templates, and metadata are in English.
-- **Diversity rule (second wave: [E]/[R]/[T]/[P]).** When authoring a batch of
-  examples in one of these four archetypes across multiple skills, no two
-  files sharing an `archetype:` value should also share a `skill:` value -
-  each archetype's examples should be drawn from different domains so the
-  differentiation is structural, not just stylistic.
-  `scripts/check_example_diversity.py` checks this mechanically across a set
-  of files; it is a floor (same skill never repeats within an archetype), not
-  a substitute for curating conceptually distinct failure modes or scenarios.
+- **Diversity rule (all archetypes, including [E]/[R]/[T]/[P]).** Every
+  archetype ships 3 examples per skill, matching Contrast/Trajectory/
+  Gated-Pipeline/Decision-Tree's original pattern - the 3 examples within one
+  `<skill>/archetype` pair must target genuinely different scenarios, failure
+  modes, or artifacts (never 3 variations on the same complaint or bug), so the
+  differentiation reads as structural, not stylistic. This is a curation
+  responsibility: nothing mechanically checks conceptual distinctness within a
+  skill, the same way nothing has ever checked it for the four original
+  archetypes.
+  `scripts/check_example_diversity.py` is retained but historical: an earlier,
+  narrower release of `[E]/[R]/[T]/[P]` shipped only 3 examples *total* per
+  archetype (one per skill, no skill repeated), and that script enforced the
+  no-repeated-skill constraint for that specific batch. It no longer reflects
+  how these four archetypes are authored - every skill now carries all four -
+  and should not be run as a gate on new example batches.
 
 **Contrast** - `## Scenario`, `## Common Weak Approach`, `## Expert-Level Best
 Practice`, `## Key Takeaways` (bulleted, default N = 4, min 3 / max 6).
@@ -306,10 +313,12 @@ Postmortem's "5-Whys must reach a real root cause" check is only lightly
 mechanical: the validator can grep for "human error" as a lazy stop, but it
 cannot verify the causal chain is *actually* correct - that stays a
 domain-review responsibility, same as for the other archetypes' technical
-content. Likewise, `check_example_diversity.py` only guarantees distinct
-skills per archetype; it cannot guarantee the failure modes are conceptually
-distinct - treat it as a floor on top of hand-curated scenario selection, not
-a substitute for it.
+content. Likewise, nothing mechanically verifies that a skill's 3 examples in
+one archetype are conceptually distinct scenarios rather than near-duplicates
+of each other - that is a hand-curation responsibility for every archetype,
+the same way it always has been for Contrast/Trajectory/Gated-Pipeline/
+Decision-Tree. (`check_example_diversity.py` exists but checks a different,
+now-historical constraint - see the Diversity rule above.)
 
 ## Cross-skill use
 
