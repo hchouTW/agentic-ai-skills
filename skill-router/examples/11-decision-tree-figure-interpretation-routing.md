@@ -8,7 +8,7 @@ scenario: a request to interpret or discuss a figure/plot, which could belong to
 ## Triage Matrix
 
 Formalizes the disambiguation drafted in
-`examples/09-gated-pipeline-disambiguating-figure-interpretation.md` into a
+`examples/08-gated-pipeline-disambiguating-figure-interpretation.md` into a
 reusable trigger -> resolution mapping for any figure/plot request, rather
 than re-deriving the reasoning each time one arrives:
 

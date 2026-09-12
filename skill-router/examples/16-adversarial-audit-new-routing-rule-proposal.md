@@ -44,7 +44,7 @@ components", "make this UI nicer", "build a landing page" - are not a
 disjoint vocabulary from "UI work"; they are a strict subset of it. Every
 existing rule in the table that shares surface vocabulary with another rule
 (the `pipeline` collision between `deep-learning` and `hep-analysis` fixed in
-`examples/08-gated-pipeline-adding-a-new-rule.md`, or the reading/writing vs.
+`examples/07-gated-pipeline-adding-a-new-rule.md`, or the reading/writing vs.
 analysis boundary between `academic-papers` and `hep-analysis`) carries an
 explicit disambiguation clause. This candidate carries none. As drafted, any
 request that touches a UI at all is a live collision, not an edge case.
@@ -81,7 +81,7 @@ first two vectors expose.**
 `SKILL.md`'s Behavior rule 2 says: "Multiple relevant: state the primary and
 any secondary skill(s) ... Invoke the primary first." That rule presumes the
 routing-rule text itself gives the router enough information to *decide*
-which is primary. `examples/04-decision-tree-multi-skill-ambiguous-routing.md`
+which is primary. `examples/10-decision-tree-multi-skill-ambiguous-routing.md`
 does exactly this work for an existing overlap (a PyTorch-training-loop
 refactor for a reproducibility section resolves to `deep-learning` primary /
 `academic-papers` secondary, because the domain-specific rule subsumes
@@ -150,7 +150,7 @@ inventing a new pattern: the "Not the underlying X - see `Y` for that; this
 is the Z layer on top of it" sentence is lifted structurally from
 `academic-papers`'s real carve-out, and the explicit primary/secondary
 assignment is lifted structurally from the resolution
-`examples/04-decision-tree-multi-skill-ambiguous-routing.md` already
+`examples/10-decision-tree-multi-skill-ambiguous-routing.md` already
 performs for a different overlap.
 
 ## 5. Proof of Robustness Post-Fix

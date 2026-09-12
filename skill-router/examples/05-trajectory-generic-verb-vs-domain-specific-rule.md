@@ -30,7 +30,7 @@ first keyword hit:
   segfault than the generic "fix... code" trigger is.
 
 Per this skill's own established precedent (formalized in example
-`04-decision-tree-multi-skill-ambiguous-routing.md`'s triage matrix: "a
+`10-decision-tree-multi-skill-ambiguous-routing.md`'s triage matrix: "a
 request's code-change verb is fully covered by a domain skill's own more
 specific rule for that exact code path... do not also invoke
 `agile-development`'s generic code-change trigger on top of a domain skill

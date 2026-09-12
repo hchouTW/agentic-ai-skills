@@ -371,6 +371,98 @@ own routing-table mechanics, since this skill has no other domain.
   `python3 -m unittest discover -s tests -v` (7 tests, all passing after
   the fixture fix) after the change.
 
+## Expand all four second-wave archetypes to three examples per skill (2026-09-12)
+
+Every archetype now ships 3 examples per skill (not 3 total, one per skill) -
+matching how Contrast/Trajectory/Gated-Pipeline/Decision-Tree already work
+here. Added 10 new examples (15-24) to close the gap: Adversarial Audit and
+Test-First each had 1, now have 3; Elicitation and Postmortem had none, now
+have 3 each. All 10 are about `skill-router`'s own routing-table mechanics,
+since this skill has no other domain.
+
+- `examples/15-17` (Elicitation): "add a new skill for technical writing",
+  "this request should probably use two skills, can you check?", "make the
+  router better at catching edge cases" - three underspecified requests
+  resolved against the real `SKILL.md` routing rules and Behavior section
+  (a new bullet plus a non-regressing carve-out; a concrete
+  deep-learning/agile-development two-skill test case; a single confirmed
+  "fit" false-positive fix).
+- `examples/18-19` (Adversarial Audit): attack a proposed Behavior-rule-3
+  rewrite that would narrate every non-match (closed by keeping the
+  precision in the routing rules' own carve-out text) and a proposal to
+  merge the academic-papers/hep-analysis bullets (closed by keeping them
+  separate so each skill's own reference set stays attached to a bullet that
+  matches its actual scope).
+- `examples/20-21` (Test-First): a `find_sibling_skill_dirs` invariant
+  (excluding a sibling whose `SKILL.md` exists but is empty) and a bundle-
+  validator invariant (rejecting a `SKILL.md` whose frontmatter exceeds the
+  1024-character plugin spec limit, the same class of issue this repository
+  hit for real in the `5c6ecc2` frontmatter-trim commit) - both dogfood real
+  functions in `scripts/validate_skill_bundle.py`.
+- `examples/22-24` (Postmortem): a missing-carve-out keyword hijack, a
+  frontmatter-length truncation silently breaking a routing bullet, and two
+  bullets both claiming a generic verb causing ambiguous double-routing -
+  all three grounded in the real current `SKILL.md` routing rules and
+  Behavior section, with 5-Whys chains terminating in a missing mechanical
+  check rather than "human error".
+- All 10 pass `agile-development/scripts/validate_skill_example.py`; zero
+  placeholder markers.
+- `examples/README.md`: added 10 rows (15-24), 24 rows total.
+- `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` extended with the 10
+  new example files. This exposed the same fixture-staleness gap as the
+  prior pass: `tests/test_skill_router.py`'s
+  `test_cli_reports_missing_readme_section` scratch bundle's hardcoded file
+  list had not been updated for the 10 new required files. Fixed by adding
+  10 more placeholder-file lines to the fixture, matching its existing
+  pattern - the same class of maintenance gap the prior pass's note already
+  flagged, now recurring because the fixture is still a hand-maintained
+  mirror of `REQUIRED_PATHS` rather than derived from it.
+- `agile-development/scripts/check_example_diversity.py`'s cross-skill
+  constraint no longer applies to this skill's second-wave archetypes (each
+  now deliberately repeats this skill 3x per archetype) - see
+  `agile-development/references/example-authoring.md`'s revised "Diversity
+  rule". This batch was hand-curated instead: each trio targets a
+  conceptually distinct request/proposal/invariant/incident.
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 31 files
+  present and non-empty, 4 routing entries found") and
+  `python3 -m unittest discover -s tests -v` (7 tests, all passing after the
+  fixture fix) after the change.
+
+## Renumber examples into canonical per-archetype order (2026-09-12)
+
+The `examples/` numbering had drifted into an inconsistent, historically-
+accreted order (the same archetype landing at different numbers in different
+skills, and some archetypes' 3 examples not even contiguous within one skill -
+e.g. this skill's own Postmortem trio was split across two ranges). Renamed
+files (content unchanged) so every skill now uses the same canonical layout:
+`01-03` Contrast, `04-06` Trajectory, `07-09` Gated-Pipeline, `10-12`
+Decision-Tree, `13-15` Elicitation, `16-18` Adversarial-Audit, `19-21`
+Test-First, `22-24` Postmortem - identical across all 5 skills. Updated
+`examples/README.md`'s table (re-sorted into the new order) and, where
+present, `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`; left every
+prior dated entry in this file untouched, so filenames named in earlier
+entries above refer to a file's *former* name - use the mapping below to
+resolve them to the current filename.
+
+Old name -> new name (this skill only):
+
+- `05-trajectory-single-clean-match-academic-papers.md` -> `04-trajectory-single-clean-match-academic-papers.md`
+- `06-trajectory-generic-verb-vs-domain-specific-rule.md` -> `05-trajectory-generic-verb-vs-domain-specific-rule.md`
+- `07-trajectory-clean-no-match-proceed-normally.md` -> `06-trajectory-clean-no-match-proceed-normally.md`
+- `08-gated-pipeline-adding-a-new-rule.md` -> `07-gated-pipeline-adding-a-new-rule.md`
+- `09-gated-pipeline-disambiguating-figure-interpretation.md` -> `08-gated-pipeline-disambiguating-figure-interpretation.md`
+- `10-gated-pipeline-expanding-a-carve-out.md` -> `09-gated-pipeline-expanding-a-carve-out.md`
+- `04-decision-tree-multi-skill-ambiguous-routing.md` -> `10-decision-tree-multi-skill-ambiguous-routing.md`
+- `15-elicitation-new-skill-request.md` -> `13-elicitation-new-skill-request.md`
+- `16-elicitation-two-skills-request.md` -> `14-elicitation-two-skills-request.md`
+- `17-elicitation-router-edge-case-request.md` -> `15-elicitation-router-edge-case-request.md`
+- `13-adversarial-audit-new-routing-rule-proposal.md` -> `16-adversarial-audit-new-routing-rule-proposal.md`
+- `18-adversarial-audit-fallback-text-proposal.md` -> `17-adversarial-audit-fallback-text-proposal.md`
+- `19-adversarial-audit-bullet-consolidation-proposal.md` -> `18-adversarial-audit-bullet-consolidation-proposal.md`
+- `14-test-first-routing-parser-primary-secondary.md` -> `19-test-first-routing-parser-primary-secondary.md`
+
+This rename also touched 5 example files' own prose, which cross-reference sibling example filenames by name as precedent (including one cross-skill reference into `academic-papers/examples/`) - all updated to the new names. `tests/test_skill_router.py`'s scratch-bundle fixture list was updated to the new filenames (order not re-sorted there since it is fixture setup, not documentation). Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 31 files present and non-empty, 4 routing entries found") and `python3 -m unittest discover -s tests -v` (7 tests, all passing) after the rename. All 24 example files individually re-validated with `agile-development/scripts/validate_skill_example.py` ("ok").
+
 ## Limitations
 
 - `skill-router` contains no code that acts on real user requests - its entire
