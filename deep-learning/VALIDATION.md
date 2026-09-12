@@ -576,6 +576,43 @@ column against each file's actual `archetype:` frontmatter.
   and `python3 -m unittest discover -s tests -v` ("Ran 106 tests" / "OK
   (skipped=2)", unchanged).
 
+## Second-wave example-authoring pass: Adversarial Audit, Test-First, Postmortem (2026-09-12)
+
+Added three new canonical examples in `agile-development`'s second-wave
+archetypes, continuing the four-archetype example-authoring plan (Contrast/
+Trajectory/Gated Pipeline/Decision-Tree already covered this skill; this
+pass adds Adversarial Audit, Test-First, and Postmortem).
+
+- `examples/13-adversarial-audit-sota-accuracy-claim.md`: attacks a "95.1%
+  accuracy, new SOTA" writeup for a normalization-statistics train/test
+  leak and an unreported single-seed result, both grounded in
+  `references/reproducibility.md` ("Data splits", "Reproducing across
+  seeds"); the honest, re-derived number (88.7% +/- 0.6% across 5 seeds)
+  falls below the prior production baseline, not above it.
+- `examples/14-test-first-dataloader-throughput-invariant.md`: a
+  `num_workers`/`pin_memory`/`persistent_workers` DataLoader tuning grounded
+  in `references/data-loading.md` and `references/performance-memory.md`,
+  red on a single-worker loader (187.3 samples/sec) to green on the tuned
+  configuration (612.4 samples/sec, 93% GPU util).
+- `examples/15-postmortem-distributed-training-divergence.md`: a multi-day
+  run's silent NaN divergence traced through 5 Whys (no "human error" stop)
+  to a checkpoint schema that forgot the mixed-precision `GradScaler` state
+  across a routine preemption, directly matching
+  `references/training-at-scale.md`'s "checkpoints must be resumable, not
+  just loadable" and "fail loudly on NaN" guidance; fixed with both a
+  checkpoint-schema addition and a per-step NaN-abort.
+- All three pass `agile-development/scripts/validate_skill_example.py` and
+  the diversity checker (`check_example_diversity.py`) shows no
+  archetype/skill repeats across the 12-file second-wave batch.
+- `examples/README.md`'s intro line updated from "four archetypes" to
+  "eight archetypes"; three rows added to its index (15 rows total).
+- `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` extended with the
+  three new example files. Re-ran `python3 scripts/validate_skill_bundle.py`
+  ("Bundle OK: 78 files present and non-empty") and
+  `python3 -m unittest discover -s tests -v` (106 tests, 2 skipped -
+  pre-existing PyTorch-unavailable skips, unrelated to this pass) after the
+  change.
+
 ## Limitations
 
 - **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that

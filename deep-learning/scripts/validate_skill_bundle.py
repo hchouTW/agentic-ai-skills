@@ -93,6 +93,9 @@ REQUIRED_PATHS = [
     "examples/10-decision-tree-training-failure-classification.md",
     "examples/11-decision-tree-serving-latency-regression.md",
     "examples/12-decision-tree-eval-metric-anomaly.md",
+    "examples/13-adversarial-audit-sota-accuracy-claim.md",
+    "examples/14-test-first-dataloader-throughput-invariant.md",
+    "examples/15-postmortem-distributed-training-divergence.md",
 ]
 
 REQUIRED_README_SECTIONS = [
