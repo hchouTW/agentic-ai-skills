@@ -75,8 +75,8 @@ academic-papers/
 │   ├── grant-and-fellowship-proposal-writing.md # Specific Aims, preliminary-results vs. proposed-work, broader-impacts, budget justification
 │   └── thesis-by-publication-assembly.md        # assembling a thesis from already-published papers, permissions, per-chapter contributions
 ├── examples/
-│   ├── README.md                  # index of the 14 canonical worked examples below
-│   └── 01-...14-*.md              # Contrast/Trajectory/Gated-Pipeline/Decision-Tree/Elicitation/Adversarial-Audit worked examples in this skill's own domain
+│   ├── README.md                  # index of the 24 canonical worked examples below
+│   └── 01-...24-*.md              # 3 examples each of Contrast/Trajectory/Gated-Pipeline/Decision-Tree/Elicitation/Adversarial-Audit/Test-First/Postmortem in this skill's own domain
 ├── scripts/
 │   ├── build_lit_matrix.py       # CSV of reading notes -> formatted markdown comparison table
 │   ├── check_manuscript.py       # pre-submission checker for the user's .tex/.bib files

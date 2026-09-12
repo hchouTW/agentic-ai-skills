@@ -395,3 +395,95 @@ pass adds Elicitation and Adversarial Audit).
 - Re-ran `python3 scripts/validate_skill_bundle.py` ("OK: ... passed all
   checks.") and `python3 -m unittest discover -s tests -v` (27 tests, all
   passing, unchanged) after the change.
+
+## Expand all four second-wave archetypes to three examples per skill (2026-09-12)
+
+`agile-development`'s example-authoring capability changed shape: every
+archetype now ships 3 examples per skill (not 3 total, one per skill) -
+matching how Contrast/Trajectory/Gated-Pipeline/Decision-Tree already work
+here. Added 10 new examples (15-24) to close the gap for Elicitation
+(had 1, now 3), Adversarial Audit (had 1, now 3), and the two archetypes this
+skill had none of yet, Test-First and Postmortem (now 3 each).
+
+- `examples/15-elicitation-related-work-section-request.md`,
+  `examples/16-elicitation-reviewer-response-request.md`: two more
+  underspecified requests ("write the related work section", "respond to
+  the reviewers") resolved via `references/literature-review.md` and
+  `references/submission-and-peer-review.md`/`reviewer-style-assessment.md`
+  respectively.
+- `examples/17-adversarial-audit-reproducibility-claim.md`,
+  `examples/18-adversarial-audit-literature-review-coverage-claim.md`:
+  attack a reproducibility-statement claim (undisclosed manual
+  post-processing, an unpinned dependency) and a related-work
+  "comprehensive coverage" opening claim (a missed prior paper, a vague
+  differentiation claim), grounded in `references/reproducibility-auditing.md`
+  and `references/literature-review.md`.
+- `examples/19-test-first-citation-checker-invariant.md`,
+  `examples/20-test-first-latex-unresolved-ref-invariant.md`,
+  `examples/21-test-first-word-count-limit-invariant.md`: this skill's first
+  three Test-First examples, two of them fixing real gaps found in this
+  session in `scripts/check_manuscript.py` (a missing-`.bib` short-circuit
+  that silently passed zero-citation manuscripts; a `REF_RE` that didn't
+  match `\pageref`) and one a new word-count checker illustrating a
+  footnote-inclusion bug, grounded in `references/citation-verification.md`,
+  `references/latex-mechanics-and-tooling.md`, and
+  `references/multi-venue-reformatting.md`.
+- `examples/22-postmortem-stale-reference-list-submission.md`,
+  `examples/23-postmortem-equation-edit-consistency-break.md`,
+  `examples/24-postmortem-private-repository-data-statement.md`: this
+  skill's first three Postmortem examples - a stale precompiled reference
+  list reaching a reviewer, an unpropagated equation-variable substitution,
+  and a data-availability statement pointing at a still-private repository -
+  grounded in `references/latex-mechanics-and-tooling.md`,
+  `references/equation-and-notation-auditing.md`/
+  `references/manuscript-consistency-auditing.md`, and
+  `references/artifact-packaging-for-release.md`/
+  `references/supplementary-material-planning.md`.
+- All 10 pass `agile-development/scripts/validate_skill_example.py`; zero
+  placeholder markers.
+- `examples/README.md`: added 10 rows (15-24), 24 rows total.
+- `README.md`'s "What's inside" file-tree comment updated from "14 canonical
+  worked examples" / six named archetypes to "24 canonical worked examples,
+  3 per archetype" / all eight named archetypes.
+- `agile-development/scripts/check_example_diversity.py`'s constraint (no
+  two files sharing an archetype also sharing a skill) no longer applies to
+  this skill's Elicitation/Adversarial-Audit/Test-First/Postmortem examples,
+  which now deliberately repeat this skill 3x each - see
+  `agile-development/references/example-authoring.md`'s revised "Diversity
+  rule" for the current per-skill-content-distinctness requirement, which
+  this batch was hand-curated against (each trio targets a different
+  request/claim/invariant/incident, not a variation on the same one).
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("OK: ... passed all
+  checks." - unaffected, since this package's own bundle validator does not
+  track `examples/` in `REQUIRED_PATHS`) and
+  `python3 -m unittest discover -s tests -v` (27 tests, all passing,
+  unchanged) after the change.
+
+## Renumber examples into canonical per-archetype order (2026-09-12)
+
+The `examples/` numbering had drifted into an inconsistent, historically-
+accreted order (the same archetype landing at different numbers in different
+skills, and some archetypes' 3 examples not even contiguous within one skill -
+e.g. this skill's own Postmortem trio was split across two ranges). Renamed
+files (content unchanged) so every skill now uses the same canonical layout:
+`01-03` Contrast, `04-06` Trajectory, `07-09` Gated-Pipeline, `10-12`
+Decision-Tree, `13-15` Elicitation, `16-18` Adversarial-Audit, `19-21`
+Test-First, `22-24` Postmortem - identical across all 5 skills. Updated
+`examples/README.md`'s table (re-sorted into the new order) and, where
+present, `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`; left every
+prior dated entry in this file untouched, so filenames named in earlier
+entries above refer to a file's *former* name - use the mapping below to
+resolve them to the current filename.
+
+Old name -> new name (this skill only):
+
+- `05-trajectory-referee-report-to-cover-letter.md` -> `04-trajectory-referee-report-to-cover-letter.md`
+- `06-trajectory-reproducibility-audit-config-mismatch.md` -> `05-trajectory-reproducibility-audit-config-mismatch.md`
+- `07-trajectory-notation-inconsistency-audit.md` -> `06-trajectory-notation-inconsistency-audit.md`
+- `04-gated-pipeline-manuscript-submission.md` -> `07-gated-pipeline-manuscript-submission.md`
+- `15-elicitation-related-work-section-request.md` -> `14-elicitation-related-work-section-request.md`
+- `16-elicitation-reviewer-response-request.md` -> `15-elicitation-reviewer-response-request.md`
+- `14-adversarial-audit-statistical-significance-derivation.md` -> `16-adversarial-audit-statistical-significance-derivation.md`
+
+Re-ran `python3 scripts/validate_skill_bundle.py` ("OK: ... passed all checks." - unaffected, this package's bundle validator does not track `examples/`) and `python3 -m unittest discover -s tests -v` (27 tests, all passing, unchanged) after the rename. All 24 example files individually re-validated with `agile-development/scripts/validate_skill_example.py` ("ok").
+
