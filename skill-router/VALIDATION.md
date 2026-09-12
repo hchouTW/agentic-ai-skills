@@ -463,6 +463,93 @@ Old name -> new name (this skill only):
 
 This rename also touched 5 example files' own prose, which cross-reference sibling example filenames by name as precedent (including one cross-skill reference into `academic-papers/examples/`) - all updated to the new names. `tests/test_skill_router.py`'s scratch-bundle fixture list was updated to the new filenames (order not re-sorted there since it is fixture setup, not documentation). Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 31 files present and non-empty, 4 routing entries found") and `python3 -m unittest discover -s tests -v` (7 tests, all passing) after the rename. All 24 example files individually re-validated with `agile-development/scripts/validate_skill_example.py` ("ok").
 
+## Full-bundle audit: stale post-move example prompt (2026-09-12)
+
+A full audit of this skill (bundle validator, test suite, every relative
+Markdown link, and every routing bullet cross-checked against the sibling
+skills' own `SKILL.md` descriptions) found one stale line: the earlier
+"Move example-authoring and prompt-engineering-and-token-optimization to
+task-authoring" change updated this skill's own `SKILL.md` and
+`examples/README.md` to point the canonical-example-authoring capability at
+`task-authoring`, but missed `README.md`'s "Example prompts" section, which
+still claimed "Generate a canonical `examples/` entry for the
+`hep-analysis` skill." routed to `agile-development`. Since `task-authoring`
+capabilities are explicitly carved out of this skill's routing table (see
+`SKILL.md`'s `agile-development` bullet), repointing the line to
+`task-authoring` would have been equally wrong; fixed it to state plainly
+that the request is a `task-authoring` capability not routed through this
+table at all, cross-referencing the carve-out note. No other stale
+reference, broken relative link, missing file, or routing-bullet/sibling-
+skill drift was found. Re-ran `python3 scripts/validate_skill_bundle.py`
+("Bundle OK: 31 files present and non-empty, 4 routing entries found") and
+`python3 -m unittest discover -s tests -v` (7 tests, all passing) after the
+fix.
+
+## Add `task-authoring` as a fifth routing entry (2026-09-12)
+
+Promoted `task-authoring` from an explicit carve-out (its three capabilities -
+canonical example authoring, prompt engineering/token budgeting, and now also
+standalone Task Markdown authoring - were previously named only inside the
+`agile-development` bullet as "not routed through this table") to a full fifth
+routing-table bullet, alphabetically last (`academic-papers`,
+`agile-development`, `deep-learning`, `hep-analysis`, `task-authoring`).
+
+- `SKILL.md`: added the `task-authoring` bullet (trigger phrases, and a
+  two-way carve-out against `agile-development` - live scoping/implementation
+  stays with `agile-development`, a standalone written task/ticket/spec goes
+  to `task-authoring`); rewrote the `agile-development` bullet's note to
+  point at the new bullet instead of saying "not routed through this table";
+  extended the frontmatter `description` to name `task-authoring` and its
+  three capabilities. Description length checked explicitly (956/1024 chars)
+  given this skill's own `examples/23-postmortem-frontmatter-length-
+  truncation.md` is a worked example of exactly this failure mode.
+- `README.md`: added `task-authoring` to the domain-skill list, the
+  partial-install note, and "Coverage and boundaries"; fixed the "Example
+  prompts" line that previously (see the audit entry above) claimed the
+  canonical-example-authoring prompt was unrouted - it now correctly routes
+  to `task-authoring` - and added a second example prompt disambiguating a
+  `task-authoring` request from a similarly-worded `agile-development` one.
+- `agents/openai.yaml`: added `task-authoring` to `short_description` and
+  `default_prompt`.
+- `tests/test_skill_router.py`: updated
+  `test_extracts_names_from_real_skill_md`'s expected name list to include
+  `task-authoring`.
+- Updated every place in `examples/` that stated the routing table's size as
+  a literal fact rather than flavor text: eight "four routing rules"/"four
+  bullets"/"four domain [skills]" mentions across
+  `examples/04-trajectory-single-clean-match-academic-papers.md`,
+  `06-trajectory-clean-no-match-proceed-normally.md`,
+  `07-gated-pipeline-adding-a-new-rule.md` (two),
+  `08-gated-pipeline-disambiguating-figure-interpretation.md`,
+  `15-elicitation-router-edge-case-request.md`,
+  `17-adversarial-audit-fallback-text-proposal.md` (two), and
+  `examples/README.md`, all changed to "five" - and the literal reproducible
+  `Bundle OK` transcript in
+  `examples/21-test-first-bundle-validator-message-invariant.md`, updated
+  from the real validator's new output (this also corrected a pre-existing,
+  unrelated error in that line: it previously said "24 files present",
+  which undercounted even the old 31-file bundle). `examples/12-decision-
+  tree-multiple-false-positive-keywords.md`'s "four simultaneous surface
+  keyword matches" and `09-gated-pipeline-expanding-a-carve-out.md`'s "four
+  specific categories" were left unchanged - both count something other than
+  the size of the routing table (keyword hits in one request; the `hep-
+  analysis` "root" carve-out's enumerated list) and are unaffected by this
+  change.
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 31 files
+  present and non-empty, 5 routing entries found (academic-papers,
+  agile-development, deep-learning, hep-analysis, task-authoring)") and
+  `python3 -m unittest discover -s tests -v` (7 tests, all passing) after
+  every change above, and re-confirmed zero broken relative Markdown links
+  across the bundle.
+- Not done as part of this change: no new `examples/` entries were added
+  specifically illustrating the new `task-authoring` bullet (e.g. a
+  Contrast or Decision-Tree scenario disambiguating it from
+  `agile-development`) - the existing 24 examples (3 per archetype x 8
+  archetypes) were updated only where they asserted a stale fact about the
+  old 4-rule table, not expanded. Whether a dedicated `task-authoring`
+  worked example should be added to reach the same 3-per-archetype
+  treatment other bullets get is an open follow-up, not resolved here.
+
 ## Limitations
 
 - `skill-router` contains no code that acts on real user requests - its entire

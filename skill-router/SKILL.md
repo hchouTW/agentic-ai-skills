@@ -1,6 +1,6 @@
 ---
 name: skill-router
-description: Use at the start of any non-trivial task to silently check whether one of the user's domain skills (academic-papers, agile-development, deep-learning, hep-analysis) applies before proceeding. Consult this for any non-trivial software change (implement/fix/add/refactor/migrate/update, scoping, code review), PyTorch model/training/DataLoader/debugging tasks (architecture selection, parallelism, compute budgeting, ablation, data/evaluation strategy), HEP/CERN/ROOT/PyROOT/RDataFrame/uproot/cutflow/systematics/fit/limit tasks (detector subsystems, event reconstruction, Geant4 simulation), or reading/critiquing a paper, building a literature review, drafting a manuscript (LaTeX/REVTeX/JHEP/NeurIPS/ICML/ACL), managing a BibTeX file, or responding to referee reports - even if the user doesn't name a skill or use the word "skill."
+description: Use at the start of any non-trivial task to silently check whether one of the user's domain skills (academic-papers, agile-development, deep-learning, hep-analysis, task-authoring) applies before proceeding. Consult this for any non-trivial software change (implement/fix/add/refactor/migrate/update, scoping, code review), PyTorch model/training/DataLoader/debugging tasks (architecture selection, parallelism, compute budgeting, ablation, data/evaluation strategy), HEP/CERN/ROOT/PyROOT/RDataFrame/uproot/cutflow/systematics/fit/limit tasks (detector subsystems, event reconstruction, Geant4 simulation), reading/critiquing a paper, building a literature review, drafting a manuscript (LaTeX/REVTeX/JHEP/NeurIPS/ICML/ACL), managing a BibTeX file, or responding to referee reports, or authoring a task/ticket/spec document, a skill's canonical worked example, or an LLM prompt design/budget - even if the user doesn't name a skill or use the word "skill."
 ---
 
 # Skill Router
@@ -28,12 +28,14 @@ on a match.
   minimal/surgical changes vs. overcomplicating, avoiding scope creep and
   unrelated refactors, verifiable success criteria). Triggers on "implement",
   "fix", "add", "refactor", "migrate", "update", "is this overcomplicated", or
-  "am I over-engineering this", even without the word "Agile". Authoring a
-  canonical worked example (Contrast, Execution Trajectory, Gated Pipeline,
-  Decision-Tree, Interactive Elicitation, Adversarial Audit, Test-First, or
-  Postmortem archetype) for a skill's `examples/` directory, and designing or
-  budgeting a prompt for an LLM call, are `task-authoring` capabilities not
-  routed through this table - see that skill's own `SKILL.md`.
+  "am I over-engineering this", even without the word "Agile". Turning a
+  request into a standalone, implementation-ready Task Markdown document
+  (rather than scoping/implementing it directly in this conversation),
+  authoring a canonical worked example (Contrast, Execution Trajectory,
+  Gated Pipeline, Decision-Tree, Interactive Elicitation, Adversarial Audit,
+  Test-First, or Postmortem archetype) for a skill's `examples/` directory,
+  and designing or budgeting a prompt for an LLM call are `task-authoring`
+  capabilities - see that bullet below.
 - **deep-learning** - PyTorch engineering: nn.Module models, training/eval
   loops, datasets and DataLoaders, losses, optimizers, schedulers, mixed
   precision, gradient accumulation, checkpointing, distributed training (DDP),
@@ -63,6 +65,24 @@ on a match.
   spectrometer) case study, and cosmic-ray flux calculation from counts/
   exposure. Not for unrelated uses of "root" (Linux root users, Android
   rooting, certificates, math or plant roots).
+- **task-authoring** - turning a short natural-language request into a
+  standalone, implementation-ready Task Markdown document (Background /
+  Objective / Scope / Repository Context / Deliverables / Acceptance
+  Criteria) that another human or AI agent can implement without the
+  original conversation; authoring a canonical worked example (Contrast,
+  Execution Trajectory, Gated Pipeline, Decision-Tree, Interactive
+  Elicitation, Adversarial Audit, Test-First, or Postmortem archetype) for
+  any skill's `examples/` directory; and designing or budgeting a prompt for
+  an LLM call (role framing, few-shot/chain-of-thought design,
+  structured-output contracts, token budgets, model-tier selection,
+  agentic/iterative loop design and its termination/max-iteration
+  guardrails). Triggers on "create/write/draft a task/ticket/spec for",
+  "turn this into a task", "generate a canonical example for", or
+  "design/budget a prompt for". Not the implementation itself once the task
+  is written, and not ad-hoc scoping discussed live in an active
+  implementation conversation - those stay with `agile-development` (or the
+  relevant domain skill) unless the explicit deliverable is a standalone,
+  written task/ticket/spec document.
 
 ## Behavior
 

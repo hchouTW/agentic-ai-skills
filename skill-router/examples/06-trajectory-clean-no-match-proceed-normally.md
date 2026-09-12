@@ -10,7 +10,7 @@ problem_input: a request for help with a laptop's Wi-Fi dropping during video ca
 A user asks: "My laptop's Wi-Fi keeps dropping every few minutes during video
 calls, but wired ethernet is fine. Can you help me figure out why?" No code,
 no physics, no manuscript, and no software-change verb anywhere in the
-request - this is the case where none of the four rules have any surface
+request - this is the case where none of the five rules have any surface
 keyword to even false-positive on, unlike the "root cause of a CI failure"
 carve-out case in example `03`.
 

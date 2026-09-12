@@ -125,6 +125,6 @@ other overloaded term not confirmed by this specific report.
   confirming no regression.
 
 **Explicit non-goals:** This does not attempt to enumerate every possible
-overloaded term across all four routing rules in one pass - only the
+overloaded term across all five routing rules in one pass - only the
 confirmed "fit" false positive is addressed; other terms are deferred
 until a similar concrete report surfaces them.

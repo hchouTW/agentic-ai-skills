@@ -39,7 +39,7 @@ router is meant to run its triage on essentially every non-trivial request,
 silently, and only surface itself when it actually routes somewhere. The
 current rule 3's "proceed normally without mentioning this skill" is not an
 afterthought - it is the mechanism that keeps this skill invisible on the
-overwhelming majority of requests (anything unrelated to the four domain
+overwhelming majority of requests (anything unrelated to the five domain
 skills: casual conversation, general research questions, requests about
 unrelated tools). The proposed rewrite would make the assistant announce
 "no domain skill applies, because this request is about X" on every one of
@@ -55,7 +55,7 @@ relevant") and precise about what to say (name the skill(s), state
 primary/secondary). The proposed rule 3 gives no criterion for when an
 explanation is warranted (a genuinely close call between "this might be a
 non-trivial software change" and "this is casual conversation") versus
-when it is pure overhead (a request that obviously matches none of the four
+when it is pure overhead (a request that obviously matches none of the five
 domain areas, e.g. "what's a good recipe for banana bread"). Without that
 distinction, an implementation of the literal rule text would explain on
 both, defeating the contributor's own stated motivation (surfacing triage

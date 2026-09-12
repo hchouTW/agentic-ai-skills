@@ -16,7 +16,7 @@ prose.
 ## 2. Root-Cause Triage & Action Plan
 
 Per `SKILL.md`'s Behavior rule 1 ("Check the task against the rules above
-before doing any other work"), each of the four routing-rule bullets is
+before doing any other work"), each of the five routing-rule bullets is
 checked against the request in full, not stopped at the first keyword hit:
 
 - `academic-papers`: "drafting, restructuring, or polishing a paper or

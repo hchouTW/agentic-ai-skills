@@ -17,7 +17,7 @@ Note first that `scripts/validate_skill_bundle.py` has no automated keyword-
 collision checker of its own - `ROUTING_ENTRY_RE` only extracts each rule's
 bolded skill name to confirm it parses and has an installed sibling folder,
 it does not compare rule *bodies* against each other. Any collision check
-here is a manual grep against the four existing bullets' actual text, not a
+here is a manual grep against the five existing bullets' actual text, not a
 built-in gate.
 
 **Gate:** proceed to Phase 2 only once every candidate trigger word above has
@@ -124,7 +124,7 @@ print(vsb.extract_routed_skill_names(draft))
 ```
 
 **Gate:** merge only once the drafted bullet's own full text (not just the
-original candidate keywords) has been re-grepped against all four existing
+original candidate keywords) has been re-grepped against all five existing
 bullets with every hit either clean or explicitly carved out, and
 `extract_routed_skill_names()` is confirmed - by actually running it, as
 above, not assumed - to parse the new bullet and yield the new skill name.

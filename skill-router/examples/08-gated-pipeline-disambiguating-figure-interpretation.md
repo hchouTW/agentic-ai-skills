@@ -51,7 +51,7 @@ hep-analysis addition: "...HEP plotting... Not for restating or critiquing
 
 **Gate:** proceed to Phase 3 only once both additions are checked for
 symmetry (each names and points to the other) and re-grepped against all
-four bullets for any new collision the added wording itself introduces:
+five bullets for any new collision the added wording itself introduces:
 `grep -n -i "recompute" SKILL.md` returns no hits (genuinely new
 vocabulary), and `grep -n -i "underlying" SKILL.md` returns exactly one hit -
 line 23, `academic-papers`'s own pre-existing carve-out ("Not for the

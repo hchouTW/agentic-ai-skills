@@ -23,7 +23,7 @@ class ExtractRoutedSkillNamesTests(unittest.TestCase):
         names = validate_skill_bundle.extract_routed_skill_names(text)
         self.assertEqual(
             names,
-            ["academic-papers", "agile-development", "deep-learning", "hep-analysis"],
+            ["academic-papers", "agile-development", "deep-learning", "hep-analysis", "task-authoring"],
         )
 
     def test_extracts_names_from_synthetic_routing_table(self):

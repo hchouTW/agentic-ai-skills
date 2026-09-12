@@ -1,6 +1,6 @@
 # Skill Router
 
-A portable Agent Skill maintained entirely in English. It contains no scripts or assets - `SKILL.md` is a lightweight triage rule set that routes a task to one of this collection's domain skills (`academic-papers`, `agile-development`, `deep-learning`, `hep-analysis`) before work begins. It requires no specific MCP server, cloud account, or paid service.
+A portable Agent Skill maintained entirely in English. It contains no scripts or assets - `SKILL.md` is a lightweight triage rule set that routes a task to one of this collection's domain skills (`academic-papers`, `agile-development`, `deep-learning`, `hep-analysis`, `task-authoring`) before work begins. It requires no specific MCP server, cloud account, or paid service.
 
 ## Installation and invocation
 
@@ -11,7 +11,7 @@ Extract the archive and keep the complete `skill-router/` folder alongside the d
 - **Antigravity:** copy it to `.agents/skills/skill-router/` in the workspace (or `~/.gemini/config/skills/skill-router/` for a global install; older installs may still read `.agent/skills/`). It is designed to trigger automatically from its description via Antigravity's progressive disclosure - no explicit invocation needed. See the [Antigravity skills documentation](https://antigravity.google/docs/skills).
 - **Other agents:** instruct the agent to read `SKILL.md` first and check the routing rules before proceeding with any other work.
 
-This delivery creates a single folder; it does not change other global agent settings. It only routes to skills that are actually installed - if you don't install `academic-papers`, `agile-development`, `deep-learning`, or `hep-analysis`, the corresponding routing row is simply never triggered.
+This delivery creates a single folder; it does not change other global agent settings. It only routes to skills that are actually installed - if you don't install `academic-papers`, `agile-development`, `deep-learning`, `hep-analysis`, or `task-authoring`, the corresponding routing row is simply never triggered.
 
 ## Quick checks
 
@@ -31,7 +31,7 @@ expected when you haven't installed every domain skill.
 
 ## Coverage and boundaries
 
-The package covers triage only: matching a task's keywords/intent against `academic-papers` (reading/writing/formatting a scientific paper), `agile-development` (non-trivial software changes, scoping, review process), `deep-learning` (PyTorch engineering), and `hep-analysis` (collider/particle-physics data, ROOT/PyROOT/RDataFrame, statistics). It explicitly excludes unrelated senses of overlapping words (e.g. "root" as a Linux user or Android rooting).
+The package covers triage only: matching a task's keywords/intent against `academic-papers` (reading/writing/formatting a scientific paper), `agile-development` (non-trivial software changes, scoping, review process), `deep-learning` (PyTorch engineering), `hep-analysis` (collider/particle-physics data, ROOT/PyROOT/RDataFrame, statistics), and `task-authoring` (writing a standalone task/ticket/spec document, a skill's canonical worked example, or an LLM prompt design/budget - not the implementation itself). It explicitly excludes unrelated senses of overlapping words (e.g. "root" as a Linux user or Android rooting).
 
 It does not perform the underlying work itself - once it identifies a match, it hands off to that domain skill's own workflow. If none of the rules apply, it stays silent and out of the way.
 
@@ -49,4 +49,6 @@ All maintained instructions and metadata are in English. The skill can still ans
 
 "Fix this bug in my PyTorch training loop." (routes to `deep-learning` primary, with `agile-development` for scoping/review)
 
-"Generate a canonical `examples/` entry for the `hep-analysis` skill." (routes to `agile-development`)
+"Generate a canonical `examples/` entry for the `hep-analysis` skill." (routes to `task-authoring`)
+
+"Write a ticket for adding a CSV export endpoint that another engineer can pick up cold." (routes to `task-authoring`, not `agile-development` - the deliverable is a standalone spec document, not the implementation itself)

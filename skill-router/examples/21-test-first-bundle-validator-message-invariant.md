@@ -131,7 +131,7 @@ tests/test_bundle_validator_frontmatter_length.py::test_rejects_frontmatter_over
 
 ```
 $ python3 scripts/validate_skill_bundle.py
-Bundle OK: 24 files present and non-empty, 4 routing entries found (academic-papers, agile-development, deep-learning, hep-analysis).
+Bundle OK: 31 files present and non-empty, 5 routing entries found (academic-papers, agile-development, deep-learning, hep-analysis, task-authoring).
 ```
 
 Full regression suite (this test plus the 2 existing `ValidateSkillBundleCliTests`
