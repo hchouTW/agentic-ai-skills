@@ -104,6 +104,12 @@ cp -r academic-papers .claude/skills/
 
 # Codex
 cp -r academic-papers ~/.codex/skills/
+
+# Antigravity (workspace-scoped; falls back to .agent/skills/ on older installs)
+cp -r academic-papers .agents/skills/
+
+# Antigravity (global)
+cp -r academic-papers ~/.gemini/config/skills/
 ```
 
 ## Per-agent invocation
@@ -117,6 +123,11 @@ cp -r academic-papers ~/.codex/skills/
   commonly `~/.codex/skills/`, or import it through the mechanism supported by your
   version. Reload skills and invoke `$academic-papers`. `agents/openai.yaml` supplies
   optional Codex UI metadata.
+- **Antigravity**: place the folder in `.agents/skills/` (workspace) or
+  `~/.gemini/config/skills/` (global). It triggers automatically - the agent reads
+  every installed skill's `name`/`description` at session start and loads the full
+  `SKILL.md` when a task matches, no explicit invocation needed. See the
+  [Antigravity skills documentation](https://antigravity.google/docs/skills).
 - **Other skill-aware agents**: consult that agent's own documentation for how
   installed `SKILL.md` files are surfaced; the file format here follows the same
   portable convention used by the other skills in this bundle.

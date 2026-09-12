@@ -8,6 +8,7 @@ Extract the archive and keep the complete `deep-learning/` folder.
 
 - **Codex:** place the folder in the skill directory used by your environment, commonly `~/.codex/skills/`, or import it through the mechanism supported by your version. Reload skills and invoke `$deep-learning`. `agents/openai.yaml` supplies optional Codex UI metadata.
 - **Claude Code:** copy it to `.claude/skills/deep-learning/` in the project or `~/.claude/skills/deep-learning/` for personal use. Invoke `/deep-learning` or describe a matching task (train a model, fix a NaN loss, review a DataLoader). See the [official Claude Code skill documentation](https://code.claude.com/docs/en/skills).
+- **Antigravity:** copy it to `.agents/skills/deep-learning/` in the workspace (or `~/.gemini/config/skills/deep-learning/` for a global install; older installs may still read `.agent/skills/`). It triggers automatically - the agent reads every installed skill's `name`/`description` at session start and loads the full `SKILL.md` when a task matches, no explicit invocation needed. See the [Antigravity skills documentation](https://antigravity.google/docs/skills).
 - **Other agents:** instruct the agent to read `SKILL.md` first and follow its reference routing. Provide the file location explicitly if automatic discovery is unsupported.
 
 This delivery creates a single folder; it does not change other global agent settings. Load references selectively instead of pasting the entire package into global instructions.

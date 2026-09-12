@@ -1,10 +1,10 @@
 # Agentic AI Skills
 
 A collection of portable [Agent Skills](https://code.claude.com/docs/en/skills) for
-Claude Code, Codex, and other skill-aware agents. Each skill is a self-contained
-folder built around a `SKILL.md`, with references, helper scripts, and templates
-resolved through relative paths. None require an MCP server, cloud account, or paid
-service.
+Claude Code, Codex, [Antigravity](https://antigravity.google/docs/skills), and other
+skill-aware agents. Each skill is a self-contained folder built around a `SKILL.md`,
+with references, helper scripts, and templates resolved through relative paths. None
+require an MCP server, cloud account, or paid service.
 
 ## Skills
 
@@ -29,6 +29,12 @@ cp -r academic-papers agile-development deep-learning hep-analysis skill-router 
 
 # Codex
 cp -r academic-papers agile-development deep-learning hep-analysis skill-router ~/.codex/skills/
+
+# Antigravity (workspace-scoped; falls back to .agent/skills/ on older installs)
+cp -r academic-papers agile-development deep-learning hep-analysis skill-router .agents/skills/
+
+# Antigravity (global)
+cp -r academic-papers agile-development deep-learning hep-analysis skill-router ~/.gemini/config/skills/
 ```
 
 Each skill's own `README.md` has per-agent invocation details. `skill-router` only
