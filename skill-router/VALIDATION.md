@@ -328,6 +328,49 @@ staleness against each other.
   `references/` or `assets/` directory and only one script, so there was
   correspondingly less for documentation to drift out of sync with.
 
+## Second-wave example-authoring pass: Adversarial Audit, Test-First (2026-09-12)
+
+Added two new canonical examples in `agile-development`'s second-wave
+archetypes, continuing the four-archetype example-authoring plan (Contrast/
+Trajectory/Gated Pipeline/Decision-Tree already covered this skill; this
+pass adds Adversarial Audit and Test-First). Both are about `skill-router`'s
+own routing-table mechanics, since this skill has no other domain.
+
+- `examples/13-adversarial-audit-new-routing-rule-proposal.md`: attacks a
+  proposed `frontend-design` routing-rule bullet for a hypothetical sixth
+  skill, finding an unflagged keyword collision with `agile-development`'s
+  real "UI work" trigger and a missing "Not for X" exclusion clause (both
+  checked directly against the real `SKILL.md` routing table), patched with
+  an explicit primary/secondary resolution mirroring
+  `examples/04-decision-tree-multi-skill-ambiguous-routing.md`'s existing
+  precedent.
+- `examples/14-test-first-routing-parser-primary-secondary.md`: a
+  hypothetical `resolve_primary_secondary()` function, red on an
+  alphabetical-order resolver that wrongly promotes `agile-development` to
+  primary, green on a resolver that demotes the generic fallback per
+  Behavior rule 2's own worked example - dogfoods `tests/test_skill_router.py`'s
+  real `unittest`/`sys.path`-insert style. Does not modify any real
+  `skill-router` source file; the illustrative "implementation" lives
+  entirely inside the example's own fenced code blocks.
+- Both pass `agile-development/scripts/validate_skill_example.py` and the
+  diversity checker (`check_example_diversity.py`) shows no archetype/skill
+  repeats across the 12-file second-wave batch.
+- `examples/README.md`'s intro line updated from "four archetypes" to
+  "eight archetypes"; two rows added to its index (14 rows total).
+- `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` extended with the
+  two new example files. This exposed a real gap:
+  `tests/test_skill_router.py`'s `test_cli_reports_missing_readme_section`
+  builds a synthetic scratch bundle with a hardcoded file list mirroring
+  `REQUIRED_PATHS` at the time the test was written, and had not been
+  updated for the two new required files - the validator correctly reported
+  them "missing" before the test ever reached the README-section check it
+  actually exercises. Fixed by adding two more placeholder-file lines to
+  the scratch fixture, matching its existing pattern. Re-ran
+  `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 21 files present
+  and non-empty, 4 routing entries found") and
+  `python3 -m unittest discover -s tests -v` (7 tests, all passing after
+  the fixture fix) after the change.
+
 ## Limitations
 
 - `skill-router` contains no code that acts on real user requests - its entire

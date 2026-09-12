@@ -40,6 +40,8 @@ REQUIRED_PATHS = [
     "examples/10-gated-pipeline-expanding-a-carve-out.md",
     "examples/11-decision-tree-figure-interpretation-routing.md",
     "examples/12-decision-tree-multiple-false-positive-keywords.md",
+    "examples/13-adversarial-audit-new-routing-rule-proposal.md",
+    "examples/14-test-first-routing-parser-primary-secondary.md",
 ]
 
 REQUIRED_README_SECTIONS = [
