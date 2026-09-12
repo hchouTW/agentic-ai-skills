@@ -41,6 +41,8 @@ It also covers implementation discipline - the failure modes that show up in the
 
 It also covers authoring a canonical worked example for this or another skill's `examples/` directory, in any of four archetypes - Contrast (Weak vs. Expert plus key takeaways), Execution Trajectory (step-by-step task resolution), Gated Pipeline (multi-phase build with explicit acceptance gates), or Decision-Tree (branching triage matrix plus end-to-end execution script) - see `references/example-authoring.md` for the archetype-selection guide and the `generate_skill_example.py`/`validate_skill_example.py` scripts above.
 
+It also covers prompt engineering and token optimization for LLM-facing work - role framing, few-shot/chain-of-thought examples, structured-output contracts, and guardrails on the design side; token budgets, context-window hygiene, and cheapest-adequate model-tier selection on the cost side; and two optional story-card fields (prompt directive, token budget) for stories whose behavior depends on an LLM call - see `references/prompt-engineering-and-token-optimization.md`.
+
 It does not decide *what* to build - pair it with a domain skill (e.g. `deep-learning`, `hep-analysis`) for specialized code, and it defers to explicit user instructions that override its default workflow (e.g. "don't run tests").
 
 All maintained instructions, templates, and metadata are in English. The skill can still answer a user in their requested language.

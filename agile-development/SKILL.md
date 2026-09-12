@@ -92,6 +92,9 @@ the file's complexity, and review it in the diff so it doesn't drift from the co
   (Weak vs. Expert), Execution Trajectory, Gated Pipeline, or Decision-Tree -
   for this or another skill's `examples/` directory ->
   [references/example-authoring.md](references/example-authoring.md)
+- **Designing or budgeting a prompt for an LLM call** - agent skills, prompt
+  templates, structured-output contracts, model-tier choice, token budgets ->
+  [references/prompt-engineering-and-token-optimization.md](references/prompt-engineering-and-token-optimization.md)
 
 ## Reusable Templates
 

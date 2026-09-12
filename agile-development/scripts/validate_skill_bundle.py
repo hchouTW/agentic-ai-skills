@@ -31,6 +31,7 @@ REQUIRED_PATHS = [
     "references/software-architecture.md",
     "references/validation-and-done.md",
     "references/example-authoring.md",
+    "references/prompt-engineering-and-token-optimization.md",
     "assets/completion-summary.md",
     "assets/definition-of-done.md",
     "assets/risk-register.md",
