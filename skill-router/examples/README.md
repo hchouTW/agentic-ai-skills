@@ -1,6 +1,6 @@
 # skill-router Examples
 
-Canonical worked examples in one of four archetypes - see `agile-development`'s
+Canonical worked examples in one of eight archetypes - see `agile-development`'s
 [references/example-authoring.md](../../agile-development/references/example-authoring.md)
 for the archetype-selection guide and how these are generated and validated
 (requires `agile-development` installed alongside this skill).
@@ -19,3 +19,5 @@ for the archetype-selection guide and how these are generated and validated
 | [10-gated-pipeline-expanding-a-carve-out.md](10-gated-pipeline-expanding-a-carve-out.md) | Gated Pipeline | Expanding `hep-analysis`'s "root" carve-out after a real false positive (a dental "root canal" question) | Three gates - locating the exact enumerated-list text, a minimal surgical addition, and a red-team pass that honestly logs the list's inherent incompleteness instead of declaring the gap fully closed |
 | [11-decision-tree-figure-interpretation-routing.md](11-decision-tree-figure-interpretation-routing.md) | Decision-Tree | A figure/plot request that could belong to `academic-papers`, `hep-analysis`, or `deep-learning` depending on intent | A 5-row matrix selects `hep-analysis` alone for "is this uncertainty band right," recomputes it correctly, and defines fallback re-triage if the fix turns out to affect a published claim |
 | [12-decision-tree-multiple-false-positive-keywords.md](12-decision-tree-multiple-false-positive-keywords.md) | Decision-Tree | A request with four simultaneous surface keyword matches (LaTeX, fix, refactor, update) that is really about a personal resume | A 5-row matrix resolves every surface match to "does not apply" for a resume-editing request, proceeding with no skill invoked, with fallback re-triage if the document turns out to be an academic CV after all |
+| [13-adversarial-audit-new-routing-rule-proposal.md](13-adversarial-audit-new-routing-rule-proposal.md) | Adversarial Audit | A proposed new `frontend-design` routing-rule bullet for a hypothetical sixth skill | Attacks an unflagged keyword collision with `agile-development`'s "UI work" trigger and a missing "Not for X" exclusion clause, patching in an explicit primary/secondary resolution mirroring the collection's existing conventions |
+| [14-test-first-routing-parser-primary-secondary.md](14-test-first-routing-parser-primary-secondary.md) | Test-First | A routing-table parser must resolve a request naming two overlapping domains to (primary, secondary) in the documented order | Red on an alphabetical-order resolver that wrongly promotes `agile-development` to primary, green on a resolver that demotes the generic fallback per Behavior rule 2's own worked example |
