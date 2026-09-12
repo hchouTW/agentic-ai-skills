@@ -137,11 +137,12 @@ FAILURE_MARKER_RE = re.compile(
     re.IGNORECASE,
 )
 METRIC_RE = re.compile(
-    r"\d+(\.\d+)?\s*(%|ms|milliseconds|seconds?|minutes?|req/s|rps|qps|samples/sec|MB|GB|x\b)",
+    r"\d+(\.\d+)?\s*(%|ms|milliseconds|s\b|seconds?|minutes?|req/s|rps|qps|samples/sec|steps?\b|MB|GB|x\b)",
     re.IGNORECASE,
 )
 ACTION_WORD_RE = re.compile(
-    r"\b(alert|page|trigger|rollback|block|gate|notify|escalate)\b", re.IGNORECASE
+    r"\b(alert\w*|page[sd]?|paging|trigger\w*|rollback\w*|block\w*|gate[sd]?|gating|notify\w*|notif\w*|escalat\w*)\b",
+    re.IGNORECASE,
 )
 HUMAN_ERROR_RE = re.compile(r"human error", re.IGNORECASE)
 WHY_STEP_RE = re.compile(r"^\s*\d+\.\s+\S")
