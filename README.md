@@ -56,14 +56,22 @@ See each skill's `VALIDATION.md` for what is checked.
 
 Every skill in this collection ships an `examples/` directory: canonical
 worked examples for a realistic scenario in that skill's domain, in one of
-four archetypes - **Contrast** (a "Common Weak Approach" vs. "Expert-Level
+eight archetypes - **Contrast** (a "Common Weak Approach" vs. "Expert-Level
 Best Practice" plus key takeaways), **Execution Trajectory** (a step-by-step
 task resolution), **Gated Pipeline** (a multi-phase build with explicit
-acceptance gates), or **Decision-Tree** (a branching triage matrix plus an
-end-to-end execution script) - see each skill's `examples/README.md` for its
-index and which archetype each entry uses. `agile-development`'s
-`references/example-authoring.md` documents all four generation prompts, an
-archetype-selection guide, and the format spec, and its
-`scripts/generate_skill_example.py`/`scripts/validate_skill_example.py`
-scaffold and validate new entries, in any of the four archetypes, for any
-installed skill - see that skill's own `README.md` for the commands.
+acceptance gates), **Decision-Tree** (a branching triage matrix plus an
+end-to-end execution script), **Interactive Elicitation** ("Grill-Me" -
+Socratic clarification of a vague request into a final spec), **Adversarial
+Audit** (ruthlessly attacking a candidate artifact to find and patch real
+failure modes), **Test-First / Red-to-Green** (a failing test through a
+minimal fix to a verified, metric-backed pass), or **Incident Postmortem**
+(alert through blameless 5-Whys RCA to a permanent fix and a concrete
+monitoring rule) - see each skill's `examples/README.md` for its index and
+which archetype each entry uses. `agile-development`'s
+`references/example-authoring.md` documents all eight generation prompts, an
+archetype-selection guide, the actor-stance conventions, the cross-skill
+diversity rule, and the format spec, and its
+`scripts/generate_skill_example.py`/`scripts/validate_skill_example.py`/
+`scripts/check_example_diversity.py` scaffold, validate, and diversity-check
+new entries, in any of the eight archetypes, for any installed skill - see
+that skill's own `README.md` for the commands.

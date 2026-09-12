@@ -28,10 +28,13 @@ on a match.
   minimal/surgical changes vs. overcomplicating, avoiding scope creep and
   unrelated refactors, verifiable success criteria); and authoring a
   canonical worked example - Contrast (a Weak vs. Expert comparison plus key
-  takeaways), Execution Trajectory, Gated Pipeline, or Decision-Tree - for
-  this or another skill's `examples/` directory. Triggers on "implement",
-  "fix", "add", "refactor", "migrate", "update", "is this overcomplicated",
-  or "am I over-engineering this", even without the word "Agile".
+  takeaways), Execution Trajectory, Gated Pipeline, Decision-Tree,
+  Interactive Elicitation ("Grill-Me"), Adversarial Audit / Red-Teaming,
+  Test-First / Red-to-Green, or Incident Postmortem & RCA - for this or
+  another skill's `examples/` directory. Triggers on "implement", "fix",
+  "add", "refactor", "migrate", "update", "is this overcomplicated", "am I
+  over-engineering this", or "author/generate a Grill-Me / red-team /
+  test-first / postmortem example", even without the word "Agile".
 - **deep-learning** - PyTorch engineering: nn.Module models, training/eval
   loops, datasets and DataLoaders, losses, optimizers, schedulers, mixed
   precision, gradient accumulation, checkpointing, distributed training (DDP),
