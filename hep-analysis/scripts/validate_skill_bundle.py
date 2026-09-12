@@ -125,8 +125,17 @@ REQUIRED_PATHS = [
     "examples/11-decision-tree-tracking-efficiency-drop-triage.md",
     "examples/12-decision-tree-multimessenger-alert-triage.md",
     "examples/13-elicitation-signal-search-ambiguous-request.md",
-    "examples/14-test-first-selection-efficiency-numerical-tolerance.md",
-    "examples/15-postmortem-mc-production-pipeline-crash.md",
+    "examples/14-elicitation-background-estimate-ambiguous-request.md",
+    "examples/15-elicitation-unfolding-ambiguous-request.md",
+    "examples/16-adversarial-audit-discovery-significance-claim.md",
+    "examples/17-adversarial-audit-btag-scale-factor-claim.md",
+    "examples/18-adversarial-audit-abcd-closure-claim.md",
+    "examples/19-test-first-selection-efficiency-numerical-tolerance.md",
+    "examples/20-test-first-luminosity-weight-invariant.md",
+    "examples/21-test-first-jes-idempotence-invariant.md",
+    "examples/22-postmortem-mc-production-pipeline-crash.md",
+    "examples/23-postmortem-calibration-constant-silent-shift.md",
+    "examples/24-postmortem-ntuple-output-path-collision.md",
 ]
 
 REQUIRED_README_SECTIONS = [

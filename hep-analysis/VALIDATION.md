@@ -828,6 +828,84 @@ pass adds Elicitation, Test-First, and Postmortem).
   unchanged from before this pass since no existing test hardcodes the
   example count) after the change.
 
+## Expand all four second-wave archetypes to three examples per skill (2026-09-12)
+
+Every archetype now ships 3 examples per skill (not 3 total, one per skill) -
+matching how Contrast/Trajectory/Gated-Pipeline/Decision-Tree already work
+here. Added 9 new examples (16-24) to close the gap: Elicitation, Test-First,
+and Postmortem each had 1, now have 3; Adversarial Audit had none, now has 3.
+
+- `examples/16-17` (Elicitation): "redo the background estimate", "unfold
+  this spectrum" - two underspecified requests resolved via
+  `references/05-backgrounds.md`/`06-systematics.md` (method, control
+  region, systematic scope) and `references/10-measurements-unfolding.md`
+  (method, binning, regularization, uncertainty scope).
+- `examples/18-20` (Adversarial Audit): attack a "5.2 sigma - discovery"
+  significance claim (uncorrected mass-window look-elsewhere effect, an
+  unrecorded unblinding/refit step), a "validated, ready to apply" b-tagging
+  scale factor (a kinematic mismatch between control and signal-region
+  phase space, a same-sample closure test), and a "closure verified" ABCD
+  background estimate (non-factorizable defining variables, a closure test
+  performed away from the signal-region-overlapping bins) - grounded in
+  `references/09-statistical-tools.md`,
+  `references/04-histograms-efficiencies.md`/`31-calibration-and-alignment.md`,
+  and `references/05-backgrounds.md`.
+- `examples/21-22` (Test-First): a luminosity-weighted-yield numerical
+  invariant (a dropped fb^-1 -> pb^-1 factor, understating every yield
+  1000x) and a JES-idempotence invariant (a double-corrected jet 5.25 GeV
+  high in pT), grounded in `references/03-weights-normalization.md` and
+  `references/20-physics-objects-jets-btagging-met.md`.
+- `examples/23-24` (Postmortem): a calibration-constant payload silently
+  shifting the energy scale for a week, and a shared ntuple-production job's
+  path-collision bug overwriting another group's output, grounded in
+  `references/31-calibration-and-alignment.md` and
+  `references/02-data-pipelines.md`; both 5-Whys chains terminate in a
+  missing sanity-check/collision-prevention design gap, not "human error".
+- All 9 pass `agile-development/scripts/validate_skill_example.py`; zero
+  placeholder markers.
+- `examples/README.md`: added 9 rows (16-24), 24 rows total.
+- `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` extended with the 9
+  new example files.
+- `agile-development/scripts/check_example_diversity.py`'s cross-skill
+  constraint no longer applies to this skill's second-wave archetypes (each
+  now deliberately repeats this skill 3x per archetype) - see
+  `agile-development/references/example-authoring.md`'s revised "Diversity
+  rule". This batch was hand-curated instead: each trio targets a
+  conceptually distinct method/claim/invariant/incident.
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 119 files
+  present and non-empty") and `python3 -m unittest discover -s tests -v`
+  (172 tests, all passing, unchanged) after the change.
+
+## Renumber examples into canonical per-archetype order (2026-09-12)
+
+The `examples/` numbering had drifted into an inconsistent, historically-
+accreted order (the same archetype landing at different numbers in different
+skills, and some archetypes' 3 examples not even contiguous within one skill -
+e.g. this skill's own Postmortem trio was split across two ranges). Renamed
+files (content unchanged) so every skill now uses the same canonical layout:
+`01-03` Contrast, `04-06` Trajectory, `07-09` Gated-Pipeline, `10-12`
+Decision-Tree, `13-15` Elicitation, `16-18` Adversarial-Audit, `19-21`
+Test-First, `22-24` Postmortem - identical across all 5 skills. Updated
+`examples/README.md`'s table (re-sorted into the new order) and, where
+present, `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`; left every
+prior dated entry in this file untouched, so filenames named in earlier
+entries above refer to a file's *former* name - use the mapping below to
+resolve them to the current filename.
+
+Old name -> new name (this skill only):
+
+- `16-elicitation-background-estimate-ambiguous-request.md` -> `14-elicitation-background-estimate-ambiguous-request.md`
+- `17-elicitation-unfolding-ambiguous-request.md` -> `15-elicitation-unfolding-ambiguous-request.md`
+- `18-adversarial-audit-discovery-significance-claim.md` -> `16-adversarial-audit-discovery-significance-claim.md`
+- `19-adversarial-audit-btag-scale-factor-claim.md` -> `17-adversarial-audit-btag-scale-factor-claim.md`
+- `20-adversarial-audit-abcd-closure-claim.md` -> `18-adversarial-audit-abcd-closure-claim.md`
+- `14-test-first-selection-efficiency-numerical-tolerance.md` -> `19-test-first-selection-efficiency-numerical-tolerance.md`
+- `21-test-first-luminosity-weight-invariant.md` -> `20-test-first-luminosity-weight-invariant.md`
+- `22-test-first-jes-idempotence-invariant.md` -> `21-test-first-jes-idempotence-invariant.md`
+- `15-postmortem-mc-production-pipeline-crash.md` -> `22-postmortem-mc-production-pipeline-crash.md`
+
+Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 119 files present and non-empty") and `python3 -m unittest discover -s tests -v` (172 tests, all passing) after the rename. All 24 example files individually re-validated with `agile-development/scripts/validate_skill_example.py` ("ok").
+
 ## Limitations
 
 - ROOT is not installed in the validation environment, so `check_root_cpp_env.sh`
