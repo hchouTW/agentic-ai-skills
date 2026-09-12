@@ -57,6 +57,8 @@ REQUIRED_PATHS = [
     "examples/10-gated-pipeline-public-api-contract-change.md",
     "examples/11-decision-tree-pr-review-response-triage.md",
     "examples/12-decision-tree-staging-vs-production-parity-triage.md",
+    "examples/13-elicitation-checkout-latency-ambiguous-request.md",
+    "examples/14-postmortem-production-api-outage-bad-deploy.md",
 ]
 
 REQUIRED_README_SECTIONS = [
