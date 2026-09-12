@@ -5,15 +5,15 @@ description: "Use when analyzing collider or astroparticle physics data/simulati
 
 # High-Energy Physics and Astroparticle Physics Experimental Analysis and Statistics
 
-Produce physically traceable, statistically sound, reproducible analyses. Support design, implementation, debugging, review, and explanation. Follow the user's language and established project tools; do not assume an experiment, collision energy, era, or input format. This skill and its reusable resources are maintained in English. Preserve existing physics behavior (cuts, weights, binning, fit models) unless the user explicitly asks for a physics change.
+Produce physically traceable, statistically sound, reproducible analyses. Support design, implementation, debugging, review, and explanation. Follow the user's language and established project tools; do not assume an experiment, collision energy, era, or input format. Maintained in English. Preserve existing physics behavior (cuts, weights, binning, fit models) unless the user explicitly asks for a physics change.
 
 ## Working procedure
 
-1. Identify whether the task is inspection, analysis production, statistical inference, refactoring, or review. Inspect project instructions, configurations, entry points, build system, and a small available sample before changing the analysis.
-2. Establish the physics objective, data/MC distinction, units, observables, selections, normalization, signal/control/validation regions, parameter of interest (POI), and blinding state. Continue independent inspection when information is missing, and state assumptions. Never invent luminosities, cross sections, calibration values, or correlations for a reported result.
-3. Choose the simplest matching API for the task (see API selection below), and read only the relevant references below. Complete a minimal verifiable analysis before scaling to the full dataset. Record software, configuration, sample, and calibration versions.
+1. Classify the task (inspection, production, inference, refactor, review). Inspect project instructions, configs, entry points, build system, and a small sample before changing the analysis.
+2. Establish physics objective, data/MC distinction, units, observables, selections, normalization, signal/control/validation regions, POI, and blinding state. Keep inspecting when information is missing and state assumptions. Never invent luminosities, cross sections, calibration values, or correlations for a reported result.
+3. Choose the simplest matching API (see API selection below) and read only the relevant references. Complete a minimal verifiable analysis before scaling to the full dataset. Record software, config, sample, and calibration versions.
 4. Distinguish successful execution, numerical validation, physical plausibility, and demonstrated statistical coverage. State which checks were not run and why.
-5. Deliver the relevant code/configuration, build+run commands, reproduction commands, cutflow, statistical model and diagnostics, assumptions (units, tree/branch names, weights), validation evidence, and limitations. Scale deliverables to the task rather than requiring a full report for every small question.
+5. Deliver relevant code/config, build+run and reproduction commands, cutflow, statistical model and diagnostics, assumptions (units, tree/branch names, weights), validation evidence, and limitations. Scale deliverables to the task, not a full report for every small question.
 
 ## API selection
 
@@ -26,12 +26,11 @@ Produce physically traceable, statistically sound, reproducible analyses. Suppor
 | `SetBranchAddress` | legacy maintenance only - validate addresses/lifetimes carefully |
 | RooFit/RooStats, pyhf, Combine | likelihood models, constrained fits, workspaces, toys, limits, intervals |
 
-Don't mix more APIs than needed in one script. If mixing, keep boundaries clear (e.g.
-uproot for inspection, RDataFrame for production, ROOT files as interchange).
+Don't mix more APIs than needed in one script; if mixing, keep boundaries clear (e.g. uproot for inspection, RDataFrame for production, ROOT files as interchange).
 
 ## Analysis invariants
 
-- Do not silently change cuts, object ordering, binning, weights, corrections, models, parameter bounds, or nuisance correlations during a refactor.
+- Do not silently change cuts, object ordering, binning, weights, corrections, models, parameter bounds, or nuisance correlations during a refactor. If a change risks altering physics output, say so and propose a comparison method (event count per cut, histogram integrals, max absolute/relative bin difference, fit parameters/uncertainties).
 - Preserve signed generator weights. Normalize with the sum of generator weights for the corresponding full production, not the selected entry count. Store both sumw and sumw2.
 - Do not count the same events, MC statistical information, or auxiliary measurement twice as independent likelihood information. Remove region overlaps or model them jointly.
 - Label observed counts, weighted yields, Asimov expectations, and toy data separately. Arbitrary weighted or background-subtracted data are not ordinary Poisson observations.
@@ -42,7 +41,6 @@ uproot for inspection, RDataFrame for production, ROOT files as interchange).
 - Do not tune simulation, calibration, or alignment parameters to remove a disagreement in the observable being measured. Tune only on independent control observables, with a stated physical justification, and carry the remaining freedom as a systematic.
 - Detector-level quantities are inferred, not observed. Rigidity is `p/q`, not momentum; efficiency is not acceptance; a matched object is matched under a stated criterion. State the definition whenever one of these is quoted.
 - Distinguish frequentist confidence intervals from Bayesian credible intervals. Report the statistic, tail convention, nuisance treatment, and validity conditions.
-- Never change cuts, weights, binning, or fit models silently during a refactor - if a change risks altering physics output, say so and propose a comparison method (event count per cut, histogram integrals, max absolute/relative bin difference, fit parameters/uncertainties).
 - In an ON/OFF or blind sky-scan search, the OFF/background region must not overlap the ON region, and a reported significance must account for the number of independent trials (positions, energy bins, time windows, source catalogs) actually tested, not just the one presented.
 - Distinguish a flux measured at the top of the atmosphere or at an instrument from one corrected to the local interstellar spectrum; state the solar-modulation epoch/potential and the geomagnetic cutoff applied whenever a low-rigidity cosmic-ray flux is reported.
 - Do not draw a composition conclusion from a single shower observable (X_max or muon content alone) without stating the hadronic interaction model assumed and checking consistency against the other observable, given the current muon-content/X_max modeling discrepancy.
@@ -97,13 +95,7 @@ uproot for inspection, RDataFrame for production, ROOT files as interchange).
 
 ## Code file requirement
 
-When creating or modifying any code file (C++ source/headers, ROOT macros, PyROOT/
-uproot scripts, CMake files, config loaders), include a short introductory comment
-block at the top covering purpose, what the code does, and usage notes/dependencies/
-assumptions (build/run command, expected input format and tree/branch names, units,
-weight conventions, ROOT version, preconditions). For existing files, add it if
-missing or update it if outdated. See [Code conventions](references/18-code-conventions.md)
-for the full naming, comment, and documentation convention.
+When creating or modifying any code file (C++ source/headers, ROOT macros, PyROOT/uproot scripts, CMake files, config loaders), include a short introductory comment block: purpose, what it does, and usage notes/dependencies/assumptions (build/run command, expected input format and tree/branch names, units, weight conventions, ROOT version, preconditions). Add or update it if missing/outdated. Full convention: [Code conventions](references/18-code-conventions.md).
 
 ## Executable resources
 
@@ -144,7 +136,7 @@ for the full naming, comment, and documentation convention.
 - `assets/CMakeLists.txt`, `assets/analysis_config.yaml`, `assets/systematics_config.yaml`, `assets/statistical_histogram_config.yaml`, `assets/combine_datacard_template.txt`: build and config templates (copy and adapt).
 - `tests/test_helpers.py`: standard-library tests for `audit_histograms.py`/`counting_reference.py`/`tag_and_probe_efficiency.py`/`pileup_reweight.py`. Run `python3 -m unittest discover -s tests -v`.
 
-Resolve relative paths from the skill directory. Read a script's `--help` before use. Write analysis outputs to the appropriate user-project location. Use the project's existing ROOT, PyROOT, uproot, or pyhf environment; loading this skill does not require installing the full software stack, but the PyROOT-dependent scripts above need one.
+Resolve relative paths from the skill directory. Read a script's `--help` before use. Write outputs to the appropriate user-project location. Use the project's existing ROOT/PyROOT/uproot/pyhf environment; loading this skill needs no software install, but PyROOT-dependent scripts above need PyROOT. When a script's output (branch/key listings, bin-by-bin diffs, workspace contents) is large, summarize it: report counts and the top ~20 offending/differing entries rather than the full dump.
 
 ## Example requests
 
@@ -166,7 +158,6 @@ Resolve relative paths from the skill directory. Read a script's `--help` before
 - "What should I check before trusting fast simulation for this measurement?"
 - "Is a 4.8-sigma excess in my ON/OFF gamma-ray source search significant after accounting for the sky scan?"
 - "Why does my composition analysis using X_max disagree with the one using muon content?"
-- "Estimate the geomagnetic cutoff for a low-inclination low-Earth orbit and what minimum rigidity my spectrometer needs to see."
 - "Review my IceCube-style point-source likelihood - is the background estimation and trials factor right?"
 - "Fit the spectral break in this cosmic-ray flux and check whether it's consistent with a knee-like feature."
 - "What geomagnetic cutoff range does an AMS-02-like instrument on the ISS orbit see, and how should that shape my low-rigidity selection?"
@@ -174,4 +165,4 @@ Resolve relative paths from the skill directory. Read a script's `--help` before
 - "Propagate the uncertainty on a positron fraction from independent positron and electron template-fit yields."
 - "Compute the differential flux and its statistical uncertainty from these raw counts, exposure, and bin width."
 
-See [README.md](README.md) for installation and cross-agent use. For the broader engineering workflow around this code (scoping, tests, review discipline), pair with a general software-engineering skill if one is available.
+See [README.md](README.md) for installation and cross-agent use. Pair with a general software-engineering skill for the broader workflow (scoping, tests, review discipline) if one is available.

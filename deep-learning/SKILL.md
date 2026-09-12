@@ -6,30 +6,28 @@ description: "Use whenever writing, debugging, refactoring, reviewing, or explai
 # PyTorch Engineering
 
 Produce practical, runnable, maintainable PyTorch code with strong defaults for
-correctness, reproducibility, debugging, and extensibility. The goal is code another
-engineer can run, test, and modify without archaeology.
+correctness, reproducibility, debugging, and extensibility - code another engineer can
+run, test, and modify without archaeology.
 
-Not in scope: non-PyTorch deep learning frameworks, or general C++ unrelated to
-LibTorch/custom ops - unless the user is porting code into/out of PyTorch.
+Out of scope: non-PyTorch DL frameworks, general C++ unrelated to LibTorch/custom ops -
+unless porting code into/out of PyTorch.
 
 ## Workflow
 
-1. **Clarify the task shape** before writing code: classification (binary/multiclass/
-   multilabel), regression, or something custom? What are the input/output shapes and
-   label format? If unstated, state your assumption explicitly.
-2. **Pick the smallest correct structure.** A single readable script is fine for a
-   compact task; for anything nontrivial, separate `models.py`, `data.py`, `train.py`,
-   `evaluate.py`, `infer.py`, `losses.py`, `metrics.py`, `config.yaml` (see
-   [assets/](assets/) for working templates of each).
-3. **Write the model, training loop, and eval loop** following the conventions below -
-   device handling, `train()`/`eval()` modes, `no_grad`/`inference_mode`, correct loss
-   for the task, gradient zeroing, checkpointing.
+1. **Clarify task shape**: classification (binary/multiclass/multilabel), regression,
+   or custom? Input/output shapes and label format? State assumptions explicitly if unstated.
+2. **Pick the smallest correct structure.** Single script for compact tasks; for
+   nontrivial ones, separate `models.py`, `data.py`, `train.py`, `evaluate.py`,
+   `infer.py`, `losses.py`, `metrics.py`, `config.yaml` (templates in [assets/](assets/)).
+3. **Write model/training/eval loops** per the conventions below - device handling,
+   `train()`/`eval()` modes, `no_grad`/`inference_mode`, correct loss, gradient zeroing,
+   checkpointing.
 4. **Add reproducibility and shape-safety** where it matters - seed everything, add
-   shape comments/asserts on tensors whose dimensions aren't obvious.
-5. **Validate before declaring done**: run `scripts/check_pytorch_env.py` if the
-   environment is unfamiliar, do a tiny forward/backward pass on dummy data, and (for
-   data pipelines) `scripts/check_dataset_contract.py` / `scripts/profile_dataloader.py`.
-6. **Provide a run command** and note expected shapes/label formats in your response.
+   shape comments/asserts on non-obvious tensor dimensions.
+5. **Validate before declaring done**: `scripts/check_pytorch_env.py` if the environment
+   is unfamiliar, a tiny forward/backward pass on dummy data, and (data pipelines)
+   `scripts/check_dataset_contract.py` / `scripts/profile_dataloader.py`.
+6. **Present results per the Response Format below.**
 
 ## Core Principles
 
@@ -96,22 +94,18 @@ already says (`# zero gradients`, `# move to device`).
 
 ## Code File Requirement
 
-When creating or modifying **any** code file (`models.py`, `train.py`, `data.py`,
-config loaders, etc.), include a clear introductory explanation at the top of the file.
-In Python use a module-level docstring (`"""..."""`) as this comment block; for other
-languages use the appropriate comment syntax. Place it before the main code content and
-have it briefly cover:
+Every code file (`models.py`, `train.py`, `data.py`, config loaders, etc.) needs a
+top-of-file intro block - module-level docstring in Python, equivalent comment syntax
+elsewhere - covering:
 
 - **Purpose** - why the file exists (e.g. "model definitions", "training entry point").
-- **What the code does** - the main behavior, plus expected input/output shapes and
-  label formats where relevant.
-- **Usage notes, dependencies, or assumptions** - run/import command, required packages
-  or CUDA/MPS, config keys, dataset layout, and any preconditions.
+- **What the code does** - main behavior, plus expected input/output shapes and label
+  formats where relevant.
+- **Usage notes** - run/import command, required packages or CUDA/MPS, config keys,
+  dataset layout, preconditions.
 
-For existing files, add the explanation if it is missing, or update it if it is
-incomplete or outdated. Keep it proportional and don't let it drift from the code. This
-is separate from the inline-comment guidance above - the file-level block explains the
-file as a whole, not individual lines.
+Add it to existing files if missing or outdated; keep it proportional and in sync with
+the code. Distinct from inline comments above - this describes the file as a whole.
 
 ## When to Read a Reference
 
@@ -123,7 +117,6 @@ file as a whole, not individual lines.
 - **AMP / mixed precision** -> [references/mixed-precision.md](references/mixed-precision.md)
 - **Checkpoint save/load/resume** -> [references/checkpointing.md](references/checkpointing.md)
 - **DDP / multi-GPU** -> [references/distributed-training.md](references/distributed-training.md)
-  (don't introduce DDP unless asked or required)
 - **Choosing a parallelism strategy (DDP vs. FSDP/ZeRO vs. tensor/pipeline/sequence), the memory equation, what is binding** -> [references/parallelism-strategy.md](references/parallelism-strategy.md)
 - **Metrics for classification/regression** -> [references/evaluation-metrics.md](references/evaluation-metrics.md)
 - **Speed/memory tuning** -> [references/performance-memory.md](references/performance-memory.md)
@@ -179,6 +172,9 @@ Run diagnostics with `python3` before assuming a fix worked:
   an inference service against a latency budget.
 - `scripts/check_split_integrity.py` - train/val/test overlap, duplicates, group
   leakage, and temporal violations; exits nonzero so it can gate a pipeline.
+
+When relaying output from these (profiler timings, NaN scan hits, training logs),
+report the top ~5 offending items, not the raw dump.
 
 The five scripts above are standard library only and do not require PyTorch.
 - `scripts/validate_skill_bundle.py` - check that this package's own files (SKILL.md,

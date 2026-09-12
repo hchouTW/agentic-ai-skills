@@ -5,19 +5,17 @@ description: "Use for any non-trivial software change - new features, bug fixes,
 
 # Agile Development
 
-Turn software requests into small, verified, reviewable increments. The goal is not
-ceremony - it's making sure every change has a clear user-visible outcome, fits
-existing conventions, is checked before you call it done, and is reported honestly.
+Turn software requests into small, verified, reviewable increments: a clear
+user-visible outcome, matching existing conventions, checked before you call it
+done, reported honestly.
 
 ## Core Workflow
 
-1. **Identify the outcome.** What user-visible or operator-visible behavior should
-   change? If it's ambiguous, decide by what being wrong costs: ask first when a wrong
-   guess is expensive or hard to undo (schema, migration, published contract,
-   user-visible behavior, anything outward-facing); otherwise state a reasonable
-   assumption rather than blocking. Present competing interpretations instead of
-   silently picking one - see
-   [references/implementation-discipline.md](references/implementation-discipline.md).
+1. **Identify the outcome.** What user- or operator-visible behavior should change?
+   Ask first only when a wrong guess is expensive or hard to undo (schema, migration,
+   published contract, outward-facing behavior); otherwise state a reasonable
+   assumption and proceed, presenting competing interpretations rather than silently
+   picking one - see [references/implementation-discipline.md](references/implementation-discipline.md).
 2. **Reconnoiter before editing.** Read repository instructions (CLAUDE.md, READMEs),
    nearby code, tests, fixtures, and tooling config to find existing conventions.
 3. **Write acceptance criteria.** Make them observable and testable - see
@@ -26,9 +24,9 @@ existing conventions, is checked before you call it done, and is reported honest
 4. **Pick the smallest coherent slice.** One end-to-end path beats a half-finished
    broad redesign. See "Slicing" in product-framing.md.
 5. **Implement inside existing conventions.** Match style, naming, and structure;
-   avoid unrelated refactors or formatting churn. Write the minimum code that solves
-   the problem - see
-   [references/implementation-discipline.md](references/implementation-discipline.md).
+   avoid unrelated refactors or formatting churn - see
+   [references/implementation-discipline.md](references/implementation-discipline.md)
+   for minimal-code guidance.
 6. **Add or update tests** proportional to behavior, risk, and blast radius - see
    [references/validation-and-done.md](references/validation-and-done.md).
 7. **Run validation**, narrowest first (the specific test), then broader checks
@@ -51,25 +49,21 @@ existing conventions, is checked before you call it done, and is reported honest
 - Write the minimum code that solves the problem. No speculative features,
   single-caller abstractions, unrequested configurability, or handling for impossible
   states.
-- Remove what your change orphaned; mention pre-existing dead code rather than deleting
-  it. Every changed line should trace directly to the request.
+- Remove what your change orphaned; mention (don't delete) pre-existing dead code.
+  Every changed line should trace directly to the request.
 
 ## Code File Requirement
 
-When creating or modifying **any** code file, include a clear introductory explanation
-at the top of the file, written as a comment block in the target language's syntax
-(e.g. `#` for Python/shell, `//` or `/* */` for C/C++/Java/JS, `<!-- -->` for HTML).
-Place it before the main code content. It should briefly cover:
+When creating or modifying **any** code file, add a comment block at the top (in the
+target language's syntax, e.g. `#`, `//`, `/* */`, `<!-- -->`) briefly covering:
 
 - **Purpose** - why the file exists.
 - **What the code does** - its main behavior or responsibility.
-- **Usage notes, dependencies, or assumptions** - how to run or import it, what it
-  depends on, and any preconditions.
+- **Usage notes, dependencies, or assumptions** - how to run/import it, dependencies,
+  preconditions.
 
-For existing files, add the explanation if it is missing, or update it if it is
-incomplete or outdated. Keep it proportional - a few lines for a small module, more for
-a complex one - and treat it as part of the diff to review so it never drifts from the
-code.
+For existing files, add or update this block if missing or outdated, proportional to
+the file's complexity, and review it in the diff so it doesn't drift from the code.
 
 ## When to Load References
 

@@ -22,8 +22,7 @@ expressed with factory functions and return values.
 - [Testing and Generic Code](#testing-guidance)
 - [Standard Library and Documentation](#standard-library-preference)
 - [Design Checklist](#design-checklist)
-- [Preferred Style](#preferred-style)
-- [Anti-Patterns](#anti-patterns-to-avoid)
+- [Anti-Patterns Recap](#anti-patterns-to-avoid-recap)
 - [Summary Rule](#summary-rule)
 
 ## Core Principle
@@ -1020,144 +1019,14 @@ Before adding inheritance, ask:
 
 ---
 
-## Preferred Style
+## Anti-Patterns to Avoid (recap)
 
-Prefer code shaped like this:
-
-```cpp
-namespace geometry {
-
-struct Point {
-  double x;
-  double y;
-};
-
-double Distance(Point a, Point b) {
-  const auto dx = a.x - b.x;
-  const auto dy = a.y - b.y;
-  return std::sqrt(dx * dx + dy * dy);
-}
-
-class Polygon {
- public:
-  static std::optional<Polygon> Create(std::vector<Point> points) {
-    if (points.size() < 3) {
-      return std::nullopt;
-    }
-    return Polygon(std::move(points));
-  }
-
-  const std::vector<Point>& points() const { return points_; }
-
- private:
-  explicit Polygon(std::vector<Point> points) : points_(std::move(points)) {}
-
-  std::vector<Point> points_;
-};
-
-double Perimeter(const Polygon& polygon) {
-  const auto& points = polygon.points();
-
-  double result = 0.0;
-
-  for (size_t i = 0; i < points.size(); ++i) {
-    result += Distance(points[i], points[(i + 1) % points.size()]);
-  }
-
-  return result;
-}
-
-}  // namespace geometry
-```
-
-In this example:
-
-- `Point` is simple data, so it is a `struct`.
-- `Distance` is an algorithm, so it is a free function.
-- `Polygon` has an invariant, so it is a `class`.
-- `Perimeter` is an algorithm over `Polygon`, so it is a free function.
-
----
-
-## Anti-Patterns to Avoid
-
-Avoid excessive object-oriented design:
-
-```cpp
-class DistanceCalculator {
- public:
-  double Calculate(const Point& a, const Point& b);
-};
-```
-
-Prefer:
-
-```cpp
-double Distance(Point a, Point b);
-```
-
-Avoid stateless utility classes:
-
-```cpp
-class StringUtils {
- public:
-  static std::string Trim(std::string_view input);
-};
-```
-
-Prefer:
-
-```cpp
-namespace strings {
-
-std::string Trim(std::string_view input);
-
-}  // namespace strings
-```
-
-Avoid unnecessary inheritance:
-
-```cpp
-class BaseProcessor {
- public:
-  virtual ~BaseProcessor() = default;
-  virtual void Process() = 0;
-};
-```
-
-Prefer a plain function or function object if only one behavior exists:
-
-```cpp
-void Process(Document& document);
-```
-
-Avoid global mutable state:
-
-```cpp
-Config g_config;
-```
-
-Prefer explicit dependencies:
-
-```cpp
-void RunApplication(const Config& config);
-```
-
-Avoid classes with unclear responsibility:
-
-```cpp
-class DataManager;
-class LogicHandler;
-class SystemProcessor;
-```
-
-Prefer names that describe the actual role:
-
-```cpp
-class UserRepository;
-class CommandDispatcher;
-class InvoiceCalculator;
-```
+Each is illustrated with a good/bad pair in its own section above — this is a
+scan list, not new content: excessive OOP (see When to Use Free Functions),
+stateless utility classes (see Avoid Artificial Utility Classes), unnecessary
+inheritance (see Inheritance and Polymorphism), global mutable state (see
+State Management), and classes with unclear responsibility (see Naming
+Guidance).
 
 ---
 

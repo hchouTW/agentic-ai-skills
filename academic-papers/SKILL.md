@@ -105,103 +105,41 @@ a figure caption, or a formatted document of your own.
 
 ## Focused verification and review modes
 
-Use these modes when requested or needed to substantiate the paper's claims;
-an ordinary summary does not require a full audit.
+Use these when requested or needed to substantiate claims — not for an ordinary summary.
 
 **Verification and auditing**
-- **Citation verification:** check reference identity, version, publication status,
-  and whether the cited text supports the manuscript's claim. Read
-  `references/citation-verification.md`. A resolving DOI or valid BibTeX entry
-  alone does not verify a claim.
-- **Systematic-review screening:** define eligibility, log reproducible searches,
-  deduplicate records, and record screening decisions and exclusions. Read
-  `references/systematic-review-screening.md`. Keep narrative literature reviews
-  lightweight unless a systematic process is requested.
-- **Reproducibility auditing:** trace selected results to methods, data, code,
-  configurations, and available execution evidence. Read
-  `references/reproducibility-auditing.md`. Distinguish documentation inspection
-  from an actual rerun; use `hep-analysis` or `deep-learning` for relevant execution.
-- **Code review report:** review code accompanying a paper for paper-to-code
-  alignment, documentation, and packaging, producing a severity-ranked findings
-  report. Read `references/code-review-report.md`. Distinct from reproducibility
-  auditing (execution evidence, not code review); delegate framework-specific
-  correctness to `deep-learning` or `hep-analysis`.
-- **Equation and notation auditing:** check definitions, dimensions, index/shape
-  consistency, assumptions, and derivation steps. Read
-  `references/equation-and-notation-auditing.md`.
-- **Mathematical reasoning and proof status:** check whether a derivation's
-  assumptions are sound and its claimed proof status (formal, analytic,
-  perturbative, asymptotic, heuristic, numerical, empirical, conjecture)
-  matches what was actually established. Read
-  `references/mathematical-reasoning-and-proof.md`.
-- **Statistical inference for physics:** check whether a likelihood, test,
-  interval, or limit is correctly set up and whether the stated conclusion
-  matches what the inference actually established. Read
-  `references/statistical-inference-for-physics.md`.
-- **Numerical and computational methods:** check whether a numerical or
-  computational result (integral, fit, simulation, scan) is actually
-  validated — convergence, stability, independent cross-check — rather than
-  merely having run. Read `references/numerical-and-computational-methods.md`.
-- **Claim–evidence mapping:** connect central claims to results, derivations, and
-  citations, and identify unsupported generalizations. Read
-  `references/claim-evidence-mapping.md`.
-- **Logical consistency and argument uniformity:** check for cross-section
-  contradictions, dropped assumptions, fallacious inference, and definitional
-  drift in the argument itself (not just numeric values) using
-  `references/logical-consistency-and-argument-uniformity.md`.
-- **Manuscript consistency auditing:** reconcile repeated results, uncertainty
-  conventions, dataset descriptions, and conclusions across the paper using
-  `references/manuscript-consistency-auditing.md`.
-- **Plagiarism and text-reuse checking:** distinguish copied/paraphrased text
-  from legitimate quotation, self-citation, or boilerplate using
-  `references/plagiarism-and-text-reuse-checking.md`.
+- **Citation verification** — reference identity/version/status and whether cited text supports the claim (a resolving DOI/valid BibTeX entry alone doesn't verify it): `references/citation-verification.md`
+- **Systematic-review screening** — eligibility, reproducible search logs, deduplication, screening decisions; keep narrative reviews lightweight unless this is requested: `references/systematic-review-screening.md`
+- **Reproducibility auditing** — trace results to methods/data/code/config/execution evidence; distinguish documentation inspection from an actual rerun (hand execution to `hep-analysis`/`deep-learning`): `references/reproducibility-auditing.md`
+- **Code review report** — paper-to-code alignment, documentation, packaging, severity-ranked findings; distinct from reproducibility auditing, delegates framework correctness to `deep-learning`/`hep-analysis`: `references/code-review-report.md`
+- **Equation and notation auditing** — definitions, dimensions, index/shape consistency, assumptions, derivation steps: `references/equation-and-notation-auditing.md`
+- **Mathematical reasoning and proof status** — soundness of assumptions vs. claimed proof status (formal/analytic/perturbative/asymptotic/heuristic/numerical/empirical/conjecture): `references/mathematical-reasoning-and-proof.md`
+- **Statistical inference for physics** — correctness of a likelihood/test/interval/limit vs. the stated conclusion: `references/statistical-inference-for-physics.md`
+- **Numerical and computational methods** — whether a numerical/computational result is validated (convergence, stability, independent cross-check), not just run: `references/numerical-and-computational-methods.md`
+- **Claim–evidence mapping** — connect claims to results/derivations/citations, flag unsupported generalizations: `references/claim-evidence-mapping.md`
+- **Logical consistency and argument uniformity** — cross-section contradictions, dropped assumptions, fallacious inference, definitional drift: `references/logical-consistency-and-argument-uniformity.md`
+- **Manuscript consistency auditing** — reconcile repeated results, uncertainty conventions, dataset descriptions, conclusions: `references/manuscript-consistency-auditing.md`
+- **Plagiarism and text-reuse checking** — copied/paraphrased text vs. legitimate quotation, self-citation, boilerplate: `references/plagiarism-and-text-reuse-checking.md`
 
 **Assessment and restructuring**
-- **Reviewer-style assessment:** assess contribution, validity, comparisons, and
-  actionable concerns using `references/reviewer-style-assessment.md`.
-- **Research-gap and novelty assessment:** compare the proposed contribution with
-  verified close prior work using the novelty-assessment section of
-  `references/literature-review.md`.
-- **Scientific argument restructuring:** identify missing logical steps and reorder
-  sections around the evidence using the argument-restructuring section of
-  `references/paper-structure.md`.
-- **Abstract and title optimization:** create accurate variants for an audience,
-  venue, or length limit using the abstract-and-title-variants section of
-  `references/paper-structure.md`.
-- **Supplementary-material planning:** allocate derivations, checks, and artifact
-  details between the main paper and supplements using
-  `references/supplementary-material-planning.md`.
+- **Reviewer-style assessment** — contribution, validity, comparisons, actionable concerns: `references/reviewer-style-assessment.md`
+- **Research-gap and novelty assessment** — compare the contribution to verified close prior work: novelty-assessment section of `references/literature-review.md`
+- **Scientific argument restructuring** — missing logical steps, reordering around evidence: argument-restructuring section of `references/paper-structure.md`
+- **Abstract and title optimization** — accurate variants for an audience/venue/length limit: abstract-and-title-variants section of `references/paper-structure.md`
+- **Supplementary-material planning** — allocate derivations/checks/artifacts between main paper and supplements: `references/supplementary-material-planning.md`
 
 **Tracking and cross-version reconciliation**
-- **Revision-impact tracking:** trace changed results and reviewer requests through
-  manuscript artifacts and response letters using
-  `references/revision-impact-tracking.md`.
-- **Preprint-to-journal reconciliation:** diff a preprint version against the
-  published version and identify substantive differences using
-  `references/preprint-to-journal-reconciliation.md`.
-- **Multi-venue reformatting:** adapt one manuscript's content across two
-  venues (conference/journal extension, letter/full-paper companion) using
-  `references/multi-venue-reformatting.md`.
-- **Comment/Reply exchange:** draft a formal post-publication Comment
-  disputing a specific claim, or a Reply to one, using
-  `references/comment-and-reply-exchange.md`.
-- **Erratum and corrigendum drafting:** classify and draft a correction
-  notice once the decision to correct the record is made, using
-  `references/erratum-and-corrigendum-drafting.md`.
+- **Revision-impact tracking** — trace changed results/reviewer requests through manuscript artifacts and response letters: `references/revision-impact-tracking.md`
+- **Preprint-to-journal reconciliation** — diff preprint vs. published version, identify substantive differences: `references/preprint-to-journal-reconciliation.md`
+- **Multi-venue reformatting** — adapt one manuscript across two venues (conference/journal extension, letter/full-paper companion): `references/multi-venue-reformatting.md`
+- **Comment/Reply exchange** — draft a formal post-publication Comment or Reply: `references/comment-and-reply-exchange.md`
+- **Erratum and corrigendum drafting** — classify and draft a correction notice: `references/erratum-and-corrigendum-drafting.md`
 
 **Disclosure and compliance statements**
-- **Data and code availability statements:** describe verified repositories,
-  versions, restrictions, and missing artifacts using the availability-statements
-  section of `references/citations-and-bibliography.md`.
-- **Authorship and contribution statements:** organize supplied contributions,
-  acknowledgments, and disclosures using the authorship-and-contributions section
-  of `references/submission-and-peer-review.md`; do not infer credit or author order.
-- **Conflict-of-interest and ethics statements:** draft COI, funding,
-  IRB/ethics-approval, and consent statements using
-  `references/conflict-of-interest-and-ethics-statements.md`.
-- **Accessible scientific communication:** write figure descriptions and inspect
-  visual encodings using the accessible-descriptions section of
-  `references/figures-and-tables.md`.
+- **Data and code availability statements** — verified repos, versions, restrictions, missing artifacts: availability-statements section of `references/citations-and-bibliography.md`
+- **Authorship and contribution statements** — organize supplied contributions/acknowledgments/disclosures, don't infer credit or author order: authorship-and-contributions section of `references/submission-and-peer-review.md`
+- **Conflict-of-interest and ethics statements** — COI, funding, IRB/ethics-approval, consent statements: `references/conflict-of-interest-and-ethics-statements.md`
+- **Accessible scientific communication** — figure descriptions and visual-encoding checks: accessible-descriptions section of `references/figures-and-tables.md`
 
 ## Core workflow: writing
 
@@ -388,75 +326,17 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   not a file in this bundle — requires `agile-development` installed alongside
   this skill.
 
-**Verification and auditing**
-- `references/citation-verification.md` — reference identity/version checks and
-  whether cited text supports the manuscript's claim
-- `references/systematic-review-screening.md` — eligibility criteria, reproducible
-  search logs, deduplication, and screening-decision records
-- `references/reproducibility-auditing.md` — tracing results to methods, data,
-  code, configurations, and available execution evidence
-- `references/code-review-report.md` — reviewing code accompanying a paper for
-  paper-to-code alignment, documentation, and packaging, producing a
-  severity-ranked findings report; delegates framework-specific correctness to
-  `deep-learning`/`hep-analysis`
-- `references/equation-and-notation-auditing.md` — definitions, dimensions,
-  index/shape consistency, derivation-step checks, and distinguishing an actual
-  inconsistency from a mere notation/convention difference
-- `references/mathematical-reasoning-and-proof.md` — the assumptions →
-  definitions → derivation → result workflow, proof-status taxonomy (formal
-  through conjecture), approximation validity, mathematical checks
-  (limiting cases, symmetry, order-of-magnitude), and counterexample search
-- `references/statistical-inference-for-physics.md` — likelihood construction,
-  frequentist and Bayesian inference, asymptotic-approximation validity,
-  systematic-uncertainty propagation, common probability errors, and
-  statistical-claim-calibration language (not-excluded vs. supported,
-  local vs. global significance, confidence vs. credible interval)
-- `references/numerical-and-computational-methods.md` — numerical reliability
-  and convergence, optimization pitfalls, Monte Carlo/MCMC validation,
-  scientific-computing scope (vs. `agile-development`), and recognizing
-  circular validation/data leakage in a computational experiment
-- `references/claim-evidence-mapping.md` — connecting central claims to results,
-  derivations, and citations; flagging unsupported generalizations
-- `references/logical-consistency-and-argument-uniformity.md` — checking the
-  argument's logical structure itself: cross-section contradictions, dropped/
-  changed assumptions, fallacious inference patterns, definitional drift, and
-  scope mismatch between the conclusion and what was actually argued
-- `references/manuscript-consistency-auditing.md` — reconciling repeated results,
-  uncertainty conventions, dataset descriptions, and conclusions across a paper
-- `references/plagiarism-and-text-reuse-checking.md` — distinguishing verbatim
-  copying, close paraphrase, and legitimate reuse (quotation, self-citation,
-  boilerplate) in a manuscript or against the user's own prior publications
-
-**Assessment and restructuring**
-- `references/reviewer-style-assessment.md` — mock referee reports and
-  submission-readiness reviews: contribution, validity, comparisons, concerns
-- `references/supplementary-material-planning.md` — allocating derivations,
-  checks, and artifact details between the main paper and supplements
-- Research-gap/novelty assessment and scientific-argument restructuring are
-  covered as sections within `references/literature-review.md` and
-  `references/paper-structure.md` respectively, not standalone files — see
-  those files' tables of contents
-
-**Disclosure, reconciliation, and cross-venue**
-- `references/conflict-of-interest-and-ethics-statements.md` — venue-specific
-  COI/competing-interests, funding, IRB/ethics-approval, and consent
-  statements, kept separate from authorship-and-contribution statements
-- `references/revision-impact-tracking.md` — tracing a changed result or reviewer
-  request through manuscript artifacts and response letters during an active
-  revision
-- `references/preprint-to-journal-reconciliation.md` — diffing an arXiv/
-  preprint version against the published journal version, classifying
-  differences, and updating preprint metadata after publication
-- `references/multi-venue-reformatting.md` — adapting content across two
-  venues with different class files or length limits (conference→journal
-  extension, journal letter→full-paper companion), including duplicate-
-  publication disclosure requirements
-- `references/comment-and-reply-exchange.md` — drafting a formal
-  post-publication Comment or Reply (PRL/PRD-family article type), distinct
-  from a pre-publication referee response
-- `references/erratum-and-corrigendum-drafting.md` — classifying and
-  drafting an erratum/corrigendum/addendum once the decision to correct the
-  published record has been made
+**Verification, assessment, tracking, and disclosure**
+- Covered above under `## Focused verification and review modes`, which lists
+  each mode's trigger and reference file: citation verification, systematic-review
+  screening, reproducibility auditing, code review, equation/notation auditing,
+  mathematical reasoning, statistical inference, numerical methods, claim-evidence
+  mapping, logical consistency, manuscript consistency, plagiarism checking,
+  reviewer-style assessment, research-gap/novelty, argument restructuring,
+  abstract/title optimization, supplementary-material planning, revision
+  tracking, preprint-journal reconciliation, multi-venue reformatting,
+  Comment/Reply, erratum drafting, and availability/authorship/COI/accessibility
+  statements.
 
 **Adjacent document types**
 - `references/poster-and-talk-design.md` — re-laying-out a paper's results
