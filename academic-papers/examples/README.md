@@ -1,6 +1,6 @@
 # academic-papers Examples
 
-Canonical worked examples in one of four archetypes - see `agile-development`'s
+Canonical worked examples in one of eight archetypes - see `agile-development`'s
 [references/example-authoring.md](../../agile-development/references/example-authoring.md)
 for the archetype-selection guide and how these are generated and validated
 (requires `agile-development` installed alongside this skill).
@@ -19,3 +19,5 @@ for the archetype-selection guide and how these are generated and validated
 | [10-decision-tree-referee-comment-triage.md](10-decision-tree-referee-comment-triage.md) | Decision-Tree | Triaging a batch of referee comments into the right response category before drafting replies | A 5-row matrix (analysis gap / clarification / defensible choice / typo / out-of-scope) selects a genuine-gap branch for a period-split request, verifies no run-dependent effect, and defines fallback re-triage if a real effect had been found instead |
 | [11-decision-tree-systematic-review-screening.md](11-decision-tree-systematic-review-screening.md) | Decision-Tree | Screening a retrieved record against a pre-registered systematic-review protocol | Selects the retrieval-limitation branch for an unobtainable conference abstract, keeping it out of both the include and exclude counts, with fallback re-triage if the full text later surfaces or a duplicate is found |
 | [12-decision-tree-erratum-corrigendum-classification.md](12-decision-tree-erratum-corrigendum-classification.md) | Decision-Tree | Classifying a post-publication error report into the correct correction mechanism | Selects the corrigendum branch (error present in the accepted manuscript, not production) for a double-counted acceptance correction, with worked before/after arithmetic and fallback re-triage to erratum or no-correction-needed |
+| [13-elicitation-improve-paper-before-submission.md](13-elicitation-improve-paper-before-submission.md) | Elicitation | "Can you make my paper better before I submit it?" - no target venue, deadline, resubmission status, or co-author scope named | Four clarification questions resolve the request to a fresh Physical Review D submission within one month, ready for co-author circulation, with an explicit pre-submission checklist scope |
+| [14-adversarial-audit-statistical-significance-derivation.md](14-adversarial-audit-statistical-significance-derivation.md) | Adversarial Audit | A manuscript's derivation of a stated statistical-significance claim (5.0σ combined discovery) | Attacks an uncorrected look-elsewhere effect (contradicted by the manuscript's own Methods section) and an unjustified independence assumption in a two-channel Fisher combination, dropping the honest claim to 3.91σ evidence |
