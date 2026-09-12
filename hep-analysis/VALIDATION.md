@@ -790,6 +790,44 @@ syntax-checked every `scripts/*.py` file, and validated all 12 shipped
   `python3 -m unittest discover -s tests -v` ("Ran 172 tests" / "OK",
   unchanged) after the fix.
 
+## Second-wave example-authoring pass: Elicitation, Test-First, Postmortem (2026-09-12)
+
+Added three new canonical examples in `agile-development`'s second-wave
+archetypes, continuing the four-archetype example-authoring plan (Contrast/
+Trajectory/Gated Pipeline/Decision-Tree already covered this skill; this
+pass adds Elicitation, Test-First, and Postmortem).
+
+- `examples/13-elicitation-signal-search-ambiguous-request.md`: an
+  underspecified "can you check if there's a signal in this dataset?"
+  request resolved via 4 clarification questions grounded in
+  `references/01-analysis-design.md` (channel, signal-region, background
+  model) and `references/08-inference.md` (significance convention,
+  look-elsewhere effect) to a fully-specified dijet bump-hunt analysis
+  contract.
+- `examples/14-test-first-selection-efficiency-numerical-tolerance.md`: a
+  weighted-efficiency function (`e = A/B` with the shared-events covariance
+  term from `references/04-histograms-efficiencies.md`) red on a naive
+  independent-variance implementation (87% overstated uncertainty,
+  numerically verified in-session) to green matching a hand-computed
+  reference to floating-point precision.
+- `examples/15-postmortem-mc-production-pipeline-crash.md`: an overnight
+  MC-production crash traced through 5 Whys (no "human error" stop) to a
+  batch-pool reconfiguration that silently broke an implicit scratch-cleanup
+  assumption, per `references/02-data-pipelines.md`'s "do not silently skip
+  failed remote files and report a complete sample" guidance; fixed with an
+  automated `TFile::IsZombie()`/`kRecovered` output-integrity gate.
+- All three pass `agile-development/scripts/validate_skill_example.py` and
+  the diversity checker (`check_example_diversity.py`) shows no
+  archetype/skill repeats across the 12-file second-wave batch.
+- `examples/README.md`'s intro line updated from "four archetypes" to
+  "eight archetypes"; three rows added to its index (15 rows total).
+- `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` extended with the
+  three new example files. Re-ran `python3 scripts/validate_skill_bundle.py`
+  ("Bundle OK: 110 files present and non-empty") and
+  `python3 -m unittest discover -s tests -v` (172 tests, all passing,
+  unchanged from before this pass since no existing test hardcodes the
+  example count) after the change.
+
 ## Limitations
 
 - ROOT is not installed in the validation environment, so `check_root_cpp_env.sh`

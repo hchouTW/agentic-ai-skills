@@ -124,6 +124,9 @@ REQUIRED_PATHS = [
     "examples/10-decision-tree-control-region-excess-triage.md",
     "examples/11-decision-tree-tracking-efficiency-drop-triage.md",
     "examples/12-decision-tree-multimessenger-alert-triage.md",
+    "examples/13-elicitation-signal-search-ambiguous-request.md",
+    "examples/14-test-first-selection-efficiency-numerical-tolerance.md",
+    "examples/15-postmortem-mc-production-pipeline-crash.md",
 ]
 
 REQUIRED_README_SECTIONS = [
