@@ -78,6 +78,12 @@ the file's complexity, and review it in the diff so it doesn't drift from the co
 - **Status updates and completion summaries** -> [references/communication.md](references/communication.md)
 - **C++ design** (classes vs. structs vs. free functions, ownership, RAII, composition
   vs. inheritance, error handling) -> [references/cpp-balanced-design-guidelines.md](references/cpp-balanced-design-guidelines.md)
+- **Python design** (classes vs. dataclasses vs. free functions, context managers,
+  protocols vs. inheritance, exceptions vs. sentinel returns) ->
+  [references/python-balanced-design-guidelines.md](references/python-balanced-design-guidelines.md)
+- **Bash design** (functions vs. associative arrays, avoiding simulated OOP,
+  trap-based cleanup, quoting/`set -euo pipefail` discipline) ->
+  [references/bash-balanced-design-guidelines.md](references/bash-balanced-design-guidelines.md)
 - **Design docs/RFCs, estimation and spikes, feature flags and progressive rollout** ->
   [references/design-and-estimation.md](references/design-and-estimation.md)
 - **Software architecture, component boundaries, dependency direction, data

@@ -23,6 +23,8 @@ REQUIRED_PATHS = [
     "agents/openai.yaml",
     "references/communication.md",
     "references/cpp-balanced-design-guidelines.md",
+    "references/python-balanced-design-guidelines.md",
+    "references/bash-balanced-design-guidelines.md",
     "references/design-and-estimation.md",
     "references/engineering-playbook.md",
     "references/implementation-discipline.md",
