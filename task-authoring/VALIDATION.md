@@ -87,6 +87,123 @@ Updated every other skill's cross-link to the old `agile-development/references/
 
 Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 24 files present and non-empty, templates/task-template.md carries all 12 required sections in order") and `python3 -m unittest discover -s tests -v` (78 tests, all passing) here. Also re-ran each other touched skill's own `scripts/validate_skill_bundle.py` and `python3 -m unittest discover -s tests -v` to confirm the move introduced no regressions elsewhere: `agile-development` (48 files, 32 tests), `academic-papers` (27 tests), `deep-learning` (87 files, 106 tests), `hep-analysis` (119 files, 172 tests), `skill-router` (31 files, 7 tests) - all passing.
 
+## Add loop engineering and autonomous iteration guidance (2026-09-12)
+
+Added `references/loop-engineering.md`: when the work under authoring is an
+agentic, autonomous, or iterative system, it requires naming the closed-loop
+pattern (ReAct Thought-Action-Observation, or Plan-and-Solve), specifying
+self-healing error-feedback handling (named failure classes fed back into
+the next attempt, retryable vs. fatal), and fixing mandatory guardrails
+(explicit termination condition, maximum-iteration limit, early stopping
+distinct from it) - never inventing an iteration ceiling the requester
+didn't give.
+
+`templates/task-template.md`'s section contract (`REQUIRED_TEMPLATE_SECTIONS`
+in `scripts/validate_skill_bundle.py`) is fixed and exact - no section was
+added. The new guidance instead extends the existing HTML-comment guidance
+inside Technical Approach, Acceptance Criteria, and Validation, and
+`references/loop-engineering.md` carries a table mapping each requirement to
+the section it belongs in.
+
+Also updated: `SKILL.md` (frontmatter description, a new "When to Load
+References" bullet, a new Decision Rule, a Caveats clarification that
+authoring the spec for such a loop is in scope even though building the
+agent itself is not, and a new worked example prompt), `references/
+acceptance-criteria.md` (a new "Iteration and Loop Guardrails" section with
+worked avoid/prefer examples), `references/task-quality-checklist.md` (a new
+conditional checklist item, vacuously satisfied when the work isn't
+iterative), `references/prompt-engineering-and-token-optimization.md` (cross-
+references clarifying that file governs each call's cost while
+`loop-engineering.md` governs the loop's shape and stopping conditions, plus
+a note on bounding an open-ended loop's total cost via the maximum-iteration
+limit), `README.md` (a new Coverage-and-boundaries paragraph and example
+prompt), and `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` (added
+`references/loop-engineering.md`, 24 -> 25).
+
+Followed `superpowers:writing-skills`' RED-GREEN cycle using fresh,
+context-free subagents rather than unit tests, since this is a coverage gap
+in a reference/technique skill (what the generated task specifies) rather
+than a discipline rule an agent might rationalize around under pressure:
+
+- **RED (baseline, before this change)**: asked a fresh subagent to author a
+  task via this skill for "an autonomous log-triage agent" that retries a
+  flaky log-search API and refines its query until it finds a root cause.
+  The unmodified skill produced a plausible loop description in Technical
+  Approach, but pushed every stopping-related concern - termination
+  condition, maximum-iteration limit, early stopping, and the specific
+  error-feedback mechanism - into Open Questions with no requirement to
+  state a fallback behavior; none of the three loaded references (`template.md`,
+  `acceptance-criteria.md`, `task-quality-checklist.md`) mentioned iteration
+  loops or guardrails at all.
+- **GREEN (after this change)**: re-ran the identical request against the
+  updated skill with a second fresh subagent. The generated task now names
+  the ReAct pattern explicitly, distinguishes retryable (malformed JSON,
+  timeout) from fatal (auth failure, permanently invalid query) failures
+  with the error fed into the next attempt, states an explicit termination
+  condition (the root-cause goal-check passing), marks the maximum-iteration
+  limit as an Open Question rather than inventing a number (correct per the
+  Confirmed/Inferred/Unresolved evidence model), and states an early-stopping
+  condition (repeated identical observation, or no new evidence across N
+  iterations) distinct from the iteration cap. All four loaded references
+  (now including `loop-engineering.md`) covered iteration/guardrail content.
+- `python3 -m unittest discover -s tests -v` (78 tests) and
+  `python3 scripts/validate_skill_bundle.py` were re-run after the edits:
+  both pass, with the validator now reporting 25 required files present and
+  the template's 12-section contract still exact.
+- Every new relative Markdown link (`SKILL.md`, `README.md`, and the four
+  edited/added reference files) was checked programmatically against the
+  file it names; all resolve.
+
+## Optimization pass (2026-09-12)
+
+Audited the full bundle for token efficiency, redundancy, and consistency
+(SKILL.md's discovery-optimization rules: description = when-to-use only,
+single source of truth per rule, no dead cross-references). Fixes:
+
+- `SKILL.md`'s frontmatter description dropped the "the core authoring
+  rules below are vendor-neutral; per-agent discovery notes live only in
+  references/adapters/ and never duplicate them" clause (1310 -> 1172
+  chars). That's internal file-organization detail, not a triggering
+  condition, and it already lives - stated once - in the "When to Load
+  References" section's adapters bullet; keeping it in both places was
+  duplication with no discovery benefit.
+- `references/prompt-engineering-and-token-optimization.md` had four
+  unattributed mentions of `risk-and-quality.md` and one of
+  `software-architecture.md`, both of which live in `agile-development/
+  references/`, not this skill. Every other cross-skill reference in the
+  same file names its owning skill (`agile-development`'s
+  `assets/story-card.md`, the `claude-api` skill); these five didn't,
+  inconsistent with the file's own pattern. Prefixed all five with
+  `` `agile-development`'s ``.
+- `examples/performance-task.md`'s References section cited
+  `AI_Agent_Agnostic_Task_Authoring_Workflow.md` as if it were a resolvable
+  repository path - it's the original, unshipped source document that this
+  package's `templates/task-template.md` was built from, and citing it as
+  a repository reference violates this skill's own "only cite repository
+  paths that were actually verified to exist" rule (`SKILL.md`'s Decision
+  Rules). Reworded to describe it as provenance rather than a citable path.
+- `VALIDATION.md`'s own "24 -&gt; 25" entry above used an HTML entity
+  (`-&gt;`) where every other count-delta in this file uses a plain `->`;
+  normalized for consistency.
+
+Considered and left unchanged:
+
+- `scripts/check_example_diversity.py` is explicitly documented in three
+  places (`README.md`, `references/example-authoring.md` x2) as retained
+  for reference but historical, not run as a gate on new example batches.
+  It is still fully tested and internally consistent with its own
+  documentation - a deliberate prior decision, not an oversight - so it was
+  left in place rather than removed as part of this pass.
+- `references/example-authoring.md` (2798 words) is the largest file in the
+  bundle by a wide margin. It is loaded on demand, not on every trigger, so
+  the cost concern is lower; flagged for a future split (per-archetype
+  format specs into their own file) only if a 9th archetype is added, not
+  acted on now.
+
+Re-ran `python3 scripts/validate_skill_bundle.py` (25 files, template
+contract intact) and `python3 -m unittest discover -s tests -v` (78 tests)
+after every edit in this section: both pass throughout.
+
 ## Limitations
 
 - `SKILL.md`/`references/*.md` are process guidance for an LLM to follow,

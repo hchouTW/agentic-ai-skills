@@ -46,6 +46,35 @@ privately follows.
 - Whenever possible, it's testable by a script, a re-run of a documented
   command, or a direct inspection - not by opinion.
 
+## Iteration and Loop Guardrails
+
+For a task whose implementation is an agentic, autonomous, or iterative loop
+(see [loop-engineering.md](loop-engineering.md)), "retries until it works" is
+exactly as vague as "improve performance" above:
+
+```text
+Avoid:
+- The agent keeps trying until it succeeds.
+
+Prefer:
+- The loop terminates when the goal-check (e.g. a schema validation, a
+  passing test, a stated confidence threshold) passes, or after 5
+  iterations, whichever comes first.
+- On the 5th iteration without a passing goal-check, the loop stops and
+  reports its best attempt plus the reason it stopped, rather than
+  continuing silently.
+- A malformed API response is retried up to 2 times with the parse error
+  appended to the next attempt; a 3rd consecutive malformed response is
+  treated as fatal and ends the loop.
+- If two consecutive iterations produce identical output, the loop stops
+  early rather than continuing to the maximum-iteration limit.
+```
+
+The same rule from Working With Unresolved Information below applies here:
+if the requester didn't state a maximum-iteration number or termination
+threshold, the criterion says so explicitly (Open Question / TBD) instead of
+picking a plausible-sounding number.
+
 ## Working With Unresolved Information
 
 Acceptance criteria can reference something the task hasn't resolved yet, as

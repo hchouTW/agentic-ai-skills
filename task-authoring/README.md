@@ -45,6 +45,8 @@ It also covers authoring a canonical worked example for this or another skill's 
 
 It also covers prompt engineering and token optimization for LLM-facing work - role framing, few-shot/chain-of-thought examples, structured-output contracts, and guardrails on the design side; token budgets, context-window hygiene, and cheapest-adequate model-tier selection on the cost side - see `references/prompt-engineering-and-token-optimization.md`. That reference's two optional story-card fields (prompt directive, token budget) extend `agile-development`'s `assets/story-card.md` and require that skill installed alongside this one.
 
+It also covers loop engineering for a task whose implementation *is* an agentic, autonomous, or iterative system - naming the closed-loop pattern (ReAct Thought-Action-Observation, or Plan-and-Solve), specifying self-healing error feedback (intercepting tool/API/code failures and feeding them into the next attempt, retryable vs. fatal), and fixing mandatory guardrails (an explicit termination condition, a maximum-iteration limit, and an early-stopping condition distinct from it) - see `references/loop-engineering.md`. It doesn't add a section to `templates/task-template.md` - the section contract is fixed - it specifies where in the existing sections (Technical Approach, Acceptance Criteria, Validation) this content belongs.
+
 It does not build a new LLM, a vendor-specific API integration, or a full autonomous development agent; it does not enumerate every possible engineering task type; and it does not replace human review for ambiguous product or domain decisions. Once a task is generated and handed off for implementation, pair it with `agile-development` (or a domain skill) for the implementation itself.
 
 All maintained instructions, templates, and metadata are in English. The skill can still answer a user in their requested language.
@@ -60,3 +62,5 @@ All maintained instructions, templates, and metadata are in English. The skill c
 "Generate a canonical `examples/` entry for the `hep-analysis` skill contrasting a weak vs. expert systematics writeup."
 
 "Design a prompt template for a classification pipeline and give me a token budget."
+
+"Create a task for an autonomous log-triage agent that retries against a flaky search API until it finds the root cause or hits an iteration limit."

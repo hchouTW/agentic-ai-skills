@@ -6,7 +6,12 @@ or any feature where input/output token cost and context-window pressure are
 part of the acceptance criteria.
 
 Not for general software work with no LLM in the loop - use the main
-workflow and the other references for that.
+workflow and the other references for that. Not for fixing an agentic or
+autonomous loop's shape and stopping conditions either - this file governs
+each individual call's design and cost; see
+[loop-engineering.md](loop-engineering.md) for the loop pattern (ReAct,
+Plan-and-Solve), self-healing error feedback, and mandatory guardrails
+(termination condition, maximum-iteration limit, early stopping).
 
 ## When This Applies
 
@@ -31,19 +36,22 @@ workflow and the other references for that.
 - **Structured output**: when downstream code parses the response, specify the
   exact contract (JSON Schema, a fixed set of headings, an enum of allowed
   values) and validate it where the response is consumed - this is the same
-  boundary-validation habit as risk-and-quality.md's API and Interface
-  Changes section, applied to an LLM response instead of an HTTP request.
+  boundary-validation habit as `agile-development`'s risk-and-quality.md's
+  API and Interface Changes section, applied to an LLM response instead of
+  an HTTP request.
 - **Guardrails**: constrain in the prompt only what you can't enforce in code
   (tone, scope of a persona, refusal style). Enforce everything else in code
   - schema validation, allow-lists, rate limits, auth checks - the same way
-  risk-and-quality.md treats a prompt's instructions as advisory, not as a
-  substitute for validating untrusted input at a real boundary.
+  `agile-development`'s risk-and-quality.md treats a prompt's instructions as
+  advisory, not as a substitute for validating untrusted input at a real
+  boundary.
 
 ## Token Budgeting
 
 - Give any new or changed LLM call an explicit input/output token ceiling as
-  part of its acceptance criteria, the same way risk-and-quality.md's
-  Performance section treats a latency or query-count budget.
+  part of its acceptance criteria, the same way `agile-development`'s
+  risk-and-quality.md's Performance section treats a latency or query-count
+  budget.
 - When a prompt needs to shrink, cut redundant boilerplate (repeated
   instructions, unused examples, verbose formatting) before cutting
   substantive constraints.
@@ -80,12 +88,18 @@ When a feature strings multiple LLM calls together (e.g. extract -> classify
 - A stage's failure (timeout, malformed output, low confidence) should
   short-circuit the calls after it, not pass unvalidated output downstream -
   see Validation below.
+- This section covers a fixed-length chain (a known number of stages). An
+  open-ended loop that can repeat an unknown number of times - an agent
+  retrying against a tool, a self-correcting pipeline - needs the guardrails
+  in [loop-engineering.md](loop-engineering.md) (a maximum-iteration limit
+  and early stopping) to bound its total cost; budget each iteration's calls
+  the same way as a chain stage, then multiply by that limit.
 - Whether to merge two calls into one to save tokens is a component-boundary
-  decision, not a token-budgeting one - use software-architecture.md's
-  architecture-drivers framework and "comparing materially different
-  options" guidance for that call. The practical test that decides most
-  cases: merge only if it removes real replayed input, not merely because
-  two prompts look similar.
+  decision, not a token-budgeting one - use `agile-development`'s
+  software-architecture.md's architecture-drivers framework and "comparing
+  materially different options" guidance for that call. The practical test
+  that decides most cases: merge only if it removes real replayed input, not
+  merely because two prompts look similar.
 
 ## Model Tier Selection
 

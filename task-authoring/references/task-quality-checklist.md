@@ -16,6 +16,9 @@ Before finalizing a generated task, verify:
 [ ] Repository paths are verified.
 [ ] The task can be understood by another agent without the original
     conversation.
+[ ] If the work is an agentic, autonomous, or iterative loop, its
+    termination condition, maximum-iteration limit, and early-stopping
+    condition are explicit or marked Open Question - never left silent.
 ```
 
 If any critical check fails, revise the task before writing it - do not
@@ -47,3 +50,10 @@ instead.
   different agent or a human who wasn't in the conversation, and check
   whether they'd need to ask a question the task should have already
   answered.
+- **Iterative/agentic loop guardrails** - only applies when the work
+  under authoring is an agent, self-correcting pipeline, or retry loop (see
+  [loop-engineering.md](loop-engineering.md)); vacuously satisfied
+  otherwise. When it applies, the task must fix a termination condition, a
+  maximum-iteration limit, and an early-stopping condition, or mark whichever
+  the requester didn't specify as an Open Question - "it retries until it
+  works" without any of the three is a failing task, not an incomplete one.

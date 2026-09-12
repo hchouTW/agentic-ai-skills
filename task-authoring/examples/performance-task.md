@@ -134,9 +134,12 @@ Verified by direct inspection of `agentic-ai-skills` on 2026-09-12:
 - `agentic-ai-skills/hep-analysis/SKILL.md` - the analysis-convention
   reference actually available in this repository (efficiency methodology,
   systematics, PID topics), used for Technical Approach step 4.
-- `AI_Agent_Agnostic_Task_Authoring_Workflow.md` - the authoring reference
-  this task's structure follows; its own worked example is this exact RICH
-  scenario, used here to confirm the template produces the same shape of
-  task the source document specifies.
+- This RICH-reconstruction scenario is the original authoring reference's own
+  worked example, used here to confirm this skill's
+  [../templates/task-template.md](../templates/task-template.md) produces
+  the same shape of task the source document specified. That source document
+  is not part of this shipped package - only `templates/task-template.md`
+  and `references/` are, per this task's own "only cite paths that were
+  verified to exist" rule.
 - No existing implementation files, prior tasks, or issues for RICH
   reconstruction were found in this repository to reference.

@@ -1,6 +1,6 @@
 ---
 name: task-authoring
-description: "Use when asked to create or refine a development task, turn a short natural-language request into an implementation-ready Task Markdown document, or write a task/ticket/spec that another human or AI agent can implement without the original conversation. Triggers on 'create a task for', 'write a task/ticket for', 'draft a spec for X', 'turn this into a task', or a bare feature/bug/performance/research request that needs Background/Objective/Scope/Repository Context/Deliverables/Acceptance Criteria before anyone starts coding. Works the same way across Claude Code, Codex, Antigravity, Cursor Agents, GitHub Copilot Coding Agent, and other repository-aware agents - the core authoring rules below are vendor-neutral; per-agent discovery notes live only in references/adapters/ and never duplicate them. Also covers authoring a canonical worked example - Contrast, Trajectory, Gated Pipeline, Decision-Tree, Elicitation, Adversarial Audit, Test-First, or Postmortem - for a skill's examples/ directory, and designing or budgeting a prompt for an LLM call (role framing, few-shot/chain-of-thought design, structured-output contracts, token budgets, model-tier selection)."
+description: "Use when asked to create or refine a development task, turn a short natural-language request into an implementation-ready Task Markdown document, or write a task/ticket/spec that another human or AI agent can implement without the original conversation. Triggers on 'create a task for', 'write a task/ticket for', 'draft a spec for X', 'turn this into a task', or a bare feature/bug/performance/research request that needs Background/Objective/Scope/Repository Context/Deliverables/Acceptance Criteria before anyone starts coding. Works the same way across Claude Code, Codex, Antigravity, Cursor Agents, GitHub Copilot Coding Agent, and other repository-aware agents. Also covers authoring a canonical worked example - Contrast, Trajectory, Gated Pipeline, Decision-Tree, Elicitation, Adversarial Audit, Test-First, or Postmortem - for a skill's examples/ directory, and designing or budgeting a prompt for an LLM call (role framing, few-shot/chain-of-thought design, structured-output contracts, token budgets, model-tier selection, agentic/iterative loop design - ReAct, Plan-and-Solve, self-healing error feedback, termination/max-iteration/early-stopping guardrails)."
 ---
 
 # Task Authoring
@@ -99,6 +99,12 @@ task:
 - **Designing or budgeting a prompt for an LLM call** - agent skills, prompt
   templates, structured-output contracts, model-tier choice, token budgets ->
   [references/prompt-engineering-and-token-optimization.md](references/prompt-engineering-and-token-optimization.md)
+- **Authoring a task for an agentic, autonomous, or iterative loop** - an
+  agent that calls tools repeatedly, a self-correcting pipeline, a
+  retry-until-valid process - closed-loop pattern (ReAct, Plan-and-Solve),
+  self-healing error feedback, and mandatory guardrails (termination
+  condition, maximum-iteration limit, early stopping) ->
+  [references/loop-engineering.md](references/loop-engineering.md)
 
 ## Decision Rules
 
@@ -110,6 +116,13 @@ task:
 - Only cite repository paths that were actually verified to exist.
 - Keep agent-specific adapters discovery-only; the Core Workflow and the
   template contract live in exactly one place each.
+- When the work under authoring is an agentic, autonomous, or iterative loop,
+  name its closed-loop pattern in Technical Approach and fix its termination
+  condition, maximum-iteration limit, and early-stopping condition in
+  Acceptance Criteria - see
+  [references/loop-engineering.md](references/loop-engineering.md). Never
+  leave an iteration ceiling unbounded or invent one the requester never
+  gave; mark it Open Question / TBD instead.
 
 ## Caveats
 
@@ -118,7 +131,9 @@ task:
   task is handed off for implementation.
 - Building a new LLM, a vendor-specific API integration, or a full autonomous
   development agent is out of scope; so is replacing human review for
-  ambiguous product or domain decisions.
+  ambiguous product or domain decisions. Authoring the task specification for
+  such a loop - its pattern, error handling, and guardrails - is in scope;
+  see [references/loop-engineering.md](references/loop-engineering.md).
 - If the user explicitly supplies their own task template or format, follow
   it instead of [templates/task-template.md](templates/task-template.md) -
   user instructions take precedence over this skill's default structure.
@@ -147,3 +162,5 @@ task:
 - "Author a postmortem example for a distributed training run that diverged at
   hour 30." (Postmortem archetype)
 - "Design a prompt template for a classification pipeline and give me a token budget."
+- "Create a task for an autonomous log-triage agent that retries against a
+  flaky search API until it finds the root cause or hits an iteration limit."

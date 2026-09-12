@@ -31,6 +31,7 @@ REQUIRED_PATHS = [
     "references/task-quality-checklist.md",
     "references/example-authoring.md",
     "references/prompt-engineering-and-token-optimization.md",
+    "references/loop-engineering.md",
     "references/adapters/claude-code.md",
     "references/adapters/codex.md",
     "references/adapters/antigravity.md",
