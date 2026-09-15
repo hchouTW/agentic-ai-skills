@@ -128,7 +128,7 @@ the code. Distinct from inline comments above - this describes the file as a who
 - **VAE/GAN/diffusion training loops and failure modes (posterior collapse, mode collapse)** -> [references/generative-models.md](references/generative-models.md)
 - **Custom autograd.Function, hooks, activation/gradient checkpointing** -> [references/custom-autograd-and-hooks.md](references/custom-autograd-and-hooks.md)
 - **TorchScript/ONNX export, torch.compile deployment modes, inference serving** -> [references/export-and-deployment.md](references/export-and-deployment.md)
-- **LibTorch, custom ops, CUDA/C++ extensions** -> [references/cpp-balanced-design-guidelines.md](references/cpp-balanced-design-guidelines.md)
+- **LibTorch, custom ops, CUDA/C++ extensions** -> [agile-development's C++ design guidelines](../agile-development/references/cpp-balanced-design-guidelines.md) (not vendored here; see this skill's README for the cross-skill dependency note)
 - **Authoring a canonical worked example** (Contrast, Execution Trajectory,
   Gated Pipeline, Decision-Tree, Interactive Elicitation, Adversarial Audit,
   Test-First, or Postmortem archetype) for `examples/` ->

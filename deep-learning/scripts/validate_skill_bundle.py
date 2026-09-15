@@ -25,7 +25,6 @@ REQUIRED_PATHS = [
     "references/ablation-and-design-review.md",
     "references/architecture-selection.md",
     "references/checkpointing.md",
-    "references/cpp-balanced-design-guidelines.md",
     "references/custom-autograd-and-hooks.md",
     "references/data-loading.md",
     "references/data-strategy.md",

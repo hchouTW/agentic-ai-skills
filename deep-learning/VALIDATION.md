@@ -692,6 +692,23 @@ Old name -> new name (this skill only):
 
 Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 87 files present and non-empty") and `python3 -m unittest discover -s tests -v` (106 tests, 2 skipped - the same pre-existing PyTorch-unavailable skips) after the rename. All 24 example files individually re-validated with `agile-development/scripts/validate_skill_example.py` ("ok").
 
+## Dedupe cpp-balanced-design-guidelines.md (2026-09-15)
+
+Per explicit user request, removed this skill's byte-identical vendored copy of
+`references/cpp-balanced-design-guidelines.md` so only `agile-development` carries
+it (`hep-analysis`'s `19-cpp-balanced-design-guidelines.md` is not byte-identical -
+it carries an extra HEP-specific intro paragraph - so it was left as-is, not
+deduped). Updated `SKILL.md`'s reference-routing entry to link to
+`../agile-development/references/cpp-balanced-design-guidelines.md`, removed the
+now-nonexistent path from `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`,
+and added a caveat to `README.md`'s Coverage section noting the link only
+resolves when `agile-development` is installed alongside `deep-learning`. This
+knowingly trades this skill's prior self-containment (each platform installs
+skill folders independently; see project memory on multi-platform install
+constraints) for a single source of truth on this one reference file - accepted
+by the user as the intended tradeoff. Re-ran `python3 scripts/validate_skill_bundle.py`
+("Bundle OK") and `python3 -m unittest discover -s tests -v` after the change.
+
 ## Limitations
 
 - **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that
@@ -716,9 +733,11 @@ Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 87 files present 
   `assets/ddp_train_skeleton.py`, and the synthetic-data `create_dataset()`
   helpers in the diagnostic scripts were reviewed for correctness but not run
   end to end.
-- `references/cpp-balanced-design-guidelines.md` is shared verbatim with
-  `agile-development`'s copy of the same file; consistency between the two copies
-  was checked (byte-identical) but the guidance itself was not re-validated here.
+- As of the 2026-09-15 dedup pass below, this skill no longer vendors a copy of
+  `cpp-balanced-design-guidelines.md`; `SKILL.md` links out to `agile-development`'s
+  copy instead. That link only resolves when `agile-development` is installed
+  alongside `deep-learning` at `../agile-development/` - not guaranteed for a
+  `deep-learning`-only install on a given platform.
 
 In an environment with PyTorch installed, additionally run
 `python3 scripts/check_pytorch_env.py` to confirm the real environment, then run

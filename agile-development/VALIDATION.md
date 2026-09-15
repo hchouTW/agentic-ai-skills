@@ -723,12 +723,30 @@ Relocated `references/example-authoring.md`, `references/prompt-engineering-and-
 
 Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 48 files present and non-empty") and `python3 -m unittest discover -s tests -v` (32 tests, all passing).
 
+## Dedupe cpp-balanced-design-guidelines.md (2026-09-15)
+
+Per explicit user request, this skill's `references/cpp-balanced-design-guidelines.md`
+is now the sole canonical copy shared with `deep-learning` (previously
+byte-identical copies were vendored in both skills). `hep-analysis`'s
+`19-cpp-balanced-design-guidelines.md` is not byte-identical - it carries an
+extra HEP-specific intro paragraph - so it was left as its own file, not
+deduped into this one. No changes were made to this skill's own files;
+`deep-learning` removed its copy and now links to this one via
+`../agile-development/references/cpp-balanced-design-guidelines.md`, which only
+resolves when the two skills are installed alongside each other (see
+`deep-learning/VALIDATION.md` and `deep-learning/README.md`'s Coverage section
+for that caveat). Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK")
+and `python3 -m unittest discover -s tests -v` (32 tests, all passing) to
+confirm this skill's own bundle is unaffected.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to
   exercise the workflow guidance in `SKILL.md`/`references/*.md` end to end - those
   are process guidance for an LLM to follow, not independently executable, and are
   reviewed for internal consistency (cross-links, terminology) rather than run.
-- `references/cpp-balanced-design-guidelines.md` is shared verbatim with
-  `deep-learning`'s copy of the same file; consistency between the two copies was
-  checked (byte-identical) but the guidance itself was not re-validated here.
+- As of the 2026-09-15 dedup pass below, `references/cpp-balanced-design-guidelines.md`
+  is this skill's sole canonical copy; `deep-learning`'s `SKILL.md` now links out to
+  this file instead of vendoring its own (see that skill's VALIDATION.md). This
+  skill's copy was not re-validated for guidance accuracy here, only kept as the
+  single source of truth.
