@@ -94,13 +94,6 @@ the file's complexity, and review it in the diff so it doesn't drift from the co
   [references/engineering-playbook.md](references/engineering-playbook.md)
 - **Reviewing someone else's change** -> see the Reviewing Someone Else's Change
   section in [references/risk-and-quality.md](references/risk-and-quality.md)
-- **Authoring a canonical worked example** for this or another skill's
-  `examples/` directory, or **designing/budgeting a prompt for an LLM call** ->
-  `task-authoring`'s
-  [references/example-authoring.md](../task-authoring/references/example-authoring.md)
-  and
-  [references/prompt-engineering-and-token-optimization.md](../task-authoring/references/prompt-engineering-and-token-optimization.md)
-  (requires `task-authoring` installed alongside this skill)
 
 ## Reusable Templates
 
