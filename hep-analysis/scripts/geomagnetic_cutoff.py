@@ -4,7 +4,7 @@
 Purpose: first-order estimate of the minimum rigidity a charged cosmic ray must have
 to reach a given geomagnetic latitude and altitude, for a pure dipole field arriving
 from the vertical (zenith) direction. See
-references/37-space-based-direct-detection.md.
+references/35-space-based-direct-detection.md.
 
 What it does: evaluates
     R_c = (M / r^2) * cos^4(lambda_m) / (1 + sqrt(1 + cos^3(lambda_m)))^2

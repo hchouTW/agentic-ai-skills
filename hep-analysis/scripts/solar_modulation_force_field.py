@@ -4,7 +4,7 @@
 Purpose: convert between the local interstellar spectrum (LIS, outside the
 heliosphere) and the flux measured at 1 AU, given a single effective modulation
 potential phi - the standard first-order correction described in
-references/37-space-based-direct-detection.md and references/40-ams02-case-study.md,
+references/35-space-based-direct-detection.md and references/38-ams02-case-study.md,
 needed because AMS-02-class instruments measure at 1 AU during a specific, time-
 varying solar-activity epoch, not the LIS directly.
 
@@ -24,7 +24,7 @@ one data point), not the same calculation run twice.
 Usage notes / assumptions: standard library only. This is a one-parameter effective
 model - it does not capture charge-sign-dependent drift, heliolatitude dependence, or
 short-timescale transients (Forbush decreases, SEP events), all flagged in
-references/37-space-based-direct-detection.md; do not use it to correct data taken
+references/35-space-based-direct-detection.md; do not use it to correct data taken
 during such a transient. Energies must be finite and positive; phi and mass must be
 finite and nonnegative; charge must be a positive integer.
 Run: python3 scripts/solar_modulation_force_field.py --modulate --energy 1.0 --mass 0.938272 --charge 1 --phi 0.5 --lis-normalization 1e4 --lis-index 2.7

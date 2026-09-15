@@ -5,8 +5,8 @@ balloon magnetic spectrometers and calorimeters, e.g. AMS-02-class instruments),
 individual nuclei are measured directly rather than inferred from an air shower. The
 detector technology - magnetic spectrometry, calorimetry, TOF, TRD, RICH - is exactly
 the material in
-[23-detector-systems-overview.md](23-detector-systems-overview.md) through
-[26-particle-identification.md](26-particle-identification.md), applied
+[21-detector-systems-overview.md](21-detector-systems-overview.md) through
+[24-particle-identification.md](24-particle-identification.md), applied
 unchanged; this file covers what is specific to the near-Earth space environment:
 geomagnetic and solar effects that ground- and space-based measurements alike must
 correct for, and that have no collider-physics analog.
@@ -14,7 +14,7 @@ correct for, and that have no collider-physics analog.
 ## Rigidity, not energy, is the natural variable
 
 As in any magnetic spectrometer (see
-[23-detector-systems-overview.md](23-detector-systems-overview.md)), a
+[21-detector-systems-overview.md](21-detector-systems-overview.md)), a
 space-based instrument directly measures rigidity `R = pc/(Ze)`, and every
 geomagnetic and solar effect below acts on rigidity, not on energy or momentum
 separately - because both the geomagnetic field's confinement and a Fermi-accelerated
@@ -111,7 +111,7 @@ task from fitting the time-averaged spectrum.
   time series generally has) for a genuinely unknown or approximate period, and
   correct its detection significance for the number of independent frequencies
   scanned - the same look-elsewhere-effect discipline as
-  [39-astroparticle-statistics.md](39-astroparticle-statistics.md)'s trials-factor
+  [37-astroparticle-statistics.md](37-astroparticle-statistics.md)'s trials-factor
   treatment, applied to frequency space instead of a sky position or mass bin.
 - **Bin fine enough to resolve the structure, coarse enough to keep bins
   statistics-limited rather than systematics-limited.** A daily-flux time series
@@ -137,7 +137,7 @@ task from fitting the time-averaged spectrum.
 ## Direct-detection composition and the local antiparticle excesses
 
 Because a space-based spectrometer measures charge and mass directly (through the
-PID chain in [26-particle-identification.md](26-particle-identification.md)),
+PID chain in [24-particle-identification.md](24-particle-identification.md)),
 it gives an unambiguous species and isotope identification that no ground-based
 technique provides - the reason direct detection remains the reference measurement
 for composition, isotopic ratios, and antiparticle fluxes, even though its
@@ -146,7 +146,7 @@ geometric-factor-limited exposure caps its reach well below the knee. The measur
 with energy above a few GeV, and a harder-than-secondary-production **antiproton**
 spectrum at high rigidity, are the most consequential such results: standard secondary
 production (cosmic-ray nuclei spallating on the interstellar medium, per
-[cosmic-ray spectrum and composition](32-cosmic-ray-spectrum-and-composition.md))
+[cosmic-ray spectrum and composition](30-cosmic-ray-spectrum-and-composition.md))
 predicts a falling positron fraction and a softer antiproton spectrum, so the excess
 is interpreted either as evidence of nearby primary sources (pulsars are the leading
 astrophysical candidate) or, more speculatively, as a signature of dark-matter
@@ -167,7 +167,7 @@ eventual high-energy cutoff or lack thereof, and consistency with other channels
   identified and excluded from the integration window.
 - For a composition or isotope result: which PID subsystem(s) established charge and
   mass, and the momentum/rigidity range over which the required separation holds (see
-  [particle identification](26-particle-identification.md)).
+  [particle identification](24-particle-identification.md)).
 - For an antiparticle-excess interpretation: the astrophysical secondary-production
   baseline assumed, and what additional evidence (spectral cutoff, anisotropy,
   multi-channel consistency) distinguishes a nearby-source from a dark-matter

@@ -10,7 +10,7 @@ target: Jet-energy-scale correction must be idempotent - applying it twice must 
 `apply_jes(jet, correction_factor)` must be idempotent: calling it a second
 time on an already-corrected jet must leave `jet.pt` unchanged (within
 `1e-9` absolute float tolerance), not apply the correction again. Per
-`references/20-physics-objects-jets-btagging-met.md`'s note to never
+`references/18-physics-objects-jets-btagging-met.md`'s note to never
 "collapse jet energy scale into a single" undifferentiated step, a jet
 carries its correction state explicitly - a pipeline that accidentally
 reruns the JES step on an already-corrected collection (a real, common

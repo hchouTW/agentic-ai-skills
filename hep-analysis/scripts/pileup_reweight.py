@@ -4,7 +4,7 @@
 weight[i] = data_pdf[i] / mc_pdf[i], where each input profile (a list of bin
 counts/weights over the same binning, e.g. number of true interactions) is
 normalized to a probability density before dividing. See
-references/21-triggers-luminosity-pileup.md for the methodology and the failure
+references/19-triggers-luminosity-pileup.md for the methodology and the failure
 modes this guards against. Standard library only.
 Run: python3 scripts/pileup_reweight.py assets/pileup_profiles.example.json
 """

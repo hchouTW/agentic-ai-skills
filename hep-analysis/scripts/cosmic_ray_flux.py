@@ -5,8 +5,8 @@ Purpose: the standard final step of any cosmic-ray counting measurement (ground
 array, IACT, neutrino telescope, or a space-based spectrometer like AMS-02) -
 turning selected event counts into a differential flux with a statistically correct
 uncertainty - rather than leaving the statistics implicit. See
-references/39-astroparticle-statistics.md (exposure/forward-folding discipline) and
-references/40-ams02-case-study.md.
+references/37-astroparticle-statistics.md (exposure/forward-folding discipline) and
+references/38-ams02-case-study.md.
 
 What it does: for one or more energy/rigidity bins, given the observed count N,
 the exposure (effective area or geometric factor, times live time, times solid
@@ -35,10 +35,10 @@ clear error rather than a silently truncated interval if the true bound would ex
 adequate and this exact tool is unnecessary. This computes a flux point
 per bin from an already-known exposure - it does not itself compute effective area,
 acceptance, or livetime, which are instrument-specific (see
-references/23-detector-systems-overview.md for acceptance/geometric-factor
+references/21-detector-systems-overview.md for acceptance/geometric-factor
 definitions) and must be supplied. Does not itself forward-fold through an energy
 migration matrix; see references/10-measurements-unfolding.md and
-references/39-astroparticle-statistics.md for why a steeply falling spectrum should
+references/37-astroparticle-statistics.md for why a steeply falling spectrum should
 be compared via forward-folding rather than treating each bin's flux point as
 migration-free.
 Run: python3 scripts/cosmic_ray_flux.py --counts 42 --exposure 1.5e7 --bin-width 10

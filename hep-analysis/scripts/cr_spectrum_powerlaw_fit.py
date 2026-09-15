@@ -4,7 +4,7 @@
 Purpose: extract a spectral index (and, for a segmented fit, per-segment indices and
 a break energy) from measured (energy, flux) points, and propagate the flux's
 statistical uncertainty into the index's uncertainty. See
-references/32-cosmic-ray-spectrum-and-composition.md for why an energy-scale
+references/30-cosmic-ray-spectrum-and-composition.md for why an energy-scale
 uncertainty on a steeply falling spectrum matters more than it looks: this script
 fits the index only, and does not itself convert an index uncertainty into an
 energy-scale systematic - that conversion (`gamma * delta`) is done by hand from the

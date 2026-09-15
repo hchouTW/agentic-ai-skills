@@ -4,8 +4,8 @@ Covers the constants that connect a simulated or idealized detector to the real 
 energy and timing calibration, alignment of sensor positions, their time dependence,
 and how a change in any of them propagates through everything downstream. This is the
 feedback loop that closes the chain from
-[detector simulation](30-detector-simulation.md) back to
-[event reconstruction](27-event-reconstruction.md).
+[detector simulation](28-detector-simulation.md) back to
+[event reconstruction](25-event-reconstruction.md).
 
 ## Calibration is a chain, and its order is part of the definition
 
@@ -33,7 +33,7 @@ known independently: a resonance of known mass, momentum-energy consistency (`E/
 back-to-back balance in transverse momentum, or the uniformity of an isotropic flux.
 It is the only way to capture the real environment and its time evolution, and it is
 what sets the achievable constant term of a calorimeter (see
-[calorimetry](25-calorimetry-ecal-hcal.md)).
+[calorimetry](23-calorimetry-ecal-hcal.md)).
 
 The limitation of in-situ calibration is circularity: the reference physics is measured
 with the same detector being calibrated. A resonance mass calibration constrains the
@@ -74,7 +74,7 @@ Weak modes must be constrained with information the alignment fit does not use:
 
 Every measurement sensitive to charge sign or to the high-rigidity spectrum should
 state which of these constrains its charge-antisymmetric bias, and quote the resulting
-limit as a systematic. See [tracking and vertexing](24-tracking-and-vertexing.md).
+limit as a systematic. See [tracking and vertexing](22-tracking-and-vertexing.md).
 
 ## Time dependence and conditions data
 
@@ -111,7 +111,7 @@ A calibration update is therefore not a local change:
 - Re-derive, do not reuse, any scale factor or data-driven background estimate that
   was measured with the old constants.
 - Re-validate classifiers whose input distributions have moved, following
-  [22-multivariate-classifiers-bdt-nn.md](22-multivariate-classifiers-bdt-nn.md).
+  [20-multivariate-classifiers-bdt-nn.md](20-multivariate-classifiers-bdt-nn.md).
 - Compare the affected distributions before and after with an explicit method - event
   counts per cut, histogram integrals, maximum absolute and relative bin difference -
   as required for any change that risks altering physics output.

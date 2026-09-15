@@ -20,7 +20,7 @@ flight path in metres, timing resolution in picoseconds. Separation is quoted as
 the convention when comparing against another source. The Bethe-Bloch evaluation omits
 the density-effect correction, which suppresses the relativistic rise - dedx-mode
 numbers above the ionization minimum are therefore optimistic and are flagged as such.
-See references/26-particle-identification.md.
+See references/24-particle-identification.md.
 Run: python3 scripts/pid_separation_power.py --mode tof --species pi K --momentum 2.0 --path 1.2 --time-resolution 60
 """
 import argparse

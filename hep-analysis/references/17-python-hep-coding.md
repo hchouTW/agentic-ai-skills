@@ -4,6 +4,13 @@ Use this reference for concrete Python code and CLI conventions. See
 [Data pipelines](02-data-pipelines.md) for the design-level treatment of chunked
 reads, schema audits, and ownership; this file covers the code-level idioms.
 
+## Naming
+
+Google/PEP 8 style: `snake_case` functions/vars, `PascalCase` classes,
+`UPPER_SNAKE_CASE` constants, `_leading_underscore` for private helpers. For C++/ROOT
+naming and general/ROOT-specific C++ design guidance, see
+[C++, ROOT, and Balanced Design Guidelines](14-root-balanced-design-guidelines.md).
+
 ## CLI structure
 
 - Use `argparse` and a `main()` function.

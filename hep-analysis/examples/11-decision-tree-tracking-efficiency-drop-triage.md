@@ -9,10 +9,10 @@ scenario: track reconstruction efficiency measured in a new data-taking period i
 
 | Trigger | Resolution Strategy |
 |---|---|
-| Drop is localized to specific sensor modules, and the conditions-data dead/noisy-channel map changed for this run range | Treat as a channel-map/conditions-data problem; confirm against the dead-channel list per `references/31-calibration-and-alignment.md`'s time-dependence guidance before touching pattern-recognition tuning |
-| Drop is concentrated at low momentum and in high-occupancy regions, with no channel-map or alignment payload change logged | Treat as pattern-recognition search-window mistuning per `references/24-tracking-and-vertexing.md`'s "From hits to tracks" section - too tight a window loses hits after a scatter, and the effect is momentum- and density-dependent by construction |
+| Drop is localized to specific sensor modules, and the conditions-data dead/noisy-channel map changed for this run range | Treat as a channel-map/conditions-data problem; confirm against the dead-channel list per `references/29-calibration-and-alignment.md`'s time-dependence guidance before touching pattern-recognition tuning |
+| Drop is concentrated at low momentum and in high-occupancy regions, with no channel-map or alignment payload change logged | Treat as pattern-recognition search-window mistuning per `references/22-tracking-and-vertexing.md`'s "From hits to tracks" section - too tight a window loses hits after a scatter, and the effect is momentum- and density-dependent by construction |
 | Drop is roughly uniform across momentum and occupancy, and coincides with a new alignment payload deployment | Treat as an alignment-propagation problem: a coherent position error can push genuine hits outside the pattern-recognition search window per "Alignment coupling"'s point that alignment errors propagate directly into trajectory parameters |
-| Drop appears only for a small subset of runs clustered near a payload validity boundary | Treat as an interval-of-validity boundary problem per `references/31-calibration-and-alignment.md`'s "Time dependence and conditions data" section, not a real efficiency loss |
+| Drop appears only for a small subset of runs clustered near a payload validity boundary | Treat as an interval-of-validity boundary problem per `references/29-calibration-and-alignment.md`'s "Time dependence and conditions data" section, not a real efficiency loss |
 
 ## Selected Branch
 

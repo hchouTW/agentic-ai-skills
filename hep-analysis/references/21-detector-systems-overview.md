@@ -1,11 +1,11 @@
 # Detector Systems Overview
 
 Orients the detector-level references that follow
-([tracking](24-tracking-and-vertexing.md), [calorimetry](25-calorimetry-ecal-hcal.md),
-[particle identification](26-particle-identification.md)) and connects them to the
+([tracking](22-tracking-and-vertexing.md), [calorimetry](23-calorimetry-ecal-hcal.md),
+[particle identification](24-particle-identification.md)) and connects them to the
 analysis-level material already in
 [01-analysis-design.md](01-analysis-design.md) and
-[20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md),
+[18-physics-objects-jets-btagging-met.md](18-physics-objects-jets-btagging-met.md),
 which start from reconstructed objects and treat the detector as given. This file is
 organized by detector *technology* and deliberately assumes no particular experiment,
 geometry, or beam configuration; quote scaling relations and orders of magnitude
@@ -69,7 +69,7 @@ simply become imprecise; it begins to misassign charge sign, scattering
 high-rigidity particles of one sign into the other sign's sample. Any analysis
 sensitive to a charge ratio or to a rare oppositely-charged species must treat this
 **charge confusion** as a background, not as a resolution effect - see
-[tracking and vertexing](24-tracking-and-vertexing.md).
+[tracking and vertexing](22-tracking-and-vertexing.md).
 
 Because uncertainty is Gaussian in `1/R`, binning and unfolding in `R` interact badly
 with a symmetric-in-curvature resolution function: a steeply falling spectrum
@@ -124,7 +124,7 @@ computed from simulation of the apparatus, efficiency is the probability that a
 particle inside the acceptance is actually reconstructed and selected, and is measured
 from data wherever possible. Merging them into a single simulation-derived correction
 hides the part that should have been data-driven and validated - see
-[reconstruction performance](28-reconstruction-performance-and-truth-matching.md) and
+[reconstruction performance](26-reconstruction-performance-and-truth-matching.md) and
 [04-histograms-efficiencies.md](04-histograms-efficiencies.md).
 
 Acceptance depends on the simulated input spectrum whenever it is computed by
@@ -146,7 +146,7 @@ Terms that are frequently conflated, and are worth stating precisely in any writ
   than a large resolution.
 - **Response** - the mean reconstructed value as a function of true value, whose
   deviation from unity slope is a calibration problem, not a resolution problem - see
-  [calibration and alignment](31-calibration-and-alignment.md).
+  [calibration and alignment](29-calibration-and-alignment.md).
 - **Linearity** - whether response is constant across the measured range.
 - **Occupancy** - the fraction of readout channels hit per event, which drives
   pattern-recognition difficulty and confusion, not resolution.

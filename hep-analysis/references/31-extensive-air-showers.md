@@ -3,9 +3,9 @@
 Covers what happens between a primary cosmic ray entering the atmosphere and the
 particle cascade that ground-based and fluorescence detectors actually measure -
 the physics that
-[ground-based detection arrays](34-ground-based-detection-arrays.md) reconstruct into
+[ground-based detection arrays](32-ground-based-detection-arrays.md) reconstruct into
 energy and `X_max`, and that
-[cosmic-ray spectrum and composition](32-cosmic-ray-spectrum-and-composition.md) draws
+[cosmic-ray spectrum and composition](30-cosmic-ray-spectrum-and-composition.md) draws
 composition inferences from. Everything here is a *simulated and parameterized*
 cascade - no ground-based technique observes the primary particle directly.
 
@@ -20,7 +20,7 @@ energy `E_c` where ionization loss overtakes radiative loss, fixing the shower's
 maximum particle count at `N_max ~ E0 / E_c` and reaching it after
 `n_max ~ log2(E0 / E_c)` generations - the single result that makes calorimeter energy
 resolution scale as `1/sqrt(E)` (see
-[calorimetry](25-calorimetry-ecal-hcal.md)) and, in air-shower form, ties the shower's
+[calorimetry](23-calorimetry-ecal-hcal.md)) and, in air-shower form, ties the shower's
 longitudinal development directly to the primary energy.
 
 **Matthews' extension to hadronic showers** treats each hadronic interaction as
@@ -39,7 +39,7 @@ its crudeness, correctly predicts the two results that dominate composition anal
   in single-shower energy, the sum over `A` sub-showers gives *more* muons for a
   nucleus than for a proton of the same total energy `E0` - the origin of the
   muon-content composition observable in
-  [32-cosmic-ray-spectrum-and-composition.md](32-cosmic-ray-spectrum-and-composition.md).
+  [30-cosmic-ray-spectrum-and-composition.md](30-cosmic-ray-spectrum-and-composition.md).
   Superposition also predicts an earlier shower maximum for a heavier nucleus (each
   sub-shower has less energy and so develops less deeply), consistent with the
   `X_max` composition observable below.
@@ -56,7 +56,7 @@ with four parameters: the peak size `N_max`, the depth of maximum `X_max`, a dep
 offset `X0` (the depth of first interaction, extrapolated back; not itself directly
 physical), and a shape/attenuation length `lambda`. `X_max` is the single most
 composition-sensitive observable a fluorescence or hybrid detector can measure
-directly (see [ground-based detection arrays](34-ground-based-detection-arrays.md)),
+directly (see [ground-based detection arrays](32-ground-based-detection-arrays.md)),
 since it tracks the depth of first interaction and the subsequent cascade length,
 both of which are set by the primary's mass through the superposition argument above.
 `scripts/xmax_gaisser_hillas.py` evaluates this profile and locates `X_max` from
@@ -66,7 +66,7 @@ The **Greisen parameterization** is the equivalent closed-form profile specifica
 for pure electromagnetic (photon/electron-initiated) showers, expressed in radiation
 lengths rather than the Gaisser-Hillas form's atmospheric slant depth; it is the
 appropriate reference profile for gamma-ray-initiated showers (see
-[imaging Cherenkov](35-imaging-atmospheric-cherenkov.md)), which lack the hadronic
+[imaging Cherenkov](33-imaging-atmospheric-cherenkov.md)), which lack the hadronic
 component that broadens a nucleus-initiated shower's fluctuations.
 
 **`X_max` fluctuations, not just its mean, carry composition information.** A
@@ -89,7 +89,7 @@ energy from particle density at a reference distance from the shower core withou
 needing to know the primary species: the density-to-energy conversion is
 approximately universal once corrected for the shower's estimated depth of maximum
 relative to the observation level (see
-[ground-based detection arrays](34-ground-based-detection-arrays.md)). Universality is
+[ground-based detection arrays](32-ground-based-detection-arrays.md)). Universality is
 approximate, not exact - the residual mass and interaction-model dependence is itself
 a systematic that must be quoted, not assumed away.
 

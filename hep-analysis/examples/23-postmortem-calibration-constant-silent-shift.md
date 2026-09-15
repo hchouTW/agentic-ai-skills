@@ -30,7 +30,7 @@ analyzer's Slack message was the first signal anyone noticed.
 
 ## 2. Immediate Triage & Blast-Radius Mitigation
 
-Per `references/31-calibration-and-alignment.md`'s guidance that "a
+Per `references/29-calibration-and-alignment.md`'s guidance that "a
 calibration update is... not a local change," the on-call calibration
 expert's first action was to freeze the automated calibration-production
 pipeline (stopping any further payload auto-uploads) and roll the

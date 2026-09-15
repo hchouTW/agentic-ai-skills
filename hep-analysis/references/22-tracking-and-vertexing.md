@@ -4,9 +4,9 @@ Covers charged-particle trajectory measurement: the sensor technologies, how hit
 become tracks, what the track fit actually estimates, and where tracking failures
 enter an analysis as efficiency loss, fakes, or charge confusion. Builds on the
 rigidity and multiple-scattering material in
-[detector systems overview](23-detector-systems-overview.md); the downstream use of
+[detector systems overview](21-detector-systems-overview.md); the downstream use of
 reconstructed tracks in jets, b-tagging, and missing transverse momentum is in
-[20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md).
+[18-physics-objects-jets-btagging-met.md](18-physics-objects-jets-btagging-met.md).
 
 ## Sensor technologies
 
@@ -31,7 +31,7 @@ Silicon also measures deposited charge, which is proportional to `Z^2` for a
 traversing nucleus. A silicon tracker is therefore simultaneously a charge (|Z|)
 measuring device, and multi-layer charge consistency is a powerful rejection tool
 against interactions and against tracks built from mismatched hits - see
-[particle identification](26-particle-identification.md) for the dE/dx treatment.
+[particle identification](24-particle-identification.md) for the dE/dx treatment.
 
 **Gaseous detectors** - time projection chambers, drift chambers, straw tubes -
 measure ionization in a gas volume and reconstruct position from drift time, requiring
@@ -99,7 +99,7 @@ Several points routinely cause trouble:
 
 ## Rigidity resolution and its two regimes
 
-As introduced in [detector systems overview](23-detector-systems-overview.md), a
+As introduced in [detector systems overview](21-detector-systems-overview.md), a
 spectrometer's relative rigidity resolution combines an intrinsic-resolution term
 that grows linearly with rigidity and a multiple-scattering term that is roughly
 constant in rigidity (falling as `1/(beta p)` in angle, which translates to an
@@ -165,7 +165,7 @@ charge-antisymmetric, meaning it shifts positive and negative particles in oppos
 directions and directly fakes a charge-ratio signal. These **weak modes** are
 invisible to internal fit quality by construction and must be constrained with
 external information - see
-[calibration and alignment](31-calibration-and-alignment.md).
+[calibration and alignment](29-calibration-and-alignment.md).
 
 ## Deliverables
 

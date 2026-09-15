@@ -17,8 +17,8 @@ The canonical astroparticle measurement is a Poisson counting experiment with si
 region counts `N_on` (source direction/energy/time window) and a background estimate
 `N_off` drawn from a region with no expected signal but `alpha` times less (or more)
 exposure/normalization than the ON region - used throughout
-[imaging Cherenkov](35-imaging-atmospheric-cherenkov.md) and
-[neutrino astronomy](36-neutrino-astronomy.md) alike. The **Li & Ma (1983)**
+[imaging Cherenkov](33-imaging-atmospheric-cherenkov.md) and
+[neutrino astronomy](34-neutrino-astronomy.md) alike. The **Li & Ma (1983)**
 significance, derived from the likelihood ratio between the signal-plus-background and
 background-only hypotheses under this model, is
 
@@ -39,8 +39,8 @@ recur in review of this statistic:
   approximation at the low counts typical of a faint source or a short exposure.
 - `alpha` must be measured or modeled correctly for the exposure/acceptance actually
   achieved by each region (see the background-estimation discussion in
-  [imaging Cherenkov](35-imaging-atmospheric-cherenkov.md) and
-  [neutrino astronomy](36-neutrino-astronomy.md)); an `alpha` that silently drifts
+  [imaging Cherenkov](33-imaging-atmospheric-cherenkov.md) and
+  [neutrino astronomy](34-neutrino-astronomy.md)); an `alpha` that silently drifts
   with time, zenith angle, or camera radius while being treated as constant biases
   every significance computed from it.
 
@@ -58,7 +58,7 @@ specific, recurring forms in this domain that are easy to under-count:
   the sky area divided by the PSF's solid angle. Estimating the correct global
   p-value from pixel-level local p-values is standard practice done via simulated
   background-only sky maps (scrambled data, per
-  [neutrino astronomy](36-neutrino-astronomy.md)'s RA-scrambling) rather than an
+  [neutrino astronomy](34-neutrino-astronomy.md)'s RA-scrambling) rather than an
   analytic pixel-count correction, precisely because of this correlation.
 - **Multiple energy bins, time windows, or source catalogs tested and not fully
   reported**: an analysis that quotes the single most significant bin/window/catalog
@@ -81,8 +81,8 @@ energy**, not as a single flat number, and combined with the instrument's energy
 migration matrix by forward-folding an assumed spectral model rather than dividing
 counts by a single acceptance and unfolding bin-by-bin - the same steep-spectrum
 argument stated in
-[cosmic-ray spectrum and composition](32-cosmic-ray-spectrum-and-composition.md),
-[imaging Cherenkov](35-imaging-atmospheric-cherenkov.md), and
+[cosmic-ray spectrum and composition](30-cosmic-ray-spectrum-and-composition.md),
+[imaging Cherenkov](33-imaging-atmospheric-cherenkov.md), and
 [10-measurements-unfolding.md](10-measurements-unfolding.md). A quoted
 upper limit or best-fit flux that does not state the assumed spectral shape used in
 the exposure weighting is not reproducible, because a harder or softer assumed

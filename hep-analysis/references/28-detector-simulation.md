@@ -4,8 +4,8 @@ Covers propagating generated particles through a model of the apparatus and prod
 simulated readout: geometry and materials, physics processes, digitization, fast
 simulation, and - most importantly for an analysis - how to establish that the
 simulated response matches the real detector. The upstream stage is
-[event generation](29-event-generation.md); the constants that tie simulation to the
-real detector are in [calibration and alignment](31-calibration-and-alignment.md).
+[event generation](27-event-generation.md); the constants that tie simulation to the
+real detector are in [calibration and alignment](29-calibration-and-alignment.md).
 
 ## What full simulation does
 
@@ -36,7 +36,7 @@ energy-scale factor fixes uniformly.
 
 The strongest data-driven handles on material are the reconstructed conversion and
 nuclear-interaction vertex maps, which image the material distribution directly (see
-[tracking and vertexing](24-tracking-and-vertexing.md)), and the momentum dependence of
+[tracking and vertexing](22-tracking-and-vertexing.md)), and the momentum dependence of
 tracking efficiency. Material uncertainty is normally propagated by producing a
 simulation variant with the budget scaled in specific regions - it cannot be
 represented as a weight.
@@ -96,8 +96,8 @@ checking explicitly:
   turn-on that will be misattributed to physics.
 - **Pileup overlay** must reproduce the data's pileup distribution and its
   out-of-time structure, consistently with the reweighting applied later - see
-  [21-triggers-luminosity-pileup.md](21-triggers-luminosity-pileup.md) and
-  the pileup discussion in [event reconstruction](27-event-reconstruction.md).
+  [19-triggers-luminosity-pileup.md](19-triggers-luminosity-pileup.md) and
+  the pileup discussion in [event reconstruction](25-event-reconstruction.md).
 - **Simulated events must be reconstructed with the same code and configuration as
   data.** Any divergence between the two reconstruction paths becomes a systematic
   that is invisible in every internal cross-check.
@@ -139,7 +139,7 @@ ladder:
    selection, where any disagreement can be characterized without unblinding.
 5. **Efficiency and resolution** against their data-driven measurements, with the
    residual difference becoming the scale factor and its uncertainty - see
-   [reconstruction performance](28-reconstruction-performance-and-truth-matching.md).
+   [reconstruction performance](26-reconstruction-performance-and-truth-matching.md).
 
 **Do not tune simulation parameters to remove a disagreement in the observable the
 analysis measures.** Tuning is legitimate on independent control observables with a

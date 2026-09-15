@@ -1,17 +1,17 @@
 # Cosmic-Ray Spectrum, Composition, and Propagation
 
 Orients the astroparticle-physics references that follow
-([extensive air showers](33-extensive-air-showers.md),
-[ground-based arrays](34-ground-based-detection-arrays.md),
-[imaging Cherenkov](35-imaging-atmospheric-cherenkov.md),
-[neutrino astronomy](36-neutrino-astronomy.md),
-[space-based direct detection](37-space-based-direct-detection.md)). Covers the
+([extensive air showers](31-extensive-air-showers.md),
+[ground-based arrays](32-ground-based-detection-arrays.md),
+[imaging Cherenkov](33-imaging-atmospheric-cherenkov.md),
+[neutrino astronomy](34-neutrino-astronomy.md),
+[space-based direct detection](35-space-based-direct-detection.md)). Covers the
 observable this whole domain measures - the differential flux of cosmic rays as a
 function of energy, species, arrival direction, and time - and the astrophysical
 processes (acceleration, propagation) that shape it. Detector-level material
 (rigidity, material budget, PID) is in
-[23-detector-systems-overview.md](23-detector-systems-overview.md) through
-[26-particle-identification.md](26-particle-identification.md) and applies
+[21-detector-systems-overview.md](21-detector-systems-overview.md) through
+[24-particle-identification.md](24-particle-identification.md) and applies
 unchanged to space-based spectrometers; this file is about the physics of the flux
 itself, not how any one instrument measures it.
 
@@ -58,7 +58,7 @@ domain inherits unchanged).
 "Composition" means the mix of primary nuclear species (protons through iron and
 beyond) as a function of energy, and every ground-based technique infers it
 indirectly through the depth of shower maximum, `X_max` (see
-[extensive air showers](33-extensive-air-showers.md)) or through the ratio of muon
+[extensive air showers](31-extensive-air-showers.md)) or through the ratio of muon
 to electromagnetic shower content - never through direct nuclear charge measurement,
 which only space-based detectors provide. Two composition observables recur:
 
@@ -140,7 +140,7 @@ Consequences that matter for interpreting a measured spectrum:
   suppresses the flux reaching the inner heliosphere in a way that varies with the
   solar cycle. Any low-rigidity spectrum measurement must state the solar-activity
   epoch (and ideally the force-field modulation potential) it was taken under - see
-  [space-based direct detection](37-space-based-direct-detection.md) for the
+  [space-based direct detection](35-space-based-direct-detection.md) for the
   force-field approximation used to compare measurements taken at different times.
 
 ## Deliverables

@@ -64,38 +64,36 @@ Don't mix more APIs than needed in one script; if mixing, keep boundaries clear 
 | Classifiers, leakage, mass sculpting | [Machine learning](references/11-ml-analysis.md) |
 | Debugging, verification, preservation, review | [Validation](references/12-validation.md) |
 | Versions and methodological sources | [Primary sources](references/13-sources.md) |
-| C++/ROOT/RDataFrame code patterns, TTreeReader, style, build commands | [C++/ROOT coding](references/14-cpp-root-coding.md) |
+| C++/ROOT/RDataFrame code patterns, TTreeReader, naming/comments/file-documentation, general C++ class/struct/RAII/ownership/inheritance design, TObject inheritance, class dictionaries, directory-based ownership, branch-buffer structs, build commands | [C++, ROOT, and balanced design guidelines](references/14-root-balanced-design-guidelines.md) |
 | CMake and root-config builds, project scaffolding | [Build setup](references/15-cmake-and-build.md) |
 | Debugging ROOT/PyROOT/C++ (missing symbols, dictionaries, fits) | [Debugging ROOT](references/16-debugging-root.md) |
-| Python CLI structure, PyROOT/uproot/awkward code conventions | [Python coding](references/17-python-hep-coding.md) |
-| Naming conventions, comments, file-level documentation requirement | [Code conventions](references/18-code-conventions.md) |
-| General C++ class/struct/RAII/ownership/inheritance design | [C++ design guidelines](references/19-cpp-balanced-design-guidelines.md) |
-| Jet clustering, JES/JER, b-tagging, MET, pileup jets, overlap removal | [Physics objects](references/20-physics-objects-jets-btagging-met.md) |
-| Tag-and-probe, trigger turn-ons/prescales, luminosity, pileup reweighting | [Triggers, luminosity, pileup](references/21-triggers-luminosity-pileup.md) |
-| BDT/NN classifier choice, training, feature engineering, calibration | [Multivariate classifiers](references/22-multivariate-classifiers-bdt-nn.md) |
-| Subsystem layout, rigidity vs. momentum, material budget, acceptance, resolution vocabulary | [Detector systems overview](references/23-detector-systems-overview.md) |
-| Silicon/gas tracking, pattern recognition, Kalman fit, charge confusion, vertexing | [Tracking and vertexing](references/24-tracking-and-vertexing.md) |
-| EM/hadronic showers, sampling vs. homogeneous, stochastic/noise/constant terms, e/h non-compensation, leakage | [Calorimetry](references/25-calorimetry-ecal-hcal.md) |
-| TRD, TOF, RICH/Cherenkov, dE/dx, muon systems, combined PID likelihoods, isotope separation | [Particle identification](references/26-particle-identification.md) |
-| Hits to clusters to tracks to objects, particle flow, ambiguity resolution, reconstruction under pileup | [Event reconstruction](references/27-event-reconstruction.md) |
-| Truth matching, reconstruction efficiency/fake rate/purity, resolution and bias, scale factors | [Reconstruction performance](references/28-reconstruction-performance-and-truth-matching.md) |
-| Generators, LHE/HepMC, matching/merging, negative weights, PDF and scale variations | [Event generation](references/29-event-generation.md) |
-| Geant4 geometry/physics lists/production cuts, digitization, fast simulation, simulation validation | [Detector simulation](references/30-detector-simulation.md) |
-| Test-beam and in-situ calibration, alignment weak modes, conditions time dependence | [Calibration and alignment](references/31-calibration-and-alignment.md) |
-| Cosmic-ray spectrum features (knee/ankle/GZK), composition, acceleration, propagation, solar modulation | [Cosmic-ray spectrum and composition](references/32-cosmic-ray-spectrum-and-composition.md) |
-| Extensive air showers, Heitler-Matthews model, Gaisser-Hillas/Greisen profiles, X_max, muon puzzle | [Extensive air showers](references/33-extensive-air-showers.md) |
-| Surface detector arrays, fluorescence detectors, hybrid reconstruction, atmospheric monitoring | [Ground-based detection arrays](references/34-ground-based-detection-arrays.md) |
-| IACT gamma-ray astronomy, Hillas parameters, gamma/hadron separation, ON/OFF significance | [Imaging atmospheric Cherenkov](references/35-imaging-atmospheric-cherenkov.md) |
-| Neutrino telescopes, track/cascade/double-bang topologies, atmospheric background rejection | [Neutrino astronomy](references/36-neutrino-astronomy.md) |
-| Balloon/satellite direct detection, geomagnetic cutoff, solar modulation, antiparticle excesses, periodicity/time-structure search (epoch-folding, Lomb-Scargle, charge-sign drift diagnostic) | [Space-based direct detection](references/37-space-based-direct-detection.md) |
-| Multi-messenger coincidence analysis, alert follow-up, trials/timing/pointing systematics | [Multi-messenger analysis](references/38-multimessenger-analysis.md) |
-| Li & Ma significance, sky-scan/catalog trials factor, exposure/forward-folding for steep spectra | [Astroparticle statistics](references/39-astroparticle-statistics.md) |
-| AMS-02 (ISS spectrometer): TRD/tracker/TOF/RICH/ACC/ECAL combination, orbital/solar-cycle systematics, positron-fraction/antiproton-ratio pattern, primary/secondary composition (B/C ratio), temporal-structure worked examples, servicing/upgrade history | [AMS-02 case study](references/40-ams02-case-study.md) |
+| Python CLI structure, naming, PyROOT/uproot/awkward code conventions | [Python coding](references/17-python-hep-coding.md) |
+| Jet clustering, JES/JER, b-tagging, MET, pileup jets, overlap removal | [Physics objects](references/18-physics-objects-jets-btagging-met.md) |
+| Tag-and-probe, trigger turn-ons/prescales, luminosity, pileup reweighting | [Triggers, luminosity, pileup](references/19-triggers-luminosity-pileup.md) |
+| BDT/NN classifier choice, training, feature engineering, calibration | [Multivariate classifiers](references/20-multivariate-classifiers-bdt-nn.md) |
+| Subsystem layout, rigidity vs. momentum, material budget, acceptance, resolution vocabulary | [Detector systems overview](references/21-detector-systems-overview.md) |
+| Silicon/gas tracking, pattern recognition, Kalman fit, charge confusion, vertexing | [Tracking and vertexing](references/22-tracking-and-vertexing.md) |
+| EM/hadronic showers, sampling vs. homogeneous, stochastic/noise/constant terms, e/h non-compensation, leakage | [Calorimetry](references/23-calorimetry-ecal-hcal.md) |
+| TRD, TOF, RICH/Cherenkov, dE/dx, muon systems, combined PID likelihoods, isotope separation | [Particle identification](references/24-particle-identification.md) |
+| Hits to clusters to tracks to objects, particle flow, ambiguity resolution, reconstruction under pileup | [Event reconstruction](references/25-event-reconstruction.md) |
+| Truth matching, reconstruction efficiency/fake rate/purity, resolution and bias, scale factors | [Reconstruction performance](references/26-reconstruction-performance-and-truth-matching.md) |
+| Generators, LHE/HepMC, matching/merging, negative weights, PDF and scale variations | [Event generation](references/27-event-generation.md) |
+| Geant4 geometry/physics lists/production cuts, digitization, fast simulation, simulation validation | [Detector simulation](references/28-detector-simulation.md) |
+| Test-beam and in-situ calibration, alignment weak modes, conditions time dependence | [Calibration and alignment](references/29-calibration-and-alignment.md) |
+| Cosmic-ray spectrum features (knee/ankle/GZK), composition, acceleration, propagation, solar modulation | [Cosmic-ray spectrum and composition](references/30-cosmic-ray-spectrum-and-composition.md) |
+| Extensive air showers, Heitler-Matthews model, Gaisser-Hillas/Greisen profiles, X_max, muon puzzle | [Extensive air showers](references/31-extensive-air-showers.md) |
+| Surface detector arrays, fluorescence detectors, hybrid reconstruction, atmospheric monitoring | [Ground-based detection arrays](references/32-ground-based-detection-arrays.md) |
+| IACT gamma-ray astronomy, Hillas parameters, gamma/hadron separation, ON/OFF significance | [Imaging atmospheric Cherenkov](references/33-imaging-atmospheric-cherenkov.md) |
+| Neutrino telescopes, track/cascade/double-bang topologies, atmospheric background rejection | [Neutrino astronomy](references/34-neutrino-astronomy.md) |
+| Balloon/satellite direct detection, geomagnetic cutoff, solar modulation, antiparticle excesses, periodicity/time-structure search (epoch-folding, Lomb-Scargle, charge-sign drift diagnostic) | [Space-based direct detection](references/35-space-based-direct-detection.md) |
+| Multi-messenger coincidence analysis, alert follow-up, trials/timing/pointing systematics | [Multi-messenger analysis](references/36-multimessenger-analysis.md) |
+| Li & Ma significance, sky-scan/catalog trials factor, exposure/forward-folding for steep spectra | [Astroparticle statistics](references/37-astroparticle-statistics.md) |
+| AMS-02 (ISS spectrometer): TRD/tracker/TOF/RICH/ACC/ECAL combination, orbital/solar-cycle systematics, positron-fraction/antiproton-ratio pattern, primary/secondary composition (B/C ratio), temporal-structure worked examples, servicing/upgrade history | [AMS-02 case study](references/38-ams02-case-study.md) |
 | Authoring a canonical worked example (Contrast, Execution Trajectory, Gated Pipeline, Decision-Tree, Interactive Elicitation, Adversarial Audit, Test-First, or Postmortem archetype) for `examples/` | `task-authoring`'s [example-authoring reference](../task-authoring/references/example-authoring.md) (requires `task-authoring` installed alongside this skill) |
 
 ## Code file requirement
 
-When creating or modifying any code file (C++ source/headers, ROOT macros, PyROOT/uproot scripts, CMake files, config loaders), include a short introductory comment block: purpose, what it does, and usage notes/dependencies/assumptions (build/run command, expected input format and tree/branch names, units, weight conventions, ROOT version, preconditions). Add or update it if missing/outdated. Full convention: [Code conventions](references/18-code-conventions.md).
+When creating or modifying any code file (C++ source/headers, ROOT macros, PyROOT/uproot scripts, CMake files, config loaders), include a short introductory comment block: purpose, what it does, and usage notes/dependencies/assumptions (build/run command, expected input format and tree/branch names, units, weight conventions, ROOT version, preconditions). Add or update it if missing/outdated. Full convention: [C++, ROOT, and balanced design guidelines](references/14-root-balanced-design-guidelines.md#naming-comments-and-file-documentation).
 
 ## Executable resources
 

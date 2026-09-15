@@ -3,11 +3,11 @@
 Covers destructive energy measurement - how showers develop, what sets the resolution,
 why hadronic calorimetry is fundamentally harder than electromagnetic, and how
 calorimeter information feeds particle identification. Assumes the material-budget and
-resolution vocabulary of [detector systems overview](23-detector-systems-overview.md);
+resolution vocabulary of [detector systems overview](21-detector-systems-overview.md);
 jet energy scale and its calibration are treated at the object level in
-[20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md),
+[18-physics-objects-jets-btagging-met.md](18-physics-objects-jets-btagging-met.md),
 and the calibration machinery itself in
-[calibration and alignment](31-calibration-and-alignment.md).
+[calibration and alignment](29-calibration-and-alignment.md).
 
 ## The measurement, and why it complements tracking
 
@@ -45,7 +45,7 @@ energy in the first layers, and the lateral spread separate electrons and photon
 hadrons with rejection factors that can be large but are strongly
 energy-dependent - and are exactly the kind of variable that a classifier will exploit
 and that must therefore be validated for data/MC agreement before use, following
-[22-multivariate-classifiers-bdt-nn.md](22-multivariate-classifiers-bdt-nn.md).
+[20-multivariate-classifiers-bdt-nn.md](20-multivariate-classifiers-bdt-nn.md).
 
 ## Homogeneous versus sampling calorimeters
 
@@ -148,7 +148,7 @@ deposit only part of their energy in the electromagnetic section. `E/p` is also 
 standard in-situ handle for cross-calibrating the calorimeter energy scale against the
 tracker momentum scale - a check that is only as good as the tracker's own alignment,
 so a disagreement in `E/p` is not automatically a calorimeter problem. See
-[particle identification](26-particle-identification.md) for how this combines with
+[particle identification](24-particle-identification.md) for how this combines with
 the other identification systems.
 
 ## Deliverables

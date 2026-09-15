@@ -7,7 +7,7 @@ cutoff (scripts/geomagnetic_cutoff.py) is not representative of the mission's ac
 exposure. This script samples the vertical Stormer cutoff over the geomagnetic
 latitude range an orbit of given inclination reaches, and reports the minimum,
 maximum, and a time-weighted average. See
-references/40-ams02-case-study.md and references/37-space-based-direct-detection.md.
+references/38-ams02-case-study.md and references/35-space-based-direct-detection.md.
 
 What it does: for an orbit of inclination `i` (degrees) the satellite's geographic
 (here treated as equal to geomagnetic, for this order-of-magnitude planning estimate -

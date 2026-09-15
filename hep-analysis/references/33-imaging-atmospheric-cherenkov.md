@@ -3,12 +3,12 @@
 Covers ground-based gamma-ray astronomy: how an array of Cherenkov telescopes images
 an air shower's Cherenkov light pool to reconstruct a gamma-ray's energy and
 direction and reject the overwhelming hadronic cosmic-ray background. Builds on
-[extensive air showers](33-extensive-air-showers.md) (a gamma-initiated shower is a
+[extensive air showers](31-extensive-air-showers.md) (a gamma-initiated shower is a
 pure electromagnetic cascade, described by the Greisen profile) and shares its
 significance and background-estimation methodology with
-[astroparticle statistics](39-astroparticle-statistics.md). Not to be confused with
+[astroparticle statistics](37-astroparticle-statistics.md). Not to be confused with
 the ring-imaging Cherenkov (RICH) *particle-identification* detectors in
-[26-particle-identification.md](26-particle-identification.md), which
+[24-particle-identification.md](24-particle-identification.md), which
 image single-particle Cherenkov cones in a dense radiator rather than a whole air
 shower's Cherenkov light pool in the atmosphere.
 
@@ -24,7 +24,7 @@ development as seen from that vantage point, elongated along the shower axis
 projected onto the sky. Because the technique depends on the shower reaching well
 above the ground before its Cherenkov emission is intercepted, it requires clear,
 dark, moonless conditions, giving it a duty cycle comparable to fluorescence detection
-(see [ground-based detection arrays](34-ground-based-detection-arrays.md)) - typically
+(see [ground-based detection arrays](32-ground-based-detection-arrays.md)) - typically
 around 10-15%, the dominant limitation on exposure for any IACT source measurement.
 
 **Hillas parameters** are the classical image-shape description: the ellipse's
@@ -58,7 +58,7 @@ falls off with distance in a way that must be corrected for), gives an energy
 estimate calibrated against detailed shower simulation. Because this calibration is
 simulation-based rather than tied to an independent calorimetric measurement (unlike
 the hybrid fluorescence/surface-array calibration in
-[ground-based detection arrays](34-ground-based-detection-arrays.md)), the absolute
+[ground-based detection arrays](32-ground-based-detection-arrays.md)), the absolute
 energy scale for IACTs carries a larger systematic uncertainty (typically ~15-20%),
 dominated by the atmospheric-transparency model and the assumed telescope optical
 throughput; report the assumed atmospheric model and its calibration/monitoring
@@ -91,7 +91,7 @@ detection and is implemented in `scripts/li_ma_significance.py`; because it is
 derived from a likelihood ratio under the Poisson ON/OFF model it is the appropriate
 replacement for a naive `(N_on - alpha*N_off)/sqrt(N_on + alpha^2*N_off)` significance
 at low counts, where the naive formula's Gaussian assumption breaks down. See
-[astroparticle statistics](39-astroparticle-statistics.md) for the trials-factor
+[astroparticle statistics](37-astroparticle-statistics.md) for the trials-factor
 correction required when this significance is evaluated at many trial positions in a
 blind sky scan rather than at one predetermined source position.
 
@@ -105,7 +105,7 @@ IACT effective areas and energy resolution are steeply energy-dependent near the
 technique's low-energy threshold (set by the night-sky-background noise floor and by
 the reduced Cherenkov yield of low-energy showers) - the same steep-spectrum
 forward-folding preference stated in
-[cosmic-ray spectrum and composition](32-cosmic-ray-spectrum-and-composition.md) and
+[cosmic-ray spectrum and composition](30-cosmic-ray-spectrum-and-composition.md) and
 [10-measurements-unfolding.md](10-measurements-unfolding.md).
 
 ## Deliverables

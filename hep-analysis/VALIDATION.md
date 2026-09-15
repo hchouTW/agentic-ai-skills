@@ -906,6 +906,172 @@ Old name -> new name (this skill only):
 
 Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK: 119 files present and non-empty") and `python3 -m unittest discover -s tests -v` (172 tests, all passing) after the rename. All 24 example files individually re-validated with `agile-development/scripts/validate_skill_example.py` ("ok").
 
+## Add ROOT-specific design guidelines (2026-09-15)
+
+Per explicit user request, added `references/41-root-balanced-design-guidelines.md`:
+`TObject` inheritance decisions, class dictionaries and I/O (`ClassDef`/`ClassImp`,
+`LinkDef.h`, streamer versioning), directory-based ownership (`SetDirectory`,
+`TFile`/`TDirectory` lifetime, the double-free/use-after-free failure modes around
+it), RAII vs. ROOT ownership, branch-buffer structs, inheritance/polymorphism and
+template/dictionary limits specific to ROOT, error handling at the ROOT boundary
+(`gErrorIgnoreLevel`/zombie objects vs. this codebase's own error-handling
+convention), const-correctness caveats in older ROOT APIs, global-state
+(`gDirectory`/`gRandom`/`gStyle`) testability, and file/build organization for
+dictionary-bearing classes.
+
+This was routed here rather than into `agile-development` (where it was first
+requested) after `skill-router` flagged ROOT as this skill's domain and a
+follow-up question to the user confirmed the choice: `agile-development`'s
+`cpp-balanced-design-guidelines.md`/`python-balanced-design-guidelines.md`/
+`bash-balanced-design-guidelines.md` family is general-purpose, Google-style-guide
+language guidance with no framework tie-in, whereas ROOT is a HEP-specific C++
+framework - the new file belongs alongside this skill's other ROOT-specific
+references (`14-cpp-root-coding.md`, `15-cmake-and-build.md`,
+`16-debugging-root.md`, `18-code-conventions.md`), not in that general-language
+family. The new file explicitly builds on `19-cpp-balanced-design-guidelines.md`
+(cross-linked both directions) rather than repeating its content: it covers only
+where ROOT's ownership/dictionary/error-reporting model departs from general C++,
+not general class-design guidance ROOT does not affect.
+
+Wired into the bundle: `SKILL.md`'s reference-routing table (new row after the C++
+design guidelines row), `README.md`'s Coverage and boundaries paragraph,
+`scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`, and forward/back cross-links
+in `14-cpp-root-coding.md`, `18-code-conventions.md`, and
+`19-cpp-balanced-design-guidelines.md`. All internal anchor links (to sections
+within `19-cpp-balanced-design-guidelines.md` and `14-cpp-root-coding.md`) were
+checked by hand against each target file's actual heading text and GitHub's
+slug convention; all resolve. Re-ran `python3 scripts/validate_skill_bundle.py`
+("Bundle OK: 120 files present and non-empty") and
+`python3 -m unittest discover -s tests -v` (172 tests, all passing) after the
+change - no test references the new file's content directly (it is prose
+guidance, like `19-cpp-balanced-design-guidelines.md`, not executable), so this
+confirms bundle integrity, not the guidance's technical accuracy. The ROOT-specific
+claims in the file (directory ownership semantics, `ClassDef`/dictionary
+requirements, `SetDirectory` behavior) were not verified against a live ROOT
+installation in this pass - see the Limitations entry below on ROOT not being
+installed in the validation environment.
+
+## Consolidate C++/ROOT references into 41-root-balanced-design-guidelines.md (2026-09-15)
+
+Per explicit follow-up user request the same day, superseded the design from the
+previous entry above: rather than `41-root-balanced-design-guidelines.md` being a
+thin ROOT-specific delta on top of `14-cpp-root-coding.md`, `18-code-conventions.md`,
+and `19-cpp-balanced-design-guidelines.md`, those three files were merged into it
+and then deleted. `41-root-balanced-design-guidelines.md` is now the single,
+self-contained C++/ROOT reference for this skill (concrete RDataFrame/TTreeReader
+code patterns and build commands from `14`; naming/comments/file-documentation
+conventions from `18`, minus its one Python-naming bullet, which was not
+C++/ROOT-scoped and was moved to `17-python-hep-coding.md`'s new "Naming" section
+instead of being dropped; and the full general C++ class/struct/RAII/inheritance/
+ownership/templates/testing/error-handling/const-correctness/naming/file-
+organization guidance from `19`), interleaved topic-by-topic with the
+ROOT-specific material each topic already had (e.g. general "Ownership
+Guidelines" immediately followed by ROOT's "Directory-Based Ownership", general
+"Error Handling" by "Error Handling at the ROOT Boundary") rather than kept as
+two separate blocks. Content was preserved, not summarized - full code examples
+from all three source files carried over - confirmed by asking the user two
+scoped questions first (merge-then-delete vs. drop, and whether this should
+change `agile-development`'s shared copy of `19`'s content) before doing the
+merge; the user chose "merge then delete" and "no change to `agile-development`",
+so `agile-development/references/cpp-balanced-design-guidelines.md` (the file
+`19` here was a fork of) was left untouched.
+
+Updated to remove the three deleted filenames and consolidate: `SKILL.md`'s
+reference-routing table (four rows collapsed into one pointing at `41`, plus the
+"Code file requirement" section's pointer now targets
+`41-root-balanced-design-guidelines.md#naming-comments-and-file-documentation`),
+`README.md`'s "onward for the coding-level guidance" sentence (now names `41` and
+`15-cmake-and-build.md` explicitly, since the numeric-onward phrasing no longer
+works with `41` out of sequence), and `scripts/validate_skill_bundle.py`'s
+`REQUIRED_PATHS`. Every internal anchor link inside the merged `41` file (over
+1,300 lines, ~47 headings) was checked against GitHub's slug algorithm by hand
+after a first pass introduced three wrong anchors (links that pointed at a
+parent section instead of the specific subsection named in the link text); all
+now resolve to their named subsection, not just the containing section. Confirmed
+no other file in the repo (outside this file's own historical `VALIDATION.md`
+entries, deliberately left as a record of what was true when written) still
+references `14-cpp-root-coding.md`, `18-code-conventions.md`, or
+`19-cpp-balanced-design-guidelines.md`. Re-ran
+`python3 scripts/validate_skill_bundle.py` ("Bundle OK: 117 files present and
+non-empty") and `python3 -m unittest discover -s tests -v` (172 tests, all
+passing). As with the previous entry, the ROOT-specific technical claims were not
+re-verified against a live ROOT installation in this pass.
+
+## Check and reorganize: renumber references/ to close gaps (2026-09-15)
+
+Per explicit user request to "check and reorganize" this skill, ran a full audit
+before changing anything: a custom link/anchor checker (Python, slugifying every
+Markdown heading the same way GitHub does and resolving every `[text](target)`
+link's file path and `#anchor` against it) across all of `hep-analysis/`'s `.md`
+files, plus a comparison of `SKILL.md`'s routing-table links, `README.md`'s links,
+and `scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS` against what actually
+exists on disk. Result: every real link and anchor resolved (the checker's two
+flagged hits were both historical prose inside `VALIDATION.md` quoting a past bug
+in backticks, not live links); `REQUIRED_PATHS` exactly matched the file list. The
+one real finding: the two previous consolidation passes above left
+`references/` with gaps at 14/18/19 (the three deleted files) and
+`41-root-balanced-design-guidelines.md` sitting out of numeric sequence at the
+end, even though `SKILL.md`'s routing table already ordered it right after
+`13-sources.md` (the natural start of the coding cluster: cmake/debugging/
+python). Asked the user to confirm before a large mechanical rename; they chose
+to close the gaps.
+
+Renumbered 22 files so `references/` is contiguous `01`-`38` again:
+
+| Old name | New name |
+| --- | --- |
+| `41-root-balanced-design-guidelines.md` | `14-root-balanced-design-guidelines.md` |
+| `20-physics-objects-jets-btagging-met.md` | `18-physics-objects-jets-btagging-met.md` |
+| `21-triggers-luminosity-pileup.md` | `19-triggers-luminosity-pileup.md` |
+| `22-multivariate-classifiers-bdt-nn.md` | `20-multivariate-classifiers-bdt-nn.md` |
+| `23-detector-systems-overview.md` | `21-detector-systems-overview.md` |
+| `24-tracking-and-vertexing.md` | `22-tracking-and-vertexing.md` |
+| `25-calorimetry-ecal-hcal.md` | `23-calorimetry-ecal-hcal.md` |
+| `26-particle-identification.md` | `24-particle-identification.md` |
+| `27-event-reconstruction.md` | `25-event-reconstruction.md` |
+| `28-reconstruction-performance-and-truth-matching.md` | `26-reconstruction-performance-and-truth-matching.md` |
+| `29-event-generation.md` | `27-event-generation.md` |
+| `30-detector-simulation.md` | `28-detector-simulation.md` |
+| `31-calibration-and-alignment.md` | `29-calibration-and-alignment.md` |
+| `32-cosmic-ray-spectrum-and-composition.md` | `30-cosmic-ray-spectrum-and-composition.md` |
+| `33-extensive-air-showers.md` | `31-extensive-air-showers.md` |
+| `34-ground-based-detection-arrays.md` | `32-ground-based-detection-arrays.md` |
+| `35-imaging-atmospheric-cherenkov.md` | `33-imaging-atmospheric-cherenkov.md` |
+| `36-neutrino-astronomy.md` | `34-neutrino-astronomy.md` |
+| `37-space-based-direct-detection.md` | `35-space-based-direct-detection.md` |
+| `38-multimessenger-analysis.md` | `36-multimessenger-analysis.md` |
+| `39-astroparticle-statistics.md` | `37-astroparticle-statistics.md` |
+| `40-ams02-case-study.md` | `38-ams02-case-study.md` |
+
+Content was not touched, only filenames and the cross-references to them - same
+convention as the earlier "Renumber examples into canonical per-archetype order"
+pass. Every other file in the skill that named one of these filenames (`SKILL.md`,
+`README.md`, `scripts/validate_skill_bundle.py`, 16 `references/*.md` files that
+cross-link each other, 7 `examples/*.md` files, and 14 `scripts/*.py` files whose
+docstrings cite a reference by name) was updated by exact-string substitution of
+the full old basename to the full new basename - safe because each topic slug is
+unique, so this cannot cross-match an unrelated number. This file's own prior
+dated entries above were deliberately left unchanged, exactly as the examples
+renumbering pass handled it: a filename named in an earlier entry refers to that
+file's *former* name at the time that entry was written; use the mapping table
+above (or the examples-renumbering entry's own table, for that unrelated earlier
+rename) to resolve a historical name to its current one.
+
+Verification, in order: (1) the custom link/anchor checker re-run clean (only the
+same two pre-existing historical-prose hits in this file); (2) a targeted grep for
+every one of the 22 old basenames confirmed zero remaining occurrences anywhere
+in the skill except this file's own historical entries; (3)
+`python3 scripts/validate_skill_bundle.py` ("Bundle OK: 117 files present and
+non-empty"); (4) `python3 -m unittest discover -s tests -v` (172 tests, all
+passing, unaffected since no test references a `references/*.md` path). One
+process note for future passes in this repo: the interactive shell used for this
+work had a corrupted `IFS` (a stray NUL byte appended to the default
+space/tab/newline set), which silently broke `for f in $files`-style newline word
+splitting without any error - `for` loops over a multi-line variable in this
+environment should be run inside an explicit fresh `/bin/bash -c '...'`
+subprocess (or `unset IFS` verified to actually take effect first) rather than
+trusting the persistent tool shell's default field splitting.
+
 ## Limitations
 
 - ROOT is not installed in the validation environment, so `check_root_cpp_env.sh`

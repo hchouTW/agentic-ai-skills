@@ -41,7 +41,7 @@ print("reported as a single-trial result; scan not corrected for.")
 `naive_gaussian_significance` treats the excess as Gaussian-distributed and
 reports **1.826 sigma** as if it were the final answer, with no correction for
 the 25 independent positions actually searched. Both choices are flagged by
-this skill's own guidance in `references/39-astroparticle-statistics.md`: the
+this skill's own guidance in `references/37-astroparticle-statistics.md`: the
 Gaussian formula "require[s] large counts" to be valid and is not "the field
 standard" precisely because `N_on = 10` and `N_off = 20` are low counts, not
 the asymptotic regime it assumes; and quoting a single candidate position's
@@ -72,7 +72,7 @@ def _log_term(count: float, factor: float, ratio: float) -> float:
 
 def li_ma_significance(n_on: float, n_off: float, alpha: float) -> float:
     """Li & Ma (1983) likelihood-ratio significance for ON/OFF counting.
-    See references/39-astroparticle-statistics.md and scripts/li_ma_significance.py."""
+    See references/37-astroparticle-statistics.md and scripts/li_ma_significance.py."""
     total = n_on + n_off
     on_term = _log_term(n_on, (1.0 + alpha) / alpha, n_on / total)
     off_term = _log_term(n_off, 1.0 + alpha, n_off / total)
@@ -103,7 +103,7 @@ The Li & Ma formula already differs materially from the naive Gaussian
 estimate at these low counts: 2.222 sigma against 1.826 sigma for the exact
 same `N_on`, `N_off`, and `alpha` - a discrepancy the Gaussian approximation
 cannot be trusted to bound in either direction at this count, which is exactly
-why `references/39-astroparticle-statistics.md` calls the likelihood-ratio
+why `references/37-astroparticle-statistics.md` calls the likelihood-ratio
 statistic, not the Gaussian formula, the field standard. But the more decisive
 correction is the second one: this candidate was one of 25 independent
 positions searched, and applying the trials correction from

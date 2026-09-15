@@ -9,7 +9,7 @@ high_stakes_task: propagating a re-derived tracker alignment (correcting a weak 
 
 Extracted the update: a new alignment payload correcting a coherent
 deformation identified via a cosmic-ray track comparison. Per
-`references/31-calibration-and-alignment.md`'s "Propagating a calibration
+`references/29-calibration-and-alignment.md`'s "Propagating a calibration
 change" - "changing it changes efficiencies, resolutions, scale factors,
 background estimates derived from control regions, and the trained response
 of any classifier that used the affected variables... is therefore not a
@@ -17,7 +17,7 @@ local change" - enumerated every downstream product built with the old
 alignment: the momentum-scale factor derived from a control sample, the
 data-driven background estimate for the rigidity control region, and the
 BDT classifier trained on rigidity-dependent inputs (per
-[22-multivariate-classifiers-bdt-nn.md](../references/22-multivariate-classifiers-bdt-nn.md)).
+[20-multivariate-classifiers-bdt-nn.md](../references/20-multivariate-classifiers-bdt-nn.md)).
 None of these had yet been flagged for re-derivation in the draft update
 plan - a gap, not an oversight to defer.
 
@@ -66,5 +66,5 @@ not use."
 only once at least two independent weak-mode constraints - not the single
 azimuthally-restricted cosmic-ray comparison alone - bound the
 charge-antisymmetric rigidity bias, and the resulting limit is quoted as a
-systematic per `references/31-calibration-and-alignment.md`'s "Deliverables"
+systematic per `references/29-calibration-and-alignment.md`'s "Deliverables"
 list. This is the release criterion, not an intermediate one.

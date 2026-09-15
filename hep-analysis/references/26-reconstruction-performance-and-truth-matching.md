@@ -6,7 +6,7 @@ stated explicitly, because changing it changes every number. Complements the
 statistical treatment of efficiencies in
 [04-histograms-efficiencies.md](04-histograms-efficiencies.md), the
 data-driven efficiency measurement in
-[21-triggers-luminosity-pileup.md](21-triggers-luminosity-pileup.md), and
+[19-triggers-luminosity-pileup.md](19-triggers-luminosity-pileup.md), and
 the response-matrix formalism in
 [10-measurements-unfolding.md](10-measurements-unfolding.md).
 
@@ -53,7 +53,7 @@ State the fiducial region defining "should have been reconstructed". An efficien
 quoted without it is not interpretable, because it silently includes or excludes
 particles outside acceptance, and acceptance is a geometric property that should be
 separated from efficiency - see
-[detector systems overview](23-detector-systems-overview.md).
+[detector systems overview](21-detector-systems-overview.md).
 
 Efficiency is a ratio of counts and its uncertainty is **binomial**, not a Gaussian
 propagation of numerator and denominator - `scripts/tag_and_probe_efficiency.py`
@@ -96,7 +96,7 @@ fixed true value. Points that routinely cause trouble:
 - **Do not summarize with a Gaussian fit alone.** Detector response has tails, and a
   core-Gaussian sigma understates the probability of large mismeasurement - which is
   exactly what matters for charge confusion (see
-  [tracking](24-tracking-and-vertexing.md)), for jet energy tails feeding fake missing
+  [tracking](22-tracking-and-vertexing.md)), for jet energy tails feeding fake missing
   momentum, and for background estimates. Quote a robust width (an interquantile
   range) and the tail fraction alongside any Gaussian core.
 - **Resolution is not a scalar.** It varies with the same variables efficiency does,

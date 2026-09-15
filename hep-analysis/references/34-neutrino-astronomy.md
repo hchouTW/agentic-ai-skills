@@ -4,11 +4,11 @@ Covers large-volume Cherenkov neutrino telescopes (IceCube in glacial ice, KM3Ne
 seawater, and similar designs) - how a neutrino interaction becomes a detectable light
 pattern, the backgrounds that dominate any astrophysical search, and how significance
 and exposure are computed. Shares its ON/OFF and trials-factor statistical machinery
-with [imaging Cherenkov](35-imaging-atmospheric-cherenkov.md) and
-[astroparticle statistics](39-astroparticle-statistics.md); shares the Cherenkov-angle
+with [imaging Cherenkov](33-imaging-atmospheric-cherenkov.md) and
+[astroparticle statistics](37-astroparticle-statistics.md); shares the Cherenkov-angle
 physics (though in a very different regime - a natural medium, kilometer-scale
 baselines, not a dense radiator) with
-[particle identification](26-particle-identification.md).
+[particle identification](24-particle-identification.md).
 
 ## Detection principle
 
@@ -59,7 +59,7 @@ computed from full detector simulation, not treated as constant.
 The dominant background for essentially every astrophysical neutrino search is
 **atmospheric neutrinos and atmospheric muons**, both produced by ordinary cosmic-ray
 air showers in the atmosphere above and around the detector (see
-[extensive air showers](33-extensive-air-showers.md)):
+[extensive air showers](31-extensive-air-showers.md)):
 
 - **Atmospheric muons** vastly outnumber neutrino-induced events at trigger level for
   any detector not deep enough to fully absorb them; the standard rejection is
@@ -72,7 +72,7 @@ air showers in the atmosphere above and around the detector (see
   separated statistically, not by direction, using the facts that (a) the atmospheric
   spectrum falls faster (~`E^-3.7` versus an astrophysical `~E^-2` to `E^-2.5`
   expectation from the same Fermi-acceleration argument as
-  [cosmic-ray spectrum and composition](32-cosmic-ray-spectrum-and-composition.md)),
+  [cosmic-ray spectrum and composition](30-cosmic-ray-spectrum-and-composition.md)),
   so a hard energy cut or an energy-dependent likelihood weight enhances the
   astrophysical fraction at high energy, and (b) atmospheric neutrinos are
   accompanied by a correlated atmospheric-muon bundle from the same air shower for a
@@ -88,7 +88,7 @@ air showers in the atmosphere above and around the detector (see
 ## Significance and exposure
 
 Point-source searches use the same OFF-region/background-scrambling logic as
-[imaging Cherenkov](35-imaging-atmospheric-cherenkov.md): since the atmospheric
+[imaging Cherenkov](33-imaging-atmospheric-cherenkov.md): since the atmospheric
 background is (to good approximation) uniform in right ascension for a detector with
 close to full sky coverage in local coordinates over a sidereal day, the background
 expectation at a candidate source position is estimated by **scrambling event right
@@ -97,7 +97,7 @@ the well-measured declination and energy fixed, rather than by pointing at a
 literal empty sky position as an IACT does. An unbinned maximum-likelihood method
 comparing a point-source-plus-background hypothesis to background-only, evaluated at
 each candidate position (or over an all-sky scan), is standard - see
-[astroparticle statistics](39-astroparticle-statistics.md) for the trials-factor
+[astroparticle statistics](37-astroparticle-statistics.md) for the trials-factor
 correction this requires when many positions, an all-sky scan, or many source
 catalogs are tested. A diffuse-flux measurement instead fits the aggregate energy and
 zenith-angle distribution of all events above some containment/quality selection

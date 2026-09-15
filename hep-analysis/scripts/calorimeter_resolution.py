@@ -17,7 +17,7 @@ b in GeV, c dimensionless; sigma_E/E is a fraction, not a percentage. Needs at l
 three distinct energies to separate three terms. A fitted squared coefficient can come
 out negative on noisy or narrow-range input - that is reported explicitly as a failed
 separation rather than square-rooted into a NaN. See
-references/25-calorimetry-ecal-hcal.md.
+references/23-calorimetry-ecal-hcal.md.
 Run: python3 scripts/calorimeter_resolution.py --fit assets/calorimeter_response.example.json
      python3 scripts/calorimeter_resolution.py --evaluate --stochastic 0.10 --noise 0.20 --constant 0.007 --energy 100
 """

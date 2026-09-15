@@ -3,13 +3,13 @@
 Covers the chain that turns raw detector signals into the physics objects an analysis
 consumes: hits, clusters, tracks, vertices, identified particles, and event-level
 quantities. The subsystem physics feeding this chain is in
-[tracking](24-tracking-and-vertexing.md),
-[calorimetry](25-calorimetry-ecal-hcal.md), and
-[particle identification](26-particle-identification.md); the object-level corrections
+[tracking](22-tracking-and-vertexing.md),
+[calorimetry](23-calorimetry-ecal-hcal.md), and
+[particle identification](24-particle-identification.md); the object-level corrections
 applied afterwards are in
-[20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md),
+[18-physics-objects-jets-btagging-met.md](18-physics-objects-jets-btagging-met.md),
 and how to measure whether reconstruction worked is in
-[reconstruction performance and truth matching](28-reconstruction-performance-and-truth-matching.md).
+[reconstruction performance and truth matching](26-reconstruction-performance-and-truth-matching.md).
 
 ## The chain, and why its order matters
 
@@ -39,7 +39,7 @@ The first stage converts readout values into physical quantities using calibrati
 constants: pedestals, gains, channel-by-channel intercalibration, timing offsets, and
 dead or noisy channel maps. Everything downstream inherits these, and their versioning
 is part of the analysis's reproducibility record - see
-[calibration and alignment](31-calibration-and-alignment.md).
+[calibration and alignment](29-calibration-and-alignment.md).
 
 Two failure modes recur. **Dead and noisy channel maps must match between data and
 simulation**, or simulated events see a detector that does not exist; when the masks
@@ -112,7 +112,7 @@ reasons unrelated to physics.
 
 Overlap removal (which object wins when two definitions claim the same energy) is
 specified at the analysis level and is covered in
-[20-physics-objects-jets-btagging-met.md](20-physics-objects-jets-btagging-met.md);
+[18-physics-objects-jets-btagging-met.md](18-physics-objects-jets-btagging-met.md);
 what matters here is that the reconstruction-level and analysis-level removals must be
 consistent with each other, and that the ordering of removal steps changes the result.
 
@@ -138,7 +138,7 @@ correct object energies.
 Two points are easy to get wrong. Pileup mitigation is a *correction with an
 uncertainty*, not a clean removal, and its residual must appear as a systematic. And
 because the pileup distribution differs between data and simulation, the reweighting of
-[21-triggers-luminosity-pileup.md](21-triggers-luminosity-pileup.md) must be
+[19-triggers-luminosity-pileup.md](19-triggers-luminosity-pileup.md) must be
 applied consistently with the mitigation - reweighting to a data pileup profile while
 reconstructing with a mitigation tuned for a different profile leaves a residual that
 neither step catches.

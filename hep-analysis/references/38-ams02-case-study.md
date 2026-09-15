@@ -1,9 +1,9 @@
 # AMS-02 Case Study: A Long-Duration Space-Based Spectrometer
 
 Applies the generic detector-technology references
-([23-detector-systems-overview.md](23-detector-systems-overview.md)
-through [particle identification](26-particle-identification.md)) and
-[space-based direct detection](37-space-based-direct-detection.md) to a specific,
+([21-detector-systems-overview.md](21-detector-systems-overview.md)
+through [particle identification](24-particle-identification.md)) and
+[space-based direct detection](35-space-based-direct-detection.md) to a specific,
 real instrument: the Alpha Magnetic Spectrometer (AMS-02), operating on the
 International Space Station since 2011. This is a worked case study of how those
 generic principles combine in one apparatus, not a substitute for the AMS
@@ -15,12 +15,12 @@ cited here is illustrative only, per this skill's general sourcing discipline (s
 ## Subsystem stack
 
 AMS-02 combines, in the layered order described generically in
-[23-detector-systems-overview.md](23-detector-systems-overview.md):
+[21-detector-systems-overview.md](21-detector-systems-overview.md):
 
 - **A silicon microstrip tracker inside a permanent magnet**, giving rigidity via
   curvature as in any magnetic spectrometer - see the rigidity, maximum-detectable-
   rigidity, and multiple-scattering treatment in
-  [23-detector-systems-overview.md](23-detector-systems-overview.md) and
+  [21-detector-systems-overview.md](21-detector-systems-overview.md) and
   `scripts/multiple_scattering.py`. The magnet is a **permanent** magnet, not a
   superconducting one - a deliberate choice for a decade-plus space mission with no
   possibility of on-orbit cryogenic servicing, trading a smaller bending power
@@ -28,7 +28,7 @@ AMS-02 combines, in the layered order described generically in
   design) for operational reliability over the mission lifetime.
 - **A transition radiation detector (TRD)** above the tracker/magnet, for
   electron/positron versus proton/nucleus separation via the Lorentz-factor-dependent
-  yield described in [particle identification](26-particle-identification.md) - the
+  yield described in [particle identification](24-particle-identification.md) - the
   primary handle for the positron-fraction and electron-flux measurements, since a
   TRD's rejection is a `gamma`-dependent property that dE/dx and the calorimeter alone
   cannot provide at the relevant energies.
@@ -37,7 +37,7 @@ AMS-02 combines, in the layered order described generically in
   synchronized) instrument - the **direction of travel**: distinguishing genuine
   downward-going cosmic rays from upward-going albedo/backscattered particles is a
   TOF-timing measurement, not an assumption, per the general TOF discussion in
-  [particle identification](26-particle-identification.md).
+  [particle identification](24-particle-identification.md).
 - **Anti-coincidence counters (ACC)**, a scintillator veto lining the magnet bore
   around the tracker, rejecting tracks from particles entering through the side
   rather than along the instrument's acceptance cone. This is the second
@@ -52,13 +52,13 @@ AMS-02 combines, in the layered order described generically in
   velocity coverage across a wider β range than a single radiator could, plus a
   precise independent velocity measurement for charge and, combined with
   rigidity, isotope separation - the most demanding PID application described in
-  [particle identification](26-particle-identification.md).
+  [particle identification](24-particle-identification.md).
 - **An electromagnetic calorimeter (ECAL)** at the bottom, giving an independent
   energy measurement and shower-shape discrimination that, combined with the TRD and
   the tracker's `E/p`-like consistency check, is the second independent handle (beyond
   the TRD) separating positrons from the far more abundant proton background - the
   same "do not sum correlated PID inputs as independent" caution in
-  [particle identification](26-particle-identification.md) applies directly:  ECAL
+  [particle identification](24-particle-identification.md) applies directly:  ECAL
   shower shape and TRD yield are largely independent (different physical processes),
   but either combined naively with tracker dE/dx double-counts the ionization
   information already used elsewhere.
@@ -67,7 +67,7 @@ Every rare-species measurement AMS-02 makes - positron fraction, antiproton/prot
 ratio, individual elemental spectra, an antihelium search - depends on combining
 several of these subsystems' PID information into a single background-rejection
 likelihood or a sequential-cut selection, exactly the combination discipline in
-[particle identification](26-particle-identification.md).
+[particle identification](24-particle-identification.md).
 
 ## What is distinctive about a decade-plus space-based mission
 
@@ -87,7 +87,7 @@ likelihood or a sequential-cut selection, exactly the combination discipline in
   magnet field within a stable-hardware period (from thermal cycling on each ISS
   orbit, or long-term aging) must still be tracked and corrected per data-taking
   period, not calibrated once - see
-  [calibration and alignment](31-calibration-and-alignment.md) for the general
+  [calibration and alignment](29-calibration-and-alignment.md) for the general
   alignment-weak-mode and conditions-time-dependence treatment this requires.
   Verify the exact servicing/upgrade dates and scope against NASA/AMS collaboration
   sources before citing them in an analysis; this summary is current as of
@@ -99,7 +99,7 @@ likelihood or a sequential-cut selection, exactly the combination discipline in
 - **A time-varying geomagnetic cutoff along the orbit.** The ISS's ~51.6-degree
   orbital inclination and ~400 km altitude mean the instrument crosses a wide range of
   geomagnetic latitudes on every orbit, so the local geomagnetic cutoff (see
-  [space-based direct detection](37-space-based-direct-detection.md) and
+  [space-based direct detection](35-space-based-direct-detection.md) and
   `scripts/geomagnetic_cutoff.py`) is not a single number for the mission but a
   distribution that must be evaluated (or excluded from, for regions/times too close
   to cutoff) per event, using the actual spacecraft position and pointing at the time
@@ -108,9 +108,9 @@ likelihood or a sequential-cut selection, exactly the combination discipline in
   planning-level estimates; a real analysis uses the full time-and-position-resolved
   cutoff from orbit ephemeris and field-model backtracing, per the caveat already
   stated for the single-latitude formula in
-  [space-based direct detection](37-space-based-direct-detection.md).
+  [space-based direct detection](35-space-based-direct-detection.md).
 - **A mission spanning multiple solar cycles.** Because solar modulation (see
-  [space-based direct detection](37-space-based-direct-detection.md) and
+  [space-based direct detection](35-space-based-direct-detection.md) and
   `scripts/solar_modulation_force_field.py`) varies over an ~11-year cycle, a
   multi-year AMS-02 time series is itself a measurement of solar modulation, not just
   a single averaged spectrum - published low-rigidity spectra are commonly split into
@@ -136,21 +136,21 @@ analysis structure worth naming explicitly:
    an overwhelming background rather than for a balanced efficiency/purity trade-off,
    and the residual contamination must be modeled and subtracted (a template fit is
    standard) rather than assumed negligible - see
-   [particle identification](26-particle-identification.md)'s priors-and-abundance
+   [particle identification](24-particle-identification.md)'s priors-and-abundance
    caution, which is exactly the regime a positron measurement (roughly
    10^2-10^4 protons per positron, depending on energy) sits in.
 3. **A null or marginal result (e.g. an antihelium search) is reported as an
    exposure-normalized upper limit**, using the same Poisson/likelihood machinery as
    any other rare-event search in
    [08-inference.md](08-inference.md) and
-   [39-astroparticle-statistics.md](39-astroparticle-statistics.md), not as
+   [37-astroparticle-statistics.md](37-astroparticle-statistics.md), not as
    an absence-of-evidence claim.
 
 ## Primary/secondary composition as a propagation diagnostic
 
 AMS-02's elemental-spectrum measurements are a concrete instance of the generic
 secondary-to-primary propagation diagnostic in
-[cosmic-ray spectrum and composition](32-cosmic-ray-spectrum-and-composition.md#propagation):
+[cosmic-ray spectrum and composition](30-cosmic-ray-spectrum-and-composition.md#propagation):
 a falling secondary-to-primary ratio with rising rigidity signals less material
 traversed (shorter effective path length) at higher rigidity, constraining the
 Galactic propagation model rather than the source spectrum.
@@ -160,7 +160,7 @@ Galactic propagation model rather than the source spectrum.
   injected directly at the source), while **secondaries** include Li, Be, B, and F
   (produced by spallation of primaries on the interstellar medium during
   propagation, per the generic treatment in
-  [cosmic-ray spectrum and composition](32-cosmic-ray-spectrum-and-composition.md)).
+  [cosmic-ray spectrum and composition](30-cosmic-ray-spectrum-and-composition.md)).
   Sorting a claimed measurement into the correct bucket before interpreting a
   rigidity dependence is the first check - a primary's spectral shape carries
   source/acceleration information directly, while a secondary's carries mostly
@@ -168,7 +168,7 @@ Galactic propagation model rather than the source spectrum.
 - **Precision Measurement of the Boron to Carbon Flux Ratio**, Phys. Rev. Lett.
   117, 231102 (2016), is AMS-02's direct instance of the B/C propagation
   diagnostic named generically in
-  [cosmic-ray spectrum and composition](32-cosmic-ray-spectrum-and-composition.md).
+  [cosmic-ray spectrum and composition](30-cosmic-ray-spectrum-and-composition.md).
 - **Observation of the Identical Rigidity Dependence of He, C, and O Cosmic Rays
   at High Rigidities**, Phys. Rev. Lett. 119, 251101 (2017), is the complementary
   primary-side result: multiple primary species sharing the same rigidity
@@ -181,7 +181,7 @@ Galactic propagation model rather than the source spectrum.
 
 A large fraction of AMS-02's published output is a time-series analysis of its
 own flux measurements, applying the periodicity-search technique in
-[space-based direct detection](37-space-based-direct-detection.md#searching-for-periodicity-and-time-structure-in-a-flux-time-series)
+[space-based direct detection](35-space-based-direct-detection.md#searching-for-periodicity-and-time-structure-in-a-flux-time-series)
 to a decade-plus, multi-solar-cycle dataset that few other instruments have the
 duration to support:
 

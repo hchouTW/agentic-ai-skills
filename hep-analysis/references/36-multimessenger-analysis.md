@@ -2,7 +2,7 @@
 
 Covers the analysis practices specific to combining information across messengers -
 electromagnetic radiation, gravitational waves, high-energy neutrinos
-([neutrino astronomy](36-neutrino-astronomy.md)), and charged cosmic rays - for the
+([neutrino astronomy](34-neutrino-astronomy.md)), and charged cosmic rays - for the
 same astrophysical event or source. The individual-messenger detection and background
 methodology (IACT, neutrino telescope, surface array) is in the preceding references;
 this file is about what changes when a claim rests on the *coincidence* between two or

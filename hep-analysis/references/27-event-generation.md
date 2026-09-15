@@ -7,7 +7,7 @@ luminosity, cross-section normalization, and the sum-of-weights convention, and
 [06-systematics.md](06-systematics.md), which owns how theory variations
 enter the likelihood. What is added here is the structure of the generation chain and
 the failure modes specific to it. The downstream stage is
-[detector simulation](30-detector-simulation.md).
+[detector simulation](28-detector-simulation.md).
 
 ## The generation chain
 

@@ -3,10 +3,10 @@
 Covers how detectors determine *what* a particle is, as opposed to where it went and
 how much energy it carried. Every technique here measures velocity, Lorentz factor, or
 charge, and converts that - combined with the rigidity from
-[tracking and vertexing](24-tracking-and-vertexing.md) - into a mass or species
+[tracking and vertexing](22-tracking-and-vertexing.md) - into a mass or species
 hypothesis. Organized by technology and independent of experiment; calorimeter-based
 identification (`E/p`, shower shape) is in
-[calorimetry](25-calorimetry-ecal-hcal.md).
+[calorimetry](23-calorimetry-ecal-hcal.md).
 
 ## The common principle
 

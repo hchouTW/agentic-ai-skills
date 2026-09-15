@@ -2,8 +2,8 @@
 """Ratio or fraction of two independent yields, with exact error propagation.
 
 Purpose: the common building block behind positron-fraction and antiproton/proton-
-ratio-style measurements (see references/40-ams02-case-study.md and
-references/39-astroparticle-statistics.md): two yields from independent template
+ratio-style measurements (see references/38-ams02-case-study.md and
+references/37-astroparticle-statistics.md): two yields from independent template
 fits or counts, each with its own uncertainty, combined into a ratio N1/N2 or a
 fraction N1/(N1+N2). Unlike scripts/tag_and_probe_efficiency.py (a single binomial
 pass/total count with a shared denominator), this is for two genuinely independent
@@ -20,7 +20,7 @@ yields is supported, adding the standard cross term; a nonzero rho is required
 whenever the two yields share a systematic (e.g. the same acceptance/exposure
 normalization, or the same background-template shape uncertainty) rather than being
 truly independent - see the acceptance-cancellation discussion in
-references/40-ams02-case-study.md for when this matters.
+references/38-ams02-case-study.md for when this matters.
 
 Usage notes / assumptions: standard library only. This is first-order (delta-method)
 propagation, valid when sigma1/N1 and sigma2/N2 are both reasonably small (say, below

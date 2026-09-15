@@ -9,7 +9,7 @@ scenario: a public real-time neutrino alert arrives with a possible electromagne
 
 | Trigger | Resolution Strategy |
 |---|---|
-| Coincidence found within a time/pointing window that was pre-registered before the alert arrived, and the alert's stated false-alarm rate is already stringent | Proceed to a joint-likelihood or named combined-probability significance calculation per `references/38-multimessenger-analysis.md`, folding in the alert's FAR |
+| Coincidence found within a time/pointing window that was pre-registered before the alert arrived, and the alert's stated false-alarm rate is already stringent | Proceed to a joint-likelihood or named combined-probability significance calculation per `references/36-multimessenger-analysis.md`, folding in the alert's FAR |
 | Apparent coincidence found only after inspecting the data, with no pre-registered window | Apply a trials/look-elsewhere correction for the post-hoc window choice before quoting any significance, per that section's explicit requirement |
 | The alert used for follow-up decisions is later retracted or its localization/significance revised | Redo the analysis using the final, reviewed alert properties, and flag in the write-up that follow-up decisions used since-superseded preliminary information |
 | Two candidate counterparts are found in different instruments' localization regions with no common-clock timing cross-check performed yet | Place both instruments' timing on a common UTC reference with stated per-instrument systematics before evaluating any timing coincidence |

@@ -55,7 +55,7 @@ not merely that it is self-consistent with the sample it came from. A
 closure test performed in the same sample and the same kinematic region the
 SF was fit in tests whether the fit converged, not whether the SF
 generalizes to a different kinematic regime. This is the same structural
-gap `references/31-calibration-and-alignment.md` calls out when it states a
+gap `references/29-calibration-and-alignment.md` calls out when it states a
 calibration change must be re-derived, not reused, once the regime shifts -
 here the "regime shift" is baked in by construction (control sample vs.
 signal region), and the note's closure test cannot see it because it never

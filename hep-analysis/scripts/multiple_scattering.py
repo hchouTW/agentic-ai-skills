@@ -8,8 +8,8 @@ cross, and the maximum detectable rigidity (MDR).
 
 What it does: sums x/X0 over the layers of a JSON stack description, evaluates the PDG
 Highland formula, and combines the multiple-scattering and intrinsic (Gluckstern)
-contributions to sigma(R)/R. See references/23-detector-systems-overview.md and
-references/24-tracking-and-vertexing.md for the physics.
+contributions to sigma(R)/R. See references/21-detector-systems-overview.md and
+references/22-tracking-and-vertexing.md for the physics.
 
 Usage notes / assumptions: standard library only. Rigidity/momentum in GV or GeV/c,
 field in tesla, lengths in metres, point resolution in micrometres. The Gluckstern
