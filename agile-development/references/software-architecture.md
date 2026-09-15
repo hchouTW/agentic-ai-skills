@@ -30,6 +30,21 @@ minor library usage consistent with existing conventions are routine - don't
 apply the reasoning below to them. When in doubt, weigh consequence and scope,
 not whether the change touches an impressive-sounding area of the code.
 
+```text
+Request: "Add a cache in front of the orders lookup."
+- In-process memoization inside the existing OrderRepository, called only
+  from there: not architectural - a local detail behind an existing boundary.
+- A shared Redis instance other services will also read from, or a change to
+  which component owns "current order state": architectural - it changes a
+  dependency and shifts data ownership.
+```
+
+Once you've decided how to handle a public contract or data-ownership change,
+[risk-and-quality.md](risk-and-quality.md)'s API and Interface Changes and
+Data and Persistence sections cover the execution-level compatibility and
+migration checklist - this section is for recognizing and deciding, that one
+is for carrying the decision out safely.
+
 ## Architecture drivers
 
 Don't evaluate an architectural choice by whether a pattern looks clean.
@@ -115,6 +130,12 @@ Status
 Follow the repository's existing ADR location/format if one exists rather than
 introducing a second, conflicting system. If none exists, a single file per
 decision (e.g. `docs/adr/NNNN-title.md`) is a reasonable default.
+
+An ADR is not a second document alongside a
+[design doc](design-and-estimation.md) - if the change was large enough to
+need one, the ADR is that doc's Problem, Chosen approach, and Consequences
+compressed into a short permanent record, not a fresh write-up. If no design
+doc was needed, the ADR is the only artifact.
 
 ## Verifying architecture, not just describing it
 

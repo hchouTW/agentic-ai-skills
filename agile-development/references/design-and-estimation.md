@@ -45,6 +45,10 @@ purpose. At minimum:
   for an expensive-to-undo decision has skipped its own stated criterion for
   needing a design doc in the first place.
 
+For an architectural decision, don't also draft a separate ADR from scratch -
+see [software-architecture.md](software-architecture.md)'s ADR section for how
+it compresses this doc into a short permanent record.
+
 ## Estimation
 
 Prefer a **range with a stated confidence basis** over a single point estimate -

@@ -12,6 +12,11 @@ Use this reference when changes touch shared interfaces, data, dependencies, sec
 
 ## API and Interface Changes
 
+If the change alters a public/shared contract enough to count as architectural,
+resolve boundary and ownership questions in
+[software-architecture.md](software-architecture.md) first; the items below
+are the execution-level checklist for carrying that decision out.
+
 - Treat public API changes as compatibility-sensitive work.
 - Preserve request and response contracts unless change is required and approved.
 - Validate inputs at boundaries with actionable error behavior.
@@ -21,6 +26,10 @@ Use this reference when changes touch shared interfaces, data, dependencies, sec
 - Avoid leaking sensitive internal details through errors or logs.
 
 ## Data and Persistence
+
+For data-ownership questions - who owns this data, is ownership moving between
+components - see [software-architecture.md](software-architecture.md) first;
+this section covers migration and integrity execution once ownership is settled.
 
 - Assess data integrity, migration safety, rollback behavior, and performance impact.
 - Prefer backward-compatible schema migrations that support rolling deployment.
