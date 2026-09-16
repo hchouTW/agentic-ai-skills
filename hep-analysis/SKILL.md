@@ -70,7 +70,7 @@ Don't mix more APIs than needed in one script; if mixing, keep boundaries clear 
 | Python CLI structure, naming, PyROOT/uproot/awkward code conventions | [Python coding](references/17-python-hep-coding.md) |
 | Jet clustering, JES/JER, b-tagging, MET, pileup jets, overlap removal | [Physics objects](references/18-physics-objects-jets-btagging-met.md) |
 | Tag-and-probe, trigger turn-ons/prescales, luminosity, pileup reweighting | [Triggers, luminosity, pileup](references/19-triggers-luminosity-pileup.md) |
-| BDT/NN classifier choice, training, feature engineering, calibration | [Multivariate classifiers](references/20-multivariate-classifiers-bdt-nn.md) |
+| BDT/NN classifier choice, training, feature engineering, calibration, regression targets (energy/mass regression) | [Multivariate classifiers and regression](references/20-multivariate-analysis-bdt-nn.md) |
 | Subsystem layout, rigidity vs. momentum, material budget, acceptance, resolution vocabulary | [Detector systems overview](references/21-detector-systems-overview.md) |
 | Silicon/gas tracking, pattern recognition, Kalman fit, charge confusion, vertexing | [Tracking and vertexing](references/22-tracking-and-vertexing.md) |
 | EM/hadronic showers, sampling vs. homogeneous, stochastic/noise/constant terms, e/h non-compensation, leakage | [Calorimetry](references/23-calorimetry-ecal-hcal.md) |

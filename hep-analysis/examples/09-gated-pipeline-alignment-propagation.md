@@ -17,7 +17,7 @@ local change" - enumerated every downstream product built with the old
 alignment: the momentum-scale factor derived from a control sample, the
 data-driven background estimate for the rigidity control region, and the
 BDT classifier trained on rigidity-dependent inputs (per
-[20-multivariate-classifiers-bdt-nn.md](../references/20-multivariate-classifiers-bdt-nn.md)).
+[20-multivariate-analysis-bdt-nn.md](../references/20-multivariate-analysis-bdt-nn.md)).
 None of these had yet been flagged for re-derivation in the draft update
 plan - a gap, not an oversight to defer.
 

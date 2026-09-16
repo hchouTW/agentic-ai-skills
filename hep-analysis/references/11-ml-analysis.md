@@ -14,7 +14,7 @@ AUC alone is insufficient for optimization. Consider effective MC statistics aft
 
 ## Validation
 
-Inspect performance, calibration, overtraining, domain shift, score-tail populations, and nuisance dependence by process, era, and phase space. Use independent samples or event-level resampling for uncertainty estimates. Standard unweighted KS p-values may not apply to weighted train/test distributions.
+Inspect performance, calibration, overtraining, domain shift, score-tail populations, and nuisance dependence by process, era, and phase space. Use independent samples or event-level resampling for uncertainty estimates. Standard unweighted KS p-values may not apply to weighted train/test distributions; compare weighted empirical CDFs directly with a weighted KS statistic, or use a permutation/bootstrap test that resamples with the event weights as importance weights, rather than dropping the overtraining check.
 
 Check mass sculpting after score selections. If the analysis fits a mass spectrum, validate the background parameterization in each score category. Validate decorrelation and its performance tradeoffs on independent samples; using an adversarial objective does not itself establish independence.
 

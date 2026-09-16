@@ -1072,6 +1072,44 @@ environment should be run inside an explicit fresh `/bin/bash -c '...'`
 subprocess (or `unset IFS` verified to actually take effect first) rather than
 trusting the persistent tool shell's default field splitting.
 
+## Check and reorganize: rename multivariate-analysis reference (2026-09-16)
+
+Per explicit user request to "check and reorganize hep-analysis skill (also file
+name)", following a prior conversation pass that added a `## Regression targets`
+section to `references/20-multivariate-classifiers-bdt-nn.md` (retitling its
+heading to "Multivariate Classifiers and Regression: BDTs and Neural Networks in
+Analysis" but not yet its filename). Ran a full audit before changing anything: a
+link/anchor checker (Python, slugifying every Markdown heading the same way GitHub
+does and resolving every `[text](target)` link's file path and `#anchor` against
+it) across all 68 `.md` files in `hep-analysis/`, plus `scripts/validate_skill_bundle.py`
+and `python3 -m unittest discover -s tests -v`. Result: no gaps in the `references/`
+numbering (01-38, already contiguous from the 2026-09-15 reorg) and no broken links
+- the checker's three flagged hits were all historical prose inside this file
+quoting past states/placeholders in backticks, not live links. The one real finding
+matched the request: the filename `20-multivariate-classifiers-bdt-nn.md` no longer
+matched its content's scope now that it covers regression as well as classification.
+
+Renamed `references/20-multivariate-classifiers-bdt-nn.md` to
+`references/20-multivariate-analysis-bdt-nn.md` (`git mv`, preserving history) and
+updated every cross-reference: `SKILL.md`'s routing table (link text and task
+description), `references/18-physics-objects-jets-btagging-met.md`,
+`references/23-calorimetry-ecal-hcal.md`, `references/29-calibration-and-alignment.md`,
+`examples/09-gated-pipeline-alignment-propagation.md`, and
+`scripts/validate_skill_bundle.py`'s `REQUIRED_PATHS`. Also updated `README.md`'s
+prose description of this reference to mention regression targets, since it had not
+been touched when the section was added. Left this file's own historical rename-log
+entries (e.g. the 2026-09-15 table naming `22-multivariate-classifiers-bdt-nn.md` /
+`20-multivariate-classifiers-bdt-nn.md`) unchanged, since they document past
+filenames rather than linking to current ones.
+
+Verification, in order: (1) the link/anchor checker re-run clean (same three
+historical-prose hits, no new breakage); (2) a targeted grep confirmed zero
+remaining occurrences of `20-multivariate-classifiers-bdt-nn` anywhere in the
+skill except this file's own historical entries; (3)
+`python3 scripts/validate_skill_bundle.py` ("Bundle OK: 117 files present and
+non-empty"); (4) `python3 -m unittest discover -s tests -v` (172 tests, all
+passing, unaffected since no test references this path).
+
 ## Limitations
 
 - ROOT is not installed in the validation environment, so `check_root_cpp_env.sh`

@@ -111,7 +111,7 @@ A calibration update is therefore not a local change:
 - Re-derive, do not reuse, any scale factor or data-driven background estimate that
   was measured with the old constants.
 - Re-validate classifiers whose input distributions have moved, following
-  [20-multivariate-classifiers-bdt-nn.md](20-multivariate-classifiers-bdt-nn.md).
+  [20-multivariate-analysis-bdt-nn.md](20-multivariate-analysis-bdt-nn.md).
 - Compare the affected distributions before and after with an explicit method - event
   counts per cut, histogram integrals, maximum absolute and relative bin difference -
   as required for any change that risks altering physics output.

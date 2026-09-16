@@ -1,8 +1,11 @@
-# Multivariate Classifiers: BDTs and Neural Networks in Analysis
+# Multivariate Classifiers and Regression: BDTs and Neural Networks in Analysis
 
 Extends [11-ml-analysis.md](11-ml-analysis.md)'s splits/weights/validation
 principles with concrete guidance on training and choosing between classifier
-families. Read 11-ml-analysis.md first; this file assumes it.
+and regression model families. Read 11-ml-analysis.md first; this file assumes
+it. Most sections below are written for a classification (signal/background
+score) task; where a continuous-target regression task (energy/mass/direction
+regression) differs, see [Regression targets](#regression-targets).
 
 ## Choosing a classifier family
 
@@ -26,6 +29,11 @@ families. Read 11-ml-analysis.md first; this file assumes it.
   analysis's audience or later reinterpretation needs a transparent selection rather
   than an opaque score. A classifier that only marginally beats a two-variable cut
   is not automatically worth its added validation and correlation-with-mass burden.
+- Tree-based models are invariant to monotonic per-feature transforms and need no
+  input scaling; neural networks generally do (standardization or normalization per
+  feature, fit on the training partition only and reapplied identically at inference).
+  Skipping this step is a common reason an NN underperforms a BDT on the same features
+  for a data-preparation reason unrelated to model capacity.
 
 ## Feature engineering and selection
 
@@ -62,6 +70,17 @@ in categories with re-derived background shapes).
   round count decided in advance; a round count picked once and reused across
   reprocessing campaigns without rechecking silently drifts from optimal as input
   samples change.
+- Some libraries' split-finding assumes nonnegative sample weights (e.g. XGBoost's
+  default histogram-based tree method) and can silently mishandle signed generator
+  weights; check the library's weight-handling documentation before training on a
+  sample with negative weights, and prefer the absolute-weight/bias-correction
+  schemes discussed in [03-weights-normalization.md](03-weights-normalization.md)
+  over silently dropping the sign.
+- A hyperparameter search (grid, random, or Bayesian) must optimize the same
+  weighted, physics-relevant metric used elsewhere in the analysis - expected
+  sensitivity, not raw AUC or unweighted accuracy - or it can select an operating
+  point that looks best in training but underperforms on the metric the analysis
+  actually cares about.
 
 ## Training practicalities: neural networks
 
@@ -83,6 +102,46 @@ in categories with re-derived background shapes).
   architecture - a complex network that underperforms a simple BDT baseline usually
   indicates a data or training-procedure problem, not that more capacity is needed.
 
+## Regression targets
+
+Many analyses regress a continuous physical quantity instead of (or alongside)
+classifying signal from background - jet/tau/electron energy corrections, missing
+transverse momentum estimators, invariant-mass regression, or direction/resolution
+estimators. The classifier guidance above (family choice, feature engineering,
+BDT/NN training practicalities, inference/deployment) still applies; regression
+changes these specific choices:
+
+- Loss choice must match the physics use of the target: plain mean-squared error
+  optimizes the conditional mean, the right target for a correction applied
+  additively/multiplicatively before further use, but not automatically right if
+  the downstream use needs a different point estimate (median, via mean absolute
+  error or a Huber loss, when outliers or a long tail would dominate an MSE loss)
+  or a full predictive distribution (quantile regression, or a head predicting
+  both a mean and a heteroscedastic variance/negative-log-likelihood).
+- Weight the regression loss with the same formal event weights used elsewhere
+  (11-ml-analysis.md's "Weights and objectives"), not a naive unweighted loss - an
+  unweighted regression trained on MC with signed or highly variable weights can
+  be dominated by a small number of high-weight events the same way an unweighted
+  classifier can.
+- Validate calibration as linearity and closure of the regressed quantity against
+  truth (or an independent proxy), not merely an aggregate loss value: check the
+  response (predicted/true, or predicted-minus-true) in bins of pT, eta, and any
+  other variable the correction depends on, the same way a jet energy scale
+  correction is validated in
+  [18-physics-objects-jets-btagging-met.md](18-physics-objects-jets-btagging-met.md)
+  - a regression with low aggregate loss can still be biased or non-linear in a
+  specific kinematic region the analysis relies on.
+- A regressed correction becomes a scale/resolution correction like any other
+  object correction: propagate its uncertainty (from training statistics and from
+  residual non-closure in each validation bin) through the same object-correction
+  and systematic-variation machinery as JES/JER, rather than treating it as a
+  fixed, uncertainty-free factor (see [06-systematics.md](06-systematics.md)).
+- Report an uncertainty for the regressed value itself when a downstream fit uses
+  it per-event rather than only as a bin-averaged scale factor - e.g. a predicted
+  variance/quantile head, or an ensemble/bootstrap spread - and validate that
+  per-event uncertainty's coverage, since an uncalibrated per-event uncertainty is
+  easy to introduce silently.
+
 ## Calibration and combination
 
 A classifier's raw output score is not automatically a calibrated probability, and
@@ -94,6 +153,21 @@ value as though it were a probability. Document which convention is used, since
 downstream statistical combination methods
 ([09-statistical-tools.md](09-statistical-tools.md)) may implicitly assume
 one.
+
+## Inference and deployment
+
+Training and validating a model is not sufficient until it is applied identically
+inside the production event loop. Score events through the same preprocessing
+(feature order, units, scaling/normalization constants) used in training, and
+integrate inference into the existing pipeline rather than a separate ad hoc pass -
+e.g. `TMVA::Experimental::RBDT`/`RReader` or an ONNX-exported model inside an
+`RDataFrame::Define()`, or the equivalent for a Python/uproot pipeline. Version the
+deployed model artifact (weights/graph file, preprocessing constants, library
+version) alongside the training config, and reproduce 11-ml-analysis.md's
+training-vs-deployment score comparison on a held-out sample as an ongoing
+deliverable, not only during initial validation - a preprocessing or
+library-version mismatch between training and production is a common source of an
+unreproducible classifier score.
 
 ## Validation beyond 11-ml-analysis.md's checklist
 
@@ -122,3 +196,13 @@ one.
 - Score calibration convention used, if scores are combined with other observables.
 - Systematic-variation stability check for the classifier score, alongside the
   standard validation layers in 11-ml-analysis.md.
+- Random seed(s) and library/framework versions (e.g. xgboost/lightgbm/pytorch)
+  pinned and recorded - training is not bitwise reproducible across versions or,
+  for GPU-trained networks, across hardware without them.
+- Deployed inference artifact (model file, preprocessing constants, library
+  version) versioned alongside the training config, with a training-vs-deployment
+  score comparison on a held-out sample.
+- For a regression target: loss function chosen and its match to the target's
+  downstream use, a linearity/closure check of predicted vs. true value across
+  the relevant kinematic range, and how the regressed correction's uncertainty is
+  propagated as a systematic.

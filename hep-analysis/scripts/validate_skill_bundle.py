@@ -56,7 +56,7 @@ REQUIRED_PATHS = [
     "references/17-python-hep-coding.md",
     "references/18-physics-objects-jets-btagging-met.md",
     "references/19-triggers-luminosity-pileup.md",
-    "references/20-multivariate-classifiers-bdt-nn.md",
+    "references/20-multivariate-analysis-bdt-nn.md",
     "references/21-detector-systems-overview.md",
     "references/22-tracking-and-vertexing.md",
     "references/23-calorimetry-ecal-hcal.md",

@@ -29,7 +29,12 @@ should be justified, not assumed for convenience. Jet energy resolution smearing
 (applied to MC to match the resolution observed in data) is a separate correction from
 scale, with its own uncertainty, and both must be varied consistently with the same
 random seed handling described for other stochastic corrections in
-[03-weights-normalization.md](03-weights-normalization.md).
+[03-weights-normalization.md](03-weights-normalization.md). When a correction step is
+itself a trained BDT/NN regression (e.g. a jet-energy or b-jet-energy regression)
+rather than a factorized analytic correction, see
+[20-multivariate-analysis-bdt-nn.md](20-multivariate-analysis-bdt-nn.md#regression-targets)
+for training/validation/uncertainty-propagation guidance specific to a regressed
+correction.
 
 ## b-tagging
 

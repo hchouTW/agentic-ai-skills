@@ -45,7 +45,7 @@ energy in the first layers, and the lateral spread separate electrons and photon
 hadrons with rejection factors that can be large but are strongly
 energy-dependent - and are exactly the kind of variable that a classifier will exploit
 and that must therefore be validated for data/MC agreement before use, following
-[20-multivariate-classifiers-bdt-nn.md](20-multivariate-classifiers-bdt-nn.md).
+[20-multivariate-analysis-bdt-nn.md](20-multivariate-analysis-bdt-nn.md).
 
 ## Homogeneous versus sampling calorimeters
 
