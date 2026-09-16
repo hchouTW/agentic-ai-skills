@@ -73,7 +73,8 @@ academic-papers/
 │   ├── preregistration-and-registered-reports.md  # writing a preregistration or registered report's Stage 1/Stage 2
 │   ├── artifact-packaging-for-release.md        # preparing code/data for public release: README, pinned environment, license
 │   ├── grant-and-fellowship-proposal-writing.md # Specific Aims, preliminary-results vs. proposed-work, broader-impacts, budget justification
-│   └── thesis-by-publication-assembly.md        # assembling a thesis from already-published papers, permissions, per-chapter contributions
+│   ├── thesis-by-publication-assembly.md        # assembling a thesis from already-published papers, permissions, per-chapter contributions
+│   └── code-to-methodology-synthesis.md         # reverse-engineering research/algorithmic source code (no paper yet) into a Methodology + Technical Manual document
 ├── examples/
 │   ├── README.md                  # index of the 24 canonical worked examples below
 │   └── 01-...24-*.md              # 3 examples each of Contrast/Trajectory/Gated-Pipeline/Decision-Tree/Elicitation/Adversarial-Audit/Test-First/Postmortem in this skill's own domain
@@ -88,7 +89,8 @@ academic-papers/
 └── assets/templates/
     ├── reading_notes_template.md # structured single-paper reading notes shape
     ├── paper_skeleton.tex        # venue-agnostic starting skeleton
-    └── references.bib            # example INSPIRE-HEP-style .bib entry
+    ├── references.bib            # example INSPIRE-HEP-style .bib entry
+    └── code_to_methodology_manual_template.md  # fill-in-the-blank Methodology + Technical Manual shape
 ```
 
 ## Installation

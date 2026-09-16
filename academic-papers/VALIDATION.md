@@ -487,3 +487,104 @@ Old name -> new name (this skill only):
 
 Re-ran `python3 scripts/validate_skill_bundle.py` ("OK: ... passed all checks." - unaffected, this package's bundle validator does not track `examples/`) and `python3 -m unittest discover -s tests -v` (27 tests, all passing, unchanged) after the rename. All 24 example files individually re-validated with `agile-development/scripts/validate_skill_example.py` ("ok").
 
+## Add code-to-methodology & technical-manual synthesis capability (2026-09-16)
+
+Added a new capability, requested via a task plan built from an external
+requirements sketch (`/Users/hchou/task.md`): reverse-engineering standalone
+source code with **no existing paper** into a two-part Methodology +
+Technical Manual document. This is distinct from the skill's two existing
+code-facing files, which both assume a paper already exists -
+`references/code-review-report.md` (paper-to-code alignment) and
+`references/reproducibility-auditing.md` (tracing a reported result to
+execution evidence). Confirmed the gap first: `grep -rli "reverse.engineer"
+--include="*.md" .` returned no matches before this change.
+
+- Added `references/code-to-methodology-synthesis.md`: a decision rule
+  against the two existing code-facing files and
+  `references/artifact-packaging-for-release.md`; an explicit statement that
+  this file documents what code *appears* to implement and delegates
+  correctness verification to `hep-analysis` (ROOT/PyROOT/RDataFrame/uproot)
+  and `deep-learning` (PyTorch), mirroring `code-review-report.md`'s
+  existing delegation pattern; a three-step workflow (dissect the codebase,
+  reconstruct the mathematics/algorithm, synthesize the two-part document);
+  and this skill's existing never-invent-a-value discipline applied to
+  reverse-engineered math specifically (`[FORMULATION UNCERTAIN: ...]`
+  alongside the pre-existing `[VALUE NEEDED: ...]` convention from `SKILL.md`'s
+  "Working style within this skill").
+- Added `assets/templates/code_to_methodology_manual_template.md`, a
+  fill-in-the-blank skeleton for the two-part output (Methodology &
+  Theoretical Background; Engineering User Manual & API Guide), matching the
+  existing `reading_notes_template.md`/`paper_skeleton.tex` precedent for
+  shipping a template alongside a reference file's prose.
+- Updated `SKILL.md`: added a trigger phrase to the frontmatter
+  `description`; added a bullet under "When to use this skill" ->
+  "Adjacent document types"; added an entry to the "Reference files"
+  catalogue's "Adjacent document types" group, referencing both the new
+  reference file and its template asset in backticks so
+  `validate_skill_bundle.py`'s existence/orphan checks cover both.
+- Updated `README.md`'s "What's inside" file tree with both new files.
+- Judgment calls made without further user confirmation, since the request
+  was "do it" with no follow-up round-trip (documented here rather than
+  silently decided):
+  - Filename/placement: `references/code-to-methodology-synthesis.md`,
+    grouped under "Adjacent document types" rather than a new top-level
+    group, matching `artifact-packaging-for-release.md`'s placement as the
+    closest existing code-adjacent precedent.
+  - Shipped the `assets/templates/` skeleton (not left as prose-only
+    guidance), following the existing template precedent.
+  - "Arbitrary source code" is scoped to stand alone with no accompanying
+    paper at all (matching `task.md`'s own framing), not narrowed to code
+    that already accompanies a paper - the correctness-delegation language
+    is written strongly enough (see above) to keep this consistent with the
+    skill's stated charter of not owning the analysis itself.
+  - **Deferred, not silently missing**: no `examples/` entries were added
+    for this capability in this pass. Every other example-authoring
+    expansion in this file's history was its own separately-requested pass
+    (see the 2026-09-10 through 2026-09-12 entries above); this follows the
+    same pattern rather than bundling example authoring into a
+    reference-file-addition change.
+  - No change made to `agents/openai.yaml` - its `short_description` remains
+    a high-level category summary (consistent with the design choice noted
+    in the 2026-09-10 "Consistency audit" entry above), so it did not need
+    updating for one new reference file.
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("OK: ... passed all
+  checks.") and `python3 -m unittest discover -s tests -v` (`Ran 27 tests in
+  0.015s`, `OK` - unchanged, this pass added a reference file and a
+  template asset, not new test-relevant code) after the change.
+
+## Narrow code-to-methodology-synthesis scope to algorithmic code (2026-09-16)
+
+Follow-up to the previous entry's own flagged risk. On reflection, "no
+existing paper" was the right axis to resolve (`task.md` clearly means
+standalone code, and that call stands), but "arbitrary source code" was too
+broad on a second axis: `task.md`'s own template is domain-generic
+(`CoreEngine`, `Processor`), and taken literally the capability would fire on
+code with no mathematical content at all - a CRUD API, a UI library - for
+which Part A ("Methodology & Theoretical Background") would be vacuous or
+fabricated, exactly what this skill's own never-invent discipline exists to
+prevent. `academic-papers`' charter is the scientific-paper lifecycle, not
+general software documentation, and `task.md` itself only ever asks to
+"extract... mathematical models and domain logic," which a CRUD app doesn't
+have. The real invariant is *mathematical/algorithmic content to extract*,
+independent of whether a paper exists.
+
+- `references/code-to-methodology-synthesis.md`: reworded the opening scope
+  statement and decision rule to require the code implement "a mathematical,
+  statistical, or algorithmic method," added an explicit new decision-rule
+  branch routing generic software with no such content out of scope
+  entirely (rather than letting Part A force-fill with
+  `[FORMULATION UNCERTAIN: no extractable method]`), and extended "What this
+  does not do" to cover formulations outside the `deep-learning`/
+  `hep-analysis` delegation targets (classical numerical methods, control
+  theory, bespoke statistics code): say the formulation is unverified
+  explicitly rather than implying it was checked just because two sibling
+  skills exist for two specific domains.
+- Propagated the same "research/algorithmic" qualifier (replacing
+  "standalone") into `SKILL.md`'s frontmatter `description`, its "When to
+  use this skill" bullet, and its "Reference files" catalogue entry, and
+  into `README.md`'s file-tree comment, so the trigger language and the
+  reference file's actual scope stay consistent with each other.
+- Re-ran `python3 scripts/validate_skill_bundle.py` ("OK: ... passed all
+  checks.") and `python3 -m unittest discover -s tests -v` (`Ran 27 tests in
+  0.015s`, `OK` - unchanged, wording-only change) after the edit.
+

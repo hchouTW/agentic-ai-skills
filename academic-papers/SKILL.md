@@ -1,6 +1,6 @@
 ---
 name: academic-papers
-description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, interpreting a figure/plot/graphic, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency/argument-uniformity/statistical rigor, reviewing accompanying code, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions, plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
+description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, interpreting a figure/plot/graphic, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency/argument-uniformity/statistical rigor, reviewing accompanying code, reverse-engineering research/algorithmic source code (no paper yet) into a methodology and technical-manual write-up, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions, plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
 ---
 
 # Academic Papers
@@ -66,6 +66,12 @@ Use it for any of:
 - Drafting a grant or fellowship proposal (Specific Aims, budget justification,
   broader-impacts sections) — a related but distinct genre from a paper
 - Assembling a thesis or dissertation from the user's own already-published papers
+- Reverse-engineering research/algorithmic source code with no existing
+  paper — code that implements a mathematical, statistical, or algorithmic
+  method — into a Methodology + Technical Manual document; not for generic
+  software with no such content (a CRUD API, a UI library) — see
+  `references/code-to-methodology-synthesis.md`; distinct from reviewing
+  code against an already-written paper, above
 
 Do **not** reach for this skill for pure numerical/statistical work (fitting, limit
 setting, unfolding — `hep-analysis`; ablations, seed variance, proving an ML result
@@ -358,6 +364,13 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   the user's own already-published papers: institutional requirements,
   copyright/reuse permissions, connective-material synthesis, per-chapter
   contribution statements, and cross-paper inconsistency reconciliation
+- `references/code-to-methodology-synthesis.md` — reverse-engineering
+  research/algorithmic source code with no existing paper (not generic
+  software with no mathematical content) into a Methodology + Technical
+  Manual document: codebase dissection, math/algorithm reconstruction,
+  two-part synthesis; delegates correctness verification to
+  `hep-analysis`/`deep-learning` where applicable; template skeleton in
+  `assets/templates/code_to_methodology_manual_template.md`
 
 ## Bundled scripts
 
