@@ -89,6 +89,18 @@ Don't mix more APIs than needed in one script; if mixing, keep boundaries clear 
 | Multi-messenger coincidence analysis, alert follow-up, trials/timing/pointing systematics | [Multi-messenger analysis](references/36-multimessenger-analysis.md) |
 | Li & Ma significance, sky-scan/catalog trials factor, exposure/forward-folding for steep spectra | [Astroparticle statistics](references/37-astroparticle-statistics.md) |
 | AMS-02 (ISS spectrometer): TRD/tracker/TOF/RICH/ACC/ECAL combination, orbital/solar-cycle systematics, positron-fraction/antiproton-ratio pattern, primary/secondary composition (B/C ratio), temporal-structure worked examples, servicing/upgrade history | [AMS-02 case study](references/38-ams02-case-study.md) |
+| Forward model/inverse problem, identifiability, bias vs resolution vs efficiency, thresholds, conditional-probability language, 14-question template for any detector | [Detector measurement framework](references/39-detector-measurement-framework.md) |
+| Bethe-Bloch/Landau/Highland, scintillation/Cherenkov/TR, drift/diffusion/gain/attachment, shaping, noise, saturation, dead time, trigger bias | [Signal formation and readout](references/40-signal-formation-and-readout.md) |
+| Drift chambers/tubes, TPC, MWPC/straw/RPC, GEM/Micromegas, fibers, emulsion, MAPS/CCD/diamond, left-right ambiguity, space charge | [Gaseous and specialized tracking](references/41-gaseous-and-specialized-tracking-technologies.md) |
+| Time-walk/CFD, single-hit vs per-track vs event-time resolution budget, LGAD/MCP/MRPC, bunch assignment, clock offsets | [Timing detectors](references/42-timing-detectors.md) |
+| Segments, standalone/combined/tagged muons, sagitta weak modes, charge misID, punch-through, decay in flight, tag-and-probe | [Muon systems](references/43-muon-systems.md) |
+| LAr/LXe/dual-phase TPCs, recombination, lifetime, water/scintillator, near/far, bolometers, thresholds, fiducialization | [Noble-liquid, neutrino, rare-event](references/44-noble-liquid-neutrino-and-rare-event-detectors.md) |
+| Threshold/differential counters, DIRC/TOP, PMT/SiPM/APD/MCP, WLS, fibers, light guides, SPE calibration | [Cherenkov variants and photosensors](references/45-cherenkov-imaging-variants-and-photosensors.md) |
+| Acceptance/efficiency/purity/fake/mis-ID/resolution definitions, worked numerical example, residual/pull/covariance/coverage | [Performance metrics and residuals](references/46-performance-metrics-and-residual-diagnostics.md) |
+| Data/MC chain, tag-and-probe, scale factors, reweighting risks, J V J^T propagation, detector combination | [Validation, systematics, combination](references/47-validation-systematics-and-combination.md) |
+| Eight defect-to-physics-bias cases, unfamiliar-detector/plot-reading/data-MC/calibration checklists, one-page synthesis | [Case studies and checklists](references/48-detector-case-studies-and-checklists.md) |
+| Master, tracking, timing, PID, ECAL/HCAL, chain-distinction, detector-specific, systematics, auxiliary-detector tables | [Comparison tables](references/49-detector-comparison-tables.md) |
+| Symbols, acronyms, adopted conventions | [Detector glossary](references/50-detector-glossary.md) |
 | Authoring a canonical worked example (Contrast, Execution Trajectory, Gated Pipeline, Decision-Tree, Interactive Elicitation, Adversarial Audit, Test-First, or Postmortem archetype) for `examples/` | `task-authoring`'s [example-authoring reference](../task-authoring/references/example-authoring.md) (requires `task-authoring` installed alongside this skill) |
 
 ## Code file requirement

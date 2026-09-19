@@ -11,6 +11,10 @@ organized by detector *technology* and deliberately assumes no particular experi
 geometry, or beam configuration; quote scaling relations and orders of magnitude
 rather than treating any one experiment's resolution as universal.
 
+For the unified forward-model/inverse-problem framework and the technology-specific
+extensions (readout, gaseous/timing/muon/noble-liquid/photosensor detectors, metrics,
+validation, case studies), see [39](39-detector-measurement-framework.md) onward.
+
 ## What a detector measures, and what it does not
 
 A detector does not measure particle identity, energy, or momentum. It measures

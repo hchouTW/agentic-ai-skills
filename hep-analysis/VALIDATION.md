@@ -1110,6 +1110,31 @@ skill except this file's own historical entries; (3)
 non-empty"); (4) `python3 -m unittest discover -s tests -v` (172 tests, all
 passing, unaffected since no test references this path).
 
+## Add unified detector-measurement references 39-50 (2026-09-20)
+
+Added twelve references derived from a graduate-level detector-study task
+specification: `39-detector-measurement-framework.md` through
+`50-detector-glossary.md` (framework and 14-question template, signal formation and
+readout, gaseous/specialized tracking, timing, muon systems, noble-liquid/neutrino/
+rare-event, Cherenkov variants and photosensors, performance metrics and residual
+diagnostics, validation/systematics/combination, eight case studies plus checklists,
+comparison tables, glossary). Wired into SKILL.md routing, README, 13-sources.md, and
+`scripts/validate_skill_bundle.py`.
+
+- The worked acceptance/efficiency/purity/fake/mis-ID example and the 20-value
+  bias/resolution example in reference 46 were recomputed with Python (mean 0.395%,
+  RMS 1.56%, median 0.15%, 1.4826*MAD 0.74%, tail fraction 5%; without the tail entry
+  mean 0.074%, RMS 0.63%); the count table sums were checked by hand.
+- The detector references are qualitative: no experiment-specific performance number is
+  asserted; case studies are generic mechanisms. Textbook/journal citations in
+  13-sources.md were matched against Crossref on 2026-09-20 and now carry DOIs (see the
+  standalone references.md in docs/detector-principles for the full annotated list); that
+  each work supports its stated use was not re-checked by re-reading.
+- Not done: no new scripts or tests (content is methodological); the task's separate
+  summary/comparison-table/references/glossary files were folded into references 48-50
+  and 13-sources.md rather than shipped as five standalone documents; no cross-reference
+  link check beyond `validate_skill_bundle.py` file presence and the grep below.
+
 ## Limitations
 
 - ROOT is not installed in the validation environment, so `check_root_cpp_env.sh`
