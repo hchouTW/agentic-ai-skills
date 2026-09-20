@@ -139,7 +139,7 @@ Public detector descriptions exist in the Collaboration's detector web pages, su
 | TOF velocity resolution | Δβ/β² = 4% | \|Z\| = 1 (S08) |
 | RICH velocity resolution | Δβ/β = 0.1% | \|Z\| = 1 (S08); isotope papers quote Gaussian-core widths per radiator (C28) |
 | ACC side-entry rejection efficiency | 0.99999 | quoted in S08 |
-| ECAL | 17 radiation lengths, 3D imaging | S04 |
+| ECAL | 17 radiation lengths, 3D imaging | S04 (claim C50) |
 | TRD estimator | per-layer log-likelihood ratio Λ_TRD (e hypothesis over p or p̄ hypothesis) | S08, S04 |
 
 Rejection factors for the TRD or ECAL are quoted in these papers only through estimator distributions and template fits, not as a single number; do not supply one. When a user needs another number, fetch the primary paper section, record definition and context in the ledger, and quote it with the context.

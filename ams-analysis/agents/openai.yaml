@@ -1,4 +1,4 @@
 interface:
   display_name: "AMS-02 Detector and Physics Analysis"
   short_description: "AMS-02 detectors, charged cosmic-ray analyses, antimatter/lepton/isotope measurements, source-traceable and hallucination-resistant"
-  default_prompt: "Use $ams-analysis to design or review my AMS-02 analysis: define the estimand, subsystems, backgrounds, efficiency/acceptance/response, inference, and validation, labeling documented facts, general methods, proposals, and unknowns."
+  default_prompt: "Use $ams-analysis to design or review my AMS-02 analysis: define the estimand, subsystems, backgrounds, efficiency/acceptance/response, inference, and validation, labeling documented facts, general methods, proposals, and unknowns; use the checker scripts for kinematics, covariance, response, evidence-ledger and specification audits."

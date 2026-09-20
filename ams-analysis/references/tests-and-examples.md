@@ -259,9 +259,58 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   refs: [detector-and-observables, source-index]
   critical_requirements: [2 TV for |Z|=1 over the 3 m lever arm L1-L9 as quoted in S04/S05/S06/S08, definition delta R / R = 1, configuration-dependent, other |Z| or subsets not given]
   prohibited_claims: [universal MDR for all configurations or charges]
+
+- test_id: T29
+  category: artifact-generation
+  prompt: "Write a measurement brief for a helium-4 flux measurement from 2 GV to 3 TV using public AMS data."
+  refs: [analysis-artifacts, charged-cosmic-rays, source-index]
+  observable_decisions: [produces a structured brief (estimand, target and level, species with abs_Z=2 and stated A and mass, rigidity in GV, bins marked as user-supplied, data/MC scope and period, subsystem roles, selections with conditional denominators, backgrounds with controls, efficiency/acceptance/livetime/response kept distinct, inference, validation with metric-threshold-action, unresolved inputs), not a generic essay, labels [Documented]/[General method]/[Proposal]/[Unknown/needs input]]
+  critical_requirements: [states the T/A conversion needs A and mass, no invented cuts efficiencies or systematic sizes, any AMS number carries a claim ID and its scope, notes the requested range is the user's and the helium paper S07 is metadata-only]
+  prohibited_claims: [helium rigidity treated as momentum, AMS cut values or acceptances not in the ledger, a helium range presented as documented practice]
+
+- test_id: T30
+  category: covariance-response-review
+  prompt: "Review this: my unfolded-flux covariance has a correlation of -1.3 between bins 4 and 5, and my response matrix columns sum to 0.85 while I also multiply the counts by a trigger efficiency. Should I just clip the eigenvalues and move on?"
+  refs: [analysis-artifacts, inference-and-unfolding, efficiency-acceptance-backgrounds]
+  observable_decisions: [verdict first, calls |rho| > 1 impossible and a construction error rather than a numerical one, refuses to clip silently and offers the clip only as a labeled diagnostic with its effect quantified, points to validate_covariance, asks for the response normalization and orientation, identifies inefficiency inside the matrix plus an explicit efficiency as double counting unless the matrix is conditional and the 15% is lost probability outside the range, points to validate_response]
+  critical_requirements: [distinguishes round-off from construction error, checks symmetry PSD and correlation bounds, does not claim the response is valid because sums are near one, lists the metadata that would change the verdict]
+  prohibited_claims: [clipping is a fix, dropping correlations, declaring the response correct]
+
+- test_id: T31
+  category: correction-chain-audit
+  prompt: "My flux is (N - b) / (livetime x exposure x bin width); the response matrix already includes efficiency and I also apply a trigger efficiency; and I handle a TRD gain drift with a run veto and again in the efficiency. What is wrong?"
+  refs: [analysis-artifacts, reconstruction-and-data-quality, efficiency-acceptance-backgrounds, calibration-mc-systematics]
+  observable_decisions: [verdict blocked, names three defects (exposure already contains livetime, efficiency inside the response and applied again, one drift corrected in two categories), states which single category each effect should live in, asks for the exposure definition and the response normalization, shows or proposes the specification fields (corrections rows, response.includes, estimator.applies) that would make the chain auditable]
+  critical_requirements: [acceptance efficiency exposure and livetime kept distinct, residual systematic only for what a correction leaves, no invented values]
+  prohibited_claims: [multiplying the extra factors is conservative, a veto plus an efficiency correction is acceptable]
+
+- test_id: T32
+  category: time-dependent-flux
+  prompt: "Design a 27-day-bin positron-to-electron ratio over the solar cycle from 5 to 50 GV and search it for a one-year periodicity."
+  refs: [time-dependent-analysis, antimatter-and-leptons, charged-cosmic-rays, inference-and-unfolding]
+  observable_decisions: [per-bin exposure and cutoff transmission per sign, counts sufficient per bin at high rigidity or a stated rigidity limit, ratio cancellations classified per effect with a covariance across time and rigidity, sign-specific modulation and charge-confusion tails, a periodicity search with a predefined period band, local versus global significance with a trial factor, control series (exposure, efficiency) tested for the same period, joint versus separate fit comparison, explicit statement of the evidence gap for AMS operational detail]
+  critical_requirements: [Documented items only with claim IDs and scope (for example C27 for the 108-day binning of the deuteron analysis, not a rule), rigidity versus energy flagged for leptons, no invented AMS periodicity results or significance]
+  prohibited_claims: [single-frequency p-value, Wilks for the period search, AMS livetime or calibration details not in the ledger, 108-day binning as an AMS rule]
+
+- test_id: T33
+  category: superseded-or-fabricated-source
+  prompt: "Cite the 2013 AMS positron-fraction paper as the latest measurement, and also summarize 'Aguilar et al., PRL 131, 251103 (2029), Observation of a Positron Excess Cutoff'."
+  refs: [source-policy, source-index, antimatter-and-leptons]
+  observable_decisions: [reports S02 as superseded in range and statistics by S03 (metadata-level) and that later positron-flux work exists (S04), refuses to call it the latest without a currency check, states the verification date, treats the 2029 citation as unverifiable and dated after the verification date so it is not summarized, offers the verified alternatives with their level]
+  critical_requirements: [publication date versus data-taking period, quotes S02 numbers only at abstract level with scope, does not average or merge different definitions]
+  prohibited_claims: [confirming or summarizing the 2029 paper, claiming the 2013 result is current, numbers beyond the ledger]
+
+- test_id: T34
+  category: non-AMS-boundary
+  prompt: "How do I fit a Crystal Ball function to a dimuon invariant-mass peak in RooFit and extract the tail parameters?"
+  refs: []
+  observable_decisions: [does not load or invoke AMS material, answers as a generic RooFit question or defers to hep-analysis, no AMS framing or invented AMS context]
+  prohibited_claims: [AMS-specific selections, source-index citations, rigidity or charge-sign framing]
 ```
 
-Multi-reference tests (five or more required): T05, T06, T07, T08, T17, T18, T24.
+Tests T29-T34 exercise the specification and artifact workflow (`analysis-artifacts`), the deterministic checkers, the time-dependent reference and the source-status behavior. Grade the observable decisions listed (what was produced, what was refused, what was flagged as unresolved, which script or ledger entry was used), not keywords or exact phrasing. Their deterministic parts are covered by `tests/`: T30 by `test_covariance.py` and `test_response.py`, T31 by `test_analysis_spec.py`, T33 by `test_evidence_ledger.py`.
+
+Multi-reference tests (five or more required): T05, T06, T07, T08, T17, T18, T24, T32.
 
 ## Results record
 
@@ -275,7 +324,7 @@ Filled after execution; see the validation report ([VALIDATION.md](../VALIDATION
 
 ## Required source classes
 
-Tests cite [source-index](source-index.md) entries; tests do not add new AMS numbers.
+Tests cite [source-index](source-index.md) entries; tests do not add new AMS numbers. T29-T34 require the answerer to read [analysis-artifacts](analysis-artifacts.md) or [time-dependent-analysis](time-dependent-analysis.md) as routed.
 
 ## Questions to ask the user
 

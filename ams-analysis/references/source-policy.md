@@ -46,7 +46,7 @@ known_limitations: null
 last_verified: YYYY-MM-DD
 ```
 
-A number without its context (species, range, selection, period, CL, configuration) must not be quoted. `source-index` records the verification level actually achieved: `full-text`, `abstract+metadata`, `metadata-only`, or `not-opened`; a claim's strength never exceeds it.
+The populated ledger is machine-readable in `data/sources.json` and `data/claims.json` (checked by `scripts/validate_evidence_ledger.py`; the tables in [source-index](source-index.md) are generated from it). A claim's `verification_strength` may not exceed its best supporting source, numeric quotation needs at least an abstract read, and an AMS-practice claim needs a Tier 1-2 source. A number without its context (species, range, selection, period, CL, configuration) must not be quoted. `source-index` records the verification level actually achieved: `full-text`, `abstract+metadata`, `metadata-only`, or `not-opened`; a claim's strength never exceeds it.
 
 ## Source-review procedure
 
@@ -61,7 +61,7 @@ A number without its context (species, range, selection, period, CL, configurati
 
 Triggers: "latest", "most recent", "current", "has AMS published", "as of", any result or hardware-status claim that may have changed after the skill's last verification (**2026-09-20**).
 
-Procedure: (1) search INSPIRE-HEP with the collaboration filter and date sort (metadata, not a snippet); (2) open the AMS results page and the journal record; (3) report publication date, data period, formal status (peer-reviewed / preprint / conference); (4) check for supplements and superseding papers; (5) state the verification date. If browsing is unavailable: state the verification limitation and the skill's last-verified date; do not claim currency; give the last known result with its date as "as of the last check".
+The model cannot know the current date: never assert that the verification date is "today"; say "as of the last verification, 2026-09-20". Procedure: (1) search INSPIRE-HEP with the collaboration filter and date sort (metadata, not a snippet); (2) open the AMS results page and the journal record; (3) report publication date, data period, formal status (peer-reviewed / preprint / conference); (4) check for supplements and superseding papers; (5) state the verification date. If browsing is unavailable: state the verification limitation and the skill's last-verified date; do not claim currency; give the last known result with its date as "as of the last check".
 
 ## Conflicts between sources
 
