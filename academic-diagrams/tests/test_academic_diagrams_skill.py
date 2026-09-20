@@ -78,6 +78,44 @@ class DotCompile(unittest.TestCase):
         self.assertTrue(sources.check_dot("digraph G { A -> ; ;; -> }"))
 
 
+class SvgCheck(unittest.TestCase):
+    def test_well_formed(self):
+        self.assertIsNone(sources.check_svg('<svg xmlns="http://www.w3.org/2000/svg"><rect/></svg>'))
+
+    def test_malformed(self):
+        self.assertIn("not well-formed", sources.check_svg("<svg><rect></svg>"))
+
+    def test_svg_fence_extracted(self):
+        self.assertEqual([l for l, _ in sources.extract_blocks("```svg\n<svg/>\n```")], ["svg"])
+
+
+class MermaidRender(unittest.TestCase):
+    def fake_mmdc(self, directory, exit_code, stderr=""):
+        """Write a stand-in `mmdc` that writes the -o file (or fails) so no browser is needed."""
+        script = Path(directory) / "fake_mmdc"
+        script.write_text(
+            "#!/bin/sh\n"
+            'while [ $# -gt 0 ]; do [ "$1" = "-o" ] && out="$2"; shift; done\n'
+            f'[ {exit_code} -eq 0 ] && echo "<svg/>" > "$out"\n'
+            f'echo "{stderr}" >&2\nexit {exit_code}\n'
+        )
+        script.chmod(0o755)
+        return str(script)
+
+    def test_render_success(self):
+        with tempfile.TemporaryDirectory() as d:
+            self.assertIsNone(sources.check_mermaid("flowchart LR\n A-->B", self.fake_mmdc(d, 0)))
+
+    def test_render_failure_reports_stderr(self):
+        with tempfile.TemporaryDirectory() as d:
+            error = sources.check_mermaid("flowchart LR\n A-->", self.fake_mmdc(d, 1, "Parse error"))
+            self.assertIn("Parse error", error)
+
+    @unittest.skipUnless(shutil.which("mmdc"), "Mermaid CLI not installed")
+    def test_real_mmdc_rejects_bad_syntax(self):
+        self.assertTrue(sources.check_mermaid("flowchart LR\n A -.->|x| B --- ??? C"))
+
+
 class RealBundle(unittest.TestCase):
     def run_script(self, name):
         return subprocess.run(

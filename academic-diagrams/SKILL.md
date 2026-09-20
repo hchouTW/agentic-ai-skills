@@ -112,15 +112,19 @@ Domain checklists: [HEP](references/high-energy-physics.md),
   [general-diagram-principles.md](references/general-diagram-principles.md)
 - Typography, color, column widths, style spec, multi-figure consistency ->
   [academic-figure-style.md](references/academic-figure-style.md)
-- Mermaid / Graphviz / TikZ syntax patterns and pitfalls ->
+- Mermaid / Graphviz / PlantUML / TikZ syntax patterns and pitfalls ->
   [mermaid-patterns.md](references/mermaid-patterns.md),
   [graphviz-patterns.md](references/graphviz-patterns.md),
-  [tikz-patterns.md](references/tikz-patterns.md)
+  [plantuml-patterns.md](references/plantuml-patterns.md),
+  [tikz-patterns.md](references/tikz-patterns.md); SVG spec -> `templates/svg-spec.md`
 - Captions and in-text references -> [figure-captions.md](references/figure-captions.md)
+- Legends, multi-panel figures, posters/theses, Beamer overlays, equation placement, symbol table, export
+  (SVG/PDF/PNG) -> [legends-panels-and-export.md](references/legends-panels-and-export.md)
 - Starting skeletons -> `templates/` (research-workflow, algorithm-flowchart,
   system-architecture, hep-analysis-pipeline, probabilistic-graphical-model,
-  agentic-ai-architecture)
-- Worked examples -> `examples/hep/`, `examples/statistics/`, `examples/computer-science/`
+  agentic-ai-architecture, ml-pipeline, bayesian-model, svg-spec)
+- Rough sketch or photo -> spec: [general-diagram-principles.md](references/general-diagram-principles.md) section 11
+- Worked examples -> `examples/general/`, `examples/hep/`, `examples/statistics/`, `examples/computer-science/`
   (see `examples/README.md`); the examples are illustrative, not verified against any
   named experiment or codebase.
 

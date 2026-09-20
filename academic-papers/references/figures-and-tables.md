@@ -46,6 +46,7 @@ interpreting a figure already in someone else's paper.
 | Systematic breakdown | Stacked or grouped bar chart, or a table if there are more than ~6 sources |
 | Cosmic-ray energy spectrum | Flux scaled by `E^n` (`n` ~2.6-3) vs. energy, log-log — see `astroparticle-and-cosmic-ray-papers.md` |
 | Arrival-direction / significance skymap | All-sky equal-area projection (Mollweide/Hammer-Aitoff), coordinate system stated explicitly — see `astroparticle-and-cosmic-ray-papers.md` |
+| Workflow, pipeline, architecture, graphical model, causal DAG, detector schematic, decay tree | A structural diagram as editable text (Mermaid, Graphviz, TikZ), not a data plot - use the `academic-diagrams` skill when installed |
 | Training progress | Learning curve: loss/metric vs. epoch or step, train and validation on the same axes so overfitting is visible |
 | Classifier performance | ROC or precision-recall curve (report AUC alongside the curve, not instead of it); confusion matrix for a fixed operating point |
 | Comparing many methods on many datasets/tasks | Leaderboard-style table, not a figure, with the best result per column in **bold**, or underlined if bold is taken by the paper's own method |

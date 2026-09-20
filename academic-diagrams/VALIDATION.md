@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-21. Helper test environment: Python 3, standard library only; Graphviz `dot` present, no Mermaid renderer, no LaTeX.
+Validation date: 2026-09-21. Helper test environment: Python 3, standard library only; Graphviz `dot` present, no LaTeX (Mermaid CLI available through npx).
 
 ## Initial build (2026-09-21)
 
@@ -22,10 +22,34 @@ as a bundle matching this repository's sibling-skill convention (`SKILL.md`, `RE
   against the shipped bundle and a structural check that every example has a type line, source,
   and caption.
 
+## Mermaid rendering (2026-09-21, follow-up)
+
+All 37 `dot`/`mermaid` blocks in the bundle pass `scripts/check_diagram_sources.py` with Mermaid CLI
+(`@mermaid-js/mermaid-cli` via `npx`, exposed as `mmdc`) rendering every Mermaid block to SVG; no
+source needed fixing. The script now calls `mmdc` when it is on PATH and keeps the structural lint
+as the fallback and as a pre-filter. Checked that a syntax error the lint misses is caught by `mmdc`.
+Rendered output was not visually inspected, only that it parsed and rendered without error.
+
+## P2 content additions (2026-09-21, follow-up)
+
+Added: examples `general/05-07`, `hep/08`, `computer-science/09-10`; templates `svg-spec`, `ml-pipeline`,
+`bayesian-model`; `references/plantuml-patterns.md`; sketch-to-spec section 11 in
+`references/general-diagram-principles.md`. The checker now also parses fenced `svg` blocks as XML.
+Full-bundle run: 47 `dot`/`mermaid`/`svg` blocks, 0 problems (Mermaid rendered with `mmdc`, DOT with `dot`).
+The SVG example was rasterized with `rsvg-convert` and inspected; that found two real defects (test set with no
+outgoing edge, clipped footnote), both fixed. The Bayesian-model DOT was rendered and inspected (plate label
+sits close to an edge). `general/05` was drawn from files actually read in this repository.
+TikZ in `hep/08` and both PlantUML examples were **not** compiled (no TeX, and `java` is only a stub here).
+
+## P3/P4 additions (2026-09-21, follow-up)
+
+`references/legends-panels-and-export.md` (its Mermaid and DOT legend snippets pass the checker; export commands for
+Graphviz, `rsvg-convert`, and `mmdc` were run; TikZ/Beamer/`dvisvgm` snippets were not compiled). Cross-links added in
+`academic-papers/references/figures-and-tables.md` and `hep-analysis/SKILL.md`; those skills' validators and tests pass.
+
 ## Not verified
 
-- Mermaid sources were only linted structurally; none were rendered by Mermaid.
-- TikZ / tikz-feynman snippets were not compiled (no LaTeX installation); the hierarchical-model
+- TikZ / tikz-feynman snippets (including `hep/08`) and all PlantUML sources were not compiled (no LaTeX installation); the hierarchical-model
   plate example additionally needs the `calc` library (stated in the example).
 - Column widths and venue specifics in `references/academic-figure-style.md` are common defaults, not checked
   against current author kits.

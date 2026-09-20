@@ -104,3 +104,34 @@ arrow types; decorative icons; rainbow palettes; tiny text; long labels; unsuppo
 claims; invented components; mixing mathematical/physical/software semantics silently; a
 conceptual sketch presented as an exact apparatus; a simplified process presented as a verified
 Feynman diagram.
+
+## 11. Sketch or photo to spec
+
+Input: a whiteboard photo, a hand sketch, or a slide image. The image is evidence, not a graph; extract the graph
+from it and confirm before formalizing. Never silently "fix" the sketch.
+
+1. **Inventory** every node (with its handwritten label, verbatim), every connector, every group boundary, every
+   annotation (numbers, units, symbols), and any legend. Note anything cut off, crossed out, or overwritten.
+2. **Classify each glyph** by the convention it implies, then ask when it is ambiguous:
+
+| Glyph | Plausible readings | Ask |
+|---|---|---|
+| plain arrow | data flow / causal / time / control | "What does an arrow mean here?" |
+| arrow with no head or a line | undirected association, or an unfinished arrow | direction? |
+| dashed vs solid | optional, assumed, async, or just sloppy | is the difference intentional? |
+| circle vs box | latent vs observed, or process vs data | what does the shape encode? |
+| shaded shape | observed, selected, or emphasis | meaning? |
+| box around several items | group, plate, subsystem, or same-machine | what does it group? |
+| unlabeled node or edge | forgotten label | name it |
+| two crossing lines | connected or just crossing | connected? |
+
+3. **Write the logical graph** in a neutral node/edge/group table with one column `source` = "sketch" and a
+   `status` column: **Known** (clearly drawn and labeled), **Inferred** (label or direction read from context),
+   **Ambiguous** (needs an answer). Do not draw ambiguous items as if they were known: leave them out or mark them.
+4. **Ask** the shortest set of questions that resolves the ambiguities that change the science (edge meaning,
+   direction, observed vs latent); assume and state layout-only choices (spacing, order of sibling nodes).
+5. **Render** from the confirmed table, then compare the result with the sketch node-by-node and edge-by-edge, and report
+   differences (renamed, reordered, added, dropped).
+
+If the image cannot be read (illegible handwriting, blurry photo), say which parts, and ask for a retake or a typed list
+rather than guessing labels. Physical detail in a sketch (dimensions, geometry) is only reproduced when the user supplies it.
