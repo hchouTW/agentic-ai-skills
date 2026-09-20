@@ -1687,5 +1687,92 @@
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
+  },
+  {
+    "id": "C63",
+    "claim": "Tracker rigidity measurement (review): tracks are found with a cellular-automaton track-finding algorithm and fitted with a Kalman filter that accounts for energy loss and multiple scattering; below 20 GV the rigidity resolution Delta R/R is 0.1; the maximum detectable rigidity is 2.0 TV for protons, 3.2 TV for helium, 3.7 TV for carbon, 3.4 TV for oxygen and 3.7 TV for iron; the simulation was compared with 400 GeV/c test-beam protons over five orders of magnitude in the inverse-rigidity distribution, including tails, and, beyond the beam energy, with ISS data by comparing the rigidity from L1-L8 with that from L2-L9 for protons in 1130-1800 GV",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S01"
+    ],
+    "location": "Section 1.2.2, Tracker rigidity measurement",
+    "scope": {
+      "text": "Tracker rigidity performance and validation; nine-layer configuration; review of the first seven years",
+      "species": [
+        "proton",
+        "helium",
+        "carbon",
+        "oxygen",
+        "iron"
+      ],
+      "range": "below 20 GV for the resolution; MDR for the listed nuclei",
+      "data_period": "2011-05 to about 2018 (review)",
+      "analysis": "tracker rigidity resolution, MDR and validation"
+    },
+    "limitations": "Review-level summary (Phys. Rept. 894); section 1.2 only was read, other chapters were not. Consistent with C21 and C61 for the overlapping numbers (helium MDR 3.2 TV); the detector configuration is the nine-layer L1-L9 case, and the MDR values are not for other track configurations.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-21"
+  },
+  {
+    "id": "C64",
+    "claim": "Absolute rigidity scale (review): the rigidity scale is the largest systematic at the highest energies for all Z; a coherent inner-tracker shift below 0.5 micrometre is sufficient to shift the scale by 10% at 1 TV; the in-flight shift is measured by comparing 1/|R| from the tracker with 1/E from the ECAL for electrons and positrons in 72 energy bins from 2 to 300 GeV, modelling each bin's 1/|R|-1/E distribution as a Gaussian plus an exponentially modified Gaussian and fitting shift parameters s+ and s- by unbinned likelihood, with s=(s+ - s-)/2; a time-dependent correction was derived by dividing the first seven years into four intervals",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S01"
+    ],
+    "location": "Section 1.2.3, Determination of tracker absolute rigidity scale and alignment",
+    "scope": {
+      "text": "AMS tracker absolute rigidity scale determination; May 2011 to May 2018",
+      "species": [
+        "electron",
+        "positron"
+      ],
+      "range": "2-300 GeV in 72 bins",
+      "data_period": "2011-05 to 2018-05",
+      "analysis": "in-flight rigidity-scale shift from E/p"
+    },
+    "limitations": "Review-level summary; section 1.2 only was read. This is one collaboration method with a stated dependence on ECAL energy calibration, not a general recipe, and the residual accuracy statement after the truncated passage was not transcribed.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-21"
+  },
+  {
+    "id": "C65",
+    "claim": "Charge-sign identification and charge confusion (review): charge confusion, meaning particles reconstructed with the wrong charge sign because of finite tracker resolution or interactions in the detector material, is measured with a boosted-decision-tree charge-confusion estimator Lambda_CC built from E/p, the track chi^2/d.o.f., momenta from different layer combinations, the number of hits near the track and the TOF and tracker charge measurements (positrons near +1, charge-confusion electrons near -1); after TRD and ECAL selection, the confusion in data comes from a template fit of the Lambda_CC distribution in the positive and negative rigidity samples, with the confusion fraction N_cc/(N_cc + N) and the MC fraction defined as electrons reconstructed with positive rigidity after the same cuts; the electron charge-confusion fraction is below 8% up to 1 TeV and is well reproduced by the simulation; similar methods separate antiprotons and antideuterons from proton and deuteron backgrounds",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S01"
+    ],
+    "location": "Section 1.2.4, Charge-sign identification",
+    "scope": {
+      "text": "electron and positron charge confusion; energy up to 1 TeV",
+      "species": [
+        "electron",
+        "positron"
+      ],
+      "range": "up to 1 TeV (energy)",
+      "data_period": "2011-05 to about 2018 (review)",
+      "analysis": "charge-confusion estimator and template fit"
+    },
+    "limitations": "Review-level summary; section 1.2 only was read. The 8% bound is a review statement for the electron sample after that selection, not a general charge-confusion rate; the antiproton and antideuteron methods are only named, not described.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-21"
   }
 ]
