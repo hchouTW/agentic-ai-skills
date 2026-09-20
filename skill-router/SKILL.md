@@ -1,6 +1,6 @@
 ---
 name: skill-router
-description: Use at the start of any non-trivial task to silently check whether one of the user's domain skills (academic-papers, agile-development, deep-learning, hep-analysis, task-authoring) applies before proceeding. Consult this for any non-trivial software change (implement/fix/add/refactor/migrate/update, scoping, code review), PyTorch model/training/DataLoader/debugging tasks (architecture selection, parallelism, compute budgeting, ablation, data/evaluation strategy), HEP/CERN/ROOT/PyROOT/RDataFrame/uproot/cutflow/systematics/fit/limit tasks (detector subsystems, event reconstruction, Geant4 simulation), reading/critiquing a paper, building a literature review, drafting a manuscript (LaTeX/REVTeX/JHEP/NeurIPS/ICML/ACL), managing a BibTeX file, or responding to referee reports, or authoring a task/ticket/spec document, a skill's canonical worked example, or an LLM prompt design/budget - even if the user doesn't name a skill or use the word "skill."
+description: Use at the start of any non-trivial task to silently check whether one of the user's domain skills (academic-papers, agile-development, ams-analysis, deep-learning, hep-analysis, task-authoring) applies before proceeding. Consult this for any non-trivial software change (implement/fix/add/refactor/migrate/update, scoping, code review), PyTorch model/training/DataLoader/debugging tasks (architecture selection, parallelism, compute budgeting, ablation, data/evaluation strategy), HEP/CERN/ROOT/PyROOT/RDataFrame/uproot/cutflow/systematics/fit/limit tasks (detector subsystems, event reconstruction, Geant4 simulation), AMS-02 (Alpha Magnetic Spectrometer) detector and cosmic-ray analysis tasks, reading/critiquing a paper, building a literature review, drafting a manuscript (LaTeX/REVTeX/JHEP/NeurIPS/ICML/ACL), managing a BibTeX file, or responding to referee reports, or authoring a task/ticket/spec document, a skill's canonical worked example, or an LLM prompt design/budget - even if the user doesn't name a skill or use the word "skill."
 ---
 
 # Skill Router
@@ -36,6 +36,16 @@ on a match.
   Test-First, or Postmortem archetype) for a skill's `examples/` directory,
   and designing or budgeting a prompt for an LLM call are `task-authoring`
   capabilities - see that bullet below.
+- **ams-analysis** - the Alpha Magnetic Spectrometer (AMS-02) specifically:
+  its Tracker/magnet, TOF, TRD, ECAL, RICH and ACC; rigidity/charge/velocity/
+  mass observables; AMS-style flux and ratio analyses (protons, helium,
+  nuclei, B/C), electrons/positrons, antiprotons, antihelium/antideuteron
+  searches, deuteron and other isotope separation; AMS-specific efficiency,
+  acceptance, charge confusion, template fits, unfolding, systematics, and
+  "what did AMS publish / latest result" verification. When a request is
+  about AMS, prefer this over `hep-analysis` (its AMS-02 reference is only a
+  short overview); use `hep-analysis` as secondary for generic ROOT code,
+  and not `ams-analysis` for generic HEP or statistics with no AMS tie.
 - **deep-learning** - PyTorch engineering: nn.Module models, training/eval
   loops, datasets and DataLoaders, losses, optimizers, schedulers, mixed
   precision, gradient accumulation, checkpointing, distributed training (DDP),
@@ -61,9 +71,9 @@ on a match.
   detector, fluorescence, hybrid), imaging atmospheric Cherenkov gamma-ray
   astronomy, high-energy neutrino telescopes, space-based/balloon direct
   detection (geomagnetic cutoff, solar modulation), multi-messenger analysis,
-  Li & Ma significance/trials-factor statistics, the AMS-02 (ISS
-  spectrometer) case study, and cosmic-ray flux calculation from counts/
-  exposure. Not for unrelated uses of "root" (Linux root users, Android
+  Li & Ma significance/trials-factor statistics, a brief AMS-02 (ISS
+  spectrometer) overview (deeper AMS work: `ams-analysis`), and cosmic-ray flux
+  calculation from counts/exposure. Not for unrelated uses of "root" (Linux root users, Android
   rooting, certificates, math or plant roots).
 - **task-authoring** - turning a short natural-language request into a
   standalone, implementation-ready Task Markdown document (Background /
