@@ -14,6 +14,7 @@ require an MCP server, cloud account, or paid service.
 | [`agile-development`](agile-development/) | Turning a software request into a small, verified, reviewable increment: scoping, acceptance criteria, validation plans, code review, incident response — plus implementation discipline: ask vs. assume, minimum code, surgical diffs, verifiable done. |
 | [`deep-learning`](deep-learning/) | PyTorch engineering: models, training/eval loops, DataLoaders, mixed precision, DDP, LoRA, profiling, export, and debugging NaNs/shapes/perf — plus architect-level work: architecture selection and scaling laws, parallelism strategy and compute budgeting, ablation discipline, serving capacity, and data/evaluation strategy. |
 | [`hep-analysis`](hep-analysis/) | High-energy physics: ROOT C++, PyROOT, uproot/awkward, RDataFrame, cutflows, systematics, fits, limits, unfolding — plus detector subsystems (tracking, calorimetry, TRD/TOF/RICH particle ID), event reconstruction, the generator→Geant4→calibration simulation chain, and astroparticle/cosmic-ray physics (spectrum and composition, extensive air showers, ground-based arrays, imaging atmospheric Cherenkov, neutrino telescopes, space-based direct detection, multi-messenger analysis, an AMS-02 case study, and cosmic-ray flux calculation). |
+| [`ams-analysis`](ams-analysis/) | AMS-02 detector and physics analysis: Tracker/magnet, TOF, TRD, ECAL, RICH, ACC response chains; rigidity/charge/velocity/mass observables; charged cosmic-ray flux and ratio blueprints, electrons/positrons, antiprotons, rare antimatter, nuclei and isotopes; efficiency/acceptance/backgrounds, unfolding and likelihoods, systematics — source-traced to public AMS literature, with hallucination-resistant handling of unpublished results. |
 | [`academic-papers`](academic-papers/) | Reading and critically evaluating scientific papers, building literature reviews, and drafting/formatting/submitting a manuscript — REVTeX/JHEP/JCAP/AASTeX/Elsevier/NeurIPS/ICML/ICLR/ACL LaTeX, INSPIRE-HEP/ADS/arXiv/DBLP bibliographies, HEP/astroparticle/cosmic-ray and statistics/ML conventions (exposure vs. luminosity, pre-/post-trial significance, skymaps, reproducibility checklists, single-shot rebuttals). |
 | [`task-authoring`](task-authoring/) | Turning a short natural-language request into an implementation-ready Task Markdown document, vendor-neutral across Claude Code, Codex, Antigravity, and other repository-aware agents — reads the applicable authoring reference, inspects the target repository, and classifies findings as Confirmed/Inferred/Unresolved instead of fabricating project-specific details. |
 
@@ -23,19 +24,19 @@ Copy the skill folders you want into your agent's skill directory:
 
 ```bash
 # Claude Code (personal)
-cp -r academic-papers agile-development deep-learning hep-analysis skill-router task-authoring ~/.claude/skills/
+cp -r academic-papers agile-development ams-analysis deep-learning hep-analysis skill-router task-authoring ~/.claude/skills/
 
 # Claude Code (project-scoped)
-cp -r academic-papers agile-development deep-learning hep-analysis skill-router task-authoring .claude/skills/
+cp -r academic-papers agile-development ams-analysis deep-learning hep-analysis skill-router task-authoring .claude/skills/
 
 # Codex
-cp -r academic-papers agile-development deep-learning hep-analysis skill-router task-authoring ~/.codex/skills/
+cp -r academic-papers agile-development ams-analysis deep-learning hep-analysis skill-router task-authoring ~/.codex/skills/
 
 # Antigravity (workspace-scoped; falls back to .agent/skills/ on older installs)
-cp -r academic-papers agile-development deep-learning hep-analysis skill-router task-authoring .agents/skills/
+cp -r academic-papers agile-development ams-analysis deep-learning hep-analysis skill-router task-authoring .agents/skills/
 
 # Antigravity (global)
-cp -r academic-papers agile-development deep-learning hep-analysis skill-router task-authoring ~/.gemini/config/skills/
+cp -r academic-papers agile-development ams-analysis deep-learning hep-analysis skill-router task-authoring ~/.gemini/config/skills/
 ```
 
 Each skill's own `README.md` has per-agent invocation details. `skill-router` only
