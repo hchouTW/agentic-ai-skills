@@ -129,6 +129,57 @@ class ValidateAgileNotesTests(unittest.TestCase):
         self.assertNotIn("Traceback", result.stderr)
 
 
+class EdgeCaseRegressionTests(unittest.TestCase):
+    """Defects found by the 2026-09-21 edge-case probe (see TODO.md P2)."""
+
+    FULL = "## Story\n## Acceptance Criteria\n## Validation\n## Risks\n"
+
+    def _missing(self, data: bytes) -> list[str]:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "n.md"
+            path.write_bytes(data)
+            return validate_agile_notes.check_file(path, validate_agile_notes.DEFAULT_SECTIONS)[1]
+
+    def test_crlf_line_endings_pass(self):
+        self.assertEqual(self._missing(self.FULL.replace("\n", "\r\n").encode()), [])
+
+    def test_leading_bom_does_not_hide_first_heading(self):
+        self.assertEqual(self._missing(b"\xef\xbb\xbf" + self.FULL.encode()), [])
+
+    def test_closing_hashes_are_ignored(self):
+        data = "## Story ##\n## Acceptance Criteria ##\n## Validation\n## Risks\n"
+        self.assertEqual(self._missing(data.encode()), [])
+
+    def test_headings_inside_fenced_code_do_not_count(self):
+        data = "```\n" + self.FULL + "```\n"
+        self.assertEqual(len(self._missing(data.encode())), 4)
+        self.assertEqual(self._missing((self.FULL + "~~~\n## Extra\n~~~\n").encode()), [])
+
+    def test_empty_file_reports_every_section_missing(self):
+        self.assertEqual(len(self._missing(b"")), 4)
+
+    def test_trailing_punctuation_does_not_make_a_placeholder_verification_pass(self):
+        problems = validate_agile_notes.check_plan_verification("1. a -> verify: Works!\n")
+        self.assertEqual(len(problems), 1)
+
+    def test_story_card_rejects_empty_required_fields(self):
+        for overrides in ({"actor": ""}, {"capability": "  "}, {"criteria": [""]}):
+            with self.assertRaises(ValueError):
+                create_story_card.build_card(_story_args(**overrides))
+
+    def test_story_card_cli_empty_actor_exits_two_without_traceback(self):
+        result = subprocess.run(
+            [sys.executable, str(ROOT / "scripts/create_story_card.py"),
+             "--actor", "", "--capability", "x", "--outcome", "y"],
+            capture_output=True, text=True)
+        self.assertEqual(result.returncode, 2)
+        self.assertNotIn("Traceback", result.stderr)
+
+    def test_generated_card_round_trips_through_the_validator(self):
+        card = create_story_card.build_card(_story_args())
+        self.assertEqual(self._missing(card.encode()), [])
+
+
 if __name__ == "__main__":
     unittest.main()
 

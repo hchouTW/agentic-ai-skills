@@ -4,10 +4,16 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
 
 def build_card(args: argparse.Namespace) -> str:
+    for name in ("actor", "capability", "outcome"):
+        if not getattr(args, name).strip():
+            raise ValueError(f"--{name} must not be empty")
+    if any(not item.strip() for item in (args.criteria or []) + (args.validation or [])):
+        raise ValueError("--criteria and --validation entries must not be empty")
     criteria = args.criteria or [
         "Given the primary context, when the user performs the action, then the expected result is observable.",
         "Given an invalid or boundary context, when the action is attempted, then the system responds safely.",
@@ -66,7 +72,11 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    content = build_card(args)
+    try:
+        content = build_card(args)
+    except ValueError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
     if args.output:
         args.output.write_text(content, encoding="utf-8")
     else:
