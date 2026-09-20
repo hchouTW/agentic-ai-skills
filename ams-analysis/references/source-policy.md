@@ -56,6 +56,8 @@ The populated ledger is machine-readable in `data/sources.json` and `data/claims
 4. Record whether a conference claim is preliminary.
 5. When several AMS results coexist (e.g. different rigidity ranges, periods, track configurations), explain which question each answers rather than retaining only the newest number.
 6. Paraphrase; do not copy long copyrighted passages.
+7. A bracket citing several claim IDs asserts every clause of the sentence for every ID: cite per clause, and check each ID's own species, range, period and paper (a daily-proton claim does not support a Bartels-rotation or lepton statement).
+8. Phrase absence statements taken from the ledger as "the index records no ...", not as a first-person search ("I found no ...").
 
 ## Currency checks ("latest")
 
