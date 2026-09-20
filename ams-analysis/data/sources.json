@@ -15,8 +15,8 @@
     "tier": 1,
     "tier_range": null,
     "tier_text": "1",
-    "verification_level": "abstract+metadata",
-    "verification_note": null,
+    "verification_level": "full-text",
+    "verification_note": "INSPIRE-hosted full text; section 1 (detector, 1.2.2-1.2.4) read only",
     "access_date": "2026-09-20",
     "publication_date": "2021",
     "data_taking_period": null,
@@ -24,7 +24,7 @@
     "superseded_by": [],
     "supersession_note": null,
     "notes": null,
-    "verification_limitations": "Full text not obtained (publisher page blocked; a repository link returned HTML); only the INSPIRE abstract and metadata were read."
+    "verification_limitations": "Full text (116 pages) obtained from the INSPIRE-hosted file on 2026-09-21 and converted with pdftotext; only section 1.2.2-1.2.4 (tracker rigidity, rigidity scale, charge-sign identification) was read and turned into claims C63-C65. The other detector subsections and physics chapters were not read, so no claim from them is upgraded."
   },
   {
     "id": "S02",

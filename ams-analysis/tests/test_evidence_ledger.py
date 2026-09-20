@@ -43,12 +43,12 @@ class ShippedLedgerTests(unittest.TestCase):
     def test_shipped_ledger_is_valid(self):
         report = run(*ledger())
         self.assertEqual(report["status"], "pass", report["errors"] + report["warnings"])
-        self.assertEqual(report["counts"], {"sources": 47, "claims": 62})
+        self.assertEqual(report["counts"], {"sources": 47, "claims": 65})
 
     def test_migration_retains_every_id(self):
         sources, claims = ledger()
         self.assertEqual([s["id"] for s in sources], [f"S{n:02d}" for n in range(1, 48)])
-        self.assertEqual(sorted(c["id"] for c in claims), [f"C{n:02d}" for n in range(1, 63)])
+        self.assertEqual(sorted(c["id"] for c in claims), [f"C{n:02d}" for n in range(1, 66)])
 
     def test_migration_retains_scope_and_limitation_text(self):
         _, claims = ledger()
