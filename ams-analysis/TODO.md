@@ -16,14 +16,14 @@ Ground rules that still apply: standard library only for scripts; every AMS-spec
 
 - [ ] Independent grading covers only nine prompts (T05, T08, T24, T29-T34; T05, T08, T24, T29, T32 twice); the other 25 tests were self-graded, and the independent grader was stricter than the self-grades. Round 2 passed all five re-graded prompts but exactly at the 90% bar with source discipline at 1. Regenerate answers to files, grade with a different model that holds the rubric, verify every quoted claim ID against `data/claims.json`, and use more than one sample per prompt.
 - [ ] Take more than one sample per prompt for the prompts that failed or were borderline (T05, T08, T24, T29, T32, T33).
-- [ ] The dominant failure pattern (still present at the round-2 pass) is claim-ID precision and scope: a correct fact with the wrong or over-broad claim, or a claim widened to sibling papers. The grouped bracket citations in `antimatter-and-leptons` and `charged-cosmic-rays` were split per paper as a root-cause fix; check whether other references (`nuclei-and-isotopes`, `detector-and-observables`, `inference-and-unfolding`) group citations the same way. 
-- [ ] T33 missed the publication-date versus data-taking-period distinction; T30 covered only the inefficiency reading of a 0.85 column sum (the out-of-range feed-in reading is also legitimate); check whether `inference-and-unfolding` states the second reading clearly.
+- [ ] The dominant failure pattern (still present at the round-2 pass) is claim-ID precision and scope: a correct fact with the wrong or over-broad claim, or a claim widened to sibling papers. The grouped bracket citations in `antimatter-and-leptons` and `charged-cosmic-rays` were split per paper as a root-cause fix; checked `nuclei-and-isotopes`, `detector-and-observables`, `inference-and-unfolding`: no grouped bracket citations remain (only `time-dependent-analysis` cites ranges, per clause with IDs). Done.
+- [x] T33 date distinction now explicit in `source-policy` step 2; T30 second reading (column sum below one may be migration outside the tabulated range) added to `inference-and-unfolding`. Not yet re-graded: needs a fresh independent sample.
 - [ ] T23 (ACC) was over-long once; re-check after the short-answer rule.
 
 ## 2. Close the remaining evidence gaps
 
-- [ ] Supplemental Material text of S41, S42, S44 and S47, and the supplemental data tables of all of them (not read).
-- [ ] Phys. Rept. review (S01), S02, S03, S07, S11, S16, S20 (metadata-only or abstract-only rows): upgrade `verification_level` only after reading.
+- [x] Supplemental Material text of S41, S42, S44 and S47 read; claims C54-C58 added (S41 and S42 supplements are figures and tables with captions only). Still open: the supplemental data tables themselves are not transcribed or checked, and correlation across days/rotations and trial-factor correction remain undocumented.
+- [ ] S07 and S11 read at main-article level (2026-09-21, open-access PDFs; claims C59-C62). Still open: Phys. Rept. review (S01), S02 and S03 (APS returned 401 on 2026-09-21, not open access; no arXiv version, so they stay abstract-level or metadata-only unless a human supplies the PDFs), S16, S20 (grouped rows; their individual papers S41-S47 are already split out): upgrade `verification_level` only after reading.
 - [ ] Decide the S05 inconsistency noted in `VALIDATION.md` (old bullet said metadata-only, table said full-text).
 - [ ] Have a human physicist review the ledger judgement calls listed in `VALIDATION.md` (claim strengths, `support_kind`, `numeric_quotation_allowed`, tier ranges, supersession S02/S03).
 

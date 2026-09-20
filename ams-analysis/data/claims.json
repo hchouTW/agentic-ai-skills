@@ -1435,5 +1435,257 @@
     "verification_strength": "full-text",
     "numeric_quotation_allowed": false,
     "last_reviewed": "2026-09-20"
+  },
+  {
+    "id": "C54",
+    "claim": "Daily helium analysis, selection and cutoff: the daily collection time counts only seconds in normal operating conditions, AMS pointing within 40 degrees of the local zenith and the ISS outside the South Atlantic Anomaly, and is (4.5-7.5)x10^3 s at 2 GV rising to (6.7-7.3)x10^4 s out of 8.64x10^4 s per day above 30 GV; tracks need only pass through L1 and the inner tracker (not L9), which gives a selection efficiency of about 20% and a five-fold increase in helium statistics relative to the earlier analysis; the local geomagnetic cutoff is computed from AMS data and raised by 10% as a systematic test, giving a negligible (<0.4%) flux effect; the proton contamination of the helium sample is below 0.01% and helium from interactions of heavier nuclei at the top of AMS below 0.1%, both subtracted; the per-day trigger efficiency is above 81%; 7.6x10^8 helium nuclei are selected",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S44"
+    ],
+    "location": "Supplemental Material, Detector and Event Selection",
+    "scope": {
+      "text": "helium; daily flux; 2011-05-20 to 2019-10-29",
+      "species": [
+        "helium"
+      ],
+      "range": "rigidity bins from 1.71 GV (upper edge not read from the SM text)",
+      "data_period": "2011-05-20 to 2019-10-29",
+      "analysis": "daily helium flux selection, collection time, cutoff and backgrounds"
+    },
+    "limitations": "Supplemental Material text only. The pointing angle (40 degrees), the data-derived cutoff and the L1-only track requirement are choices of this analysis; the Bartels-rotation nuclei analysis (C56) uses a different pointing angle and cutoff rule, so none of these is a universal AMS rule.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-21"
+  },
+  {
+    "id": "C55",
+    "claim": "Daily helium analysis, wavelet and hysteresis procedures: same construction as the proton case (Morlet wavelet, variance-normalized power, 95% confidence level from lag-1 autoregressive Monte Carlo background, cross wavelet transform used against interplanetary field, solar wind speed and proton density series); the hysteresis significance compares two intervals of equal helium flux with the most significant difference in the helium-to-proton ratio (5.5 sigma for the 1.71-1.92 GV bin from intervals in 2012 and 2015), repeats it over the remaining non-overlapping intervals (1.6 sigma, 2013 and 2014), and combines them (5.9 sigma in that bin; above 7 sigma combined below 2.4 GV); the 2017 dip in the helium flux is described as most likely related to the burst of solar activity from July 2017",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S44"
+    ],
+    "location": "Supplemental Material, Wavelet Analysis, Interplanetary Space Environment, Hysteresis Analysis, Dip in 2017",
+    "scope": {
+      "text": "helium and proton; 1.71-2.4 GV for the quoted significances; periodicity and hysteresis",
+      "species": [
+        "helium",
+        "proton"
+      ],
+      "range": "1.71-1.92 GV bin for the single-bin significances; combined significance above 7 sigma below 2.4 GV",
+      "data_period": "2011-05-20 to 2019-10-29",
+      "analysis": "wavelet significance and hysteresis of daily helium flux"
+    },
+    "limitations": "Supplemental Material text only. The interval pair with the largest difference is selected and no trial-factor correction for that selection is described in the extracted text, which does not prove none was applied; the 2017 attribution is stated as 'most likely', not established.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-21"
+  },
+  {
+    "id": "C56",
+    "claim": "Bartels-rotation nuclei analysis (He, Li, Be, B, C, N, O), selection and trigger: the collection time counts only seconds in normal operating conditions with AMS pointing within 30 degrees (not the 40 degrees of the daily analyses) and the ISS outside the South Atlantic Anomaly, averaging 9.6x10^4 s at 2 GV, 3.3x10^5 s at 5 GV, 7.3x10^5 s at 10 GV, 1.1x10^6 s at 20 GV and 1.6x10^6 s above 30 GV per rotation; events need a downward-going inner-tracker track through L1 with chi^2/d.o.f. < 10 in the bending plane; the measured rigidity must exceed 1.2 times the maximum geomagnetic cutoff in the field of view, computed by backtracing to 50 Earth radii with the IGRF model; the trigger efficiency is above 81% for He and above 98% for Li, Be, B, C, N, O, with Monte Carlo agreeing within 0.5%; 2.12x10^11 events were collected from May 2011 to November 2022",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S47"
+    ],
+    "location": "Supplemental Material, Detector and Event Selection",
+    "scope": {
+      "text": "He, Li, Be, B, C, N, O; Bartels-rotation fluxes; 2011-05 to 2022-11",
+      "species": [
+        "helium",
+        "lithium",
+        "beryllium",
+        "boron",
+        "carbon",
+        "nitrogen",
+        "oxygen"
+      ],
+      "range": "from about 2 GV (see main article for the upper edge)",
+      "data_period": "2011-05 to 2022-11",
+      "analysis": "Bartels-rotation nuclei flux selection, collection time and trigger"
+    },
+    "limitations": "Supplemental Material text only. Uses a fixed-safety-factor cutoff (1.2 x IGRF), unlike the data-derived cutoff of C54 and C51; the 30-degree pointing differs from the 40 degrees of C51 and C54. Compare, do not merge.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-21"
+  },
+  {
+    "id": "C57",
+    "claim": "Table conventions in the Bartels-rotation proton and helium supplement: each rotation table gives statistical, time-dependent systematic (trigger and reconstruction efficiency) and total systematic errors; the total systematic error combines, in quadrature, acceptance, background contamination, geomagnetic cutoff factor, event selection, unfolding, rigidity resolution function, absolute rigidity scale and the time-dependent terms; for the p/He ratio the statistical and time-dependent errors are the quadrature sums of the relative errors of the two fluxes times the ratio, the acceptance errors are added in quadrature, and the correlations of the unfolding and absolute rigidity scale errors between the two fluxes are accounted for in the ratio's systematic error",
+    "claim_types": [
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S41"
+    ],
+    "location": "Supplemental Material, table captions (Bartels rotations 2426-2506)",
+    "scope": {
+      "text": "proton, helium, p/He ratio; Bartels rotations 2426-2506",
+      "species": [
+        "proton",
+        "helium"
+      ],
+      "range": "tabulated rigidity bins from 1.00 GV",
+      "data_period": "2011-05 to 2017-05",
+      "analysis": "error composition and ratio error propagation"
+    },
+    "limitations": "Supplemental Material table captions only; tabulated values not transcribed. These are the conventions of this analysis, not a general rule for ratios (see the ratio-nuisance classification in the efficiency and inference references).",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": false,
+    "last_reviewed": "2026-09-21"
+  },
+  {
+    "id": "C58",
+    "claim": "Time-averaged electron and positron supplement table: fluxes and the ratio Re are tabulated in energy (from 0.50-0.65 GeV) with statistical and total systematic uncertainties, the total being the quadratic sum of the individual systematic uncertainties; the small differences between the ratio of the two fluxes and Re are stated to come from independent optimizations of the flux and the ratio analyses",
+    "claim_types": [
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S42"
+    ],
+    "location": "Supplemental Material, Table SM I caption",
+    "scope": {
+      "text": "electron and positron; time-averaged May 20 2011 to May 11 2017; energy bins from 0.50 GeV",
+      "species": [
+        "electron",
+        "positron"
+      ],
+      "range": "from 0.50 GeV",
+      "data_period": "2011-05-20 to 2017-05-11",
+      "analysis": "time-averaged flux and ratio table conventions"
+    },
+    "limitations": "Supplemental Material table caption only; tabulated values not transcribed. It shows that a flux ratio and a directly optimized ratio need not be identical, not that either is preferred.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": false,
+    "last_reviewed": "2026-09-21"
+  },
+  {
+    "id": "C59",
+    "claim": "Helium flux selection and backgrounds (first 30 months): collection time counts only seconds in normal operating conditions with AMS within 40 degrees of the local zenith, data-acquisition live time above 50% and the ISS outside the South Atlantic Anomaly (constant at 6.29x10^7 s above 30 GV); downward-going events with an inner-tracker track of charge compatible with Z=2 (1.7 < Z < 2.5) give 1.7x10^9 events; the track must pass L1 to L9 with chi^2/d.o.f. < 10 in the bending coordinate, and the charge measured by L1, upper TOF, lower TOF and L9 must be compatible with Z=2 to remove interacting candidates; the rigidity must exceed 1.2 times the maximum geomagnetic cutoff in the field of view (IGRF backtracing to 50 Earth radii), leaving 5.0x10^7 events; the proton contamination is below 10^-4 and helium produced by heavier nuclei interacting at the top of AMS below 10^-3, both subtracted with their uncertainties in the systematic errors; the flux is N/(A eps T dR) in 68 bins, with a trigger efficiency of 95-99.5% (Monte Carlo agrees within 0.5%) and a migration correction of +15% at 2 GV, +5% at 3 GV, -5% at 300 GV and -19% at 3 TV",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S07"
+    ],
+    "location": "Selection and Analysis sections",
+    "scope": {
+      "text": "helium; 1.9 GV-3 TV; first 30 months",
+      "species": [
+        "helium"
+      ],
+      "range": "1.9 GV-3 TV",
+      "data_period": "first 30 months from 2011-05",
+      "analysis": "time-integrated helium flux"
+    },
+    "limitations": "Main article only; choices of this analysis. It requires tracks through L1 and L9, unlike the L1-only daily helium selection (C54) and the 30-degree Bartels-rotation nuclei selection (C56).",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-21"
+  },
+  {
+    "id": "C60",
+    "claim": "Helium flux systematic-error ledger (first 30 months): trigger efficiency (below 0.2% under 100 GV, 1% at 3 TV, limited by the 1% prescaled sample); geomagnetic cutoff factor varied from 1.0 to 1.4 (below 0.1%); acceptance from Monte Carlo corrected for data/MC differences (below 2% total correction; systematic below 1% under 200 GV, 1.4% at 3 TV); helium inelastic interaction with detector material, measured with a survival-probability method using a horizontal-pointing sample and Glauber-Gribov cross sections scaled by 1.05-1.20 (1% under 100 GV, 2% at 3 TV); 3He/4He composition (0.3%, varying the ratio from 0 to 0.2); rigidity resolution function, varying the Gaussian core by 5% and the non-Gaussian tail amplitude by 10% (below 1% under 400 GV, 3.5% at 3 TV); difference between two unfolding procedures (0.25% at 2 GV, below 0.1% from 2.5 to 200 GV, 0.4% at 3 TV); rigidity scale from tracker misalignment and the field map (below 0.6% to 100 GV, 6% at 3 TV); bin widths changed by factors of 2 and 4 gave an uncertainty within the assigned errors",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S07"
+    ],
+    "location": "Analysis section",
+    "scope": {
+      "text": "helium; 1.9 GV-3 TV; first 30 months",
+      "species": [
+        "helium"
+      ],
+      "range": "1.9 GV-3 TV",
+      "data_period": "first 30 months from 2011-05",
+      "analysis": "time-integrated helium flux"
+    },
+    "limitations": "Main article only; numbers are those of this helium analysis and must not be applied to other species or periods.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-21"
+  },
+  {
+    "id": "C61",
+    "claim": "Helium rigidity resolution and its verification (first 30 months): the resolution function has a Gaussian core with width sigma/(1/R) = 9% at 10 GV, 14% at 100 GV, 20% at 400 GV and 64% at 2 TV, and non-Gaussian tails beyond 2.5 sigma of 3% at 10 GV, 6% at 100 GV, 11% at 400 GV and 8% at 2 TV; it comes from simulation and was checked with data in four ways (layer coordinate residuals against the fit from the other layers, L1/L9 residuals against the inner-tracker fit, comparison of rigidities from L1-L8 and L2-L9, and a RICH-velocity-based resolution up to 20 GV), giving a maximum detectable rigidity of 3.2 +- 0.16 TV and a 10% uncertainty on the tail amplitude",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S07"
+    ],
+    "location": "Analysis section",
+    "scope": {
+      "text": "helium; 1.9 GV-3 TV; first 30 months",
+      "species": [
+        "helium"
+      ],
+      "range": "1.9 GV-3 TV",
+      "data_period": "first 30 months from 2011-05",
+      "analysis": "helium rigidity resolution function"
+    },
+    "limitations": "Main article only; helium-specific and time-period-specific. Illustrates why tails need an independent check and why the core width alone is not the validation.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-21"
+  },
+  {
+    "id": "C62",
+    "claim": "Helium, carbon and oxygen flux paper (first five years): the same selection as the helium paper with 40-degree pointing, 8.5x10^10 events collected and a collection time constant at 1.23x10^8 s above 30 GV; 90x10^6 helium events with purity above 99.9%; 67 rigidity bins from 2.2 GV to 3.0 TV with identical bin widths for all nuclei; unfolding done independently for He, C and O (corrections +14% at 3 GV, +6% at 5 GV, -4% at 150 GV and -6% at 3 TV for carbon); systematic terms are background, trigger (below 0.7%), cutoff factor varied 1.0-1.4 (below 0.1% under 30 GV), acceptance (reconstruction and selection below 1%), inelastic cross sections (below 2.2% for C and 2.7% for O to 100 GV, 3% and 3.5% at 3 TV), resolution function (below 1% under 300 GV, 4% at 3 TV, core varied by 5% and tails by 10%) and absolute rigidity scale; maximum detectable rigidity 3.2 TV for He, 3.7 TV for C and 3.4 TV for O with 5% uncertainty",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S11"
+    ],
+    "location": "Event selection, Analysis and Results sections",
+    "scope": {
+      "text": "He, C, O; 2.2 GV-3 TV; first five years",
+      "species": [
+        "helium",
+        "carbon",
+        "oxygen"
+      ],
+      "range": "2.2 GV-3.0 TV",
+      "data_period": "first five years from 2011-05",
+      "analysis": "He, C, O flux selection and systematics"
+    },
+    "limitations": "Main article only; supplemental tables not read. The abstract-level result (identical rigidity dependence above 60 GV, hardening above 200 GV) is stated in the abstract, not here.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-21"
   }
 ]
