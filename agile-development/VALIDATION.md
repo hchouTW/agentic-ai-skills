@@ -739,6 +739,16 @@ for that caveat). Re-ran `python3 scripts/validate_skill_bundle.py` ("Bundle OK"
 and `python3 -m unittest discover -s tests -v` (32 tests, all passing) to
 confirm this skill's own bundle is unaffected.
 
+## Edge-case probe of the helper scripts (2026-09-21)
+
+Probed `validate_agile_notes.py` and `create_story_card.py` with CRLF, BOM, closing-`#` headings, duplicate/empty
+files, fenced code, unicode headings and empty arguments. Defects found and fixed: a leading BOM hid the first
+heading; `## Story ##` did not match `story`; headings inside fenced code blocks counted as present; the placeholder
+verification `Works!` passed; `create_story_card.py` accepted empty actor/capability/criteria. Nine regression tests
+were added (`EdgeCaseRegressionTests`); the suite is now 41 tests, all passing, and the bundle validator still
+reports 48 files. Not fixed by design: setext (underlined) headings and non-English headings are not recognised.
+Also added `tests/prompts.md` (15 behavior prompts, not yet run on a fresh model).
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

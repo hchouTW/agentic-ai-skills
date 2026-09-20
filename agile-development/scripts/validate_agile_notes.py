@@ -39,13 +39,29 @@ def normalize_heading(line: str) -> str | None:
     match = re.match(r"^\s{0,3}#{1,6}\s+(.+?)\s*$", line)
     if not match:
         return None
-    heading = match.group(1).strip().lower()
-    return re.sub(r"\s+", " ", heading)
+    heading = re.sub(r"\s+#+$", "", match.group(1).strip())  # optional closing ###
+    return re.sub(r"\s+", " ", heading.strip().lower())
+
+
+def strip_fenced_code(text: str) -> list[str]:
+    """Lines outside ``` / ~~~ fenced blocks, so example headings in code don't count."""
+    kept, fence = [], None
+    for line in text.splitlines():
+        marker = re.match(r"^\s{0,3}(`{3,}|~{3,})", line)
+        if marker:
+            if fence is None:
+                fence = marker.group(1)[0]
+            elif marker.group(1)[0] == fence:
+                fence = None
+            continue
+        if fence is None:
+            kept.append(line)
+    return kept
 
 
 def check_file(path: Path, required: list[str]) -> tuple[list[str], list[str]]:
-    text = path.read_text(encoding="utf-8")
-    headings = {heading for line in text.splitlines() if (heading := normalize_heading(line))}
+    text = path.read_text(encoding="utf-8-sig")  # utf-8-sig drops a leading BOM
+    headings = {heading for line in strip_fenced_code(text) if (heading := normalize_heading(line))}
     missing = [section for section in required if section.lower() not in headings]
     return sorted(headings), missing
 
@@ -72,7 +88,7 @@ def find_plan_steps(text: str) -> list[tuple[int, str, str | None]]:
 
 def is_weak_verification(verification: str) -> bool:
     """True when a verification asserts nothing anyone could repeat."""
-    stripped = verification.strip().strip(".").strip().lower()
+    stripped = verification.strip().strip(".!").strip().lower()
     return stripped in WEAK_VERIFICATIONS
 
 
@@ -125,7 +141,7 @@ def main() -> int:
     try:
         headings, missing = check_file(args.file, required)
         plan_problems = (
-            check_plan_verification(args.file.read_text(encoding="utf-8"))
+            check_plan_verification(args.file.read_text(encoding="utf-8-sig"))
             if args.require_plan_verification else []
         )
     except FileNotFoundError:

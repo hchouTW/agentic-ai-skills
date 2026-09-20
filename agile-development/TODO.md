@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (agile-development)
 
-State at 2026-09-21: skill is on `main`; `python3 -m unittest discover -s tests` (32 tests) and
+State at 2026-09-21: skill is on `main`; `python3 -m unittest discover -s tests` (41 tests) and
 `python3 scripts/validate_skill_bundle.py` (48 files) pass. Existing verification (see `VALIDATION.md`) is structural:
 helper-script unit tests, cross-link/consistency audits, and example-format checks. The workflow guidance in
 `SKILL.md` and `references/` has never been run on a fresh model to see if it changes behavior. Read `VALIDATION.md`
@@ -16,7 +16,7 @@ Note: `tests/` and `scripts/` contain stale `__pycache__` .pyc files for modules
 git-ignored; do not treat them as live code.
 
 ## P1 - test that the skill changes model behavior (never done)
-- [ ] Write 12-15 realistic prompts in `tests/prompts.md`, each with expected behaviors and the reference it should
+- [x] (2026-09-21: 15 prompts written in `tests/prompts.md`; the trigger-test query lists there still need writing out to 20+20) Write 12-15 realistic prompts in `tests/prompts.md`, each with expected behaviors and the reference it should
       load. Cover: (a) bug fix with a vague report (should reproduce first, smallest fix); (b) ambiguous feature
       request where a wrong guess is expensive (should ask); (c) ambiguous but cheap-to-reverse request (should state
       an assumption and proceed, not ask); (d) DB migration / published API change (risk section, rollback);
@@ -35,7 +35,7 @@ git-ignored; do not treat them as live code.
       task document). Run `skill-router`'s validator and tests after any description change.
 
 ## P2 - close verification gaps in helpers and guidance
-- [ ] Test `scripts/create_story_card.py` and `scripts/validate_agile_notes.py` on messy input: empty strings, unicode,
+- [x] (2026-09-21: found and fixed BOM, closing-`##`, fenced-code, `Works!` and empty-field defects; 9 regression tests added, 41 tests total. Setext headings remain unsupported by design.) Test `scripts/create_story_card.py` and `scripts/validate_agile_notes.py` on messy input: empty strings, unicode,
       very long criteria, CRLF files, headings with trailing `#`, missing/duplicate sections. Add regression tests for
       each defect found. Check that generated cards pass the validator (round trip).
 - [ ] Review the three language design guides (`references/cpp-`, `python-`, `bash-balanced-design-guidelines.md`,
