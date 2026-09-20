@@ -45,6 +45,7 @@ REFERENCES = [
     "tests-and-examples",
     "analysis-artifacts",
     "time-dependent-analysis",
+    "statistical-diagnostics",
 ]
 SCRIPT_TESTS = {  # script -> the test module that must exist for it
     "ams_kinematics": "test_kinematics",
@@ -53,6 +54,7 @@ SCRIPT_TESTS = {  # script -> the test module that must exist for it
     "validate_evidence_ledger": "test_evidence_ledger",
     "render_source_index": "test_evidence_ledger",
     "audit_analysis_spec": "test_analysis_spec",
+    "poisson_diagnostics": "test_poisson",
     "validate_skill_bundle": "test_bundle",
 }
 MAX_SKILL_LINES = 120

@@ -4,7 +4,7 @@ Validation date: 2026-09-20. Environment: Python 3 standard library only.
 
 ## Files
 
-`SKILL.md`; `README.md`; `agents/openai.yaml`; `data/sources.json`; `data/claims.json`; seven scripts (`validate_skill_bundle.py`, `ams_kinematics.py`, `validate_covariance.py`, `validate_response.py`, `validate_evidence_ledger.py`, `render_source_index.py`, `audit_analysis_spec.py`); six test modules with `tests/fixtures/` (`test_bundle.py`, `test_kinematics.py`, `test_covariance.py`, `test_response.py`, `test_evidence_ledger.py`, `test_analysis_spec.py`); and thirteen references (the eleven below plus `analysis-artifacts` and `time-dependent-analysis`): `detector-and-observables`, `reconstruction-and-data-quality`, `charged-cosmic-rays`, `antimatter-and-leptons`, `nuclei-and-isotopes`, `efficiency-acceptance-backgrounds`, `inference-and-unfolding`, `calibration-mc-systematics`, `source-policy`, `source-index` (the source index and claim ledger, split from `source-policy`), and `tests-and-examples`. No assets.
+`SKILL.md`; `README.md`; `agents/openai.yaml`; `data/sources.json`; `data/claims.json`; eight scripts (`poisson_diagnostics.py`, `validate_skill_bundle.py`, `ams_kinematics.py`, `validate_covariance.py`, `validate_response.py`, `validate_evidence_ledger.py`, `render_source_index.py`, `audit_analysis_spec.py`); seven test modules with `tests/fixtures/` (`test_poisson.py`, `test_bundle.py`, `test_kinematics.py`, `test_covariance.py`, `test_response.py`, `test_evidence_ledger.py`, `test_analysis_spec.py`); and fourteen references (the eleven below plus `analysis-artifacts`, `time-dependent-analysis` and `statistical-diagnostics`): `detector-and-observables`, `reconstruction-and-data-quality`, `charged-cosmic-rays`, `antimatter-and-leptons`, `nuclei-and-isotopes`, `efficiency-acceptance-backgrounds`, `inference-and-unfolding`, `calibration-mc-systematics`, `source-policy`, `source-index` (the source index and claim ledger, split from `source-policy`), and `tests-and-examples`. No assets.
 
 ## Structural checks
 
@@ -54,8 +54,8 @@ Run on 2026-09-20 from the skill directory, Python 3 standard library only. Base
 
 | Command | Result |
 |---|---|
-| `python3 scripts/validate_skill_bundle.py` | `Bundle OK: 35 required files present, links and anchors resolve.` (exit 0) |
-| `python3 -m unittest discover -s tests` | 224 tests, OK (bundle 18, kinematics 25, covariance 30, response 35, evidence ledger and renderer 38, analysis specification 78) |
+| `python3 scripts/validate_skill_bundle.py` | `Bundle OK: 38 required files present, links and anchors resolve.` (exit 0, after the optional statistics phase was added; 35 before it) |
+| `python3 -m unittest discover -s tests` | 238 tests, OK (bundle 18, kinematics 25, covariance 30, response 35, evidence ledger and renderer 38, analysis specification 78, Poisson diagnostics 14; 224 before the optional statistics phase) |
 | `python3 scripts/validate_evidence_ledger.py --today 2026-09-20` | status pass; 47 sources, 50 claims (after the later S41-S47 / C36-C50 additions; the migration itself was 40 and 35); no errors, no warnings; 11 notes, all of the kind "no claim cites this source" (S03, S07, S11, S18, S19, S20, S21, S23, S27, S38, S40), no stale dates as of 2026-09-20 |
 | `python3 scripts/render_source_index.py` | `source-index.md is in sync with data/*.json` (exit 0) |
 | `python3 scripts/audit_analysis_spec.py tests/fixtures/spec_valid.json` | verdict `acceptable with open inputs` (0 errors, 0 warnings, 1 proposal, 2 unresolved) |
@@ -86,7 +86,9 @@ All 28 original tests and the six new ones (T31 and T32 twice) have now been re-
 
 Not done: independent (rubric-blind, different-model) grading and repeated samples per prompt; the T29 and T32 wording fixes were not re-run.
 
-Not implemented: the optional network refresh of the ledger, and the optional statistical-validation phase (Poisson intervals, toy coverage, unfolding scans). Neither is needed by the routed decisions today.
+Optional statistics phase, implemented in a deliberately narrow form: `scripts/poisson_diagnostics.py` (exact Poisson upper limit for a known background, Garwood interval, seeded coverage; 14 tests against known values, e.g. the zero-count bound -ln 0.05, n=0 and n=1 intervals, and reproducible coverage) with `references/statistical-diagnostics.md`. Its output, a classical limit with a warning when it is unphysical, is not a Feldman-Cousins or CLs construction. No behavioral evaluation was run for it.
+
+Not implemented: the optional network refresh of the ledger, and the rest of the statistical-validation phase (profile-likelihood boundary behavior, Feldman-Cousins and CLs, finite-template effects, unfolding closure/pull/prior/regularization scans, forward-fold versus unfolding comparison, correlated ratio toys), listed in `statistical-diagnostics` as deliberately left out.
 
 ### Ledger migration: differences requiring human review
 

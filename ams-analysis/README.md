@@ -29,6 +29,7 @@ python3 scripts/ams_kinematics.py convert --from rigidity --to kinetic_energy_pe
 python3 scripts/validate_covariance.py tests/fixtures/cov_valid.json
 python3 scripts/validate_response.py tests/fixtures/response_valid.json
 python3 scripts/audit_analysis_spec.py tests/fixtures/spec_valid.json --markdown
+python3 scripts/poisson_diagnostics.py upper-limit --n 0 --b 0 --cl 0.95
 python3 scripts/validate_evidence_ledger.py
 python3 scripts/render_source_index.py          # add --write after editing data/*.json
 ```
@@ -53,6 +54,7 @@ Does not cover: generic HEP or generic statistics questions with no AMS tie (use
 | [calibration-mc-systematics](references/calibration-mc-systematics.md) | calibration, MC, systematic ledger |
 | [analysis-artifacts](references/analysis-artifacts.md) | analysis specification, ledgers, response card, review report, checker scripts |
 | [time-dependent-analysis](references/time-dependent-analysis.md) | temporal flux, solar modulation, periodicity, joint fits across periods |
+| [statistical-diagnostics](references/statistical-diagnostics.md) | exact Poisson limits and intervals, seeded coverage |
 | [source-policy](references/source-policy.md) / [source-index](references/source-index.md) | source rules and ledger |
 | [tests-and-examples](references/tests-and-examples.md) | worked examples and rubric tests |
 
