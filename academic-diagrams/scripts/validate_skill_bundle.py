@@ -32,6 +32,7 @@ REQUIRED_PATHS = [
     "references/tikz-patterns.md",
     "references/plantuml-patterns.md",
     "references/figure-captions.md",
+    "references/legends-panels-and-export.md",
     "templates/research-workflow.md",
     "templates/algorithm-flowchart.md",
     "templates/system-architecture.md",

@@ -41,6 +41,12 @@ outgoing edge, clipped footnote), both fixed. The Bayesian-model DOT was rendere
 sits close to an edge). `general/05` was drawn from files actually read in this repository.
 TikZ in `hep/08` and both PlantUML examples were **not** compiled (no TeX, and `java` is only a stub here).
 
+## P3/P4 additions (2026-09-21, follow-up)
+
+`references/legends-panels-and-export.md` (its Mermaid and DOT legend snippets pass the checker; export commands for
+Graphviz, `rsvg-convert`, and `mmdc` were run; TikZ/Beamer/`dvisvgm` snippets were not compiled). Cross-links added in
+`academic-papers/references/figures-and-tables.md` and `hep-analysis/SKILL.md`; those skills' validators and tests pass.
+
 ## Not verified
 
 - TikZ / tikz-feynman snippets (including `hep/08`) and all PlantUML sources were not compiled (no LaTeX installation); the hierarchical-model

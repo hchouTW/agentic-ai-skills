@@ -118,6 +118,8 @@ Domain checklists: [HEP](references/high-energy-physics.md),
   [plantuml-patterns.md](references/plantuml-patterns.md),
   [tikz-patterns.md](references/tikz-patterns.md); SVG spec -> `templates/svg-spec.md`
 - Captions and in-text references -> [figure-captions.md](references/figure-captions.md)
+- Legends, multi-panel figures, posters/theses, Beamer overlays, equation placement, symbol table, export
+  (SVG/PDF/PNG) -> [legends-panels-and-export.md](references/legends-panels-and-export.md)
 - Starting skeletons -> `templates/` (research-workflow, algorithm-flowchart,
   system-architecture, hep-analysis-pipeline, probabilistic-graphical-model,
   agentic-ai-architecture, ml-pipeline, bayesian-model, svg-spec)

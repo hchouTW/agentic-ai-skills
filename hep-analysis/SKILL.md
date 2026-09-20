@@ -64,6 +64,7 @@ Don't mix more APIs than needed in one script; if mixing, keep boundaries clear 
 | Classifiers, leakage, mass sculpting | [Machine learning](references/11-ml-analysis.md) |
 | Debugging, verification, preservation, review | [Validation](references/12-validation.md) |
 | Versions and methodological sources | [Primary sources](references/13-sources.md) |
+| Drawing an analysis-pipeline, Monte Carlo chain, region/likelihood workflow, detector schematic, or decay-tree figure (structural diagram, not a data plot) | the `academic-diagrams` skill, when installed |
 | C++/ROOT/RDataFrame code patterns, TTreeReader, naming/comments/file-documentation, general C++ class/struct/RAII/ownership/inheritance design, TObject inheritance, class dictionaries, directory-based ownership, branch-buffer structs, build commands | [C++, ROOT, and balanced design guidelines](references/14-root-balanced-design-guidelines.md) |
 | CMake and root-config builds, project scaffolding | [Build setup](references/15-cmake-and-build.md) |
 | Debugging ROOT/PyROOT/C++ (missing symbols, dictionaries, fits) | [Debugging ROOT](references/16-debugging-root.md) |
