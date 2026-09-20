@@ -20,7 +20,7 @@ digraph model {
     alpha [shape=plaintext, label=<&alpha;>];
     theta [label=<&theta;>];
     subgraph cluster_N {
-        label="i = 1..N"; labeljust=r;
+        label="i = 1..N"; labeljust=r; labelloc=b;
         z [label=<z<sub>i</sub>>];
         x [label=<x<sub>i</sub>>, style=filled, fillcolor="#dddddd"];
     }

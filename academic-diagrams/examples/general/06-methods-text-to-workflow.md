@@ -35,10 +35,11 @@ flowchart TB
     D -- yes --> X([Epoch rejected])
     D -- no --> E[Feature extraction]
     E --> F["Classifier training<br/>5-fold cross-validation"]
-    F <-.->|"hyperparameter tuning<br/>(training folds only)"| F
+    F --> TU["Hyperparameter tuning<br/>(training folds only)"]
+    TU --> F
     F --> G["Final model<br/>(refit on all training data?)"]:::assumed
-    T[(Held-out test set<br/>separate session)] --> H[Evaluation]
-    G --> H
+    G --> H[Evaluation]
+    T[(Held-out test set<br/>separate session)] --> H
     classDef assumed stroke-dasharray: 5 3;
 ```
 

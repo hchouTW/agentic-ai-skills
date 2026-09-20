@@ -7,7 +7,8 @@
 | observed random variable | shaded circle |
 | latent random variable | unshaded circle |
 | parameter (fixed unknown, or point estimate) | bare symbol / small square |
-| hyperparameter | bare symbol, usually with a fixed-value marker |
+| hyperparameter **with a prior** (full Bayes) | a random variable: unshaded circle, outside the data plates, with its own prior stated |
+| hyperparameter **set to a fixed value**, or a known constant | bare symbol, with the value or "fixed" marked |
 | deterministic node | double circle or diamond |
 | stochastic node | single circle |
 | plate | rectangle around repeated variables, with index range (`N`) in the corner |
@@ -98,3 +99,10 @@ carry joint probabilities (product along the path); Bayesian updating = reversin
 
 For statistical *analysis*/code (fits, limits, unfolding) see `hep-analysis` and `deep-learning`
 (calibration); this reference only covers the diagram semantics.
+
+## Identification claims on causal DAGs
+
+Do not add adjustment or identification statements (backdoor, front-door, "control for X") unless the user asks. If you do,
+derive them from the graph: list the paths, mark which are open, say which nodes are colliders or mediators, and note that an
+unmeasured confounder cannot be adjusted for. Do not write sentences that conflate the effect being identified ("the effect of S
+on T->C"). When unsure, state only what the graph encodes (edges present and absent) and leave the estimation strategy out.
