@@ -1209,3 +1209,14 @@ In an environment with ROOT/PyROOT and skill-creator, additionally run the
 ROOT-dependent scripts against a real file and `quick_validate.py`. In the target
 analysis environment, perform the relevant physical and statistical checks described
 in references/12-validation.md.
+
+## AMS-02 case study slimmed (2026-09-20)
+
+`references/38-ams02-case-study.md` was reduced to a role-level overview plus generic
+lessons (no AMS numbers, publication lists, hardware-history dates, or
+primary/secondary species catalogue) and now points to the sibling `ams-analysis`
+skill for AMS-specific work. Reason: the removed specifics were not re-verified in that
+pass and some were likely imprecise, and `ams-analysis` now holds source-traced AMS facts
+in one place. The SKILL.md routing row, README sentence, and the file's links from
+`references/44-...` and the four scripts that cite it remain valid. `validate_skill_bundle.py`
+and the 172 unit tests pass after the change.
