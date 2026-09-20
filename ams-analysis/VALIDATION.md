@@ -97,7 +97,16 @@ All 28 original tests and the six new ones (T31 and T32 twice) have now been re-
 
 Fixes made in response (narrow): one sentence in `statistical-diagnostics` that the classical zero-count limit shrinks with the expected background; in `SKILL.md`, a rule to state every converted value from the script output for that exact input, and a rule to cite the claim ID from its own row and check its scope covers the statement. T29, T24 and T08 were then re-run once, and the author checked only the specific defects the grader found (no second independent grading): T29 now gives p = 6000 GeV/c for 3 TV helium, consistent with T/A = 1499 GeV/n (fixed); T24 now states that the classical zero-count limit is `-ln(1-CL) - b` and not background-independent, after running the script (fixed); T08 now cites C22, but as the range "C22-C26", which still includes the positron and electron claims (only partly fixed).
 
-Not done: repeated samples per prompt, and independent grading of the 19 other tests already re-run (only the nine above were independently graded).
+**Independent grading, round 2 (same grader model; fresh answerers on the fixed prompts T05, T08, T24, T29, T32, after the reference citation fixes).** All five PASS at exactly the 90% bar (9/10 each; source discipline 1, the other four dimensions 2), no blocking failure; suite 45/50 = 90.0%, so it passes with no margin. The grader re-ran the scripts and confirmed the numbers attributed to them (for example 6000 GeV/c and 1499.07 GeV/n for 3 TV helium, and 1.996 for the n=0, b=1 classical limit). The two round-1 failures are no longer reproduced in this one sample. Remaining defects it listed, ranked, all in the answers and not blocking:
+
+1. T24 said "neither species has a peer-reviewed AMS search paper" and then cited the AMS-01 antihelium limit (S22); C14 is the governing claim. Also a source range "S24-S28" mixing tiers.
+2. T32 attached the 100 GeV data/MC template boundary of C24 to the background templates (it belongs to the positron signal template); cited C36, C40, C41 for "the 27-day term is the dominant variation" (not stated); cited C31 and C51 for a "varied" cutoff factor (the variation is C23, C27, C49).
+3. T05 stated the 1.2 x cutoff as general practice without mentioning C51 (the daily proton analysis used a cutoff computed from AMS data).
+4. T29 attached the estimator formula to C31 and C30 (it is in C43, C46, C49) and widened the TRD role beyond C13; its selection ledger was thin. T05 and T08 opened by saying no AMS numbers are quoted and then quoted ledger numbers; T08 labeled an inferred negative [Documented]; T05 did not ask for the track configuration.
+
+The dominant residual pattern is still claim scope and claim-ID precision (source discipline), not physics. One sample per prompt at the threshold is weak evidence: it shows the earlier failures are not reproduced, not that they are gone.
+
+Not done: repeated samples per prompt, and independent grading of the other 25 tests (only nine prompts were independently graded, five of them twice).
 
 Optional statistics phase, implemented in a deliberately narrow form: `scripts/poisson_diagnostics.py` (exact Poisson upper limit for a known background, Garwood interval, seeded coverage; 14 tests against known values, e.g. the zero-count bound -ln 0.05, n=0 and n=1 intervals, and reproducible coverage) with `references/statistical-diagnostics.md`. Its output, a classical limit with a warning when it is unphysical, is not a Feldman-Cousins or CLs construction. No behavioral evaluation was run for it.
 
