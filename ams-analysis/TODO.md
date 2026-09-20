@@ -10,13 +10,13 @@ Ground rules that still apply: standard library only for scripts; every AMS-spec
 - C36-C42 re-checked against the paper abstracts; C39 (energy, 1-50 GeV), C41, C42 corrected.
 - Small defects: claim topic index in `source-index`, short-answer rule in `SKILL.md`, current-date note in `source-policy`, ECAL claim C50.
 - Independent grading (Opus grader, nine prompts) done: 7 pass, 2 fail (T29 blocking, T24); narrow fixes made; T29, T24 re-run and fixed, T08 partly fixed. Details in `VALIDATION.md`.
-- Branch pushed to GitHub; a PR was opened (see the PR list); do not merge without the owner's decision.
+- PR #1 (branch `ams-analysis-executable-checks`) was merged into `main` (merge commit b74b022); the skill is soft-linked at `~/.claude/skills/ams-analysis`.
 
 ## 1. Behavioral follow-up (highest value)
 
 - [ ] Independent grading covers only nine prompts (T05, T08, T24, T29-T34; T05, T08, T24, T29, T32 twice); the other 25 tests were self-graded, and the independent grader was stricter than the self-grades. Round 2 passed all five re-graded prompts but exactly at the 90% bar with source discipline at 1. Regenerate answers to files, grade with a different model that holds the rubric, verify every quoted claim ID against `data/claims.json`, and use more than one sample per prompt.
 - [ ] Take more than one sample per prompt for the prompts that failed or were borderline (T05, T08, T24, T29, T32, T33).
-- [ ] The dominant failure pattern (still present at the round-2 pass) is claim-ID precision and scope: a correct fact with the wrong or over-broad claim, or a claim widened to sibling papers. The grouped bracket citations in `antimatter-and-leptons` and `charged-cosmic-rays` were split per paper as a root-cause fix; check whether other references (`nuclei-and-isotopes`, `detector-and-observables`, `inference-and-unfolding`) group citations the same way. Also check that `antimatter-and-leptons` does not imply there is no AMS antihelium paper at all (S22 is the AMS-01 limit; C14 is the governing claim).
+- [ ] The dominant failure pattern (still present at the round-2 pass) is claim-ID precision and scope: a correct fact with the wrong or over-broad claim, or a claim widened to sibling papers. The grouped bracket citations in `antimatter-and-leptons` and `charged-cosmic-rays` were split per paper as a root-cause fix; check whether other references (`nuclei-and-isotopes`, `detector-and-observables`, `inference-and-unfolding`) group citations the same way. 
 - [ ] T33 missed the publication-date versus data-taking-period distinction; T30 covered only the inefficiency reading of a 0.85 column sum (the out-of-range feed-in reading is also legitimate); check whether `inference-and-unfolding` states the second reading clearly.
 - [ ] T23 (ACC) was over-long once; re-check after the short-answer rule.
 
