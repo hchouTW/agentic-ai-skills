@@ -749,6 +749,41 @@ were added (`EdgeCaseRegressionTests`); the suite is now 41 tests, all passing, 
 reports 48 files. Not fixed by design: setext (underlined) headings and non-English headings are not recognised.
 Also added `tests/prompts.md` (15 behavior prompts, not yet run on a fresh model).
 
+## Fresh-model behavior test, first run (2026-09-21)
+
+Method: the 15 prompts in `tests/prompts.md` were each given to two fresh Sonnet subagents (30 runs), plan-only (no
+repo, no tools to edit; each answers what it would do and say). Skill arm: told to read `SKILL.md` and the references
+it points to. Baseline arm: told not to read this skill's files. Scored by one reviewer (the author of the session)
+against the expectations in `tests/prompts.md`; single run per cell.
+
+Result: with-skill 15/15 pass on the listed expectations (P13 partial); baseline 13/15 pass (P11, P15 fail; P13
+partial). The skill reads the right reference in every run where one applies (bug fix -> playbook; migration ->
+playbook + risk; review -> risk-and-quality; architecture -> software-architecture; estimation and rollout ->
+design-and-estimation; legacy -> playbook + design-and-estimation).
+
+| Prompt | Skill | Baseline | Difference |
+|--------|-------|----------|------------|
+| 1 bug fix, 2 ambiguous export, 4 drop column, 5 dep bump, 6 PR review, 7 incident, 8 legacy code, 9 over-engineering, 10 architecture, 12 flag rollout, 14 "don't run tests" | pass | pass | none that the expectations capture |
+| 3 rename label | pass | pass | skill added a top-of-file-comment step to a one-line label change |
+| 11 SSO estimate | pass (separate OIDC/SAML ranges, time-boxed spike) | fail (one 2-3 week figure, no spike) | skill better |
+| 13 typo | partial | partial | neither collapsed to a one-line fix; both planned grep, re-grep and `git diff`. Skill's final report was short |
+| 15 dedupe script | pass (Purpose/What/Usage header block, no speculative options) | fail (one-line docstring, added `-i`, `--strip`, `--in-place`, `-o`) | skill better |
+
+Findings:
+- The prompts mostly do not separate the skill from a capable baseline. The measurable effects are the Code File
+  Requirement header block, minimal-code discipline, and estimation with a spike.
+- Baseline contamination: the user's global `CLAUDE.md` tells every session to run `skill-router`. In prompts 1-10 the
+  baselines said so and named `agile-development`, and one (P13) looked at the real git branch. So baselines for 1-10 are
+  not clean controls (they knew the skill existed but did not read it). Baselines for 11-15 were told to ignore that
+  rule. Re-run 1-10 with the same instruction before drawing conclusions about them.
+- Side effect to consider: the Code File Requirement is applied even where it adds noise (label rename in P3, a PR review
+  in P6). See the P4 question in `TODO.md`.
+- Every baseline and skill run that was asked not to run tests (P14) said plainly that nothing was verified; both also
+  planned to write tests unasked.
+
+Not verified: this was plan-only text from Sonnet, not executed changes; no Haiku or Opus run; single sample per cell;
+scoring was done by one reviewer, not blind; the trigger test (description) was not run.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

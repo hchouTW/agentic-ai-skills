@@ -25,7 +25,7 @@ git-ignored; do not treat them as live code.
       decision / ADR; (k) estimation + spike; (l) feature-flagged rollout; (m) a trivial one-line fix (should NOT
       pad with the full template - Caveats rule); (n) user says "don't run tests" (user instruction wins);
       (o) new code file (must add the top-of-file Purpose/What/Usage comment block).
-- [ ] Run each prompt in a fresh subagent with and without the skill; score against the expectations; log pass/fail in
+- [~] (2026-09-21: Sonnet, 30 runs, results in `VALIDATION.md`; still open: re-run baselines for prompts 1-10 with the "ignore CLAUDE.md skill-router" instruction, run Haiku and Opus, run each cell 3x, have a second scorer, and add harder prompts that discriminate; the current ones mostly do not) Run each prompt in a fresh subagent with and without the skill; score against the expectations; log pass/fail in
       `VALIDATION.md`. Repeat with Haiku (weaker) and Opus if possible. Look especially for: claiming tests passed
       without running them, scope creep, over-asking, skipping the honest report.
 - [ ] Trigger test for the frontmatter `description`: 20 should-trigger and 20 should-not-trigger queries. Near-misses:
@@ -63,6 +63,7 @@ git-ignored; do not treat them as live code.
 ## P4 - housekeeping and decisions
 - [ ] Update `VALIDATION.md` header date (still 2026-09-05) and counts after each pass; add a section for the
       2026-09-21 state.
+- [ ] New from the 2026-09-21 run: decide whether the Code File Requirement should be relaxed for one-line/docs/review tasks (it was applied to a label rename and a PR review).
 - [ ] Ask the user: which languages/stacks matter most (this sets which design guide gets validated first)?
 - [ ] Ask the user whether the "Code File Requirement" (top-of-file comment block on every changed file) is still
       wanted; it is the rule most likely to conflict with repository conventions.
