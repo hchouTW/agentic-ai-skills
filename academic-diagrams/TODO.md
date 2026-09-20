@@ -7,21 +7,21 @@ State at 2026-09-21: skill merged to `main` (PR #5). Tests and validators pass. 
 ## P1 - close known verification gaps
 - [x] Render every ```mermaid block with `mmdc` (done: all pass; checker calls `mmdc` when present, test added).
       Still open: eyeball the rendered SVGs for layout quality.
-- [ ] Compile the TikZ / tikz-feynman snippets (`references/tikz-patterns.md`, `examples/hep/07`,
-      `examples/statistics/02`) with LuaLaTeX/pdfLaTeX; fix the `calc` library note and any layout bugs.
-      Requires a TeX install (none on this machine as of 2026-09-21).
-- [ ] Run the 10 prompts in `~/Downloads/task_academic_diagrams_skill.md` section 33 against the skill in fresh
-      sessions, record pass/fail and gaps in `VALIDATION.md` (currently checked by design review only).
-- [ ] Check column widths and font sizes in `references/academic-figure-style.md` against current APS/JHEP/NeurIPS/ICML author kits.
+- [x] Compile the TikZ / tikz-feynman snippets: done with Tectonic (found `tectonic` in miniconda). Fixed the Feynman auto-layout trap
+      (manual placement now leads); `calc` requirement confirmed. Still open: verify the `\feynmandiagram` LuaLaTeX variant (needs LuaTeX).
+- [x] Ran the 10 prompts (fresh subagent per prompt); results and the 2 skill fixes it produced are in `VALIDATION.md`.
+      Still open: run on more than one sample per prompt, and with a different model.
+- [x] Checked column widths against ICML 2026, NeurIPS 2026, JHEP `jheppub`, APS RMP guide; fixed the ICML row.
+      Still open: APS full-width (17.8 cm) and ICLR; font-size rules per venue.
 
 ## P2 - content the task asked for but is thin or missing (done 2026-09-21)
 - [x] LHC pipeline example `examples/hep/08` (DOT + Mermaid + TikZ + two-lane variant).
 - [x] Repository-inspection example (`general/05`) and Methods -> workflow with Known/Inferred/Assumed (`general/06`).
-- [x] PlantUML reference and one component + one sequence example (`computer-science/09-10`); **not compiled** - needs a JRE.
+- [x] PlantUML reference and one component + one sequence example (`computer-science/09-10`); **not compiled** - `java` is only a stub here.
 - [x] SVG-spec template and worked example (`templates/svg-spec.md`, `general/07`); rendered and inspected.
 - [x] `templates/ml-pipeline.md` and `templates/bayesian-model.md`.
 - [x] Sketch-to-spec (`general-diagram-principles.md` section 11).
-- [ ] Follow-up: compile the PlantUML sources (install a JRE) and the `hep/08` TikZ (install TeX); tidy the plate label overlap in the Bayesian-model DOT.
+- [ ] Follow-up: compile the PlantUML sources (needs a JRE); tidy the plate label overlap in the Bayesian-model DOT. (`hep/08` TikZ is done.)
 
 ## P3 - stretch goals from the task (section 34) (done 2026-09-21)
 - [x] Multi-panel, poster, thesis, Beamer overlays, talk simplification, equation placement, symbol table, export recipes

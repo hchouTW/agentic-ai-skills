@@ -82,7 +82,7 @@ Simplify by **abstraction level** (see `general-diagram-principles.md` section 6
 so the audience can follow the paper figure. For a talk, reduce to <= ~7 boxes, labels <= 3 words, drop legends by using
 one edge style, and reveal the pipeline one stage at a time.
 
-Beamer with TikZ, reveal stage by stage using `\onslide` (no compile check was run here):
+Beamer with TikZ, reveal stage by stage using `visible on` (compiled with Tectonic: 3 overlay pages, boxes stay in place):
 
 ```latex
 \begin{tikzpicture}[node distance=8mm]
@@ -124,5 +124,5 @@ Never invent an equation number; leave "-" and flag it when the paper's numberin
 | TikZ | via `dvisvgm` on the DVI or PDF | `\documentclass[tikz,border=2pt]{standalone}` + `pdflatex`/`lualatex` | `pdftoppm -r 300 -png f.pdf f` |
 
 Prefer vector PDF for LaTeX manuscripts, SVG for web and editing, PNG only when a venue requires raster (>= 300 dpi at final size).
-The Graphviz, `rsvg-convert`, and `mmdc` rows were run in this bundle's validation; the TikZ and `dvisvgm` rows were not.
+The Graphviz, `rsvg-convert`, and `mmdc` rows were run in this bundle's validation; the TikZ standalone compile was run with Tectonic; `dvisvgm` and the `subcaption` `figure*` snippet were not.
 Check text is still selectable after export (fonts embedded) and that the export did not change the layout.

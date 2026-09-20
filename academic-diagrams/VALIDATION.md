@@ -47,15 +47,47 @@ TikZ in `hep/08` and both PlantUML examples were **not** compiled (no TeX, and `
 Graphviz, `rsvg-convert`, and `mmdc` were run; TikZ/Beamer/`dvisvgm` snippets were not compiled). Cross-links added in
 `academic-papers/references/figures-and-tables.md` and `hep-analysis/SKILL.md`; those skills' validators and tests pass.
 
+## Fresh-session prompt run and TeX/venue checks (2026-09-21, follow-up)
+
+**Ten prompts, ten fresh subagents** (Sonnet), each given only `SKILL.md`'s path, one small concrete input where the
+prompt says "this ...", and no grading criteria. Outputs were graded afterwards by reading them and rendering the sources.
+
+| # | Prompt | Result | Gap found |
+|---|---|---|---|
+| 1 | Methods -> workflow | pass: Known/Inferred table, flagged the ambiguous "Z+jets" background and the missing signal model instead of guessing | - |
+| 2 | LHC pipeline | pass: data/simulation merge only at reconstruction, conceptual-diagram assumption stated | - |
+| 3 | SR/CR + simultaneous fit | pass: shared parameters, VR outside the fit, blinding noted | invented CR1/CR2/VR with a stated assumption (allowed for a generic pipeline) |
+| 4 | Hierarchical model -> plates | pass: factorization matches graph, fixed vs latent distinguished | - |
+| 5 | Causal DAG | pass: no edges beyond the stated ones; noted the strong no-direct-effect claim; identification notes correct | added front-door discussion the user did not ask for |
+| 6 | MCMC -> flowchart | pass: loops and stopping criterion, flagged the missing max-iteration guard | used `\n` in a label; `<br/>` guidance was missing from `mermaid-patterns.md` (both render in `mmdc`) - added |
+| 7 | Repo -> architecture | **partial**: read the files and separated Known/Inferred, but node labels carried wrong counts ("33 topic files", "24 examples", "3 sections" vs 31, 25, 14) | numbers in labels were not measured - rule added to `SKILL.md` and `templates/system-architecture.md` |
+| 8 | Multi-agent system | pass: data vs control edges, no invented orchestrator, open questions listed | - |
+| 9 | Transformer code -> figure | pass: pre-norm order, tied weights, causal mask, dropout locations all match the code | - |
+| 10 | Mermaid overview + TikZ | pass: TikZ compiled with Tectonic (independently re-compiled here, layout inspected) | - |
+
+All ten outputs said honestly whether they had rendered anything. The agents could not render Mermaid (`mmdc` was not on their PATH), so all ten
+outputs were run through `check_diagram_sources.py` afterwards: 10 blocks (8 DOT compiled, 2 Mermaid rendered with `mmdc`), 0 problems.
+DOT layouts were not inspected visually except where noted.
+
+**TeX.** `tectonic` (XeTeX-based) is installed under miniconda, so the earlier "no TeX" note was wrong. Compiled and inspected:
+`hep/08`, `statistics/02` (needs `calc`: confirmed, fails without it), `tikz-patterns.md` plate and pipeline snippets, the legend `matrix`,
+the Beamer overlay snippet (3 pages), and a manual-placement tikz-feynman diagram. **Important finding:** the shipped `\feynmandiagram`
+automatic-layout examples "compile" under XeTeX but ignore the layout keys (LuaTeX only) and draw a garbled figure; a clean compile
+is not evidence of a correct figure. `hep/07` and `tikz-patterns.md` now lead with the manual-placement version (checked orientation
+of incoming/outgoing fermion arrows) and keep the auto-layout one with a warning. LuaLaTeX itself is not installed, so that variant is unverified.
+
+**Venue widths** (`references/academic-figure-style.md`, checked against sources, not just the doc's earlier defaults): ICML 2026 (6.75 in
+overall, 0.25 in gutter, so 3.25 in = 8.26 cm per column; the earlier "~8.5 cm" was slightly off and the row conflated ICML with NeurIPS),
+NeurIPS 2026 (5.5 in), JHEP `jheppub` (15.5 cm on a4paper). APS single column (8.6 cm) comes from the RMP style guide; the REVTeX 4.2
+guide itself states no figure widths, and 17.8 cm for a full-width figure is still an unverified default.
+
 ## Not verified
 
-- TikZ / tikz-feynman snippets (including `hep/08`) and all PlantUML sources were not compiled (no LaTeX installation); the hierarchical-model
-  plate example additionally needs the `calc` library (stated in the example).
-- Column widths and venue specifics in `references/academic-figure-style.md` are common defaults, not checked
-  against current author kits.
-- The behavior on the ten final-validation prompts in the task (section 33) was checked by design review
-  against the workflow and references, not by running a model against them. The rows below record which
-  file supplies each capability.
+- All PlantUML sources (no working Java runtime), the LuaLaTeX automatic-layout Feynman variants (no LuaTeX), the
+  `subcaption` `figure*` snippet, and `dvisvgm` export were not run.
+- APS full-width figure size (17.8 cm) and ICLR width are unverified defaults; ICML/NeurIPS/JHEP/APS-single-column were checked (see above).
+- The prompt run used one fresh agent per prompt and one sample each; it shows the skill can be followed, not how often it succeeds. The table
+  below records which file supplies each capability.
 
 | Prompt | Supplied by |
 |---|---|
