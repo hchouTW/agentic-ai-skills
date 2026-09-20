@@ -51,11 +51,13 @@ The populated ledger is machine-readable in `data/sources.json` and `data/claims
 ## Source-review procedure
 
 1. Open the primary document; do not rely on search snippets or citation aggregators.
-2. Separate **publication date** from the **data-taking interval**.
+2. Separate **publication date** from the **data-taking interval**. In any "latest" or superseded-paper answer, write both explicitly for each cited result (e.g. "published year Y, data taken years A-B") and say when the newer publication merely extends the data period versus changes the analysis.
 3. Check errata, supplementary material, and later superseding publications.
 4. Record whether a conference claim is preliminary.
 5. When several AMS results coexist (e.g. different rigidity ranges, periods, track configurations), explain which question each answers rather than retaining only the newest number.
 6. Paraphrase; do not copy long copyrighted passages.
+7. A bracket citing several claim IDs asserts every clause of the sentence for every ID: cite per clause, and check each ID's own species, range, period and paper (a daily-proton claim does not support a Bartels-rotation or lepton statement).
+8. Phrase absence statements taken from the ledger as "the index records no ...", not as a first-person search ("I found no ...").
 
 ## Currency checks ("latest")
 

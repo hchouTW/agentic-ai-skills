@@ -265,7 +265,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   prompt: "Write a measurement brief for a helium-4 flux measurement from 2 GV to 3 TV using public AMS data."
   refs: [analysis-artifacts, charged-cosmic-rays, source-index]
   observable_decisions: [produces a structured brief (estimand, target and level, species with abs_Z=2 and stated A and mass, rigidity in GV, bins marked as user-supplied, data/MC scope and period, subsystem roles, selections with conditional denominators, backgrounds with controls, efficiency/acceptance/livetime/response kept distinct, inference, validation with metric-threshold-action, unresolved inputs), not a generic essay, labels [Documented]/[General method]/[Proposal]/[Unknown/needs input]]
-  critical_requirements: [states the T/A conversion needs A and mass, no invented cuts efficiencies or systematic sizes, any AMS number carries a claim ID and its scope, notes the requested range is the user's and the helium paper S07 is metadata-only]
+  critical_requirements: [states the T/A conversion needs A and mass, no invented cuts efficiencies or systematic sizes, any AMS number carries a claim ID and its scope, notes the requested range is the user's and the helium paper S07 is read at main-article level only (C59-C61), so its numbers carry that scope]
   prohibited_claims: [helium rigidity treated as momentum, AMS cut values or acceptances not in the ledger, a helium range presented as documented practice]
 
 - test_id: T30

@@ -191,8 +191,8 @@
     "tier": 1,
     "tier_range": null,
     "tier_text": "1",
-    "verification_level": "metadata-only",
-    "verification_note": null,
+    "verification_level": "full-text",
+    "verification_note": "main article only",
     "access_date": "2026-09-20",
     "publication_date": "2015",
     "data_taking_period": null,
@@ -200,7 +200,7 @@
     "superseded_by": [],
     "supersession_note": null,
     "notes": null,
-    "verification_limitations": "Metadata-only; treat titles as navigation."
+    "verification_limitations": "Main article read from the publisher PDF (pdftotext) on 2026-09-21; Supplemental Material and tables not opened."
   },
   {
     "id": "S08",
@@ -311,8 +311,8 @@
     "tier": 1,
     "tier_range": null,
     "tier_text": "1",
-    "verification_level": "metadata-only",
-    "verification_note": null,
+    "verification_level": "full-text",
+    "verification_note": "main article only",
     "access_date": "2026-09-20",
     "publication_date": "2017",
     "data_taking_period": null,
@@ -320,7 +320,7 @@
     "superseded_by": [],
     "supersession_note": null,
     "notes": null,
-    "verification_limitations": "Metadata-only; treat titles as navigation."
+    "verification_limitations": "Main article read from the publisher PDF (pdftotext) on 2026-09-21; Supplemental Material and tables not opened."
   },
   {
     "id": "S12",
@@ -1135,7 +1135,7 @@
     "tier_range": null,
     "tier_text": "1",
     "verification_level": "full-text",
-    "verification_note": "main article only",
+    "verification_note": "main article and Supplemental Material text read",
     "access_date": "2026-09-20",
     "publication_date": "2018",
     "data_taking_period": {
@@ -1147,7 +1147,7 @@
     "superseded_by": [],
     "supersession_note": null,
     "notes": "Individual record split out of the grouped row S16. Title taken from the PDF (S44's from its INSPIRE record).",
-    "verification_limitations": "Main article read from the publisher PDF (pdftotext) on 2026-09-20; Supplemental Material not opened, so wavelet details, significance procedures, per-day tables and figures are not read."
+    "verification_limitations": "Main article (publisher PDF) and the Supplemental Material text were read with pdftotext (2026-09-20 and 2026-09-21); the per-rotation or per-day numerical tables were not transcribed or checked, and figures were not interpreted."
   },
   {
     "id": "S42",
@@ -1166,7 +1166,7 @@
     "tier_range": null,
     "tier_text": "1",
     "verification_level": "full-text",
-    "verification_note": "main article only",
+    "verification_note": "main article and Supplemental Material text read",
     "access_date": "2026-09-20",
     "publication_date": "2018",
     "data_taking_period": {
@@ -1178,7 +1178,7 @@
     "superseded_by": [],
     "supersession_note": null,
     "notes": "Individual record split out of the grouped row S16. Title taken from the PDF (S44's from its INSPIRE record).",
-    "verification_limitations": "Main article read from the publisher PDF (pdftotext) on 2026-09-20; Supplemental Material not opened, so wavelet details, significance procedures, per-day tables and figures are not read."
+    "verification_limitations": "Main article (publisher PDF) and the Supplemental Material text were read with pdftotext (2026-09-20 and 2026-09-21); the per-rotation or per-day numerical tables were not transcribed or checked, and figures were not interpreted."
   },
   {
     "id": "S43",
@@ -1228,7 +1228,7 @@
     "tier_range": null,
     "tier_text": "1",
     "verification_level": "full-text",
-    "verification_note": "main article only",
+    "verification_note": "main article and Supplemental Material text read",
     "access_date": "2026-09-20",
     "publication_date": "2022",
     "data_taking_period": {
@@ -1240,7 +1240,7 @@
     "superseded_by": [],
     "supersession_note": null,
     "notes": "Individual record split out of the grouped row S16. Title taken from the PDF (S44's from its INSPIRE record).",
-    "verification_limitations": "Main article read from the publisher PDF (pdftotext) on 2026-09-20; Supplemental Material not opened, so wavelet details, significance procedures, per-day tables and figures are not read."
+    "verification_limitations": "Main article (publisher PDF) and the Supplemental Material text were read with pdftotext (2026-09-20 and 2026-09-21); the per-rotation or per-day numerical tables were not transcribed or checked, and figures were not interpreted."
   },
   {
     "id": "S45",
@@ -1321,7 +1321,7 @@
     "tier_range": null,
     "tier_text": "1",
     "verification_level": "full-text",
-    "verification_note": "main article only",
+    "verification_note": "main article and Supplemental Material text read",
     "access_date": "2026-09-20",
     "publication_date": "2025",
     "data_taking_period": {
@@ -1333,6 +1333,6 @@
     "superseded_by": [],
     "supersession_note": null,
     "notes": "Individual record split out of the grouped row S20. Title taken from the PDF (S44's from its INSPIRE record).",
-    "verification_limitations": "Main article read from the publisher PDF (pdftotext) on 2026-09-20; Supplemental Material not opened, so wavelet details, significance procedures, per-day tables and figures are not read."
+    "verification_limitations": "Main article (publisher PDF) and the Supplemental Material text were read with pdftotext (2026-09-20 and 2026-09-21); the per-rotation or per-day numerical tables were not transcribed or checked, and figures were not interpreted."
   }
 ]
