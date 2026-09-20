@@ -1325,5 +1325,33 @@
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-20"
+  },
+  {
+    "id": "C50",
+    "claim": "Detector description in the positron-flux paper: the three-dimensional imaging capability of the 17 radiation length ECAL allows an accurate measurement of the electron/positron energy and of the shower shape, and an ECAL estimator Lambda_ECAL differentiates e from p by their different shower shapes; the detector was calibrated in a CERN test beam with e+ and e- from 10 to 290 GeV/c and with protons at 180 and 400 GeV/c",
+    "claim_types": [
+      "detector_fact"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S04"
+    ],
+    "location": "Introduction (detector description)",
+    "scope": {
+      "text": "ECAL as described in S04; test-beam energies as stated there",
+      "species": [
+        "e+",
+        "e-",
+        "proton"
+      ],
+      "range": "test beam 10-290 GeV/c (e+-), 180 and 400 GeV/c (p)",
+      "data_period": null,
+      "analysis": "positron flux paper detector description"
+    },
+    "limitations": "Main article only; a description in one paper, not a performance figure; Supplemental Material not read.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-20"
   }
 ]

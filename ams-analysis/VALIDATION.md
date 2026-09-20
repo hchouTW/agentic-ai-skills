@@ -56,7 +56,7 @@ Run on 2026-09-20 from the skill directory, Python 3 standard library only. Base
 |---|---|
 | `python3 scripts/validate_skill_bundle.py` | `Bundle OK: 35 required files present, links and anchors resolve.` (exit 0) |
 | `python3 -m unittest discover -s tests` | 224 tests, OK (bundle 18, kinematics 25, covariance 30, response 35, evidence ledger and renderer 38, analysis specification 78) |
-| `python3 scripts/validate_evidence_ledger.py --today 2026-09-20` | status pass; 47 sources, 49 claims (after the later S41-S47 / C36-C49 additions; the migration itself was 40 and 35); no errors, no warnings; 11 notes, all of the kind "no claim cites this source" (S03, S07, S11, S18, S19, S20, S21, S23, S27, S38, S40), no stale dates as of 2026-09-20 |
+| `python3 scripts/validate_evidence_ledger.py --today 2026-09-20` | status pass; 47 sources, 50 claims (after the later S41-S47 / C36-C50 additions; the migration itself was 40 and 35); no errors, no warnings; 11 notes, all of the kind "no claim cites this source" (S03, S07, S11, S18, S19, S20, S21, S23, S27, S38, S40), no stale dates as of 2026-09-20 |
 | `python3 scripts/render_source_index.py` | `source-index.md is in sync with data/*.json` (exit 0) |
 | `python3 scripts/audit_analysis_spec.py tests/fixtures/spec_valid.json` | verdict `acceptable with open inputs` (0 errors, 0 warnings, 1 proposal, 2 unresolved) |
 | `python3 scripts/validate_covariance.py` on `cov_valid.json` / `cov_indefinite.json` | pass (exit 0) / fail with `not_psd`, correlations inside bounds (exit 1) |
@@ -80,9 +80,11 @@ After the ledger was extended with the full-text time-structure papers (C43-C49)
 
 A second regression batch ran ten more original tests (T02 RICH isotope mass, T07 deuteron/proton design, T08 antiproton review, T12 Wilks at a boundary, T13 two 99% efficiencies, T15 four unfolding iterations, T17 latest antihelium, T19 hallucination trap, T22 non-AMS Wilks, T23 ACC): all passed their existing rubrics with no blocking failure, self-graded, one sample each. Minor observations, none fixed: T23 was longer and more templated than its "short answer" rubric wants and attributed shower/backsplash rejection to a claim that only supports the side-entry veto role; T08 cited the antiproton template-fit practice to claim C26 (the electron-flux claim; C22 is the correct one) and called two event counts a "ratio"; T17 asserted the verification date was "today's date"; T19 floated "for example 90%" as an efficiency (labeled a proposal); T07 gave an unsourced "about 10^-2" for D/p while saying it quoted no AMS number.
 
-Fifteen of the 28 original tests plus six new ones have now been re-run since the extension (T02, T05, T07, T08, T09, T12, T13, T15, T17, T19, T20, T21, T22, T23, T24 and T29-T34, with T31 and T32 run twice); the remaining originals (T01, T03, T04, T06, T10, T11, T14, T16, T18, T25-T28) were not re-run.
+A third batch ran the remaining thirteen originals (T01, T03, T04, T06, T10, T11, T14, T16, T18, T25, T26, T27, T28): all passed with no blocking failure (self-graded, one sample each). Minor observations: T01 described the quoted charge resolution as "inner-tracker" where the ledger (C21) says "tracker"; T26 opened with a generalization ("public AMS flux analyses ... 1.2") before its scoping caveats and listed S47 among supporting sources though only S41 states the variation; T10 cited the RICH velocity resolution to C28 (C21 holds it); T18 and T17 called the verification date "today's date". T03 quoted "17 radiation lengths" for the ECAL from `detector-and-observables`, a figure that had no ledger claim: it was checked against the S04 main article (which states it) and added as claim C50, and the reference row now cites it.
 
-Not done: independent (rubric-blind, different-model) grading and repeated samples per prompt.
+All 28 original tests and the six new ones (T31 and T32 twice) have now been re-run at least once since the extension; every run passed on its final attempt, with T31's first run partial (fixed).
+
+Not done: independent (rubric-blind, different-model) grading and repeated samples per prompt; the T29 and T32 wording fixes were not re-run.
 
 Not implemented: the optional network refresh of the ledger, and the optional statistical-validation phase (Poisson intervals, toy coverage, unfolding scans). Neither is needed by the routed decisions today.
 
