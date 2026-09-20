@@ -5,8 +5,9 @@ Purpose: keep the DOT/Mermaid snippets in references/, templates/, and examples/
 
 What it does: extracts fenced ```dot and ```mermaid blocks from markdown files.
 - dot: compiled with Graphviz `dot -Tsvg` when `dot` is on PATH (skipped with a notice otherwise).
-- mermaid: cheap structural lint only (known diagram keyword on the first line, balanced
-  brackets/parentheses/braces/quotes outside of quoted labels) - NOT a real Mermaid parse.
+- mermaid: rendered with Mermaid CLI (`mmdc`) when it is on PATH; otherwise only a cheap
+  structural lint (known diagram keyword on the first line, balanced brackets/parentheses/
+  braces/quotes outside of quoted labels) - NOT a real Mermaid parse.
 LaTeX/TikZ blocks are never compiled here.
 
 Usage: `python3 scripts/check_diagram_sources.py [path ...]` (default: the whole bundle).
@@ -18,6 +19,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 FENCE_RE = re.compile(r"```(dot|mermaid)\n(.*?)```", re.S)
@@ -70,12 +72,28 @@ def check_dot(source: str) -> str | None:
     return result.stderr.strip() or "dot failed" if result.returncode else None
 
 
+def check_mermaid(source: str, mmdc: str = "mmdc") -> str | None:
+    """Return an error string if Mermaid CLI cannot render the source, else None."""
+    with tempfile.TemporaryDirectory() as tmp:
+        src, out = Path(tmp) / "in.mmd", Path(tmp) / "out.svg"
+        src.write_text(source, encoding="utf-8")
+        result = subprocess.run(
+            [mmdc, "-q", "-i", str(src), "-o", str(out)], text=True, capture_output=True
+        )
+        if result.returncode or not out.exists():
+            return (result.stderr.strip() or result.stdout.strip() or "mmdc failed")[:500]
+    return None
+
+
 def main(argv: list[str]) -> int:
     root = Path(__file__).resolve().parents[1]
     paths = [Path(a) for a in argv] or sorted(root.rglob("*.md"))
     have_dot = shutil.which("dot") is not None
     if not have_dot:
         print("note: Graphviz `dot` not found; skipping DOT compilation")
+    mmdc = shutil.which("mmdc")
+    if not mmdc:
+        print("note: Mermaid CLI `mmdc` not found; Mermaid blocks get the structural lint only")
     failures = checked = 0
     for path in paths:
         for lang, source in extract_blocks(path.read_text(encoding="utf-8")):
@@ -85,6 +103,9 @@ def main(argv: list[str]) -> int:
                 problems = [error] if error else []
             else:
                 problems = lint_mermaid(source)
+                if mmdc and not problems:
+                    error = check_mermaid(source, mmdc)
+                    problems = [error] if error else []
             for problem in problems:
                 failures += 1
                 print(f"{path}: {lang}: {problem}")

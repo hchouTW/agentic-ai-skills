@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-21. Helper test environment: Python 3, standard library only; Graphviz `dot` present, no Mermaid renderer, no LaTeX.
+Validation date: 2026-09-21. Helper test environment: Python 3, standard library only; Graphviz `dot` present, no LaTeX (Mermaid CLI available through npx).
 
 ## Initial build (2026-09-21)
 
@@ -22,9 +22,16 @@ as a bundle matching this repository's sibling-skill convention (`SKILL.md`, `RE
   against the shipped bundle and a structural check that every example has a type line, source,
   and caption.
 
+## Mermaid rendering (2026-09-21, follow-up)
+
+All 37 `dot`/`mermaid` blocks in the bundle pass `scripts/check_diagram_sources.py` with Mermaid CLI
+(`@mermaid-js/mermaid-cli` via `npx`, exposed as `mmdc`) rendering every Mermaid block to SVG; no
+source needed fixing. The script now calls `mmdc` when it is on PATH and keeps the structural lint
+as the fallback and as a pre-filter. Checked that a syntax error the lint misses is caught by `mmdc`.
+Rendered output was not visually inspected, only that it parsed and rendered without error.
+
 ## Not verified
 
-- Mermaid sources were only linted structurally; none were rendered by Mermaid.
 - TikZ / tikz-feynman snippets were not compiled (no LaTeX installation); the hierarchical-model
   plate example additionally needs the `calc` library (stated in the example).
 - Column widths and venue specifics in `references/academic-figure-style.md` are common defaults, not checked
