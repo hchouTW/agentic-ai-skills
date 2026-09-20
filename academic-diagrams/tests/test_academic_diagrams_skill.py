@@ -78,6 +78,17 @@ class DotCompile(unittest.TestCase):
         self.assertTrue(sources.check_dot("digraph G { A -> ; ;; -> }"))
 
 
+class SvgCheck(unittest.TestCase):
+    def test_well_formed(self):
+        self.assertIsNone(sources.check_svg('<svg xmlns="http://www.w3.org/2000/svg"><rect/></svg>'))
+
+    def test_malformed(self):
+        self.assertIn("not well-formed", sources.check_svg("<svg><rect></svg>"))
+
+    def test_svg_fence_extracted(self):
+        self.assertEqual([l for l, _ in sources.extract_blocks("```svg\n<svg/>\n```")], ["svg"])
+
+
 class MermaidRender(unittest.TestCase):
     def fake_mmdc(self, directory, exit_code, stderr=""):
         """Write a stand-in `mmdc` that writes the -o file (or fails) so no browser is needed."""

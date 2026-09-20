@@ -3,12 +3,13 @@
 
 Purpose: keep the DOT/Mermaid snippets in references/, templates/, and examples/ from rotting.
 
-What it does: extracts fenced ```dot and ```mermaid blocks from markdown files.
+What it does: extracts fenced ```dot, ```mermaid, and ```svg blocks from markdown files.
 - dot: compiled with Graphviz `dot -Tsvg` when `dot` is on PATH (skipped with a notice otherwise).
 - mermaid: rendered with Mermaid CLI (`mmdc`) when it is on PATH; otherwise only a cheap
   structural lint (known diagram keyword on the first line, balanced brackets/parentheses/
   braces/quotes outside of quoted labels) - NOT a real Mermaid parse.
-LaTeX/TikZ blocks are never compiled here.
+- svg: parsed as XML (well-formedness only; render it to check the layout).
+LaTeX/TikZ and PlantUML blocks are never compiled here.
 
 Usage: `python3 scripts/check_diagram_sources.py [path ...]` (default: the whole bundle).
 Exit status 1 if any checked block fails. Standard library only.
@@ -20,9 +21,11 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import xml.dom.minidom
+import xml.parsers.expat
 from pathlib import Path
 
-FENCE_RE = re.compile(r"```(dot|mermaid)\n(.*?)```", re.S)
+FENCE_RE = re.compile(r"```(dot|mermaid|svg)\n(.*?)```", re.S)
 MERMAID_STARTS = (
     "flowchart", "graph", "sequenceDiagram", "stateDiagram", "stateDiagram-v2",
     "erDiagram", "classDiagram", "gantt", "journey", "mindmap", "timeline",
@@ -85,6 +88,15 @@ def check_mermaid(source: str, mmdc: str = "mmdc") -> str | None:
     return None
 
 
+def check_svg(source: str) -> str | None:
+    """Return an error string if the SVG source is not well-formed XML, else None."""
+    try:
+        xml.dom.minidom.parseString(source)
+    except xml.parsers.expat.ExpatError as exc:
+        return f"SVG is not well-formed XML: {exc}"
+    return None
+
+
 def main(argv: list[str]) -> int:
     root = Path(__file__).resolve().parents[1]
     paths = [Path(a) for a in argv] or sorted(root.rglob("*.md"))
@@ -100,6 +112,9 @@ def main(argv: list[str]) -> int:
             checked += 1
             if lang == "dot":
                 error = check_dot(source) if have_dot else None
+                problems = [error] if error else []
+            elif lang == "svg":
+                error = check_svg(source)
                 problems = [error] if error else []
             else:
                 problems = lint_mermaid(source)

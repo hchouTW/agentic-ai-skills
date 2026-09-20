@@ -14,17 +14,14 @@ State at 2026-09-21: skill merged to `main` (PR #5). Tests and validators pass. 
       sessions, record pass/fail and gaps in `VALIDATION.md` (currently checked by design review only).
 - [ ] Check column widths and font sizes in `references/academic-figure-style.md` against current APS/JHEP/NeurIPS/ICML author kits.
 
-## P2 - content the task asked for but is thin or missing
-- [ ] Add the LHC pipeline built in the 2026-09-21 session as `examples/hep/08-lhc-pipeline-graphviz.md`
-      (DOT source rendered OK; regenerate it from `templates/hep-analysis-pipeline.md` if the original is gone).
-      Also add its Mermaid and TikZ versions (multiple-representation mode) and a variant with separate data and simulation lanes.
-- [ ] Add a repository-inspection example (read a real repo, then draw its architecture) and a Methods-text ->
-      workflow example that shows the Known / Inferred / Assumed table explicitly.
-- [ ] Add PlantUML guidance: `references/plantuml-patterns.md` plus one component and one sequence example
-      (PlantUML is listed as an output format but has no reference).
-- [ ] Add an SVG-spec template (`templates/svg-spec.md`: canvas, nodes, coordinates, edges, labels, groups) and one worked example.
-- [ ] Add `templates/ml-pipeline.md` and `templates/bayesian-model.md` (in the task's first structure, not its minimum list).
-- [ ] Sketch-to-spec: how to turn a rough sketch or photo into a logical graph, asking about ambiguous glyphs.
+## P2 - content the task asked for but is thin or missing (done 2026-09-21)
+- [x] LHC pipeline example `examples/hep/08` (DOT + Mermaid + TikZ + two-lane variant).
+- [x] Repository-inspection example (`general/05`) and Methods -> workflow with Known/Inferred/Assumed (`general/06`).
+- [x] PlantUML reference and one component + one sequence example (`computer-science/09-10`); **not compiled** - needs a JRE.
+- [x] SVG-spec template and worked example (`templates/svg-spec.md`, `general/07`); rendered and inspected.
+- [x] `templates/ml-pipeline.md` and `templates/bayesian-model.md`.
+- [x] Sketch-to-spec (`general-diagram-principles.md` section 11).
+- [ ] Follow-up: compile the PlantUML sources (install a JRE) and the `hep/08` TikZ (install TeX); tidy the plate label overlap in the Bayesian-model DOT.
 
 ## P3 - stretch goals from the task (section 34)
 - [ ] Multi-panel figures, poster diagrams, thesis figures, Beamer overlays, talk simplification, equation placement,
