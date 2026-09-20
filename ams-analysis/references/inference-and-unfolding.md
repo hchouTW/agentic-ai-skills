@@ -57,6 +57,7 @@ For any published or used covariance matrix record: bin ordering, units, absolut
 2. Numerical only: clip negative eigenvalues (or take the nearest PSD matrix), record the change, and confirm the fit or χ² result is unchanged within tolerance.
 3. Construction error: do not clip. Check mixed conventions (absolute vs relative, bin ordering, units), rounded or guessed correlation tables, subtracted terms with an implausible correlation, components added twice, and unfolding-induced anticorrelation from an under-regularized inversion. Rebuild from coherent variations so each block is PSD by construction, and propagate through the full unfolding with toys (the sample covariance of the toys is PSD).
 4. Never repair by dropping correlations or by quadrature-combining components whose correlations are unknown.
+5. `scripts/validate_covariance.py` performs the diagnosis in step 1 and can show the effect of a clip as a labeled [Proposal] without changing the matrix (see [analysis-artifacts](analysis-artifacts.md#checker-scripts)).
 
 ## Method selection
 

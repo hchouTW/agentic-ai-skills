@@ -22,11 +22,22 @@ python3 scripts/validate_skill_bundle.py
 python3 -m unittest discover -s tests -v
 ```
 
-Standard library only. See [VALIDATION.md](VALIDATION.md) for structural checks, behavioral test results, forward tests, gaps, and limitations.
+Standard library only. The deterministic tools (each has `--help`; exit code 0 ok, 1 defects found, 2 input unreadable or rejected; none modifies user data):
+
+```bash
+python3 scripts/ams_kinematics.py convert --from rigidity --to kinetic_energy_per_nucleon --value 20 --Z 2 --A 4 --mass 3.7274
+python3 scripts/validate_covariance.py tests/fixtures/cov_valid.json
+python3 scripts/validate_response.py tests/fixtures/response_valid.json
+python3 scripts/audit_analysis_spec.py tests/fixtures/spec_valid.json --markdown
+python3 scripts/validate_evidence_ledger.py
+python3 scripts/render_source_index.py          # add --write after editing data/*.json
+```
+
+`data/sources.json` and `data/claims.json` are the machine-readable source and claim ledger; the tables in `references/source-index.md` are generated from them. The kinematics results are general-method arithmetic, never measured AMS performance, and a passing validator shows internal consistency, not physical validity. See [VALIDATION.md](VALIDATION.md) for structural checks, behavioral test results, forward tests, gaps, and limitations.
 
 ## Coverage and boundaries
 
-Covers: Tracker/permanent magnet, TOF, TRD, ECAL, RICH, ACC and cross-subsystem complementarity; rigidity, charge, velocity, mass, energy definitions and conversions; reconstruction, data quality and conditions model; charged cosmic-ray flux/ratio blueprints; electrons/positrons, antiprotons, rare antimatter; nuclei and isotopes; conditional efficiencies, acceptance, exposure, background ledgers, template fits; response/likelihood/covariance, unfolding vs forward folding, low-count inference; calibration, MC provenance, systematics; source tiers, currency checks, and a claim-to-source index (verification date 2026-09-20).
+Covers: Tracker/permanent magnet, TOF, TRD, ECAL, RICH, ACC and cross-subsystem complementarity; rigidity, charge, velocity, mass, energy definitions and conversions; reconstruction, data quality and conditions model; charged cosmic-ray flux/ratio blueprints; electrons/positrons, antiprotons, rare antimatter; nuclei and isotopes; conditional efficiencies, acceptance, exposure, background ledgers, template fits; response/likelihood/covariance, unfolding vs forward folding, low-count inference; calibration, MC provenance, systematics; a structured analysis specification with a deterministic auditor; kinematics, covariance and response validators; time-dependent analysis decision logic; source tiers, currency checks, and a machine-readable claim-to-source ledger (verification date 2026-09-20).
 
 Does not cover: generic HEP or generic statistics questions with no AMS tie (use `hep-analysis`); other experiments as AMS practice; unpublished AMS information; replacement of collaboration review, blinding, or peer review. Main-article full text was read for nine open-access Tier 1 papers (positron, electron, antiproton, proton, He/deuteron/Li isotopes, heavy nuclei; B/C for its data period only), so documented AMS practice is quoted with context for those; their Supplemental Material, the Phys. Rept. review, and the remaining ledger rows were not read. See [references/source-index.md](references/source-index.md).
 
@@ -40,6 +51,8 @@ Does not cover: generic HEP or generic statistics questions with no AMS tie (use
 | [efficiency-acceptance-backgrounds](references/efficiency-acceptance-backgrounds.md) | efficiencies, exposure, backgrounds, templates |
 | [inference-and-unfolding](references/inference-and-unfolding.md) | likelihood, covariance, unfolding, limits |
 | [calibration-mc-systematics](references/calibration-mc-systematics.md) | calibration, MC, systematic ledger |
+| [analysis-artifacts](references/analysis-artifacts.md) | analysis specification, ledgers, response card, review report, checker scripts |
+| [time-dependent-analysis](references/time-dependent-analysis.md) | temporal flux, solar modulation, periodicity, joint fits across periods |
 | [source-policy](references/source-policy.md) / [source-index](references/source-index.md) | source rules and ledger |
 | [tests-and-examples](references/tests-and-examples.md) | worked examples and rubric tests |
 

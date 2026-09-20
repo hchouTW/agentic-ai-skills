@@ -68,6 +68,8 @@ Every time-dependent detector condition needs a row. Template (fill with user in
 
 **Which quantities come from where.** Flight data, beam tests, ground tests and simulation each calibrate different quantities. Record which; do not assert an AMS-specific origin without a source.
 
+**Temporal analyses.** Time-resolved fluxes, solar-cycle comparisons and periodicity searches add binning, per-bin exposure and correlation questions: see [time-dependent-analysis](time-dependent-analysis.md).
+
 **Version invalidation.** A change in reconstruction or calibration version changes reconstructed observables and hence efficiencies, response and templates; MC response products must be regenerated (or shown to be insensitive) for the new version. A results table mixing MC from one version with data from another is a defect (see [calibration-mc-systematics](calibration-mc-systematics.md#mc-provenance)).
 
 **Hardware eras.** If the analysis spans a documented hardware configuration change, split by era or justify a combined treatment. Public documents describe some changes (e.g. a Tracker upgrade announced on the Collaboration site); verify date and scope in the primary source before citing.

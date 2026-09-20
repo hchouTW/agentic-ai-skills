@@ -46,7 +46,7 @@ known_limitations: null
 last_verified: YYYY-MM-DD
 ```
 
-A number without its context (species, range, selection, period, CL, configuration) must not be quoted. `source-index` records the verification level actually achieved: `full-text`, `abstract+metadata`, `metadata-only`, or `not-opened`; a claim's strength never exceeds it.
+The populated ledger is machine-readable in `data/sources.json` and `data/claims.json` (checked by `scripts/validate_evidence_ledger.py`; the tables in [source-index](source-index.md) are generated from it). A claim's `verification_strength` may not exceed its best supporting source, numeric quotation needs at least an abstract read, and an AMS-practice claim needs a Tier 1-2 source. A number without its context (species, range, selection, period, CL, configuration) must not be quoted. `source-index` records the verification level actually achieved: `full-text`, `abstract+metadata`, `metadata-only`, or `not-opened`; a claim's strength never exceeds it.
 
 ## Source-review procedure
 

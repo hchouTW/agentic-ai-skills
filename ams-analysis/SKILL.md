@@ -1,6 +1,6 @@
 ---
 name: ams-analysis
-description: Use for the Alpha Magnetic Spectrometer (AMS-02) on the ISS - its Tracker/permanent magnet, TOF, TRD, ECAL, RICH and ACC; rigidity/charge/velocity/mass observables; and AMS-style charged cosmic-ray analyses (proton/He/nuclei fluxes, B/C-type ratios, positron/electron, antiproton, antihelium/antideuteron searches, deuteron/isotope separation). Covers AMS-specific selections, data quality, efficiency, acceptance, backgrounds, charge confusion, template fits, unfolding, systematics, likelihoods, and source/"latest result" verification. Not for generic HEP, generic statistics, or other experiments unless the question is tied to AMS.
+description: Use for the Alpha Magnetic Spectrometer (AMS-02) on the ISS - its Tracker/permanent magnet, TOF, TRD, ECAL, RICH and ACC; rigidity/charge/velocity/mass observables; and AMS-style charged cosmic-ray analyses (proton/He/nuclei fluxes, B/C-type ratios, positron/electron, antiproton, antihelium/antideuteron searches, deuteron/isotope separation). Covers AMS-specific selections, data quality, efficiency, acceptance, backgrounds, charge confusion, template fits, unfolding, systematics, likelihoods, time-dependent (solar-cycle, periodicity) analyses, structured analysis specifications and formal reviews, and source/"latest result" verification. Not for generic HEP, generic statistics, or other experiments unless the question is tied to AMS.
 ---
 
 # AMS-02 Detector and Physics Analysis
@@ -22,18 +22,20 @@ Guide realistic AMS-02 detector and charged-cosmic-ray analysis work while separ
 | Cuts, run selection, time stability, MC-data mismatch | 2, 3 | `reconstruction-and-data-quality`, `calibration-mc-systematics` |
 | Systematics list, covariance, calibration drift | 3 | `calibration-mc-systematics`, `inference-and-unfolding` |
 | "What did AMS measure / latest result / is this paper real?" | 4, 5 | `source-policy`, `source-index`, + species file |
-| Unit conversion or quick mass-resolution estimate | 1 | `charged-cosmic-rays` (Variable conversion) or `detector-and-observables` (mass propagation) only |
-| Covariance/response/PSD problems | 3, 6 | `inference-and-unfolding` |
+| Unit conversion or quick mass-resolution estimate | 1 | `charged-cosmic-rays` (Variable conversion) or `detector-and-observables` (mass propagation) only; run `scripts/ams_kinematics.py` for the arithmetic |
+| Covariance/response/PSD problems | 3, 6 | `inference-and-unfolding`; run `scripts/validate_covariance.py` / `validate_response.py` on supplied matrices |
+| Write a measurement brief, specification, ledger or response card; formal verdict-first review of a design | 2, 3 | `analysis-artifacts`, then the species and topic references it points to; run `scripts/audit_analysis_spec.py` |
+| Time-resolved flux or ratio, solar cycle, periodicity, time stability of a flux result | 2, 3, 6 | `time-dependent-analysis`, `charged-cosmic-rays`, `calibration-mc-systematics` |
 | Positron fraction vs flux for a model constraint | 4, 6 | `antimatter-and-leptons`, `inference-and-unfolding` |
 | Maintainer regression only (contains grading rubrics; not needed to answer users) | - | `tests-and-examples` |
 
-Multi-mode requests load the union. "Species file" means `antimatter-and-leptons` for e±/antiprotons/antinuclei, `nuclei-and-isotopes` for elements/isotopes, `charged-cosmic-rays` for p/He fluxes and ratios; add a second only if the question crosses species. A simple factual question gets a short answer and loads only the one concept reference, plus `source-index` whenever an AMS number, date, or status is quoted (that is the only exception to "one reference"); do not impose the full design outline on it. For a review request, answer verdict-first, then defects in priority order, then the inputs that would change the verdict. `source-index` is the claim-to-source ledger; consult it before quoting any AMS number.
+Multi-mode requests load the union. "Species file" means `antimatter-and-leptons` for e±/antiprotons/antinuclei, `nuclei-and-isotopes` for elements/isotopes, `charged-cosmic-rays` for p/He fluxes and ratios; add a second only if the question crosses species. A simple factual question gets a short answer and loads only the one concept reference, plus `source-index` whenever an AMS number, date, or status is quoted (that is the only exception to "one reference"); do not impose the full design outline on it. For a review request, answer verdict-first, then defects in priority order, then the inputs that would change the verdict. `source-index` is the claim-to-source ledger (generated from `data/*.json`); consult it before quoting any AMS number.
 
 ## Common workflow (analytical dependency order, not prose order)
 
 `estimand → observable space → data/MC scope → reconstruction → selection → signal/background model → efficiency/acceptance/response → inference → validation → reporting`
 
-Substantial design/review answers normally cover: measurement target; relevant subsystems; reconstruction and selection; signal, backgrounds, controls; efficiency, livetime, acceptance, response; inference and systematic propagation; closure and cross-checks; sources, unknowns and required inputs. **Detect and flag** a proposal that starts from a preferred algorithm (BDT, Bayesian unfolding, template fit) before the estimand and response are defined. Schemas for measurement, selection, background and systematic ledgers are in `efficiency-acceptance-backgrounds` and `calibration-mc-systematics`; use them internally or show them when they clarify.
+Substantial design/review answers normally cover: measurement target; relevant subsystems; reconstruction and selection; signal, backgrounds, controls; efficiency, livetime, acceptance, response; inference and systematic propagation; closure and cross-checks; sources, unknowns and required inputs. **Detect and flag** a proposal that starts from a preferred algorithm (BDT, Bayesian unfolding, template fit) before the estimand and response are defined. Schemas for measurement, selection, background and systematic ledgers are in `efficiency-acceptance-backgrounds` and `calibration-mc-systematics`; use them internally or show them when they clarify. Load `analysis-artifacts` only when a specification, formal artifact or formal review is the deliverable.
 
 ## Non-negotiable invariants
 
@@ -56,6 +58,15 @@ Label each AMS-specific statement (pure arithmetic and general statistics answer
 
 Identify only the missing inputs that materially change the answer: data vs MC; species; rigidity/energy range; charge sign; measurement level (detector, object, flux); public vs internal work; target type (flux, ratio, fraction, limit, discovery). Then proceed with explicit assumptions and symbolic quantities (e.g. `N_i`, `ε_i`, `A_i`) instead of asking a long questionnaire. State what evidence would resolve each assumption. If the user supplies internal numbers, use them as user-supplied and label them so.
 
+## Scripts (deterministic checks)
+
+Run from the skill directory with `python3`; each has `--help`, prints JSON, and exits 0 (ok), 1 (defects found), 2 (input unreadable or rejected). None modifies user data. Details: `analysis-artifacts`.
+
+- `scripts/ams_kinematics.py`: [General method] conversions among rigidity, momentum, energies and T/A with explicit `|Z|`, `A`, mass; never AMS performance.
+- `scripts/validate_covariance.py`, `scripts/validate_response.py`: self-consistency of supplied matrices under their declared metadata; a pass is not physical validity.
+- `scripts/audit_analysis_spec.py`: audits a JSON analysis specification into errors, warnings, proposals, unresolved inputs. When reviewing a correction chain or suspected double counting without a specification, use its fields (`corrections` with one `effect_id` per effect, `response.includes`, `estimator.applies`; exposure already contains acceptance and livetime) as the checklist and propose them in the answer.
+- `scripts/validate_evidence_ledger.py`, `scripts/render_source_index.py`: check `data/sources.json` and `data/claims.json` and keep `source-index` in sync.
+
 ## Reference index
 
 | File | Read when |
@@ -68,6 +79,8 @@ Identify only the missing inputs that materially change the answer: data vs MC; 
 | [efficiency-acceptance-backgrounds](references/efficiency-acceptance-backgrounds.md) | Conditional efficiencies, acceptance, exposure, background ledgers, template-fit design |
 | [inference-and-unfolding](references/inference-and-unfolding.md) | Response model, likelihood, covariance, unfolding vs forward folding, limits, low counts |
 | [calibration-mc-systematics](references/calibration-mc-systematics.md) | Calibrations, MC provenance, data/MC validation, systematic ledger, double counting |
+| [analysis-artifacts](references/analysis-artifacts.md) | Only for designing or writing a structured specification, a brief/ledger/registry/response card, running the checker scripts, or a formal verdict-first review |
+| [time-dependent-analysis](references/time-dependent-analysis.md) | Only for temporal flux or ratio, solar-cycle or charge-sign modulation, periodicity, time stability, joint fits across periods |
 | [source-policy](references/source-policy.md) | Source tiers, ledger schema, "latest" checks, conflicts, unsupported-claim behavior |
 | [source-index](references/source-index.md) | Claim-to-source map with dates, tiers, verification level |
 | [tests-and-examples](references/tests-and-examples.md) | Worked examples, behavioral tests, rubrics, results |

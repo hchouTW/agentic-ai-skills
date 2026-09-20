@@ -24,7 +24,7 @@ Read for proton, helium, heavier-nuclei flux analyses and secondary-to-primary o
 
 ## Documented AMS practice (full-text, main articles only)
 
-[Documented, S06, S08, S13-S15; claims C20, C23, C30, C31] Public AMS flux analyses: select downward-going particles with a tracker track through the required layers and \|Z\| consistent across Tracker, TOF, and (where used) TRD/RICH; require rigidity above **1.2 times the maximum geomagnetic cutoff** in the field of view (backtracing with IGRF), then vary this factor over 1.0-1.4 (or 1.2-1.4) as a systematic; use only time when the detector is in normal conditions, the instrument pointing is within 40° of the local zenith, and outside the South Atlantic Anomaly; write the flux as `N/(A ε ΔR T)` with `N` corrected for migration by **unfolding** (S06, S08 iterate until successive fluxes agree within 0.1%); correct acceptance for data/MC efficiency differences; add independent systematic sources in quadrature. The migration correction is not small: for phosphorus (S15) it ranges from about +25% at 3 GV to -21% at 1.2 TV. Time-resolved results use Bartels-rotation blocks (four rotations, 108 days; S13, S14). The choices below in the blueprint are general; these are what AMS reports.
+[Documented, S06, S08, S13-S15; claims C20, C23, C30, C31] Public AMS flux analyses: select downward-going particles with a tracker track through the required layers and \|Z\| consistent across Tracker, TOF, and (where used) TRD/RICH; require rigidity above **1.2 times the maximum geomagnetic cutoff** in the field of view (backtracing with IGRF), then vary this factor as a systematic (1.2-1.4 in the antiproton analysis S08, C23; 1.0-1.4 in the deuteron analysis S13, C27; other papers not checked for this); use only time when the detector is in normal conditions, the instrument pointing is within 40° of the local zenith, and outside the South Atlantic Anomaly; write the flux as `N/(A ε ΔR T)` with `N` corrected for migration by **unfolding** (S06, S08 iterate until successive fluxes agree within 0.1%); correct acceptance for data/MC efficiency differences; add independent systematic sources in quadrature. The migration correction is not small: for phosphorus (S15) it ranges from about +25% at 3 GV to -21% at 1.2 TV. Time-resolved results use Bartels-rotation blocks (four rotations, 108 days; S13, S14). The choices below in the blueprint are general; these are what AMS reports.
 
 ## Flux blueprint
 
@@ -83,6 +83,7 @@ For isotope of mass number `A`, charge `Z`, rest energy `m c²`:
 - **Reference rest energies** (General method; nuclear masses, check against PDG before high-precision use): p 0.9383 GeV, d 1.8756, ³He 2.8084, ⁴He 3.7274, ¹²C about 11.175 GeV (integer-`A` nuclei in this list are only approximately `A` times the nucleon mass, and the difference matters for `T/A`).
 - Flux Jacobian: `Φ(T/A) = Φ(R) · dR/d(T/A)`; the conversion of a binned flux requires the Jacobian and treatment of bin edges (not only relabeling).
 - Always report which variable the bins and the flux are in.
+- `scripts/ams_kinematics.py` computes these conversions, the exact bin-average flux factor and the point Jacobian, and refuses missing `Z`, `A` or mass; results are [General method] (see [analysis-artifacts](analysis-artifacts.md#checker-scripts)).
 
 ## Dominant backgrounds and effects
 
