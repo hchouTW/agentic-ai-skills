@@ -1,6 +1,6 @@
 ---
 name: skill-router
-description: Use at the start of any non-trivial task to silently check whether one of the user's domain skills (academic-papers, agile-development, ams-analysis, deep-learning, hep-analysis, task-authoring) applies before proceeding. Consult this for any non-trivial software change (implement/fix/add/refactor/migrate/update, scoping, code review), PyTorch model/training/DataLoader/debugging tasks (architecture selection, parallelism, compute budgeting, ablation, data/evaluation strategy), HEP/CERN/ROOT/PyROOT/RDataFrame/uproot/cutflow/systematics/fit/limit tasks (detector subsystems, event reconstruction, Geant4 simulation), AMS-02 (Alpha Magnetic Spectrometer) detector and cosmic-ray analysis tasks, reading/critiquing a paper, building a literature review, drafting a manuscript (LaTeX/REVTeX/JHEP/NeurIPS/ICML/ACL), managing a BibTeX file, or responding to referee reports, or authoring a task/ticket/spec document, a skill's canonical worked example, or an LLM prompt design/budget - even if the user doesn't name a skill or use the word "skill."
+description: Use at the start of any non-trivial task to silently check whether one of the user's domain skills (academic-diagrams, academic-papers, agile-development, ams-analysis, deep-learning, hep-analysis, task-authoring) applies before proceeding. Consult this for any non-trivial software change (implement/fix/add/refactor/migrate/update, scoping, code review), PyTorch model/training/DataLoader/debugging tasks (architecture selection, parallelism, compute budgeting, ablation, data/evaluation strategy), HEP/CERN/ROOT/PyROOT/RDataFrame/uproot/cutflow/systematics/fit/limit tasks (detector subsystems, event reconstruction, Geant4 simulation), AMS-02 (Alpha Magnetic Spectrometer) detector and cosmic-ray analysis tasks, reading/critiquing a paper, building a literature review, drafting a manuscript (LaTeX/REVTeX/JHEP/NeurIPS/ICML/ACL), managing a BibTeX file, or responding to referee reports, drawing or reviewing a scientific/technical diagram (flowchart, pipeline, architecture, graphical model, causal DAG, Feynman/decay diagram), or authoring a task/ticket/spec document, a skill's canonical worked example, or an LLM prompt design/budget - even if the user doesn't name a skill or use the word "skill."
 ---
 
 # Skill Router
@@ -11,13 +11,24 @@ on a match.
 
 ## Routing rules
 
+- **academic-diagrams** - drawing, transforming, reviewing, or simplifying
+  structural academic diagrams: research/analysis workflows, algorithm
+  flowcharts, system/agent/RAG/ML architectures, data-flow and sequence
+  diagrams, model-architecture figures, conceptual and causal frameworks;
+  HEP analysis pipelines, Monte Carlo chains, detector schematics, region and
+  likelihood workflows, decay trees, Feynman-style diagrams; probabilistic
+  graphical models and plate notation, Bayesian/frequentist workflows, causal
+  DAGs, MCMC/bootstrap flowcharts, HMMs; output as Mermaid, Graphviz DOT,
+  PlantUML, TikZ, SVG spec, or ASCII, plus captions. Not quantitative data
+  plots (histograms, spectra, fit results - `hep-analysis`/`academic-papers`),
+  and not the analysis or model code itself.
 - **academic-papers** - reading, critiquing, or summarizing scientific papers;
   building a literature review or a paper's "related work"/Introduction
   section; drafting, restructuring, or polishing a paper/section; formatting
   a manuscript in LaTeX (REVTeX, JHEP, JCAP, AASTeX, NeurIPS/ICML/ICLR/
   ACL-family style files, JMLR/TMLR); building or cleaning a BibTeX/.bib file
   or an ADS/DBLP/ACL-Anthology reference; designing figures/tables for
-  publication; tightening scientific prose; responding to referee reports; or
+  publication (structural diagrams: `academic-diagrams`); tightening scientific prose; responding to referee reports; or
   writing a single-shot conference rebuttal. Not the underlying statistical/
   ML/physics analysis - see `deep-learning`/`hep-analysis` for that; this is
   the reading/writing/formatting layer on top of it.

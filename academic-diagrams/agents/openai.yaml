@@ -1,0 +1,4 @@
+interface:
+  display_name: "Academic Diagrams"
+  short_description: "Design publication-quality academic diagrams (HEP, statistics, computer science) as editable Mermaid/DOT/TikZ sources with scientific validation and captions"
+  default_prompt: "Use $academic-diagrams to build the scientific model of the figure first (entities, typed edges, assumptions), choose the diagram family and abstraction level, validate it against the domain checklist, then render it as editable text (Mermaid, Graphviz, TikZ, or SVG spec) with a caption."
