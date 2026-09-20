@@ -95,3 +95,10 @@ erDiagram
 - Layout is automatic: long chains wrap unpredictably; use subgraphs and `direction` inside them, or switch tools when placement matters.
 - Comments: `%% comment`. Keep the diagram source in the repo next to the paper.
 - Mermaid has no plate notation or Feynman lines; do not fake them.
+
+## Line breaks in labels
+
+Use `<br/>` inside a quoted label (`A["Line one<br/>line two"]`); it is the most portable form. A literal `\n`
+inside a quoted label also rendered as a line break in the Mermaid CLI used to validate this bundle, but support
+varies by host (GitHub, Obsidian, older versions), so prefer `<br/>`. Unquoted labels with parentheses or `<`
+need quotes.

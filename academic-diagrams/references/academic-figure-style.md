@@ -41,14 +41,16 @@
 
 | Target | Width (typical, verify against the venue template) |
 |---|---|
-| Single column (REVTeX/APS) | ~8.6 cm (3.4 in) |
-| Double column span | ~17.8 cm (7 in) |
-| JHEP / one-column article | text width, ~15-16 cm |
-| NeurIPS/ICML/ICLR | ~13.97 cm text width (single column); ICML two-column ~8.5 cm per column |
+| Single column (REVTeX/APS) | ~8.6 cm (3.4 in), from the APS Reviews of Modern Physics style guide; the REVTeX 4.2 guide states no width and only says page-spanning figures use `figure*` |
+| Double column span (REVTeX/APS) | ~17.8 cm (7 in), common default, not stated in the REVTeX 4.2 guide |
+| JHEP (`jheppub`, a4paper) | text width 15.5 cm (~74% of the paper width); a float wider than 60% of the text width is centered on the page |
+| NeurIPS 2026 | text width 5.5 in (13.97 cm), single column |
+| ICML 2026 | two columns; overall text width 6.75 in (17.1 cm), 0.25 in between columns, so each column is 3.25 in (8.26 cm); left margin 0.75 in |
+| ICLR | single column, text width ~5.5 in in recent kits (not re-checked) |
 | Beamer 16:9 | ~ full slide; text >= 14-18 pt |
 | Poster | text >= 24 pt for labels |
 
-These are common defaults, not guarantees: read the venue's author kit. Design at final size;
+Checked 2026-09-21 against: the ICML 2026 example paper (widths above, plus figure lines at least 0.5 pt thick, no text on a gray background, and Type-1 fonts only - avoid Type-3 fonts from exported figures), the NeurIPS 2026 formatting instructions, the JHEP `jheppub` documentation, and the APS RMP style guide. Re-check each year and for every journal. These are common defaults, not guarantees: read the venue's author kit. Design at final size;
 avoid scaling a large figure down until the text is unreadable. Prefer vector (PDF/SVG) output.
 
 ## Panels and multi-figure consistency

@@ -1,7 +1,7 @@
 # Template: System Architecture
 
 **Use for:** software, distributed, data-platform, DAQ, simulation-framework architectures.
-**Before drawing:** inspect the repository (README, compose/Docker, manifests, configs, API specs, imports). List only components found or given.
+**Before drawing:** inspect the repository (and measure, do not estimate, any count that goes into a label) (README, compose/Docker, manifests, configs, API specs, imports). List only components found or given.
 
 ## Component table
 

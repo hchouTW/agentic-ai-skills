@@ -142,6 +142,9 @@ Domain checklists: [HEP](references/high-energy-physics.md),
   - "Simplified decay tree, not a formally verified Feynman diagram."
 - If source files (code, configs, LaTeX, schemas, Docker, manifests) are available,
   read them before drawing an architecture; do not infer from filenames alone.
+- Numbers in labels (file counts, section counts, layer sizes, thresholds) are facts: measure or copy
+  them from the source (`ls | wc -l`, the code, the text) or leave them out. A validation run once
+  labeled boxes "33 topic files" and "24 examples" for a repo that had 31 and 25.
 
 ## Review, Refactor, Transform
 
