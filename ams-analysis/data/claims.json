@@ -960,7 +960,7 @@
       "data_period": "May 2011-October 2019",
       "analysis": "daily proton flux periodicities"
     },
-    "limitations": "Abstract-level statement. The main article was later read and is consistent with it on the points stated here; method detail is in C43-C49. Re-check numbers against the paper before quoting.",
+    "limitations": "Abstract-level statement, checked against the published abstract in the paper PDF on 2026-09-20; method detail is in C43-C53. Re-check numbers against the paper before quoting.",
     "verification_strength": "abstract+metadata",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-20"
@@ -987,7 +987,7 @@
       "data_period": "May 2011-October 2019",
       "analysis": "daily helium flux"
     },
-    "limitations": "Abstract-level statement. The main article was later read and is consistent with it on the points stated here; method detail is in C43-C49. Re-check numbers against the paper before quoting.",
+    "limitations": "Abstract-level statement, checked against the published abstract in the paper PDF on 2026-09-20; method detail is in C43-C53. Re-check numbers against the paper before quoting.",
     "verification_strength": "abstract+metadata",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-20"
@@ -1014,14 +1014,14 @@
       "data_period": "May 2011-May 2017",
       "analysis": "Bartels-rotation time structure"
     },
-    "limitations": "Abstract-level statement. The main article was later read and is consistent with it on the points stated here; method detail is in C43-C49. Re-check numbers against the paper before quoting.",
+    "limitations": "Abstract-level statement, checked against the published abstract in the paper PDF on 2026-09-20; method detail is in C43-C53. Re-check numbers against the paper before quoting.",
     "verification_strength": "abstract+metadata",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-20"
   },
   {
     "id": "C39",
-    "claim": "Electron and positron fluxes over 79 Bartels rotations (May 2011-May 2017): charge-sign dependent modulation during solar maximum studied with leptons alone; monthly-scale structures visible in each flux but not in their ratio; the positron-to-electron ratio changes smoothly over the solar polarity reversal",
+    "claim": "Electron and positron fluxes over 79 Bartels rotations (May 2011-May 2017) in energy from 1 to 50 GeV: charge-sign dependent modulation during solar maximum studied with leptons alone; short-term structures on the timescale of months appear coincidently in the electron and positron fluxes but are not visible in the positron-to-electron ratio; across the solar polarity reversal the ratio shows a smooth transition over 830 +- 30 days whose midpoint has an energy-dependent delay",
     "claim_types": [
       "published_result"
     ],
@@ -1032,18 +1032,18 @@
     ],
     "location": "abstract",
     "scope": {
-      "text": "electron, positron; not recorded; lepton time structure",
+      "text": "electron, positron; 1-50 GeV in energy (not rigidity); 2011-05 to 2017-05; lepton time structure",
       "species": [
         "electron",
         "positron"
       ],
-      "range": "not recorded",
+      "range": "1-50 GeV (energy)",
       "data_period": "May 2011-May 2017",
       "analysis": "lepton time structure"
     },
-    "limitations": "Abstract-level statement. The main article was later read and is consistent with it on the points stated here; method detail is in C43-C49. Re-check numbers against the paper before quoting.",
+    "limitations": "Abstract-level statement, checked against the published abstract in the paper PDF on 2026-09-20; method detail is in C43-C53. Re-check numbers against the paper before quoting.",
     "verification_strength": "abstract+metadata",
-    "numeric_quotation_allowed": false,
+    "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-20"
   },
   {
@@ -1068,14 +1068,14 @@
       "data_period": "11 years",
       "analysis": "daily electron flux periodicities"
     },
-    "limitations": "Abstract-level statement. The main article was later read and is consistent with it on the points stated here; method detail is in C43-C49. Re-check numbers against the paper before quoting.",
+    "limitations": "Abstract-level statement, checked against the published abstract in the paper PDF on 2026-09-20; method detail is in C43-C53. Re-check numbers against the paper before quoting.",
     "verification_strength": "abstract+metadata",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-20"
   },
   {
     "id": "C41",
-    "claim": "Daily positron fluxes over 11 years, 1.00-41.9 GV: positron time variations differ distinctly from electron variations at short and long timescales and are similar to proton variations; a hysteresis between electron and positron fluxes appears below about 8.5 GV",
+    "claim": "Daily positron fluxes over 11 years, 1.00-41.9 GV: positron time variations differ distinctly from electron variations at short and long timescales and are similar to proton variations; a hysteresis between electron and positron fluxes appears below about 8.5 GV; the positron fluxes are modulated more than the proton fluxes below about 7 GV",
     "claim_types": [
       "published_result"
     ],
@@ -1096,14 +1096,14 @@
       "data_period": "11 years",
       "analysis": "daily positron flux and charge-sign effects"
     },
-    "limitations": "Abstract-level statement. The main article was later read and is consistent with it on the points stated here; method detail is in C43-C49. Re-check numbers against the paper before quoting.",
+    "limitations": "Abstract-level statement, checked against the published abstract in the paper PDF on 2026-09-20; method detail is in C43-C53. Re-check numbers against the paper before quoting.",
     "verification_strength": "abstract+metadata",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-20"
   },
   {
     "id": "C42",
-    "claim": "Nuclei He, Li, Be, B, C, N, O over May 2011-November 2022, 1.92-60.3 GV: similar but not identical time variations with amplitudes decreasing with rigidity; the differences in modulation are linearly correlated with differences in spectral indices",
+    "claim": "Nuclei He, Li, Be, B, C, N, O over May 2011-November 2022, 1.92-60.3 GV: similar but not identical time variations with amplitudes decreasing with rigidity; the differences in modulation are linearly correlated with differences in spectral indices; below 3.64 GV the Li, Be and B fluxes and below 2.15 GV the C, N and O fluxes are significantly less affected by solar modulation than the He flux; solar-modulation differences due to the velocity dependence on the mass-to-charge ratio A/Z are not observed",
     "claim_types": [
       "published_result"
     ],
@@ -1128,7 +1128,7 @@
       "data_period": "May 2011-November 2022",
       "analysis": "nuclei solar modulation"
     },
-    "limitations": "Abstract-level statement. The main article was later read and is consistent with it on the points stated here; method detail is in C43-C49. Re-check numbers against the paper before quoting.",
+    "limitations": "Abstract-level statement, checked against the published abstract in the paper PDF on 2026-09-20; method detail is in C43-C53. Re-check numbers against the paper before quoting.",
     "verification_strength": "abstract+metadata",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-20"
@@ -1182,7 +1182,7 @@
       "data_period": "2011-05-20 to 2019-10-29",
       "analysis": "daily proton flux systematics"
     },
-    "limitations": "One analysis; the covariance model across days is not stated in the main article (SM not read); the electron, positron and helium papers also separate time-dependent and time-independent systematic errors.",
+    "limitations": "One analysis. No covariance model across days appears in the main article or in the extracted Supplemental Material text of S43, S45 and S46 (searched for 'correlat', 'covariance'); the electron, positron and helium papers also separate time-dependent and time-independent systematic errors.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-20"
@@ -1208,7 +1208,7 @@
       "data_period": "2011-05-20 to 2019-10-29",
       "analysis": "wavelet periodicity analysis"
     },
-    "limitations": "The main article gives no trial-factor or look-elsewhere treatment; wavelet details are in the Supplemental Material, which was not read, so absence of such a treatment is not established.",
+    "limitations": "Main article; wavelet details are in the Supplemental Material (see C52). No trial-factor or look-elsewhere treatment is described in the main article or in the extracted Supplemental Material text; that is not proof none was applied.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-20"
@@ -1352,6 +1352,88 @@
     "limitations": "Main article only; a description in one paper, not a performance figure; Supplemental Material not read.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-20"
+  },
+  {
+    "id": "C51",
+    "claim": "Daily proton analysis, collection time and cutoff: the collection time includes only seconds with the detector in normal operating conditions, AMS pointing within 40 degrees of the local zenith and the ISS outside the South Atlantic Anomaly; because of the geomagnetic field the daily collection time depends strongly on rigidity, from (1.6-3.7)x10^3 s at 1 GV to (6.7-7.3)x10^4 s out of 8.64x10^4 s per day above 30 GV; the local geomagnetic cutoff was calculated directly from AMS data by measuring the proton flux at each geomagnetic position, and a cutoff from the IGRF model with external non-symmetric fields during the most disturbed periods was verified not to introduce observable changes",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S43"
+    ],
+    "location": "Supplemental Material, Event Selection",
+    "scope": {
+      "text": "proton; 1.00-100 GV; daily proton flux collection time and cutoff",
+      "species": [
+        "proton"
+      ],
+      "range": "1.00-100 GV",
+      "data_period": "2011-05-20 to 2019-10-29",
+      "analysis": "daily proton flux collection time and cutoff"
+    },
+    "limitations": "Supplemental Material text only; the data-derived cutoff method is deferred to a later publication in the SM; this differs from the fixed-safety-factor selection of C31 and C20, so neither is a universal AMS rule.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-20"
+  },
+  {
+    "id": "C52",
+    "claim": "Wavelet analysis details for the daily proton periodicities: a continuous wavelet transform with a Morlet wavelet; normalized power defined as the wavelet power divided by the variance of the time series in the analyzed interval; significance assessed with Monte Carlo simulations of a lag-1 autoregressive background y_n = alpha y_(n-1) + z_n whose variance and lag-1 autocorrelation are those of the measured series; the 95% confidence level for each period is the power exceeded by 5% of the power values of the simulated background; a cross wavelet transform relates two series",
+    "claim_types": [
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S43"
+    ],
+    "location": "Supplemental Material, Wavelet Analysis",
+    "scope": {
+      "text": "proton; 1.00-100 GV; wavelet periodicity significance",
+      "species": [
+        "proton"
+      ],
+      "range": "1.00-100 GV",
+      "data_period": "2011-05-20 to 2019-10-29",
+      "analysis": "wavelet periodicity significance"
+    },
+    "limitations": "Supplemental Material text only. The significance is per period against red noise; no trial-factor or look-elsewhere correction is described in the extracted text, which does not prove none was applied.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-09-20"
+  },
+  {
+    "id": "C53",
+    "claim": "Hysteresis significance procedure in the positron paper: choose two time intervals with the same electron flux, one before and one after 2014-2015, that show the most significant difference in the positron flux; take the ratio of the positron fluxes with the statistical and time-dependent systematic errors of the positron flux and the correlated errors of the electron flux; repeat for the remaining non-overlapping time intervals and combine into an overall significance; the same construction with protons is used in the electron paper",
+    "claim_types": [
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S46",
+      "S45"
+    ],
+    "location": "Supplemental Material, Hysteresis Analysis",
+    "scope": {
+      "text": "positron, electron, proton; 1.00-11.0 GV; hysteresis significance",
+      "species": [
+        "positron",
+        "electron",
+        "proton"
+      ],
+      "range": "1.00-11.0 GV",
+      "data_period": "2011-2021",
+      "analysis": "hysteresis significance"
+    },
+    "limitations": "Supplemental Material text only; the procedure selects the interval pair with the maximum difference and no trial-factor correction for that selection is described in the extracted text; numbers not transcribed.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": false,
     "last_reviewed": "2026-09-20"
   }
 ]

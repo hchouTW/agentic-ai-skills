@@ -1197,7 +1197,7 @@
     "tier_range": null,
     "tier_text": "1",
     "verification_level": "full-text",
-    "verification_note": "main article only",
+    "verification_note": "main article and Supplemental Material text",
     "access_date": "2026-09-20",
     "publication_date": "2021",
     "data_taking_period": {
@@ -1209,7 +1209,7 @@
     "superseded_by": [],
     "supersession_note": null,
     "notes": "Individual record split out of the grouped row S16. Title taken from the PDF (S44's from its INSPIRE record).",
-    "verification_limitations": "Main article read from the publisher PDF (pdftotext) on 2026-09-20; Supplemental Material not opened, so wavelet details, significance procedures, per-day tables and figures are not read."
+    "verification_limitations": "Main article and the text of the Supplemental Material (publisher PDFs, pdftotext, 2026-09-20) were read; the supplemental data tables and figure content were not, and the searches for covariance and trial-factor statements covered the extracted text only."
   },
   {
     "id": "S44",
@@ -1259,7 +1259,7 @@
     "tier_range": null,
     "tier_text": "1",
     "verification_level": "full-text",
-    "verification_note": "main article only",
+    "verification_note": "main article and Supplemental Material text",
     "access_date": "2026-09-20",
     "publication_date": "2023",
     "data_taking_period": {
@@ -1271,7 +1271,7 @@
     "superseded_by": [],
     "supersession_note": null,
     "notes": "Individual record split out of the grouped row S16. Title taken from the PDF (S44's from its INSPIRE record).",
-    "verification_limitations": "Main article read from the publisher PDF (pdftotext) on 2026-09-20; Supplemental Material not opened, so wavelet details, significance procedures, per-day tables and figures are not read."
+    "verification_limitations": "Main article and the text of the Supplemental Material (publisher PDFs, pdftotext, 2026-09-20) were read; the supplemental data tables and figure content were not, and the searches for covariance and trial-factor statements covered the extracted text only."
   },
   {
     "id": "S46",
@@ -1290,7 +1290,7 @@
     "tier_range": null,
     "tier_text": "1",
     "verification_level": "full-text",
-    "verification_note": "main article only",
+    "verification_note": "main article and Supplemental Material text",
     "access_date": "2026-09-20",
     "publication_date": "2023",
     "data_taking_period": {
@@ -1302,7 +1302,7 @@
     "superseded_by": [],
     "supersession_note": null,
     "notes": "Individual record split out of the grouped row S16. Title taken from the PDF (S44's from its INSPIRE record).",
-    "verification_limitations": "Main article read from the publisher PDF (pdftotext) on 2026-09-20; Supplemental Material not opened, so wavelet details, significance procedures, per-day tables and figures are not read."
+    "verification_limitations": "Main article and the text of the Supplemental Material (publisher PDFs, pdftotext, 2026-09-20) were read; the supplemental data tables and figure content were not, and the searches for covariance and trial-factor statements covered the extracted text only."
   },
   {
     "id": "S47",
