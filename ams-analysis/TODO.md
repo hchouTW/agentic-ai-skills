@@ -1,39 +1,34 @@
 # ams-analysis: open work for the next session
 
-State when this file was written: branch `ams-analysis-executable-checks`, all required work from the task brief is done and validated (`python3 scripts/validate_skill_bundle.py` OK with 38 files; `python3 -m unittest discover -s tests` 238 tests OK; `python3 scripts/render_source_index.py` in sync). Read `VALIDATION.md` first: it records what was run, what was self-graded, and every known gap. Do not repeat finished work; do not claim a check passed without running it.
+State: branch `ams-analysis-executable-checks`; all required work from the task brief is done and validated (`python3 scripts/validate_skill_bundle.py` OK with 38 files; `python3 -m unittest discover -s tests` 238 tests OK; `python3 scripts/render_source_index.py` in sync). Read `VALIDATION.md` first: it records what was run, what was self-graded versus independently graded, and every known gap. Do not repeat finished work; do not claim a check passed without running it.
 
 Ground rules that still apply: standard library only for scripts; every AMS-specific number needs a scoped claim in `data/claims.json` (edit the JSON, run `scripts/validate_evidence_ledger.py`, then `scripts/render_source_index.py --write`); never promote a claim's `verification_strength` without reading the source at that level; label statements [Documented] / [General method] / [Proposal] / [Unknown/needs input].
 
-## 1. Merge the branch (needs the owner's decision)
+## Done since the first TODO (do not redo)
 
-- [ ] Open a PR from `ams-analysis-executable-checks` into `main` (or merge locally) and check that `skill-router` still validates (`cd ../skill-router && python3 scripts/validate_skill_bundle.py && python3 -m unittest discover -s tests`).
+- Supplemental Material text of S43, S45, S46 read; claims C51-C53 added (collection time and cutoff, wavelet red-noise significance, hysteresis procedure). No covariance model across days and no trial-factor correction appear in the text read.
+- C36-C42 re-checked against the paper abstracts; C39 (energy, 1-50 GeV), C41, C42 corrected.
+- Small defects: claim topic index in `source-index`, short-answer rule in `SKILL.md`, current-date note in `source-policy`, ECAL claim C50.
+- Independent grading (Opus grader, nine prompts) done: 7 pass, 2 fail (T29 blocking, T24); narrow fixes made; T29, T24 re-run and fixed, T08 partly fixed. Details in `VALIDATION.md`.
+- Branch pushed to GitHub; a PR was opened (see the PR list); do not merge without the owner's decision.
 
-## 2. Independent behavioral grading (highest value)
+## 1. Behavioral follow-up (highest value)
 
-All behavioral results in `VALIDATION.md` are self-graded: one sample per prompt, answerers were fresh sub-agents, but the grader was the author who knew the rubrics. An attempted independent grader (a different model holding the rubric, reading saved transcripts) failed on an API spend limit and produced no scores; the transcripts it needed were temporary and are gone, so the answers must be regenerated.
+- [ ] Independent second grading of the re-runs (T29, T24, T08) and of more prompts: only nine prompts were independently graded; the other 25 tests were self-graded and the independent grader was stricter than the self-grades. Regenerate answers to files, grade with a different model that holds the rubric, and verify every quoted claim ID against `data/claims.json`.
+- [ ] Take more than one sample per prompt for the prompts that failed or were borderline (T05, T08, T24, T29, T32, T33).
+- [ ] The dominant failure patterns were a correct fact with the wrong claim ID and a claim's scope widened to sibling papers. The T08 re-run still cited a range "C22-C26". Consider a per-topic claim map with scopes in `source-index`, or a short rule that a claim range must be an exact claim list; fix narrowly, not by adding global rules.
+- [ ] T33 missed the publication-date versus data-taking-period distinction; T30 covered only the inefficiency reading of a 0.85 column sum (the out-of-range feed-in reading is also legitimate); check whether `inference-and-unfolding` states the second reading clearly.
+- [ ] T23 (ACC) was over-long once; re-check after the short-answer rule.
 
-- [ ] Re-run T29-T34 (and ideally T05, T08, T24, T31) with fresh answerers that read only `SKILL.md` and the routed references (never `references/tests-and-examples.md`), saving each final answer to a file.
-- [ ] Have a separate grader on a different model, holding the rubric, grade the saved answers, verify every quoted number and claim ID against `data/claims.json`, and report PASS/FAIL, per-dimension scores and defects. Record agreement or disagreement with the earlier self-grades in `VALIDATION.md`.
-- [ ] Take more than one sample per prompt for the tests that failed or were partial once (T31 first run; T23 was over-long).
-- [ ] Fix narrowly, in the responsible reference only; do not add global rules for one stylistic slip.
+## 2. Close the remaining evidence gaps
 
-## 3. Close the evidence gaps
-
-- [ ] Read the Supplemental Material of the time-structure papers (S41-S47) and add scoped claims for: how systematic errors are correlated across days or rotations; how the wavelet significance was calibrated; whether any trial-factor or look-elsewhere correction was applied; how the hysteresis significance was computed; how the daily collection time T is determined. Then update `references/time-dependent-analysis.md` (Evidence boundary and gap paragraph).
-- [ ] Read the Phys. Rept. review (S01) and S02, S03, S07, S11, S16, S20 (metadata-only or abstract-only rows) if full text can be obtained; upgrade `verification_level` only after reading.
-- [ ] The S05 inconsistency noted in `VALIDATION.md` (the old "Items lacking verification" bullet listed it as metadata-only while its table row says full-text) is still an open human decision.
+- [ ] Supplemental Material text of S41, S42, S44 and S47, and the supplemental data tables of all of them (not read).
+- [ ] Phys. Rept. review (S01), S02, S03, S07, S11, S16, S20 (metadata-only or abstract-only rows): upgrade `verification_level` only after reading.
+- [ ] Decide the S05 inconsistency noted in `VALIDATION.md` (old bullet said metadata-only, table said full-text).
 - [ ] Have a human physicist review the ledger judgement calls listed in `VALIDATION.md` (claim strengths, `support_kind`, `numeric_quotation_allowed`, tier ranges, supersession S02/S03).
-- [ ] Re-verify titles and numbers of C36-C42 (read as abstracts through a summarizing fetch tool before the full texts were read) against the papers.
 
-## 4. Small known defects to fix (each seen once in a behavioral run)
+## 3. Optional, only if a routed decision needs it
 
-- [ ] `tests-and-examples.md` T08 answer cited the antiproton template-fit practice to claim C26 (the electron claim); C22 is correct. Consider making claim IDs easier to find (for example a one-line topic index in `source-index`).
-- [ ] T23 (ACC) answers run longer than the "short answer" rubric wants; check whether `SKILL.md`'s simple-question rule needs a sharper example.
-- [ ] Answers sometimes call the verification date "today's date": consider one sentence in `source-policy` that the model cannot know the current date.
-- [ ] Re-run T29 and T32 after the wording fixes made in `charged-cosmic-rays.md` and `time-dependent-analysis.md` (they were not re-run).
-
-## 5. Optional, only if a routed decision needs it
-
-- [ ] Network refresh of the ledger: it may only propose metadata changes from INSPIRE or DOI records and must never promote a claim to full-text or rewrite scientific claims without review.
-- [ ] Remaining statistical-validation items listed as not implemented in `references/statistical-diagnostics.md` (Feldman-Cousins or CLs with toys, profile-likelihood boundary behavior, finite-template effects, unfolding closure/pull/prior/regularization scans, correlated ratio toys). Keep each small, seeded and labeled as an approximation; do not build a framework.
-- [ ] Consider adding a small `--format yaml-subset` reader only if users actually write YAML specifications; today the specification is JSON only.
+- [ ] Network refresh of the ledger: may only propose metadata changes from INSPIRE or DOI records and must never promote a claim to full-text or rewrite scientific claims without review.
+- [ ] Remaining statistical-validation items listed as not implemented in `references/statistical-diagnostics.md` (Feldman-Cousins or CLs with toys, profile-likelihood boundary behavior, finite-template effects, unfolding scans, correlated ratio toys). Keep each small, seeded and labeled as an approximation.
+- [ ] A YAML-subset reader for specifications, only if users actually write YAML.

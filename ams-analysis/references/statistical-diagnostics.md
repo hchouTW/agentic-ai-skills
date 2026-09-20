@@ -24,6 +24,7 @@ Read only when a low-count answer needs numbers that a rule alone cannot give: a
 ## Decision rules
 
 - **[General method]** With `N` small against `B` the classical limit can be zero or negative; the script then reports no limit and says so. That is not a result: use a Feldman-Cousins or CLs construction with toys (S31, S36) and report the expected sensitivity, which this script does not compute.
+- **[General method]** For `N = 0` the classical limit on the signal is `-ln(1 - CL) - B`: it shrinks as the expected background `B` grows and is not positive once `B` reaches `-ln(1 - CL)`. It is `B`-independent only for a flat-prior Bayesian limit, which answers a different question. Never call the classical zero-count limit "independent of the background".
 - **[General method]** A background is treated as exactly known. An uncertain background, nuisance parameters, or a template fit need a profile-likelihood or toy construction, not this script.
 - **[General method]** Coverage of a discrete distribution oscillates with the true mean; a single-mean coverage number is a diagnostic, not a proof. Scan the mean before claiming coverage.
 - **[Proposal]** Record the seed, toy count, confidence level and the script version next to any result that quotes a toy-based number.

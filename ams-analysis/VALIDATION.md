@@ -84,7 +84,20 @@ A third batch ran the remaining thirteen originals (T01, T03, T04, T06, T10, T11
 
 All 28 original tests and the six new ones (T31 and T32 twice) have now been re-run at least once since the extension; every run passed on its final attempt, with T31's first run partial (fixed).
 
-Not done: independent (rubric-blind, different-model) grading and repeated samples per prompt; the T29 and T32 wording fixes were not re-run.
+**Independent grading (different model, rubric read by the grader, answers regenerated and saved to files; nine prompts: T05, T08, T24, T29-T34).** Result: 7 PASS (three borderline at exactly 90%) and 2 FAIL, core score 76/84 = 90.5%, but the suite fails on one blocking failure. This is stricter than the self-grades above, which had passed all nine; treat the self-grades as too lenient. Findings, each checked by the author against the answer file and the tools:
+
+- **T29, FAIL (blocking):** the answer wrote "3 TV corresponds to pc = 3000 GeV" for helium (|Z| = 2), where `ams_kinematics.py` returns 6000 GeV/c, and its own T/A of 1499 GeV/n needs 6000: rigidity used as momentum at the top edge. Also cited claims without the specific IDs for the cutoff-factor variation (C27) and the quadrature combination (C33).
+- **T24, FAIL (score, 80%):** it said the classical zero-count limit is independent of the background; the classical limit is `-ln(alpha) - b` (the script returns 1.996 for n=0, b=1). Also lumped S26 and S27 (third-party theory, reviews) with S24-S25 (unverified-type records).
+- **T08, borderline pass:** attributed the antiproton template-fit facts to C26 and C25 (electron and positron claims) where C22 is correct.
+- **T05, borderline pass:** attached the 0.1% unfolding convergence rule to S06 (it is C23, S08 only) and the 1.2 cutoff factor to S14 and S15, whose claims (C29, C30) contain no cutoff statement.
+- **T32, borderline pass:** claim groupings partly wrong (C22 quoted for an S04/S05 method; C43-C47 called Bartels-rotation results though they are daily; C44 quoted without its proton, daily scope).
+- **T33, borderline pass:** missed the publication-date versus data-taking-period distinction; one garbled sentence.
+- **T30, T31, T34: pass** (T31 strongest; T34 has two small non-AMS RooFit inaccuracies).
+- Patterns: correct fact with the wrong claim ID; a claim's scope widened to sibling papers. No answer invented an AMS cut, efficiency, systematic size, candidate count or publication.
+
+Fixes made in response (narrow): one sentence in `statistical-diagnostics` that the classical zero-count limit shrinks with the expected background; in `SKILL.md`, a rule to state every converted value from the script output for that exact input, and a rule to cite the claim ID from its own row and check its scope covers the statement. T29, T24 and T08 were then re-run once, and the author checked only the specific defects the grader found (no second independent grading): T29 now gives p = 6000 GeV/c for 3 TV helium, consistent with T/A = 1499 GeV/n (fixed); T24 now states that the classical zero-count limit is `-ln(1-CL) - b` and not background-independent, after running the script (fixed); T08 now cites C22, but as the range "C22-C26", which still includes the positron and electron claims (only partly fixed).
+
+Not done: repeated samples per prompt, and independent grading of the 19 other tests already re-run (only the nine above were independently graded).
 
 Optional statistics phase, implemented in a deliberately narrow form: `scripts/poisson_diagnostics.py` (exact Poisson upper limit for a known background, Garwood interval, seeded coverage; 14 tests against known values, e.g. the zero-count bound -ln 0.05, n=0 and n=1 intervals, and reproducible coverage) with `references/statistical-diagnostics.md`. Its output, a classical limit with a warning when it is unphysical, is not a Feldman-Cousins or CLs construction. No behavioral evaluation was run for it.
 

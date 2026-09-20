@@ -53,7 +53,7 @@ Substantial design/review answers normally cover: measurement target; relevant s
 
 ## Source-verification rule
 
-Label each AMS-specific statement (pure arithmetic and general statistics answers are labeled [General method], with the assumptions stated): **[Documented]** (cite source from `source-index`), **[General method]**, **[Proposal]**, or **[Unknown/needs input]**. For "latest", "current status", "has AMS published X", or any post-2025 claim: check current primary sources (INSPIRE-HEP, journal, ams02.space) when browsing is available, report publication date versus data-taking period, and check for supplements and superseding papers; when browsing is unavailable say so and do not claim currency (this skill's index was last verified 2026-09-20). Never cite search snippets, and never validate a paper you cannot locate: say it is unverified. Details: `source-policy`.
+Label each AMS-specific statement (pure arithmetic and general statistics answers are labeled [General method], with the assumptions stated): **[Documented]** (cite source from `source-index`), **[General method]**, **[Proposal]**, or **[Unknown/needs input]**. For "latest", "current status", "has AMS published X", or any post-2025 claim: check current primary sources (INSPIRE-HEP, journal, ams02.space) when browsing is available, report publication date versus data-taking period, and check for supplements and superseding papers; when browsing is unavailable say so and do not claim currency (this skill's index was last verified 2026-09-20). Cite the claim ID from the claim's own row in `source-index` (not from memory or a neighbouring row) and check that its species, range, period and paper cover the statement; do not extend a claim to sibling papers or other species. Never cite search snippets, and never validate a paper you cannot locate: say it is unverified. Details: `source-policy`.
 
 ## Response policy for missing information
 
@@ -63,7 +63,7 @@ Identify only the missing inputs that materially change the answer: data vs MC; 
 
 Run from the skill directory with `python3`; each has `--help`, prints JSON, and exits 0 (ok), 1 (defects found), 2 (input unreadable or rejected). None modifies user data. Details: `analysis-artifacts`.
 
-- `scripts/ams_kinematics.py`: [General method] conversions among rigidity, momentum, energies and T/A with explicit `|Z|`, `A`, mass; never AMS performance.
+- `scripts/ams_kinematics.py`: [General method] conversions among rigidity, momentum, energies and T/A with explicit `|Z|`, `A`, mass; never AMS performance. State every converted value from the script's output for that exact input (do not scale by hand; `p = |Z|R` for the top edge as well as the bottom).
 - `scripts/validate_covariance.py`, `scripts/validate_response.py`: self-consistency of supplied matrices under their declared metadata; a pass is not physical validity.
 - `scripts/audit_analysis_spec.py`: audits a JSON analysis specification into errors, warnings, proposals, unresolved inputs. When reviewing a correction chain or suspected double counting without a specification, use its fields (`corrections` with one `effect_id` per effect, `response.includes`, `estimator.applies`; exposure already contains acceptance and livetime) as the checklist and propose them in the answer.
 - `scripts/poisson_diagnostics.py`: exact Poisson upper limit, Garwood interval, seeded coverage; classical limit only, known background.
