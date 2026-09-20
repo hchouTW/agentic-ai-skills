@@ -60,7 +60,7 @@ prompt says "this ...", and no grading criteria. Outputs were graded afterwards 
 | 4 | Hierarchical model -> plates | pass: factorization matches graph, fixed vs latent distinguished | - |
 | 5 | Causal DAG | pass: no edges beyond the stated ones; noted the strong no-direct-effect claim; identification notes correct | added front-door discussion the user did not ask for |
 | 6 | MCMC -> flowchart | pass: loops and stopping criterion, flagged the missing max-iteration guard | used `\n` in a label; `<br/>` guidance was missing from `mermaid-patterns.md` (both render in `mmdc`) - added |
-| 7 | Repo -> architecture | **partial**: read the files and separated Known/Inferred, but node labels carried wrong counts ("33 topic files", "24 examples", "3 sections" vs 31, 25, 14) | numbers in labels were not measured - rule added to `SKILL.md` and `templates/system-architecture.md` |
+| 7 | Repo -> architecture | **partial**: read the files and separated Known/Inferred, but a node label said "33 topic files" for a `references/` folder holding 31 (33 is the number of reference links in `SKILL.md`, two of them cross-skill); "24 examples" was correct | counted link mentions instead of files - rule added to `SKILL.md` and `templates/system-architecture.md` |
 | 8 | Multi-agent system | pass: data vs control edges, no invented orchestrator, open questions listed | - |
 | 9 | Transformer code -> figure | pass: pre-norm order, tied weights, causal mask, dropout locations all match the code | - |
 | 10 | Mermaid overview + TikZ | pass: TikZ compiled with Tectonic (independently re-compiled here, layout inspected) | - |
@@ -80,6 +80,26 @@ of incoming/outgoing fermion arrows) and keep the auto-layout one with a warning
 overall, 0.25 in gutter, so 3.25 in = 8.26 cm per column; the earlier "~8.5 cm" was slightly off and the row conflated ICML with NeurIPS),
 NeurIPS 2026 (5.5 in), JHEP `jheppub` (15.5 cm on a4paper). APS single column (8.6 cm) comes from the RMP style guide; the REVTeX 4.2
 guide itself states no figure widths, and 17.8 cm for a full-width figure is still an unverified default.
+
+## Second sample with a different model (Haiku) (2026-09-21, follow-up)
+
+Four prompts re-run in fresh Haiku subagents (1 Methods, 4 plates, 5 causal DAG, 7 repo). All four produced usable sources that compile.
+
+| # | Result | Gap found -> fix |
+|---|---|---|
+| 4 | **fail on a scientific point**: drew mu and tau, which have priors, as bare fixed hyperparameters (its own notes listed the priors); invented "Figure 1." | `references/probability-statistics.md` said "hyperparameter: bare symbol"; `templates/bayesian-model.md` drew mu/tau plaintext. Fixed: a hyperparameter with a prior is a random variable (circle); only fixed constants are bare. Template re-rendered. |
+| 5 | structure correct (6 edges, no invented ones); identification notes muddled ("both must be controlled" while G is unmeasured) | added "Identification claims on causal DAGs" to `references/probability-statistics.md` |
+| 1 | usable, but invented "(parton shower + hadronization)" on the simulation box and did not flag the ambiguous "Z+jets" background that the Sonnet run caught | added the no-invented-details rule to `SKILL.md` |
+| 7 | repeated the "33 references" miscount and wrote "verified by file listing" without listing | rule sharpened: count the things, not mentions of them |
+
+Takeaway: the same skill gives noticeably weaker scientific judgment with a smaller model; the fixes above target the reference text that misled it,
+not the model. Still one sample per prompt per model.
+
+## Layout review of all 37 Mermaid renders (2026-09-21)
+
+Rendered every Mermaid block to PNG and reviewed them. Two defects in this bundle's own new examples were fixed: `general/06` (self-loop
+label overlapped the test-set node; now a two-node tuning loop) and `general/05` (edge label collided with the router box; now dropped and stated in text).
+The Bayesian-model DOT plate labels now sit at the bottom right (`labelloc=b`), clear of the edges. The other renders had no overlaps at this review depth.
 
 ## Not verified
 

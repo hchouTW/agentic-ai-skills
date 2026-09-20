@@ -8,33 +8,35 @@ Use `probabilistic-graphical-model.md` when only the model graph is needed, and 
 
 | symbol | role | distribution / definition | plate | observed? |
 |---|---|---|---|---|
-| `\mu` | hyperparameter (fixed) | `\mathrm{const}` | - | fixed |
+| `\mu` | hyperparameter with a prior (latent) | `\mu \sim \mathcal N(0,10)` | - | no |
+| `\tau` | hyperparameter with a prior (latent) | `\tau \sim \mathrm{HalfCauchy}(5)` | - | no |
+| `\sigma` | fixed known constant | `\sigma = \mathrm{const}` | - | fixed |
 | `\theta_j` | latent parameter | `\theta_j \sim \mathcal N(\mu,\tau)` | j = 1..J | no |
 | `y_{ij}` | data | `y_{ij} \sim \mathcal N(\theta_j,\sigma)` | i = 1..N_j | yes |
 
 **Factorization** (the graph must match it exactly):
-`p(y,\theta \mid \mu,\tau,\sigma) = \prod_j p(\theta_j \mid \mu,\tau) \prod_i p(y_{ij} \mid \theta_j,\sigma)`
+`p(y,\theta,\mu,\tau \mid \sigma) = p(\mu)\,p(\tau)\prod_j p(\theta_j \mid \mu,\tau) \prod_i p(y_{ij} \mid \theta_j,\sigma)`
 
 ## 2. Model graph (Graphviz; observed = filled, plates = clusters)
 
 ```dot
 digraph model {
     rankdir=TB; node [fontname="Helvetica", shape=circle];
-    mu  [shape=plaintext, label=<&mu;>];
-    tau [shape=plaintext, label=<&tau;>];
+    mu  [label=<&mu;>];
+    tau [label=<&tau;>];
     sig [shape=plaintext, label=<&sigma;>];
     subgraph cluster_j {
-        label="j = 1..J"; labeljust=r;
+        label="j = 1..J"; labeljust=r; labelloc=b;
         th [label=<&theta;<sub>j</sub>>];
         subgraph cluster_i {
-            label=<i = 1..N<sub>j</sub>>; labeljust=r;
+            label=<i = 1..N<sub>j</sub>>; labeljust=r; labelloc=b;
             y [label=<y<sub>ij</sub>>, style=filled, fillcolor="#dddddd"];
         }
     }
     mu -> th; tau -> th; th -> y; sig -> y;
 }
 ```
-Plaintext symbols are fixed hyperparameters/constants. For exact plate boundaries or nested-plate typography use TikZ (`../references/tikz-patterns.md`).
+A bare (plaintext) symbol is a fixed constant only (here `\sigma`); a hyperparameter with a prior (here `\mu`, `\tau`) is a random variable and is drawn as a circle, with its prior in the specification table. Drawing a variable that has a prior as a bare symbol is a common mistake. For exact plate boundaries or nested-plate typography use TikZ (`../references/tikz-patterns.md`).
 
 ## 3. Inference workflow (Mermaid)
 

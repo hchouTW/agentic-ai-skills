@@ -41,16 +41,16 @@
 
 | Target | Width (typical, verify against the venue template) |
 |---|---|
-| Single column (REVTeX/APS) | ~8.6 cm (3.4 in), from the APS Reviews of Modern Physics style guide; the REVTeX 4.2 guide states no width and only says page-spanning figures use `figure*` |
-| Double column span (REVTeX/APS) | ~17.8 cm (7 in), common default, not stated in the REVTeX 4.2 guide |
+| Single column (REVTeX/APS) | 8.6 cm (3 3/8 in), stated on the APS journal "Information for Contributors" pages (e.g. PRB); "1.5 or 2 columns may be used" when detail requires it |
+| Double column span (REVTeX/APS) | no width is stated by APS or the REVTeX 4.2 guide (page-spanning figures use `figure*`); ~17.8 cm (7 in) is a common default, not an APS number |
 | JHEP (`jheppub`, a4paper) | text width 15.5 cm (~74% of the paper width); a float wider than 60% of the text width is centered on the page |
 | NeurIPS 2026 | text width 5.5 in (13.97 cm), single column |
 | ICML 2026 | two columns; overall text width 6.75 in (17.1 cm), 0.25 in between columns, so each column is 3.25 in (8.26 cm); left margin 0.75 in |
-| ICLR | single column, text width ~5.5 in in recent kits (not re-checked) |
+| ICLR 2026 | single column, text width 5.5 in (33 picas), 10 pt type (from the ICLR 2026 formatting instructions as summarized by a search; the PDF itself could not be fetched) |
 | Beamer 16:9 | ~ full slide; text >= 14-18 pt |
 | Poster | text >= 24 pt for labels |
 
-Checked 2026-09-21 against: the ICML 2026 example paper (widths above, plus figure lines at least 0.5 pt thick, no text on a gray background, and Type-1 fonts only - avoid Type-3 fonts from exported figures), the NeurIPS 2026 formatting instructions, the JHEP `jheppub` documentation, and the APS RMP style guide. Re-check each year and for every journal. These are common defaults, not guarantees: read the venue's author kit. Design at final size;
+Venue figure-quality rules found in the same sources: APS - lettering at least 2 mm high after reproduction, lines at least 0.18 mm (0.5 pt), 600 dpi or more for raster art; ICML - lines at least 0.5 pt, no text on a gray background, Type-1 fonts only. (A 2 mm cap height is roughly an 8 pt font; the 6-7 pt minimum above is a floor, not a target.) Checked 2026-09-21 against: the ICML 2026 example paper (widths above, plus figure lines at least 0.5 pt thick, no text on a gray background, and Type-1 fonts only - avoid Type-3 fonts from exported figures), the NeurIPS 2026 formatting instructions, the JHEP `jheppub` documentation, and the APS RMP style guide. Re-check each year and for every journal. These are common defaults, not guarantees: read the venue's author kit. Design at final size;
 avoid scaling a large figure down until the text is unreadable. Prefer vector (PDF/SVG) output.
 
 ## Panels and multi-figure consistency

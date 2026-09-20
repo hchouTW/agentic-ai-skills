@@ -6,13 +6,13 @@ State at 2026-09-21: skill merged to `main` (PR #5). Tests and validators pass. 
 
 ## P1 - close known verification gaps
 - [x] Render every ```mermaid block with `mmdc` (done: all pass; checker calls `mmdc` when present, test added).
-      Still open: eyeball the rendered SVGs for layout quality.
+      Layout reviewed (2 fixes); see `VALIDATION.md`.
 - [x] Compile the TikZ / tikz-feynman snippets: done with Tectonic (found `tectonic` in miniconda). Fixed the Feynman auto-layout trap
       (manual placement now leads); `calc` requirement confirmed. Still open: verify the `\feynmandiagram` LuaLaTeX variant (needs LuaTeX).
 - [x] Ran the 10 prompts (fresh subagent per prompt); results and the 2 skill fixes it produced are in `VALIDATION.md`.
-      Still open: run on more than one sample per prompt, and with a different model.
+      Second sample with Haiku on 4 prompts found 3 more fixes. Still open: more samples per prompt, and a larger model (Opus).
 - [x] Checked column widths against ICML 2026, NeurIPS 2026, JHEP `jheppub`, APS RMP guide; fixed the ICML row.
-      Still open: APS full-width (17.8 cm) and ICLR; font-size rules per venue.
+      APS single column and ICLR now checked (APS states no full-width number). Still open: font-size rules for JHEP/NeurIPS/ICLR.
 
 ## P2 - content the task asked for but is thin or missing (done 2026-09-21)
 - [x] LHC pipeline example `examples/hep/08` (DOT + Mermaid + TikZ + two-lane variant).

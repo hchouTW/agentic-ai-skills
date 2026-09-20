@@ -143,8 +143,11 @@ Domain checklists: [HEP](references/high-energy-physics.md),
 - If source files (code, configs, LaTeX, schemas, Docker, manifests) are available,
   read them before drawing an architecture; do not infer from filenames alone.
 - Numbers in labels (file counts, section counts, layer sizes, thresholds) are facts: measure or copy
-  them from the source (`ls | wc -l`, the code, the text) or leave them out. A validation run once
-  labeled boxes "33 topic files" and "24 examples" for a repo that had 31 and 25.
+  them from the source (`ls | wc -l`, the code, the text) or leave them out. Count the things
+  themselves, not mentions of them: two validation runs (different models) labeled a `references/`
+  folder "33 topic files" because `SKILL.md` links 33 paths (two pointing at other skills), while the folder holds 31.
+- Do not add generator, detector, or method details the source does not give (e.g. "parton shower +
+  hadronization" for a plain "simulation"); leave the box generic and ask.
 
 ## Review, Refactor, Transform
 

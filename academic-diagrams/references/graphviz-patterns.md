@@ -39,7 +39,7 @@ digraph model {
     alpha [shape=plaintext, label=<&alpha;>];
     theta [shape=circle,   label=<&theta;>];              // latent parameter
     subgraph cluster_plate {
-        label="i = 1..N"; labeljust=r; style=solid;
+        label="i = 1..N"; labeljust=r; labelloc=b; style=solid;
         z [shape=circle, label=<z<sub>i</sub>>];           // latent
         x [shape=circle, style=filled, fillcolor="#dddddd", label=<x<sub>i</sub>>];  // observed
     }
@@ -47,7 +47,7 @@ digraph model {
     theta -> x;
 }
 ```
-Conventions: filled = observed, unfilled = latent, plaintext = hyperparameter/fixed, `shape=doublecircle`
+Conventions: filled = observed, unfilled = latent, plaintext = a fixed constant or fixed-value hyperparameter (anything with a prior is a random variable: draw it as a circle), `shape=doublecircle`
 = deterministic (be consistent and legend it). The cluster box serves as the plate; put the index
 range in its label. HTML-like labels (`<...>`) give subscripts/Greek via entities; true LaTeX needs
 `dot2tex` or exporting to TikZ - state this dependency if used.

@@ -47,8 +47,7 @@ flowchart TB
     V -.->|validates| S
     V -.->|validates| C
     V -.->|validates| M
-    R -.->|"router validator checks names<br/>against installed siblings"| SKILL
 ```
 
-**Validation:** every box maps to a file read in step 1; the router is drawn as a sibling that *points* at skills, not as a parent; symlinks and copies are one edge because the README documents copying and the symlinks are only an observation on one machine; no runtime (agent execution) behavior is drawn because none was inspected. Rendered with `mmdc`.
-**Caption:** Structure of the skills repository. Each domain skill is a self-contained folder of instructions (`SKILL.md`), supporting material, agent metadata, and a validator with tests; the `skill-router` skill routes requests to skills by name. The repository is copied or symlinked into an agent's skill directory. Solid arrows denote containment or installation; dashed arrows denote validation.
+**Validation:** every box maps to a file read in step 1; the router validator's name check against installed skills is in the connection table but not drawn (a second router-to-skill edge with another meaning would overload the arrow); the router is drawn as a sibling that *points* at skills, not as a parent; symlinks and copies are one edge because the README documents copying and the symlinks are only an observation on one machine; no runtime (agent execution) behavior is drawn because none was inspected. Rendered with `mmdc`.
+**Caption:** Structure of the skills repository. Each domain skill is a self-contained folder of instructions (`SKILL.md`), supporting material, agent metadata, and a validator with tests; the `skill-router` skill routes requests to skills by name. The repository is copied or symlinked into an agent's skill directory. Solid arrows denote routing, containment, or installation; dashed arrows denote validation.
