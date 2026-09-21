@@ -1714,14 +1714,14 @@
       "data_period": "2011-05 to about 2018 (review)",
       "analysis": "tracker rigidity resolution, MDR and validation"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894); section 1.2 only was read, other chapters were not. Consistent with C21 and C61 for the overlapping numbers (helium MDR 3.2 TV); the detector configuration is the nine-layer L1-L9 case, and the MDR values are not for other track configurations.",
+    "limitations": "Review-level summary (Phys. Rept. 894); section 1.2 only was read, other chapters were not. Consistent with C21 and C61 for the overlapping numbers (helium MDR 3.2 TV); the detector configuration is the nine-layer L1-L9 case, and the MDR values are not for other track configurations. Numbers in this claim were checked against the rendered PDF page (pp. 9-10) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
   },
   {
     "id": "C64",
-    "claim": "Absolute rigidity scale (review): the rigidity scale is the largest systematic at the highest energies for all Z; a coherent inner-tracker shift below 0.5 micrometre is sufficient to shift the scale by 10% at 1 TV; the in-flight shift is measured by comparing 1/|R| from the tracker with 1/E from the ECAL for electrons and positrons in 72 energy bins from 2 to 300 GeV, modelling each bin's 1/|R|-1/E distribution as a Gaussian plus an exponentially modified Gaussian and fitting shift parameters s+ and s- by unbinned likelihood, with s=(s+ - s-)/2; a time-dependent correction was derived by dividing the first seven years into four intervals",
+    "claim": "Absolute rigidity scale (review): the rigidity scale is the largest systematic at the highest energies for all Z; a coherent inner-tracker shift below 0.5 micrometre is sufficient to shift the scale by 10% at 1 TV; the in-flight shift is measured by comparing 1/|R| from the tracker with 1/E from the ECAL for electrons and positrons in 72 energy bins from 2 to 300 GeV, modelling each bin's 1/|R|-1/E distribution as a Gaussian plus an exponentially modified Gaussian and fitting shift parameters s+ and s- by unbinned likelihood, with s=(s+ - s-)/2; a time-dependent correction was derived by dividing the first seven years into four intervals (May 2011 to May 2018), after which the accuracy of the rigidity-scale shift is within 0.033 TV^-1 (3% at 1 TV), limited by positron statistics; the shift of the full L1-L9 span relative to the inner tracker, s(1/R_L1-L9) - s(1/R_L2-L8) = -0.019 +- 0.011 TV^-1 from cosmic-ray protons and helium, is independent of rigidity and its 0.011 TV^-1 error is added in quadrature, giving an overall rigidity-scale accuracy of +-0.034 TV^-1, equivalent to a coherent displacement of layers L2-L8 by less than 0.2 micrometres; time independence was checked with the proton and helium flux ratios of four 21-month periods to the seven-year flux, consistent above 100 GV",
     "claim_types": [
       "analysis_method",
       "performance_number"
@@ -1742,7 +1742,7 @@
       "data_period": "2011-05 to 2018-05",
       "analysis": "in-flight rigidity-scale shift from E/p"
     },
-    "limitations": "Review-level summary; section 1.2 only was read. This is one collaboration method with a stated dependence on ECAL energy calibration, not a general recipe, and the residual accuracy statement after the truncated passage was not transcribed.",
+    "limitations": "Review-level summary; section 1.2 only was read. This is one collaboration method with a stated dependence on ECAL energy calibration, not a general recipe, and the accuracy statement is now transcribed (p. 11). Numbers in this claim were checked against the rendered PDF page (pp. 10-11) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -1770,7 +1770,7 @@
       "data_period": "2011-05 to about 2018 (review)",
       "analysis": "charge-confusion estimator and template fit"
     },
-    "limitations": "Review-level summary; section 1.2 only was read. The 8% bound is a review statement for the electron sample after that selection, not a general charge-confusion rate; the antiproton and antideuteron methods are only named, not described.",
+    "limitations": "Review-level summary; section 1.2 only was read. The 8% bound is a review statement for the electron sample after that selection, not a general charge-confusion rate; the antiproton and antideuteron methods are only named, not described. Numbers in this claim were checked against the rendered PDF page (pp. 12-13) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -1795,7 +1795,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "tracker charge estimation"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the resolution values are read from a figure that the text does not tabulate, so no DeltaZ number is transcribed here (the Z = 1 value 0.05 in C21 is a different source); the correction procedure is only named, not described.",
+    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the resolution values are read from a figure that the text does not tabulate, so no DeltaZ number is transcribed here (the Z = 1 value 0.05 in C21 is a different source); the correction procedure is only named, not described. Numbers in this claim were checked against the rendered PDF page (p. 12) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": false,
     "last_reviewed": "2026-09-21"
@@ -1820,7 +1820,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "TRD e/p separation"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the TRD is an e/p and charge-magnitude detector, never a charge-sign detector; the rejection is for the stated selection and efficiency, not a universal figure, and the value 1000 is a lower bound in that energy range; the Lambda_TRD definition here is compatible with the per-layer likelihood ratio in C22 and C26 but those papers state their own cuts.",
+    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the TRD is an e/p and charge-magnitude detector, never a charge-sign detector; the rejection is for the stated selection and efficiency, not a universal figure, and the value 1000 is a lower bound in that energy range; the Lambda_TRD definition here is compatible with the per-layer likelihood ratio in C22 and C26 but those papers state their own cuts. Numbers in this claim were checked against the rendered PDF page (pp. 14 and 16) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -1845,7 +1845,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "TOF timing, velocity, direction, charge"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894, section 1); Delta(1/beta) = 4% for Z = 1 is the same quantity quoted as Delta beta/beta^2 = 4% in C21 and the two are consistent; the 1e-9 direction confusion is for the Z = 2 sample stated and is not a bound for other species or selections; the TOF measures no charge sign.",
+    "limitations": "Review-level summary (Phys. Rept. 894, section 1); Delta(1/beta) = 4% for Z = 1 is the same quantity quoted as Delta beta/beta^2 = 4% in C21 and the two are consistent; the 1e-9 direction confusion is for the Z = 2 sample stated and is not a bound for other species or selections; the TOF measures no charge sign. Numbers in this claim were checked against the rendered PDF page (pp. 14-15, 17 and 18) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -1870,7 +1870,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "ACC veto"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the 0.99999 efficiency is a pre-flight long-duration test result and is the same value already recorded in C21 for the analysis papers; the inefficiency definition and per-condition validity are not given in this section.",
+    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the 0.99999 efficiency is a pre-flight long-duration test result and is the same value already recorded in C21 for the analysis papers; the inefficiency definition and per-condition validity are not given in this section. Numbers in this claim were checked against the rendered PDF page (pp. 16 and 22) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -1895,7 +1895,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "RICH velocity and charge"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the review states 0.1% for |Z| > 1 whereas C21 records 0.1% for |Z| = 1 from the analysis papers: treat 0.1% as a scale, not a resolution for a given Z, and quote the Z range and source; the aerogel core width in C28 (7e-4 at beta = 1) is a separate, isotope-analysis figure.",
+    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the review states 0.1% for |Z| > 1 whereas C21 records 0.1% for |Z| = 1 from the analysis papers: treat 0.1% as a scale, not a resolution for a given Z, and quote the Z range and source; the aerogel core width in C28 (7e-4 at beta = 1) is a separate, isotope-analysis figure. The plotted aerogel velocity resolution (Fig. 24c) is about 1.1e-3 at Z = 1 and below about 0.7e-3 for Z >= 2 (approximate values read from the plot, not quoted in the text), which is consistent with both the review's 'better than 0.1% for |Z| > 1' and the roughly 0.1% for |Z| = 1 in C21; do not quote the plotted values as exact. Numbers in this claim were checked against the rendered PDF page (pp. 16-17 and 19) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -1921,7 +1921,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "ECAL shower and energy reconstruction"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the energy-resolution values are only shown in a figure and are not transcribed; above 300 GeV the resolution is from simulation, not beam data; complements the geometry-only C50 (17 X0) and does not concern the ECAL as a charge-sign device (it has none).",
+    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the energy-resolution values are only shown in a figure and are not transcribed; above 300 GeV the resolution is from simulation, not beam data; complements the geometry-only C50 (17 X0) and does not concern the ECAL as a charge-sign device (it has none). Numbers in this claim were checked against the rendered PDF page (pp. 17-21) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -1946,7 +1946,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "e/p separation with ECAL"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the rejection curve itself is a figure and no rejection value is transcribed; independence of ECAL and TRD rejection is the review's statement for its samples and should still be validated in a new analysis; E/p > 0.7 is the review's cut, not a general requirement.",
+    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the rejection curve itself is a figure and no rejection value is transcribed; independence of ECAL and TRD rejection is the review's statement for its samples and should still be validated in a new analysis; E/p > 0.7 is the review's cut, not a general requirement. Numbers in this claim were checked against the rendered PDF page (pp. 21-22) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -1972,7 +1972,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "trigger and DAQ"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the 100% above 3 GeV is for electrons and is not a trigger efficiency for protons or nuclei (the helium papers report their own trigger systematics, C60); rates and the 86% figure are typical or average values for the review period, with the 2018 map shown for July-November only; do not use them as livetime inputs.",
+    "limitations": "Review-level summary (Phys. Rept. 894, section 1); the 100% above 3 GeV is for electrons and is not a trigger efficiency for protons or nuclei (the helium papers report their own trigger systematics, C60); rates and the 86% figure are typical or average values for the review period, with the 2018 map shown for July-November only; do not use them as livetime inputs. Numbers in this claim were checked against the rendered PDF page (pp. 22-23) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2467,7 +2467,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "magnet field knowledge"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). the 1% mapping accuracy is a field-map knowledge figure, not a rigidity-scale uncertainty (that is treated in C64 through the E/p comparison, where a sub-micrometre coherent shift already matters at 1 TV); the temperature correction method is not described.",
+    "limitations": "Review-level summary (Phys. Rept. 894). the 1% mapping accuracy is a field-map knowledge figure, not a rigidity-scale uncertainty (that is treated in C64 through the E/p comparison, where a sub-micrometre coherent shift already matters at 1 TV); the temperature correction method is not described. Numbers in this claim were checked against the rendered PDF page (pp. 6-7) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2493,7 +2493,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "tracker alignment and position reconstruction"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). the accuracies are for the stated nuclei and track geometries (L1-L9 with near-normal incidence versus L1-L8 with larger angles); they are not rigidity resolutions (see C63); the uniform-density argument for K(d) is the collaboration's method and is stated for isotropic incoming flux; consistent with the layer roles in C13 and C21.",
+    "limitations": "Review-level summary (Phys. Rept. 894). the accuracies are for the stated nuclei and track geometries (L1-L9 with near-normal incidence versus L1-L8 with larger angles); they are not rigidity resolutions (see C63); the uniform-density argument for K(d) is the collaboration's method and is stated for isotropic incoming flux; consistent with the layer roles in C13 and C21. Numbers in this claim were checked against the rendered PDF page (pp. 7-8) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
