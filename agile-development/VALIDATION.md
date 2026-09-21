@@ -868,6 +868,32 @@ Findings:
 Not verified: single run per cell; one scorer who wrote the rubrics; plan-only text, not executed changes; Sonnet only;
 H5 (c) is a judgment call at 5 vs "about 4".
 
+## Code File Requirement scoping and step-verify edit, re-run (2026-09-21)
+
+Edits to `SKILL.md`: the Code File Requirement now applies when creating a code file or adding or changing logic, is
+skipped for typo/string/value tweaks, config-only edits, deletions, and docs or review tasks, and defers to a repo's own
+header convention; Core Workflow step 3 now says each acceptance criterion names the check that proves it; the numbered
+step-plan format in `implementation-discipline.md` now applies to work with three or more steps. `SKILL.md` went from
+161 to 168 lines. 41 tests and the bundle validator pass.
+
+Re-run method: five fresh Sonnet subagents, skill arm only, same plan-only setup as before, one run per prompt, scored
+by the session author against the `tests/prompts.md` rubrics (P3 and P6 against their original expectations).
+
+| Prompt | Result |
+|--------|--------|
+| H1 add function to a file with no header | pass: still plans the header (adding logic); every acceptance criterion has its check |
+| H6 typo fix | pass: no header, no story card, one-line diff, short report; cited "string tweak and not logic" |
+| P3 label rename | pass: no header, same reason; the previous run added a header step here |
+| P6 PR review | pass: no header added; separated blocking (missing test) from non-blocking (formatting churn) |
+| H4 "make it faster" | (a), (b), (d) pass; (c) still partial: acceptance criteria and a characterization test carry checks, but the 8-step plan does not use the "step -> verify" format |
+
+Findings: the header scoping does what it was meant to, in the direction the earlier runs showed. The step-verify
+format is still not used in a plan long enough to trigger it; decided not to push it further, since baseline and skill
+arms both measure first and re-measure without it.
+
+Not verified: single runs; one scorer who wrote the rubrics and the edit; plan-only text; Sonnet only. The baselines
+were not re-run, so the comparison to them is from the earlier section.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

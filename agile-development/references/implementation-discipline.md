@@ -100,7 +100,7 @@ something checkable before writing code:
 | "Refactor X" | Confirm the tests pass before and after, with behavior unchanged |
 | "Make it faster" | Measure it, state the target, measure again |
 
-For anything multi-step, state the plan with a verification attached to each step:
+For work with three or more steps, state the plan with a verification attached to each step:
 
 ```
 1. <step>  -> verify: <the check that proves it>

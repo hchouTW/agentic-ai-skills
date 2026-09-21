@@ -63,7 +63,7 @@ git-ignored; do not treat them as live code.
 ## P4 - housekeeping and decisions
 - [x] (2026-09-21: done; re-do after each pass) Update `VALIDATION.md` header date (still 2026-09-05) and counts after each pass; add a section for the
       2026-09-21 state.
-- [ ] New from the 2026-09-21 run (H6: the skill arm skipped the header on a typo fix and said so, so a carve-out would match its behavior; see `VALIDATION.md`): decide whether the Code File Requirement should be relaxed for one-line/docs/review tasks (it was applied to a label rename and a PR review).
+- [x] (2026-09-21: Code File Requirement scoped in `SKILL.md`, re-run passes; step-verify folded into workflow step 3, format still unused on H4) New from the 2026-09-21 run (H6: the skill arm skipped the header on a typo fix and said so, so a carve-out would match its behavior; see `VALIDATION.md`): decide whether the Code File Requirement should be relaxed for one-line/docs/review tasks (it was applied to a label rename and a PR review).
 - [ ] Ask the user: which languages/stacks matter most (this sets which design guide gets validated first)?
 - [ ] Ask the user whether the "Code File Requirement" (top-of-file comment block on every changed file) is still
       wanted; it is the rule most likely to conflict with repository conventions.
