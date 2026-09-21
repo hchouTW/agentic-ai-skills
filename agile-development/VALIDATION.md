@@ -1092,6 +1092,19 @@ suites and all three bundle validators pass.
 Not verified: no model was run to see whether the added sentences change triggering; the earlier 40/40 trigger test was
 not repeated against the new descriptions.
 
+### Trigger re-test with full installed descriptions (2026-09-21)
+
+After the routing sentences above, one fresh Sonnet subagent (told to read only the files given, no skills) classified
+50 shuffled queries from the full, verbatim `description` of all 7 skills read from the installed `SKILL.md` files: the
+40 in `tests/prompts.md` plus 10 new boundary queries against `task-authoring` (5 "here is a ticket/spec, implement or
+scope-and-build it" that should pick `agile-development`; 5 "write a ticket/spec/example/prompt design for someone
+else" that should not). Result: `agile-development` chosen 25/25 should-trigger, 0/25 should-not-trigger; all 10 new
+boundary queries routed as intended (the ticket/spec-writing ones to `task-authoring`).
+
+Not verified: single run, Sonnet only, one classifier; I scored it against the key myself. The 10 new queries were
+written by the same author as the descriptions and were not added to `tests/prompts.md`. No baseline without the new
+"Not for..." sentences was run, so this does not show they caused the boundary queries to route correctly.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to
