@@ -53,7 +53,7 @@ git-ignored; do not treat them as live code.
       loaded when code in that language is being designed.
 - [x] (2026-09-21: cross-references added, content left in place) Look for overlap: `implementation-discipline.md` vs `validation-and-done.md` vs `risk-and-quality.md`
       (duplicate checklists?), and `software-architecture.md` vs `design-and-estimation.md`.
-- [ ] Gaps to consider (only add if the P1 prompt tests show a need): performance work, flaky-test triage,
+- [x] (2026-09-21: probed with 4 plan-only tasks; no new sections needed, one ask-rule wording fix; see `VALIDATION.md`) Gaps to consider (only add if the P1 prompt tests show a need): performance work, flaky-test triage,
       security-fix handling, monorepo/multi-package changes, working with an existing CI failure, and
       pair-with-`superpowers` guidance (TDD, verification-before-completion) so instructions do not conflict.
 - [x] (2026-09-21: no Claude-only tools; CLAUDE.md mention widened) Multi-platform check (Codex, Antigravity): confirm `agents/openai.yaml` is current and no instructions depend on

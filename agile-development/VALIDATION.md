@@ -1058,6 +1058,30 @@ a note that `const T&` constructor parameters accept temporaries (the guide does
 Not verified: one reviewer pass per guide; claims were checked, not the quality of the design advice; the Bash errexit
 behavior on Bash 4+ and 5 was not run (no newer Bash installed).
 
+## Gap analysis by probe (2026-09-21)
+
+`TODO.md` P3 listed possible gaps (flaky-test triage, security-fix handling, monorepo changes, an existing CI failure,
+performance work) with the rule to add them only if prompt tests show a need. Four Sonnet subagents, skill arm, plan-only,
+were each given one such task and asked to append a GAPS section: what the skill failed to tell them and whether that
+would plausibly have made the result worse. Performance work was not probed again (H4 covers it).
+
+| Probe | The plan | Gap the agent reported |
+|-------|----------|------------------------|
+| flaky test ("fails 1 in 10 CI runs") | loops the test to measure the rate, forces a deterministic repro, refuses retries, skips and loosened assertions, confirms with 50-100 passing runs | no flaky-test guidance; "add a failing regression test" fits poorly when the test exists |
+| security fix (reset-password reveals which emails exist) | same status, body and headers for both cases, failing test first, checks logs and metrics for the leak, timing side channel and sibling endpoints noted as follow-ups | no account-enumeration guidance; "ask before proceeding" is ambiguous when the request is explicit |
+| red CI on main | finds the first red commit, separates repo causes from external ones, no masking of failures, will not claim green until the CI run is seen | no CI playbook (logs, bisect, revert vs fix-forward, confirm in real CI) |
+| shared helper in a monorepo | read-only audit of all six consumers, stops and asks, offers breaking change vs parallel variant | no blast-radius guidance; unclear how much read-only recon to do before stopping |
+
+Finding: every plan already contained the behavior the agent listed as missing, so the self-reported gaps overstate the
+need and, on this evidence, do not justify new sections; agents cannot be trusted to judge their own gaps. One wording
+ambiguity appeared twice and was fixed: `implementation-discipline.md` now says the ask-before-proceeding list applies to
+what the request leaves open, and an explicit request is taken as given. The recon-before-stopping question was already
+answered by the "cannot ask" paragraph added earlier.
+
+Not verified: one run per probe, Sonnet only, plan-only text; a plan that mentions the right steps is not the same as
+executing them; a missing section might still matter in a longer real task; no baseline arm, so this does not show the
+skill caused those plans.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

@@ -25,6 +25,9 @@ not go on to implement, or write a plan that implements, in the same turn:
 - Anything outward-facing: sending, publishing, deleting, or spending.
 - Work large enough that the wrong interpretation wastes substantial effort.
 
+These apply to what the request leaves open. If it already states the behavior, contract,
+or scope you would have asked about, take it as given and do not ask again.
+
 **Assume and say so** when a wrong guess is cheap to correct: internal naming, file
 placement, test structure, and anything the repository's existing conventions already
 imply. State the assumption in the response so it can be corrected in one line.
