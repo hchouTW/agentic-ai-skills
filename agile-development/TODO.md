@@ -31,7 +31,7 @@ git-ignored; do not treat them as live code.
 - [~] (2026-09-21: 20+20 queries written and run once, 40/40 correct on the agile-development criterion; caveats in `VALIDATION.md`; still open: run with real installed descriptions and a second scorer) Trigger test for the frontmatter `description`: 20 should-trigger and 20 should-not-trigger queries. Near-misses:
       `task-authoring` (write a standalone ticket/spec), `deep-learning`/`hep-analysis` (domain code), pure Q&A
       about a language feature, a one-line typo fix. Consider `skill-creator` description optimization.
-- [ ] Routing hygiene with sibling skills: `agile-development` vs `task-authoring` (live scoping vs a written
+- [x] (2026-09-21: "Not for ..." sentence added to both descriptions, suites pass; no model re-test, see `VALIDATION.md`) Routing hygiene with sibling skills: `agile-development` vs `task-authoring` (live scoping vs a written
       task document). Run `skill-router`'s validator and tests after any description change.
 
 ## P2 - close verification gaps in helpers and guidance

@@ -1082,6 +1082,16 @@ Not verified: one run per probe, Sonnet only, plan-only text; a plan that mentio
 executing them; a missing section might still matter in a longer real task; no baseline arm, so this does not show the
 skill caused those plans.
 
+## Routing hygiene with task-authoring (2026-09-21)
+
+The `skill-router` table already separated live scoping (`agile-development`) from a written task document
+(`task-authoring`), but neither skill's own frontmatter `description` said so. Added one "Not for ..." sentence to each
+description. After the change, agile-development (41 tests), task-authoring (78 tests) and skill-router (7 tests) test
+suites and all three bundle validators pass.
+
+Not verified: no model was run to see whether the added sentences change triggering; the earlier 40/40 trigger test was
+not repeated against the new descriptions.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to
