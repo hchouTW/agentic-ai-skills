@@ -2094,7 +2094,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "smoothly broken power-law fit of the proton flux"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894), section 4 and the positron-fraction table only. the fit is a parametrization above 45 GV where solar modulation is stated to be negligible, not a physical model; the 1e9-event sample and the parameter values belong to the review's latest data set, so do not attach them to the 300-million-event paper (C05); the printed uncertainty on C (0.0002 fit) looks inconsistent with the size of the other errors and is quoted as printed, so avoid quoting it; the 99.9% C.L. is for constant-index versus this form, not a trial-corrected significance.",
+    "limitations": "Review-level summary (Phys. Rept. 894), section 4 and the positron-fraction table only. the fit is a parametrization above 45 GV where solar modulation is stated to be negligible, not a physical model; the 1e9-event sample and the parameter values belong to the review's latest data set, so do not attach them to the 300-million-event paper (C05); the printed uncertainty on C (0.0002 fit) looks inconsistent with the size of the other errors and is confirmed as printed on the rendered page (p. 44, checked 2026-09-21; the fit values there match this claim) but still avoid quoting it; the 99.9% C.L. is for constant-index versus this form, not a trial-corrected significance.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2193,7 +2193,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "two-component fit of the proton-to-helium ratio"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). the two-component reading is the review's interpretation of a fit form, not a demonstrated physical decomposition; the -0.266 +- 0.022 index is for the secondary-to-primary ratios above 192 GV (C84), not for this ratio; the Voyager comparison is a figure statement and the Voyager data are third party; the numbers belong to the review's latest data set (protons C78, helium C81), not to the older separate papers.",
+    "limitations": "Review-level summary (Phys. Rept. 894). the two-component reading is the review's interpretation of a fit form, not a demonstrated physical decomposition; the -0.266 +- 0.022 index is for the secondary-to-primary ratios above 192 GV (C84), not for this ratio; the Voyager comparison is a figure statement and the Voyager data are third party; the numbers belong to the review's latest data set (protons C78, helium C81), not to the older separate papers. Fit values A, C, Delta and chi2 were checked against the rendered PDF page (p. 79) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2442,7 +2442,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "break-point ratio fits and simultaneous smoothly-broken power-law fits"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). the break rigidities are fit parameters of a chosen functional form (Eq. 14) and have large uncertainties (R0 = 3.65 +- 0.5 GV for Ne/Mg, and 86.5 GV for Si/Mg coincides with the fixed break used for the O ratios), so 'identical above R0' is a statement about that fit, not an independent test; the 5 sigma class difference is a statement about the average index versus zero from the review and its treatment of correlated systematics was not read (the full analysis is a separate paper, not read); the review's phrase that no model predicted the behaviour is an opinion, and two classes is a minimum number, not a count.",
+    "limitations": "Review-level summary (Phys. Rept. 894). the break rigidities are fit parameters of a chosen functional form (Eq. 14) and have large uncertainties (R0 = 3.65 +- 0.5 GV for Ne/Mg, and 86.5 GV for Si/Mg coincides with the fixed break used for the O ratios), so 'identical above R0' is a statement about that fit, not an independent test; the 5 sigma class difference is a statement about the average index versus zero from the review and its treatment of correlated systematics was not read (the full analysis is a separate paper, not read); the review's phrase that no model predicted the behaviour is an opinion, and two classes is a minimum number, not a count. The Ne/Mg and Si/Mg fit values (p. 95), the He/C/O fit and C_Ne, C_Mg, C_Si (p. 97-98) were checked against rendered PDF pages on 2026-09-21 and match; the Ne/O, Mg/O, Si/O indices and the average delta were confirmed only on the page carrying the average (p. 97) and the text extraction.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
