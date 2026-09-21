@@ -2,6 +2,9 @@
 
 When modifying or writing C++ code, prefer a balanced style between object-oriented and procedural programming. Follow established repository conventions when they intentionally differ from this reference.
 
+The examples assume C++20 (designated initializers, `std::numbers`); a C++17 codebase
+needs them adapted.
+
 The examples follow the
 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html):
 two-space indentation, `PascalCase` function names, `snake_case` variables,
@@ -78,6 +81,10 @@ class BankAccount {
   bool Deposit(int amount) {
     if (amount <= 0) {
       return false;
+    }
+
+    if (amount > std::numeric_limits<int>::max() - balance_) {
+      return false;  // would overflow, which would break the invariant
     }
 
     balance_ += amount;

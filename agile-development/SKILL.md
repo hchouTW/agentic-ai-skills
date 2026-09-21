@@ -16,9 +16,10 @@ done, reported honestly.
    published contract, outward-facing behavior); otherwise state a reasonable
    assumption and proceed, presenting competing interpretations rather than silently
    picking one - see [references/implementation-discipline.md](references/implementation-discipline.md).
-2. **Reconnoiter before editing.** Read repository instructions (CLAUDE.md, READMEs),
+2. **Reconnoiter before editing.** Read repository instructions (CLAUDE.md, AGENTS.md, GEMINI.md, READMEs),
    nearby code, tests, fixtures, and tooling config to find existing conventions.
-3. **Write acceptance criteria.** Make them observable and testable - see
+3. **Write acceptance criteria.** Make them observable and testable, each with the
+   check that proves it (a test, a command, a repeatable observation) - see
    [references/product-framing.md](references/product-framing.md) for the
    given/when/then format and a user-story template.
 4. **Pick the smallest coherent slice.** One end-to-end path beats a half-finished
@@ -54,8 +55,9 @@ done, reported honestly.
 
 ## Code File Requirement
 
-When creating or modifying **any** code file, add a comment block at the top (in the
-target language's syntax, e.g. `#`, `//`, `/* */`, `<!-- -->`) briefly covering:
+When creating a code file, or adding or changing logic in one, add a comment block at
+the top (in the target language's syntax, e.g. `#`, `//`, `/* */`, `<!-- -->`) briefly
+covering:
 
 - **Purpose** - why the file exists.
 - **What the code does** - its main behavior or responsibility.
@@ -64,6 +66,16 @@ target language's syntax, e.g. `#`, `//`, `/* */`, `<!-- -->`) briefly covering:
 
 For existing files, add or update this block if missing or outdated, proportional to
 the file's complexity, and review it in the diff so it doesn't drift from the code.
+
+This block is the one deliberate exception to "every changed line traces to the request";
+a small logic fix in a file whose block is already accurate needs no change to it.
+
+Test files do not need the block unless they carry non-obvious setup or fixtures.
+
+Skip it when the change is not logic: a typo, string, or value tweak; a config-only
+edit; a deletion; or a docs or review task. If the repository has its own header
+convention (or forbids headers), follow that instead. Mention a missing block in the
+report rather than adding one to a trivial diff.
 
 ## When to Load References
 
@@ -76,12 +88,12 @@ the file's complexity, and review it in the diff so it doesn't drift from the co
   dependencies, config, observability, performance, accessibility ->
   [references/risk-and-quality.md](references/risk-and-quality.md)
 - **Status updates and completion summaries** -> [references/communication.md](references/communication.md)
-- **C++ design** (classes vs. structs vs. free functions, ownership, RAII, composition
+- **C++ design - load only when designing C++ code** (classes vs. structs vs. free functions, ownership, RAII, composition
   vs. inheritance, error handling) -> [references/cpp-balanced-design-guidelines.md](references/cpp-balanced-design-guidelines.md)
-- **Python design** (classes vs. dataclasses vs. free functions, context managers,
+- **Python design - load only when designing Python code** (classes vs. dataclasses vs. free functions, context managers,
   protocols vs. inheritance, exceptions vs. sentinel returns) ->
   [references/python-balanced-design-guidelines.md](references/python-balanced-design-guidelines.md)
-- **Bash design** (functions vs. associative arrays, avoiding simulated OOP,
+- **Bash design - load only when designing Bash code** (functions vs. associative arrays, avoiding simulated OOP,
   trap-based cleanup, quoting/`set -euo pipefail` discipline) ->
   [references/bash-balanced-design-guidelines.md](references/bash-balanced-design-guidelines.md)
 - **Design docs/RFCs, estimation and spikes, feature flags and progressive rollout** ->
@@ -113,7 +125,8 @@ Copy these into a task when structured notes help:
   `--output`).
 - `scripts/validate_agile_notes.py <file.md>` - checks a markdown note for the sections
   a complete Agile delivery note should have (story, acceptance criteria, validation,
-  risks).
+  risks). Opt-in flags: `--require-assumptions`, `--require-plan-verification` (every
+  numbered plan step needs a real verification).
 - `scripts/validate_skill_bundle.py` - check that this package's own files (SKILL.md,
   README.md, references, scripts, assets, tests) are all present and non-empty, and
   that SKILL.md/README.md have their expected structure (standard library only).
@@ -121,6 +134,13 @@ Copy these into a task when structured notes help:
   `validate_agile_notes.py`. Run `python3 -m unittest discover -s tests -v`.
 
 Run with `python3`. Read a script before changing it.
+
+## Worked Examples
+
+[examples/README.md](examples/README.md) indexes 24 worked examples (bug-fix scoping,
+migration and dependency trajectories, rollout RFCs, triage trees, elicitation rounds,
+audits, test-first invariants, postmortems). Open one only when you want a model of the
+output for that kind of task; none is required reading.
 
 ## Quick Checklists
 
@@ -138,6 +158,8 @@ Run with `python3`. Read a script before changing it.
 - [ ] Acceptance criteria are met, or deviations are stated clearly.
 - [ ] Relevant tests and checks were actually run (not assumed).
 - [ ] The diff was reviewed for scope and accidental changes.
+- [ ] Code files created or given new logic have an accurate header block (or the
+      carve-outs under Code File Requirement apply).
 - [ ] Every changed line traces to the request; orphans from this change were removed
       and pre-existing dead code was left alone.
 - [ ] Edge cases and regression risk were considered.

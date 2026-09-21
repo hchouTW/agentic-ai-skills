@@ -15,7 +15,9 @@ problem, and always asking stalls on questions the repository could have answere
 
 Decide by what being wrong costs:
 
-**Ask before proceeding** when a wrong guess is expensive or hard to undo:
+**Ask before proceeding** when a wrong guess is expensive or hard to undo. Asking means
+stopping: end your reply with the questions (and a recommended default for each) and do
+not go on to implement, or write a plan that implements, in the same turn:
 
 - Schema, migration, or anything that writes to persistent data.
 - A published API contract, wire format, or anything other code depends on.
@@ -23,9 +25,19 @@ Decide by what being wrong costs:
 - Anything outward-facing: sending, publishing, deleting, or spending.
 - Work large enough that the wrong interpretation wastes substantial effort.
 
+These apply to what the request leaves open. If it already states the behavior, contract,
+or scope you would have asked about, take it as given and do not ask again.
+
 **Assume and say so** when a wrong guess is cheap to correct: internal naming, file
 placement, test structure, and anything the repository's existing conventions already
 imply. State the assumption in the response so it can be corrected in one line.
+
+If you cannot ask (a non-interactive run, or no one is reachable): for the "assume and
+say so" cases, proceed and state the assumption. For the "ask before proceeding" cases,
+never assume the destructive or irreversible option. Do the read-only work (find what
+the repository already answers), stop before any irreversible or outward-facing step,
+and report the questions you would have asked. If something must ship, take the
+reversible option (for example soft-delete over hard-delete) as a clearly labeled draft.
 
 Two related habits, independent of which branch applies:
 
@@ -100,7 +112,7 @@ something checkable before writing code:
 | "Refactor X" | Confirm the tests pass before and after, with behavior unchanged |
 | "Make it faster" | Measure it, state the target, measure again |
 
-For anything multi-step, state the plan with a verification attached to each step:
+For work with three or more steps, state the plan with a verification attached to each step:
 
 ```
 1. <step>  -> verify: <the check that proves it>

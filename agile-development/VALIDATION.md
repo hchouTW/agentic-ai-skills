@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-05. Helper test environment: Python 3, standard library only.
+Validation date: 2026-09-21 (latest pass below; earlier sections keep their own dates). Helper test environment: Python 3, standard library only.
 
 ## Completeness pass (2026-09-05)
 
@@ -783,6 +783,304 @@ Findings:
 
 Not verified: this was plan-only text from Sonnet, not executed changes; no Haiku or Opus run; single sample per cell;
 scoring was done by one reviewer, not blind; the trigger test (description) was not run.
+
+## Offline verification pass (2026-09-21)
+
+Local, non-model checks from `TODO.md` P2/P3. Tests: 41 pass; bundle validator: 48 files OK (re-run after the edits below).
+
+- **Language guides, snippet check.** Extracted every fenced block and syntax-checked it: Python 53/53 pass
+  `py_compile`; Bash 43/43 pass `bash -n` (`shellcheck` not installed, so not run); C++ 46 blocks, 16 compile alone.
+  The other 30 are fragments (placeholder types like `Widget`, class-member lines, bare statements). With a prelude of
+  standard headers plus a stub `Point`/`Distance` and `<numbers>`, the `Shape`/`Circle` and `Polygon` examples compile
+  under `g++ -std=c++23 -fsyntax-only` (Apple clang). No accuracy defect found; the C++ blocks are illustrative fragments,
+  not standalone programs. Guidance accuracy itself was not reviewed. Compiled with C++23 rather than the C++20 the
+  TODO named, because a prelude used `<expected>`.
+- **Examples 01-24.** `task-authoring/scripts/validate_skill_example.py` passes on all 24. 25 of 27 Python blocks
+  compile; the other 2 (examples 20, 21) are `>>>` REPL transcripts, not code. `check_example_diversity.py` reports
+  three archetypes with three same-skill files each; that is by design for this single-skill folder, not a defect. The
+  snippets were not executed.
+- **Overlap review.** Definition of Done is stated in SKILL.md "Before Reporting Done", `validation-and-done.md` and
+  `assets/definition-of-done.md`; Scope Control (`risk-and-quality.md`) overlaps "Surgical changes"
+  (`implementation-discipline.md`). Left the content in place and added cross-references. `software-architecture.md`
+  and `design-and-estimation.md` already link to each other and differ in purpose; no change.
+- **Progressive disclosure.** Added "load only when designing <language> code" to the three language-guide rows in
+  `SKILL.md`. Not measured on a real model.
+- **Multi-platform.** No Claude-only tool names in SKILL.md, README or references; `agents/openai.yaml` matches the
+  SKILL.md description of the skill. The one Claude-specific mention (CLAUDE.md) now also lists AGENTS.md/GEMINI.md.
+- **Trigger-test queries** (20 + 20) written in `tests/prompts.md`. Not run.
+
+Still open (need fresh-model runs or user input): see `TODO.md`.
+
+## Clean-baseline re-run and trigger test (2026-09-21)
+
+Method: same plan-only Sonnet subagents as the first run. Prompts 1-10 were re-run for the baseline arm only, with an
+explicit instruction to ignore the global `CLAUDE.md` skill-router rule and use no skills (the first-run baselines for
+these prompts were contaminated). The skill arm was NOT re-run; its first-run results stand. Scored by one reviewer
+(the session author), single run per cell, against the expectations in `tests/prompts.md`.
+
+| Prompt | Clean baseline | Note |
+|--------|----------------|------|
+| 1 bug fix, 3 rename, 4 drop column, 5 dep bump, 7 incident, 8 legacy code, 9 over-engineering | pass | Reproduce-first, characterization tests, two-step column drop, mitigate-before-diagnose, all present without the skill |
+| 6 PR review | pass | Flagged the formatting churn and missing test; did not separate blocking from optional comments |
+| 2 ambiguous export | partial | Chose CSV/existing auth/row cap, labelled them assumptions and built it; did not ask about the costly-to-reverse parts. Stricter than the first-run scoring, which called this baseline a pass |
+| 10 billing split | partial | Sound recommendation (module first, criteria to revisit); no ADR proposed |
+
+Result: clean baselines 8 pass, 2 partial, versus 10/10 for the first-run skill arm on the same prompts. The gap is
+smaller than "pass vs. fail" suggests and rests on scorer judgment for P2 and P10.
+
+Trigger test: one Sonnet subagent classified the 40 queries in `tests/prompts.md` (shuffled) from 7 skill descriptions
+(the siblings shortened by hand; `agile-development` verbatim). `agile-development` was chosen for 20/20 should-trigger
+queries and 0/20 should-not-trigger. Near-misses went to the intended sibling (`task-authoring`, `deep-learning`,
+`hep-analysis`, `ams-analysis`, `academic-papers`, `academic-diagrams`); the one-line typo fix got no skill.
+
+Not verified: the with-skill arm was not repeated; no Haiku or Opus run; no repeated runs per cell; no second scorer;
+the trigger queries were written by the same author as the description and the classifier saw abbreviated sibling
+descriptions, so 40/40 is an optimistic upper bound. The prompts still mostly fail to discriminate skill from baseline;
+harder prompts are still to be written.
+
+## Harder prompts H1-H6, both arms (2026-09-21)
+
+Method: as in the first run (plan-only Sonnet subagents; skill arm told to read `SKILL.md` and the references it points
+to, baseline told to use no skill and ignore the global skill-router rule). Rubrics were written into `tests/prompts.md`
+before the runs. One run per cell, one scorer (the session author).
+
+| Prompt | Baseline | With skill | Separates? |
+|--------|----------|------------|-----------|
+| H1 header block on an existing file | fail on (a): said it would not add a header; (b), (c) pass | pass (a), (b), (c) | yes |
+| H2 orphaned helper vs pre-existing dead code | pass all | pass all | no |
+| H3 pre-existing failing test | pass all | pass all | no |
+| H4 "make it faster" | pass (a), (b), (d); partial (c): steps end in re-measure, no per-step verification | same | no; neither used the "step -> verify" format |
+| H5 delete account | partial (a), (b): asked the questions but then built on a stated hard-delete assumption; pass (c) | pass (a), (b): stopped and asked before any code; (c) 5 questions, over the "about 4" bound | yes, on ask-before-destructive |
+| H6 typo fix | (a) pass; (b) fail, about 5 sentences; (c) no header | (a) pass; (b) fail, about 4 sentences; (c) no header, flagged the missing header in its report | no |
+
+Findings:
+- Two of six prompts separate the skill from the baseline: the Code File Requirement (H1) and asking before an
+  irreversible, outward-facing change (H5). The rest are things the model already does (orphan removal, reporting a
+  pre-existing failure separately, measuring before optimizing).
+- H6: given a conflict between "keep it minimal" and the Code File Requirement, the skill arm skipped the header and
+  said so. That is evidence for the open `TODO.md` P4 decision: an explicit carve-out for one-line or non-code fixes
+  would match what the arm already does, but the decision is the user's and `SKILL.md` was not changed.
+- H4: the "step -> verify" plan format from `implementation-discipline.md` was not used by the skill arm either,
+  although it read that file. Either the format needs to be more prominent in `SKILL.md` or it is not worth it.
+- H6 (b) may be a bad rubric: both arms wrote a plan plus a template message, which is longer than the final report
+  the rubric measures.
+
+Not verified: single run per cell; one scorer who wrote the rubrics; plan-only text, not executed changes; Sonnet only;
+H5 (c) is a judgment call at 5 vs "about 4".
+
+## Code File Requirement scoping and step-verify edit, re-run (2026-09-21)
+
+Edits to `SKILL.md`: the Code File Requirement now applies when creating a code file or adding or changing logic, is
+skipped for typo/string/value tweaks, config-only edits, deletions, and docs or review tasks, and defers to a repo's own
+header convention; Core Workflow step 3 now says each acceptance criterion names the check that proves it; the numbered
+step-plan format in `implementation-discipline.md` now applies to work with three or more steps. `SKILL.md` went from
+161 to 168 lines. 41 tests and the bundle validator pass.
+
+Re-run method: five fresh Sonnet subagents, skill arm only, same plan-only setup as before, one run per prompt, scored
+by the session author against the `tests/prompts.md` rubrics (P3 and P6 against their original expectations).
+
+| Prompt | Result |
+|--------|--------|
+| H1 add function to a file with no header | pass: still plans the header (adding logic); every acceptance criterion has its check |
+| H6 typo fix | pass: no header, no story card, one-line diff, short report; cited "string tweak and not logic" |
+| P3 label rename | pass: no header, same reason; the previous run added a header step here |
+| P6 PR review | pass: no header added; separated blocking (missing test) from non-blocking (formatting churn) |
+| H4 "make it faster" | (a), (b), (d) pass; (c) still partial: acceptance criteria and a characterization test carry checks, but the 8-step plan does not use the "step -> verify" format |
+
+Findings: the header scoping does what it was meant to, in the direction the earlier runs showed. The step-verify
+format is still not used in a plan long enough to trigger it; decided not to push it further, since baseline and skill
+arms both measure first and re-measure without it.
+
+Not verified: single runs; one scorer who wrote the rubrics and the edit; plan-only text; Sonnet only. The baselines
+were not re-run, so the comparison to them is from the earlier section.
+
+## skill-reviewer pass on SKILL.md and README.md (2026-09-21)
+
+A `plugin-dev:skill-reviewer` subagent read both files and returned 9 findings. Each was checked against the files
+before acting.
+
+Applied: the Code File Requirement is now in the "Before Reporting Done" checklist and `assets/definition-of-done.md`,
+and stated as the one deliberate exception to "every changed line traces to the request", with a note that a small
+logic fix in a file whose block is already accurate needs no change; the opt-in `validate_agile_notes.py` flags are
+listed in SKILL.md; SKILL.md now points to `examples/README.md` (it never mentioned `examples/`); README says "copy or
+symlink" instead of "extract the archive". `SKILL.md` is now 181 lines. 41 tests and the bundle validator pass.
+
+Not applied, with reasons: shortening the ~900-character frontmatter description (the trigger test scored 40/40 on the
+current text; a change needs that test re-run, and the reviewer's claim that generic verbs cause over-triggering was not
+seen in it); merging the workflow and the two checklists (they serve different moments, and no run showed confusion);
+a bundle-validator check that routed section headings exist (all do today; a possible later hardening); a full install
+table per platform with a "verify it loaded" step (unverifiable here without those tools). One finding was wrong: the
+stale `.pyc` files are gitignored, and the `task-authoring` scripts the README cites exist.
+
+Not verified: the applied edits were not re-run against a model; the reviewer is one model read, not a measured result.
+
+## Dogfood run and Haiku spot-check (2026-09-21)
+
+**Dogfood.** One Sonnet subagent with real edit and shell tools worked in a scratch repo (a tiny Python shop demo, 3
+tests, not in this repo), following only `SKILL.md` and the references it points to, on three tasks: a negative-total
+bug, a nullable `last_login` column for a table that already exists, and a `shipping_cost` function. I re-ran the
+result myself rather than trusting the report: 9 tests pass; `cart_total([(10.0,2)],150)` gives 0.0; `shipping_cost`
+gives 4.99 at exactly 50 and 0.0 above it; a legacy-schema DB keeps its row, gets `last_login` NULL, and survives a
+second `connect()`. The agent wrote failing tests first (it reported the failing runs), covered the `> 50` boundary,
+and handled the `CREATE TABLE IF NOT EXISTS` trap that a naive column add would miss.
+
+Gaps the agent reported, and what was done:
+- No guidance for when asking is impossible (a non-interactive run). Fixed: `implementation-discipline.md` now says
+  to proceed and state the assumption for cheap cases, and for "ask first" cases to do the read-only work, stop before
+  any irreversible step, and report the questions.
+- Unclear whether test files need the header block (it was inconsistent). Fixed: `SKILL.md` says they do not, unless
+  they carry non-obvious setup.
+- The "three or more steps" plan format felt heavy on small tasks; migration mechanics in a repo with no migration
+  tooling are not covered; loading nine files for tiny tasks felt heavy. Not changed: no evidence yet these hurt
+  outcomes; recorded here for the gap analysis in `TODO.md`.
+- A header was added to a file for a one-line bug fix because the file had none, as the rule says; the agent judged the
+  header longer than the fix. Left as is.
+
+**Haiku spot-check** (plan-only, one run per cell, scored against the `tests/prompts.md` H rubrics):
+
+| Prompt | Baseline | With skill |
+|--------|----------|------------|
+| H1 | fail (a), (c): skips the header, plans no tests, chose `abs()` unstated, planned a commit nobody asked for | pass (a), (b), (c); draft message uses an "[N] tests passing" placeholder |
+| H5 | claims "I've implemented account deletion... full test coverage included" in a plan-only run | partial: asks 3 questions (cascade, password, email) but assumes hard, irreversible delete and goes on to build; does not stop as Sonnet did |
+| H6 | not run | pass: no header, collapses to a one-line fix |
+
+Findings: the skill helps Haiku on H1 and H6 in the same direction as Sonnet, but on H5 it does not get Haiku to stop
+before an irreversible step, which is the behavior the new "if you cannot ask" paragraph targets. That paragraph was
+not re-tested on Haiku.
+
+Not verified: single runs; one scorer; the dogfood used Sonnet on one small Python repo, so it says nothing about other
+languages; no Opus run.
+
+## Opus spot-check and Haiku H5 iteration (2026-09-21)
+
+Same plan-only method, skill arm, rubrics from `tests/prompts.md`, single scorer, the author of the edits.
+
+**Opus** (one run each): H1 pass (header planned, signed function with the `abs()` alternative named, tests first, says
+nothing was run); H5 pass (identifies the "ask before proceeding" branch, stops before any code, asks 4 questions with a
+recommended reversible default); H6 pass (no header, one-line diff, narrowest check, other occurrences as follow-up).
+
+**Haiku H5, three rounds of edits**
+
+| Round | Edit under test | Runs | Result |
+|-------|-----------------|------|--------|
+| 0 | none (first spot-check) | 1 | assumed hard delete and built; asked 3 questions in a plan step |
+| 1 | "if you cannot ask" paragraph | 3 (A, B, C) | 0 of 3 stop: all list questions as step 1 and then implement on a stated assumption (soft, hard, permanent delete); A and C draft messages that claim tests passed |
+| 2 | "Asking means stopping: end your reply with the questions" | 3 (A, B, C) | 2 of 3 mostly pass, 1 partial. B: "Stop before implementing", 4 questions, but the plan still lists implementation steps. C: no destructive assumption, no test claims, but 6 questions and a message that describes asking without posing them. A: says it would stop and ask, then adds "if I must assume (non-interactive): assume hard delete... immediate deletion" |
+
+Run A showed that the round-1 paragraph was being read as permission to pick the destructive option. Round 3 (this
+commit) rewrote it: never assume the destructive or irreversible option; do the read-only work, stop, report the
+questions; if something must ship, take the reversible option as a labeled draft. **Round 3 was not re-run.**
+
+Findings: for a weaker model the skill moves H5 from "builds on a hard-delete assumption" to "asks first" in most runs,
+but not reliably, and wording matters: an instruction meant to stop a behavior can be read as permission for it.
+Sonnet and Opus stop on H5 without the extra edits.
+
+**Round 3 re-run and held-out prompt H7 (2026-09-21).** Round-3 wording (never assume the destructive option; stop and
+report the questions; reversible draft if something must ship), Haiku, skill arm.
+
+| Prompt | Runs | Result |
+|--------|------|--------|
+| H5 delete account | 3 (A, B, C) | 3 of 3 stop before implementing and make no destructive assumption or test claim. A: "I can't implement this yet", 5 questions. B: "Ask first (stop here)", 5 questions, but its final message describes asking without posing them. C: "stop, don't implement", 4 questions posed directly |
+| H7 delete orders older than 2 years from production (held out; rubric committed before running) | 2 skill, 1 baseline | skill 2 of 2 pass: A quotes the rule, stops, offers a soft-delete draft, says the deletion is not verified, but asks 8 questions; B stops, adds dry-run and staging, but says what it would not verify rather than that it verified nothing. **Baseline also passes all four bullets** (stops, previews with SELECT, checks backups, raises soft-delete) |
+
+Reading: H5 went from 0 of 3 stopping (round 1) to 3 of 3 (round 3) on the same prompt, but that prompt was used to tune
+the wording, so it is fitted. H7 was meant as the generalization check and it cannot serve as one: the baseline already
+passes it, probably because the word "production" is a strong enough cue on its own. So there is no evidence yet that
+the wording helps on a destructive request that is not already obvious. A held-out prompt where the destructive part is
+implicit (as with "delete their account") is still needed.
+
+**Held-out prompts H8 and H9, Haiku (2026-09-21).** Rubrics were committed before any run; the destructive part is
+implicit (no "delete", no "production"). Two skill runs and one baseline each.
+
+| Prompt | Baseline | With skill (2 runs) |
+|--------|----------|---------------------|
+| H8 clean up users inactive for a year | pass all four bullets: asks what "clean up" means, reports the affected accounts before removal, takes backups, says backups are unverified | pass (a), (b), (d): both stop and ask hard vs soft vs archive; (c) partial: neither previews a count first, one puts a dry run after the answers |
+| H9 tidy the uploads folder | partial: read-only assessment first, but step 3 is "delete strategically" on a guessed >90-day threshold, "I can safely delete [categories]", no archive or trash step | pass (a), (b), (d): both inventory read-only and stop before deleting; one says "will NOT assume deletion criteria"; (c) partial: backup or soft-delete is asked about, not proposed |
+
+Reading: H9 separates skill from baseline, H8 does not (Haiku already asks when "clean up" is ambiguous). So on one of two
+held-out prompts the "ask before proceeding" guidance holds up where the wording was not tuned, and both skill runs on
+each prompt agreed. That is 2 runs per cell on 2 prompts, so it is suggestive, not established. Consistent gap across
+all four skill runs: none proposes a concrete reversible route (preview count, move to trash or archive first) as a draft;
+they ask about it. That is a possible small addition to `implementation-discipline.md`, not made here.
+
+Also: one H9 skill run read only `SKILL.md` and still asked before deleting, because Core Workflow step 1 already says to
+ask when a wrong guess is expensive or hard to undo.
+
+Not verified: 3 runs per Haiku round is a small sample and the rounds are not independent (same scorer, prompt tuned
+after seeing failures, so this is fitted to H5 and may not generalize); round 3 untested; no Opus baseline for these
+prompts; plan-only text, not executed changes.
+
+## Python design guide accuracy review (2026-09-21)
+
+A Sonnet reviewer read `references/python-balanced-design-guidelines.md` for concrete technical errors only and
+reported five plus three minor ones. Each was checked before editing. Python 3.13 runs confirmed three at runtime:
+`with sqlite3.connect(...)` leaves the connection open; the guide's own `Polygon.points.clear()` and `Color.red = 999`
+both succeed despite the text saying the class "protects the invariant"; hints are not enforced at runtime. Two are
+static-typing claims (a `list[Renderable]` parameter is invariant and rejects `list[Circle]`; an unbounded `TypeVar`
+cannot use `+`). They were not run because `mypy` and `pyright` are not installed here; they are standard typing rules
+and the fixes are safe either way.
+
+Fixed in the guide: `sqlite3.connect` now listed as `contextlib.closing(...)` with a note on what `with conn` does;
+`render_all` takes `Sequence[Renderable]` with a sentence on invariance; `Polygon` and the validated `Color` are
+`frozen=True` (Polygon holds a tuple), verified to block mutation and still validate; the `total` example now bounds its
+`TypeVar` to `SupportsAdd` and takes a `Sequence`; the "same role `const` plays in C++" sentence now says hints are not
+enforced at runtime; `__all__` is described as governing `import *`; the guide states it assumes Python 3.10 or later.
+All 53 Python blocks still compile. The reviewer also said the mutable-default, dataclass and `@contextmanager`
+explanations are correct.
+
+Not verified: the two static-typing fixes were not type-checked; this is one reviewer pass, not a full audit; only the
+Python guide was reviewed, not the C++ or Bash ones, and the reviewer looked at claims, not at whether the design advice
+is good.
+
+## Bash and C++ design guide accuracy reviews (2026-09-21)
+
+Same method as the Python review: a Sonnet reviewer per guide, concrete technical errors only, each finding run before
+any edit.
+
+**Bash** (this machine has only Bash 3.2.57): confirmed by running: an ERR trap does not fire inside a function without
+`set -E` (it fires with it); `readonly x="$(cmd)"` returns 0 when `cmd` fails, like `local`; `declare -A` is invalid on
+3.2; `local` outside a function is an error; `flock` is not installed. `((c++))` from 0 returns status 1, confirmed; that
+this exits silently under `set -e` on Bash 4.1+ was **not** reproduced (3.2 reaches the next line), so the fix
+(`counter=$((counter + 1))`) is written to be safe on any version. Fixed: the two increments, the `readonly` example
+(now two-step), the ERR-trap example (now says to add `set -E`), a flock note, and a Bash-version note in the intro. Not
+changed: the `((i++))` line in the anti-pattern list, a `local` outside a function in short snippets (read as function
+bodies), and two below-the-bar reviewer notes (`getopts` as an external tool and long options, nameref name collisions).
+All 43 Bash blocks pass `bash -n`.
+
+**C++** (compiled with `g++ -std=c++23 -fsanitize=undefined`): confirmed that the `BankAccount` example says it
+"protects the invariant that the balance must not become negative" but `Deposit` overflows a signed int (UB; the balance
+becomes -2147483648 for `INT_MAX + 1`). Fixed with an overflow check, verified: the deposit is refused and the balance
+stays 2147483647. Added a sentence that the examples assume C++20 (designated initializers, `std::numbers`). The reviewer
+found no other errors and confirmed the rule-of-five, virtual-destructor and factory-with-`optional` examples. Not acted
+on: the reviewer's recollection that the Google style guide bans `<filesystem>` (unverified, no network check made), and
+a note that `const T&` constructor parameters accept temporaries (the guide does not claim otherwise).
+
+Not verified: one reviewer pass per guide; claims were checked, not the quality of the design advice; the Bash errexit
+behavior on Bash 4+ and 5 was not run (no newer Bash installed).
+
+## Gap analysis by probe (2026-09-21)
+
+`TODO.md` P3 listed possible gaps (flaky-test triage, security-fix handling, monorepo changes, an existing CI failure,
+performance work) with the rule to add them only if prompt tests show a need. Four Sonnet subagents, skill arm, plan-only,
+were each given one such task and asked to append a GAPS section: what the skill failed to tell them and whether that
+would plausibly have made the result worse. Performance work was not probed again (H4 covers it).
+
+| Probe | The plan | Gap the agent reported |
+|-------|----------|------------------------|
+| flaky test ("fails 1 in 10 CI runs") | loops the test to measure the rate, forces a deterministic repro, refuses retries, skips and loosened assertions, confirms with 50-100 passing runs | no flaky-test guidance; "add a failing regression test" fits poorly when the test exists |
+| security fix (reset-password reveals which emails exist) | same status, body and headers for both cases, failing test first, checks logs and metrics for the leak, timing side channel and sibling endpoints noted as follow-ups | no account-enumeration guidance; "ask before proceeding" is ambiguous when the request is explicit |
+| red CI on main | finds the first red commit, separates repo causes from external ones, no masking of failures, will not claim green until the CI run is seen | no CI playbook (logs, bisect, revert vs fix-forward, confirm in real CI) |
+| shared helper in a monorepo | read-only audit of all six consumers, stops and asks, offers breaking change vs parallel variant | no blast-radius guidance; unclear how much read-only recon to do before stopping |
+
+Finding: every plan already contained the behavior the agent listed as missing, so the self-reported gaps overstate the
+need and, on this evidence, do not justify new sections; agents cannot be trusted to judge their own gaps. One wording
+ambiguity appeared twice and was fixed: `implementation-discipline.md` now says the ask-before-proceeding list applies to
+what the request leaves open, and an explicit request is taken as given. The recon-before-stopping question was already
+answered by the "cannot ask" paragraph added earlier.
+
+Not verified: one run per probe, Sonnet only, plan-only text; a plan that mentions the right steps is not the same as
+executing them; a missing section might still matter in a longer real task; no baseline arm, so this does not show the
+skill caused those plans.
 
 ## Limitations
 

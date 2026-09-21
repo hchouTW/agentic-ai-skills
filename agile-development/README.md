@@ -4,7 +4,7 @@ A portable Agent Skill maintained entirely in English. Its core is `SKILL.md` pl
 
 ## Installation and invocation
 
-Extract the archive and keep the complete `agile-development/` folder.
+Copy or symlink the complete `agile-development/` folder (keep it whole).
 
 - **Codex:** place the folder in the skill directory used by your environment, commonly `~/.codex/skills/`, or import it through the mechanism supported by your version. Reload skills and invoke `$agile-development`. `agents/openai.yaml` supplies optional Codex UI metadata.
 - **Claude Code:** copy it to `.claude/skills/agile-development/` in the project or `~/.claude/skills/agile-development/` for personal use. Invoke `/agile-development` or describe a matching task (new feature, bug fix, refactor, scoping, review). See the [official Claude Code skill documentation](https://code.claude.com/docs/en/skills).

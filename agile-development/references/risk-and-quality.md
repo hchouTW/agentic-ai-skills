@@ -4,6 +4,9 @@ Use this reference when changes touch shared interfaces, data, dependencies, sec
 
 ## Scope Control
 
+See also the "Surgical changes" section of [implementation-discipline.md](implementation-discipline.md), which covers the
+same ground from the implementer's side; this list is the reviewer's checklist.
+
 - Change only files required to satisfy acceptance criteria or keep checks passing.
 - Avoid opportunistic renaming, reformatting, or reorganizing unrelated modules.
 - Separate cleanup from behavior change unless cleanup is required for safe implementation.
