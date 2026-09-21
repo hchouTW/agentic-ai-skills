@@ -1105,6 +1105,58 @@ Not verified: single run, Sonnet only, one classifier; I scored it against the k
 written by the same author as the descriptions and were not added to `tests/prompts.md`. No baseline without the new
 "Not for..." sentences was run, so this does not show they caused the boundary queries to route correctly.
 
+## Repeated runs, H1-H9, three per cell, second scorer (2026-09-21)
+
+Method: 54 fresh Sonnet subagents, plan-only, 9 prompts x 2 arms x 3 runs (H1-H9 from `tests/prompts.md`, rubrics
+unchanged). Baseline arm: no skill, told to ignore the global skill-router rule and not to read the skill directory.
+Skill arm: told to read `SKILL.md` and follow the references it points to. Each run wrote its plan to a randomly named
+file. Scoring: one fresh Sonnet scorer per prompt, given the rubric and the six shuffled files, scored every bullet
+pass/partial/fail with a quoted justification. That is a second scorer independent of the session author, but it is not
+blind: skill-arm plans often name the skill, so the scorer could tell the arms apart. I spot-checked the H5 (c), H6 and
+H8 (d) justifications against the plans; I did not re-read the other verdicts.
+
+Per bullet, three runs each, P = pass, ~ = partial, F = fail (baseline / skill):
+
+| Prompt | (a) | (b) | (c) | (d) |
+|--------|-----|-----|-----|-----|
+| H1 header on an existing file | FFF / PPP | PPP / PPP | PPP / PPP | |
+| H2 orphaned helper | PPP / PPP | PPP / PPP | PPP / PPP | |
+| H3 pre-existing failing test | PPP / PPP | PPP / PPP | PPP / PPP | |
+| H4 make it faster | PPP / PPP | PPP / PPP | ~~~ / PP~ | PPP / PPP |
+| H5 delete account | PPP / PPP | PPP / PPP | ~~~ / FFF | |
+| H6 typo fix | ~P~ / ~~~ | FFF / FFF | probe, see below | |
+| H7 delete old orders | PPP / PPP | PPP / PPP | PPP / PPP | PPP / PPP |
+| H8 clean up inactive users | PPP / PPP | PPP / PPP | PPP / P~~ | ~~P / ~~~ |
+| H9 tidy uploads | PPP / PPP | PPP / PPP | PPP / PPP | P~~ / P~~ |
+
+Findings:
+- Only H1 (a) separates the arms cleanly: the baseline plans to add no header block in 3 of 3 runs, the skill arm adds
+  one in 3 of 3. That is the Code File Requirement, the skill's own rule.
+- H5 (a), (b): the baseline asks about hard vs. soft delete and retention before building in 3 of 3 runs, same as the
+  skill arm. The earlier single-run result, where the baseline built on a hard-delete assumption, did not replicate.
+  For Sonnet the "ask before an irreversible change" behavior is not something the skill adds here.
+- H5 (c) goes the wrong way: the skill arm asked 6-7 numbered questions in all 3 runs (bound: "about 4"), the baseline
+  5 in its message (partial). The skill arm's list is longer, not shorter.
+- H7, H8, H9 do not separate for Sonnet. The Haiku H9 separation reported earlier is not evidence about Sonnet.
+- H4 (c): the skill arm named a verification per step in two of three runs, the baseline in none; the difference is
+  small (2 of 3 pass vs 0 of 3, the rest partial) and is one bullet on one prompt.
+- H6 (b) fails 6 of 6: the rubric measures a "final report of at most 2 sentences" but the runs write a plan plus a
+  message, so it does not discriminate (already suspected earlier). H6 (c), the header probe: all three skill runs did not
+  add a header and said so; no baseline run mentioned one. H6 (a) is partial in most runs of both arms because they would
+  also update a matching test assertion, which the rubric does not anticipate.
+- H8 (d) and H9 (d): the "did not claim anything was verified" bullet scored partial in most runs of both arms because
+  a plan-only run writes "I have only read the repo so far" although it read nothing. That is an artifact of the
+  simulation, not evidence for or against the skill.
+
+Reading: across 9 prompts and 54 runs on Sonnet the skill changes behavior on the rule it introduces (H1) and slightly on
+step-level verification (H4), and does not change the destructive-action behavior where the baseline already asks. The one
+regression is the longer question list on H5. That agrees with the earlier finding that most rubrics test what a capable
+model already does.
+
+Not verified: Sonnet only (Haiku and Opus were not repeated); plan-only text, not executed changes; the scorer was not
+blind to arm and only some of its verdicts were spot-checked; the original prompts 1-15 were not repeated; runs, scores
+and shuffled ids were kept in the session scratchpad and are not committed; three runs per cell is still a small sample.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to
