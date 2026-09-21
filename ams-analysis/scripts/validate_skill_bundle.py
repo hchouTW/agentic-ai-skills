@@ -173,7 +173,7 @@ def check(root: Path) -> list[str]:
         for sid in set(re.findall(r"\bS\d\d\b", text)):
             if sid not in known_ids:
                 errors.append(f"references/{name}.md cites unknown source {sid}")
-        for cid in set(re.findall(r"\bC\d\d\b", text)):
+        for cid in set(re.findall(r"\bC\d{2,3}\b", text)):
             if cid not in known_claims:
                 errors.append(f"references/{name}.md cites unknown claim {cid}")
 

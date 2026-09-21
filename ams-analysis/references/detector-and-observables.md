@@ -139,10 +139,23 @@ Public detector descriptions exist in the Collaboration's detector web pages, su
 | TOF velocity resolution | Δβ/β² = 4% | \|Z\| = 1 (S08) |
 | RICH velocity resolution | Δβ/β = 0.1% | \|Z\| = 1 (S08); isotope papers quote Gaussian-core widths per radiator (C28) |
 | ACC side-entry rejection efficiency | 0.99999 | quoted in S08 |
-| ECAL | 17 radiation lengths, 3D imaging | S04 (claim C50) |
+| ECAL | 17 radiation lengths, 3D imaging | S04 (claim C50; more detail in the review table below, C71) |
 | TRD estimator | per-layer log-likelihood ratio Λ_TRD (e hypothesis over p or p̄ hypothesis) | S08, S04 |
 
-Rejection factors for the TRD or ECAL are quoted in these papers only through estimator distributions and template fits, not as a single number; do not supply one. When a user needs another number, fetch the primary paper section, record definition and context in the ledger, and quote it with the context.
+**Review-level values (S01, Phys. Rept. 894, chapter 1, read in full text 2026-09-21; scope is the review of the first seven years, claims C63-C73).** [Documented] Each row keeps its claim's scope; none is a general performance figure.
+
+| Quantity | Value | Claim and scope |
+|---|---|---|
+| Tracker MDR (L1-L9) | 2.0 TV p, 3.2 TV He, 3.7 TV C, 3.4 TV O, 3.7 TV Fe; resolution ΔR/R = 0.1 below 20 GV | C63, nine-layer configuration |
+| Electron charge confusion | below 8% up to 1 TeV, after TRD and ECAL selection | C65, electrons only |
+| TRD proton rejection | above 1000 at 90% e± efficiency, 2-200 GeV/c; better at 65% efficiency | C67, that selection and range only |
+| ECAL proton rejection | Λ_ECAL with E/p > 0.7; a further factor about 3 at 65% versus 90% e± efficiency (curve is a figure) | C72, 1-2000 GeV/c |
+| TOF velocity | Δ(1/β) = 4% (Z = 1), 2% (Z = 2), 1% (Z > 6); direction confusion about 1e-9 (Z = 2 sample) | C68 |
+| RICH | β thresholds 0.75 (NaF) and 0.953 (aerogel); velocity better than 0.1% at β about 1 for \|Z\| > 1 | C70; the analysis papers' 0.1% for \|Z\| = 1 is C21, so quote the Z range |
+| ECAL | 17 X0, 9 superlayers, 1296 cells; angular resolution 0.3° at 1 TeV | C71; resolution curves not transcribed |
+| Trigger and DAQ | electron level-1 efficiency 100% above 3 GeV; average DAQ efficiency 86%, about 600 Hz | C73; electrons only, typical values, not livetime inputs |
+
+Rejection factors are selection- and efficiency-dependent: quote a number only with its efficiency, energy range and claim ID (C67, C72), otherwise stay with estimator distributions and template fits. Tracker charge resolution against Z (C66) and ECAL energy resolution (C71) are figure-only in the review; do not supply values. When a user needs another number, fetch the primary paper section, record definition and context in the ledger, and quote it with the context.
 
 ## Failure modes
 

@@ -129,11 +129,11 @@ Judgement calls a human should confirm (each is new structure, not new evidence)
 - `publication_date` is year-level except S09, S13, S14, S15, whose exact dates come from claim C34 (AMS publications page); `data_taking_period` is filled only where a claim states it (S04, S06, S08, S09, S10, S12-S15); `inspire_record_id` is null everywhere because the old ledger did not record it.
 - S19 and S40 have `access_date: null` (the old index says not verified this session); every other row has 2026-09-20.
 - DOIs for grouped rows S03 and S18 were expanded from the old shorthand (`.121102`, `.05.010`) to full DOIs; S16 and S20 keep only the one DOI the old ledger listed.
-- Existing inconsistency, not resolved: the old "Items lacking verification" bullet listed S05 as metadata-only while its table row and claim C26 treat it as full-text (main article only). The table row was kept and a note added to S05.
+- S05 inconsistency resolved (2026-09-21): the electron-flux main article is one of the nine papers read in full text (see the source paragraph above) and claim C26 quotes it, so `full-text (main article only)` is correct; the old "metadata-only" bullet was the error. Supplemental Material of S05 remains unread.
 
 ## Unresolved gaps and limitations
 
-- Supplemental Material of all papers, the Phys. Rept. review (S01), S02 and all metadata-only rows remain unread; per-cut definitions, tables, and the BDT charge-confusion input lists beyond what the main articles state are not in the skill.
+- Supplemental Material of all papers, S02 and all metadata-only rows remain unread; the Phys. Rept. review (S01) chapters 1-16 are read (claims C63-C100), but not its introduction, summary, or the separate papers behind each chapter; per-cut definitions, tables, and the BDT charge-confusion input lists beyond what the main articles state are not in the skill.
 - The ledger corrections after round 2 were not re-graded.
 - Round-3 evaluations of T29-T34 are single-sample and self-graded; see the table above.
 - The independent grader is a model; a human expert review of the physics and of the AMS-practice paragraphs is still advisable.

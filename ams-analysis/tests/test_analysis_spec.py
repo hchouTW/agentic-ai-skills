@@ -399,7 +399,7 @@ class EvidenceTests(unittest.TestCase):
         self.assertIn("parameter.undocumented", codes(self.mutate(edit), "error"))
 
     def test_documented_parameter_with_unknown_claim(self):
-        def edit(d): d["parameters"][0]["claim_ids"] = ["C99"]
+        def edit(d): d["parameters"][0]["claim_ids"] = ["C999"]
         self.assertIn("parameter.unknown_claim", codes(self.mutate(edit), "error"))
 
     def test_claim_that_forbids_numeric_quotation(self):
@@ -435,11 +435,11 @@ class EvidenceTests(unittest.TestCase):
         self.assertIn("claim.label", codes(self.mutate(edit), "error"))
 
     def test_unknown_claim_id_in_statement(self):
-        def edit(d): d["ams_claims"][0]["claim_ids"] = ["C77"]
+        def edit(d): d["ams_claims"][0]["claim_ids"] = ["C999"]
         self.assertIn("claim.unknown", codes(self.mutate(edit), "error"))
 
     def test_without_ledger_claim_ids_are_not_resolved(self):
-        def edit(d): d["parameters"][0]["claim_ids"] = ["C99"]
+        def edit(d): d["parameters"][0]["claim_ids"] = ["C999"]
         report = self.mutate(edit, claims=None)
         self.assertNotIn("parameter.unknown_claim", codes(report))
 
@@ -522,7 +522,7 @@ class CliTests(unittest.TestCase):
 
     def test_no_claims_flag(self):
         doc = spec()
-        doc["parameters"][0]["claim_ids"] = ["C99"]
+        doc["parameters"][0]["claim_ids"] = ["C999"]
         with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as fh:
             json.dump(doc, fh)
         self.addCleanup(Path(fh.name).unlink)
