@@ -4,6 +4,9 @@ When modifying or writing Python code, prefer a balanced style between
 object-oriented and procedural programming. Follow established repository
 conventions when they intentionally differ from this reference.
 
+The examples assume Python 3.10 or later (they use `X | None` and built-in generics such as
+`list[str]`).
+
 The examples follow [PEP 8](https://peps.python.org/pep-0008/) and the
 [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html):
 four-space indentation, `snake_case` functions and variables, `PascalCase`
@@ -316,8 +319,12 @@ open(...)
 threading.Lock()
 contextlib.suppress(...)
 tempfile.TemporaryDirectory()
-sqlite3.connect(...)
+contextlib.closing(sqlite3.connect(...))
 ```
+
+Note that `with sqlite3.connect(...) as conn:` only commits or rolls back the
+transaction; it does not close the connection, so wrap it in
+`contextlib.closing(...)` when the connection itself must be released.
 
 Avoid manual acquire/release in normal application code.
 
@@ -413,6 +420,7 @@ Prefer `typing.Protocol` when callers only need structural compatibility and
 should not be forced into an inheritance hierarchy:
 
 ```python
+from collections.abc import Sequence
 from typing import Protocol
 
 
@@ -420,13 +428,14 @@ class Renderable(Protocol):
     def render(self) -> str: ...
 
 
-def render_all(items: list[Renderable]) -> list[str]:
+def render_all(items: Sequence[Renderable]) -> list[str]:
     return [item.render() for item in items]
 ```
 
 Any object with a matching `render()` method satisfies `Renderable` without
 inheriting from it — Python's duck typing makes structural typing the
-lower-friction default; reach for `ABC` only when you need to force
+lower-friction default (annotate parameters with `Sequence` or `Iterable`, not
+`list`, which is invariant and would reject a `list[Circle]`); reach for `ABC` only when you need to force
 subclasses to implement specific methods or share concrete base behavior.
 
 Use this style when callers need to work with different concrete
@@ -516,9 +525,9 @@ Example:
 from dataclasses import dataclass
 
 
-@dataclass
+@dataclass(frozen=True)
 class Polygon:
-    points: list["Point"]
+    points: tuple["Point", ...]
 
     def __post_init__(self) -> None:
         if len(self.points) < 3:
@@ -537,7 +546,8 @@ def perimeter(polygon: Polygon) -> float:
 ```
 
 In this example, `Polygon` protects the invariant that it has at least three
-points. `perimeter` is a free function because it is an algorithm over the
+points: it is validated at construction and, being frozen with a tuple, cannot be
+mutated afterwards. `perimeter` is a free function because it is an algorithm over the
 public interface.
 
 ---
@@ -577,7 +587,7 @@ class Color:
 Prefer validation when the values must be constrained:
 
 ```python
-@dataclass
+@dataclass(frozen=True)
 class Color:
     red: int
     green: int
@@ -741,7 +751,8 @@ styles in the same component without a clear reason.
 ## Type Hints and Immutability
 
 Use type hints on public function signatures and class attributes to
-communicate intent, the same role `const` plays in C++.
+communicate intent to readers and static checkers. Unlike C++ `const`, they are
+not enforced at runtime.
 
 Prefer:
 
@@ -891,7 +902,7 @@ A module should usually contain:
   public API
 
 Use packages (`__init__.py`) to group related functionality and control the
-public surface with `__all__`.
+public surface: `__all__` defines what `from pkg import *` exports.
 
 Example:
 
@@ -969,16 +980,17 @@ works across multiple types.
 Good example:
 
 ```python
+from collections.abc import Sequence
 from typing import Protocol, TypeVar
 
-T = TypeVar("T")
+T = TypeVar("T", bound="SupportsAdd")
 
 
 class SupportsAdd(Protocol):
     def __add__(self: T, other: T) -> T: ...
 
 
-def total(values: list[T]) -> T:
+def total(values: Sequence[T]) -> T:
     result = values[0]
     for value in values[1:]:
         result = result + value

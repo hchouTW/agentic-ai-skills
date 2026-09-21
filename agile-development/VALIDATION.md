@@ -1010,6 +1010,28 @@ Not verified: 3 runs per Haiku round is a small sample and the rounds are not in
 after seeing failures, so this is fitted to H5 and may not generalize); round 3 untested; no Opus baseline for these
 prompts; plan-only text, not executed changes.
 
+## Python design guide accuracy review (2026-09-21)
+
+A Sonnet reviewer read `references/python-balanced-design-guidelines.md` for concrete technical errors only and
+reported five plus three minor ones. Each was checked before editing. Python 3.13 runs confirmed three at runtime:
+`with sqlite3.connect(...)` leaves the connection open; the guide's own `Polygon.points.clear()` and `Color.red = 999`
+both succeed despite the text saying the class "protects the invariant"; hints are not enforced at runtime. Two are
+static-typing claims (a `list[Renderable]` parameter is invariant and rejects `list[Circle]`; an unbounded `TypeVar`
+cannot use `+`). They were not run because `mypy` and `pyright` are not installed here; they are standard typing rules
+and the fixes are safe either way.
+
+Fixed in the guide: `sqlite3.connect` now listed as `contextlib.closing(...)` with a note on what `with conn` does;
+`render_all` takes `Sequence[Renderable]` with a sentence on invariance; `Polygon` and the validated `Color` are
+`frozen=True` (Polygon holds a tuple), verified to block mutation and still validate; the `total` example now bounds its
+`TypeVar` to `SupportsAdd` and takes a `Sequence`; the "same role `const` plays in C++" sentence now says hints are not
+enforced at runtime; `__all__` is described as governing `import *`; the guide states it assumes Python 3.10 or later.
+All 53 Python blocks still compile. The reviewer also said the mutable-default, dataclass and `@contextmanager`
+explanations are correct.
+
+Not verified: the two static-typing fixes were not type-checked; this is one reviewer pass, not a full audit; only the
+Python guide was reviewed, not the C++ or Bash ones, and the reviewer looked at claims, not at whether the design advice
+is good.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

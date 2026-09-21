@@ -38,7 +38,7 @@ git-ignored; do not treat them as live code.
 - [x] (2026-09-21: found and fixed BOM, closing-`##`, fenced-code, `Works!` and empty-field defects; 9 regression tests added, 41 tests total. Setext headings remain unsupported by design.) Test `scripts/create_story_card.py` and `scripts/validate_agile_notes.py` on messy input: empty strings, unicode,
       very long criteria, CRLF files, headings with trailing `#`, missing/duplicate sections. Add regression tests for
       each defect found. Check that generated cards pass the validator (round trip).
-- [~] (2026-09-21: syntax checked; Python/Bash pass, C++ blocks are fragments, no defect found; guidance accuracy not reviewed; see `VALIDATION.md`) Review the three language design guides (`references/cpp-`, `python-`, `bash-balanced-design-guidelines.md`,
+- [~] (2026-09-21: syntax checked; Python guide also got an accuracy review, 8 issues fixed, see `VALIDATION.md`; the C++ and Bash guides' guidance accuracy is not yet reviewed) Review the three language design guides (`references/cpp-`, `python-`, `bash-balanced-design-guidelines.md`,
       ~3,000 lines together) for accuracy; `VALIDATION.md` says they were only kept as a single source of truth, not
       re-validated. Run every code snippet (`g++ -std=c++20 -fsyntax-only`, `python3 -m py_compile`,
       `bash -n` + `shellcheck` if installed) and fix or label the ones that fail.
