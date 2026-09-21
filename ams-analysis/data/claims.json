@@ -1997,7 +1997,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "antiproton flux and required background separation"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894); chapters 5-6 only of the physics chapters were read. the 5.6e5-event sample and 525 GV range are the review's, not those of the earlier antiproton paper (C06: 3.49e5 events, 1-450 GV, and C20-C23 for its method) or the 11-year paper (C07: 1.1e6 events, 1-41.9 GV); the 1e4 and 1e6 figures are the review's order-of-magnitude motivation, not a measured rejection; the background-separation tools used are described for the earlier paper in C22.",
+    "limitations": "Review-level summary (Phys. Rept. 894); chapters 5-6 only of the physics chapters were read. the 5.6e5-event sample and 525 GV range are the review's, not those of the earlier antiproton paper (C06: 3.49e5 events, 1-450 GV, and C20-C23 for its method) or the 11-year paper (C07: 1.1e6 events, 1-41.9 GV); the 1e4 and 1e6 figures are the review's order-of-magnitude motivation, not a measured rejection; the background-separation tools used are described for the earlier paper in C22. Numbers in this claim were checked against the rendered PDF page (p. 45) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2069,7 +2069,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "constant fit to a flux ratio"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894); chapters 5-6 only of the physics chapters were read. the constant-ratio result is a fit to that range and does not prove a common origin; the pulsar and dark-matter statements are the review's interpretation and are conditional (a cutoff is expected in that scenario, none is claimed as observed here); the first antiproton paper (C06) reports the near-identical rigidity dependence at about 60-500 GV, a different variable and range.",
+    "limitations": "Review-level summary (Phys. Rept. 894); chapters 5-6 only of the physics chapters were read. the constant-ratio result is a fit to that range and does not prove a common origin; the pulsar and dark-matter statements are the review's interpretation and are conditional (a cutoff is expected in that scenario, none is claimed as observed here); the first antiproton paper (C06) reports the near-identical rigidity dependence at about 60-500 GV, a different variable and range. Numbers in this claim were checked against the rendered PDF page (p. 47) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2168,7 +2168,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "primary-nuclei flux and model-independent spectral index"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). the event counts and error sizes belong to the review's data set and are not those of the first-five-year paper (C62: 90e6 helium events, 67 rigidity bins) or the 30-month helium paper (C59-C61); the 'identical above 60 GV' statement is the review's for the plotted comparison of shapes, not a statement about ratios with a stated uncertainty; the sentence that no model predicted the behaviour is the review's opinion and is not a test of any model.",
+    "limitations": "Review-level summary (Phys. Rept. 894). the event counts and error sizes belong to the review's data set and are not those of the first-five-year paper (C62: 90e6 helium events, 67 rigidity bins) or the 30-month helium paper (C59-C61); the 'identical above 60 GV' statement is the review's for the plotted comparison of shapes, not a statement about ratios with a stated uncertainty; the sentence that no model predicted the behaviour is the review's opinion and is not a test of any model. Numbers in this claim were checked against the rendered PDF page (p. 50) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2218,7 +2218,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "secondary nuclei fluxes"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). the 10Be explanation is stated as 'most likely' by the review and is not a measurement (the AMS isotope measurements in C11 and C29 concern lithium and helium isotopes, not Be); the statistics and error sizes are for the review's data set and should not be attached to the separate 2018 and 2016 papers (S20, S10); the fluxes are elemental, not isotopic.",
+    "limitations": "Review-level summary (Phys. Rept. 894). the 10Be explanation is stated as 'most likely' by the review and is not a measurement (the AMS isotope measurements in C11 and C29 concern lithium and helium isotopes, not Be); the statistics and error sizes are for the review's data set and should not be attached to the separate 2018 and 2016 papers (S20, S10); the fluxes are elemental, not isotopic. Numbers in this claim were checked against the rendered PDF page (p. 80) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2243,7 +2243,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "two-interval power-law fit of ratios"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). the 5 sigma figure is the review's statement for the average hardening across the ratios and how it was computed (which systematic correlations, whether any interval-choice or trial correction) was not read, so treat it as [Unknown/needs input] beyond the quoted statement; the two interval boundaries are the review's choice, not a prescription; the propagation-versus-injection reading is the review's interpretation and third-party model papers were not read; the B/C data-period claim in C08 and C32 covers an earlier, separate paper.",
+    "limitations": "Review-level summary (Phys. Rept. 894). the 5 sigma figure is the review's statement for the average hardening across the ratios and how it was computed (which systematic correlations, whether any interval-choice or trial correction) was not read, so treat it as [Unknown/needs input] beyond the quoted statement; the two interval boundaries are the review's choice, not a prescription; the propagation-versus-injection reading is the review's interpretation and third-party model papers were not read; the B/C data-period claim in C08 and C32 covers an earlier, separate paper. Numbers in this claim were checked against the rendered PDF page (pp. 84-85 and 88) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2292,14 +2292,14 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "isotope flux ratio fit"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). consistent with C09 and C28 (the source paper S12) for the overlapping numbers; the review defers the analysis to that paper, which describes the resolution-function unfolding; before AMS there were no helium-isotope measurements as functions of rigidity (the review's statement); the physical reading (different propagation volumes and cross sections of He versus B, C, O) is the review's.",
+    "limitations": "Review-level summary (Phys. Rept. 894). consistent with C09 and C28 (the source paper S12) for the overlapping numbers; the review defers the analysis to that paper, which describes the resolution-function unfolding; before AMS there were no helium-isotope measurements as functions of rigidity (the review's statement); the physical reading (different propagation volumes and cross sections of He versus B, C, O) is the review's. Numbers in this claim were checked against the rendered PDF page (pp. 86-87) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
   },
   {
     "id": "C87",
-    "claim": "Strangelet search in the review: strangelets are characterized by Z/A < 0.1; the search uses inner tracker L2-L8 for rigidity and the TOF for velocity and, because of the finite TOF velocity resolution (0.01 < Delta beta / beta^2 < 0.02), is limited to events with measured beta < 0.8; the Z/A distribution was measured for Z = 2 and Z = 3-8 nuclei and no events with Z/A < 0.1 were found; 95% C.L. flux upper limits for Z = 2 to 8 assume a rigidity dependence similar to that of the primary cosmic rays and use the acceptance for strangelets estimated with Monte Carlo; the review states the Z = 2 limit is two orders of magnitude more sensitive than PAMELA and nine orders of magnitude lower than the helium flux, and that 2 <= Z <= 8 strangelets are excluded well below the model prediction cited there",
+    "claim": "Strangelet search in the review: strangelets are characterized by Z/A < 0.1; the search uses inner tracker L2-L8 for rigidity and the TOF for velocity and, because of the finite TOF velocity resolution (0.01 < Delta beta / beta^2 < 0.02), is limited to events with measured beta < 0.8; the Z/A distribution was measured for Z = 2 (80 million events) and Z = 3-8 (8 million events) nuclei and no events with Z/A < 0.1 were found; 95% C.L. flux upper limits for Z = 2 to 8 assume a rigidity dependence similar to that of the primary cosmic rays and use the acceptance for strangelets estimated with Monte Carlo; the review states the Z = 2 limit is two orders of magnitude more sensitive than PAMELA and nine orders of magnitude lower than the helium flux, and that 2 <= Z <= 8 strangelets are excluded well below the model prediction cited there",
     "claim_types": [
       "published_result",
       "analysis_method"
@@ -2317,7 +2317,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "rare-event search and 95% C.L. flux limit"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). the limit values are in figures and are not transcribed; the limit depends on the stated assumption of a primary-like rigidity spectrum and on the Monte Carlo acceptance for strangelets, which is not described here; the exclusion relative to a model is against one cited prediction, not a general statement; the resolution range 0.01-0.02 is consistent with the Delta(1/beta) values of 2% (Z = 2) and 1% (Z > 6) in C68; a null result under those assumptions, not a claim about all exotic matter.",
+    "limitations": "Review-level summary (Phys. Rept. 894). the limit values are in figures and are not transcribed; the limit depends on the stated assumption of a primary-like rigidity spectrum and on the Monte Carlo acceptance for strangelets, which is not described here; the exclusion relative to a model is against one cited prediction, not a general statement; the resolution range 0.01-0.02 is consistent with the Delta(1/beta) values of 2% (Z = 2) and 1% (Z > 6) in C68; a null result under those assumptions, not a claim about all exotic matter. Numbers in this claim were checked against the rendered PDF page (p. 102) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2342,7 +2342,7 @@
       "data_period": "2011-05 to 2017-05 (79 Bartels rotations)",
       "analysis": "Bartels-rotation fluxes and ratio fit with a change point"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). this restates the fine-structure paper (S41, C38, with its method in C49, C48, C57) and the numbers should be attributed to that paper when cited alone; the statement that the ratio is constant above 3.29 GV is a 95% consistency statement per bin and a fixed-form fit, not a proof of universality, and no correlation model across rotations was read (see the evidence gap in time-dependent-analysis); the fit form for the change point is the review's choice.",
+    "limitations": "Review-level summary (Phys. Rept. 894). this restates the fine-structure paper (S41, C38, with its method in C49, C48, C57) and the numbers should be attributed to that paper when cited alone; the statement that the ratio is constant above 3.29 GV is a 95% consistency statement per bin and a fixed-form fit, not a proof of universality, and no correlation model across rotations was read (see the evidence gap in time-dependent-analysis); the fit form for the change point is the review's choice. Numbers in this claim were checked against the rendered PDF page (p. 104) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2367,7 +2367,7 @@
       "data_period": "2011-05 to 2017-05 (79 Bartels rotations)",
       "analysis": "lepton flux time series and ratio"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). restates the lepton time-structure paper (S42, C39 and its method C48); attribute the numbers to that paper when cited alone; 'coincident structures' are a visual statement from marked minima, not a correlation coefficient, and the drift statement is the review's physics context.",
+    "limitations": "Review-level summary (Phys. Rept. 894). restates the lepton time-structure paper (S42, C39 and its method C48); attribute the numbers to that paper when cited alone; 'coincident structures' are a visual statement from marked minima, not a correlation coefficient, and the drift statement is the review's physics context. Numbers in this claim were checked against the rendered PDF page (p. 106) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2392,7 +2392,7 @@
       "data_period": "2011-05 to 2017-05 (79 Bartels rotations)",
       "analysis": "logistic time-dependence fit for a flux ratio"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). a descriptive four-parameter fit chosen by the collaboration, not a physical model; t_rev is a stated choice (the centre of the polarity-undefined period, cited to a solar-physics source that was not read), so the delays t_1/2 - t_rev depend on it; parameters Delta t and t_1/2 are only determined at low energy where C is large, and above 6 GeV the review fixes Delta t to 830 days and uses Eq. (18) for t_1/2; the large systematic on rho and tau means quote both errors; no trial factor or correlated-error model across bins is described in the text read.",
+    "limitations": "Review-level summary (Phys. Rept. 894). a descriptive four-parameter fit chosen by the collaboration, not a physical model; t_rev is a stated choice (the centre of the polarity-undefined period, cited to a solar-physics source that was not read), so the delays t_1/2 - t_rev depend on it; parameters Delta t and t_1/2 are only determined at low energy where C is large, and above 6 GeV the review fixes Delta t to 830 days and uses Eq. (18) for t_1/2; the large systematic on rho and tau means quote both errors; no trial factor or correlated-error model across bins is described in the text read. Numbers in this claim were checked against the rendered PDF page (pp. 107 and 110) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2417,7 +2417,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "linear two-component fit of a flux to primary and secondary references"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). the decomposition assumes that O represents a purely primary shape and B a purely secondary shape (the review notes O has the lowest secondary content among He, C, O and that B is mostly made from primary C and O), so the 0.092 and 0.61 are conditional on that choice and the source N/O is not a propagation-free measurement in a strict sense; the review's word 'source abundance' rests on the same assumption, and the fit quality (59/64) does not test it; the mean A = 14.5 is a plotting convention for the kinetic-energy comparison; the results overlap the separate nitrogen paper (a Tier 1 paper not indexed here).",
+    "limitations": "Review-level summary (Phys. Rept. 894). the decomposition assumes that O represents a purely primary shape and B a purely secondary shape (the review notes O has the lowest secondary content among He, C, O and that B is mostly made from primary C and O), so the 0.092 and 0.61 are conditional on that choice and the source N/O is not a propagation-free measurement in a strict sense; the review's word 'source abundance' rests on the same assumption, and the fit quality (59/64) does not test it; the mean A = 14.5 is a plotting convention for the kinetic-energy comparison; the results overlap the separate nitrogen paper (a Tier 1 paper not indexed here). Numbers in this claim were checked against the rendered PDF page (pp. 88 and 93) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2568,7 +2568,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "source-term fit, confidence-region significance and dipole limit"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). consistent with C04 and C35 (the same 4.07 sigma; 5 sigma is not supported); E_s = 810 GeV is the cutoff of a parametrized source term, not a spectral break of the data, and its confidence is a six-parameter region result without a look-elsewhere correction; the dipole limit is quoted as a result of an analysis of the positron data cited in the review (not read) and applies to the stated energy range; the dark-matter comparison is illustrative and the review says it needs verification, so it is not evidence for dark matter; a projection to 5 million positrons and 2 TeV by 2028 in the review is a plan, not a result.",
+    "limitations": "Review-level summary (Phys. Rept. 894). consistent with C04 and C35 (the same 4.07 sigma; 5 sigma is not supported); E_s = 810 GeV is the cutoff of a parametrized source term, not a spectral break of the data, and its confidence is a six-parameter region result without a look-elsewhere correction; the dipole limit is quoted as a result of an analysis of the positron data cited in the review (not read) and applies to the stated energy range; the dark-matter comparison is illustrative and the review says it needs verification, so it is not evidence for dark matter; a projection to 5 million positrons and 2 TeV by 2028 in the review is a plan, not a result. Numbers in this claim were checked against the rendered PDF page (p. 29) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2618,7 +2618,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "nested-model fit and cutoff exclusion scan"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). the source term parameters are held fixed from the positron fit (so its uncertainty is not propagated in the f = 1 fit), the 5 sigma exclusion of E_s < 1.9 TeV is a delta chi2 scan for that model and range, not a claim about all cutoff shapes, and it is a limit, not a positive detection; 'consistent with f = 0 and f = 1' means the data do not discriminate, not that the source term is present in electrons; compare the positron cutoff in C97.",
+    "limitations": "Review-level summary (Phys. Rept. 894). the source term parameters are held fixed from the positron fit (so its uncertainty is not propagated in the f = 1 fit), the 5 sigma exclusion of E_s < 1.9 TeV is a delta chi2 scan for that model and range, not a claim about all cutoff shapes, and it is a limit, not a positive detection; 'consistent with f = 0 and f = 1' means the data do not discriminate, not that the source term is present in electrons; compare the positron cutoff in C97. Numbers in this claim were checked against the rendered PDF page (pp. 36-37) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2643,7 +2643,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "two-component fit, dipole limit, and combined e+ + e- flux"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). 'two power laws are sufficient' means a third term does not improve chi2/d.o.f. with the current data, not that exactly two sources exist; the effective potentials from the force-field approximation differ between species (0.87, 1.10, and 0.62 GeV from neutron monitors) and the review does not resolve this, so do not treat them as a measured solar potential; the dipole limits are from an analysis the review cites (not read) and cover the stated energy range; the combined-flux analysis and its method are cited to a separate paper not read here (see also C25 for lepton flux methods); the sensitivity comparison of flux versus fraction is the review's statement under the assumption of well-known acceptance.",
+    "limitations": "Review-level summary (Phys. Rept. 894). 'two power laws are sufficient' means a third term does not improve chi2/d.o.f. with the current data, not that exactly two sources exist; the effective potentials from the force-field approximation differ between species (0.87, 1.10, and 0.62 GeV from neutron monitors) and the review does not resolve this, so do not treat them as a measured solar potential; the dipole limits are from an analysis the review cites (not read) and cover the stated energy range; the combined-flux analysis and its method are cited to a separate paper not read here (see also C25 for lepton flux methods); the sensitivity comparison of flux versus fraction is the review's statement under the assumption of well-known acceptance. Numbers in this claim were checked against the rendered PDF page (pp. 37-38) on 2026-09-21 and match.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
