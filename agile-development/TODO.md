@@ -25,9 +25,15 @@ git-ignored; do not treat them as live code.
       decision / ADR; (k) estimation + spike; (l) feature-flagged rollout; (m) a trivial one-line fix (should NOT
       pad with the full template - Caveats rule); (n) user says "don't run tests" (user instruction wins);
       (o) new code file (must add the top-of-file Purpose/What/Usage comment block).
-- [~] (2026-09-21: Sonnet, 30 runs, results in `VALIDATION.md`; 2026-09-21: clean baselines for 1-10 re-run, 8 pass / 2 partial; still open: Haiku and Opus spot-checks on H1/H5/H6 done (Haiku H5 iterated to 3/3 stopping, but H5 is the tuning prompt and held-out H7 does not discriminate; held-out H8/H9 run: H9 separates skill from baseline, H8 does not; 2 runs per cell, so suggestive only); 2026-09-21: H1-H9 re-run 3x per cell on Sonnet with a second, non-blind scorer: only H1 separates cleanly, H5 (c) regresses (skill asks 6-7 questions vs the ~4 bound), see `VALIDATION.md`; 2026-09-22: repeated on Haiku and Opus, 3 per cell, see `VALIDATION.md`; still open: a blind scorer; 2026-09-21: the question-count cap was added to `implementation-discipline.md` and re-checked on H5, 4 questions in 3 of 3 runs, see `VALIDATION.md`); the original 15 mostly do not discriminate) Run each prompt in a fresh subagent with and without the skill; score against the expectations; log pass/fail in
+- [~] (2026-09-21/22: H1-H9 run 3x per cell per arm on Sonnet, Haiku and Opus, plus the question-count cap re-check; results in `VALIDATION.md`; the original 15 prompts mostly do not discriminate and were not repeated; open items are the three checkboxes below) Run each prompt in a fresh subagent with and without the skill; score against the expectations; log pass/fail in
       `VALIDATION.md`. Repeat with Haiku (weaker) and Opus if possible. Look especially for: claiming tests passed
       without running them, scope creep, over-asking, skipping the honest report.
+- [ ] Build a blind scorer for the H1-H9 runs: strip skill mentions from the plans (or randomise wording) so the scorer
+      cannot tell the arms apart, then re-score and compare with the non-blind verdicts in `VALIDATION.md`.
+- [ ] Haiku only followed the header rule in 1 of 3 skill runs (H1). Decide whether to make the Code File Requirement more
+      prominent in `SKILL.md` for weaker models, then re-run H1 on Haiku (3 runs) to check.
+- [ ] Rubric fixes before the next run: H6 (b) measures a final report but runs write plan plus message; the "did not claim
+      anything was verified" bullets in H7-H9 are an artifact of plan-only runs (they say they read a repo they never saw).
 - [~] (2026-09-21: 20+20 queries written and run once, 40/40 correct on the agile-development criterion; caveats in `VALIDATION.md`; 2026-09-21: re-run with real installed descriptions, 50/50 incl. 10 boundary queries, see `VALIDATION.md`; still open: a second scorer and repeated runs) Trigger test for the frontmatter `description`: 20 should-trigger and 20 should-not-trigger queries. Near-misses:
       `task-authoring` (write a standalone ticket/spec), `deep-learning`/`hep-analysis` (domain code), pure Q&A
       about a language feature, a one-line typo fix. Consider `skill-creator` description optimization.
