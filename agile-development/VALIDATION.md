@@ -894,6 +894,26 @@ arms both measure first and re-measure without it.
 Not verified: single runs; one scorer who wrote the rubrics and the edit; plan-only text; Sonnet only. The baselines
 were not re-run, so the comparison to them is from the earlier section.
 
+## skill-reviewer pass on SKILL.md and README.md (2026-09-21)
+
+A `plugin-dev:skill-reviewer` subagent read both files and returned 9 findings. Each was checked against the files
+before acting.
+
+Applied: the Code File Requirement is now in the "Before Reporting Done" checklist and `assets/definition-of-done.md`,
+and stated as the one deliberate exception to "every changed line traces to the request", with a note that a small
+logic fix in a file whose block is already accurate needs no change; the opt-in `validate_agile_notes.py` flags are
+listed in SKILL.md; SKILL.md now points to `examples/README.md` (it never mentioned `examples/`); README says "copy or
+symlink" instead of "extract the archive". `SKILL.md` is now 181 lines. 41 tests and the bundle validator pass.
+
+Not applied, with reasons: shortening the ~900-character frontmatter description (the trigger test scored 40/40 on the
+current text; a change needs that test re-run, and the reviewer's claim that generic verbs cause over-triggering was not
+seen in it); merging the workflow and the two checklists (they serve different moments, and no run showed confusion);
+a bundle-validator check that routed section headings exist (all do today; a possible later hardening); a full install
+table per platform with a "verify it loaded" step (unverifiable here without those tools). One finding was wrong: the
+stale `.pyc` files are gitignored, and the `task-authoring` scripts the README cites exist.
+
+Not verified: the applied edits were not re-run against a model; the reviewer is one model read, not a measured result.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

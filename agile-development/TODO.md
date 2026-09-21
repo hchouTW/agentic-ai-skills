@@ -58,7 +58,7 @@ git-ignored; do not treat them as live code.
       pair-with-`superpowers` guidance (TDD, verification-before-completion) so instructions do not conflict.
 - [x] (2026-09-21: no Claude-only tools; CLAUDE.md mention widened) Multi-platform check (Codex, Antigravity): confirm `agents/openai.yaml` is current and no instructions depend on
       Claude-only tools. See the repo's multi-platform conventions.
-- [ ] Skill-doctor / `plugin-dev:skill-reviewer` pass on `SKILL.md` and `README.md`.
+- [x] (2026-09-21: 9 findings, 4 applied, rest declined with reasons in `VALIDATION.md`) Skill-doctor / `plugin-dev:skill-reviewer` pass on `SKILL.md` and `README.md`.
 
 ## P4 - housekeeping and decisions
 - [x] (2026-09-21: done; re-do after each pass) Update `VALIDATION.md` header date (still 2026-09-05) and counts after each pass; add a section for the

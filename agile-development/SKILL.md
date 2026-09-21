@@ -67,6 +67,9 @@ covering:
 For existing files, add or update this block if missing or outdated, proportional to
 the file's complexity, and review it in the diff so it doesn't drift from the code.
 
+This block is the one deliberate exception to "every changed line traces to the request";
+a small logic fix in a file whose block is already accurate needs no change to it.
+
 Skip it when the change is not logic: a typo, string, or value tweak; a config-only
 edit; a deletion; or a docs or review task. If the repository has its own header
 convention (or forbids headers), follow that instead. Mention a missing block in the
@@ -120,7 +123,8 @@ Copy these into a task when structured notes help:
   `--output`).
 - `scripts/validate_agile_notes.py <file.md>` - checks a markdown note for the sections
   a complete Agile delivery note should have (story, acceptance criteria, validation,
-  risks).
+  risks). Opt-in flags: `--require-assumptions`, `--require-plan-verification` (every
+  numbered plan step needs a real verification).
 - `scripts/validate_skill_bundle.py` - check that this package's own files (SKILL.md,
   README.md, references, scripts, assets, tests) are all present and non-empty, and
   that SKILL.md/README.md have their expected structure (standard library only).
@@ -128,6 +132,13 @@ Copy these into a task when structured notes help:
   `validate_agile_notes.py`. Run `python3 -m unittest discover -s tests -v`.
 
 Run with `python3`. Read a script before changing it.
+
+## Worked Examples
+
+[examples/README.md](examples/README.md) indexes 24 worked examples (bug-fix scoping,
+migration and dependency trajectories, rollout RFCs, triage trees, elicitation rounds,
+audits, test-first invariants, postmortems). Open one only when you want a model of the
+output for that kind of task; none is required reading.
 
 ## Quick Checklists
 
@@ -145,6 +156,8 @@ Run with `python3`. Read a script before changing it.
 - [ ] Acceptance criteria are met, or deviations are stated clearly.
 - [ ] Relevant tests and checks were actually run (not assumed).
 - [ ] The diff was reviewed for scope and accidental changes.
+- [ ] Code files created or given new logic have an accurate header block (or the
+      carve-outs under Code File Requirement apply).
 - [ ] Every changed line traces to the request; orphans from this change were removed
       and pre-existing dead code was left alone.
 - [ ] Edge cases and regression risk were considered.
