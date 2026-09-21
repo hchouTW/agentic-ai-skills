@@ -2045,7 +2045,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "power-law-with-transition fit of a flux ratio"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894); chapters 5-6 only of the physics chapters were read. the asymmetric uncertainties on Delta gamma and E0 were read from a pdftotext extraction with broken super/subscripts (E0 and the 284 (+91, -64) value cross-checked against the layout output and C04) so check them against the PDF before quoting more than the central values; the 3.4 sigma is the review's chi2-difference statement for the constant-versus-Eq.(4) comparison, not a look-elsewhere-corrected significance; the form of Eq. (4) was not transcribed.",
+    "limitations": "Review-level summary (Phys. Rept. 894); chapters 5-6 only of the physics chapters were read. the asymmetric uncertainties on Delta gamma and E0 were checked against the rendered PDF page (Phys. Rept. 894, p. 46) on 2026-09-21 and match; the 3.4 sigma is the review's chi2-difference statement for the constant-versus-Eq.(4) comparison, not a look-elsewhere-corrected significance; the form of Eq. (4) was not transcribed.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2543,7 +2543,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "piecewise power-law fits and significance from a chi2 difference"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). the significances are chi2-difference statements for a fixed model pair with the transition energy free, so they are not look-elsewhere-corrected; the 284 GeV value is a fit parameter, not a measured peak position; the Delta gamma asymmetric errors were read from a text extraction (the E0 = 284 (+91, -64) value was cross-checked against the layout output and C04) so check them against the PDF before quoting more than central values; the GALPROP comparison is the review's figure statement about one third-party model, not a test of all secondary-production models.",
+    "limitations": "Review-level summary (Phys. Rept. 894). the significances are chi2-difference statements for a fixed model pair with the transition energy free, so they are not look-elsewhere-corrected; the 284 GeV value is a fit parameter, not a measured peak position; the fit values and asymmetric errors were checked against the rendered PDF page (Phys. Rept. 894, p. 28) on 2026-09-21 and match; the GALPROP comparison is the review's figure statement about one third-party model, not a test of all secondary-production models.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
@@ -2593,7 +2593,7 @@
       "data_period": "2011-05 to about 2018 (review of the first seven years)",
       "analysis": "piecewise power-law fit and model-independent spectral index"
     },
-    "limitations": "Review-level summary (Phys. Rept. 894). restates the electron flux paper (S05, C26 for its method); attribute the numbers to that paper when cited alone; the 7 sigma is a chi2-difference statement with E0 free, not look-elsewhere corrected; the asymmetric errors were read from a text extraction (two extraction modes agreed on E0 and the layout of gamma), so check them against the PDF before quoting more than central values; the same 1% correlated normalization error is subtracted in quadrature in the review's fits, as for positrons (C95).",
+    "limitations": "Review-level summary (Phys. Rept. 894). restates the electron flux paper (S05, C26 for its method); attribute the numbers to that paper when cited alone; the 7 sigma is a chi2-difference statement with E0 free, not look-elsewhere corrected; the fit values and asymmetric errors were checked against the rendered PDF page (Phys. Rept. 894, p. 33) on 2026-09-21 and match; the same 1% correlated normalization error is subtracted in quadrature in the review's fits, as for positrons (C95).",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
