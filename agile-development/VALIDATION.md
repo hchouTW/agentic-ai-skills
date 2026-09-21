@@ -1157,6 +1157,21 @@ Not verified: Sonnet only (Haiku and Opus were not repeated); plan-only text, no
 blind to arm and only some of its verdicts were spot-checked; the original prompts 1-15 were not repeated; runs, scores
 and shuffled ids were kept in the session scratchpad and are not committed; three runs per cell is still a small sample.
 
+## H5 question-count cap (2026-09-21)
+
+The repeated runs above showed the skill arm asking 6-7 numbered questions on H5 (bound: "about 4"). Added to
+`references/implementation-discipline.md`, in the ask-before-proceeding paragraph: ask at most four questions, most costly
+first, only ones whose answer would change what is built, and fold the rest into a stated default.
+
+Re-check: 3 fresh Sonnet runs of H5, skill arm, same method as the repeated runs (plan-only, `SKILL.md` plus references,
+fresh files). All 3 stop before implementing, make no destructive assumption, label the soft-delete as a draft if nobody
+can answer, and ask exactly 4 numbered questions (was 6-7 in 3 of 3). I read the three plans myself; no second scorer.
+
+Caveats: the numbered items are compound (item 2 asks about content, shared resources, subscriptions and retention
+together), so the count of separate question marks is higher than 4 and the cap is met in form more than in spirit; the
+runs also add a list of "unless you say otherwise" defaults, which is what the new sentence asks for. Only H5 was
+re-run, so the cap's effect on H4/H8/H9 (which ask fewer questions) is unchecked; Sonnet only; 3 runs.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to
