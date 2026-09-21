@@ -811,6 +811,33 @@ Local, non-model checks from `TODO.md` P2/P3. Tests: 41 pass; bundle validator: 
 
 Still open (need fresh-model runs or user input): see `TODO.md`.
 
+## Clean-baseline re-run and trigger test (2026-09-21)
+
+Method: same plan-only Sonnet subagents as the first run. Prompts 1-10 were re-run for the baseline arm only, with an
+explicit instruction to ignore the global `CLAUDE.md` skill-router rule and use no skills (the first-run baselines for
+these prompts were contaminated). The skill arm was NOT re-run; its first-run results stand. Scored by one reviewer
+(the session author), single run per cell, against the expectations in `tests/prompts.md`.
+
+| Prompt | Clean baseline | Note |
+|--------|----------------|------|
+| 1 bug fix, 3 rename, 4 drop column, 5 dep bump, 7 incident, 8 legacy code, 9 over-engineering | pass | Reproduce-first, characterization tests, two-step column drop, mitigate-before-diagnose, all present without the skill |
+| 6 PR review | pass | Flagged the formatting churn and missing test; did not separate blocking from optional comments |
+| 2 ambiguous export | partial | Chose CSV/existing auth/row cap, labelled them assumptions and built it; did not ask about the costly-to-reverse parts. Stricter than the first-run scoring, which called this baseline a pass |
+| 10 billing split | partial | Sound recommendation (module first, criteria to revisit); no ADR proposed |
+
+Result: clean baselines 8 pass, 2 partial, versus 10/10 for the first-run skill arm on the same prompts. The gap is
+smaller than "pass vs. fail" suggests and rests on scorer judgment for P2 and P10.
+
+Trigger test: one Sonnet subagent classified the 40 queries in `tests/prompts.md` (shuffled) from 7 skill descriptions
+(the siblings shortened by hand; `agile-development` verbatim). `agile-development` was chosen for 20/20 should-trigger
+queries and 0/20 should-not-trigger. Near-misses went to the intended sibling (`task-authoring`, `deep-learning`,
+`hep-analysis`, `ams-analysis`, `academic-papers`, `academic-diagrams`); the one-line typo fix got no skill.
+
+Not verified: the with-skill arm was not repeated; no Haiku or Opus run; no repeated runs per cell; no second scorer;
+the trigger queries were written by the same author as the description and the classifier saw abbreviated sibling
+descriptions, so 40/40 is an optimistic upper bound. The prompts still mostly fail to discriminate skill from baseline;
+harder prompts are still to be written.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to
