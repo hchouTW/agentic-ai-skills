@@ -16,7 +16,7 @@ done, reported honestly.
    published contract, outward-facing behavior); otherwise state a reasonable
    assumption and proceed, presenting competing interpretations rather than silently
    picking one - see [references/implementation-discipline.md](references/implementation-discipline.md).
-2. **Reconnoiter before editing.** Read repository instructions (CLAUDE.md, READMEs),
+2. **Reconnoiter before editing.** Read repository instructions (CLAUDE.md, AGENTS.md, GEMINI.md, READMEs),
    nearby code, tests, fixtures, and tooling config to find existing conventions.
 3. **Write acceptance criteria.** Make them observable and testable - see
    [references/product-framing.md](references/product-framing.md) for the
@@ -76,12 +76,12 @@ the file's complexity, and review it in the diff so it doesn't drift from the co
   dependencies, config, observability, performance, accessibility ->
   [references/risk-and-quality.md](references/risk-and-quality.md)
 - **Status updates and completion summaries** -> [references/communication.md](references/communication.md)
-- **C++ design** (classes vs. structs vs. free functions, ownership, RAII, composition
+- **C++ design - load only when designing C++ code** (classes vs. structs vs. free functions, ownership, RAII, composition
   vs. inheritance, error handling) -> [references/cpp-balanced-design-guidelines.md](references/cpp-balanced-design-guidelines.md)
-- **Python design** (classes vs. dataclasses vs. free functions, context managers,
+- **Python design - load only when designing Python code** (classes vs. dataclasses vs. free functions, context managers,
   protocols vs. inheritance, exceptions vs. sentinel returns) ->
   [references/python-balanced-design-guidelines.md](references/python-balanced-design-guidelines.md)
-- **Bash design** (functions vs. associative arrays, avoiding simulated OOP,
+- **Bash design - load only when designing Bash code** (functions vs. associative arrays, avoiding simulated OOP,
   trap-based cleanup, quoting/`set -euo pipefail` discipline) ->
   [references/bash-balanced-design-guidelines.md](references/bash-balanced-design-guidelines.md)
 - **Design docs/RFCs, estimation and spikes, feature flags and progressive rollout** ->

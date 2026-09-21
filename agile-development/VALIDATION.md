@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-05. Helper test environment: Python 3, standard library only.
+Validation date: 2026-09-21 (latest pass below; earlier sections keep their own dates). Helper test environment: Python 3, standard library only.
 
 ## Completeness pass (2026-09-05)
 
@@ -783,6 +783,33 @@ Findings:
 
 Not verified: this was plan-only text from Sonnet, not executed changes; no Haiku or Opus run; single sample per cell;
 scoring was done by one reviewer, not blind; the trigger test (description) was not run.
+
+## Offline verification pass (2026-09-21)
+
+Local, non-model checks from `TODO.md` P2/P3. Tests: 41 pass; bundle validator: 48 files OK (re-run after the edits below).
+
+- **Language guides, snippet check.** Extracted every fenced block and syntax-checked it: Python 53/53 pass
+  `py_compile`; Bash 43/43 pass `bash -n` (`shellcheck` not installed, so not run); C++ 46 blocks, 16 compile alone.
+  The other 30 are fragments (placeholder types like `Widget`, class-member lines, bare statements). With a prelude of
+  standard headers plus a stub `Point`/`Distance` and `<numbers>`, the `Shape`/`Circle` and `Polygon` examples compile
+  under `g++ -std=c++23 -fsyntax-only` (Apple clang). No accuracy defect found; the C++ blocks are illustrative fragments,
+  not standalone programs. Guidance accuracy itself was not reviewed. Compiled with C++23 rather than the C++20 the
+  TODO named, because a prelude used `<expected>`.
+- **Examples 01-24.** `task-authoring/scripts/validate_skill_example.py` passes on all 24. 25 of 27 Python blocks
+  compile; the other 2 (examples 20, 21) are `>>>` REPL transcripts, not code. `check_example_diversity.py` reports
+  three archetypes with three same-skill files each; that is by design for this single-skill folder, not a defect. The
+  snippets were not executed.
+- **Overlap review.** Definition of Done is stated in SKILL.md "Before Reporting Done", `validation-and-done.md` and
+  `assets/definition-of-done.md`; Scope Control (`risk-and-quality.md`) overlaps "Surgical changes"
+  (`implementation-discipline.md`). Left the content in place and added cross-references. `software-architecture.md`
+  and `design-and-estimation.md` already link to each other and differ in purpose; no change.
+- **Progressive disclosure.** Added "load only when designing <language> code" to the three language-guide rows in
+  `SKILL.md`. Not measured on a real model.
+- **Multi-platform.** No Claude-only tool names in SKILL.md, README or references; `agents/openai.yaml` matches the
+  SKILL.md description of the skill. The one Claude-specific mention (CLAUDE.md) now also lists AGENTS.md/GEMINI.md.
+- **Trigger-test queries** (20 + 20) written in `tests/prompts.md`. Not run.
+
+Still open (need fresh-model runs or user input): see `TODO.md`.
 
 ## Limitations
 

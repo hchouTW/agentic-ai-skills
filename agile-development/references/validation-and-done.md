@@ -50,6 +50,9 @@ Avoid expensive end-to-end coverage when a faster lower-level test proves the be
 
 ## Definition of Done
 
+The checkable version is [assets/definition-of-done.md](../assets/definition-of-done.md); SKILL.md's "Before Reporting
+Done" is the short form. Keep the three in step.
+
 - Requested observable behavior is implemented.
 - Acceptance criteria are met or deviations are documented.
 - Relevant automated tests are added or updated where feasible.

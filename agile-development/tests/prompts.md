@@ -28,9 +28,50 @@ model to (a signal, not a hard requirement).
 Run each query with only the frontmatter descriptions visible (all installed skills) and record whether
 `agile-development` is chosen. 20 should-trigger, 20 should-not-trigger.
 
-Should trigger (write 20; examples): "add pagination to the users API", "fix this flaky checkout bug", "migrate
-this table to a new schema", "is this over-engineered?", "write the postmortem for last night's outage".
+Should trigger (20). Run once each; a pass is `agile-development` chosen (alone or as primary):
 
-Should not trigger (write 20; examples): "explain Python decorators", "write a PyTorch training loop"
-(-> `deep-learning`), "draft a ticket for the SSO work" (-> `task-authoring`), "fit this histogram in ROOT"
-(-> `hep-analysis`), "what does this regex do?".
+1. "add pagination to the users API"
+2. "fix this flaky checkout bug"
+3. "migrate this table to a new schema"
+4. "is this over-engineered?"
+5. "write the postmortem for last night's outage"
+6. "bump lodash to 4.17.21 and make sure the build still passes"
+7. "refactor the auth middleware without changing behavior"
+8. "add a /health endpoint to the service"
+9. "the cart total is wrong with discount codes, find and fix it"
+10. "review my diff before I open the PR"
+11. "add a dark-mode toggle to the settings page"
+12. "prod is returning 500s since the last deploy, help"
+13. "this 300-line function has no tests, I need to add refund handling to it"
+14. "should we split billing into its own service?"
+15. "how long will adding SSO take?"
+16. "roll out the new search ranking to 5% of users first"
+17. "drop the legacy_id column from orders safely"
+18. "add a --dry-run flag to our CLI"
+19. "write a design doc for moving sessions to Redis"
+20. "am I over-engineering this factory registry?"
+
+Should not trigger (20). Pass is `agile-development` not chosen. Near-misses are marked with the expected skill:
+
+1. "explain Python decorators"
+2. "write a PyTorch training loop"
+3. "draft a ticket for the SSO work"
+4. "fit this histogram in ROOT"
+5. "what does this regex do?"
+6. "fix the typo 'recieve' in README.md"
+7. "what is the difference between a list and a tuple in Python?"
+8. "summarize this arXiv paper"
+9. "draw a flowchart of our analysis pipeline"
+10. "format my manuscript for JHEP"
+11. "debug the NaN loss in my transformer"
+12. "compute the AMS-02 proton flux from counts and exposure"
+13. "write a BibTeX entry for this paper"
+14. "explain how git rebase works"
+15. "what does the `??` operator do in JavaScript?"
+16. "turn this idea into a spec another agent can implement"
+17. "generate a canonical worked example for the Contrast archetype"
+18. "design a prompt with a token budget for classifying support emails"
+19. "translate this paragraph into French"
+20. "what is the time complexity of quicksort?"
+
+Near-miss owners: `task-authoring` (items 3, 16, 17, 18); `deep-learning` (2, 11); `hep-analysis`/`ams-analysis` (4, 12); `academic-papers`/`academic-diagrams` (8, 9, 10, 13). Item 6 is a trivial one-line fix: the skill may load but must not pad (Caveats).
