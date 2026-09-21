@@ -5,6 +5,10 @@ disciplined procedural structure and lightweight data grouping. Follow
 established repository conventions when they intentionally differ from this
 reference.
 
+Some examples use Bash 4+ features (`declare -A` and `mapfile` need 4.0, `declare -g` 4.2,
+`local -n` 4.3). Stock macOS ships Bash 3.2 at `/bin/bash`, where they fail; target a
+newer Bash explicitly or avoid them if the script must run there.
+
 The examples follow the
 [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html):
 two-space indentation, `lower_snake_case` for function and variable names,
@@ -212,7 +216,7 @@ Counter_new() {
 
 Counter_increment() {
   local -n value="$1_value"
-  ((value++))
+  value=$((value + 1))
 }
 
 Counter_get() {
@@ -231,7 +235,7 @@ travel together:
 
 ```bash
 local counter=0
-((counter++))
+counter=$((counter + 1))
 echo "${counter}"
 ```
 
@@ -266,7 +270,8 @@ bottom of the script where a later `exit` might skip it.
 Prefer this:
 
 ```bash
-readonly work_dir="$(mktemp -d)"
+work_dir="$(mktemp -d)"
+readonly work_dir
 trap 'rm -rf -- "${work_dir}"' EXIT
 
 # ... use "${work_dir}" ...
@@ -285,6 +290,7 @@ rm -rf -- "${work_dir}"  # skipped if an earlier command exits/returns first
 Use `flock` for resources that must not be accessed concurrently:
 
 ```bash
+# `flock` is part of util-linux; it is not installed on stock macOS.
 exec 9>"/var/lock/myscript.lock"
 flock -n 9 || { echo "already running" >&2; exit 1; }
 trap 'flock -u 9' EXIT
@@ -474,6 +480,10 @@ on_error() {
 }
 trap on_error ERR
 ```
+
+Add `set -E` (errtrace) next to `set -euo pipefail`: without it, the ERR trap is not
+inherited by functions, command substitutions or subshells, and a failure inside a
+function exits silently with no diagnostic.
 
 Return non-zero from a function for expected failure; reserve `exit` for the
 top-level script, so library functions stay usable when sourced.

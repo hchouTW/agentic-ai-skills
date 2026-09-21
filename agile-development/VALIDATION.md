@@ -1032,6 +1032,32 @@ Not verified: the two static-typing fixes were not type-checked; this is one rev
 Python guide was reviewed, not the C++ or Bash ones, and the reviewer looked at claims, not at whether the design advice
 is good.
 
+## Bash and C++ design guide accuracy reviews (2026-09-21)
+
+Same method as the Python review: a Sonnet reviewer per guide, concrete technical errors only, each finding run before
+any edit.
+
+**Bash** (this machine has only Bash 3.2.57): confirmed by running: an ERR trap does not fire inside a function without
+`set -E` (it fires with it); `readonly x="$(cmd)"` returns 0 when `cmd` fails, like `local`; `declare -A` is invalid on
+3.2; `local` outside a function is an error; `flock` is not installed. `((c++))` from 0 returns status 1, confirmed; that
+this exits silently under `set -e` on Bash 4.1+ was **not** reproduced (3.2 reaches the next line), so the fix
+(`counter=$((counter + 1))`) is written to be safe on any version. Fixed: the two increments, the `readonly` example
+(now two-step), the ERR-trap example (now says to add `set -E`), a flock note, and a Bash-version note in the intro. Not
+changed: the `((i++))` line in the anti-pattern list, a `local` outside a function in short snippets (read as function
+bodies), and two below-the-bar reviewer notes (`getopts` as an external tool and long options, nameref name collisions).
+All 43 Bash blocks pass `bash -n`.
+
+**C++** (compiled with `g++ -std=c++23 -fsanitize=undefined`): confirmed that the `BankAccount` example says it
+"protects the invariant that the balance must not become negative" but `Deposit` overflows a signed int (UB; the balance
+becomes -2147483648 for `INT_MAX + 1`). Fixed with an overflow check, verified: the deposit is refused and the balance
+stays 2147483647. Added a sentence that the examples assume C++20 (designated initializers, `std::numbers`). The reviewer
+found no other errors and confirmed the rule-of-five, virtual-destructor and factory-with-`optional` examples. Not acted
+on: the reviewer's recollection that the Google style guide bans `<filesystem>` (unverified, no network check made), and
+a note that `const T&` constructor parameters accept temporaries (the guide does not claim otherwise).
+
+Not verified: one reviewer pass per guide; claims were checked, not the quality of the design advice; the Bash errexit
+behavior on Bash 4+ and 5 was not run (no newer Bash installed).
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to
