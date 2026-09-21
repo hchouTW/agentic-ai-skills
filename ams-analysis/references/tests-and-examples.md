@@ -81,7 +81,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   prompt: "What does the ECAL contribute to e/p separation, and can I use it as a charge estimator for nuclei?"
   refs: [detector-and-observables]
   critical_requirements: [3D shower shape and energy, E/|p| electron-specific with Z stated, not standard nucleus charge estimator, hadronic tails need validation]
-  prohibited_claims: [ECAL measures charge sign, quoted rejection factor]
+  prohibited_claims: [ECAL measures charge sign, an invented rejection factor or one quoted without its efficiency, energy range and claim ID (C72 documents only a further factor of about 3 at 65% versus 90% e+- efficiency)]
 
 - test_id: T04
   category: detector-principle
@@ -103,7 +103,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   prompt: "Design a 10-500 GV positron flux analysis."
   refs: [antimatter-and-leptons, efficiency-acceptance-backgrounds, inference-and-unfolding, calibration-mc-systematics]
   critical_requirements: [rigidity vs energy flag, charge confusion tails, proton contamination templates, conditional efficiencies, acceptance/migration, cutoff applicability, systematics with covariance, cross-checks, missing inputs]
-  prohibited_claims: [invented counts, rejection factors, systematics sizes]
+  prohibited_claims: [invented counts, invented rejection factors or systematics sizes, or the review's TRD rejection above 1000 (C67) presented as valid outside its 90% efficiency and 2-200 GeV/c selection]
 
 - test_id: T07
   category: end-to-end-design
@@ -306,6 +306,62 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   refs: []
   observable_decisions: [does not load or invoke AMS material, answers as a generic RooFit question or defers to hep-analysis, no AMS framing or invented AMS context]
   prohibited_claims: [AMS-specific selections, source-index citations, rigidity or charge-sign framing]
+
+- test_id: T35
+  category: review-level-values
+  prompt: "What TRD proton rejection can I assume for a 100 GeV positron analysis?"
+  refs: [detector-and-observables, antimatter-and-leptons]
+  critical_requirements: [documented review value is a measured rejection above 1000 at 90% e+- efficiency in 2-200 GeV/c (C67), tied to that selection and efficiency, not a universal figure and not for a new estimator or cut, tighter efficiency improves it, ECAL rejection is separate (C72) and its independence must be validated not assumed, do not multiply into a total without a check, own analysis must re-measure rejection on data with stated definition]
+  prohibited_claims: [rejection above 1000 quoted without efficiency and range, a specific number for the combined TRD plus ECAL rejection, an efficiency-independent figure, attributing it to the positron flux paper instead of the review]
+  citation_expectation: C67 and C72 with review-level scope
+
+- test_id: T36
+  category: significance-scope
+  prompt: "Is the positron flux cutoff at about 810 GeV a 5 sigma result, and does the electron flux show the same cutoff?"
+  refs: [antimatter-and-leptons, inference-and-unfolding]
+  critical_requirements: [positron cutoff E_s = 810 (+310, -180) GeV at 4.07 sigma i.e. more than 4 sigma not 5 (C97, C35), electron flux: E_s below 1.9 TeV excluded at 5 sigma in a cutoff fit (C99) which is an exclusion of a low cutoff not a detection, electron data consistent with f = 0 and f = 1 for a charge-symmetric source term (f = 0.5 +1.2 -0.6) so it does not discriminate, source parameters held fixed from the positron fit, significance is a chi2 scan for that model and not look-elsewhere corrected]
+  prohibited_claims: [5 sigma for the positron cutoff, saying electrons show the same cutoff, saying electrons exclude the source term, invented significances]
+  citation_expectation: C97, C35, C99 with scope
+
+- test_id: T37
+  category: significance-scope
+  prompt: "What does AMS report for the secondary-to-primary hardening above 200 GV and how significant is it?"
+  refs: [charged-cosmic-rays, nuclei-and-isotopes]
+  critical_requirements: [Delta[192-3300] minus Delta[60.3-192] = 0.140 +- 0.025 with a stated significance above 5 sigma from the review (C84), fit intervals and ratios (Li, Be, B over C and O) stated, propagation versus source-injection reading is the review's interpretation, how correlated systematics and interval choice entered the 5 sigma is not in the text read so flag unknown, do not confuse with the B/C -0.333 +- 0.014 index above 65 GV from the earlier paper (C08)]
+  prohibited_claims: [a significance beyond the stated one, a trial-factor-corrected claim, attributing the number to C08 or the B/C paper alone, presenting propagation as proven]
+  citation_expectation: C84 (and C85 for the error convention) with scope
+
+- test_id: T38
+  category: assumption-conditional-result
+  prompt: "Can I quote the AMS nitrogen result of 0.092 as the N/O abundance at the source?"
+  refs: [nuclei-and-isotopes]
+  critical_requirements: [0.092 +- 0.002 is the primary fraction times O in a fit N = 0.092 O + 0.61 B (C91) with chi2/d.o.f. 59/64, conditional on O being purely primary in shape and B purely secondary, review calls it the source abundance and compares with the Solar System 0.135 (+0.051, -0.047) and finds consistency, the fit quality does not test the assumption, suggest checking with other primary and secondary references, review-level scope]
+  prohibited_claims: [propagation-free measurement without the assumption, a different solar value, a systematic size not in the source]
+  citation_expectation: C91
+
+- test_id: T39
+  category: method-with-unknown-values
+  prompt: "How does AMS measure nuclear inelastic cross sections in its own material, and what values did it get?"
+  refs: [nuclei-and-isotopes, calibration-mc-systematics]
+  critical_requirements: [method is in-flight survival probability with horizontal ISS pointing, L2-L8 define the particle, charge compared before and after the material (C80), Glauber-Gribov model varied by +-10% and modified to match He data below about 30 GV, material 73% carbon and 17% aluminium by mass on average, cross sections on carbon constant within accuracy over 5-100 GV, numerical values are in figures not in the text read so state unknown and point to the dedicated paper, distinguish from the Li survival result in C29]
+  prohibited_claims: [any cross-section value in mb, invented survival probabilities, claiming a process was measured for nuclei not listed (Li, Be, B, C, N, O, Ne, Mg, Si)]
+  citation_expectation: C80, C29
+
+- test_id: T40
+  category: interpretation-boundary
+  prompt: "AMS finds the positron-to-antiproton ratio is constant. Does that prove they share a common origin?"
+  refs: [antimatter-and-leptons]
+  critical_requirements: [documented result is a constant fit 2.00 +- 0.035 (stat) +- 0.06 (syst) over 60-525 GeV with chi2/d.o.f. 7.2/12 (C77) and the review's statement that it suggests a possible common source, a constant ratio is consistent with but does not prove a common origin, the review's pulsar and dark-matter statements are conditional interpretation not measurement (C75), the earlier paper reports near identical rigidity dependence about 60-500 GV (C06) in a different variable, energy versus rigidity stated, sample sizes 1.9e6 positrons and 5.6e5 antiprotons are the review's]
+  prohibited_claims: [proof of dark matter or a common origin, a different ratio value, unpublished antiproton or positron numbers, significance not stated in the source]
+  citation_expectation: C77, C75, C06
+
+- test_id: T41
+  category: method-attribution
+  prompt: "How long does the positron-to-electron ratio take to change across the 2013 solar polarity reversal, and how did AMS get that number?"
+  refs: [time-dependent-analysis]
+  critical_requirements: [logistic fit of R_e over 3871 measurements, Delta t = 830 +- 30 days independent of energy (C90), the 10-90% duration definition with Delta_80 = 4.39, t_rev = 1 July 2013 is a stated choice so midpoint delays depend on it, midpoint shifts 260 +- 30 days between 1 and 6 GeV, amplitude near 1 at 1 GeV and zero above 20 GeV, review restates the lepton time-structure paper (C39, C48) and no trial factor or correlation model across bins is in the text read so flag unknown]
+  prohibited_claims: [a different duration, a physical-model claim, a correlation matrix, a look-elsewhere-corrected significance]
+  citation_expectation: C90, C89, C39
 ```
 
 Tests T29-T34 exercise the specification and artifact workflow (`analysis-artifacts`), the deterministic checkers, the time-dependent reference and the source-status behavior. Grade the observable decisions listed (what was produced, what was refused, what was flagged as unresolved, which script or ledger entry was used), not keywords or exact phrasing. Their deterministic parts are covered by `tests/`: T30 by `test_covariance.py` and `test_response.py`, T31 by `test_analysis_spec.py`, T33 by `test_evidence_ledger.py`.

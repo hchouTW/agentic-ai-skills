@@ -16,7 +16,7 @@
     "tier_range": null,
     "tier_text": "1",
     "verification_level": "full-text",
-    "verification_note": "INSPIRE-hosted full text; section 1 (detector, 1.2.2-1.2.4) read only",
+    "verification_note": "INSPIRE-hosted full text; chapters 1-16 read (chapter 17 summary and the front-matter introduction not turned into claims)",
     "access_date": "2026-09-20",
     "publication_date": "2021",
     "data_taking_period": null,
@@ -24,7 +24,7 @@
     "superseded_by": [],
     "supersession_note": null,
     "notes": null,
-    "verification_limitations": "Full text (116 pages) obtained from the INSPIRE-hosted file on 2026-09-21 and converted with pdftotext; only section 1.2.2-1.2.4 (tracker rigidity, rigidity scale, charge-sign identification) was read and turned into claims C63-C65. The other detector subsections and physics chapters were not read, so no claim from them is upgraded."
+    "verification_limitations": "Full text (116 pages) obtained from the INSPIRE-hosted file on 2026-09-21 and converted with pdftotext. Chapters 1-16 were read and turned into claims C63-C100: detector (C93-C94 magnet and tracker layout; C63-C65 rigidity, scale and charge sign; C66-C73 tracker charge, TRD, TOF, ACC, RICH, ECAL, trigger and DAQ), positrons C95-C97, electrons C98-C100, protons C78-C79, antiprotons and elementary-particle comparison C74-C77, nuclear cross sections C80, He/C/O C81, p/He C82, Li/Be/B and ratios C83-C85, He isotopes C86, nitrogen C91, Ne/Mg/Si C92, strangelets C87, time-dependent fluxes C88-C90. Figure-only values (resolutions, model curves) and table values were not transcribed. The introduction (section 0), the summary (chapter 17), the cited model papers and the separate AMS papers behind each chapter were not read, and the numbers in C63-C74, C76-C78, C81-C84, C86-C94 and C96-C100 were checked against rendered PDF pages on 2026-09-21 (the convention and interpretation claims C75, C79, C80 and C85 are text-only, and contain no fit values). No claim from unread parts is upgraded."
   },
   {
     "id": "S02",
@@ -141,7 +141,7 @@
     "supersedes": [],
     "superseded_by": [],
     "supersession_note": null,
-    "notes": "The original 'Items lacking verification' bullet listed S05 as metadata-only while its table row says full-text; the table row was kept (see VALIDATION.md).",
+    "notes": "An early 'Items lacking verification' bullet wrongly listed S05 as metadata-only; resolved 2026-09-21 in favour of full-text (main article), see VALIDATION.md.",
     "verification_limitations": "Supplemental Material not opened, so per-cut definitions and many tables are missing."
   },
   {

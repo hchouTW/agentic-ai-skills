@@ -92,8 +92,8 @@ class BundleTests(unittest.TestCase):
     def test_unknown_claim_id_detected(self):
         tmp = self.stage()
         ref = tmp / "references/nuclei-and-isotopes.md"
-        ref.write_text(ref.read_text(encoding="utf-8") + "\nSee C99.\n", encoding="utf-8")
-        self.assertTrue(any("C99" in e for e in vsb.check(tmp)))
+        ref.write_text(ref.read_text(encoding="utf-8") + "\nSee C999.\n", encoding="utf-8")
+        self.assertTrue(any("C999" in e for e in vsb.check(tmp)))
 
     def test_new_reference_without_read_condition_detected(self):
         tmp = self.stage()
