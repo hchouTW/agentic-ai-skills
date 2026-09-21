@@ -28,10 +28,10 @@ git-ignored; do not treat them as live code.
 - [~] (2026-09-21: Sonnet, 30 runs, results in `VALIDATION.md`; 2026-09-21: clean baselines for 1-10 re-run, 8 pass / 2 partial; still open: Haiku and Opus spot-checks on H1/H5/H6 done (Haiku H5 iterated to 3/3 stopping, but H5 is the tuning prompt and held-out H7 does not discriminate; held-out H8/H9 run: H9 separates skill from baseline, H8 does not; 2 runs per cell, so suggestive only); still open: run every cell 3x, have a second scorer, and repeat the harder prompts H1-H6 (added 2026-09-21, run once: 2 of 6 separate the skill)); the original 15 mostly do not discriminate) Run each prompt in a fresh subagent with and without the skill; score against the expectations; log pass/fail in
       `VALIDATION.md`. Repeat with Haiku (weaker) and Opus if possible. Look especially for: claiming tests passed
       without running them, scope creep, over-asking, skipping the honest report.
-- [~] (2026-09-21: 20+20 queries written and run once, 40/40 correct on the agile-development criterion; caveats in `VALIDATION.md`; still open: run with real installed descriptions and a second scorer) Trigger test for the frontmatter `description`: 20 should-trigger and 20 should-not-trigger queries. Near-misses:
+- [~] (2026-09-21: 20+20 queries written and run once, 40/40 correct on the agile-development criterion; caveats in `VALIDATION.md`; 2026-09-21: re-run with real installed descriptions, 50/50 incl. 10 boundary queries, see `VALIDATION.md`; still open: a second scorer and repeated runs) Trigger test for the frontmatter `description`: 20 should-trigger and 20 should-not-trigger queries. Near-misses:
       `task-authoring` (write a standalone ticket/spec), `deep-learning`/`hep-analysis` (domain code), pure Q&A
       about a language feature, a one-line typo fix. Consider `skill-creator` description optimization.
-- [ ] Routing hygiene with sibling skills: `agile-development` vs `task-authoring` (live scoping vs a written
+- [x] (2026-09-21: "Not for ..." sentence added to both descriptions, suites pass; no model re-test, see `VALIDATION.md`) Routing hygiene with sibling skills: `agile-development` vs `task-authoring` (live scoping vs a written
       task document). Run `skill-router`'s validator and tests after any description change.
 
 ## P2 - close verification gaps in helpers and guidance
