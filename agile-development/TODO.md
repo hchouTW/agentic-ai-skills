@@ -25,7 +25,7 @@ git-ignored; do not treat them as live code.
       decision / ADR; (k) estimation + spike; (l) feature-flagged rollout; (m) a trivial one-line fix (should NOT
       pad with the full template - Caveats rule); (n) user says "don't run tests" (user instruction wins);
       (o) new code file (must add the top-of-file Purpose/What/Usage comment block).
-- [~] (2026-09-21: Sonnet, 30 runs, results in `VALIDATION.md`; 2026-09-21: clean baselines for 1-10 re-run, 8 pass / 2 partial; still open: run Haiku and Opus, run each cell 3x, have a second scorer, and add harder prompts that discriminate; the current ones mostly do not) Run each prompt in a fresh subagent with and without the skill; score against the expectations; log pass/fail in
+- [~] (2026-09-21: Sonnet, 30 runs, results in `VALIDATION.md`; 2026-09-21: clean baselines for 1-10 re-run, 8 pass / 2 partial; still open: run Haiku and Opus, run each cell 3x, have a second scorer, and repeat the harder prompts H1-H6 (added 2026-09-21, run once: 2 of 6 separate the skill)); the original 15 mostly do not discriminate) Run each prompt in a fresh subagent with and without the skill; score against the expectations; log pass/fail in
       `VALIDATION.md`. Repeat with Haiku (weaker) and Opus if possible. Look especially for: claiming tests passed
       without running them, scope creep, over-asking, skipping the honest report.
 - [~] (2026-09-21: 20+20 queries written and run once, 40/40 correct on the agile-development criterion; caveats in `VALIDATION.md`; still open: run with real installed descriptions and a second scorer) Trigger test for the frontmatter `description`: 20 should-trigger and 20 should-not-trigger queries. Near-misses:
@@ -63,7 +63,7 @@ git-ignored; do not treat them as live code.
 ## P4 - housekeeping and decisions
 - [x] (2026-09-21: done; re-do after each pass) Update `VALIDATION.md` header date (still 2026-09-05) and counts after each pass; add a section for the
       2026-09-21 state.
-- [ ] New from the 2026-09-21 run: decide whether the Code File Requirement should be relaxed for one-line/docs/review tasks (it was applied to a label rename and a PR review).
+- [ ] New from the 2026-09-21 run (H6: the skill arm skipped the header on a typo fix and said so, so a carve-out would match its behavior; see `VALIDATION.md`): decide whether the Code File Requirement should be relaxed for one-line/docs/review tasks (it was applied to a label rename and a PR review).
 - [ ] Ask the user: which languages/stacks matter most (this sets which design guide gets validated first)?
 - [ ] Ask the user whether the "Code File Requirement" (top-of-file comment block on every changed file) is still
       wanted; it is the rule most likely to conflict with repository conventions.

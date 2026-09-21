@@ -838,6 +838,36 @@ the trigger queries were written by the same author as the description and the c
 descriptions, so 40/40 is an optimistic upper bound. The prompts still mostly fail to discriminate skill from baseline;
 harder prompts are still to be written.
 
+## Harder prompts H1-H6, both arms (2026-09-21)
+
+Method: as in the first run (plan-only Sonnet subagents; skill arm told to read `SKILL.md` and the references it points
+to, baseline told to use no skill and ignore the global skill-router rule). Rubrics were written into `tests/prompts.md`
+before the runs. One run per cell, one scorer (the session author).
+
+| Prompt | Baseline | With skill | Separates? |
+|--------|----------|------------|-----------|
+| H1 header block on an existing file | fail on (a): said it would not add a header; (b), (c) pass | pass (a), (b), (c) | yes |
+| H2 orphaned helper vs pre-existing dead code | pass all | pass all | no |
+| H3 pre-existing failing test | pass all | pass all | no |
+| H4 "make it faster" | pass (a), (b), (d); partial (c): steps end in re-measure, no per-step verification | same | no; neither used the "step -> verify" format |
+| H5 delete account | partial (a), (b): asked the questions but then built on a stated hard-delete assumption; pass (c) | pass (a), (b): stopped and asked before any code; (c) 5 questions, over the "about 4" bound | yes, on ask-before-destructive |
+| H6 typo fix | (a) pass; (b) fail, about 5 sentences; (c) no header | (a) pass; (b) fail, about 4 sentences; (c) no header, flagged the missing header in its report | no |
+
+Findings:
+- Two of six prompts separate the skill from the baseline: the Code File Requirement (H1) and asking before an
+  irreversible, outward-facing change (H5). The rest are things the model already does (orphan removal, reporting a
+  pre-existing failure separately, measuring before optimizing).
+- H6: given a conflict between "keep it minimal" and the Code File Requirement, the skill arm skipped the header and
+  said so. That is evidence for the open `TODO.md` P4 decision: an explicit carve-out for one-line or non-code fixes
+  would match what the arm already does, but the decision is the user's and `SKILL.md` was not changed.
+- H4: the "step -> verify" plan format from `implementation-discipline.md` was not used by the skill arm either,
+  although it read that file. Either the format needs to be more prominent in `SKILL.md` or it is not worth it.
+- H6 (b) may be a bad rubric: both arms wrote a plan plus a template message, which is longer than the final report
+  the rubric measures.
+
+Not verified: single run per cell; one scorer who wrote the rubrics; plan-only text, not executed changes; Sonnet only;
+H5 (c) is a judgment call at 5 vs "about 4".
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to

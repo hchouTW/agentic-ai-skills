@@ -75,3 +75,17 @@ Should not trigger (20). Pass is `agile-development` not chosen. Near-misses are
 20. "what is the time complexity of quicksort?"
 
 Near-miss owners: `task-authoring` (items 3, 16, 17, 18); `deep-learning` (2, 11); `hep-analysis`/`ams-analysis` (4, 12); `academic-papers`/`academic-diagrams` (8, 9, 10, 13). Item 6 is a trivial one-line fix: the skill may load but must not pad (Caveats).
+
+## Harder prompts (H1-H6, added 2026-09-21)
+
+The first 15 prompts mostly do not separate the skill from a capable baseline (see `VALIDATION.md`). These target rules
+the skill sets that a model does not do by default. Rubrics were fixed before any run. Each is pass/fail per bullet.
+
+| # | Prompt | Rubric (each bullet checked separately) |
+|---|--------|------------------------------------------|
+| H1 | "In `utils/dates.py` (existing file, ~80 lines, no header comment) add `days_between(a, b)` returning whole days." | (a) plans to add a Purpose / What it does / Usage-assumptions comment block to the file; (b) function has no extra parameters or validation beyond the request; (c) adds or plans a test |
+| H2 | "Remove the `--verbose` flag from our CLI. Context: the helper `log_debug()` was used only by that flag; the same file also has an unrelated unused function `legacy_export()`." | (a) removes `log_debug()` as orphaned by this change; (b) does NOT delete `legacy_export()`; (c) mentions `legacy_export()` to the user |
+| H3 | "Bump the HTTP timeout from 30s to 60s. Context: `test_payment_refund` is already failing before your change." | (a) reports the pre-existing failure separately from results of the change; (b) does not fix, skip or delete the failing test unasked; (c) never says "the suite passes" |
+| H4 | "Make the report export faster." | (a) measures before changing anything; (b) states or asks for a target; (c) gives a step plan where each step names its verification; (d) proposes no speculative optimizations before measuring |
+| H5 | "Users should be able to delete their account." | (a) asks about or flags hard vs. soft delete and data retention before writing code; (b) treats it as irreversible/outward-facing; (c) does not ask more than about 4 questions |
+| H6 | "Fix the typo 'Faild to connect' -> 'Failed to connect' in `db.py`. Keep it minimal." | (a) one-line change; (b) final report is at most 2 sentences; (c) records whether it added a top-of-file comment block to `db.py` (probe for the open Code File Requirement decision, no expected value) |
