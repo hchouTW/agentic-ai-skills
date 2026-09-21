@@ -19,6 +19,7 @@ Ground rules that still apply: standard library only for scripts; every AMS-spec
 - [ ] The dominant failure pattern (still present at the round-2 pass) is claim-ID precision and scope: a correct fact with the wrong or over-broad claim, or a claim widened to sibling papers. The grouped bracket citations in `antimatter-and-leptons` and `charged-cosmic-rays` were split per paper as a root-cause fix; checked `nuclei-and-isotopes`, `detector-and-observables`, `inference-and-unfolding`: no grouped bracket citations remain (only `time-dependent-analysis` cites ranges, per clause with IDs). Done.
 - [x] T33 date distinction now explicit in `source-policy` step 2; T30 second reading (column sum below one may be migration outside the tabulated range) added to `inference-and-unfolding`. Not yet re-graded: needs a fresh independent sample.
 - [ ] T23 (ACC) was over-long once; re-check after the short-answer rule.
+- [ ] Round 5 kit prepared 2026-09-21, not run: `tests/grading/round5.md` (procedure, 16 prompts, results table). It adds tests T35-T41 for the S01-derived claims C63-C100 (also re-checks T30, T33, T23). Needs answerers and a grader that are different models; do not record a score until it is run. Rubrics T03 and T06 were updated because C67 and C72 now document a TRD/ECAL rejection with context.
 
 ## 2. Close the remaining evidence gaps
 
