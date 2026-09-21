@@ -70,6 +70,8 @@ the file's complexity, and review it in the diff so it doesn't drift from the co
 This block is the one deliberate exception to "every changed line traces to the request";
 a small logic fix in a file whose block is already accurate needs no change to it.
 
+Test files do not need the block unless they carry non-obvious setup or fixtures.
+
 Skip it when the change is not logic: a typo, string, or value tweak; a config-only
 edit; a deletion; or a docs or review task. If the repository has its own header
 convention (or forbids headers), follow that instead. Mention a missing block in the

@@ -27,6 +27,12 @@ Decide by what being wrong costs:
 placement, test structure, and anything the repository's existing conventions already
 imply. State the assumption in the response so it can be corrected in one line.
 
+If you cannot ask (a non-interactive run, or no one is reachable): for the "assume and
+say so" cases, proceed and state the assumption. For the "ask before proceeding" cases,
+do the read-only work (find what the repository already answers), then stop before any
+irreversible or outward-facing step and report exactly which questions you would have
+asked and what you assumed in the meantime; a reversible, clearly labeled draft is fine.
+
 Two related habits, independent of which branch applies:
 
 - **Present competing interpretations instead of silently picking one.** If the request

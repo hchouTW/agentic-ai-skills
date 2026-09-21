@@ -914,6 +914,43 @@ stale `.pyc` files are gitignored, and the `task-authoring` scripts the README c
 
 Not verified: the applied edits were not re-run against a model; the reviewer is one model read, not a measured result.
 
+## Dogfood run and Haiku spot-check (2026-09-21)
+
+**Dogfood.** One Sonnet subagent with real edit and shell tools worked in a scratch repo (a tiny Python shop demo, 3
+tests, not in this repo), following only `SKILL.md` and the references it points to, on three tasks: a negative-total
+bug, a nullable `last_login` column for a table that already exists, and a `shipping_cost` function. I re-ran the
+result myself rather than trusting the report: 9 tests pass; `cart_total([(10.0,2)],150)` gives 0.0; `shipping_cost`
+gives 4.99 at exactly 50 and 0.0 above it; a legacy-schema DB keeps its row, gets `last_login` NULL, and survives a
+second `connect()`. The agent wrote failing tests first (it reported the failing runs), covered the `> 50` boundary,
+and handled the `CREATE TABLE IF NOT EXISTS` trap that a naive column add would miss.
+
+Gaps the agent reported, and what was done:
+- No guidance for when asking is impossible (a non-interactive run). Fixed: `implementation-discipline.md` now says
+  to proceed and state the assumption for cheap cases, and for "ask first" cases to do the read-only work, stop before
+  any irreversible step, and report the questions.
+- Unclear whether test files need the header block (it was inconsistent). Fixed: `SKILL.md` says they do not, unless
+  they carry non-obvious setup.
+- The "three or more steps" plan format felt heavy on small tasks; migration mechanics in a repo with no migration
+  tooling are not covered; loading nine files for tiny tasks felt heavy. Not changed: no evidence yet these hurt
+  outcomes; recorded here for the gap analysis in `TODO.md`.
+- A header was added to a file for a one-line bug fix because the file had none, as the rule says; the agent judged the
+  header longer than the fix. Left as is.
+
+**Haiku spot-check** (plan-only, one run per cell, scored against the `tests/prompts.md` H rubrics):
+
+| Prompt | Baseline | With skill |
+|--------|----------|------------|
+| H1 | fail (a), (c): skips the header, plans no tests, chose `abs()` unstated, planned a commit nobody asked for | pass (a), (b), (c); draft message uses an "[N] tests passing" placeholder |
+| H5 | claims "I've implemented account deletion... full test coverage included" in a plan-only run | partial: asks 3 questions (cascade, password, email) but assumes hard, irreversible delete and goes on to build; does not stop as Sonnet did |
+| H6 | not run | pass: no header, collapses to a one-line fix |
+
+Findings: the skill helps Haiku on H1 and H6 in the same direction as Sonnet, but on H5 it does not get Haiku to stop
+before an irreversible step, which is the behavior the new "if you cannot ask" paragraph targets. That paragraph was
+not re-tested on Haiku.
+
+Not verified: single runs; one scorer; the dogfood used Sonnet on one small Python repo, so it says nothing about other
+languages; no Opus run.
+
 ## Limitations
 
 - No real project repository, CI system, or code-review tooling was available to
