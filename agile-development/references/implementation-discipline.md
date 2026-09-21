@@ -15,7 +15,9 @@ problem, and always asking stalls on questions the repository could have answere
 
 Decide by what being wrong costs:
 
-**Ask before proceeding** when a wrong guess is expensive or hard to undo:
+**Ask before proceeding** when a wrong guess is expensive or hard to undo. Asking means
+stopping: end your reply with the questions (and a recommended default for each) and do
+not go on to implement, or write a plan that implements, in the same turn:
 
 - Schema, migration, or anything that writes to persistent data.
 - A published API contract, wire format, or anything other code depends on.
@@ -29,9 +31,10 @@ imply. State the assumption in the response so it can be corrected in one line.
 
 If you cannot ask (a non-interactive run, or no one is reachable): for the "assume and
 say so" cases, proceed and state the assumption. For the "ask before proceeding" cases,
-do the read-only work (find what the repository already answers), then stop before any
-irreversible or outward-facing step and report exactly which questions you would have
-asked and what you assumed in the meantime; a reversible, clearly labeled draft is fine.
+never assume the destructive or irreversible option. Do the read-only work (find what
+the repository already answers), stop before any irreversible or outward-facing step,
+and report the questions you would have asked. If something must ship, take the
+reversible option (for example soft-delete over hard-delete) as a clearly labeled draft.
 
 Two related habits, independent of which branch applies:
 
