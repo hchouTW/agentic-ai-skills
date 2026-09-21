@@ -25,6 +25,10 @@ not go on to implement, or write a plan that implements, in the same turn:
 - Anything outward-facing: sending, publishing, deleting, or spending.
 - Work large enough that the wrong interpretation wastes substantial effort.
 
+Ask at most four questions, most costly first, and only ones whose answer would change
+what you build. Fold everything else into a stated default ("unless you say otherwise, I
+will ...") rather than a further question.
+
 These apply to what the request leaves open. If it already states the behavior, contract,
 or scope you would have asked about, take it as given and do not ask again.
 
