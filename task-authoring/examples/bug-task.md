@@ -1,133 +1,137 @@
-# Fix `skill-router`'s Bundle Validator Silently Ignoring Non-Lowercase Routing Names
+# Fix `academic-papers`' Bundle Validator Silently Skipping `examples/` Paths
 
 ## Background
 
-`skill-router/scripts/validate_skill_bundle.py` parses `SKILL.md`'s routing
-rules with a regular expression to (a) confirm the routing table actually
-yielded at least one skill name, and (b) cross-check each routed name against
-sibling folders on disk. The regex used is:
+`academic-papers/scripts/validate_skill_bundle.py` scans `SKILL.md` for
+backtick-quoted relative paths so it can (a) confirm each referenced file
+exists on disk, and (b) flag files in the bundle that `SKILL.md` never
+mentions. The regex it uses to find those paths is:
 
 ```python
-ROUTING_ENTRY_RE = re.compile(r"^- \*\*([a-z0-9][a-z0-9-]*)\*\*", re.MULTILINE)
+BACKTICK_PATH_RE = re.compile(r"`((?:references|scripts|assets)/[^`\s]+)`")
 ```
 
-This only matches a bolded bullet name made up of lowercase letters, digits,
-and hyphens. Every routing rule in the shipped `SKILL.md` today happens to be
-lowercase-kebab (`academic-papers`, `agile-development`, `deep-learning`,
-`hep-analysis`), so the bug has not manifested yet, but nothing in `SKILL.md`
-or the validator documents "lowercase only" as a required naming convention
-for routing entries - it's an accidental side effect of the regex character
-class. A future routing-rule bullet using an uppercase letter or a leading
-digit in an unusual way would be silently skipped by
-`extract_routed_skill_names`, which would in turn make the "at least one
-routing entry found" check under-count without failing, and would make the
-sibling cross-check under-report unmatched entries rather than list them.
+This only matches paths under `references/`, `scripts/`, or `assets/`. The
+bundle also ships an `examples/` directory (25 files), and `SKILL.md` points
+at it, but nothing in `SKILL.md`, the validator's docstring, or `README.md`
+says that `examples/` paths are deliberately left unchecked. It's a side
+effect of the regex's fixed prefix list. If `SKILL.md` gained a backtick
+reference to a missing or misspelled file such as `examples/no-such-file.md`,
+the validator would still report success, even though the same typo under
+`references/` fails. The orphaned-file check has the same gap, because it
+walks only `references/`, `scripts/`, and `assets/`.
 
 ## Objective
 
-`skill-router/scripts/validate_skill_bundle.py` either (a) matches any
-routing-rule bullet regardless of letter case, or (b) the lowercase-kebab
-convention is made an explicit, enforced, and documented requirement that a
-non-conforming bullet fails loudly on - whichever is confirmed as the
-intended behavior (see Open Questions).
+`academic-papers/scripts/validate_skill_bundle.py` either (a) checks
+backtick-quoted `examples/` paths in `SKILL.md` the same way it checks
+`references/` paths, or (b) documents `examples/` as deliberately out of
+scope in its docstring and `README.md`. The right choice depends on what the
+maintainer intends (see Open Questions).
 
 ## Scope
 
 ### In Scope
 
-- Decide (with the maintainer) whether routing names may use characters
-  outside `[a-z0-9-]`, or whether lowercase-kebab is a hard requirement.
-- Update `ROUTING_ENTRY_RE` and/or add an explicit validation error for a
-  non-conforming bullet, consistent with whichever answer is chosen.
-- Add a regression test covering the previously-silent case.
+- Decide (with the maintainer) whether `examples/` belongs to the set of
+  directories the validator checks, or should stay excluded on purpose.
+- Update `BACKTICK_PATH_RE` and the directory tuple in
+  `check_no_orphaned_files()` to match that decision, or document the
+  exclusion.
+- Add a regression test covering the case that currently passes silently.
 
 ### Out of Scope
 
-- Renaming any of the five skills or changing their existing lowercase-kebab
-  names - all current names already conform either way.
-- Broader `SKILL.md` frontmatter validation beyond the routing-rule bullets
-  themselves.
+- Moving, renaming, or renumbering any of the existing examples.
+- Checking example *content*, such as archetype rules. `task-authoring`'s
+  `validate_skill_example.py` already does that.
+- The other directories the validator also ignores (`agents/`, `tests/`),
+  unless the maintainer asks for them together.
 
 ## Repository Context
 
-Verified by direct inspection on 2026-09-12:
+Verified by direct inspection on 2026-09-23:
 
-- `skill-router/scripts/validate_skill_bundle.py` contains
-  `ROUTING_ENTRY_RE = re.compile(r"^- \*\*([a-z0-9][a-z0-9-]*)\*\*", re.MULTILINE)`
-  and the `extract_routed_skill_names()` function that applies it.
-- `skill-router/tests/test_skill_router.py`'s
-  `ExtractRoutedSkillNamesTests` class exercises this function against the
-  real `SKILL.md` and two synthetic strings, but every case used is already
-  lowercase-kebab - no test currently exercises an uppercase or otherwise
-  non-conforming bullet.
-- `skill-router/SKILL.md`'s current "Routing rules" section lists exactly
-  four bullets - `academic-papers`, `agile-development`, `deep-learning`,
-  `hep-analysis` - all lowercase-kebab, so the bug is latent, not currently
-  observable in the shipped bundle.
+- `academic-papers/scripts/validate_skill_bundle.py` defines
+  `BACKTICK_PATH_RE` as shown above. `check_referenced_paths_exist()`
+  applies that regex, and `check_no_orphaned_files()` iterates over the
+  hard-coded tuple `("references", "scripts", "assets")`.
+- `academic-papers/examples/` exists and holds 25 files. `SKILL.md` mentions
+  it only as the bare directory `` `examples/` ``, so no file-level
+  reference exists yet. The bug is latent, not currently visible in the
+  shipped bundle.
+- A scratch copy of the bundle, with backtick references to both
+  `examples/no-such-file.md` and `references/no-such-file.md` appended to
+  `SKILL.md`, reported only the `references/` path as missing. The
+  `examples/` path passed silently.
+- `academic-papers/tests/test_skill_bundle.py`'s `TestSyntheticBundles`
+  class builds synthetic bundles in a temporary directory. None of its cases
+  uses an `examples/` path.
 
 ## Technical Approach
 
-1. Confirm with the maintainer whether skill names in this repository are
-   guaranteed lowercase-kebab going forward (matching every current skill
-   folder name), or whether the routing table should tolerate other casing.
-2. If lowercase-kebab is confirmed as the permanent convention: keep the
-   regex as-is, but add an explicit check in `main()` that scans routing
-   bullets for a bolded name the current regex does *not* match, and fails
-   loudly (rather than silently under-counting) when one is found.
-3. If arbitrary casing should be supported: broaden
-   `ROUTING_ENTRY_RE`'s character class and re-verify
-   `find_sibling_skill_dirs`'s comparison still behaves correctly against a
-   non-lowercase folder name.
-4. Add a test in `ExtractRoutedSkillNamesTests` (or a new test class, for
-   the loud-failure branch) using a synthetic `SKILL.md` string with a
-   non-lowercase bullet, asserting the chosen behavior.
+1. Confirm with the maintainer whether `examples/` files should be required
+   to be referenced from `SKILL.md`. Checking that referenced paths exist is
+   cheap. Requiring every file to be referenced (the orphan check) would fail
+   today, because `SKILL.md` points only at the directory.
+2. If `examples/` should be checked: add `examples` to the regex prefix list
+   so referenced paths must exist. Also add it to the orphan-check tuple
+   only if the maintainer wants that stricter rule. The existing
+   `any(rel.startswith(r.rstrip("/") + "/") ...)` clause already treats a
+   bare `examples/` reference as covering every file under it, but the
+   regex's `[^`\s]+` part requires at least one character after the slash,
+   so re-check that a bare directory reference is still matched.
+3. If `examples/` should stay excluded: list that choice in the module
+   docstring's "Checks" section and in `README.md`, so the gap is documented
+   instead of accidental.
+4. Add a test to `TestSyntheticBundles` that writes a synthetic `SKILL.md`
+   referencing a missing `examples/` file and asserts the chosen behavior.
 
 ## Deliverables
 
-- Updated `skill-router/scripts/validate_skill_bundle.py`.
-- A new regression test in `skill-router/tests/test_skill_router.py`.
-- A short note in `skill-router/VALIDATION.md` describing the fix and which
-  of the two resolutions (loud failure vs. broadened regex) was chosen.
+- Updated `academic-papers/scripts/validate_skill_bundle.py`.
+- A new regression test in `academic-papers/tests/test_skill_bundle.py`.
+- A short note in `academic-papers/VALIDATION.md` describing the fix and
+  which resolution was chosen (checked or documented as excluded).
 
 ## Acceptance Criteria
 
-- A synthetic `SKILL.md` routing bullet using a character outside
-  `[a-z0-9-]` no longer passes through `extract_routed_skill_names` silently
-  uncounted and unreported - it is either correctly extracted, or the
-  validator fails loudly and names the offending bullet.
-- All four real routing entries (`academic-papers`, `agile-development`,
-  `deep-learning`, `hep-analysis`) are still extracted exactly as before.
+- A synthetic `SKILL.md` that references a missing `examples/` file no
+  longer passes silently. The validator either reports the missing path, or
+  the exclusion is documented and a test asserts it.
+- Every `references/`, `scripts/`, and `assets/` path the validator checks
+  today is still checked exactly as before.
 - `python3 scripts/validate_skill_bundle.py` still exits `0` on the current,
-  unmodified `skill-router` bundle.
+  unmodified `academic-papers` bundle.
 - `python3 -m unittest discover -s tests -v` passes, including the new
   regression test.
 
 ## Validation
 
-- Run `python3 -m unittest discover -s tests -v` from `skill-router/` and
+- Run `python3 -m unittest discover -s tests -v` from `academic-papers/` and
   confirm the new test and all existing tests pass.
-- Run `python3 scripts/validate_skill_bundle.py` from `skill-router/` and
-  confirm it still reports "Bundle OK" with the unmodified real `SKILL.md`.
-- Manually construct a scratch `SKILL.md` string with a non-conforming
-  bullet and confirm the chosen behavior (extraction or loud failure) by
-  hand, matching the new test's assertion.
+- Run `python3 scripts/validate_skill_bundle.py` from `academic-papers/` and
+  confirm it still reports "passed all checks" on the real bundle.
+- Repeat the scratch-copy experiment from Repository Context and confirm the
+  `examples/no-such-file.md` reference now behaves as chosen.
 
 ## Open Questions
 
-- Should skill routing names be constrained to lowercase-kebab as a
-  documented, enforced convention (option a), or should the extractor
-  tolerate any bolded bullet name (option b)? **Requires Confirmation** -
-  the source ticket that raised this only observed the latent bug; it did
-  not state a preferred resolution.
-- Is this worth fixing now given all four current entries already conform,
-  or should it be tracked and deferred until a routing rule with unusual
-  casing is actually proposed? **TBD.**
+- Should the validator check `examples/` paths (option a), or should
+  `examples/` stay deliberately unchecked and be documented as such
+  (option b)? **Requires Confirmation.** The gap was found during
+  inspection, and no one has said which behavior is intended.
+- If `examples/` is checked, should the orphan check also require every
+  example to be referenced from `SKILL.md`, or is the bare `examples/`
+  directory reference enough? **TBD.**
+- Is this worth fixing now, while `SKILL.md` has no file-level `examples/`
+  references, or should it wait until one is added? **TBD.**
 
 ## References
 
-- `agentic-ai-skills/skill-router/scripts/validate_skill_bundle.py` - the
-  file containing the regex in question.
-- `agentic-ai-skills/skill-router/tests/test_skill_router.py` - the existing
-  test class to extend.
-- `agentic-ai-skills/skill-router/SKILL.md` - the routing table the regex
-  parses.
+- `agentic-ai-skills/academic-papers/scripts/validate_skill_bundle.py`: the
+  file containing the regex and the orphan-check directory tuple.
+- `agentic-ai-skills/academic-papers/tests/test_skill_bundle.py`: the
+  existing synthetic-bundle test class to extend.
+- `agentic-ai-skills/academic-papers/SKILL.md`: the document the regex
+  scans.

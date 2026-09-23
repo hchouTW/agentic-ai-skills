@@ -70,7 +70,7 @@ Verified by direct inspection on 2026-09-12:
 ## Technical Approach
 
 1. Run a pairwise comparison of every `references/*.md` file across all five
-   skills (`skill-router`, `agile-development`, `deep-learning`,
+   skills (`task-authoring`, `agile-development`, `deep-learning`,
    `hep-analysis`, `academic-papers`) to build a complete inventory of
    byte-identical or near-identical files, not just the one pair already
    known.
