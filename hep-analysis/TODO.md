@@ -54,7 +54,7 @@ The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven
       (include near-misses: `ams-analysis`, `deep-learning` HEP-ML, Linux root, generic statistics).
       Consider `skill-creator` description optimization; keep the description under its length limit.
 - [ ] Check routing hygiene with the sibling skills: `hep-analysis` vs `ams-analysis`, `academic-diagrams`,
-      `academic-papers`; run `skill-router`'s validator and tests after any description change.
+      `academic-papers`; run each affected skill's validator and tests after any description change.
 - [ ] Verify the 24 examples follow their archetype rules (`task-authoring/references/example-authoring.md`) and
       that every code snippet in them runs or is clearly labelled pseudo-code. Run the runnable ones.
 
