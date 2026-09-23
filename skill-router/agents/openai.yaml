@@ -1,4 +1,0 @@
-interface:
-  display_name: "Skill Router"
-  short_description: "Silently routes tasks to academic-diagrams, academic-papers, agile-development, ams-analysis, deep-learning, hep-analysis, or task-authoring before work begins"
-  default_prompt: "Use $skill-router to check whether this task matches academic-papers, agile-development, ams-analysis, deep-learning, hep-analysis, or task-authoring, then invoke the matching skill(s)."

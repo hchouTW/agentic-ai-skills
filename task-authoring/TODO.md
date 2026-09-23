@@ -35,8 +35,7 @@ Only the loop-engineering path has a baseline-vs-skill run. Everything else is u
       `academic-papers` drafting. Consider `skill-creator` description optimization; the description is ~1170 chars,
       so keep it from growing.
 - [ ] Routing hygiene with sibling skills: `agile-development` vs `task-authoring` (live scoping vs a standalone
-      written spec), and `skill-router`. Confirm the router's `task-authoring` bullet and `SKILL.md` description
-      still match; run `skill-router`'s validator and tests after any description change.
+      written spec); run each affected skill's validator and tests after any description change.
 
 ## P2 - verify the shipped examples and archetype tooling
 - [ ] Re-verify every Repository Context claim in `examples/*.md` against the current repo (paths, line counts,

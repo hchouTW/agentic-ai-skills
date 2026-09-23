@@ -53,7 +53,7 @@ The 24 examples (`examples/01-24`) and the rules in `SKILL.md` are unproven unti
       (near-misses: TensorFlow/JAX, generic statistics, `hep-analysis` ROOT ML, LLM API usage). Consider
       `skill-creator` description optimization; keep under the length limit.
 - [ ] Routing hygiene with sibling skills (`hep-analysis`, `agile-development`, `academic-papers`,
-      `task-authoring`); run `skill-router`'s validator and tests after any description change.
+      `task-authoring`); run each affected skill's validator and tests after any description change.
 - [ ] Verify the 24 examples follow their archetype rules (`task-authoring/references/example-authoring.md`) and
       that every code snippet runs or is clearly labelled pseudo-code.
 

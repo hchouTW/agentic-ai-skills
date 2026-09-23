@@ -2,7 +2,7 @@
 
 ## Background
 
-Every skill in `agentic-ai-skills` (`skill-router`, `agile-development`,
+Every skill in `agentic-ai-skills` (`task-authoring`, `agile-development`,
 `deep-learning`, `hep-analysis`, `academic-papers`) ships its own
 `scripts/validate_skill_bundle.py`, and each currently prints a human-
 readable summary (`"Bundle OK: N files present and non-empty."` on success,
@@ -42,10 +42,10 @@ human-readable output unchanged.
 
 ## Repository Context
 
-Verified by direct inspection on 2026-09-12:
+Verified by direct inspection on 2026-09-23:
 
 - `agile-development/scripts/validate_skill_bundle.py` and
-  `skill-router/scripts/validate_skill_bundle.py` were read in full. Both
+  `task-authoring/scripts/validate_skill_bundle.py` were read in full. Both
   follow the same structure: a `REQUIRED_PATHS` list, a
   `REQUIRED_README_SECTIONS` list, a `main()` that checks missing/empty
   files, then `SKILL.md` frontmatter, then `README.md` sections, printing
@@ -59,7 +59,7 @@ Verified by direct inspection on 2026-09-12:
   no shared/imported validator module across skills.
 - Each skill has its own `tests/` directory
   (`agile-development/tests/test_agile_skill.py`,
-  `skill-router/tests/test_skill_router.py`, and similar in the other three)
+  `task-authoring/tests/test_task_authoring_skill.py`, and similar in the other three)
   run independently via `python3 -m unittest discover -s tests -v` from
   inside that skill's folder.
 
@@ -67,8 +67,8 @@ Verified by direct inspection on 2026-09-12:
 
 1. Read each of the five `validate_skill_bundle.py` scripts in full to
    confirm the current failure/success branches before changing any of
-   them (`skill-router`'s script additionally reports routing-table/sibling
-   information that the JSON shape needs to account for).
+   them (`task-authoring`'s script additionally checks the section contract of
+   `templates/task-template.md`, which the JSON shape needs to account for).
 2. Define one shared JSON shape, e.g.
    `{"ok": bool, "missing": [...], "empty": [...], "issues": [...]}`,
    used identically by all five scripts so a future aggregator can rely on
@@ -82,7 +82,7 @@ Verified by direct inspection on 2026-09-12:
    output parses and reports `"ok": true` on the shipped bundle, and one
    asserting it reports the expected missing/empty entries against a
    doctored scratch copy (mirroring the existing scratch-copy pattern
-   already used in, e.g., `skill-router/tests/test_skill_router.py`).
+   already used in, e.g., `task-authoring/tests/test_task_authoring_skill.py`).
 6. Update each skill's `README.md` Quick checks section with one example
    `--format json` invocation.
 
@@ -137,8 +137,8 @@ Verified by direct inspection on 2026-09-12:
 
 - `agentic-ai-skills/agile-development/scripts/validate_skill_bundle.py` -
   the validator implementation this task extends.
-- `agentic-ai-skills/skill-router/scripts/validate_skill_bundle.py` and
-  `agentic-ai-skills/skill-router/tests/test_skill_router.py` - the
+- `agentic-ai-skills/task-authoring/scripts/validate_skill_bundle.py` and
+  `agentic-ai-skills/task-authoring/tests/test_task_authoring_skill.py` - the
   scratch-copy test pattern to extend for the JSON-mode tests.
 - `agentic-ai-skills/README.md` - "Verifying a skill bundle" section,
   documenting the existing `python3 scripts/validate_skill_bundle.py`

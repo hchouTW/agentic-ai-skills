@@ -67,8 +67,8 @@ The workflows, modes, and 24 examples are unproven until a fresh model is run on
       including near-misses (`academic-diagrams` figure requests, `hep-analysis` fit questions, `deep-learning`
       ablation design, `task-authoring`, generic "write an essay"). Consider `skill-creator` description
       optimization; keep the description under its length limit.
-- [ ] Routing hygiene with `skill-router`, `academic-diagrams` (structural diagrams vs data plots),
-      `hep-analysis`, `ams-analysis`, `deep-learning`: run `skill-router`'s validator and tests after any
+- [ ] Routing hygiene with `academic-diagrams` (structural diagrams vs data plots),
+      `hep-analysis`, `ams-analysis`, `deep-learning`: run each affected skill's validator and tests after any
       description change.
 - [ ] Check the 24 examples follow their archetype rules (see the `task-authoring` skill's
       `references/example-authoring.md`) and that any weak-vs-expert contrast is realistic, not a strawman.
