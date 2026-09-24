@@ -147,6 +147,30 @@ physical justification stated, and the tuned parameter's remaining freedom becom
 systematic. Tuning against the measurement itself destroys the measurement, for the
 same reason that tuning a fit to obtain a desired significance does.
 
+## Worked walkthrough: setting up a Geant4 simulation for a calorimeter test-beam comparison
+
+Not executed in this package (no Geant4 installation). This is the order of decisions, each
+with the check that closes it.
+
+1. **Geometry and material.** Build the geometry from the engineering description, then
+   compare the total material budget (`X/X0` and `lambda_I` versus eta or depth, from a
+   geantino scan) with the design table and survey. It must agree before any physics
+   comparison is meaningful.
+2. **Physics list.** Pick the collaboration's validated list for the energy range (e.g. an
+   `FTFP_BERT`-family list for hadron showers at test-beam energies). Record its name and
+   the Geant4 version. Run an alternative list (e.g. `QGSP_BIC`) for the model systematic,
+   never to choose the list that agrees best with the data.
+3. **Production cuts and step limits.** Scan the range cut (for example 0.7 mm, 0.35 mm,
+   0.1 mm). Keep the smallest value beyond which the response and resolution stop changing
+   within statistics.
+4. **Digitization.** Apply Birks saturation, photostatistics, noise, and the readout
+   threshold. Validate each on its own control sample (MIPs, pedestals) before tuning
+   anything else.
+5. **Compare with the test beam** in observables *not* used to tune steps 1-4: response
+   linearity, resolution versus E, and longitudinal and lateral profiles. If showers are too
+   narrow, first check the material and the digitized lateral cross-talk, and only then the
+   physics list. Carry the list difference as a systematic, not as a tuning knob.
+
 ## Deliverables
 
 - Simulation toolkit and version, geometry version, physics list and version, and

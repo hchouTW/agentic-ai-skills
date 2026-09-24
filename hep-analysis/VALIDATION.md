@@ -1,9 +1,67 @@
 # Package Validation Record
 
-Validation date: 2026-09-24 (latest pass; earlier passes dated below). Helper test
+Validation date: 2026-09-25 (latest pass; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests.
-Current counts: bundle 135 files; 197 tests (7 ROOT tests skip without PyROOT).
+Current counts: bundle 137 files; 201 tests (7 ROOT and 4 pyhf tests skip without PyROOT/pyhf).
+
+## P3 content pass (2026-09-25)
+
+- Progressive disclosure: in the P2 runs, with-skill agents read 1 reference (15 tasks),
+  2 (12) or 3 (5), and never more. The one outlier by size, reference 14 (~1,300 lines), now
+  opens with a task-to-section table, and its `SKILL.md` routing row says to read one section.
+  All in-package Markdown anchors resolve (checked by script).
+- Overlap:
+  - Reference 38 and `ams-analysis` were already cleanly split: 38 keeps no AMS numbers and
+    defers to the sibling, and the sibling's `SKILL.md` says it supersedes 38.
+  - Reference 49 Table 8 repeated five rows of reference 47's systematics mapping (field
+    map, alignment, material, dead channels, pileup/noise). They were removed; Table 8 now
+    lists only specialized-detector nuisances and points to 47.
+  - The tables in 42 and 45 complement 49 (budget terms and sensor properties versus
+    technology comparisons) and were kept.
+- Missing worked topics: by the user's choice, these were added as verified walkthroughs
+  in the references rather than as new archetype examples, keeping 3 per archetype.
+  - 07 RooFit fit: run on fixtures, numbers quoted.
+  - 09 pyhf end to end.
+  - 20 BDT without leakage: the snippet was extracted from the reference and run in a
+    scratch venv with scikit-learn. The default-sized model shows AUC 0.93 on the training
+    fold versus 0.71 held out, with KS p < 1e-3; the shallow configuration gives 0.751 versus
+    0.739 and KS p = 0.26 and 0.53, against a Bayes-optimal 0.748.
+  - 28 Geant4 setup: a decision checklist, **not executed** (no Geant4 installed).
+  - 33 IACT ON/OFF with trials: 2.35 sigma local, p_global 0.046 over 5 thresholds.
+  - 35 flux from counts with cutoff and demodulation.
+  All quoted numbers were recomputed.
+- New `assets/end_to_end_sample_analysis.py`, a synthetic chain from signed-weight ntuple
+  to sumw/sumw2 cutflow, orthogonal SR/CR, pyhf fit and CLs, and a yield table. Results:
+  - The full-sample sumw equals lumi x xsec exactly (6000, 200).
+  - Fit with signal injected at mu = 1: mu = 0.91 +- 0.16 (Minuit), mu_bkg = 0.99 +- 0.02,
+    observed CLs limit 1.19.
+  - Background only: mu = 0, observed limit 0.25, inside the expected band.
+  - A bug found while writing it: with the scipy optimizer, pyhf 0.7.6 ignores
+    `return_uncertainties`. The script uses Minuit when `iminuit` is present and otherwise
+    reports the errors as unavailable.
+  - `tests/test_end_to_end.py` (4 tests) passes with pyhf and skips without it.
+- `assets/analysis_config.yaml` now states that its `selection`/`histograms` blocks are
+  documentation and that the templates hard-code the same cuts.
+
+- `plugin-dev:skill-reviewer` pass. I verified each finding before acting on it.
+  Applied:
+  - A wrong cross-reference (`li_ma_significance.py` pointed to reference 39 instead of 37).
+  - A stale README claim that the ROOT scripts were never executed.
+  - An ambiguous "first seventeen" count, now clarified; all 17 commands were re-run and pass.
+  - `examples/README.md` is now linked from `SKILL.md`.
+  - A tie-break rule for the overlapping tag-and-probe/efficiency routing rows.
+  - General vs astroparticle subheadings for the invariants.
+  - Missing test-file entries.
+  - The description example "'my AMS-02 flux calculation'" is now "'my cosmic-ray flux from
+    counts'", so AMS-specific work is not pulled away from `ams-analysis` (981 characters).
+    Haiku trigger retest after the edit: 20/20 recall, 0/20 false triggers, and AMS queries still route to `ams-analysis`.
+  Declined:
+  - Moving the executable-resources list out of `SKILL.md`: the P2 runs showed the weaker
+    model finds and uses scripts through that list.
+  - Moving the example-authoring routing row to the README: authoring an example is a real
+    task for this skill.
+  - Dropping "Maintained in English."
 
 ## P2 behavior pass: fresh-model prompt, trigger, and example tests (2026-09-24)
 

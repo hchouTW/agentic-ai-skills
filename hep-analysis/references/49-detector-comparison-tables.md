@@ -121,23 +121,20 @@ are defined in [50](50-detector-glossary.md).
 
 ## Table 8: Systematics mapping
 
-See the mapping in [47](47-validation-systematics-and-combination.md), extended here for
-specialized detectors.
+The general mapping (scale, resolution, efficiency, alignment/field, material, drift,
+noise/pileup, dead channels, mis-ID, trigger, response, background) is in
+[47](47-validation-systematics-and-combination.md); this table adds only the nuisances
+specific to specialized detectors.
 
 | Nuisance | Reconstructed effect | Physics effect |
 |---|---|---|
 | Gain/pedestal | energy/charge scale | mass, yields |
 | Time offset | time, `beta`, drift coordinate | PID, momentum |
-| Field map | momentum scale/charge | mass, asymmetry |
-| Alignment weak mode | `q/p` bias | charge asymmetry |
-| Material | scattering, conversions | efficiency, scale |
 | Optical attenuation | light yield vs position | energy scale, resolution |
 | Refractive index | angle, threshold | PID |
 | Electron lifetime | charge vs depth | scale, threshold |
 | Atmospheric profile | shower energy/`X_max` | flux, composition |
 | Ice/water optics | angular/energy | effective volume, flux |
-| Dead channels | acceptance holes | rate, efficiency |
-| Pileup/noise | clusters, `MET` | jets, isolation |
 
 ## Table 9: Specialized and auxiliary detectors
 

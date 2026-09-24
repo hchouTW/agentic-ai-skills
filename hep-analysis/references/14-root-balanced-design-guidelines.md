@@ -25,6 +25,19 @@ variables/params, `PascalCase` types/functions, `kPascalCase` static constants,
 [Naming, Comments, and File Documentation](#naming-comments-and-file-documentation)
 below.
 
+## Read only what the task needs
+
+This file is long (~1,300 lines); do not read it end to end. Jump to the section for the task:
+
+| Task | Section |
+|---|---|
+| Writing or fixing an RDataFrame/TTreeReader event loop, histograms, plots | [Concrete ROOT/RDataFrame Coding Patterns](#concrete-rootrdataframe-coding-patterns) |
+| Header comment block, naming | [Naming, Comments, and File Documentation](#naming-comments-and-file-documentation) |
+| Segfaults/leaks around TFile, histograms, `SetDirectory` | [RAII, Resource Management, and Ownership](#raii-resource-management-and-ownership) |
+| Custom classes in a TTree, `ClassDef`, LinkDef, "no dictionary" errors | [Class Dictionaries and I/O](#class-dictionaries-and-io) (and [16-debugging-root.md](16-debugging-root.md)) |
+| Class vs struct vs free function, TObject inheritance, polymorphism | [Choosing Classes, Structs, and Free Functions](#choosing-classes-structs-and-free-functions), [Inheritance and Polymorphism](#inheritance-and-polymorphism) |
+| Reviewing a C++ design or diff | [Design Checklist](#design-checklist), [Anti-Patterns to Avoid](#anti-patterns-to-avoid-recap) |
+
 ## Contents
 
 - [Core Principle](#core-principle)

@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (hep-analysis)
 
-State at 2026-09-24: P1, P2 and P4 done (see the 2026-09-24 section of `VALIDATION.md`). Earlier state, 2026-09-21: skill is on `main`; the standard-library tests and `scripts/validate_skill_bundle.py` pass
+State at 2026-09-25: P1-P4 done except open follow-ups (see the 2026-09-24 section of `VALIDATION.md`). Earlier state, 2026-09-21: skill is on `main`; the standard-library tests and `scripts/validate_skill_bundle.py` pass
 (see `VALIDATION.md`). Most of the verification so far was structural or numerical on pure-Python helpers. Nothing
 in the skill has been checked by running it on a fresh model. Read `VALIDATION.md` first, then this file.
 
@@ -42,7 +42,7 @@ ACLiC (`macro.C+`) fails even for an empty macro (macOS SDK mismatch). Found 202
       or should be removed/softened. Flag anything time-sensitive (latest results) as needing a date.
 
 ## P1 follow-ups found 2026-09-24
-- [ ] `assets/uproot_awkward_analysis.py` ignores the config's `selection.cuts` and `histograms` (hard-coded
+- [x] (2026-09-25: the config now labels these blocks as documentation-only; templates unchanged) `assets/uproot_awkward_analysis.py` ignores the config's `selection.cuts` and `histograms` (hard-coded
       selection). Either implement config-driven cuts or trim the config so it does not imply they are used.
 - [ ] Live re-check of the numbers in the latest-results policy list (`references/13-sources.md`), with dates.
 - [ ] Try `plot_branch.C+` (ACLiC) on a machine where ACLiC works.
@@ -72,22 +72,22 @@ The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven
       (e.g. `skill-creator` description optimization or `claude plugin eval`), re-run `tests/trigger_queries.json` through it.
 
 ## P3 - improve content and structure
-- [ ] `SKILL.md` is ~180 lines and the references total ~7,200 lines: check progressive disclosure. Confirm that a
+- [x] (2026-09-25: P2 agents read 1-3 references per task; ref 14 (1,300 lines) got a task-to-section map) `SKILL.md` is ~180 lines and the references total ~7,200 lines: check progressive disclosure. Confirm that a
       typical task needs to read at most 2-3 references, and add "read only if" hints where a routing row is vague.
-- [ ] Look for gaps and overlap: `references/21-50` (detector) vs `ams-analysis` and `references/38-ams02-case-study.md`;
+- [x] (2026-09-25: ref 38 and ams-analysis already cleanly split; 5 duplicated rows removed from ref 49 Table 8; 42/45 tables are complementary) Look for gaps and overlap: `references/21-50` (detector) vs `ams-analysis` and `references/38-ams02-case-study.md`;
       remove duplicated tables (`49-detector-comparison-tables.md` vs the per-detector files).
-- [ ] Add missing worked examples for topics with zero examples today: RooFit fit, pyhf workflow, Geant4 setup,
+- [x] (2026-09-25, as the user chose: verified walkthroughs in refs 07/09/20/28/33/35 instead of new archetype examples, keeping 3 per archetype; Geant4 not executed) Add missing worked examples for topics with zero examples today: RooFit fit, pyhf workflow, Geant4 setup,
       IACT/neutrino analysis, cosmic-ray flux from counts, BDT training without leakage.
 - [x] (2026-09-24: added `test_yield_table.py`, `test_reference_values.py`, `test_root_integration.py`; every script except the bundle validator now has a test) Add regression tests for scripts that have none (see `tests/`: only `test_helpers.py`, `test_astroparticle.py`,
       `test_ams02.py`). Cover error paths (bad input, zero counts, negative weights).
-- [ ] Add a minimal end-to-end sample analysis (synthetic ntuple generator -> cutflow -> histograms -> `pyhf` fit
+- [x] (2026-09-25: `assets/end_to_end_sample_analysis.py` + `tests/test_end_to_end.py`) Add a minimal end-to-end sample analysis (synthetic ntuple generator -> cutflow -> histograms -> `pyhf` fit
       -> yield table) under `assets/` or `examples/` that exercises the scripts in sequence and can serve as a smoke test.
 - [x] (2026-09-24: no Claude-only tool dependencies; openai.yaml short_description now covers astroparticle) Multi-platform check (Codex, Antigravity): confirm `agents/openai.yaml` is current and that no instructions depend
       on Claude-only tools. See the repo's multi-platform conventions.
-- [ ] Skill-doctor / skill-reviewer pass on `SKILL.md` and `README.md` (`plugin-dev:skill-reviewer`).
+- [x] (2026-09-25: verified findings applied, 3 declined with reasons; see VALIDATION.md) Skill-doctor / skill-reviewer pass on `SKILL.md` and `README.md` (`plugin-dev:skill-reviewer`).
 
 ## P4 - housekeeping and decisions
 - [x] (already gitignored; no action) Remove stray `scripts/__pycache__` and `tests/__pycache__` from the working tree if they are untracked and not ignored.
-- [ ] Update `VALIDATION.md` header date and counts (file count, test count) after each pass. (Recurring; last done 2026-09-24.)
+- [ ] Update `VALIDATION.md` header date and counts (file count, test count) after each pass. (Recurring; last done 2026-09-25.)
 - [x] Asked 2026-09-24: all three matter equally (AMS-02/space-based, CMS/ATLAS collider, IACT/neutrino/air shower), so balance the P2 prompts across them.
 - [x] Asked 2026-09-24: yes. Added as "Latest-results policy" in `references/13-sources.md`.

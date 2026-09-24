@@ -158,6 +158,32 @@ annihilation or decay - distinguishing the two requires the spectral shape, an
 eventual high-energy cutoff or lack thereof, and consistency with other channels
 (gamma-ray, anisotropy), not the excess alone.
 
+## Worked walkthrough: a proton flux point from counts (verified 2026-09-24)
+
+The bin is 5.0-6.0 GV, with the spacecraft at geomagnetic latitude 40 deg and r = 1.0627 Earth
+radii (ISS-like).
+
+```bash
+python3 scripts/geomagnetic_cutoff.py --latitude 40 --altitude-re 1.0627
+python3 scripts/cosmic_ray_flux.py --counts 320 --exposure 2.4e5 --bin-width 1.0
+python3 scripts/solar_modulation_force_field.py --demodulate --energy 4.641 --mass 0.938272 \
+    --charge 1 --phi 0.6 --toa-flux 1.0
+```
+
+1. **Cutoff.** The vertical Stormer cutoff is 4.54 GV. With a 1.2 safety factor (5.45 GV), this
+   position contributes exposure only to bins above about 5.5 GV, so for this bin the exposure
+   comes only from time spent where `1.2 * Rc < 5.0 GV`. The real selection uses the per-second
+   backtraced cutoff, and the Stormer value is a planning check only.
+2. **Flux.** For 320 counts with exposure 2.4e5 m^2 sr s (already cutoff-filtered) and a 1 GV
+   bin, the flux is 1.333e-3 (m^2 sr s GV)^-1 with an exact 68% interval of
+   [1.259, 1.412]e-3. Report the counts, exposure, and bin width separately. Plot the point at
+   the spectrum-weighted rigidity, not at the bin center.
+3. **Solar modulation.** The flux is top-of-instrument (TOA). To compare it with a LIS,
+   convert to kinetic energy (5.5 GV -> T = 4.641 GeV for a proton), convert the flux per GV to
+   a flux per GeV, and demodulate. At phi = 0.6 GV the LIS flux is 1.233x the TOA flux, at
+   T_LIS = 5.241 GeV. The force field is a one-parameter approximation, so state phi, the
+   epoch, and the model.
+
 ## Deliverables
 
 - Whether the reported spectrum is quoted at the top of the atmosphere/instrument

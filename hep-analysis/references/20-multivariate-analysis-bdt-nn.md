@@ -185,6 +185,53 @@ unreproducible classifier score.
   ranking above a kinematic variable expected to dominate) is a signal to investigate
   for a labeling or leakage bug before proceeding.
 
+## Worked walkthrough: training a BDT without leakage (verified 2026-09-24)
+
+```python
+# Two-fold split by event number; each event is scored only by the model that never saw it.
+# Needs numpy, scipy, scikit-learn. Synthetic data: 4 features, 2 of them discriminating.
+import numpy as np
+from scipy.stats import ks_2samp
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.metrics import roc_auc_score
+
+rng = np.random.default_rng(0)
+n = 20_000
+event_id = np.arange(n)                      # stand-in for (run, lumi, event)
+y = rng.random(n) < 0.3
+X = rng.normal(size=(n, 4)) + y[:, None] * np.array([0.8, 0.5, 0.0, 0.0])
+fold = event_id % 2                          # fixed before any training or tuning
+
+scores, models = np.empty(n), {}
+for k in (0, 1):
+    train = fold != k
+    models[k] = HistGradientBoostingClassifier(max_iter=60, learning_rate=0.05, max_depth=2,
+                                               min_samples_leaf=300, random_state=0).fit(X[train], y[train])
+    scores[fold == k] = models[k].predict_proba(X[fold == k])[:, 1]
+
+train_auc = roc_auc_score(y[fold == 1], models[0].predict_proba(X[fold == 1])[:, 1])
+test_auc = roc_auc_score(y[fold == 0], scores[fold == 0])
+for label in (True, False):                  # overtraining check per class
+    tr = models[0].predict_proba(X[(fold == 1) & (y == label)])[:, 1]
+    te = scores[(fold == 0) & (y == label)]
+    print(f"class={label}: KS p-value train vs test = {ks_2samp(tr, te).pvalue:.3f}")
+print(f"AUC train fold {train_auc:.3f}, held-out fold {test_auc:.3f}")
+```
+
+Observed:
+- With the default-sized model (`max_iter=200`, no depth limit) the checks flag
+  overtraining: AUC 0.93 on the training fold versus 0.71 held out, and KS p < 1e-3.
+- With the shallow configuration above: AUC 0.751 versus 0.739, KS p = 0.26 and 0.53, close
+  to this toy's Bayes-optimal AUC of Phi(0.943/sqrt(2)) = 0.748.
+
+Rules this encodes:
+- The split is by event identifier and fixed in advance.
+- The analysis uses only held-out scores.
+- Hyperparameters are tuned inside the training fold (nested CV or `early_stopping`), not by
+  looking at held-out results. Choosing the configuration by the held-out AUC, as this
+  illustration does, would itself leak.
+- The selection cut on the score is also fixed before the signal region is unblinded.
+
 ## Deliverables
 
 - Classifier family chosen and the comparison (if any) against a simpler baseline
