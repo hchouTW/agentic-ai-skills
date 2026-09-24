@@ -1,6 +1,6 @@
 # Validation Report
 
-Validation date: 2026-09-20. Environment: Python 3 standard library only.
+Validation date: 2026-09-20 (latest pass: round 5, 2026-09-25). Environment: Python 3 standard library only.
 
 ## Files
 
@@ -130,6 +130,35 @@ Judgement calls a human should confirm (each is new structure, not new evidence)
 - S19 and S40 have `access_date: null` (the old index says not verified this session); every other row has 2026-09-20.
 - DOIs for grouped rows S03 and S18 were expanded from the old shorthand (`.121102`, `.05.010`) to full DOIs; S16 and S20 keep only the one DOI the old ledger listed.
 - S05 inconsistency resolved (2026-09-21): the electron-flux main article is one of the nine papers read in full text (see the source paragraph above) and claim C26 quotes it, so `full-text (main article only)` is correct; the old "metadata-only" bullet was the error. Supplemental Material of S05 remains unread.
+
+## Round 5: independent grading of the S01-derived tests (2026-09-25)
+
+Full record: `tests/grading/round5.md`. Archived answers are in `tests/grading/round5_answers/`
+(32 answers plus 6 rerun answers) and the graders' defect lists are in
+`tests/grading/round5_grades/`. Setup:
+- 16 prompts (T05, T08, T23, T24, T29-T33, T35-T41), two Sonnet samples each.
+- Four Opus graders with the rubric and `data/claims.json`; each checked every claim ID and
+  number against the ledger.
+- Deviation: each answerer handled 4 prompts rather than 1.
+
+Result: **261/320 = 81.6%, no blocking failure; below the 90% bar.**
+- No invented or mis-sourced AMS number.
+- Losses came from source discipline: missing C-IDs, overstated verification level, missing
+  cross-citations, scope widening. Some required items were also missing.
+- The T30 grader found a genuine reference bug. `inference-and-unfolding` had the two
+  response-matrix column-sum cases reversed relative to `validate_response.py`; it is fixed.
+- Three narrow fixes followed: the claim-ID and verification-level wording in `SKILL.md`, the
+  scope of C99 in `antimatter-and-leptons`, and the brief template in `analysis-artifacts`,
+  which had disagreed with the T29 rubric.
+
+A targeted rerun (one fresh sample each of T29, T30, T35, T36, T40, T41; new Opus grader)
+scored 47/60 = 78%, again with no blocking failure.
+- T36 improved: the scope fix held.
+- T29 did not: the answer still misses test-specific critical items.
+- The rest moved within the 1-2 point spread of a single sample.
+
+Not demonstrated: that the skill passes the 90% bar under this stricter grading. Earlier
+rounds 3-4 scored about 95%, but they used fewer and older tests.
 
 ## Unresolved gaps and limitations
 
