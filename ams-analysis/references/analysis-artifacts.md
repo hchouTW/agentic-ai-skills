@@ -50,7 +50,7 @@ Rules that the schema encodes: a correction appears once (`effect_id` is unique 
 
 ## Artifact templates
 
-1. **Measurement brief** (produced from `measurement`, `data_scope`, `observables`, `unresolved_inputs`): estimand; target and level; species with `abs_Z`, `A`, sign, mass source; variable, unit, range, bins; data or MC scope and period; subsystem roles; what is public versus user-supplied; open inputs. One page, symbolic, no invented AMS numbers.
+1. **Measurement brief** (produced from `measurement`, `data_scope`, `observables`, `unresolved_inputs`): estimand; target and level; species with `abs_Z`, `A`, sign, mass source; variable, unit, range, bins; data or MC scope and period; subsystem roles; what is public versus user-supplied; one line each, pointing to the ledgers below, for selections (with their conditional denominators), backgrounds with their controls, efficiency/acceptance/livetime/response kept distinct, the inference method, and validation as metric-threshold-action; open inputs. One page, symbolic, no invented AMS numbers.
 2. **Selection ledger**: the `selections` array; every row has a named conditional denominator and at least one validation with metric, threshold and action.
 3. **Background registry**: the `backgrounds` array; every row has an estimator plus a control region or constraint, and a closure test.
 4. **Systematic registry**: the `systematics` array; one row per effect, each with its `applied_via`.
