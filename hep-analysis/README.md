@@ -29,6 +29,8 @@ From the skill directory:
 
 ```bash
 python3 -m unittest discover -s tests -v
+# ROOT integration tests skip unless PyROOT imports; point them at a ROOT-capable Python:
+HEP_ROOT_PYTHON=/opt/homebrew/bin/python3.14 python3 -m unittest tests.test_root_integration -v
 python3 scripts/audit_histograms.py assets/histograms.example.json
 python3 scripts/counting_reference.py --observed 0 --background 0 --level 0.95
 python3 scripts/make_yield_table.py --help

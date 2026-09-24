@@ -1,7 +1,80 @@
 # Package Validation Record
 
-Validation date: 2026-09-05. Helper test environment: Python 3, standard library
-plus PyYAML.
+Validation date: 2026-09-24 (latest pass; earlier passes dated below). Helper test
+environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
+(Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests.
+Current counts: bundle 132 files; 191 tests (7 ROOT tests skip without PyROOT).
+
+## P1 verification pass: ROOT assets run for real, physics cross-checks (2026-09-24)
+
+Environment: PyROOT does not load under miniconda `python3` (ABI mismatch) but works
+under Homebrew `python3.14`. uproot 5.7.4 / awkward 2.9.0 / scipy 1.17.1 under miniconda;
+pyhf 0.7.6 in a throwaway scratch venv. New `tests/make_root_fixtures.py` writes a
+synthetic `Events` tree (jagged muons, ~5% negative weights), nominal/`jes_Up`/`jes_Down`
+histograms, a mass peak, and a RooWorkspace.
+
+Run for real, all passing:
+- CMake configure + build with ROOT of `cpp_rdataframe_analysis.cpp`, `rdf_analysis.cpp`,
+  `fit_histogram.cpp`; the shipped `assets/CMakeLists.txt`; and a project scaffolded
+  by `scripts/new_root_cpp_project.sh` (built and run). Executables ran on the fixture;
+  bad-input paths exit non-zero with clear messages.
+- `plot_branch.C` runs interpreted (`root -b -q`). **Not verified with ACLiC (`+`)**:
+  ACLiC fails here even for an empty macro (macOS SDK header mismatch), which is an
+  environment problem, not a problem in the template.
+- `pyroot_rdataframe_analysis.py` yields a cutflow identical to the C++ one (5000 ->
+  3044 -> 2718 -> 2223) and a bin-identical histogram.
+- `pyroot_roofit_signal_background.py` recovers the injected peak (mean 90.89 +- 0.06
+  vs 91.0, sigma 2.43 +- 0.05 vs 2.5, nsig 2944 +- 67 vs 3000), status 0, covQual 3.
+- The five PyROOT scripts ran on the fixtures (now in `tests/test_root_integration.py`).
+- `uproot_awkward_analysis.py` gives values identical to the C++/PyROOT output.
+- `pyhf-counting.json`: validates against the pyhf schema; `pyhf cls` gives CLs_obs =
+  0.335 at mu=1; 95% CLs upper limit mu < 2.15 (expected 1.50), plausible for n=b=20
+  with a 10% background normsys.
+- **Combine datacard not verified**: building standalone Combine (cloning and
+  compiling external code) was blocked in this session's permission mode. The template
+  is placeholder text, not a parseable card.
+
+Defects found and fixed:
+- **Physics change: `geomagnetic_cutoff.py` was not the vertical cutoff.** It used
+  `(1 + sqrt(1 + cos^3 lambda))^2` in the denominator, which is the Stormer cutoff for
+  arrival from the western horizon, giving 10.2 GV at the equator. The vertical cutoff
+  (Smart & Shea 2005) is `14.9 cos^4(lambda)/r^2` GV. Fixed in the script, in
+  reference 35, and in the test, which had attributed the wrong value to Gaisser.
+  `orbit_averaged_geomagnetic_cutoff.py` inherits the fix: all its cutoffs rise by a
+  factor (1+sqrt(1+cos^3))^2/4, which is 1.46 at the equator and falls toward 1 at the poles.
+- `uproot_awkward_analysis.py` wrote `(values, edges)`, which drops sum(w^2). Its bin
+  errors were therefore sqrt(sum w), wrong with the negative weights. It now writes a
+  full TH1D with `fSumw2`; errors, flow bins, and moments now match the RDataFrame output.
+  Added a header noting that the config's `selection`/`histograms` blocks are
+  descriptive (the selection is hard-coded).
+- `inspect_root_file.py` printed an empty type `[]` for every leaf-list branch; it now
+  falls back to the leaf type (e.g. `Float_t`).
+- Docs: `solar_modulation_force_field.py` and reference 35 said energies could be
+  per nucleon "consistently". The `|Z| phi` shift is only right for total kinetic
+  energy; per nucleon it is `(|Z|/A) phi`. Doc fix only, code unchanged.
+
+Independent physics cross-checks (`tests/test_reference_values.py`):
+- Li & Ma eq. 17 equals a numerical Poisson profile-likelihood ratio (scipy) to 1e-6.
+- Clopper-Pearson matches `scipy.stats.beta` quantiles, and the Garwood Poisson interval
+  matches `scipy.stats.chi2` quantiles, to 1e-8 or better.
+- Bethe-Bloch minimum for muons matches the PDG tables to within 0.05% in Ar/Ne/Xe. It
+  is 1.8% (Si) and 2.5% (water) high because the density effect is omitted, as
+  documented.
+- Highland (PDG form, including the z^2 log term), Cherenkov threshold/saturation in
+  water, the force field against Gleeson-Axford by hand, the Gaisser-Hillas peak,
+  TOF differences, and the calorimeter fit recovering its generated terms.
+- Constants and units assumed: Highland 13.6 MeV / 0.038; Bethe K = 0.307075 MeV
+  cm^2/mol, PDG Z/A and I; Stormer C = 59.6 GV at dipole moment 8.05e25 G cm^3 and
+  r_E = 6371 km; masses in GeV from PDG; rigidity in GV, energy in GeV, phi in GV.
+
+Reference audit (references 18-50): every line with a hard number was checked against
+standard PDG/textbook values from knowledge (not re-fetched live). Corrected: the
+Bethe-Bloch upper validity limit in reference 40 (was `beta gamma ~ 100`; PDG gives ~1000
+for muons, and electrons are not described by the formula), and the IACT light-pool radius
+in reference 33 (was 100-250 m, now ~120-150 m). All other numbers were correct,
+including the worked residual statistics in reference 46, which were recomputed.
+Added sources (Smart & Shea, Gleeson & Axford, Clopper-Pearson, Garwood, Gaisser-Hillas)
+and a latest-results policy to `references/13-sources.md`.
 
 ## Deep test pass (2026-09-05)
 

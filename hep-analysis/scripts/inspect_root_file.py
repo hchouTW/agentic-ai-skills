@@ -41,7 +41,11 @@ def main() -> None:
             print(f"entries: {tree.GetEntries()}")
             print("branches:")
             for branch in tree.GetListOfBranches():
-                print(f"  {branch.GetName()} [{branch.GetClassName()}]")
+                # Leaf-list branches of fundamental types have an empty class name; use the leaf type.
+                type_name = branch.GetClassName() or ", ".join(
+                    leaf.GetTypeName() for leaf in branch.GetListOfLeaves()
+                )
+                print(f"  {branch.GetName()} [{type_name}]")
 
         if args.hist:
             hist = root_file.Get(args.hist)

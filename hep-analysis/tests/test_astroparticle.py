@@ -85,10 +85,14 @@ class LiMaSignificanceTests(unittest.TestCase):
 
 class GeomagneticCutoffTests(unittest.TestCase):
     def test_equatorial_cutoff_matches_known_dipole_value(self):
-        # Standard textbook value (Gaisser, Cosmic Rays and Particle Physics):
-        # Rc = 59.6 / (1+sqrt(2))^2 ~= 10.2 GV at the geomagnetic equator, sea level.
+        # Vertical Stormer cutoff, Smart & Shea 2005 (Adv. Space Res. 36, 2012):
+        # Rc = 14.9 GV * cos^4(lambda) / r^2, i.e. 59.6/4 = 14.9 GV at the equator.
         cutoff = stormer_cutoff_gv(0.0)
-        self.assertAlmostEqual(cutoff, 59.6 / (1.0 + math.sqrt(2.0)) ** 2, places=6)
+        self.assertAlmostEqual(cutoff, 14.9, places=6)
+        # cos^4 latitude dependence: at 60 deg, 14.9 / 16.
+        self.assertAlmostEqual(stormer_cutoff_gv(60.0), 14.9 / 16.0, places=6)
+        # 1/r^2 altitude dependence: ISS-like r = 1.0627 Earth radii.
+        self.assertAlmostEqual(stormer_cutoff_gv(0.0, altitude_re=1.0627), 14.9 / 1.0627 ** 2, places=6)
 
     def test_cutoff_decreases_monotonically_toward_the_pole(self):
         latitudes = [0.0, 20.0, 40.0, 60.0, 80.0, 90.0]

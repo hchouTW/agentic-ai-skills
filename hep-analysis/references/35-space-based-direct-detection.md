@@ -31,11 +31,13 @@ atmosphere (or a near-Earth satellite) if its rigidity exceeds a minimum, the
 **geomagnetic cutoff rigidity**. For a simple dipole approximation, the vertical
 (zenith-pointing) cutoff at geomagnetic latitude `lambda_m` is the **Störmer cutoff**:
 
-    R_c = (M / r^2) * cos^4(lambda_m) / (1 + sqrt(1 + cos^3(lambda_m)))^2
+    R_c = C * cos^4(lambda_m) / (r^2 * (1 + sqrt(1 - sin(eps) sin(xi) cos^3(lambda_m)))^2)
 
-with `M` the Earth's dipole moment and `r` the geocentric distance, giving a cutoff
-of a few tens of GV at the geomagnetic equator falling to essentially zero at the
-poles - the reason polar-orbit low-cutoff regions are preferred for measuring the
+with zenith angle `eps`, azimuth `xi`, `C = 59.6 GV` (proportional to the Earth's dipole
+moment `M`) and `r` the geocentric distance in Earth radii. For vertical arrival the
+square root is 1, so `R_c = 14.9 GV * cos^4(lambda_m) / r^2` (Smart & Shea 2005): about
+15 GV at the geomagnetic equator at the surface (~13 GV at ISS altitude), falling to
+essentially zero at the poles - the reason polar-orbit low-cutoff regions are preferred for measuring the
 lowest-rigidity cosmic rays, and why any flux measurement from a satellite in an
 inclined orbit must either restrict to high-cutoff geomagnetic regions for a clean
 low-energy cutoff or explicitly model the orbit-averaged, direction-dependent cutoff
@@ -73,8 +75,10 @@ spectrum, LIS), `J_LIS(E_LIS)`, via
 
     J(E) = (2 m E + E^2) / (2 m E_LIS + E_LIS^2) * J_LIS(E_LIS),   E_LIS = E + |Z|*phi
 
-for a particle of rest mass `m` and charge `|Z|`, evaluated at the same time as the
-measurement. This is an effective, not physical, one-parameter model - it does not
+for a particle of total rest mass `m`, total kinetic energy `E` and charge `|Z|`
+(Gleeson & Axford 1968), evaluated at the same time as the measurement. In kinetic
+energy per nucleon the shift is `(|Z|/A)*phi` with `m` the nucleon mass - mixing
+per-nucleon `E` with `|Z|*phi` over-modulates every `A > 1` nucleus. This is an effective, not physical, one-parameter model - it does not
 capture charge-sign dependence, latitude dependence, or short-timescale transients -
 and its use should be limited to what it is good for: comparing or combining
 measurements made in similar solar conditions, and providing a rough LIS estimate

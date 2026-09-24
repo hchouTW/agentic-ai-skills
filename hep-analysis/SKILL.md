@@ -146,6 +146,8 @@ When creating or modifying any code file (C++ source/headers, ROOT macros, PyROO
 - `assets/pyroot_roofit_signal_background.py`, `assets/fit_histogram.cpp`, `assets/plot_branch.C`: RooFit signal+background fit and fitting/plotting macro templates.
 - `assets/CMakeLists.txt`, `assets/analysis_config.yaml`, `assets/systematics_config.yaml`, `assets/statistical_histogram_config.yaml`, `assets/combine_datacard_template.txt`: build and config templates (copy and adapt).
 - `tests/test_helpers.py`: standard-library tests for `audit_histograms.py`/`counting_reference.py`/`tag_and_probe_efficiency.py`/`pileup_reweight.py`. Run `python3 -m unittest discover -s tests -v`.
+- `tests/test_reference_values.py`: cross-checks the physics helpers against independent references (scipy quantiles, a numerical profile likelihood, PDG table values, Smart & Shea); scipy tests skip if scipy is missing.
+- `tests/test_root_integration.py` + `tests/make_root_fixtures.py`: run the PyROOT scripts and assets end to end on synthetic ROOT fixtures; skipped unless PyROOT imports (set `HEP_ROOT_PYTHON`, e.g. Homebrew's `python3.14`, when conda Python cannot load Homebrew ROOT).
 
 Resolve relative paths from the skill directory. Read a script's `--help` before use. Write outputs to the appropriate user-project location. Use the project's existing ROOT/PyROOT/uproot/pyhf environment; loading this skill needs no software install, but PyROOT-dependent scripts above need PyROOT. When a script's output (branch/key listings, bin-by-bin diffs, workspace contents) is large, summarize it: report counts and the top ~20 offending/differing entries rather than the full dump.
 

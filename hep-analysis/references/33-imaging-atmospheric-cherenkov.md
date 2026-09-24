@@ -16,7 +16,7 @@ shower's Cherenkov light pool in the atmosphere.
 
 A charged shower particle traveling faster than the local speed of light in air emits
 Cherenkov light, which for a full electromagnetic cascade sums into a light pool
-roughly 100-250 m in radius on the ground, lasting a few nanoseconds, peaking in the
+roughly 120-150 m in radius (~250 m across) on the ground, lasting a few nanoseconds, peaking in the
 near-UV/blue. An **imaging atmospheric Cherenkov telescope** (IACT) - a large
 segmented mirror focusing this light onto a fast, finely pixelated camera - within the
 light pool's footprint records a two-dimensional image of the shower's angular

@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (hep-analysis)
 
-State at 2026-09-21: skill is on `main`; the standard-library tests and `scripts/validate_skill_bundle.py` pass
+State at 2026-09-24: P1 and P4 done (see the 2026-09-24 section of `VALIDATION.md`). Earlier state, 2026-09-21: skill is on `main`; the standard-library tests and `scripts/validate_skill_bundle.py` pass
 (see `VALIDATION.md`). Most of the verification so far was structural or numerical on pure-Python helpers. Nothing
 in the skill has been checked by running it on a fresh model. Read `VALIDATION.md` first, then this file.
 
@@ -10,7 +10,9 @@ Working rules: work on a branch, run `python3 -m unittest discover -s tests` and
 merging. Record every result (including negative ones) in `VALIDATION.md`. Do not change physics behavior in a
 template or reference without saying so.
 
-Environment facts found on 2026-09-21 (re-check, they may have changed):
+Environment facts (re-check, they may have changed). 2026-09-24: PyROOT works under
+`/opt/homebrew/bin/python3.14`; set `HEP_ROOT_PYTHON` to it for `tests/test_root_integration.py`.
+ACLiC (`macro.C+`) fails even for an empty macro (macOS SDK mismatch). Found 2026-09-21:
 - `root` 6.38 is installed by Homebrew (`/opt/homebrew/Cellar/root/...`), but `import ROOT` fails under the
   miniconda `python3` (cppyy symbol error, Python ABI mismatch). Try Homebrew's own Python
   (`$(brew --prefix root)/...` or `python3.1x` from Homebrew) before concluding PyROOT is unavailable.
@@ -18,26 +20,32 @@ Environment facts found on 2026-09-21 (re-check, they may have changed):
   Install into a scratchpad venv, not the user's conda base.
 
 ## P1 - close known verification gaps (things never actually run)
-- [ ] Run the ROOT-dependent assets for real: `assets/cpp_rdataframe_analysis.cpp`, `rdf_analysis.cpp`,
+- [x] (2026-09-24) Run the ROOT-dependent assets for real: `assets/cpp_rdataframe_analysis.cpp`, `rdf_analysis.cpp`,
       `fit_histogram.cpp`, `plot_branch.C`, `pyroot_rdataframe_analysis.py`, `pyroot_roofit_signal_background.py`,
       and `scripts/new_root_cpp_project.sh` through a full `cmake` configure + build. Previously only `cmake`
       up to `find_package(ROOT)` and `py_compile` were checked. Make a tiny synthetic TTree to feed them.
-- [ ] Run the five PyROOT scripts (`inspect_root_file.py`, `check_systematic_variations.py`,
+- [x] (2026-09-24) Run the five PyROOT scripts (`inspect_root_file.py`, `check_systematic_variations.py`,
       `compare_root_histograms.py`, `summarize_histogram_statistics.py`, `roofit_workspace_summary.py`) against a
       real ROOT file / RooWorkspace, not just `--help`. Add the fixture generator to `tests/` (skip if no ROOT).
-- [ ] Run `assets/uproot_awkward_analysis.py` with `assets/analysis_config.yaml` on a synthetic file
+- [x] (2026-09-24; fixed missing sumw2) Run `assets/uproot_awkward_analysis.py` with `assets/analysis_config.yaml` on a synthetic file
       (needs `uproot`, `awkward`).
-- [ ] Validate `assets/pyhf-counting.json` with `pyhf` (schema + a `pyhf cls` run) and
+- [~] (2026-09-24: pyhf done; Combine NOT verified, since building it from external source was blocked in auto mode. Ask the user to allow it or to supply a `combine` install) Validate `assets/pyhf-counting.json` with `pyhf` (schema + a `pyhf cls` run) and
       `assets/combine_datacard_template.txt` with `combine` if obtainable (else mark "not verified" honestly).
-- [ ] Numerically cross-check the physics helpers against independent references, not only self-consistency:
+- [x] (2026-09-24; `tests/test_reference_values.py`; Stormer vertical-cutoff bug fixed) Numerically cross-check the physics helpers against independent references, not only self-consistency:
       `li_ma_significance.py` (Li & Ma 1983 eq. 17 worked values), `tag_and_probe_efficiency.py`
       (Clopper-Pearson vs `scipy.stats.beta`), `cosmic_ray_flux.py`, `geomagnetic_cutoff.py` (Stormer vs published
       vertical cutoffs), `solar_modulation_force_field.py`, `xmax_gaisser_hillas.py`, `cherenkov_angle.py`,
       `multiple_scattering.py` (PDG Highland formula), `calorimeter_resolution.py`, `pid_separation_power.py`.
       Record which constants/units each script assumes.
-- [ ] Audit the physics claims and numbers in `references/18-50` against primary sources
+- [x] (2026-09-24, checked from knowledge and not re-fetched live; 2 corrections) Audit the physics claims and numbers in `references/18-50` against primary sources
       (PDG review, experiment papers). Every hard number needs a source in `references/13-sources.md`
       or should be removed/softened. Flag anything time-sensitive (latest results) as needing a date.
+
+## P1 follow-ups found 2026-09-24
+- [ ] `assets/uproot_awkward_analysis.py` ignores the config's `selection.cuts` and `histograms` (hard-coded
+      selection). Either implement config-driven cuts or trim the config so it does not imply they are used.
+- [ ] Live re-check of the numbers in the latest-results policy list (`references/13-sources.md`), with dates.
+- [ ] Try `plot_branch.C+` (ACLiC) on a machine where ACLiC works.
 
 ## P2 - test that the skill actually changes model behavior
 The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven until a fresh model is run on them.
@@ -74,7 +82,7 @@ The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven
 - [ ] Skill-doctor / skill-reviewer pass on `SKILL.md` and `README.md` (`plugin-dev:skill-reviewer`).
 
 ## P4 - housekeeping and decisions
-- [ ] Remove stray `scripts/__pycache__` and `tests/__pycache__` from the working tree if they are untracked and not ignored.
-- [ ] Update `VALIDATION.md` header date and counts (file count, test count) after each pass.
-- [ ] Ask the user: which experiment(s) matter most (CMS/ATLAS Combine vs AMS/IACT)? This sets what to prioritise in P2 prompts.
-- [ ] Ask the user whether a `hep-analysis` "latest results" policy is wanted (sources/dates to re-verify periodically).
+- [x] (already gitignored; no action) Remove stray `scripts/__pycache__` and `tests/__pycache__` from the working tree if they are untracked and not ignored.
+- [ ] Update `VALIDATION.md` header date and counts (file count, test count) after each pass. (Recurring; last done 2026-09-24.)
+- [x] Asked 2026-09-24: all three matter equally (AMS-02/space-based, CMS/ATLAS collider, IACT/neutrino/air shower), so balance the P2 prompts across them.
+- [x] Asked 2026-09-24: yes. Added as "Latest-results policy" in `references/13-sources.md`.
