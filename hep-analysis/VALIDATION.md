@@ -3,7 +3,83 @@
 Validation date: 2026-09-24 (latest pass; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests.
-Current counts: bundle 132 files; 191 tests (7 ROOT tests skip without PyROOT).
+Current counts: bundle 135 files; 197 tests (7 ROOT tests skip without PyROOT).
+
+## P2 behavior pass: fresh-model prompt, trigger, and example tests (2026-09-24)
+
+Method: `tests/prompts.md` holds 16 prompts (14 graded HEP prompts balanced across
+collider, space-based/AMS, and IACT/neutrino/air-shower work, plus 2 negative controls),
+each with its expected behaviors (E) and failure signals (F). Each prompt went to fresh
+subagents that saw only the prompt text (never the E/F lists), in four arms:
+{with skill, baseline without skill} x {Opus, Haiku}. With-skill agents read `SKILL.md` and
+followed its routing; baseline agents were barred from the repo and from skills.
+Answers were capped at ~220 words. I graded them against E/F. This grading is a single
+judgment per answer, not a blind panel.
+
+| Arm | PASS | PARTIAL | FAIL |
+|---|---|---|---|
+| Opus + skill | 16 | 0 | 0 |
+| Opus baseline | 16 | 0 | 0 |
+| Haiku + skill | 12 | 3 (P08, P09, P12) | 1 (P02) |
+| Haiku baseline | 3 | 7 | 6 (P01, P02, P08, P09, P11, P13) |
+
+Findings:
+- On Opus the skill does not change verdicts. Opus already knows these conventions. With the
+  skill it adds tool use (it ran `cosmic_ray_flux.py` and `li_ma_significance.py`), more
+  explicit reporting (raw count, exposure and bin width stated separately), and deferral of
+  "latest AMS" questions to `ams-analysis`.
+- On Haiku the skill matters. Baseline Haiku endorsed sqrt(N) for 3 events, quadrature errors
+  for a correlated ratio, "absolute or signed" NLO weights with a post-skim sum, and "~50%
+  mixed" from mean X_max. It also claimed the TRD measures charge sign. The skill fixed all
+  of these.
+- Negative controls (Linux root, PyTorch AMP) were answered without the skill in every arm.
+- Gaps the test exposed, and fixes:
+  - P02: Haiku with the skill checked jet multiplicity *before* the object cuts, then indexed
+    unselected jets. The cause was that both reference snippets showed the multiplicity check
+    on an uncut collection. `references/02-data-pipelines.md` now shows the ordered pattern
+    (object mask -> sort -> count -> event mask -> index; verified on a synthetic awkward
+    array), and `references/17-python-hep-coding.md` points to it.
+  - P09: charge confusion was listed as a shared systematic. The `SKILL.md` ratio invariant now
+    says species-specific effects belong to one yield.
+  - P12: the significance was estimated rather than computed, and there was no plain verdict.
+    `references/37` deliverables now require the computed value, the post-trials p, and a verdict.
+- Rerun on Haiku + skill after the fixes, on the same prompts:
+  - P02 and P09 now pass: the ordered jagged pattern is used, and charge confusion is
+    assigned to the antiproton yield only.
+  - P12 still partially failed on the first rerun. The model did not run the script, and it
+    claimed the effective trials could be 10,000, more than the 400 positions tested. The
+    ref-37 look-elsewhere text said "sky area / PSF solid angle" with no upper bound. It now
+    says `N_eff ~ min(N_positions, area/PSF)` and gives `p_global = 1-(1-p_local)^N_eff`,
+    with a worked example deliberately using *different* numbers from the test prompt.
+  - Second rerun: P12 passes. The model ran `li_ma_significance.py`, got 2.74 sigma and
+    p_global of about 0.7, and gave the verdict "not a detection".
+  - Final Haiku + skill score: 15 PASS, 1 PARTIAL (P08: exact interval and asymmetric errors
+    are there, but no computed flux). Caveat: these reruns reuse the prompts that guided the
+    fixes, so they show the fixes work, not that the skill generalizes. A fresh prompt set is
+    needed for that.
+- Added `tests/test_yield_table.py`: 6 CLI tests for `make_yield_table.py`, which had none,
+  covering negative yields and the missing-file, missing-column, empty and non-numeric paths.
+
+Trigger test (`tests/trigger_queries.json`): 20 should-trigger and 20 should-not-trigger
+queries, including near-misses (AMS latest/design questions, PyTorch/HEP-ML, Linux/Android/
+certificate "root", root-mean-square, polynomial roots, JHEP formatting, Feynman diagrams).
+A fresh agent was given the real descriptions of all seven repo skills and chose which to load.
+This is an approximation of the harness's own skill selection, not the harness itself.
+- Opus: recall 20/20, false triggers 0/20. Haiku: 20/20, 0/20.
+- Every near-miss went to the right sibling (`ams-analysis`, `deep-learning`,
+  `academic-diagrams`, `academic-papers`, `task-authoring`, `agile-development`) or to none.
+  The description was left unchanged (977 characters), so sibling validators did not need a rerun.
+
+Examples:
+- `task-authoring/scripts/validate_skill_example.py`: all 24 pass.
+- `check_example_diversity.py` flags 3 examples per archetype for every skill in the repo,
+  which is the repo-wide convention. Nothing was changed.
+- Python blocks, 23 in total: 12 run standalone. The test-first examples (19-21) were run end to
+  end by building each hypothetical module from the example's own code. The buggy
+  implementation fails its test and doctest, and the fixed one passes both, as each example
+  claims. Their three REPL transcripts are now fenced as `pycon`. The remaining failures are
+  continuation fragments (16, 18) or imports of the hypothetical project under audit (17, 18),
+  and the surrounding text presents them as such.
 
 ## P1 verification pass: ROOT assets run for real, physics cross-checks (2026-09-24)
 

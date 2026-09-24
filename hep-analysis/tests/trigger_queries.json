@@ -1,0 +1,162 @@
+[
+ {
+  "query": "How do I propagate JER smearing to MET in NanoAOD?",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "Explain the bias-variance tradeoff in ridge regression.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "My Geant4 simulation of a calorimeter gives too narrow showers vs test beam, what physics list?",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "Explain the knee and ankle in the cosmic-ray spectrum and how composition changes.",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "How do I train a BDT for signal vs background without leaking the test set, in TMVA or xgboost?",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "Estimate the geomagnetic cutoff rigidity for a balloon flight at 70 degrees latitude.",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "Write a ticket for someone else to implement a CSV export endpoint.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "sudo says I'm not in the sudoers file, how do I become root on Ubuntu?",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "How do I derive Xmax from a Gaisser-Hillas fit to fluorescence data?",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "How do I unfold a jet pT spectrum with RooUnfold iterative Bayes?",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "How do I plot a histogram in matplotlib with log y axis?",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "My RDataFrame Filter chain is slow on 200 files, how do I parallelize it?",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "Summarize this arXiv paper on dark matter direct detection.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "uproot: how to read only three branches from a 50 GB TTree in chunks?",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "Set up DDP training on 8 GPUs for a physics-informed neural network.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "My PyROOT script segfaults when the TFile is closed, why?",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "Fix this PyTorch DataLoader that is slow with num_workers=0.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "Refactor this Flask route to add pagination.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "Make a flowchart of my analysis pipeline for the paper.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "What was the latest AMS-02 positron fraction result and its TRD selection?",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "How do I reweight pileup in MC to match data?",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "What's the root mean square of these numbers: 1, 2, 3?",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "Compute Li & Ma significance for Non=120, Noff=400, alpha=0.2.",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "Draw a Feynman diagram for Higgs to two photons in TikZ.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "Help me write a referee response for my HEP paper.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "What resolution does a RICH with aerogel n=1.05 give for pi/K separation at 8 GeV?",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "Build me a pyhf workspace with one SR and two CRs and shapesys for MC stats.",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "How do I compute a tag-and-probe muon trigger efficiency with a Clopper-Pearson interval?",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "Find the roots of x^3 - 2x + 1 = 0.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "Calculate the cosmic-ray proton flux from 42 counts, exposure 3e6 m2 sr s, bin width 10 GV.",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "Format my paper for JHEP with the right bibliography style.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "Compute a 95% confidence interval for a mean with the t-distribution in R.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "My transformer loss goes NaN with bf16, debug it.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "Explain how to estimate QCD multijet background with an ABCD method.",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "Generate a Let's Encrypt root certificate chain for nginx.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "Write a CMakeLists for a ROOT C++ analysis that uses RDataFrame and RooFit.",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "My Combine fit has a nuisance pulled by 2 sigma, how should I interpret the impacts?",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "Design the AMS-02 antideuteron search selection and review it formally.",
+  "expect_hep_analysis": false
+ },
+ {
+  "query": "What's the effective area of IceCube for a muon neutrino track sample and how do I fold a power law through it?",
+  "expect_hep_analysis": true
+ },
+ {
+  "query": "How do I get root access on my Android phone?",
+  "expect_hep_analysis": false
+ }
+]

@@ -33,7 +33,8 @@ naming and general/ROOT-specific C++ design guidance, see
 
 - Read only the branches required for the event processing at hand.
 - Use awkward masks for jagged collections; check multiplicities before indexing
-  `[:, 0]`.
+  `[:, 0]`. With object cuts, count *after* the cuts (see the ordered pattern in
+  [data pipelines](02-data-pipelines.md)).
 - Convert to NumPy only at plotting or histogram-filling boundaries.
 - Preserve event weights as arrays aligned with the final selected event mask.
 - Document whether a systematic affects weights, object kinematics, or both.

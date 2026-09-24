@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (hep-analysis)
 
-State at 2026-09-24: P1 and P4 done (see the 2026-09-24 section of `VALIDATION.md`). Earlier state, 2026-09-21: skill is on `main`; the standard-library tests and `scripts/validate_skill_bundle.py` pass
+State at 2026-09-24: P1, P2 and P4 done (see the 2026-09-24 section of `VALIDATION.md`). Earlier state, 2026-09-21: skill is on `main`; the standard-library tests and `scripts/validate_skill_bundle.py` pass
 (see `VALIDATION.md`). Most of the verification so far was structural or numerical on pure-Python helpers. Nothing
 in the skill has been checked by running it on a fresh model. Read `VALIDATION.md` first, then this file.
 
@@ -49,22 +49,27 @@ ACLiC (`macro.C+`) fails even for an empty macro (macOS SDK mismatch). Found 202
 
 ## P2 - test that the skill actually changes model behavior
 The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven until a fresh model is run on them.
-- [ ] Write 10-15 realistic prompts (store in `tests/prompts.md`) covering: RDataFrame cutflow with signed weights,
+- [x] (2026-09-24: 16 prompts) Write 10-15 realistic prompts (store in `tests/prompts.md`) covering: RDataFrame cutflow with signed weights,
       uproot jagged selection, JES systematic implemented as a shape variation, ABCD closure failure,
       unblinding request on a masked region, low-count flux with Poisson interval, correlated ratio uncertainty,
       Li & Ma with trials factor, unfolding regularization choice, pyhf model with overlapping regions,
       a tuning-to-agree request (should be refused/redirected per invariants), an AMS-only question
       (should route to `ams-analysis`), and an unrelated "root" (Linux root) question (must not trigger).
       For each prompt write the expected behaviors (which invariant fires, which reference is read).
-- [ ] Run each prompt in a fresh subagent with and without the skill (baseline vs skill); compare against the
+- [x] (2026-09-24: Opus and Haiku x skill/baseline; results in VALIDATION.md) Run each prompt in a fresh subagent with and without the skill (baseline vs skill); compare against the
       expectations; log pass/fail in `VALIDATION.md`. Repeat with Haiku (weaker model) and Opus if possible.
-- [ ] Trigger test for the frontmatter `description`: 20 should-trigger and 20 should-not-trigger queries
+- [x] (2026-09-24: 20/20 recall, 0/20 false triggers on Opus and Haiku, simulated with descriptions only; `tests/trigger_queries.json`) Trigger test for the frontmatter `description`: 20 should-trigger and 20 should-not-trigger queries
       (include near-misses: `ams-analysis`, `deep-learning` HEP-ML, Linux root, generic statistics).
       Consider `skill-creator` description optimization; keep the description under its length limit.
-- [ ] Check routing hygiene with the sibling skills: `hep-analysis` vs `ams-analysis`, `academic-diagrams`,
+- [x] (2026-09-24: all near-misses routed to the right sibling; description unchanged) Check routing hygiene with the sibling skills: `hep-analysis` vs `ams-analysis`, `academic-diagrams`,
       `academic-papers`; run each affected skill's validator and tests after any description change.
-- [ ] Verify the 24 examples follow their archetype rules (`task-authoring/references/example-authoring.md`) and
+- [x] (2026-09-24: all 24 validate; test-first examples run end to end) Verify the 24 examples follow their archetype rules (`task-authoring/references/example-authoring.md`) and
       that every code snippet in them runs or is clearly labelled pseudo-code. Run the runnable ones.
+
+## P2 follow-ups found 2026-09-24
+- [ ] Re-run `tests/prompts.md` on Haiku after any change to references 02/17/37 or the SKILL.md invariants.
+- [ ] Trigger test was simulated (an agent given the descriptions). If a harness-level trigger eval becomes available
+      (e.g. `skill-creator` description optimization or `claude plugin eval`), re-run `tests/trigger_queries.json` through it.
 
 ## P3 - improve content and structure
 - [ ] `SKILL.md` is ~180 lines and the references total ~7,200 lines: check progressive disclosure. Confirm that a
@@ -73,11 +78,11 @@ The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven
       remove duplicated tables (`49-detector-comparison-tables.md` vs the per-detector files).
 - [ ] Add missing worked examples for topics with zero examples today: RooFit fit, pyhf workflow, Geant4 setup,
       IACT/neutrino analysis, cosmic-ray flux from counts, BDT training without leakage.
-- [ ] Add regression tests for scripts that have none (see `tests/`: only `test_helpers.py`, `test_astroparticle.py`,
+- [x] (2026-09-24: added `test_yield_table.py`, `test_reference_values.py`, `test_root_integration.py`; every script except the bundle validator now has a test) Add regression tests for scripts that have none (see `tests/`: only `test_helpers.py`, `test_astroparticle.py`,
       `test_ams02.py`). Cover error paths (bad input, zero counts, negative weights).
 - [ ] Add a minimal end-to-end sample analysis (synthetic ntuple generator -> cutflow -> histograms -> `pyhf` fit
       -> yield table) under `assets/` or `examples/` that exercises the scripts in sequence and can serve as a smoke test.
-- [ ] Multi-platform check (Codex, Antigravity): confirm `agents/openai.yaml` is current and that no instructions depend
+- [x] (2026-09-24: no Claude-only tool dependencies; openai.yaml short_description now covers astroparticle) Multi-platform check (Codex, Antigravity): confirm `agents/openai.yaml` is current and that no instructions depend
       on Claude-only tools. See the repo's multi-platform conventions.
 - [ ] Skill-doctor / skill-reviewer pass on `SKILL.md` and `README.md` (`plugin-dev:skill-reviewer`).
 
