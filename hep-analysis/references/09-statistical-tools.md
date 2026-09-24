@@ -42,6 +42,22 @@ A common workflow creates a workspace and runs fit diagnostics, asymptotic limit
 
 Check the naming, correlations, positivity, interpolation, and bounds of rate, shape, normalization, and MC-statistical constraints. Translating textual fields between tools does not necessarily create equivalent likelihoods.
 
+## Worked walkthrough: a pyhf workflow end to end (verified 2026-09-24)
+
+```bash
+pyhf cls assets/pyhf-counting.json                       # single-bin schema and CLs check
+python3 assets/end_to_end_sample_analysis.py --outdir demo_out   # full chain, needs numpy + pyhf
+```
+
+The first command gives CLs_obs = 0.335 at mu = 1 for n = b = 20 with a 10% normsys. The second
+builds a synthetic ntuple, normalizes it by the full signed weight sum, and makes a sumw/sumw2
+cutflow. It then fills orthogonal SR (njet >= 4) and CR (njet == 3) histograms and fits a shared
+`mu_bkg` normfactor, per-bin `staterror` from sumw2, and a lumi normsys to labelled Poisson
+pseudo-data. With mu injected = 1 it recovers mu = 0.91 +- 0.16 (Minuit) with an observed 95% CLs
+limit of 1.19; with mu injected = 0 it gives an observed limit of 0.25, inside the expected
+band [0.17, 0.56]. Reuse the pattern: keep regions orthogonal, take the MC-stat error from
+sumw2 and not from sqrt(N), and label pseudo-data and Asimov data as what they are.
+
 ## Cross-backend verification
 
 First compare main expected counts and auxiliary terms at identical parameter points. Then compare delta-NLL, fitted parameters, and profile curves before comparing limits. Absolute NLL values may differ by constants. Align statistics, bounds, constraint parameterizations, global observations, interpolation, and optimizer tolerances. Agreement of a final limit alone is insufficient evidence of equivalence.

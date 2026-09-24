@@ -1,6 +1,6 @@
 ---
 name: hep-analysis
-description: "Use when analyzing collider or astroparticle physics data/simulation: ROOT C++/PyROOT/uproot/awkward/RDataFrame pipelines; event selections, cutflows, histograms, fits, efficiencies, yields, unfolding, systematics, limits; RooFit/RooStats/pyhf/Combine; CMake/root-config builds. Also jets/JES/JER, b-tagging, MET, pileup, tag-and-probe efficiency, BDT/NN classifiers. Also detector subsystems (tracker, ECAL/HCAL, TRD, TOF, RICH, dE/dx, muon), PID, event reconstruction, Geant4 simulation, calibration. Also astroparticle/cosmic-ray physics: spectrum and composition (knee/ankle/GZK), air showers, ground-based arrays, imaging Cherenkov (IACT), neutrino telescopes, space-based direct detection (geomagnetic cutoff, solar modulation), multi-messenger analysis, Li & Ma significance/trials statistics, AMS-02 case study, and cosmic-ray flux from counts/exposure - e.g. 'my ROOT macro' or 'my AMS-02 flux calculation'. Not for unrelated 'root' (Linux/Android root, certificates)."
+description: "Use when analyzing collider or astroparticle physics data/simulation: ROOT C++/PyROOT/uproot/awkward/RDataFrame pipelines; event selections, cutflows, histograms, fits, efficiencies, yields, unfolding, systematics, limits; RooFit/RooStats/pyhf/Combine; CMake/root-config builds. Also jets/JES/JER, b-tagging, MET, pileup, tag-and-probe efficiency, BDT/NN classifiers. Also detector subsystems (tracker, ECAL/HCAL, TRD, TOF, RICH, dE/dx, muon), PID, event reconstruction, Geant4 simulation, calibration. Also astroparticle/cosmic-ray physics: spectrum and composition (knee/ankle/GZK), air showers, ground-based arrays, imaging Cherenkov (IACT), neutrino telescopes, space-based direct detection (geomagnetic cutoff, solar modulation), multi-messenger analysis, Li & Ma significance/trials statistics, AMS-02 case study, and cosmic-ray flux from counts/exposure - e.g. 'my ROOT macro' or 'my cosmic-ray flux from counts'. Not for unrelated 'root' (Linux/Android root, certificates)."
 ---
 
 # High-Energy Physics and Astroparticle Physics Experimental Analysis and Statistics
@@ -30,6 +30,8 @@ Don't mix more APIs than needed in one script; if mixing, keep boundaries clear 
 
 ## Analysis invariants
 
+### General
+
 - Do not silently change cuts, object ordering, binning, weights, corrections, models, parameter bounds, or nuisance correlations during a refactor. If a change risks altering physics output, say so and propose a comparison method (event count per cut, histogram integrals, max absolute/relative bin difference, fit parameters/uncertainties).
 - Preserve signed generator weights. Normalize with the sum of generator weights for the corresponding full production, not the selected entry count. Store both sumw and sumw2.
 - Do not count the same events, MC statistical information, or auxiliary measurement twice as independent likelihood information. Remove region overlaps or model them jointly.
@@ -41,11 +43,13 @@ Don't mix more APIs than needed in one script; if mixing, keep boundaries clear 
 - Do not tune simulation, calibration, or alignment parameters to remove a disagreement in the observable being measured. Tune only on independent control observables, with a stated physical justification, and carry the remaining freedom as a systematic.
 - Detector-level quantities are inferred, not observed. Rigidity is `p/q`, not momentum; efficiency is not acceptance; a matched object is matched under a stated criterion. State the definition whenever one of these is quoted.
 - Distinguish frequentist confidence intervals from Bayesian credible intervals. Report the statistic, tail convention, nuisance treatment, and validity conditions.
+### Astroparticle and cosmic-ray
+
 - In an ON/OFF or blind sky-scan search, the OFF/background region must not overlap the ON region, and a reported significance must account for the number of independent trials (positions, energy bins, time windows, source catalogs) actually tested, not just the one presented.
 - Distinguish a flux measured at the top of the atmosphere or at an instrument from one corrected to the local interstellar spectrum; state the solar-modulation epoch/potential and the geomagnetic cutoff applied whenever a low-rigidity cosmic-ray flux is reported.
 - Do not draw a composition conclusion from a single shower observable (X_max or muon content alone) without stating the hadronic interaction model assumed and checking consistency against the other observable, given the current muon-content/X_max modeling discrepancy.
 - A flux or rate reported from raw counts must use an exact Poisson interval, not a Gaussian sqrt(N) approximation, whenever counts are low enough for the two to disagree (routine in a steeply falling spectrum's high-energy tail); state the exposure (effective area/geometric factor times live time times solid angle) and bin width used, separately from the raw count.
-- A ratio or fraction of two yields (e.g. a positron fraction or an antiproton/proton ratio) must use the yields' actual covariance, not an independence assumption, whenever they share a systematic (the same acceptance, exposure, or background-template shape) - state which systematics are shared and whether they were treated as correlated.
+- A ratio or fraction of two yields (e.g. a positron fraction or an antiproton/proton ratio) must use the yields' actual covariance, not an independence assumption, whenever they share a systematic (the same acceptance, exposure, or background-template shape) - state which systematics are shared and whether they were treated as correlated. Species-specific effects (e.g. charge confusion, which feeds protons into the antiproton sample) belong to one yield only and do not cancel.
 
 ## Reference routing
 
@@ -65,7 +69,7 @@ Don't mix more APIs than needed in one script; if mixing, keep boundaries clear 
 | Debugging, verification, preservation, review | [Validation](references/12-validation.md) |
 | Versions and methodological sources | [Primary sources](references/13-sources.md) |
 | Drawing an analysis-pipeline, Monte Carlo chain, region/likelihood workflow, detector schematic, or decay-tree figure (structural diagram, not a data plot) | the `academic-diagrams` skill, when installed |
-| C++/ROOT/RDataFrame code patterns, TTreeReader, naming/comments/file-documentation, general C++ class/struct/RAII/ownership/inheritance design, TObject inheritance, class dictionaries, directory-based ownership, branch-buffer structs, build commands | [C++, ROOT, and balanced design guidelines](references/14-root-balanced-design-guidelines.md) |
+| C++/ROOT/RDataFrame code patterns, TTreeReader, naming/comments/file-documentation, general C++ class/struct/RAII/ownership/inheritance design, TObject inheritance, class dictionaries, directory-based ownership, branch-buffer structs, build commands | [C++, ROOT, and balanced design guidelines](references/14-root-balanced-design-guidelines.md) - long; use its "Read only what the task needs" table and read one section |
 | CMake and root-config builds, project scaffolding | [Build setup](references/15-cmake-and-build.md) |
 | Debugging ROOT/PyROOT/C++ (missing symbols, dictionaries, fits) | [Debugging ROOT](references/16-debugging-root.md) |
 | Python CLI structure, naming, PyROOT/uproot/awkward code conventions | [Python coding](references/17-python-hep-coding.md) |
@@ -104,6 +108,12 @@ Don't mix more APIs than needed in one script; if mixing, keep boundaries clear 
 | Symbols, acronyms, adopted conventions | [Detector glossary](references/50-detector-glossary.md) |
 | Authoring a canonical worked example (Contrast, Execution Trajectory, Gated Pipeline, Decision-Tree, Interactive Elicitation, Adversarial Audit, Test-First, or Postmortem archetype) for `examples/` | `task-authoring`'s [example-authoring reference](../task-authoring/references/example-authoring.md) (requires `task-authoring` installed alongside this skill) |
 
+Overlapping rows: for tag-and-probe read 19 for the method and 47 for scale factors, and 43 only for muon specifics. For efficiency read 04 for the statistics (intervals, weighted efficiencies), 26 for reconstruction efficiency against truth, and 46 for the definitions. Read one of them, not all three.
+
+Worked cases by archetype (contrast, trajectory, gated pipeline, decision tree, elicitation, audit, test-first, postmortem): [examples/README.md](examples/README.md). Open one only when you want a model answer for that kind of task.
+
+Worked, verified walkthroughs sit at the end of: [07](references/07-likelihood-fitting.md#worked-walkthrough-a-roofit-signal--background-fit-verified-2026-09-24) (RooFit fit), [09](references/09-statistical-tools.md#worked-walkthrough-a-pyhf-workflow-end-to-end-verified-2026-09-24) (pyhf end to end), [20](references/20-multivariate-analysis-bdt-nn.md#worked-walkthrough-training-a-bdt-without-leakage-verified-2026-09-24) (BDT without leakage), [28](references/28-detector-simulation.md#worked-walkthrough-setting-up-a-geant4-simulation-for-a-calorimeter-test-beam-comparison) (Geant4 setup, not executed), [33](references/33-imaging-atmospheric-cherenkov.md#worked-walkthrough-an-iact-onoff-measurement-with-a-trials-correction-verified-2026-09-24) (IACT ON/OFF with trials), [35](references/35-space-based-direct-detection.md#worked-walkthrough-a-proton-flux-point-from-counts-verified-2026-09-24) (cosmic-ray flux from counts).
+
 ## Code file requirement
 
 When creating or modifying any code file (C++ source/headers, ROOT macros, PyROOT/uproot scripts, CMake files, config loaders), include a short introductory comment block: purpose, what it does, and usage notes/dependencies/assumptions (build/run command, expected input format and tree/branch names, units, weight conventions, ROOT version, preconditions). Add or update it if missing/outdated. Full convention: [C++, ROOT, and balanced design guidelines](references/14-root-balanced-design-guidelines.md#naming-comments-and-file-documentation).
@@ -126,7 +136,7 @@ When creating or modifying any code file (C++ source/headers, ROOT macros, PyROO
 - `scripts/cherenkov_angle.py`: RICH threshold momenta, Cherenkov angle and its saturation, photon yield, per-track angular resolution, and the resulting velocity/mass resolution and species separation (standard library only; a design estimate, not a ring-reconstruction simulation).
 - `scripts/summarize_histogram_statistics.py`: entries, integral, sum of weights, bin edges, negative bins for a histogram in a ROOT file (requires PyROOT).
 - `scripts/roofit_workspace_summary.py`: summarize a `RooWorkspace` (variables, PDFs, datasets, functions, snapshots) (requires PyROOT).
-- `scripts/li_ma_significance.py`: exact Li & Ma (1983) likelihood-ratio significance for an ON/OFF counting measurement, including the N_on=0/N_off=0 boundary terms (standard library only; no trials/look-elsewhere correction - see reference 39).
+- `scripts/li_ma_significance.py`: exact Li & Ma (1983) likelihood-ratio significance for an ON/OFF counting measurement, including the N_on=0/N_off=0 boundary terms (standard library only; no trials/look-elsewhere correction - see reference 37).
 - `scripts/geomagnetic_cutoff.py`: analytic vertical Stormer dipole geomagnetic cutoff rigidity at a given geomagnetic latitude/altitude, with an optional conversion to minimum kinetic energy per nucleon for a given (Z, A) (standard library only; an idealized-dipole first-order estimate, **not** a substitute for particle backtracing through a full field model).
 - `scripts/cr_spectrum_powerlaw_fit.py`: exact (weighted) linear least-squares power-law fit to a flux-vs-energy spectrum in log-log space, single or two-segment (given a break energy), reporting the index(es) and their uncertainty (standard library only).
 - `scripts/xmax_gaisser_hillas.py`: evaluate the Gaisser-Hillas air-shower longitudinal profile, shower age, and half-maximum depths for a given or externally fitted parameter set (standard library only; an evaluator, not a nonlinear curve fitter).
@@ -143,9 +153,13 @@ When creating or modifying any code file (C++ source/headers, ROOT macros, PyROO
 - `assets/analysis-contract.yaml`, `assets/systematics.csv`, `assets/report-template.md`: reusable analysis, correlation, and reporting templates.
 - `assets/pyhf-counting.json`: a synthetic single-bin workspace. Never present its values as experimental results.
 - `assets/uproot_awkward_analysis.py`, `assets/pyroot_rdataframe_analysis.py`, `assets/cpp_rdataframe_analysis.cpp`, `assets/rdf_analysis.cpp`: starting templates (copy and adapt) for uproot+awkward and RDataFrame (Python/C++) selection-and-histogram skeletons.
+- `assets/end_to_end_sample_analysis.py`: runnable end-to-end template and smoke test (synthetic signed-weight ntuple -> sumw/sumw2 cutflow -> orthogonal SR/CR histograms -> pyhf fit and CLs limit on labelled pseudo-data -> yield table). Needs numpy + pyhf; `tests/test_end_to_end.py` skips without them (`HEP_PYHF_PYTHON` selects an interpreter).
 - `assets/pyroot_roofit_signal_background.py`, `assets/fit_histogram.cpp`, `assets/plot_branch.C`: RooFit signal+background fit and fitting/plotting macro templates.
 - `assets/CMakeLists.txt`, `assets/analysis_config.yaml`, `assets/systematics_config.yaml`, `assets/statistical_histogram_config.yaml`, `assets/combine_datacard_template.txt`: build and config templates (copy and adapt).
 - `tests/test_helpers.py`: standard-library tests for `audit_histograms.py`/`counting_reference.py`/`tag_and_probe_efficiency.py`/`pileup_reweight.py`. Run `python3 -m unittest discover -s tests -v`.
+- `tests/test_astroparticle.py`, `tests/test_ams02.py`, `tests/test_yield_table.py`: standard-library tests for the astroparticle/space-detection helpers and `make_yield_table.py` (including error paths).
+- `tests/test_reference_values.py`: cross-checks the physics helpers against independent references (scipy quantiles, a numerical profile likelihood, PDG table values, Smart & Shea); scipy tests skip if scipy is missing.
+- `tests/test_root_integration.py` + `tests/make_root_fixtures.py`: run the PyROOT scripts and assets end to end on synthetic ROOT fixtures; skipped unless PyROOT imports (set `HEP_ROOT_PYTHON`, e.g. Homebrew's `python3.14`, when conda Python cannot load Homebrew ROOT).
 
 Resolve relative paths from the skill directory. Read a script's `--help` before use. Write outputs to the appropriate user-project location. Use the project's existing ROOT/PyROOT/uproot/pyhf environment; loading this skill needs no software install, but PyROOT-dependent scripts above need PyROOT. When a script's output (branch/key listings, bin-by-bin diffs, workspace contents) is large, summarize it: report counts and the top ~20 offending/differing entries rather than the full dump.
 

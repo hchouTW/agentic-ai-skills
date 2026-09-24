@@ -100,7 +100,7 @@ tests/test_weighted_yield.py::test_weighted_yield_matches_hand_computed_referenc
 1 passed in 0.02s
 ```
 
-```python
+```pycon
 >>> from yields import weighted_yield
 >>> weighted_yield([1.0, 1.0], L_fb_inv=50.0, sigma_pb=10.0, sum_full_gen_weights=100000.0)
 10.0

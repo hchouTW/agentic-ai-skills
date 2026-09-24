@@ -110,7 +110,7 @@ tests/test_weighted_efficiency.py::test_weighted_efficiency_matches_hand_compute
 1 passed in 0.02s
 ```
 
-```python
+```pycon
 >>> from selection import weighted_efficiency
 >>> e, sigma_e = weighted_efficiency([1.0, 1.0, 2.0], [1.0, 1.0, 1.0, 2.0, 2.0])
 >>> e, sigma_e

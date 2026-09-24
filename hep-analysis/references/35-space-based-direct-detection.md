@@ -31,11 +31,13 @@ atmosphere (or a near-Earth satellite) if its rigidity exceeds a minimum, the
 **geomagnetic cutoff rigidity**. For a simple dipole approximation, the vertical
 (zenith-pointing) cutoff at geomagnetic latitude `lambda_m` is the **Störmer cutoff**:
 
-    R_c = (M / r^2) * cos^4(lambda_m) / (1 + sqrt(1 + cos^3(lambda_m)))^2
+    R_c = C * cos^4(lambda_m) / (r^2 * (1 + sqrt(1 - sin(eps) sin(xi) cos^3(lambda_m)))^2)
 
-with `M` the Earth's dipole moment and `r` the geocentric distance, giving a cutoff
-of a few tens of GV at the geomagnetic equator falling to essentially zero at the
-poles - the reason polar-orbit low-cutoff regions are preferred for measuring the
+with zenith angle `eps`, azimuth `xi`, `C = 59.6 GV` (proportional to the Earth's dipole
+moment `M`) and `r` the geocentric distance in Earth radii. For vertical arrival the
+square root is 1, so `R_c = 14.9 GV * cos^4(lambda_m) / r^2` (Smart & Shea 2005): about
+15 GV at the geomagnetic equator at the surface (~13 GV at ISS altitude), falling to
+essentially zero at the poles - the reason polar-orbit low-cutoff regions are preferred for measuring the
 lowest-rigidity cosmic rays, and why any flux measurement from a satellite in an
 inclined orbit must either restrict to high-cutoff geomagnetic regions for a clean
 low-energy cutoff or explicitly model the orbit-averaged, direction-dependent cutoff
@@ -73,8 +75,10 @@ spectrum, LIS), `J_LIS(E_LIS)`, via
 
     J(E) = (2 m E + E^2) / (2 m E_LIS + E_LIS^2) * J_LIS(E_LIS),   E_LIS = E + |Z|*phi
 
-for a particle of rest mass `m` and charge `|Z|`, evaluated at the same time as the
-measurement. This is an effective, not physical, one-parameter model - it does not
+for a particle of total rest mass `m`, total kinetic energy `E` and charge `|Z|`
+(Gleeson & Axford 1968), evaluated at the same time as the measurement. In kinetic
+energy per nucleon the shift is `(|Z|/A)*phi` with `m` the nucleon mass - mixing
+per-nucleon `E` with `|Z|*phi` over-modulates every `A > 1` nucleus. This is an effective, not physical, one-parameter model - it does not
 capture charge-sign dependence, latitude dependence, or short-timescale transients -
 and its use should be limited to what it is good for: comparing or combining
 measurements made in similar solar conditions, and providing a rough LIS estimate
@@ -153,6 +157,32 @@ astrophysical candidate) or, more speculatively, as a signature of dark-matter
 annihilation or decay - distinguishing the two requires the spectral shape, an
 eventual high-energy cutoff or lack thereof, and consistency with other channels
 (gamma-ray, anisotropy), not the excess alone.
+
+## Worked walkthrough: a proton flux point from counts (verified 2026-09-24)
+
+The bin is 5.0-6.0 GV, with the spacecraft at geomagnetic latitude 40 deg and r = 1.0627 Earth
+radii (ISS-like).
+
+```bash
+python3 scripts/geomagnetic_cutoff.py --latitude 40 --altitude-re 1.0627
+python3 scripts/cosmic_ray_flux.py --counts 320 --exposure 2.4e5 --bin-width 1.0
+python3 scripts/solar_modulation_force_field.py --demodulate --energy 4.641 --mass 0.938272 \
+    --charge 1 --phi 0.6 --toa-flux 1.0
+```
+
+1. **Cutoff.** The vertical Stormer cutoff is 4.54 GV. With a 1.2 safety factor (5.45 GV), this
+   position contributes exposure only to bins above about 5.5 GV, so for this bin the exposure
+   comes only from time spent where `1.2 * Rc < 5.0 GV`. The real selection uses the per-second
+   backtraced cutoff, and the Stormer value is a planning check only.
+2. **Flux.** For 320 counts with exposure 2.4e5 m^2 sr s (already cutoff-filtered) and a 1 GV
+   bin, the flux is 1.333e-3 (m^2 sr s GV)^-1 with an exact 68% interval of
+   [1.259, 1.412]e-3. Report the counts, exposure, and bin width separately. Plot the point at
+   the spectrum-weighted rigidity, not at the bin center.
+3. **Solar modulation.** The flux is top-of-instrument (TOA). To compare it with a LIS,
+   convert to kinetic energy (5.5 GV -> T = 4.641 GeV for a proton), convert the flux per GV to
+   a flux per GeV, and demodulate. At phi = 0.6 GV the LIS flux is 1.233x the TOA flux, at
+   T_LIS = 5.241 GeV. The force field is a one-parameter approximation, so state phi, the
+   epoch, and the model.
 
 ## Deliverables
 

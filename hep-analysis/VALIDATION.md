@@ -1,7 +1,214 @@
 # Package Validation Record
 
-Validation date: 2026-09-05. Helper test environment: Python 3, standard library
-plus PyYAML.
+Validation date: 2026-09-25 (latest pass; earlier passes dated below). Helper test
+environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
+(Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests.
+Current counts: bundle 137 files; 201 tests (7 ROOT and 4 pyhf tests skip without PyROOT/pyhf).
+
+## P3 content pass (2026-09-25)
+
+- Progressive disclosure: in the P2 runs, with-skill agents read 1 reference (15 tasks),
+  2 (12) or 3 (5), and never more. The one outlier by size, reference 14 (~1,300 lines), now
+  opens with a task-to-section table, and its `SKILL.md` routing row says to read one section.
+  All in-package Markdown anchors resolve (checked by script).
+- Overlap:
+  - Reference 38 and `ams-analysis` were already cleanly split: 38 keeps no AMS numbers and
+    defers to the sibling, and the sibling's `SKILL.md` says it supersedes 38.
+  - Reference 49 Table 8 repeated five rows of reference 47's systematics mapping (field
+    map, alignment, material, dead channels, pileup/noise). They were removed; Table 8 now
+    lists only specialized-detector nuisances and points to 47.
+  - The tables in 42 and 45 complement 49 (budget terms and sensor properties versus
+    technology comparisons) and were kept.
+- Missing worked topics: by the user's choice, these were added as verified walkthroughs
+  in the references rather than as new archetype examples, keeping 3 per archetype.
+  - 07 RooFit fit: run on fixtures, numbers quoted.
+  - 09 pyhf end to end.
+  - 20 BDT without leakage: the snippet was extracted from the reference and run in a
+    scratch venv with scikit-learn. The default-sized model shows AUC 0.93 on the training
+    fold versus 0.71 held out, with KS p < 1e-3; the shallow configuration gives 0.751 versus
+    0.739 and KS p = 0.26 and 0.53, against a Bayes-optimal 0.748.
+  - 28 Geant4 setup: a decision checklist, **not executed** (no Geant4 installed).
+  - 33 IACT ON/OFF with trials: 2.35 sigma local, p_global 0.046 over 5 thresholds.
+  - 35 flux from counts with cutoff and demodulation.
+  All quoted numbers were recomputed.
+- New `assets/end_to_end_sample_analysis.py`, a synthetic chain from signed-weight ntuple
+  to sumw/sumw2 cutflow, orthogonal SR/CR, pyhf fit and CLs, and a yield table. Results:
+  - The full-sample sumw equals lumi x xsec exactly (6000, 200).
+  - Fit with signal injected at mu = 1: mu = 0.91 +- 0.16 (Minuit), mu_bkg = 0.99 +- 0.02,
+    observed CLs limit 1.19.
+  - Background only: mu = 0, observed limit 0.25, inside the expected band.
+  - A bug found while writing it: with the scipy optimizer, pyhf 0.7.6 ignores
+    `return_uncertainties`. The script uses Minuit when `iminuit` is present and otherwise
+    reports the errors as unavailable.
+  - `tests/test_end_to_end.py` (4 tests) passes with pyhf and skips without it.
+- `assets/analysis_config.yaml` now states that its `selection`/`histograms` blocks are
+  documentation and that the templates hard-code the same cuts.
+
+- `plugin-dev:skill-reviewer` pass. I verified each finding before acting on it.
+  Applied:
+  - A wrong cross-reference (`li_ma_significance.py` pointed to reference 39 instead of 37).
+  - A stale README claim that the ROOT scripts were never executed.
+  - An ambiguous "first seventeen" count, now clarified; all 17 commands were re-run and pass.
+  - `examples/README.md` is now linked from `SKILL.md`.
+  - A tie-break rule for the overlapping tag-and-probe/efficiency routing rows.
+  - General vs astroparticle subheadings for the invariants.
+  - Missing test-file entries.
+  - The description example "'my AMS-02 flux calculation'" is now "'my cosmic-ray flux from
+    counts'", so AMS-specific work is not pulled away from `ams-analysis` (981 characters).
+    Haiku trigger retest after the edit: 20/20 recall, 0/20 false triggers, and AMS queries still route to `ams-analysis`.
+  Declined:
+  - Moving the executable-resources list out of `SKILL.md`: the P2 runs showed the weaker
+    model finds and uses scripts through that list.
+  - Moving the example-authoring routing row to the README: authoring an example is a real
+    task for this skill.
+  - Dropping "Maintained in English."
+
+## P2 behavior pass: fresh-model prompt, trigger, and example tests (2026-09-24)
+
+Method: `tests/prompts.md` holds 16 prompts (14 graded HEP prompts balanced across
+collider, space-based/AMS, and IACT/neutrino/air-shower work, plus 2 negative controls),
+each with its expected behaviors (E) and failure signals (F). Each prompt went to fresh
+subagents that saw only the prompt text (never the E/F lists), in four arms:
+{with skill, baseline without skill} x {Opus, Haiku}. With-skill agents read `SKILL.md` and
+followed its routing; baseline agents were barred from the repo and from skills.
+Answers were capped at ~220 words. I graded them against E/F. This grading is a single
+judgment per answer, not a blind panel.
+
+| Arm | PASS | PARTIAL | FAIL |
+|---|---|---|---|
+| Opus + skill | 16 | 0 | 0 |
+| Opus baseline | 16 | 0 | 0 |
+| Haiku + skill | 12 | 3 (P08, P09, P12) | 1 (P02) |
+| Haiku baseline | 3 | 7 | 6 (P01, P02, P08, P09, P11, P13) |
+
+Findings:
+- On Opus the skill does not change verdicts. Opus already knows these conventions. With the
+  skill it adds tool use (it ran `cosmic_ray_flux.py` and `li_ma_significance.py`), more
+  explicit reporting (raw count, exposure and bin width stated separately), and deferral of
+  "latest AMS" questions to `ams-analysis`.
+- On Haiku the skill matters. Baseline Haiku endorsed sqrt(N) for 3 events, quadrature errors
+  for a correlated ratio, "absolute or signed" NLO weights with a post-skim sum, and "~50%
+  mixed" from mean X_max. It also claimed the TRD measures charge sign. The skill fixed all
+  of these.
+- Negative controls (Linux root, PyTorch AMP) were answered without the skill in every arm.
+- Gaps the test exposed, and fixes:
+  - P02: Haiku with the skill checked jet multiplicity *before* the object cuts, then indexed
+    unselected jets. The cause was that both reference snippets showed the multiplicity check
+    on an uncut collection. `references/02-data-pipelines.md` now shows the ordered pattern
+    (object mask -> sort -> count -> event mask -> index; verified on a synthetic awkward
+    array), and `references/17-python-hep-coding.md` points to it.
+  - P09: charge confusion was listed as a shared systematic. The `SKILL.md` ratio invariant now
+    says species-specific effects belong to one yield.
+  - P12: the significance was estimated rather than computed, and there was no plain verdict.
+    `references/37` deliverables now require the computed value, the post-trials p, and a verdict.
+- Rerun on Haiku + skill after the fixes, on the same prompts:
+  - P02 and P09 now pass: the ordered jagged pattern is used, and charge confusion is
+    assigned to the antiproton yield only.
+  - P12 still partially failed on the first rerun. The model did not run the script, and it
+    claimed the effective trials could be 10,000, more than the 400 positions tested. The
+    ref-37 look-elsewhere text said "sky area / PSF solid angle" with no upper bound. It now
+    says `N_eff ~ min(N_positions, area/PSF)` and gives `p_global = 1-(1-p_local)^N_eff`,
+    with a worked example deliberately using *different* numbers from the test prompt.
+  - Second rerun: P12 passes. The model ran `li_ma_significance.py`, got 2.74 sigma and
+    p_global of about 0.7, and gave the verdict "not a detection".
+  - Final Haiku + skill score: 15 PASS, 1 PARTIAL (P08: exact interval and asymmetric errors
+    are there, but no computed flux). Caveat: these reruns reuse the prompts that guided the
+    fixes, so they show the fixes work, not that the skill generalizes. A fresh prompt set is
+    needed for that.
+- Added `tests/test_yield_table.py`: 6 CLI tests for `make_yield_table.py`, which had none,
+  covering negative yields and the missing-file, missing-column, empty and non-numeric paths.
+
+Trigger test (`tests/trigger_queries.json`): 20 should-trigger and 20 should-not-trigger
+queries, including near-misses (AMS latest/design questions, PyTorch/HEP-ML, Linux/Android/
+certificate "root", root-mean-square, polynomial roots, JHEP formatting, Feynman diagrams).
+A fresh agent was given the real descriptions of all seven repo skills and chose which to load.
+This is an approximation of the harness's own skill selection, not the harness itself.
+- Opus: recall 20/20, false triggers 0/20. Haiku: 20/20, 0/20.
+- Every near-miss went to the right sibling (`ams-analysis`, `deep-learning`,
+  `academic-diagrams`, `academic-papers`, `task-authoring`, `agile-development`) or to none.
+  The description was left unchanged (977 characters), so sibling validators did not need a rerun.
+
+Examples:
+- `task-authoring/scripts/validate_skill_example.py`: all 24 pass.
+- `check_example_diversity.py` flags 3 examples per archetype for every skill in the repo,
+  which is the repo-wide convention. Nothing was changed.
+- Python blocks, 23 in total: 12 run standalone. The test-first examples (19-21) were run end to
+  end by building each hypothetical module from the example's own code. The buggy
+  implementation fails its test and doctest, and the fixed one passes both, as each example
+  claims. Their three REPL transcripts are now fenced as `pycon`. The remaining failures are
+  continuation fragments (16, 18) or imports of the hypothetical project under audit (17, 18),
+  and the surrounding text presents them as such.
+
+## P1 verification pass: ROOT assets run for real, physics cross-checks (2026-09-24)
+
+Environment: PyROOT does not load under miniconda `python3` (ABI mismatch) but works
+under Homebrew `python3.14`. uproot 5.7.4 / awkward 2.9.0 / scipy 1.17.1 under miniconda;
+pyhf 0.7.6 in a throwaway scratch venv. New `tests/make_root_fixtures.py` writes a
+synthetic `Events` tree (jagged muons, ~5% negative weights), nominal/`jes_Up`/`jes_Down`
+histograms, a mass peak, and a RooWorkspace.
+
+Run for real, all passing:
+- CMake configure + build with ROOT of `cpp_rdataframe_analysis.cpp`, `rdf_analysis.cpp`,
+  `fit_histogram.cpp`; the shipped `assets/CMakeLists.txt`; and a project scaffolded
+  by `scripts/new_root_cpp_project.sh` (built and run). Executables ran on the fixture;
+  bad-input paths exit non-zero with clear messages.
+- `plot_branch.C` runs interpreted (`root -b -q`). **Not verified with ACLiC (`+`)**:
+  ACLiC fails here even for an empty macro (macOS SDK header mismatch), which is an
+  environment problem, not a problem in the template.
+- `pyroot_rdataframe_analysis.py` yields a cutflow identical to the C++ one (5000 ->
+  3044 -> 2718 -> 2223) and a bin-identical histogram.
+- `pyroot_roofit_signal_background.py` recovers the injected peak (mean 90.89 +- 0.06
+  vs 91.0, sigma 2.43 +- 0.05 vs 2.5, nsig 2944 +- 67 vs 3000), status 0, covQual 3.
+- The five PyROOT scripts ran on the fixtures (now in `tests/test_root_integration.py`).
+- `uproot_awkward_analysis.py` gives values identical to the C++/PyROOT output.
+- `pyhf-counting.json`: validates against the pyhf schema; `pyhf cls` gives CLs_obs =
+  0.335 at mu=1; 95% CLs upper limit mu < 2.15 (expected 1.50), plausible for n=b=20
+  with a 10% background normsys.
+- **Combine datacard not verified**: building standalone Combine (cloning and
+  compiling external code) was blocked in this session's permission mode. The template
+  is placeholder text, not a parseable card.
+
+Defects found and fixed:
+- **Physics change: `geomagnetic_cutoff.py` was not the vertical cutoff.** It used
+  `(1 + sqrt(1 + cos^3 lambda))^2` in the denominator, which is the Stormer cutoff for
+  arrival from the western horizon, giving 10.2 GV at the equator. The vertical cutoff
+  (Smart & Shea 2005) is `14.9 cos^4(lambda)/r^2` GV. Fixed in the script, in
+  reference 35, and in the test, which had attributed the wrong value to Gaisser.
+  `orbit_averaged_geomagnetic_cutoff.py` inherits the fix: all its cutoffs rise by a
+  factor (1+sqrt(1+cos^3))^2/4, which is 1.46 at the equator and falls toward 1 at the poles.
+- `uproot_awkward_analysis.py` wrote `(values, edges)`, which drops sum(w^2). Its bin
+  errors were therefore sqrt(sum w), wrong with the negative weights. It now writes a
+  full TH1D with `fSumw2`; errors, flow bins, and moments now match the RDataFrame output.
+  Added a header noting that the config's `selection`/`histograms` blocks are
+  descriptive (the selection is hard-coded).
+- `inspect_root_file.py` printed an empty type `[]` for every leaf-list branch; it now
+  falls back to the leaf type (e.g. `Float_t`).
+- Docs: `solar_modulation_force_field.py` and reference 35 said energies could be
+  per nucleon "consistently". The `|Z| phi` shift is only right for total kinetic
+  energy; per nucleon it is `(|Z|/A) phi`. Doc fix only, code unchanged.
+
+Independent physics cross-checks (`tests/test_reference_values.py`):
+- Li & Ma eq. 17 equals a numerical Poisson profile-likelihood ratio (scipy) to 1e-6.
+- Clopper-Pearson matches `scipy.stats.beta` quantiles, and the Garwood Poisson interval
+  matches `scipy.stats.chi2` quantiles, to 1e-8 or better.
+- Bethe-Bloch minimum for muons matches the PDG tables to within 0.05% in Ar/Ne/Xe. It
+  is 1.8% (Si) and 2.5% (water) high because the density effect is omitted, as
+  documented.
+- Highland (PDG form, including the z^2 log term), Cherenkov threshold/saturation in
+  water, the force field against Gleeson-Axford by hand, the Gaisser-Hillas peak,
+  TOF differences, and the calorimeter fit recovering its generated terms.
+- Constants and units assumed: Highland 13.6 MeV / 0.038; Bethe K = 0.307075 MeV
+  cm^2/mol, PDG Z/A and I; Stormer C = 59.6 GV at dipole moment 8.05e25 G cm^3 and
+  r_E = 6371 km; masses in GeV from PDG; rigidity in GV, energy in GeV, phi in GV.
+
+Reference audit (references 18-50): every line with a hard number was checked against
+standard PDG/textbook values from knowledge (not re-fetched live). Corrected: the
+Bethe-Bloch upper validity limit in reference 40 (was `beta gamma ~ 100`; PDG gives ~1000
+for muons, and electrons are not described by the formula), and the IACT light-pool radius
+in reference 33 (was 100-250 m, now ~120-150 m). All other numbers were correct,
+including the worked residual statistics in reference 46, which were recomputed.
+Added sources (Smart & Shea, Gleeson & Axford, Clopper-Pearson, Garwood, Gaisser-Hillas)
+and a latest-results policy to `references/13-sources.md`.
 
 ## Deep test pass (2026-09-05)
 

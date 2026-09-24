@@ -6,9 +6,12 @@ to reach a given geomagnetic latitude and altitude, for a pure dipole field arri
 from the vertical (zenith) direction. See
 references/35-space-based-direct-detection.md.
 
-What it does: evaluates
-    R_c = (M / r^2) * cos^4(lambda_m) / (1 + sqrt(1 + cos^3(lambda_m)))^2
-for dipole moment M, geocentric distance r, and geomagnetic latitude lambda_m, using
+What it does: evaluates the vertical (zenith angle 0) case of the Stormer formula
+    R_c = C * cos^4(lambda_m) / (r^2 * (1 + sqrt(1 - sin(eps) sin(xi) cos^3(lambda_m)))^2),
+where the square root is 1 for vertical arrival, so
+    R_c = (C / 4) * cos^4(lambda_m) / r^2 = 14.9 GV * cos^4(lambda_m) / r^2   (r in Earth radii)
+(Smart & Shea 2005, Adv. Space Res. 36, 2012). C = 59.6 GV scales with dipole moment M;
+geocentric distance r, geomagnetic latitude lambda_m. Uses
 the IGRF-epoch-averaged dipole moment as a default. Also converts a cutoff rigidity to
 the corresponding minimum kinetic energy per nucleon for a given (Z, A).
 
@@ -62,16 +65,15 @@ def stormer_cutoff_gv(latitude_deg, altitude_re=1.0, dipole_moment_g_cm3=DEFAULT
     cos_lam = math.cos(lam)
     r_cm = altitude_re * EARTH_RADIUS_CM
 
-    # Stormer cutoff in CGS gives rigidity in statvolts; the standard applied form
-    # (e.g. Smart & Shea) is calibrated to give GV directly for M in G*cm^3 and r in cm
-    # via the conversion constant 59.6 GV (== c * M_0 / r_E^2 in the usual units, for
-    # the reference dipole moment/Earth radius pairing) scaled by (M/M_0)*(r_E/r)^2.
+    # Stormer constant C = 59.6 GV for the reference dipole moment at one Earth radius
+    # (Smart & Shea 2005), scaled by (M/M_0)*(r_E/r)^2. For vertical arrival the
+    # direction-dependent square root in the Stormer denominator equals 1, giving
+    # (1 + 1)^2 = 4, i.e. the familiar 14.9 GV * cos^4(lambda) at the equator.
+    # (The (1 + sqrt(1 + cos^3))^2 form is the westward-horizontal cutoff, not vertical.)
     reference_cutoff_gv = 59.6
     scale = (dipole_moment_g_cm3 / DEFAULT_DIPOLE_MOMENT_G_CM3) * (EARTH_RADIUS_CM / r_cm) ** 2
 
-    numerator = cos_lam ** 4
-    denominator = (1.0 + math.sqrt(1.0 + cos_lam ** 3)) ** 2
-    return reference_cutoff_gv * scale * numerator / denominator
+    return reference_cutoff_gv * scale * cos_lam ** 4 / 4.0
 
 
 def cutoff_kinetic_energy_per_nucleon_gev(cutoff_rigidity_gv, charge, mass_number):

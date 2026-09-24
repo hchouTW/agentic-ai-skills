@@ -27,8 +27,32 @@ This package is original operational guidance, not a complete summary of the man
 | Detector textbooks | Leo, *Techniques for Nuclear and Particle Physics Experiments*, 2nd ed. (Springer, 1994), [DOI 10.1007/978-3-642-57920-2](https://doi.org/10.1007/978-3-642-57920-2); Grupen & Shwartz, *Particle Detectors*, 2nd ed. (Cambridge University Press, 2008), [DOI 10.1017/CBO9780511534966](https://doi.org/10.1017/CBO9780511534966); Wigmans, *Calorimetry*, 2nd ed. (Oxford University Press, 2017), [DOI 10.1093/oso/9780198786351.001.0001](https://doi.org/10.1093/oso/9780198786351.001.0001); Blum, Riegler & Rolandi, *Particle Detection with Drift Chambers*, 2nd ed. (Springer, 2008), [DOI 10.1007/978-3-540-76684-1](https://doi.org/10.1007/978-3-540-76684-1) | Signal formation, drift/diffusion, calorimetry, gas detectors for references 39-45 |
 | Track fitting | Fruhwirth, "Application of Kalman filtering to track and vertex fitting", Nucl. Instrum. Methods A262 (1987) 444, [DOI 10.1016/0168-9002(87)90887-4](https://doi.org/10.1016/0168-9002(87)90887-4) | Kalman track/vertex fit behind references 22, 41, 43 |
 | Multiple scattering | Highland, Nucl. Instrum. Methods 129 (1975) 497, [DOI 10.1016/0029-554X(75)90743-0](https://doi.org/10.1016/0029-554X(75)90743-0); Lynch & Dahl, Nucl. Instrum. Methods B58 (1991) 6, [DOI 10.1016/0168-583X(91)95671-Y](https://doi.org/10.1016/0168-583X(91)95671-Y) | Highland approximation used in reference 40 (PDG review above gives the current form) |
+| Geomagnetic cutoff | Smart & Shea, "A review of geomagnetic cutoff rigidities for earth-orbiting spacecraft", Adv. Space Res. 36 (2005) 2012 | Stormer form and the vertical `14.9 cos^4(lambda)/r^2` GV cutoff in `scripts/geomagnetic_cutoff.py` (added 2026-09-24) |
+| Solar modulation | Gleeson & Axford, Astrophys. J. 154 (1968) 1011 | Force-field approximation in `scripts/solar_modulation_force_field.py`; shift `|Z| phi` in total kinetic energy, `(|Z|/A) phi` per nucleon |
+| Exact binomial/Poisson intervals | Clopper & Pearson, Biometrika 26 (1934) 404; Garwood, Biometrika 28 (1936) 437 | `tag_and_probe_efficiency.py` and `cosmic_ray_flux.py`; cross-checked against `scipy.stats` beta/chi2 quantiles in `tests/test_reference_values.py` |
+| Longitudinal shower profile | Gaisser & Hillas, Proc. 15th ICRC (Plovdiv) 8 (1977) 353 | Functional form in `scripts/xmax_gaisser_hillas.py` |
 | Detector-performance definitions | Experiment technical design reports and official performance papers for the apparatus in question (cite by name, configuration, and phase space; none is pinned here) | Any numeric performance claim in references 39-49 must come from one of these, not from this package |
 
 | Claude Code skills | [Official documentation](https://code.claude.com/docs/en/skills) | Skill directories and invocation |
 
 Do not claim that an API is supported by the latest version without checking. Read local version/help output and lock files, then consult matching release documentation. Mark unverified points when network access is unavailable. Example luminosities, cross sections, and model parameters in documentation are not experimental inputs. The detector geometries, material budgets, and resolution values in this package's assets and examples are synthetic and illustrative; they are not measurements of any real apparatus.
+
+## Latest-results policy
+
+Measured values move: spectral-break positions, flux normalizations, limits, detector
+performance and mission status are superseded by later publications. Rules:
+
+- Any "latest", "current", "best", or "world-leading" statement, and any experimental
+  number quoted as a result, must name its source and the date it was checked
+  (`checked YYYY-MM-DD`). Without both, present it as an illustrative order of magnitude.
+- Before quoting such a number to a user, re-check it if the check date is older than
+  12 months, or state that it was not re-checked.
+- Standard physics constants and textbook formulas (PDG constants, Bethe-Bloch, Highland,
+  Stormer, force field) are stable and exempt, but still cite the edition they came from.
+- Items to re-verify on each pass. On 2026-09-24 these were reviewed against standard
+  textbook/PDG values from the reviewer's knowledge, **not** re-fetched from the live
+  sources; do a live check before relying on them: knee/ankle/GZK energies and spectral
+  indices (reference 30, PDG cosmic-ray review); AMS-02 instrument parameters and mission
+  status (reference 38 and the AMS row above, last checked 2026-09-10); IACT energy-scale
+  systematics (reference 33); the PDG edition linked above (2025).
+

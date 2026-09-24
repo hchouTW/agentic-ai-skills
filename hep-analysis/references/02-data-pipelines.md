@@ -12,13 +12,25 @@ Use chunked reads such as `uproot.iterate(..., expressions=..., step_size="100 M
 
 Check multiplicities before indexing `[:, 0]`. Object masks and event masks act on different axes. Object-level histograms require deliberate broadcasting of event weights and treatment of correlations from multiple objects in one event. Define behavior for empty lists, missing values, NaNs, and insufficient multiplicity.
 
+Order matters: object cuts first, then count, then the event mask, then index. A
+multiplicity check on the *uncut* collection followed by object cuts can leave events
+with fewer than two selected objects and then fail (or silently pick unselected objects)
+at `[:, 1]`.
+
 ```python
-# Adaptation pattern: requires awkward; Muon_pt is in GeV and weight is defined.
+# Adaptation pattern: requires awkward and vector; Jet_* in GeV, genWeight signed.
 import awkward as ak
-has_muon = ak.num(arrays["Muon_pt"], axis=1) > 0
-muons = arrays["Muon_pt"][has_muon]
-weights = arrays["weight"][has_muon]
-leading_pt = muons[:, 0]  # Leading only if the schema guarantees pT ordering.
+import vector
+vector.register_awkward()
+
+jets = ak.zip({"pt": arrays["Jet_pt"], "eta": arrays["Jet_eta"],
+               "phi": arrays["Jet_phi"], "mass": arrays["Jet_mass"]}, with_name="Momentum4D")
+jets = jets[(jets.pt > 30.0) & (abs(jets.eta) < 2.5)]        # 1. object mask
+jets = jets[ak.argsort(jets.pt, axis=1, ascending=False)]    # 2. order the *selected* objects
+has_two = ak.num(jets, axis=1) >= 2                           # 3. count after the cuts
+jets, weights = jets[has_two], arrays["genWeight"][has_two]  # 4. event mask on objects AND weights
+mjj = (jets[:, 0] + jets[:, 1]).mass                         # 5. only now index
+# Fill with weights and keep sum(w^2) (e.g. hist ... .Weight()); keep weights signed.
 ```
 
 ## RDataFrame and C++

@@ -21,8 +21,11 @@ K = 4 pi N_A r_e^2 m_e c^2 = 0.307 MeV mol^-1 cm^2
 `z` projectile charge, `Z/A` medium (mol/g), `I` mean excitation energy, `W_max`
 maximum energy transfer, `delta` the density-effect correction. Parameters come from
 tabulated fits (PDG), not from data. It fails below `beta gamma ~ 0.05-0.1`
-(shell, Barkas, and charge-exchange corrections) and above `~ 100` (radiative losses
-for muons and electrons dominate). Shape: falls as `1/beta^2`, minimum at
+(shell, Barkas, and charge-exchange corrections) and, for muons, above `~ 1000`
+(PDG passage-of-particles review: radiative losses take over near the muon critical
+energy, a few hundred GeV in iron/copper). Electrons are not described by this formula
+at all (different kinematics; bremsstrahlung dominates above the electron critical
+energy, tens of MeV). Shape: falls as `1/beta^2`, minimum at
 `beta gamma ~ 3-4` (minimum-ionizing, "MIP"), logarithmic relativistic rise, then a
 Fermi plateau from `delta`. The rise is *smaller in dense media and thin gas volumes
 than a naive mean suggests* because the density effect and delta-ray escape truncate it.

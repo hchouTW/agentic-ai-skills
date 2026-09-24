@@ -102,7 +102,7 @@ tests/test_jes_idempotence.py::test_applying_jes_twice_equals_applying_it_once P
 1 passed in 0.01s
 ```
 
-```python
+```pycon
 >>> from jets import Jet, apply_jes
 >>> jet = Jet(pt=100.0)
 >>> apply_jes(jet, 1.05); jet.pt

@@ -54,8 +54,13 @@ specific, recurring forms in this domain that are easy to under-count:
   independent trial positions (an all-sky scan) or against many candidate source
   positions (a catalog search) requires the number of statistically independent
   trials, which for a scan is *not* simply the number of pixels - adjacent pixels are
-  correlated by the point-spread function, so the effective trials count is closer to
-  the sky area divided by the PSF's solid angle. Estimating the correct global
+  correlated by the point-spread function, so the effective trials count is roughly
+  `N_eff ~ min(N_positions, scanned area / PSF solid angle)` - never *more* than the
+  number of positions actually tested (a grid finer than the PSF gives the area term; a
+  coarser grid gives `N_positions`). For a quick bound, `p_global = 1 - (1 -
+  p_local)^N_eff`; e.g. a 3.0 sigma local hotspot (one-sided p = 1.35e-3) from a 1000-position scan
+  has `p_global` about 0.74 for `N_eff = 1000` and about 0.13 even for `N_eff = 100` -
+  not a detection either way. Estimating the correct global
   p-value from pixel-level local p-values is standard practice done via simulated
   background-only sky maps (scrambled data, per
   [neutrino astronomy](34-neutrino-astronomy.md)'s RA-scrambling) rather than an
@@ -92,6 +97,9 @@ spectrum shifts the effective exposure (and hence the limit) systematically.
 
 - The counting method (Li & Ma or an equivalent likelihood-based statistic, not a
   Gaussian approximation) and the exact `N_on`, `N_off`, and `alpha` used.
+- The computed local significance and p-value (run `scripts/li_ma_significance.py`;
+  do not estimate it by eye), and, for a scan, the post-trials p-value with a plain
+  verdict (e.g. "not a detection").
 - The number of independent trials (positions, energy bins, time windows, source
   catalogs) and the method used to estimate it (analytic count, or scrambled/
   simulated background maps for spatially correlated trials), or a stated reason none

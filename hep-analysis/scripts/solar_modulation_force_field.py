@@ -11,8 +11,11 @@ varying solar-activity epoch, not the LIS directly.
 What it does: implements
     E_LIS = E_TOA + |Z| * phi
     J_TOA(E_TOA) = ((2*m*E_TOA + E_TOA^2) / (2*m*E_LIS + E_LIS^2)) * J_LIS(E_LIS)
-for a particle of rest mass m, absolute charge |Z|, and kinetic energy E (GeV/nucleon
-or GeV, consistently). Two modes:
+for a particle of total rest mass m (GeV), absolute charge |Z|, and *total* kinetic
+energy E (GeV), phi in GV (Gleeson & Axford 1968). For kinetic energy per nucleon the
+shift is (|Z|/A)*phi with m the nucleon mass, so pass E = A * E_per_nucleon and
+m = A * m_nucleon (or convert back afterwards); using per-nucleon E with |Z|*phi
+over-modulates every A > 1 nucleus (by 2x for He-4). Two modes:
   --modulate: given a LIS power law J_LIS(E) = A * E^-gamma, predict the flux an
     instrument at 1 AU would measure at a given TOA energy.
   --demodulate: given a *measured* TOA flux value at a given TOA energy (no LIS model

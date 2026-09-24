@@ -29,6 +29,12 @@ From the skill directory:
 
 ```bash
 python3 -m unittest discover -s tests -v
+# ROOT integration tests skip unless PyROOT imports; point them at a ROOT-capable Python:
+HEP_ROOT_PYTHON=/opt/homebrew/bin/python3.14 python3 -m unittest tests.test_root_integration -v
+# End-to-end smoke test (needs numpy + pyhf; skips otherwise):
+HEP_PYHF_PYTHON=/path/to/python-with-pyhf python3 -m unittest tests.test_end_to_end -v
+# Model-behavior checks (run by hand on a fresh model, results in VALIDATION.md):
+#   tests/prompts.md (graded prompts), tests/trigger_queries.json (description trigger set)
 python3 scripts/audit_histograms.py assets/histograms.example.json
 python3 scripts/counting_reference.py --observed 0 --background 0 --level 0.95
 python3 scripts/make_yield_table.py --help
@@ -49,12 +55,13 @@ python3 scripts/cosmic_ray_flux.py --counts 42 --exposure 1.5e7 --bin-width 10
 bash scripts/check_root_cpp_env.sh
 ```
 
-The first seventeen use only the Python standard library. `check_root_cpp_env.sh` and the
+After the test lines, the first seventeen script commands use only the Python standard library. `check_root_cpp_env.sh` and the
 remaining `scripts/*_root*`/`inspect_root_file.*`/`compare_root_histograms.py`/
 `summarize_histogram_statistics.py`/`roofit_workspace_summary.py`/
 `check_systematic_variations.py` scripts require a
-ROOT/PyROOT installation to run (they were syntax-checked, not executed, in an
-environment without ROOT - see [VALIDATION.md](VALIDATION.md)). See
+ROOT/PyROOT installation to run; `tests/test_root_integration.py` executes them on
+synthetic ROOT fixtures when PyROOT is importable (skipped otherwise - see
+[VALIDATION.md](VALIDATION.md)). See
 [VALIDATION.md](VALIDATION.md) for results and limitations. ROOT, uproot, pyhf, and
 Combine snippets require their respective environments; their execution is not
 implied by the helper tests.

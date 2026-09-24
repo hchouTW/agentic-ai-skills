@@ -1,3 +1,14 @@
+"""Starting template: dimuon-style selection with uproot + awkward, written to a ROOT TH1D.
+
+Reads `inputs`, `branches.required`, and `output` from a config such as
+`assets/analysis_config.yaml`. The selection and histogram binning are hard-coded
+below to mirror `cpp_rdataframe_analysis.cpp` (nMuon >= 2, leading pT > 25,
+|eta| < 2.4); the config's `selection` and `histograms` blocks are descriptive only.
+The output histogram keeps sum(w^2), so errors are correct with negative weights.
+
+Usage: python3 uproot_awkward_analysis.py --config analysis_config.yaml
+Requires: uproot, awkward, numpy, PyYAML (no ROOT installation needed).
+"""
 from __future__ import annotations
 
 import argparse
@@ -28,6 +39,42 @@ def require_branches(tree: uproot.behaviors.TTree.TTree, branches: list[str]) ->
     missing = [branch for branch in branches if branch not in available]
     if missing:
         raise KeyError(f"Missing required branches: {', '.join(missing)}")
+
+
+def weighted_th1(
+    name: str,
+    title: str,
+    x: np.ndarray,
+    weights: np.ndarray,
+    bins: int,
+    x_min: float,
+    x_max: float,
+) -> tuple[Any, np.ndarray]:
+    """Build a TH1D that keeps sum(w^2) per bin; return it and the in-range bin contents.
+
+    Writing ``(values, edges)`` to uproot drops the per-bin variances, so ROOT
+    would report sqrt(sum w) errors - wrong with negative or non-unit weights.
+    """
+    x = np.asarray(x, dtype=np.float64)
+    weights = np.asarray(weights, dtype=np.float64)
+    inner = np.linspace(x_min, x_max, bins + 1)
+    edges = np.concatenate(([-np.inf], inner, [np.inf]))  # underflow, bins, overflow
+    sumw, _ = np.histogram(x, bins=edges, weights=weights)
+    sumw2, _ = np.histogram(x, bins=edges, weights=weights**2)
+    in_range = (x >= x_min) & (x < x_max)
+    th1 = uproot.writing.identify.to_TH1x(
+        fName=name,
+        fTitle=title,
+        data=sumw,
+        fEntries=float(len(x)),
+        fTsumw=float(weights[in_range].sum()),
+        fTsumw2=float((weights[in_range] ** 2).sum()),
+        fTsumwx=float((weights[in_range] * x[in_range]).sum()),
+        fTsumwx2=float((weights[in_range] * x[in_range] ** 2).sum()),
+        fSumw2=sumw2,
+        fXaxis=uproot.writing.identify.to_TAxis("xaxis", "", bins, x_min, x_max),
+    )
+    return th1, sumw[1:-1]
 
 
 def main() -> None:
@@ -62,18 +109,20 @@ def main() -> None:
     selected_pt = selected_events["Muon_pt"][:, 0][mask]
     selected_weight = selected_events["event_weight"][mask]
 
-    values, edges = np.histogram(
-        ak.to_numpy(selected_pt),
-        bins=50,
-        range=(0.0, 200.0),
-        weights=ak.to_numpy(selected_weight),
-    )
-
     output_dir = Path(config["output"]["directory"])
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / config["output"]["root_file"]
+    th1, values = weighted_th1(
+        "h_leading_muon_pt",
+        "Leading muon p_{T};p_{T} [GeV];Events",
+        ak.to_numpy(selected_pt),
+        ak.to_numpy(selected_weight),
+        bins=50,
+        x_min=0.0,
+        x_max=200.0,
+    )
     with uproot.recreate(output_path) as output:
-        output["h_leading_muon_pt"] = values, edges
+        output["h_leading_muon_pt"] = th1
 
     print(f"processed events: {len(events)}")
     print(f"selected events: {ak.sum(mask)}")

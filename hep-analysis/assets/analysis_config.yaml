@@ -25,6 +25,9 @@ branches:
     - Muon_eta
     - event_weight
 
+# The `selection` and `histograms` blocks document the analysis; the shipped templates
+# (uproot_awkward_analysis.py, *_rdataframe_analysis.*) hard-code the same cuts and binning
+# and do NOT read these blocks. Keep them in sync by hand, or extend the template to read them.
 selection:
   cuts:
     - name: at_least_two_muons

@@ -16,7 +16,7 @@ shower's Cherenkov light pool in the atmosphere.
 
 A charged shower particle traveling faster than the local speed of light in air emits
 Cherenkov light, which for a full electromagnetic cascade sums into a light pool
-roughly 100-250 m in radius on the ground, lasting a few nanoseconds, peaking in the
+roughly 120-150 m in radius (~250 m across) on the ground, lasting a few nanoseconds, peaking in the
 near-UV/blue. An **imaging atmospheric Cherenkov telescope** (IACT) - a large
 segmented mirror focusing this light onto a fast, finely pixelated camera - within the
 light pool's footprint records a two-dimensional image of the shower's angular
@@ -107,6 +107,24 @@ the reduced Cherenkov yield of low-energy showers) - the same steep-spectrum
 forward-folding preference stated in
 [cosmic-ray spectrum and composition](30-cosmic-ray-spectrum-and-composition.md) and
 [10-measurements-unfolding.md](10-measurements-unfolding.md).
+
+## Worked walkthrough: an IACT ON/OFF measurement with a trials correction (verified 2026-09-24)
+
+A pre-defined source position gives `N_on = 64` and `N_off = 180` with reflected OFF regions
+(`alpha = 0.25`). Five energy thresholds were then tried before this one was chosen.
+
+```bash
+python3 scripts/li_ma_significance.py --on 64 --off 180 --alpha 0.25
+```
+
+This gives excess = 19 and a local significance of 2.35 sigma (one-sided p = 9.4e-3). The five
+thresholds are nested and correlated, so `N_eff <= 5`. As a bound,
+`p_global = 1 - (1 - 9.4e-3)^5 = 0.046`, about 1.7 sigma. The result is "no significant
+excess". Report the local and the post-trials values and state how many thresholds were
+tried. For a flux upper limit, forward-fold an assumed spectrum through the effective area
+and energy migration ([37](37-astroparticle-statistics.md)); do not divide the counts by
+an energy-averaged effective area. Check that the OFF regions exclude every known source and
+the ON region.
 
 ## Deliverables
 
