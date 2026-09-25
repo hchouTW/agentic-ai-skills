@@ -4,16 +4,16 @@ This package is original operational guidance, not a complete summary of the man
 
 | Topic | Primary source | Purpose |
 |---|---|---|
-| HEP statistics | [PDG Statistics review](https://pdg.lbl.gov/2025/reviews/rpp2025-rev-statistics.pdf) | Check interval, likelihood, and inference terminology |
+| HEP statistics | [PDG Statistics review](https://pdg.lbl.gov/2026/reviews/rpp2026-rev-statistics.pdf) | Check interval, likelihood, and inference terminology |
 | Profile likelihood and Asimov data | [Cowan et al., arXiv:1007.1727](https://arxiv.org/abs/1007.1727) | Check statistics and asymptotic assumptions |
 | RooStats | [ROOT AsymptoticCalculator, version 6.26](https://root.cern.ch/doc/v626/classRooStats_1_1AsymptoticCalculator.html) | Historical API reference; use installed-version documentation for implementation |
 | pyhf models | [Likelihood specification](https://scikit-hep.org/pyhf/likelihood.html) | Schema, modifiers, and auxiliary data; may be a development page |
 | pyhf preservation | [pyhf paper](https://arxiv.org/abs/2211.15838) | Background on HistFactory serialization |
 | Combine | [Official documentation](https://cms-analysis.github.io/HiggsAnalysis-CombinedLimit/latest/) | Match methods/options to the installed release |
 | uproot | [Official getting-started guide](https://uproot.readthedocs.io/en/latest/basic.html) | Chunked I/O and array APIs |
-| Passage of particles through matter | [PDG review](https://pdg.lbl.gov/2025/reviews/rpp2025-rev-passage-particles-matter.pdf) | Bethe-Bloch, Highland multiple scattering, radiation length, Cherenkov and transition radiation |
-| Particle detectors at accelerators | [PDG review](https://pdg.lbl.gov/2025/reviews/rpp2025-rev-particle-detectors-accel.pdf) | Detector technologies, resolution parameterizations, calorimeter terms |
-| Particle detectors for non-accelerator physics | [PDG review](https://pdg.lbl.gov/2025/reviews/rpp2025-rev-particle-detectors-non-accel.pdf) | Spectrometer, TOF, and Cherenkov practice outside collider geometries |
+| Passage of particles through matter | [PDG review](https://pdg.lbl.gov/2026/reviews/rpp2026-rev-passage-particles-matter.pdf) | Bethe-Bloch, Highland multiple scattering, radiation length, Cherenkov and transition radiation |
+| Particle detectors at accelerators | [PDG review](https://pdg.lbl.gov/2026/reviews/rpp2026-rev-particle-detectors-accel.pdf) | Detector technologies, resolution parameterizations, calorimeter terms |
+| Particle detectors for non-accelerator physics | [PDG review](https://pdg.lbl.gov/2026/reviews/rpp2026-rev-particle-detectors-non-accel.pdf) | Spectrometer, TOF, and Cherenkov practice outside collider geometries |
 | Particle masses and properties | [PDG Particle Listings](https://pdg.lbl.gov/) | Masses used by `pid_separation_power.py` and `cherenkov_angle.py` |
 | Geant4 physics | [Physics Reference Manual](https://geant4.web.cern.ch/support/user_documentation) | Physics lists, production cuts, hadronic model validity ranges |
 | Cosmic rays and particle physics (textbook) | Gaisser, Engel & Resconi, *Cosmic Rays and Particle Physics*, 2nd ed. (Cambridge University Press, 2016) | Acceleration, propagation, air-shower, and detection-technique background for references 32-39 |
@@ -49,10 +49,28 @@ performance and mission status are superseded by later publications. Rules:
   12 months, or state that it was not re-checked.
 - Standard physics constants and textbook formulas (PDG constants, Bethe-Bloch, Highland,
   Stormer, force field) are stable and exempt, but still cite the edition they came from.
-- Items to re-verify on each pass. On 2026-09-24 these were reviewed against standard
-  textbook/PDG values from the reviewer's knowledge, **not** re-fetched from the live
-  sources; do a live check before relying on them: knee/ankle/GZK energies and spectral
-  indices (reference 30, PDG cosmic-ray review); AMS-02 instrument parameters and mission
-  status (reference 38 and the AMS row above, last checked 2026-09-10); IACT energy-scale
-  systematics (reference 33); the PDG edition linked above (2025).
+- Items to re-verify on each pass. Live check done 2026-09-25 (the 2026-09-24 pass was
+  from knowledge only):
+  - PDG edition: the 2026 edition is current; the links above now point to it (all four
+    PDFs resolve). Checked 2026-09-25.
+  - Knee/ankle/GZK energies and indices (reference 30): checked 2026-09-25 against the
+    [PDG 2026 cosmic-ray review](https://pdg.lbl.gov/2026/reviews/rpp2026-rev-cosmic-rays.pdf)
+    (revised March 2026). Reference 30 corrected to match: knee at a few PeV, `gamma`
+    ~2.7 -> ~3; second knee ~100 PeV, -> ~3.3; ankle ~5 EeV, -> ~2.5; instep from ~10 EeV;
+    suppression from ~50 EeV. Note: PDG 2026 (section 30.6) words the instep as "a further
+    flattening beginning at 10 EeV", but the Auger fit it cites (PRL 125 (2020) 121106)
+    has `gamma` rising from ~2.5 to ~3.0 near 13 EeV, i.e. a steepening. Reference 30
+    follows Auger.
+  - IACT energy-scale systematic (reference 33): checked 2026-09-25. Current IACTs report
+    ~10-15% (H.E.S.S., MAGIC; MAGIC performance paper arXiv:1508.04575) up to ~20%
+    (VERITAS); CTA calibration target ~15% (arXiv:1508.07225). Reference 33 changed from
+    "~15-20%" to "~10-20%".
+  - AMS-02 mission status (reference 38): checked 2026-09-25 on
+    [ams02.space/tracker-layer-0-upgrade](https://ams02.space/tracker-layer-0-upgrade).
+    The Layer-0 silicon tracker upgrade (a new layer on top of the detector, quoted
+    acceptance gain ~300%) passed qualification tests in June 2025 and is **not yet
+    installed**. Secondary sources (a conference contribution and CERN news, seen only
+    as search snippets and not opened) put launch at the end of 2026 and completion via
+    spacewalks by about May 2027. Re-check after that. Instrument parameters: still only
+    checked against the website on 2026-09-10, not against Phys. Rept. 894.
 

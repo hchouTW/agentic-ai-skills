@@ -22,20 +22,27 @@ The cosmic-ray flux falls as a power law spanning more than ten decades in energ
 Three named features mark changes in the underlying physics and are the primary
 targets of composition and origin measurements:
 
-- **The knee** (~3-5 PeV): the spectrum steepens from `gamma ~ 2.7` to `gamma ~ 3.1`.
+Feature energies and indices below were checked 2026-09-25 against the PDG 2026
+cosmic-ray review (revised March 2026); see the latest-results policy in
+[sources](13-sources.md).
+
+- **The knee** (a few PeV): the spectrum steepens from `gamma ~ 2.7` to `gamma ~ 3`.
   The leading interpretation is a rigidity-dependent maximum energy of Galactic
   accelerators - light nuclei (proton, helium) cutting off first, heavier nuclei
   cutting off at proportionally higher energy per nucleus since acceleration and
   confinement scale with rigidity, `R = E / (Z * e)`, not raw energy. This predicts a
   "knee" for each species in sequence, sometimes called the composition unfolding into
-  a "second knee" as iron's cutoff is reached.
-- **The ankle** (~5-8 EeV): the spectrum flattens back toward `gamma ~ 2.6`. The
+  a "second knee" (~100 PeV, steepening to `gamma ~ 3.3`) as iron's cutoff is reached.
+- **The ankle** (~5 EeV): the spectrum flattens back toward `gamma ~ 2.5`. A further
+  feature, the "instep" (a steepening that starts around 10 EeV, established above 5
+  sigma by Auger), sits between the ankle and the suppression. The
   standard interpretation is a transition from a steep Galactic component to a
   harder, extragalactic component that has overtaken it - though a purely propagation-
   driven "dip" scenario (pair-production energy losses of extragalactic protons on the
   CMB) predicts a similar flattening without invoking a new source population, and
   distinguishing the two requires composition, not just spectral shape.
-- **The GZK suppression** (~5*10^19 eV): a cutoff from photopion production,
+- **The GZK suppression** (starting around 5*10^19 eV = 50 EeV; whether it is a
+  propagation (GZK) cutoff or the sources' maximum energy is still open): a cutoff from photopion production,
   `p + gamma_CMB -> Delta -> p/n + pi`, once a proton's energy exceeds the pion-
   production threshold in the CMB rest frame. This limits the horizon from which the
   highest-energy cosmic rays can reach Earth to roughly 100 Mpc (the "GZK horizon"),
