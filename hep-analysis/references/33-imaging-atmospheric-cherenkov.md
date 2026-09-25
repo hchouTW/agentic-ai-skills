@@ -59,7 +59,7 @@ estimate calibrated against detailed shower simulation. Because this calibration
 simulation-based rather than tied to an independent calorimetric measurement (unlike
 the hybrid fluorescence/surface-array calibration in
 [ground-based detection arrays](32-ground-based-detection-arrays.md)), the absolute
-energy scale for IACTs carries a larger systematic uncertainty (typically ~15-20%),
+energy scale for IACTs carries a larger systematic uncertainty (typically ~10-20%: ~10-15% for H.E.S.S. and MAGIC, up to ~20% for VERITAS; checked 2026-09-25, see [sources](13-sources.md)),
 dominated by the atmospheric-transparency model and the assumed telescope optical
 throughput; report the assumed atmospheric model and its calibration/monitoring
 alongside any absolute flux or spectral normalization.

@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (hep-analysis)
 
-State at 2026-09-25: P1-P4 done except open follow-ups (see the 2026-09-24 section of `VALIDATION.md`). Earlier state, 2026-09-21: skill is on `main`; the standard-library tests and `scripts/validate_skill_bundle.py` pass
+State at 2026-09-25 (follow-up pass on branch `hep-analysis-followups`, see its VALIDATION.md section): P1-P4 done except open follow-ups (see the 2026-09-24 section of `VALIDATION.md`). Earlier state, 2026-09-21: skill is on `main`; the standard-library tests and `scripts/validate_skill_bundle.py` pass
 (see `VALIDATION.md`). Most of the verification so far was structural or numerical on pure-Python helpers. Nothing
 in the skill has been checked by running it on a fresh model. Read `VALIDATION.md` first, then this file.
 
@@ -44,8 +44,9 @@ ACLiC (`macro.C+`) fails even for an empty macro (macOS SDK mismatch). Found 202
 ## P1 follow-ups found 2026-09-24
 - [x] (2026-09-25: the config now labels these blocks as documentation-only; templates unchanged) `assets/uproot_awkward_analysis.py` ignores the config's `selection.cuts` and `histograms` (hard-coded
       selection). Either implement config-driven cuts or trim the config so it does not imply they are used.
-- [ ] Live re-check of the numbers in the latest-results policy list (`references/13-sources.md`), with dates.
-- [ ] Try `plot_branch.C+` (ACLiC) on a machine where ACLiC works.
+- [x] (2026-09-25: PDG links -> 2026; ref 30 knee/ankle corrected, instep/second knee added; ref 33 IACT scale -> 10-20%; AMS Layer-0 not yet installed) Live re-check of the numbers in the latest-results policy list (`references/13-sources.md`), with dates.
+- [ ] Re-check AMS-02 Layer-0 status after mid 2027 (installation creates a new detector era; ref 38). The schedule is only from secondary sources.
+- [ ] Try `plot_branch.C+` (ACLiC) on a machine where ACLiC works. (2026-09-25: diagnosed here as Homebrew ROOT pairing the CLT MacOSX26 sysroot with a hard-coded Xcode libc++ path; SDKROOT/DEVELOPER_DIR do not help. Needs a ROOT rebuild or another machine.)
 
 ## P2 - test that the skill actually changes model behavior
 The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven until a fresh model is run on them.
@@ -67,9 +68,12 @@ The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven
       that every code snippet in them runs or is clearly labelled pseudo-code. Run the runnable ones.
 
 ## P2 follow-ups found 2026-09-24
-- [ ] Re-run `tests/prompts.md` on Haiku after any change to references 02/17/37 or the SKILL.md invariants.
-- [ ] Trigger test was simulated (an agent given the descriptions). If a harness-level trigger eval becomes available
+- [ ] Re-run `tests/prompts.md` on Haiku after any change to references 02/17/37 or the SKILL.md invariants. (Last done 2026-09-25: 9 PASS / 3 PARTIAL / 2 FAIL; P05 blinding and P07 prior-tuning fixed in SKILL.md/ref 01 and re-passed. Next time, run each prompt at least twice and give each agent its own output directory.)
+- [x] (2026-09-25: refs 03/35 fixed; Haiku reruns P01 2/2 PASS, P10 2/2 PASS, P08 2/2 PARTIAL with no F signal; see VALIDATION.md) P01/P08/P10 are PARTIAL on Haiku: RDataFrame `Runs`-tree sumw code (ref 03), units on the flux value (ref 35), and the cutoff safety factor plus backtracing (ref 35). Check whether the references state these clearly enough.
+- [ ] P08 stays PARTIAL on Haiku: the answers name `cosmic_ray_flux.py` but do not run it (no interval numbers) and drop the resolution/spillover point under the ~220-word cap. Possible next steps: let the answering agent run scripts, or relax the word cap for this prompt. Do not add the n=3 interval to the references, because that would leak the answer.
+- [x] (2026-09-25: `claude plugin eval` recall is 20/20 on Sonnet and 12/20 on Haiku; the only false triggers are AMS queries with `ams-analysis` not loaded; see VALIDATION.md) Trigger test was simulated (an agent given the descriptions). If a harness-level trigger eval becomes available
       (e.g. `skill-creator` description optimization or `claude plugin eval`), re-run `tests/trigger_queries.json` through it.
+- [ ] Decide whether to raise Haiku trigger recall (Sonnet is already 20/20) (a description change affects sibling routing; re-run the trigger suite for all siblings after any change). Consider committing the eval suite under `evals/` (ask the user first: it adds files to the bundle).
 
 ## P3 - improve content and structure
 - [x] (2026-09-25: P2 agents read 1-3 references per task; ref 14 (1,300 lines) got a task-to-section map) `SKILL.md` is ~180 lines and the references total ~7,200 lines: check progressive disclosure. Confirm that a

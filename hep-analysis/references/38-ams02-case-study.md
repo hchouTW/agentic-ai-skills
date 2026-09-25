@@ -37,7 +37,11 @@ and shower shape. The lessons that generalize:
   detector configuration must be tracked per data-taking period, and an analysis spanning
   a documented hardware change must treat the eras separately or justify combining them
   - see [calibration and alignment](29-calibration-and-alignment.md). Verify any specific
-  servicing or upgrade date and scope in a primary source before citing it.
+  servicing or upgrade date and scope in a primary source before citing it. As of
+  2026-09-25, the Layer-0 tracker upgrade (an extra silicon layer on top, quoted ~300%
+  acceptance gain) was qualified but not yet installed. Installation was planned for
+  late 2026 to mid 2027, which will create a new detector era (see
+  [sources](13-sources.md)).
 - **Orbital environment.** The orbit sweeps a wide range of geomagnetic latitudes, so the
   cutoff is a per-event (or per-time-bin) quantity from spacecraft position and pointing,
   not one number; a "primary" selection uses a safety factor above it and varies that

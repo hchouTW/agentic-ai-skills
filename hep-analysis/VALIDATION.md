@@ -3,7 +3,116 @@
 Validation date: 2026-09-25 (latest pass; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests.
-Current counts: bundle 137 files; 201 tests (7 ROOT and 4 pyhf tests skip without PyROOT/pyhf).
+Current counts: bundle 112 files (the 25 `examples/` files were removed on 2026-09-25); 201 tests (7 ROOT and 4 pyhf tests skip without PyROOT/pyhf).
+
+## Follow-up pass (2026-09-25, branch `hep-analysis-followups`)
+
+- **Examples removed.** Commit 86104f1 deleted `examples/`. That broke the bundle validator
+  (25 missing `REQUIRED_PATHS`) and left a dead link in `SKILL.md`. Both references are now
+  removed. The routing row that sends example authoring to `task-authoring` stays.
+  Bundle OK (112 files); 201 tests pass (11 skips).
+- **Latest-results live check** (`references/13-sources.md`). This is the first live check;
+  the 2026-09-24 pass was from knowledge only.
+  - PDG links moved from the 2025 to the 2026 edition; all four PDFs resolve.
+  - Reference 30 corrected against the PDG 2026 cosmic-ray review (revised March 2026):
+    - knee: `gamma` ~2.7 -> ~3 (was 3.1);
+    - second knee: ~100 PeV, `gamma` -> ~3.3 (added);
+    - ankle: ~5 EeV, `gamma` -> ~2.5 (was 5-8 EeV, 2.6);
+    - instep and a ~50 EeV suppression added.
+  - PDG words the instep as a "flattening". The Auger paper it cites (PRL 125 (2020)
+    121106: 2.51 -> 3.05 at 13 EeV) shows a steepening, and reference 30 follows Auger.
+  - IACT energy scale (reference 33): "~15-20%" changed to "~10-20%" (H.E.S.S./MAGIC ~10-15%,
+    VERITAS ~20%).
+  - AMS-02 (reference 38): the Layer-0 tracker upgrade is qualified but not yet installed.
+    Its schedule (launch end of 2026, done by about May 2027) comes from secondary sources
+    only, so it is flagged for a re-check.
+- **ACLiC** still fails, now diagnosed. ROOT 6.38.04 (Homebrew) pairs
+  `-isysroot .../CommandLineTools/SDKs/MacOSX26.sdk` with a hard-coded Xcode
+  `.../MacOSX.sdk/usr/include/c++/v1`, and the mixed libc++/libc headers crash `rootcling`
+  even for an empty macro. Setting `SDKROOT` (CLT 26 or default) or
+  `DEVELOPER_DIR=CommandLineTools` still ends in a bus error or segfault. The path is baked
+  into the Homebrew build. The fix is a ROOT rebuild or a different machine, not the macro.
+- **Haiku + skill re-run of `tests/prompts.md`** (P01-P14, one fresh agent each). This run
+  came after the examples were removed and after the SKILL.md invariants were regrouped
+  under headings.
+  - PASS: P02, P03, P04, P06, P09, P11, P12, P13, P14.
+  - PARTIAL:
+    - P01: correct denominator and signed weights, but no RDataFrame/`Runs`-tree code.
+    - P08: exact interval correct ([1.37, 5.92] counts), but no units and no
+      resolution note, as before.
+    - P10: Stormer estimate only, with no cutoff safety factor or backtracing.
+  - **FAIL:**
+    - P05: the data/MC script plotted every observed point, including m > 1 TeV. A
+      red box drawn *behind* the points was called "masking".
+    - P07: it wrote the 5% -> 30% ttbar prior change into the datacard without
+      challenge.
+  - In the 2026-09-24 run both passed, so either the failure is sampling noise or the
+    guidance was too weak for Haiku. Fixes:
+    - `SKILL.md` blinding invariant and `references/01`: a mask removes observed values
+      (NaN, dropped, or never read); shading is not masking.
+    - `SKILL.md` no-tuning invariant: now names nuisance prior/constraint widths,
+      parameter bounds and dropped nuisances, says not to write such a change on
+      request, and lists the alternatives.
+  - Reruns after the fixes, 2 per prompt:
+    - P07 2/2 PASS: declined, explained the bias, offered pulls/impacts, a GoF test and
+      a CR constraint.
+    - P05 1 PASS (bins set to NaN before the ratio and plot) and 1 PARTIAL. The
+      PARTIAL run's own script masked correctly, but it wrote into the shared scratch
+      directory and offered the first run's leaky script as the real-data template.
+      That is contamination from the test setup, not a skill failure.
+  - Caveat: one run per prompt, graded by one judge. Haiku is noisy at this sample size.
+- **Harness trigger eval** (`claude plugin eval`, Claude Code 2.1.282). The 40 queries in
+  `tests/trigger_queries.json` became cases with a `tool_used: Skill` grader: at least one
+  call for should-trigger, `min: 0, max: 0` otherwise. The suite was run from a scratch copy
+  of the skill (with-arm only, 1 run each) and was not committed.
+  - Only `hep-analysis` is loaded in the eval child; the siblings are not.
+  - Haiku ($1.30): recall 12/20 (pos14 invoked the skill but hit the 6-turn cap), false
+    triggers 1/20. The one false trigger is the AMS antideuteron design query, and
+    `ams-analysis` was not available to take it. The recall misses:
+    - JER->MET, knee/ankle, Gaisser-Hillas X_max, PyROOT segfault, RICH pi/K, ABCD;
+    - CMake+RDataFrame (hit the turn cap), Combine impacts, IceCube effective area.
+  - Haiku answered these from its own knowledge without loading the skill. The simulated
+    P2 trigger test (20/20, 0/20) overstated recall on Haiku.
+  - Sonnet ($4.43, 12-turn cap): recall 20/20, false triggers 2/20. Both false triggers are
+    AMS queries (the latest positron fraction and the antideuteron design) that go to
+    `ams-analysis` when it is installed.
+  - Conclusion: the description works on Sonnet. The Haiku recall gap is Haiku preferring
+    to answer from its own knowledge, so the description was left unchanged. A
+    sibling-routing check under the harness needs a suite that loads all repo skills,
+    which this target mode does not do.
+- **P01/P08/P10 Haiku PARTIALs: reference fixes and reruns** (Haiku + skill, one fresh
+  agent and one output directory per run, prompt text only, ~220-word cap, graded by one judge).
+  The worked numbers added to the references differ from the test prompts, so the answers
+  are not copied.
+  - P01 (ref 03 never mentioned the NanoAOD `Runs` tree or skims). Added a PyROOT
+    RDataFrame snippet: denominator from `Runs`/`genEventSumw` over every file, signed
+    weights, and an N/sumw/sumw2 cutflow. The snippet was run on synthetic skimmed files,
+    including one where the skim kept 0 events. Reruns: **2/2 PASS**; both used the
+    `Runs` tree, with no `abs`.
+  - P10, round 1 (ref 35 had the 1.2 safety factor only inside the walkthrough). Added a
+    cutoff selection rule to the main section: backtraced maximum cutoff over the
+    acceptance, with the same rule for events and exposure. Result: 1 PASS, 1 PARTIAL.
+    The PARTIAL run copied the walkthrough's Störmer-first framing, so the walkthrough
+    step now leads with the backtraced cutoff.
+  - P10, round 2: 2/2 met E1/E2. Both runs called 2011-2013 "declining", and one said to
+    demodulate the Voyager data too. The reference stated neither, so both were Haiku's own
+    errors. Added a sourced paragraph:
+    - cycle 24 minimum Dec 2008 and maximum Apr 2014, with a first peak in Nov 2011 and a
+      2012-mid 2013 plateau (SILSO);
+    - Voyager 1 heliopause Aug 2012 and Voyager 2 Nov 2018; demodulate only the 1 AU flux.
+    - Round 3: **2/2 PASS**; both called 2011-2013 solar maximum and demodulated only the
+      ISS data.
+  - P08, round 1: added a low-count, high-rigidity subsection to ref 35: exact interval,
+    GV units, MDR/spillover, background. Result: **2/2 FAIL**, worse than before. Both
+    runs called `sqrt(3)` correct or "approximately correct" and divided by 0.6 (TV)
+    instead of 600 GV, so their numbers were 1000x too large. One invented the interval
+    [1, 5]; the exact one is [1.37, 5.92].
+  - P08, round 2: the subsection now says the answer to `sqrt(N)` is "no", to run the
+    script instead of estimating the interval, and to convert TV to GV. Result: **2/2
+    PARTIAL**, with no F signal: both said no, flagged TV->GV, and gave the correct script
+    command. Neither ran the script, so there are no interval numbers, and neither
+    mentioned resolution/spillover. P08 has been PARTIAL on Haiku in every pass.
+  - Tests 201 OK (11 skips); bundle OK after each edit.
 
 ## P3 content pass (2026-09-25)
 

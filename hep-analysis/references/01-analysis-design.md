@@ -22,7 +22,7 @@ Choose binning using resolution, MC statistics, background stability, systematic
 
 ## Blinding
 
-Implement a mask based on region, observable interval, and category. Apply it to plots, yield tables, ratios, pulls, debug output, caches, and notebook displays. Store Asimov/expected results separately from observed results. Do not use the actual SR count to optimize the supposedly blinded model.
+Implement a mask based on region, observable interval, and category. The mask must remove observed values before they reach any output. Filter at read time, or set blinded bins to NaN before plotting, ratio or pull computation. Drawing a shaded box over plotted data does not blind it, so check the rendered output shows no observed points in the region. Apply it to plots, yield tables, ratios, pulls, debug output, caches, and notebook displays. Store Asimov/expected results separately from observed results. Do not use the actual SR count to optimize the supposedly blinded model.
 
 Under applicable collaboration rules, record the frozen commit, model, diagnostics, and unblinding conditions. Unblind only when the user has authorized it and applicable requirements are satisfied; do not invent approval requirements for unrelated routine work. Receiving an unblinded input does not justify optimizing against it.
 
