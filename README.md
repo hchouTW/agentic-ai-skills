@@ -55,7 +55,7 @@ See each skill's `VALIDATION.md` for what is checked.
 
 ## `examples/` worked examples
 
-Every skill in this collection ships an `examples/` directory: canonical
+Every skill in this collection except `academic-papers` ships an `examples/` directory: canonical
 worked examples for a realistic scenario in that skill's domain, in one of
 eight archetypes - **Contrast** (a "Common Weak Approach" vs. "Expert-Level
 Best Practice" plus key takeaways), **Execution Trajectory** (a step-by-step
@@ -68,7 +68,7 @@ failure modes), **Test-First / Red-to-Green** (a failing test through a
 minimal fix to a verified, metric-backed pass), or **Incident Postmortem**
 (alert through blameless 5-Whys RCA to a permanent fix and a concrete
 monitoring rule) - see each skill's `examples/README.md` for its index and
-which archetype each entry uses. Every skill except `task-authoring` carries
+which archetype each entry uses. Every other skill except `task-authoring` carries
 3 examples per archetype (24 total); `task-authoring`'s `examples/` instead
 carries one worked example per task category (feature, bug, performance,
 research), documented in its own `README.md`. `task-authoring`'s
