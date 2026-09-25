@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-21. Helper test environment: Python 3, standard library only; Graphviz `dot` present, no LaTeX (Mermaid CLI available through npx).
+Validation date: 2026-09-21 (follow-ups 2026-09-25). Helper test environment: Python 3, standard library only; Graphviz `dot` present, no LaTeX (Mermaid CLI available through npx).
 
 ## Initial build (2026-09-21)
 
@@ -78,7 +78,7 @@ of incoming/outgoing fermion arrows) and keep the auto-layout one with a warning
 
 **Venue widths** (`references/academic-figure-style.md`, checked against sources, not just the doc's earlier defaults): ICML 2026 (6.75 in
 overall, 0.25 in gutter, so 3.25 in = 8.26 cm per column; the earlier "~8.5 cm" was slightly off and the row conflated ICML with NeurIPS),
-NeurIPS 2026 (5.5 in), JHEP `jheppub` (15.5 cm on a4paper). APS single column (8.6 cm) comes from the RMP style guide; the REVTeX 4.2
+NeurIPS 2026 (5.5 in), JHEP `jheppub` (15.5 cm on a4paper - **wrong**, corrected to 15.1 cm on 2026-09-25, see below). APS single column (8.6 cm) comes from the RMP style guide; the REVTeX 4.2
 guide itself states no figure widths, and 17.8 cm for a full-width figure is still an unverified default.
 
 ## Second sample with a different model (Haiku) (2026-09-21, follow-up)
@@ -101,12 +101,39 @@ Rendered every Mermaid block to PNG and reviewed them. Two defects in this bundl
 label overlapped the test-set node; now a two-node tuning loop) and `general/05` (edge label collided with the router box; now dropped and stated in text).
 The Bayesian-model DOT plate labels now sit at the bottom right (`labelloc=b`), clear of the edges. The other renders had no overlaps at this review depth.
 
+## Tooling follow-ups: PlantUML, LuaLaTeX, venue rules (2026-09-25)
+
+Tools installed into a throwaway scratch directory only: OpenJDK + PlantUML 1.2026.8 (conda-forge), and a minimal TeX Live 2026
+(`install-tl` infra-only scheme + `luatex`, `latex-bin`, `tikz-feynman`, `standalone` and dependencies).
+
+- **PlantUML.** All 6 PlantUML blocks (`computer-science/09`, `/10`, and 4 in `references/plantuml-patterns.md`) rendered to PNG and
+  were inspected. One real defect: the class snippet `class Sample { +id : int  +energy : float }` is a syntax error (one-line member
+  bodies are not accepted; PlantUML falls back to a sequence diagram and fails). Fixed (one member per line, `Track` declared) and a
+  pitfall added. The fences were retagged from `text` to `plantuml`, and `check_diagram_sources.py` now renders them with `plantuml -pipe`
+  when it is on PATH, wrapping fragments in `@startuml`/`@enduml` first (without the markers PlantUML outputs nothing and exits 0).
+  Four new tests (fake binary, fragment wrapping, fence extraction, real binary rejects the one-line class body). Full run with
+  `plantuml` on PATH: 55 blocks, 0 problems; 25 tests pass (the real-`mmdc` test skipped: `mmdc` not on PATH this time; no Mermaid source changed).
+- **LuaLaTeX Feynman.** The `\feynmandiagram [horizontal=a to b]` auto-layout snippet compiled with LuaHBTeX 1.24 and was inspected:
+  clean layout, correct arrow orientation on all four fermion lines, but `e^+` is placed on top and `e^-` below (the reverse of the
+  manual version) - noted in the text. Under pdfLaTeX the same source exits 0 with a "LuaTeX is required" warning and draws a garbled
+  figure, confirming the earlier XeTeX finding. The manual-placement version in `hep/07` compiled under LuaLaTeX and pdfLaTeX with an
+  identical, correct layout. `[compat=1.1.0]` added to the `tikz-feynman` loading line (silences a per-run warning; render unchanged).
+- **Bayesian-model DOT.** Re-rendered: plate labels are clear of the edges (the `labelloc=b` fix from 2026-09-21 holds). Also set
+  `graph [fontname="Helvetica"]` so the plate labels no longer fall back to Times while the nodes use Helvetica.
+- **Venue rules**, from the files themselves rather than summaries. ICLR 2026 (`iclr2026_conference.sty` from the official
+  Master-Template repository; the 2027 file is identical): 5.5 in text width, 10 pt Times - now verified. NeurIPS 2026 (`neurips_2026.sty`
+  and `neurips_2026.tex`): 5.5 in, 10 pt, Type 1/embedded TrueType fonts only. JHEP: compiling `jheppub.sty` v1.1227 with `11pt,a4paper`
+  gives `\textwidth` = 430.2 pt = **15.1 cm**, not 15.5 cm (the style sets `.72\paperwidth`); the earlier "float wider than 60% of the
+  text width is centered" was a misreading of `\bottomfraction{.6}` and was removed. Figure rules from the JHEP author manual (raster
+  150-250 dpi, embedded fonts, no transparency layers, "figure 2" not "fig. 2") added. None of the three sets a minimum font size for
+  text inside figures; that is now said explicitly.
+
 ## Not verified
 
-- All PlantUML sources (no working Java runtime), the LuaLaTeX automatic-layout Feynman variants (no LuaTeX), the
-  `subcaption` `figure*` snippet, and `dvisvgm` export were not run.
-- APS full-width figure size (17.8 cm) and ICLR width are unverified defaults; ICML/NeurIPS/JHEP/APS-single-column were checked (see above).
-- The prompt run used one fresh agent per prompt and one sample each; it shows the skill can be followed, not how often it succeeds. The table
+- The `subcaption` `figure*` snippet and `dvisvgm` export were not run.
+- APS full-width figure size (17.8 cm) is an unverified default; ICML/NeurIPS/ICLR/JHEP/APS-single-column were checked (see above).
+- The PlantUML component diagram's automatic layout depends on the Graphviz version; the render was inspected with Graphviz from Homebrew only.
+- The prompt run used one fresh agent per prompt and one sample each (Sonnet on 10, Haiku on 4; not yet Opus); it shows the skill can be followed, not how often it succeeds. The table
   below records which file supplies each capability.
 
 | Prompt | Supplied by |

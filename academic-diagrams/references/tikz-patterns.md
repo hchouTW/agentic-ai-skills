@@ -58,9 +58,10 @@ setting `node distance`/widths to fit the column.
 
 ## Feynman diagrams (tikz-feynman)
 
-Needs `\usepackage{tikz-feynman}`. `\feynmandiagram` with automatic layout needs LuaLaTeX. Under
-pdfLaTeX/XeLaTeX it still compiles (only warnings) but ignores the layout keys and draws overlapping,
-garbled lines - always inspect the output. For a portable result place vertices by hand:
+Needs `\usepackage[compat=1.1.0]{tikz-feynman}` (without `compat` the package warns on every run).
+`\feynmandiagram` with automatic layout needs LuaLaTeX. Under pdfLaTeX/XeLaTeX it still compiles (exit 0,
+only a "LuaTeX is required" warning) but ignores the layout keys and draws overlapping, garbled lines -
+always inspect the output. For a portable result place vertices by hand:
 
 ```latex
 \begin{tikzpicture}
@@ -79,7 +80,10 @@ garbled lines - always inspect the output. For a portable result place vertices 
   \end{feynman}
 \end{tikzpicture}
 ```
-(compiled with Tectonic and inspected; incoming/outgoing arrow orientation checked). LuaLaTeX automatic layout:
+(compiled with Tectonic, LuaLaTeX, and pdfLaTeX and inspected; incoming/outgoing arrow orientation checked).
+LuaLaTeX automatic layout (compiled with LuaHBTeX 1.24 / TeX Live 2026 and inspected: clean layout, correct
+arrows; the algorithm puts `e^+` on top and `e^-` below, the reverse of the manual version, so check label
+positions against the text):
 
 ```latex
 % e+ e- -> gamma* -> mu+ mu- (QED, illustrative); LuaLaTeX, automatic layout

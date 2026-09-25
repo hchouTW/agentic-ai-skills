@@ -43,14 +43,24 @@
 |---|---|
 | Single column (REVTeX/APS) | 8.6 cm (3 3/8 in), stated on the APS journal "Information for Contributors" pages (e.g. PRB); "1.5 or 2 columns may be used" when detail requires it |
 | Double column span (REVTeX/APS) | no width is stated by APS or the REVTeX 4.2 guide (page-spanning figures use `figure*`); ~17.8 cm (7 in) is a common default, not an APS number |
-| JHEP (`jheppub`, a4paper) | text width 15.5 cm (~74% of the paper width); a float wider than 60% of the text width is centered on the page |
-| NeurIPS 2026 | text width 5.5 in (13.97 cm), single column |
+| JHEP (`jheppub`, `11pt,a4paper`) | text width `.72\paperwidth` = 430 pt = 15.1 cm (measured by compiling `jheppub.sty` v1.1227); 11 pt body, captions `\small` and centered when they fit on one line |
+| NeurIPS 2026 | text width 5.5 in (13.97 cm), single column, 10 pt Times body (`neurips_2026.sty`) |
 | ICML 2026 | two columns; overall text width 6.75 in (17.1 cm), 0.25 in between columns, so each column is 3.25 in (8.26 cm); left margin 0.75 in |
-| ICLR 2026 | single column, text width 5.5 in (33 picas), 10 pt type (from the ICLR 2026 formatting instructions as summarized by a search; the PDF itself could not be fetched) |
+| ICLR 2026 | single column, text width 5.5 in (13.97 cm), 10 pt Times body (`iclr2026_conference.sty`; ICLR 2027's file sets the same) |
 | Beamer 16:9 | ~ full slide; text >= 14-18 pt |
 | Poster | text >= 24 pt for labels |
 
-Venue figure-quality rules found in the same sources: APS - lettering at least 2 mm high after reproduction, lines at least 0.18 mm (0.5 pt), 600 dpi or more for raster art; ICML - lines at least 0.5 pt, no text on a gray background, Type-1 fonts only. (A 2 mm cap height is roughly an 8 pt font; the 6-7 pt minimum above is a floor, not a target.) Checked 2026-09-21 against: the ICML 2026 example paper (widths above, plus figure lines at least 0.5 pt thick, no text on a gray background, and Type-1 fonts only - avoid Type-3 fonts from exported figures), the NeurIPS 2026 formatting instructions, the JHEP `jheppub` documentation, and the APS RMP style guide. Re-check each year and for every journal. These are common defaults, not guarantees: read the venue's author kit. Design at final size;
+None of JHEP, NeurIPS, or ICLR sets a minimum font size for text inside figures: apply the 6-7 pt floor above and
+aim to match the caption size (JHEP `\small` = 10 pt; NeurIPS/ICLR captions are 10 pt with a 10 pt body). Their figure
+rules (checked 2026-09-25 against the NeurIPS 2026 and ICLR 2026 templates and the JHEP author manual shipped with
+`jheppub`): **NeurIPS / ICLR** - artwork "neat, clean, and legible", lines dark enough to reproduce, caption *after*
+the figure in lower case (except the first word and proper nouns), color allowed but caption and text should make
+sense printed in black and white; NeurIPS also requires Type 1 or embedded TrueType fonts only (check with `pdffonts`).
+**JHEP** - caption below the figure; refer to "figure 2" in the text, never "fig. 2"; raster images at 150-250 dpi;
+vector images with fonts embedded; remove transparency layers; float figures to the top of a page.
+
+Venue figure-quality rules found in the same sources: APS - lettering at least 2 mm high after reproduction, lines at least 0.18 mm (0.5 pt), 600 dpi or more for raster art; ICML - lines at least 0.5 pt, no text on a gray background, Type-1 fonts only. (A 2 mm cap height is roughly an 8 pt font; the 6-7 pt minimum above is a floor, not a target.) Checked 2026-09-21 against: the ICML 2026 example paper (widths above, plus figure lines at least 0.5 pt thick, no text on a gray background, and Type-1 fonts only - avoid Type-3 fonts from exported figures), the NeurIPS 2026 formatting instructions, the JHEP `jheppub` documentation, and the APS RMP style guide
+(JHEP/NeurIPS/ICLR re-checked 2026-09-25 from the style files themselves). Re-check each year and for every journal. These are common defaults, not guarantees: read the venue's author kit. Design at final size;
 avoid scaling a large figure down until the text is unreadable. Prefer vector (PDF/SVG) output.
 
 ## Panels and multi-figure consistency

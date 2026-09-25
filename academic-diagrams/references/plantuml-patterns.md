@@ -5,12 +5,12 @@ where the reader expects UML notation. For flowcharts and pipelines prefer Merma
 Graphviz. Render: `plantuml f.puml` (needs a Java runtime) or `plantuml -tsvg f.puml`; text-only
 diagram sources go between `@startuml` and `@enduml`.
 
-> This bundle's PlantUML sources were **not compiled** during authoring (no Java runtime was available).
-> Render and inspect before publishing.
+> Every PlantUML block in this bundle was rendered with PlantUML 1.2026.8 on OpenJDK and inspected (2026-09-25);
+> `scripts/check_diagram_sources.py` compiles ```plantuml fences when `plantuml` is on PATH. Render and inspect your own before publishing.
 
 ## Baseline style
 
-```text
+```plantuml
 @startuml
 skinparam monochrome true
 skinparam shadowing false
@@ -25,7 +25,7 @@ left to right direction
 
 ## Component diagram
 
-```text
+```plantuml
 component "API service" as api
 database  "Job store"  as db
 queue     "Job queue"  as q
@@ -43,7 +43,7 @@ Group with `package "Name" { ... }` or `rectangle "Name" { ... }`.
 
 ## Sequence diagram
 
-```text
+```plantuml
 participant Client
 participant "API service" as API
 Client -> API : POST /jobs
@@ -65,11 +65,16 @@ when the duration matters; use `note over A, B : ...` for assumptions.
 
 ## Class / ER-like
 
-```text
-class Sample { +id : int  +energy : float }
+```plantuml
+class Sample {
+  +id : int
+  +energy : float
+}
+class Track
 Sample "1" *-- "many" Track
 ```
-Do not draw inheritance or composition unless the source has it (`<|--` inheritance, `*--` composition, `o--` aggregation, `-->` association).
+Put each member on its own line: a one-line body such as `class Sample { +id : int  +energy : float }` is a syntax error
+(PlantUML then guesses a sequence diagram and fails). Do not draw inheritance or composition unless the source has it (`<|--` inheritance, `*--` composition, `o--` aggregation, `-->` association).
 
 ## Pitfalls
 
@@ -78,6 +83,7 @@ Do not draw inheritance or composition unless the source has it (`<|--` inherita
 - Quote names with spaces or punctuation and give them an alias (`as`); refer to the alias afterwards.
 - Layout is automatic and needs Graphviz (`dot`) for some diagram types; long labels widen boxes.
 - Keep sequence diagrams to one scenario; put failure paths in `alt` or a second diagram.
+- A fence with no `@startuml` renders as nothing, silently, with `plantuml -pipe`: always include the markers in a real file.
 - Do not invent components: the same Known / Inferred / Assumed rule as for every other format.
 
 ## Checks

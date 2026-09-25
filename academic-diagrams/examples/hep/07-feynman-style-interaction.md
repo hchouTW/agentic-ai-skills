@@ -6,7 +6,7 @@
 Vertex checks: γ*e⁺e⁻ and γ*μ⁺μ⁻ are QED vertices; charge conserved (0 → +1 − 1); fermion-flow continuous on each line.
 
 ```latex
-% Requires \usepackage{tikz-feynman}. Manual placement: compiles and lays out correctly with pdfLaTeX, XeLaTeX, or LuaLaTeX.
+% Requires \usepackage[compat=1.1.0]{tikz-feynman}. Manual placement: compiles and lays out correctly with pdfLaTeX, XeLaTeX, or LuaLaTeX.
 \begin{tikzpicture}
   \begin{feynman}
     \vertex (a);
@@ -23,7 +23,7 @@ Vertex checks: γ*e⁺e⁻ and γ*μ⁺μ⁻ are QED vertices; charge conserved 
   \end{feynman}
 \end{tikzpicture}
 ```
-The manual version was compiled with Tectonic (XeTeX) and inspected: incoming $e^-$ arrow toward the vertex, $e^+$ drawn with the arrow away from it, $\mu^+$ arrow toward the second vertex, $\mu^-$ away. The automatic-layout variant (`\feynmandiagram [horizontal=a to b] {...}`) needs LuaLaTeX and was **not** verified here: under XeTeX it "compiles" with warnings but ignores the layout keys and draws a garbled diagram, so a clean compile is not evidence of a correct figure.
+The manual version was compiled with Tectonic (XeTeX), LuaLaTeX, and pdfLaTeX and inspected (identical layout): incoming $e^-$ arrow toward the vertex, $e^+$ drawn with the arrow away from it, $\mu^+$ arrow toward the second vertex, $\mu^-$ away. The automatic-layout variant (`\feynmandiagram [horizontal=a to b] {...}`, in `../../references/tikz-patterns.md`) needs LuaLaTeX: under LuaLaTeX it was compiled and gives a clean diagram with correct arrows (with $e^+$ on top); under XeTeX and pdfLaTeX it "compiles" (exit 0) with a warning but ignores the layout keys and draws a garbled diagram, so a clean compile is not evidence of a correct figure.
 
 Channel: s-channel (propagator carries $s=(p_{e^-}+p_{e^+})^2$). Adding Z exchange would require stating the electroweak assumption.
 **Caption:** Leading-order Feynman diagram for $e^+e^-\to\mu^+\mu^-$ through s-channel virtual-photon exchange. Time runs left to right; arrows on fermion lines indicate fermion-number flow.

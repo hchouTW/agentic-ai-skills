@@ -68,8 +68,8 @@ generic propagator = plain line. Label incoming (left), outgoing (right), vertic
 propagators; identify s/t/u channel by which Mandelstam variable the propagator carries. Loops
 only when asked. Conservation checks at each vertex (charge, fermion-number flow, color).
 
-tikz-feynman (needs `\usepackage{tikz-feynman}`; automatic layout requires LuaLaTeX, while pdfLaTeX
-needs explicit `\vertex (a) at (x,y)` positioning - see `tikz-patterns.md`).
+tikz-feynman (needs `\usepackage[compat=1.1.0]{tikz-feynman}`; automatic layout requires LuaLaTeX, while
+pdfLaTeX/XeLaTeX need explicitly placed vertices - see `tikz-patterns.md`).
 
 ## 6. Statistical architecture (likelihood)
 

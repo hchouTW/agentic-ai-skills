@@ -21,7 +21,7 @@ Use `probabilistic-graphical-model.md` when only the model graph is needed, and 
 
 ```dot
 digraph model {
-    rankdir=TB; node [fontname="Helvetica", shape=circle];
+    rankdir=TB; graph [fontname="Helvetica"]; node [fontname="Helvetica", shape=circle];
     mu  [label=<&mu;>];
     tau [label=<&tau;>];
     sig [shape=plaintext, label=<&sigma;>];

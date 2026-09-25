@@ -3,7 +3,7 @@
 Purpose: guard the helper scripts and the shipped bundle against regressions.
 What it does: unit-tests the parsing/lint helpers on synthetic input and runs the validator and
 source checker against the real bundle. Usage: `python3 -m unittest discover -s tests -v` from the
-skill directory. Standard library only; DOT compilation is skipped when Graphviz is absent.
+skill directory. Standard library only; DOT compilation is skipped when Graphviz is absent, PlantUML when `plantuml` is.
 """
 import importlib.util
 import shutil
@@ -114,6 +114,32 @@ class MermaidRender(unittest.TestCase):
     @unittest.skipUnless(shutil.which("mmdc"), "Mermaid CLI not installed")
     def test_real_mmdc_rejects_bad_syntax(self):
         self.assertTrue(sources.check_mermaid("flowchart LR\n A -.->|x| B --- ??? C"))
+
+
+class PlantUmlRender(unittest.TestCase):
+    def fake_plantuml(self, directory, exit_code, stderr=""):
+        """Write a stand-in `plantuml` that copies stdin to a file and exits with exit_code."""
+        script = Path(directory) / "fake_plantuml"
+        script.write_text(f'#!/bin/sh\ncat > "{directory}/stdin"\necho "{stderr}" >&2\nexit {exit_code}\n')
+        script.chmod(0o755)
+        return str(script)
+
+    def test_fragment_is_wrapped(self):
+        with tempfile.TemporaryDirectory() as d:
+            self.assertIsNone(sources.check_plantuml("A -> B\n", self.fake_plantuml(d, 0)))
+            self.assertTrue((Path(d) / "stdin").read_text().startswith("@startuml\n"))
+
+    def test_failure_reports_stderr(self):
+        with tempfile.TemporaryDirectory() as d:
+            error = sources.check_plantuml("@startuml\nx\n@enduml\n", self.fake_plantuml(d, 200, "Syntax Error?"))
+            self.assertIn("Syntax Error?", error)
+
+    def test_plantuml_fence_extracted(self):
+        self.assertEqual([l for l, _ in sources.extract_blocks("```plantuml\nA -> B\n```")], ["plantuml"])
+
+    @unittest.skipUnless(shutil.which("plantuml"), "PlantUML not installed")
+    def test_real_plantuml_rejects_one_line_class_body(self):
+        self.assertTrue(sources.check_plantuml("class Sample { +id : int  +energy : float }\n"))
 
 
 class RealBundle(unittest.TestCase):

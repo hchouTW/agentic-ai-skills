@@ -3,13 +3,16 @@
 
 Purpose: keep the DOT/Mermaid snippets in references/, templates/, and examples/ from rotting.
 
-What it does: extracts fenced ```dot, ```mermaid, and ```svg blocks from markdown files.
+What it does: extracts fenced ```dot, ```mermaid, ```plantuml, and ```svg blocks from markdown files.
 - dot: compiled with Graphviz `dot -Tsvg` when `dot` is on PATH (skipped with a notice otherwise).
 - mermaid: rendered with Mermaid CLI (`mmdc`) when it is on PATH; otherwise only a cheap
   structural lint (known diagram keyword on the first line, balanced brackets/parentheses/
   braces/quotes outside of quoted labels) - NOT a real Mermaid parse.
+- plantuml: rendered with `plantuml -pipe` when `plantuml` (and a Java runtime) is on PATH, else
+  skipped with a notice. A fragment without `@startuml` is wrapped first, because PlantUML
+  silently renders nothing (exit 0) for input that lacks the markers.
 - svg: parsed as XML (well-formedness only; render it to check the layout).
-LaTeX/TikZ and PlantUML blocks are never compiled here.
+LaTeX/TikZ blocks are never compiled here.
 
 Usage: `python3 scripts/check_diagram_sources.py [path ...]` (default: the whole bundle).
 Exit status 1 if any checked block fails. Standard library only.
@@ -25,7 +28,7 @@ import xml.dom.minidom
 import xml.parsers.expat
 from pathlib import Path
 
-FENCE_RE = re.compile(r"```(dot|mermaid|svg)\n(.*?)```", re.S)
+FENCE_RE = re.compile(r"```(dot|mermaid|plantuml|svg)\n(.*?)```", re.S)
 MERMAID_STARTS = (
     "flowchart", "graph", "sequenceDiagram", "stateDiagram", "stateDiagram-v2",
     "erDiagram", "classDiagram", "gantt", "journey", "mindmap", "timeline",
@@ -34,7 +37,7 @@ OPEN, CLOSE = "([{", ")]}"
 
 
 def extract_blocks(text: str) -> list[tuple[str, str]]:
-    """Return (language, source) pairs for every dot/mermaid fence in text."""
+    """Return (language, source) pairs for every dot/mermaid/plantuml/svg fence in text."""
     return [(m.group(1), m.group(2)) for m in FENCE_RE.finditer(text)]
 
 
@@ -88,6 +91,18 @@ def check_mermaid(source: str, mmdc: str = "mmdc") -> str | None:
     return None
 
 
+def check_plantuml(source: str, plantuml: str = "plantuml") -> str | None:
+    """Return an error string if PlantUML cannot render the source, else None."""
+    if "@startuml" not in source:
+        source = f"@startuml\n{source}@enduml\n"
+    result = subprocess.run(
+        [plantuml, "-tsvg", "-pipe"], input=source, text=True, capture_output=True
+    )
+    if result.returncode:
+        return (result.stderr.strip() or "plantuml failed").replace("\n", " ")[:500]
+    return None
+
+
 def check_svg(source: str) -> str | None:
     """Return an error string if the SVG source is not well-formed XML, else None."""
     try:
@@ -106,12 +121,18 @@ def main(argv: list[str]) -> int:
     mmdc = shutil.which("mmdc")
     if not mmdc:
         print("note: Mermaid CLI `mmdc` not found; Mermaid blocks get the structural lint only")
+    plantuml = shutil.which("plantuml")
+    if not plantuml:
+        print("note: `plantuml` not found; skipping PlantUML rendering")
     failures = checked = 0
     for path in paths:
         for lang, source in extract_blocks(path.read_text(encoding="utf-8")):
             checked += 1
             if lang == "dot":
                 error = check_dot(source) if have_dot else None
+                problems = [error] if error else []
+            elif lang == "plantuml":
+                error = check_plantuml(source, plantuml) if plantuml else None
                 problems = [error] if error else []
             elif lang == "svg":
                 error = check_svg(source)
