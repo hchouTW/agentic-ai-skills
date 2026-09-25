@@ -35,6 +35,11 @@ HEP_ROOT_PYTHON=/opt/homebrew/bin/python3.14 python3 -m unittest tests.test_root
 HEP_PYHF_PYTHON=/path/to/python-with-pyhf python3 -m unittest tests.test_end_to_end -v
 # Model-behavior checks (run by hand on a fresh model, results in VALIDATION.md):
 #   tests/prompts.md (graded prompts), tests/trigger_queries.json (description trigger set)
+# Combine datacard check (skips unless combine is on PATH or a wrapper runs it in a Combine env):
+HEP_COMBINE_WRAPPER=/path/to/run-in-combine-env python3 -m unittest tests.test_combine_template -v
+# Harness trigger eval of the description (40 cases in evals/, built from tests/trigger_queries.json;
+# Claude Code only, costs ~$3 on Haiku with 2 runs):
+#   claude plugin eval . --runs 2 --model haiku --ablation none --threshold 0
 python3 scripts/audit_histograms.py assets/histograms.example.json
 python3 scripts/counting_reference.py --observed 0 --background 0 --level 0.95
 python3 scripts/make_yield_table.py --help
@@ -64,7 +69,8 @@ synthetic ROOT fixtures when PyROOT is importable (skipped otherwise - see
 [VALIDATION.md](VALIDATION.md)). See
 [VALIDATION.md](VALIDATION.md) for results and limitations. ROOT, uproot, pyhf, and
 Combine snippets require their respective environments; their execution is not
-implied by the helper tests.
+implied by the helper tests. `tests/test_combine_template.py` fills the Combine datacard template and, when
+`combine` is on PATH or `HEP_COMBINE_WRAPPER` is set, checks its limit against pyhf.
 
 ## Coverage and boundaries
 

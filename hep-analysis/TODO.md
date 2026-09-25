@@ -29,7 +29,7 @@ ACLiC (`macro.C+`) fails even for an empty macro (macOS SDK mismatch). Found 202
       real ROOT file / RooWorkspace, not just `--help`. Add the fixture generator to `tests/` (skip if no ROOT).
 - [x] (2026-09-24; fixed missing sumw2) Run `assets/uproot_awkward_analysis.py` with `assets/analysis_config.yaml` on a synthetic file
       (needs `uproot`, `awkward`).
-- [~] (2026-09-24: pyhf done; Combine NOT verified, since building it from external source was blocked in auto mode. Ask the user to allow it or to supply a `combine` install) Validate `assets/pyhf-counting.json` with `pyhf` (schema + a `pyhf cls` run) and
+- [x] (2026-09-24: pyhf done; 2026-09-25: Combine v11 built in a scratch conda env, template limit matches pyhf within 1%, `tests/test_combine_template.py`) Validate `assets/pyhf-counting.json` with `pyhf` (schema + a `pyhf cls` run) and
       `assets/combine_datacard_template.txt` with `combine` if obtainable (else mark "not verified" honestly).
 - [x] (2026-09-24; `tests/test_reference_values.py`; Stormer vertical-cutoff bug fixed) Numerically cross-check the physics helpers against independent references, not only self-consistency:
       `li_ma_significance.py` (Li & Ma 1983 eq. 17 worked values), `tag_and_probe_efficiency.py`
@@ -46,7 +46,7 @@ ACLiC (`macro.C+`) fails even for an empty macro (macOS SDK mismatch). Found 202
       selection). Either implement config-driven cuts or trim the config so it does not imply they are used.
 - [x] (2026-09-25: PDG links -> 2026; ref 30 knee/ankle corrected, instep/second knee added; ref 33 IACT scale -> 10-20%; AMS Layer-0 not yet installed) Live re-check of the numbers in the latest-results policy list (`references/13-sources.md`), with dates.
 - [ ] Re-check AMS-02 Layer-0 status after mid 2027 (installation creates a new detector era; ref 38). The schedule is only from secondary sources.
-- [ ] Try `plot_branch.C+` (ACLiC) on a machine where ACLiC works. (2026-09-25: diagnosed here as Homebrew ROOT pairing the CLT MacOSX26 sysroot with a hard-coded Xcode libc++ path; SDKROOT/DEVELOPER_DIR do not help. Needs a ROOT rebuild or another machine.)
+- [x] (2026-09-25: verified with ACLiC on conda-forge ROOT 6.34 in a clean env, bin-identical to interpreted. Homebrew ROOT ACLiC is still broken, and `~/.zshrc`'s `ROOT_INCLUDE_PATH` breaks any other ROOT's cling; see VALIDATION.md) Try `plot_branch.C+` (ACLiC) on a machine where ACLiC works.
 
 ## P2 - test that the skill actually changes model behavior
 The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven until a fresh model is run on them.
@@ -68,12 +68,14 @@ The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven
       that every code snippet in them runs or is clearly labelled pseudo-code. Run the runnable ones.
 
 ## P2 follow-ups found 2026-09-24
+- [ ] Re-run `claude plugin eval` (Sonnet too, not only Haiku) after any description change. For a real sibling-routing harness test, the eval child must not load ~112 user skills: the listing then shows plugin skills without descriptions. Find a way to isolate it (a clean HOME/config) and rerun `evals/` with all seven repo skills.
+- [ ] Write a fresh trigger query set (not the 40 used for tuning) to check that the revised description generalizes on Haiku.
 - [ ] Re-run `tests/prompts.md` on Haiku after any change to references 02/17/37 or the SKILL.md invariants. (Last done 2026-09-25: 9 PASS / 3 PARTIAL / 2 FAIL; P05 blinding and P07 prior-tuning fixed in SKILL.md/ref 01 and re-passed. Next time, run each prompt at least twice and give each agent its own output directory.)
 - [x] (2026-09-25: refs 03/35 fixed; Haiku reruns P01 2/2 PASS, P10 2/2 PASS, P08 2/2 PARTIAL with no F signal; see VALIDATION.md) P01/P08/P10 are PARTIAL on Haiku: RDataFrame `Runs`-tree sumw code (ref 03), units on the flux value (ref 35), and the cutoff safety factor plus backtracing (ref 35). Check whether the references state these clearly enough.
-- [ ] P08 stays PARTIAL on Haiku: the answers name `cosmic_ray_flux.py` but do not run it (no interval numbers) and drop the resolution/spillover point under the ~220-word cap. Possible next steps: let the answering agent run scripts, or relax the word cap for this prompt. Do not add the n=3 interval to the references, because that would leak the answer.
+- [x] (2026-09-25: scripts allowed + 350-word cap gave 2/2 FAIL ("sqrt(3) is a reasonable approximation", ref 35 never read). The SKILL.md flux invariant now says "no" and links ref 35; ref 37 links there too. Result 2/2 PASS; P09/P10/P12 regression 4 PASS, 2 PARTIAL, 0 FAIL) P08 stays PARTIAL on Haiku.
 - [x] (2026-09-25: `claude plugin eval` recall is 20/20 on Sonnet and 12/20 on Haiku; the only false triggers are AMS queries with `ams-analysis` not loaded; see VALIDATION.md) Trigger test was simulated (an agent given the descriptions). If a harness-level trigger eval becomes available
       (e.g. `skill-creator` description optimization or `claude plugin eval`), re-run `tests/trigger_queries.json` through it.
-- [ ] Decide whether to raise Haiku trigger recall (Sonnet is already 20/20) (a description change affects sibling routing; re-run the trigger suite for all siblings after any change). Consider committing the eval suite under `evals/` (ask the user first: it adds files to the bundle).
+- [x] (2026-09-25, user chose to tune and commit: Haiku recall 22/40 -> 38/40 runs, false triggers 3 -> 5/40, all on sibling-owned queries; simulated 7-skill routing clean; suite in `evals/`) Decide whether to raise Haiku trigger recall.
 
 ## P3 - improve content and structure
 - [x] (2026-09-25: P2 agents read 1-3 references per task; ref 14 (1,300 lines) got a task-to-section map) `SKILL.md` is ~180 lines and the references total ~7,200 lines: check progressive disclosure. Confirm that a
@@ -92,6 +94,6 @@ The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven
 
 ## P4 - housekeeping and decisions
 - [x] (already gitignored; no action) Remove stray `scripts/__pycache__` and `tests/__pycache__` from the working tree if they are untracked and not ignored.
-- [ ] Update `VALIDATION.md` header date and counts (file count, test count) after each pass. (Recurring; last done 2026-09-25.)
+- [ ] Update `VALIDATION.md` header date and counts (file count, test count) after each pass. (Recurring; last done 2026-09-25, round 3.)
 - [x] Asked 2026-09-24: all three matter equally (AMS-02/space-based, CMS/ATLAS collider, IACT/neutrino/air shower), so balance the P2 prompts across them.
 - [x] Asked 2026-09-24: yes. Added as "Latest-results policy" in `references/13-sources.md`.
