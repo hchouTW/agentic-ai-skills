@@ -80,6 +80,39 @@ Current counts: bundle 112 files (the 25 `examples/` files were removed on 2026-
     to answer from its own knowledge, so the description was left unchanged. A
     sibling-routing check under the harness needs a suite that loads all repo skills,
     which this target mode does not do.
+- **P01/P08/P10 Haiku PARTIALs: reference fixes and reruns** (Haiku + skill, one fresh
+  agent and one output directory per run, prompt text only, ~220-word cap, graded by one judge).
+  The worked numbers added to the references differ from the test prompts, so the answers
+  are not copied.
+  - P01 (ref 03 never mentioned the NanoAOD `Runs` tree or skims). Added a PyROOT
+    RDataFrame snippet: denominator from `Runs`/`genEventSumw` over every file, signed
+    weights, and an N/sumw/sumw2 cutflow. The snippet was run on synthetic skimmed files,
+    including one where the skim kept 0 events. Reruns: **2/2 PASS**; both used the
+    `Runs` tree, with no `abs`.
+  - P10, round 1 (ref 35 had the 1.2 safety factor only inside the walkthrough). Added a
+    cutoff selection rule to the main section: backtraced maximum cutoff over the
+    acceptance, with the same rule for events and exposure. Result: 1 PASS, 1 PARTIAL.
+    The PARTIAL run copied the walkthrough's Störmer-first framing, so the walkthrough
+    step now leads with the backtraced cutoff.
+  - P10, round 2: 2/2 met E1/E2. Both runs called 2011-2013 "declining", and one said to
+    demodulate the Voyager data too. The reference stated neither, so both were Haiku's own
+    errors. Added a sourced paragraph:
+    - cycle 24 minimum Dec 2008 and maximum Apr 2014, with a first peak in Nov 2011 and a
+      2012-mid 2013 plateau (SILSO);
+    - Voyager 1 heliopause Aug 2012 and Voyager 2 Nov 2018; demodulate only the 1 AU flux.
+    - Round 3: **2/2 PASS**; both called 2011-2013 solar maximum and demodulated only the
+      ISS data.
+  - P08, round 1: added a low-count, high-rigidity subsection to ref 35: exact interval,
+    GV units, MDR/spillover, background. Result: **2/2 FAIL**, worse than before. Both
+    runs called `sqrt(3)` correct or "approximately correct" and divided by 0.6 (TV)
+    instead of 600 GV, so their numbers were 1000x too large. One invented the interval
+    [1, 5]; the exact one is [1.37, 5.92].
+  - P08, round 2: the subsection now says the answer to `sqrt(N)` is "no", to run the
+    script instead of estimating the interval, and to convert TV to GV. Result: **2/2
+    PARTIAL**, with no F signal: both said no, flagged TV->GV, and gave the correct script
+    command. Neither ran the script, so there are no interval numbers, and neither
+    mentioned resolution/spillover. P08 has been PARTIAL on Haiku in every pass.
+  - Tests 201 OK (11 skips); bundle OK after each edit.
 
 ## P3 content pass (2026-09-25)
 

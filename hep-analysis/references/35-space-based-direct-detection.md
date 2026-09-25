@@ -49,6 +49,13 @@ analytic vertical Störmer cutoff as a first-order estimate; a rigorous cutoff f
 specific orbit and epoch requires particle backtracing through a full geomagnetic
 field model and is not something the analytic formula replaces.
 
+**Selection rule for a flux.** Keep an event in a rigidity bin only if the bin's lower edge
+is above a safety factor (typically 1.2) times the maximum cutoff, where the cutoff is
+backtraced through a realistic field model (e.g. IGRF plus an external-field model) over the
+detector's acceptance cone at that second. Add that second's livetime to the exposure of the
+same bins, and only those bins. The Störmer value is a planning check and does not replace
+this rule. Using a different rule for events than for exposure biases the flux near the cutoff.
+
 Below its local geomagnetic cutoff, any flux an instrument records at that rigidity
 is not primary cosmic radiation reaching from outside the magnetosphere - it is
 **re-entrant/albedo** particles (secondaries produced in the atmosphere and reflected
@@ -87,6 +94,15 @@ Any comparison of fluxes from different epochs, instruments, or even different
 detectors on the same mission across a long enough mission duration to span a
 meaningful change in `phi`, must state the modulation potential (or the neutron-
 monitor-count-rate proxy commonly used to track it) for each dataset compared.
+
+**Comparing with Voyager, and naming the cycle phase.** Voyager 1 crossed the heliopause in
+August 2012 (Voyager 2 in November 2018). Beyond it, the spacecraft measure the low-energy
+LIS directly. Demodulate only the 1 AU flux, not the Voyager data. Take the epoch's phase from
+the sunspot record instead of guessing. Solar cycle 24 began at a minimum in December 2008 and
+peaked in April 2014 (smoothed). It had a double maximum: a northern-hemisphere peak in
+November 2011, then a plateau from early 2012 to mid 2013. So 2011-2013 is **solar maximum**,
+not a declining phase, and the solar magnetic polarity reversed during it. In that period `phi` is higher than at the 2009 minimum,
+and it changes fast enough that a single `phi` for all three years is itself an approximation.
 
 **Forbush decreases** - sudden, transient flux depressions lasting days, caused by a
 coronal mass ejection's magnetic structure sweeping past Earth - and **solar
@@ -170,10 +186,10 @@ python3 scripts/solar_modulation_force_field.py --demodulate --energy 4.641 --ma
     --charge 1 --phi 0.6 --toa-flux 1.0
 ```
 
-1. **Cutoff.** The vertical Stormer cutoff is 4.54 GV. With a 1.2 safety factor (5.45 GV), this
-   position contributes exposure only to bins above about 5.5 GV, so for this bin the exposure
-   comes only from time spent where `1.2 * Rc < 5.0 GV`. The real selection uses the per-second
-   backtraced cutoff, and the Stormer value is a planning check only.
+1. **Cutoff.** The real selection uses the per-second backtraced cutoff (see the selection rule
+   above). As a planning check only, the vertical Stormer cutoff here is 4.54 GV. With a 1.2
+   safety factor (5.45 GV), this position contributes exposure only to bins above about 5.5 GV,
+   so for this bin the exposure comes only from time spent where `1.2 * Rc < 5.0 GV`.
 2. **Flux.** For 320 counts with exposure 2.4e5 m^2 sr s (already cutoff-filtered) and a 1 GV
    bin, the flux is 1.333e-3 (m^2 sr s GV)^-1 with an exact 68% interval of
    [1.259, 1.412]e-3. Report the counts, exposure, and bin width separately. Plot the point at
@@ -183,6 +199,25 @@ python3 scripts/solar_modulation_force_field.py --demodulate --energy 4.641 --ma
    a flux per GeV, and demodulate. At phi = 0.6 GV the LIS flux is 1.233x the TOA flux, at
    T_LIS = 5.241 GeV. The force field is a one-parameter approximation, so state phi, the
    epoch, and the model.
+
+### Low-count, high-rigidity bins
+
+For 4 events in 1.3-2.0 TV with exposure 2.0e7 m^2 sr s
+(`scripts/cosmic_ray_flux.py --counts 4 --exposure 2.0e7 --bin-width 700`, verified 2026-09-25):
+
+- If a user proposes `sqrt(N)/exposure/dR` for a bin with a few counts, the answer is **no**.
+  Do not call it "approximately correct". Use the exact (Garwood) Poisson interval. At 68% it
+  is [2.09, 7.16] counts, which is asymmetric. **Run the script to get the interval. Do not
+  estimate it by hand**, because the rounded integer bounds a model guesses (e.g. [2, 6]) are
+  wrong.
+- Convert TV to GV before dividing, since fluxes are quoted per GV. A 0.7 TV bin used as
+  `dR = 0.7` makes the flux 1000x too large. Write the bin width in GV (700 GV here) and give units with every flux value:
+  2.86e-10 (m^2 sr s GV)^-1, with interval [1.49, 5.12]e-10.
+- At TV rigidities, finite resolution approaches the maximum detectable rigidity (MDR). The
+  steep spectrum then spills events into the bin from lower rigidities, so correct for this
+  with unfolding or a forward-folded fit and state the resolution model.
+- Count charge-confusion and interaction backgrounds before quoting the flux. With 4 events,
+  even a background of 0.5 events changes the result.
 
 ## Deliverables
 
