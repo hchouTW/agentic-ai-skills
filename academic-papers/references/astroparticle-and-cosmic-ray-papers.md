@@ -111,7 +111,7 @@ astronomy (rather than particle-physics) readership:
   papers (optical/radio counterpart identifications, catalogs) that INSPIRE doesn't
   index as completely. ADS's BibTeX export uses `bibcode` identifiers (e.g.
   `2017ApJ...848L..12A`) as the natural key, analogous to INSPIRE's
-  `Aad:2012tfa`-style keys — keep ADS's key format for the same reason: collaborators
+  `Surname:2012abc`-style keys — keep ADS's key format for the same reason: collaborators
   and referees on astronomy-side venues expect it.
 - **A single paper may need both**: pull the HEP-side citations from INSPIRE and the
   astronomy-side ones from ADS into the same `.bib` file. Deduplicate by DOI when a

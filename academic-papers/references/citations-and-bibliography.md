@@ -24,8 +24,15 @@ keys are recognized by collaborators and referees. Workflow:
 
 1. Search the paper on INSPIRE-HEP by title, author, or arXiv number.
 2. Use INSPIRE's "Cite" / export feature to get a BibTeX entry with its
-   standard key format (e.g. `Aad:2012tfa` — first author surname, year,
-   short hash).
+   standard key format: first-author surname, year, three random letters
+   (`Cowan:2010js`); for a collaboration paper, the collaboration name instead
+   of a surname (the ATLAS Higgs discovery is `ATLAS:2012yve`). The same export
+   is available from the REST API, e.g.
+   `https://inspirehep.net/api/literature?q=arxiv:1207.7214&format=bibtex`.
+   Older exports used first-author keys for collaboration papers
+   (`Aad:2012tfa`); INSPIRE still resolves them as aliases, but a `.bib` that
+   mixes old and new keys holds the same paper twice — deduplicate on
+   `eprint`/`doi` when merging an older `.bib` (checked 2026-09-26).
 3. Paste the entry as-is into the `.bib` file rather than retyping it by
    hand — this preserves the `eprint`, `archivePrefix`, `doi`, and `journal`
    fields that different `.bst` styles rely on.
@@ -44,8 +51,11 @@ For astroparticle-physics and cosmic-ray papers targeting ApJ/ApJL, A&A, or MNRA
 `ui.adsabs.harvard.edu`) is the dominant citation database, not INSPIRE-HEP:
 
 1. Search ADS by title, author, or arXiv number; export the BibTeX entry using its
-   `bibcode` key format (e.g. `2017ApJ...848L..12A`), analogous to INSPIRE's
-   `Aad:2012tfa`-style keys.
+   `bibcode` key format (e.g. `2017ApJ...848L..12A`, the GW170817 multi-messenger
+   ApJL paper; INSPIRE lists the same bibcode as its ADS identifier), analogous to
+   INSPIRE's `Surname:2012abc`-style keys. ADS's API needs a personal token;
+   scripted access to the web UI is blocked, so export from the browser or use
+   the token (checked 2026-09-26).
 2. Keep the bibcode key as-is for the same reason INSPIRE keys are kept as-is —
    referees and co-authors on astronomy-side venues expect it.
 3. When a paper needs both HEP-side and astronomy-side citations (common for
@@ -67,16 +77,30 @@ was actually published:
    published, or when the point being made depends on a specific arXiv version
    (`v1`, `v2`, ...) — cite the version number explicitly if content changed
    between versions, since an arXiv preprint is mutable in a way a published
-   paper is not.
+   paper is not. arXiv's export (`https://arxiv.org/bibtex/<id>`) is a `@misc`
+   whose key and `year` come from the *latest* version: for 1706.03762 (v1 June
+   2017) it gives `vaswani2023attentionneed` with `year={2023}` (checked
+   2026-09-26). Set the year to the version actually cited, or use the published
+   version's entry.
 2. **DBLP** (`dblp.org`) for a conference-proceedings paper — strong, clean
    per-paper BibTeX export with a stable key, especially good for ML/AI
-   conferences (NeurIPS, ICML, ICLR, AAAI, CVPR/ICCV/ECCV).
+   conferences (NeurIPS, ICML, ICLR, AAAI, CVPR/ICCV/ECCV). Not verified here:
+   on 2026-09-26 DBLP answered scripted requests with a bot-check page, so use
+   it from a browser.
 3. **ACL Anthology** (`aclanthology.org`) for any ACL/EMNLP/NAACL paper — the
    canonical source for NLP-venue papers, with its own BibTeX export matching
-   the venue's own citation key conventions.
+   the venue's own citation key conventions (`https://aclanthology.org/<id>.bib`,
+   e.g. `N19-1423` gives `devlin-etal-2019-bert`; checked 2026-09-26).
 4. **Semantic Scholar** (web export or API) as a fallback that covers most of the
    above plus general citation-graph lookups, useful when quickly locating a
-   paper's canonical published venue is the actual blocker.
+   paper's canonical published venue is the actual blocker. Its API rate-limits
+   unauthenticated use (HTTP 429 on 2026-09-26); request an API key for more than
+   occasional lookups.
+5. **Any DOI** (all fields): `curl -LH "Accept: application/x-bibtex"
+   https://doi.org/<doi>` returns the publisher's Crossref metadata as BibTeX
+   (checked 2026-09-26). Its key (`Meystre_2016`) and capitalization are
+   generic, so rename the key to the project's convention and protect acronyms
+   with braces.
 
 A large fraction of the field's own citations are to arXiv preprints that were
 never formally published elsewhere, or where the arXiv version and the
