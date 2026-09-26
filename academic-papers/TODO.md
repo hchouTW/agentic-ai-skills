@@ -70,6 +70,12 @@ The workflows, modes, and 24 examples are unproven until a fresh model is run on
 - [ ] Routing hygiene with `academic-diagrams` (structural diagrams vs data plots),
       `hep-analysis`, `ams-analysis`, `deep-learning`: run each affected skill's validator and tests after any
       description change.
+- [ ] Under-triggering found by the isolated routing eval (2026-09-26, `hep-analysis/tests/routing_eval.py` on `hep-analysis/tests/trigger_queries_holdout.json`, all 7 repo skills loaded as project skills, 2 runs per query; "none" = the model answered without invoking any skill): "Build my BibTeX from INSPIRE for these ten arXiv IDs and fix duplicate
+      keys" 0/2 Haiku, 0/2 Sonnet (none every time); "Critique the statistical treatment in this CMS paper's abstract
+      and conclusions" 0/2 Haiku, 1/2 Sonnet; "Help me restructure the introduction of my thesis chapter on cosmic-ray
+      antiprotons" 0/2 Haiku, 2/2 Sonnet. The description names BibTeX/INSPIRE and critique explicitly, so the
+      phrasing is not the gap; check whether the long description buries them. Rerun with the harness after any
+      description change (it grades routing to any `owner`, not only hep-analysis).
 - [ ] Check the 24 examples follow their archetype rules (see the `task-authoring` skill's
       `references/example-authoring.md`) and that any weak-vs-expert contrast is realistic, not a strawman.
 

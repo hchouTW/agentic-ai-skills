@@ -26,6 +26,12 @@ Ground rules that still apply: standard library only for scripts; every AMS-spec
       and T29's test-specific critical items (T/A needs A and mass; S07 main-article scope). Use one prompt per answerer,
       at least two samples, and the same grader setup; fix only the narrowest responsible reference.
 
+- [ ] Trigger data point from the isolated routing eval (2026-09-26, `hep-analysis/tests/routing_eval.py` on `hep-analysis/tests/trigger_queries_holdout.json`, all 7 repo skills loaded as project skills, 2 runs per query; "none" = the model answered without invoking any skill), plus the hep-analysis tuning set `hep-analysis/tests/trigger_queries.json`:
+      Sonnet 6/6 held-out AMS queries routed here. Haiku 5/6 held-out ("Review my AMS-02 electron/positron TRD
+      likelihood template fit" none once) and 2/4 on the tuning set ("latest AMS-02 positron fraction result and its
+      TRD selection" none once; "Design the AMS-02 antideuteron search selection and review it formally" went to
+      `hep-analysis` once). Low priority; recheck after any description change here or in hep-analysis.
+
 ## 2. Close the remaining evidence gaps
 
 - [x] Supplemental Material text of S41, S42, S44 and S47 read; claims C54-C58 added (S41 and S42 supplements are figures and tables with captions only). Still open: the supplemental data tables themselves are not transcribed or checked, and correlation across days/rotations and trial-factor correction remain undocumented.

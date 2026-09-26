@@ -39,6 +39,10 @@ git-ignored; do not treat them as live code.
       about a language feature, a one-line typo fix. Consider `skill-creator` description optimization.
 - [x] (2026-09-21: "Not for ..." sentence added to both descriptions, suites pass; no model re-test, see `VALIDATION.md`) Routing hygiene with sibling skills: `agile-development` vs `task-authoring` (live scoping vs a written
       task document). Run `skill-router`'s validator and tests after any description change.
+- [ ] Under-triggering found by the isolated routing eval (2026-09-26, `hep-analysis/tests/routing_eval.py` on `hep-analysis/tests/trigger_queries_holdout.json`, all 7 repo skills loaded as project skills, 2 runs per query; "none" = the model answered without invoking any skill): "Plan our next two-week sprint and estimate these user stories" 0/2 Haiku,
+      0/2 Sonnet (none every time). The description lists "estimation" but never mentions sprints or
+      backlog planning; decide whether sprint planning is in scope (ask the user). If yes, name it in the description
+      and rerun with the harness.
 
 ## P2 - close verification gaps in helpers and guidance
 - [x] (2026-09-21: found and fixed BOM, closing-`##`, fenced-code, `Works!` and empty-field defects; 9 regression tests added, 41 tests total. Setext headings remain unsupported by design.) Test `scripts/create_story_card.py` and `scripts/validate_agile_notes.py` on messy input: empty strings, unicode,
