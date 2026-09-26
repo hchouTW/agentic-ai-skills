@@ -92,7 +92,9 @@ incomplete. See `statistics-and-ml-papers.md` for the venue-specific citation
   validation possible.
 - Deduplicate by INSPIRE key before dedup by title/author — two entries with
   slightly different formatting for the same paper is the most common
-  bibliography bug.
+  bibliography bug. `scripts/check_manuscript.py` flags a key defined twice
+  (BibTeX silently keeps the first); the same paper under two different keys
+  still needs a title/DOI/eprint comparison.
 - Every entry in the `.bib` file should be cited at least once in the final
   text, and every `\cite{}` in the text should resolve to an entry — see
   `scripts/check_manuscript.py` in this skill for an automated check.

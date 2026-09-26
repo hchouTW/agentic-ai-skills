@@ -177,7 +177,7 @@ Use these when requested or needed to substantiate claims — not for an ordinar
    JHEP, etc.) — page/length limits interact with formatting in ways that are painful
    to discover after the fact. See `references/latex-and-formatting.md`.
 7. **Run a pre-submission pass.** Use `scripts/check_manuscript.py` to catch undefined
-   references, duplicate labels, leftover TODOs, and uncited or unused bib entries
+   references, duplicate labels and `.bib` keys, leftover TODOs, and uncited or unused bib entries
    before the user sends the draft anywhere. Then do a human read-aloud pass for prose
    using `references/scientific-style.md`.
 8. **If reviews come back**, use `references/submission-and-peer-review.md` for how to
@@ -388,9 +388,11 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   ```
 
 - `scripts/check_manuscript.py` — scans a directory of `.tex`/`.bib` files and reports:
-  undefined `\ref`/`\cite` targets, duplicate `\label`s, `\cite` keys missing from any
-  `.bib` file, unused `.bib` entries, and leftover TODO/FIXME/placeholder markers.
-  Read-only; standard library only. Run it near the end of a drafting session, not
+  undefined `\ref`/`\cref`/`\pageref` targets, duplicate `\label`s, citation keys
+  (natbib, biblatex and `\nocite`) missing from any `.bib` file, duplicate `.bib` keys,
+  unused `.bib` entries, and leftover TODO/FIXME/placeholder markers. Comments are
+  ignored. With no `.bib` (only a `.bbl` or inline `\bibitem`s) the citation checks are
+  skipped. Read-only; standard library only. Run it near the end of a drafting session, not
   after every sentence.
 
   ```

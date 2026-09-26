@@ -7,11 +7,13 @@ from within the academic-papers/ skill folder.
 """
 from __future__ import annotations
 
+import io
 import shutil
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(SKILL_ROOT / "scripts"))
@@ -95,6 +97,46 @@ class TestBuildLitMatrix(unittest.TestCase):
     def test_main_rejects_missing_file(self):
         code = blm.main([str(self.tmpdir / "does_not_exist.csv")])
         self.assertEqual(code, 2)
+
+    # Malformed-CSV cases found with a realistic 18-paper notes file (2026-09-26).
+
+    def test_excel_bom_is_not_part_of_first_column(self):
+        p = self.tmpdir / "bom.csv"
+        p.write_text("key,year\nA,2020\n", encoding="utf-8-sig")
+        fieldnames, _ = blm.read_rows(p)
+        self.assertEqual(fieldnames[0], "key")
+
+    def test_short_row_gives_empty_cells(self):
+        _, rows = blm.read_rows(self._write_csv("short.csv", "key,year,method\nB,2019\n"))
+        self.assertEqual(rows, [{"key": "B", "year": "2019", "method": ""}])
+        self.assertIn("| B | 2019 |  |", blm.to_markdown_table(["key", "year", "method"], rows))
+
+    def test_extra_cells_dropped_with_warning(self):
+        p = self._write_csv("extra.csv", "key,year\nA,2020,surplus\n")
+        with mock.patch("sys.stderr", new_callable=io.StringIO) as err:
+            _, rows = blm.read_rows(p)
+        self.assertEqual(rows, [{"key": "A", "year": "2020"}])
+        self.assertIn("more than the header", err.getvalue())
+
+    def test_empty_and_non_utf8_files_exit_2_without_traceback(self):
+        empty = self._write_csv("empty.csv", "")
+        latin1 = self.tmpdir / "latin1.csv"
+        latin1.write_bytes("key\nMüller\n".encode("latin-1"))
+        for p in (empty, latin1):
+            with mock.patch("sys.stderr", new_callable=io.StringIO) as err:
+                self.assertEqual(blm.main([str(p)]), 2)
+            self.assertTrue(err.getvalue().startswith("error:"))
+
+    def test_semicolon_file_warns(self):
+        p = self._write_csv("semi.csv", "key;year\nA;2020\n")
+        with mock.patch("sys.stderr", new_callable=io.StringIO) as err:
+            blm.read_rows(p)
+        self.assertIn("semicolon", err.getvalue())
+
+    def test_pipe_in_header_and_carriage_return_escaped(self):
+        table = blm.to_markdown_table(["in|out"], [{"in|out": "a\r\nb"}])
+        self.assertEqual(table.splitlines()[0], "| in\\|out |")
+        self.assertEqual(table.splitlines()[2], "| a  b |")
 
 
 if __name__ == "__main__":

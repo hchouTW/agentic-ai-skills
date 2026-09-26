@@ -108,6 +108,80 @@ class TestCheckManuscript(unittest.TestCase):
         results = cm.scan(self.tmpdir)
         self.assertEqual(len(results["placeholders"]), 1)
 
+    # Regression cases found on real arXiv sources and a synthetic edge-case
+    # manuscript (2026-09-26; see VALIDATION.md).
+
+    def test_commented_out_cite_and_label_are_ignored(self):
+        self._write("paper.tex", "\\label{sec:a}\n% \\label{sec:a}\n% \\cite{Gone}\nText 50\\% \\cite{K}.\n")
+        self._write("refs.bib", "@article{K,\n  title={x},\n}\n")
+        results = cm.scan(self.tmpdir)
+        self.assertEqual(results["missing_bib"], {})
+        self.assertEqual(results["duplicate_labels"], {})
+        self.assertEqual(results["unused_bib"], [])  # \cite{K} after an escaped \% still counts
+
+    def test_cite_variants_count_as_cited(self):
+        self._write(
+            "paper.tex",
+            "\\citep[see][p.~3]{TwoOpt} \\cite{LineA,\n  LineB} \\citeauthor{Auth} \\citeyear{Year}\n"
+            "\\parencite{Bl1} \\textcite{Bl2} \\autocite[5]{Bl3} \\nocite{NoCite}\n",
+        )
+        keys = ["TwoOpt", "LineA", "LineB", "Auth", "Year", "Bl1", "Bl2", "Bl3", "NoCite"]
+        self._write("refs.bib", "".join(f"@article{{{k},\n  title={{x}},\n}}\n" for k in keys))
+        results = cm.scan(self.tmpdir)
+        self.assertEqual(results["unused_bib"], [])
+        self.assertEqual(results["missing_bib"], {})
+
+    def test_nocite_star_marks_all_entries_cited(self):
+        self._write("paper.tex", "\\nocite{*}\n")
+        self._write("refs.bib", "@article{A,\n  title={x},\n}\n@book{B,\n  title={y},\n}\n")
+        results = cm.scan(self.tmpdir)
+        self.assertEqual(results["unused_bib"], [])
+        self.assertEqual(results["missing_bib"], {})
+
+    def test_duplicate_bib_key_detected_case_insensitively(self):
+        self._write("paper.tex", "\\cite{Dup}\n")
+        self._write(
+            "refs.bib",
+            "@article{Dup,\n  title={x},\n}\n@article{dup,\n  title={y},\n}\n"
+            "@string{jhep = \"JHEP\"}\n@comment{not an entry}\n@misc(Paren,\n  title={z})\n",
+        )
+        results = cm.scan(self.tmpdir)
+        self.assertEqual(list(results["duplicate_bib"]), ["Dup"])
+        self.assertEqual(len(results["duplicate_bib"]["Dup"]), 2)
+        self.assertEqual(results["unused_bib"], ["Paren"])
+
+    def test_cref_list_split_and_pageref_checked(self):
+        self._write(
+            "paper.tex",
+            "\\label{a}\\label{b}\n\\cref{a,b} \\Cref{b} \\pageref{missing} \\nameref{a}\n",
+        )
+        results = cm.scan(self.tmpdir)
+        self.assertEqual(set(results["undefined_refs"]), {"missing"})
+
+    def test_macro_parameters_are_not_labels(self):
+        # 1207.7214 (ATLAS): \newcommand{\figref}[1]{Fig.~\ref{#1}}
+        self._write("paper.tex", "\\newcommand{\\figref}[1]{Fig.~\\ref{#1}\\label{#1}}\n\\label{#1}\n")
+        results = cm.scan(self.tmpdir)
+        self.assertEqual(results["undefined_refs"], {})
+        self.assertEqual(results["duplicate_labels"], {})
+
+    def test_todo_macro_definitions_and_lowercase_xxx_are_not_markers(self):
+        self._write(
+            "paper.tex",
+            "\\newcommand\\todo[1]{\\textcolor{red}{#1}}\n"
+            "\\newcommand{\\note}[1]{\\textbf{TODO:} #1}\n"
+            "% option [fontset=xxx] is a keyvalue\n"
+            "% Package for lorem ipsum\n",
+        )
+        results = cm.scan(self.tmpdir)
+        self.assertEqual(results["todos"], [])
+        self.assertEqual(results["placeholders"], [])
+
+    def test_todo_in_comment_and_todo_call_are_markers(self):
+        self._write("paper.tex", "%TODO(noam): update results\nText \\todo{check number}.\n")
+        results = cm.scan(self.tmpdir)
+        self.assertEqual([ln for _, ln, _ in results["todos"]], [1, 2])
+
     def test_report_exit_code_zero_when_clean(self):
         self._write("paper.tex", r"\cite{K}\label{a}")
         self._write("refs.bib", "@article{K,\n  title={x},\n}\n")
