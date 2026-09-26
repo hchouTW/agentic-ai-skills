@@ -55,7 +55,8 @@ See each skill's `VALIDATION.md` for what is checked.
 
 ## `examples/` worked examples
 
-Every skill in this collection except `academic-papers` ships an `examples/` directory: canonical
+Two skills ship an `examples/` directory, `academic-diagrams` and `task-authoring`. The other
+skills' archetype example sets were removed (2026-09-25). The archetype format covers canonical
 worked examples for a realistic scenario in that skill's domain, in one of
 eight archetypes - **Contrast** (a "Common Weak Approach" vs. "Expert-Level
 Best Practice" plus key takeaways), **Execution Trajectory** (a step-by-step
@@ -67,11 +68,9 @@ Audit** (ruthlessly attacking a candidate artifact to find and patch real
 failure modes), **Test-First / Red-to-Green** (a failing test through a
 minimal fix to a verified, metric-backed pass), or **Incident Postmortem**
 (alert through blameless 5-Whys RCA to a permanent fix and a concrete
-monitoring rule) - see each skill's `examples/README.md` for its index and
-which archetype each entry uses. Every other skill except `task-authoring` carries
-3 examples per archetype (24 total); `task-authoring`'s `examples/` instead
-carries one worked example per task category (feature, bug, performance,
-research), documented in its own `README.md`. `task-authoring`'s
+monitoring rule) - `academic-diagrams`' `examples/` holds diagram examples by domain, and
+`task-authoring`'s holds one worked task per category (feature, bug, performance,
+research, plus two physics-analysis tasks), each indexed in its `examples/README.md`. `task-authoring`'s
 `references/example-authoring.md` documents
 all eight generation prompts, an archetype-selection guide, the actor-stance
 conventions, the diversity rule, and the format spec, and its

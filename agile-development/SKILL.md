@@ -135,13 +135,6 @@ Copy these into a task when structured notes help:
 
 Run with `python3`. Read a script before changing it.
 
-## Worked Examples
-
-[examples/README.md](examples/README.md) indexes 24 worked examples (bug-fix scoping,
-migration and dependency trajectories, rollout RFCs, triage trees, elicitation rounds,
-audits, test-first invariants, postmortems). Open one only when you want a model of the
-output for that kind of task; none is required reading.
-
 ## Quick Checklists
 
 ### Before Editing
