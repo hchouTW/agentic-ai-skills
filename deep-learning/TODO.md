@@ -54,6 +54,10 @@ The 24 examples (`examples/01-24`) and the rules in `SKILL.md` are unproven unti
       `skill-creator` description optimization; keep under the length limit.
 - [ ] Routing hygiene with sibling skills (`hep-analysis`, `agile-development`, `academic-papers`,
       `task-authoring`); run each affected skill's validator and tests after any description change.
+- [ ] Data point from the isolated routing eval (2026-09-26, `hep-analysis/tests/routing_eval.py` on `hep-analysis/tests/trigger_queries_holdout.json`, all 7 repo skills loaded as project skills, 2 runs per query; "none" = the model answered without invoking any skill): Sonnet 6/6 correct; Haiku 2/6. "Explain equivariant neural networks for point
+      clouds and when they beat a plain transformer" 0/2 (none); "How do I set up mixed precision and gradient
+      checkpointing for a 1B parameter model in PyTorch?" 1/2; "My GNN for jet tagging overfits after 3 epochs, what
+      regularization should I try?" 0/2 (none once, `hep-analysis` once). Include these in the trigger test above.
 - [ ] Verify the 24 examples follow their archetype rules (`task-authoring/references/example-authoring.md`) and
       that every code snippet runs or is clearly labelled pseudo-code.
 

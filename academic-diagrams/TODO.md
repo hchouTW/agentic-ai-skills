@@ -41,3 +41,7 @@ State at 2026-09-25: skill merged to `main` (PR #5); tooling follow-ups done on 
 ## Still open
 - More samples per prompt (the prompt run is one sample per prompt per model) and a run on a larger model (Opus).
 - APS full-width (`figure*`) size; the `subcaption` `figure*` snippet and `dvisvgm` export were never run.
+- Under-triggering found by the isolated routing eval (2026-09-26, `hep-analysis/tests/routing_eval.py` on `hep-analysis/tests/trigger_queries_holdout.json`, all 7 repo skills loaded as project skills, 2 runs per query; "none" = the model answered without invoking any skill): "Turn this Mermaid sequence diagram into a publication-quality SVG" 0/2
+  Haiku, 0/2 Sonnet (none every time); "Make a TikZ schematic of a layered detector cross-section for my paper"
+  0/2 Haiku (none once, built-in `dataviz` once), 2/2 Sonnet. Consider naming Mermaid-to-SVG conversion and
+  "schematic" in the description, then rerun with the harness.

@@ -78,7 +78,7 @@ The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven
 - [x] (2026-09-25, user chose to tune and commit: Haiku recall 22/40 -> 38/40 runs, false triggers 3 -> 5/40, all on sibling-owned queries; simulated 7-skill routing clean; suite in `evals/`) Decide whether to raise Haiku trigger recall.
 
 - [ ] Optional: Haiku skips the skill for quick formula lookups (Highland, calorimeter terms, force-field, Cherenkov threshold). If this matters, change the description and then test it on a *third* fresh query set, because the held-out set must stay untouched. Only 6 characters of the 1024 limit are left.
-- [ ] Sibling skills (not hep-analysis): the isolated harness showed that academic-papers (BibTeX/INSPIRE, paper critique), academic-diagrams (Mermaid to SVG, TikZ) and agile-development (sprint planning) are often not invoked at all, even on Sonnet. Move these findings to those skills' TODO lists.
+- [x] (2026-09-26: moved to the academic-papers, academic-diagrams, agile-development, deep-learning and ams-analysis TODO lists with per-query counts; task-authoring was 4/4 correct) Sibling skills (not hep-analysis): the isolated harness showed that academic-papers (BibTeX/INSPIRE, paper critique), academic-diagrams (Mermaid to SVG, TikZ) and agile-development (sprint planning) are often not invoked at all, even on Sonnet. Move these findings to those skills' TODO lists.
 
 ## P3 - improve content and structure
 - [x] (2026-09-25: P2 agents read 1-3 references per task; ref 14 (1,300 lines) got a task-to-section map) `SKILL.md` is ~180 lines and the references total ~7,200 lines: check progressive disclosure. Confirm that a
