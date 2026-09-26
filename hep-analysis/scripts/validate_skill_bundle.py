@@ -130,6 +130,8 @@ REQUIRED_PATHS = [
     "tests/make_root_fixtures.py",
     "tests/prompts.md",
     "tests/trigger_queries.json",
+    "tests/trigger_queries_holdout.json",
+    "tests/routing_eval.py",
 ]
 
 REQUIRED_README_SECTIONS = [

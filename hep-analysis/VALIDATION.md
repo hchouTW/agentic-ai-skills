@@ -1,10 +1,62 @@
 # Package Validation Record
 
-Validation date: 2026-09-25 (latest pass; earlier passes dated below). Helper test
+Validation date: 2026-09-26 (latest pass; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
-Current counts: bundle 113 required files (plus 40 eval cases in `evals/`); 204 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+Current counts: bundle 115 required files (plus 40 eval cases in `evals/`); 204 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## TODO round 4: isolated routing harness, held-out trigger set, Sonnet rerun (2026-09-26, branch `hep-analysis-todo-round3`)
+
+- **Description change.** The mention of the "AMS-02 case study" was dropped from the topic
+  list, and the negative clause now reads "Not for AMS-02-specific analyses (use ams-analysis)
+  or unrelated 'root' (Linux/Android, certs)". The three "Also" connectors were removed to
+  make room. Length is 1018 of 1024 characters. The bundle validator and all 204 tests pass.
+- **Isolated sibling-routing harness: `tests/routing_eval.py`.** It runs each query through a
+  real `claude -p` child (Claude Code 2.1.283) with `--setting-sources project`. The seven repo
+  skills are symlinked into the child's project `.claude/skills/`, and the child is killed at
+  its first Skill call. When asked to list its skills, the isolated child named exactly 19: the
+  7 repo skills plus 12 built-ins, and none of the ~112 user skills or plugins. This fixes the
+  `claude plugin eval` problem, where plugin skills were listed without descriptions.
+  Skills are loaded as project skills, not with `--plugin-dir`. The earlier session that wrote
+  the harness found that namespaced plugin entries triggered on Haiku in only 2 of 6 runs, against
+  5 of 6 as project skills. That comparison was not rerun here.
+- **New held-out trigger set, never used for tuning: `tests/trigger_queries_holdout.json`.**
+  It has 20 should-trigger queries, balanced across collider, detector and astroparticle, and
+  20 should-not-trigger queries. The negatives are 13 owned by sibling skills (3 deep-learning,
+  3 ams-analysis, 3 academic-papers, 2 academic-diagrams, 1 task-authoring,
+  1 agile-development) and 7 unrelated. Each case records its owner skill.
+- **Results, 2 runs per query, all through the isolated harness.** Reported cost was about
+  $2.60. Runs killed at their Skill call report no cost, so that figure is a lower bound.
+
+  | Set | Model | hep-analysis recall | hep-analysis false triggers | Routed to owner |
+  |---|---|---|---|---|
+  | held-out | Haiku | 34/40 | 1/40 | 56/80 |
+  | held-out | Sonnet | 40/40 | 0/40 | 73/80 |
+  | tuning (`trigger_queries.json`) | Haiku | 37/40 | 1/40 | n/a (no owner field) |
+  | tuning | Sonnet | 40/40 | 0/40 | n/a |
+
+  - Haiku's held-out misses were all quick formula or conceptual detector and astroparticle
+    questions, where it answered with no skill loaded: the Highland formula (2/2 runs), the
+    calorimeter constant-term crossover (2/2), the force-field approximation (1/2) and the
+    Cherenkov threshold (1/2). Held-out recall (34/40) is 3 runs lower than tuning-set
+    recall (37/40), so the description generalizes, with a small gap on formula lookups.
+    **Not tuned:** tuning on these misses would use up the held-out set. A further change needs
+    a third fresh set, and the description has only 6 characters of headroom.
+  - False triggers: Haiku routed "GNN for jet tagging overfits" to hep-analysis in 1 of 2 runs
+    (owner: deep-learning), and on the tuning set routed "Design the AMS-02 antideuteron search
+    selection" to hep-analysis in 1 of 2 runs (owner: ams-analysis). With `ams-analysis` now
+    loaded beside it, the AMS false triggers from the round-3 `claude plugin eval` (3-5 of 40)
+    fell to 1 of 40.
+  - Routing misses that belong to sibling skills: in most of the 24 Haiku and 7 Sonnet misses, no
+    skill was invoked at all, and the model answered directly. The affected skills were:
+    academic-papers (BibTeX from INSPIRE and a paper critique, both models), academic-diagrams
+    (Mermaid to SVG, both models), agile-development (sprint planning, both models), and on
+    Haiku also deep-learning (3 queries) and academic-diagrams TikZ. Once, Haiku picked the
+    built-in `dataviz` skill. These are findings about the sibling skills' descriptions, not
+    hep-analysis, and were left for their own TODO lists.
+  - Sonnet: no recall or false-trigger regression on either set after the description change,
+    which closes the "rerun Sonnet" follow-up.
 
 ## TODO round 3: Combine, ACLiC, P08, Haiku trigger recall (2026-09-25, branch `hep-analysis-todo-round3`)
 
