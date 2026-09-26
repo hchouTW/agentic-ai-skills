@@ -1,9 +1,137 @@
 # Package Validation Record
 
-Validation date: 2026-09-25 (latest pass; earlier passes dated below). Helper test
+Validation date: 2026-09-26 (latest pass; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
-(Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests.
-Current counts: bundle 112 files (the 25 `examples/` files were removed on 2026-09-25); 201 tests (7 ROOT and 4 pyhf tests skip without PyROOT/pyhf).
+(Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
+built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
+Current counts: bundle 115 required files (plus 40 eval cases in `evals/`); 204 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## TODO round 4: isolated routing harness, held-out trigger set, Sonnet rerun (2026-09-26, branch `hep-analysis-todo-round3`)
+
+- **Description change.** The mention of the "AMS-02 case study" was dropped from the topic
+  list, and the negative clause now reads "Not for AMS-02-specific analyses (use ams-analysis)
+  or unrelated 'root' (Linux/Android, certs)". The three "Also" connectors were removed to
+  make room. Length is 1018 of 1024 characters. The bundle validator and all 204 tests pass.
+- **Isolated sibling-routing harness: `tests/routing_eval.py`.** It runs each query through a
+  real `claude -p` child (Claude Code 2.1.283) with `--setting-sources project`. The seven repo
+  skills are symlinked into the child's project `.claude/skills/`, and the child is killed at
+  its first Skill call. When asked to list its skills, the isolated child named exactly 19: the
+  7 repo skills plus 12 built-ins, and none of the ~112 user skills or plugins. This fixes the
+  `claude plugin eval` problem, where plugin skills were listed without descriptions.
+  Skills are loaded as project skills, not with `--plugin-dir`. The earlier session that wrote
+  the harness found that namespaced plugin entries triggered on Haiku in only 2 of 6 runs, against
+  5 of 6 as project skills. That comparison was not rerun here.
+- **New held-out trigger set, never used for tuning: `tests/trigger_queries_holdout.json`.**
+  It has 20 should-trigger queries, balanced across collider, detector and astroparticle, and
+  20 should-not-trigger queries. The negatives are 13 owned by sibling skills (3 deep-learning,
+  3 ams-analysis, 3 academic-papers, 2 academic-diagrams, 1 task-authoring,
+  1 agile-development) and 7 unrelated. Each case records its owner skill.
+- **Results, 2 runs per query, all through the isolated harness.** Reported cost was about
+  $2.60. Runs killed at their Skill call report no cost, so that figure is a lower bound.
+
+  | Set | Model | hep-analysis recall | hep-analysis false triggers | Routed to owner |
+  |---|---|---|---|---|
+  | held-out | Haiku | 34/40 | 1/40 | 56/80 |
+  | held-out | Sonnet | 40/40 | 0/40 | 73/80 |
+  | tuning (`trigger_queries.json`) | Haiku | 37/40 | 1/40 | n/a (no owner field) |
+  | tuning | Sonnet | 40/40 | 0/40 | n/a |
+
+  - Haiku's held-out misses were all quick formula or conceptual detector and astroparticle
+    questions, where it answered with no skill loaded: the Highland formula (2/2 runs), the
+    calorimeter constant-term crossover (2/2), the force-field approximation (1/2) and the
+    Cherenkov threshold (1/2). Held-out recall (34/40) is 3 runs lower than tuning-set
+    recall (37/40), so the description generalizes, with a small gap on formula lookups.
+    **Not tuned:** tuning on these misses would use up the held-out set. A further change needs
+    a third fresh set, and the description has only 6 characters of headroom.
+  - False triggers: Haiku routed "GNN for jet tagging overfits" to hep-analysis in 1 of 2 runs
+    (owner: deep-learning), and on the tuning set routed "Design the AMS-02 antideuteron search
+    selection" to hep-analysis in 1 of 2 runs (owner: ams-analysis). With `ams-analysis` now
+    loaded beside it, the AMS false triggers from the round-3 `claude plugin eval` (3-5 of 40)
+    fell to 1 of 40.
+  - Routing misses that belong to sibling skills: in most of the 24 Haiku and 7 Sonnet misses, no
+    skill was invoked at all, and the model answered directly. The affected skills were:
+    academic-papers (BibTeX from INSPIRE and a paper critique, both models), academic-diagrams
+    (Mermaid to SVG, both models), agile-development (sprint planning, both models), and on
+    Haiku also deep-learning (3 queries) and academic-diagrams TikZ. Once, Haiku picked the
+    built-in `dataviz` skill. These are findings about the sibling skills' descriptions, not
+    hep-analysis, and were left for their own TODO lists.
+  - Sonnet: no recall or false-trigger regression on either set after the description change,
+    which closes the "rerun Sonnet" follow-up.
+
+## TODO round 3: Combine, ACLiC, P08, Haiku trigger recall (2026-09-25, branch `hep-analysis-todo-round3`)
+
+- **Combine datacard verified** (user allowed a scratch build). Built Combine from
+  `cms-analysis/HiggsAnalysis-CombinedLimit` (commit db20e4d, v11.0.0) with CMake in a scratch
+  conda-forge env (ROOT 6.34.10, boost, eigen, gsl, `-DUSE_VDT=OFF`). Nothing was installed system-wide.
+  - Filled `assets/combine_datacard_template.txt` with the `pyhf-counting.json` model (s=5, b=20,
+    n=20, background lnN 0.9/1.1) and a one-bin shapes file. `text2workspace.py` + `combine -M
+    AsymptoticLimits`: observed r < 2.157; expected 2.5/16/50/84/97.5% = 1.112/1.512/2.156/3.128/4.373.
+  - pyhf 0.7.6 on `pyhf-counting.json`, rerun: observed 2.153; expected -2..+2 sigma =
+    1.097/1.503/2.153/3.129/4.419. Every band agrees within 1% (lnN vs normsys interpolation).
+  - **Correction to the P1 record:** "expected 1.50" there was the -1 sigma band. The median is 2.153.
+  - A shape nuisance (`bkg_shape shape - 1` with +-10% Up/Down histograms) exercises the template's
+    `$CHANNEL/$PROCESS_$SYSTEMATIC` pattern and gives r < 2.157.
+  - New `tests/test_combine_template.py`: placeholder set and column-consistency checks always run.
+    The Combine run is skipped unless `combine` is on PATH or `HEP_COMBINE_WRAPPER` is set; it
+    passed here with a wrapper that runs `env -i` in the scratch env.
+- **Root cause of the macOS rootcling/ACLiC failures found.** The user's `~/.zshrc` exports
+  `ROOT_INCLUDE_PATH=<Xcode SDK>/usr/include/c++/v1` and sources Homebrew's `thisroot.sh`
+  (`ROOTSYS`, `PYTHONPATH`, `LD_LIBRARY_PATH` and `CMAKE_PREFIX_PATH` all point at Homebrew ROOT).
+  A different ROOT's cling then picks up a mismatched libc++. For any second ROOT, run in a clean
+  environment (`env -i`).
+  - Homebrew ROOT 6.38 ACLiC still fails with or without that variable: its `rootcling` gets
+    `-isysroot` CLT MacOSX26.sdk together with the Xcode libc++ path, and without the variable its
+    `std_darwin.modulemap` headers are missing. Unchanged from the earlier diagnosis.
+  - **`plot_branch.C+` verified with ACLiC on conda-forge ROOT 6.34.10** (clean env). It compiles,
+    runs on the fixture `events.root`, and its `h_pt` is bin-identical to the interpreted run
+    (5000 entries, mean 18.910).
+- **P08 (Haiku + skill; one fresh agent and output directory per run; scripts allowed; 350-word cap)**
+  - Round A (no skill change, script execution allowed): **2/2 FAIL**. Both ran
+    `cosmic_ray_flux.py` and gave the exact interval [1.367, 5.918] with asymmetric errors, but both
+    called `sqrt(3)` "correct/reasonable as a Gaussian approximation" (the F signal). Neither
+    mentioned resolution/spillover or background. The runs read SKILL.md and ref 37 but never ref
+    35, where the low-count subsection lives. Running scripts fixed the missing numbers; routing
+    was the remaining gap.
+  - Fix: the SKILL.md flux invariant now says to answer "no" (not "approximately right"), to run
+    `cosmic_ray_flux.py`, and to address spillover and background, with a link to ref 35's
+    low-count subsection. Ref 37's intro links there too.
+  - Round B: **2/2 PASS**. Both said no, used 600 GV, gave [1.27, 5.48]e-10 (m^2 sr s GV)^-1 from
+    the script, and covered MDR/resolution spillover and background.
+  - Regression check after the invariant/ref 37 edit, run twice each: **P09 2/2 PASS; P10 1 PASS +
+    1 PARTIAL** (one run gave backtracing but no 1.2x factor); **P12 1 PASS + 1 PARTIAL** (one run
+    assumed independent trials with no correlated-trials caveat). The PARTIALs concern content
+    the edit did not touch. No FAIL. The other prompts were not rerun: they do not route through
+    refs 35/37 or the flux invariant.
+- **Haiku trigger recall: description revised; eval suite committed in `evals/`** (40 cases built from
+  `tests/trigger_queries.json`: a `tool_used: Skill` grader, min 1 for should-trigger and 0..0
+  otherwise, max_turns 6). `claude plugin eval`, target mode (only hep-analysis loaded), Haiku,
+  2 runs per case:
+
+  | Description | Recall (runs) | False triggers (runs) | Cost |
+  |---|---|---|---|
+  | previous | 22/40 | 3/40 | $2.73 |
+  | revised | 38/40 | 5/40 | $3.24 |
+
+  - The revision opens with "including quick how-to or conceptual questions - load it before
+    answering from memory". It adds ABCD/data-driven backgrounds, Combine impacts/datacards,
+    crashes, X_max and neutrino effective area, and drops the two example quotes. It is 1024 characters.
+  - Revised misses: pos12 Li & Ma (1/2) and pos14 pyhf workspace (1/2, the miss hit the turn cap).
+  - Revised false triggers: neg12 Feynman/TikZ (1/2, same as before) and neg19 AMS antideuteron
+    (2/2, same as before). New ones: neg06 physics-informed-NN DDP (1/2) and neg10 AMS positron
+    fraction (1/2). All four belong to a sibling (academic-diagrams, ams-analysis, deep-learning)
+    that target mode does not load.
+  - **Sibling routing.** A plugin with all seven repo skills is not a valid harness test here. The
+    eval child also loads the user's ~112 other skills, and the listing then shows plugin skills
+    as bare names with no description (Haiku confirmed this when asked to echo the listing).
+    Recall collapsed to 3/40 (previous) and 1/40 (revised), for reasons unrelated to the
+    descriptions. Routing was therefore checked by simulation: Haiku was given all seven real
+    descriptions and routed the 40 queries, 2 runs per variant. Previous: 20/20 recall and 0/20
+    hep false triggers in both runs. Revised: 19/20 and 20/20 recall, 0/20 false triggers. Every
+    near-miss went to its owner (deep-learning, ams-analysis, academic-papers/diagrams,
+    task-authoring). The one revised miss sent the balloon-cutoff query to ams-analysis.
+  - Caveats: 2 runs per case, and Haiku is noisy. The suite reuses the same 40 queries, so it
+    shows the change helps on them, not that it generalizes.
+- Tests: 204 OK (12 skips; the Combine test ran with the wrapper). Bundle OK (113 files).
 
 ## Follow-up pass (2026-09-25, branch `hep-analysis-followups`)
 
@@ -271,7 +399,7 @@ Run for real, all passing:
 - The five PyROOT scripts ran on the fixtures (now in `tests/test_root_integration.py`).
 - `uproot_awkward_analysis.py` gives values identical to the C++/PyROOT output.
 - `pyhf-counting.json`: validates against the pyhf schema; `pyhf cls` gives CLs_obs =
-  0.335 at mu=1; 95% CLs upper limit mu < 2.15 (expected 1.50), plausible for n=b=20
+  0.335 at mu=1; 95% CLs upper limit mu < 2.15 (expected 1.50 [corrected 2026-09-25: 1.50 is the -1 sigma band; the median expected is 2.153, equal to the observed since n=b]), plausible for n=b=20
   with a 10% background normsys.
 - **Combine datacard not verified**: building standalone Combine (cloning and
   compiling external code) was blocked in this session's permission mode. The template

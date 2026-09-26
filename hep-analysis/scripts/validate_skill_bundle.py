@@ -126,9 +126,12 @@ REQUIRED_PATHS = [
     "tests/test_yield_table.py",
     "tests/test_end_to_end.py",
     "tests/test_root_integration.py",
+    "tests/test_combine_template.py",
     "tests/make_root_fixtures.py",
     "tests/prompts.md",
     "tests/trigger_queries.json",
+    "tests/trigger_queries_holdout.json",
+    "tests/routing_eval.py",
 ]
 
 REQUIRED_README_SECTIONS = [

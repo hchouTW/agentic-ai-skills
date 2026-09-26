@@ -1,0 +1,205 @@
+[
+ {
+  "query": "whats the difference between TH1::Sumw2 errors and just sqrt(N) when my histogram is filled with weights?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "I have a dimuon invariant mass spectrum around the J/psi. How should I model the peak and the background in RooFit, and what goes wrong if I fix the width?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "Should I symmetrize an asymmetric b-tagging scale factor uncertainty before putting it into the likelihood?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "My data/MC agreement in the control region is off by 15% in the number of primary vertices. Is that a pileup profile issue or something else?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "Awkward array question: how do I pick the leading two jets per event that pass pt > 30 and |eta| < 2.4, keeping events with fewer than two?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "Is it OK to choose my signal region cuts by maximizing s/sqrt(b) on the same MC I later use for the limit?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "How many iterations should I use for D'Agostini unfolding and how do I show the result isn't driven by the prior?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "The CLs upper limit I get from asymptotics looks too strong when I only expect 2 background events. Should I use toys?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "Quick one: what's the Highland formula for the multiple scattering angle of a 2 GeV pion through 5 mm of silicon?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "For an EM calorimeter with 10%/sqrt(E) stochastic and 1% constant term, at what energy does the constant term dominate?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "How do I align a silicon tracker with cosmic muons before collisions start?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "Explain how the force-field approximation relates the local interstellar spectrum to what a detector at 1 AU sees, and what phi means.",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "We see a 4 sigma hotspot in an all-sky search with an IACT survey. How do I account for the look-elsewhere effect?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "How does a surface detector array like Auger reconstruct the energy of an air shower from S(1000)?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "What is the Cherenkov threshold momentum for kaons in water, and why do neutrino detectors use that?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "I'm getting 'Error in <TTree::SetBranchAddress>: The pointer type given does not correspond to the type needed' - how do I fix it?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "How do I measure a boron-to-carbon ratio with a space magnetic spectrometer and propagate the correlated acceptance uncertainty?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis",
+  "also_ok": [
+   "ams-analysis"
+  ]
+ },
+ {
+  "query": "compare the reach of the Fermi LAT vs CTA for a 1 TeV gamma-ray point source, roughly",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "How do I estimate the fake-lepton background with a fake factor method and validate it?",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "Write an RDataFrame Define that computes delta R between the leading muon and the closest jet.",
+  "expect_hep_analysis": true,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "My GNN for jet tagging overfits after 3 epochs, what regularization should I try?",
+  "expect_hep_analysis": false,
+  "owner": "deep-learning"
+ },
+ {
+  "query": "How do I set up mixed precision and gradient checkpointing for a 1B parameter model in PyTorch?",
+  "expect_hep_analysis": false,
+  "owner": "deep-learning"
+ },
+ {
+  "query": "Explain equivariant neural networks for point clouds and when they beat a plain transformer.",
+  "expect_hep_analysis": false,
+  "owner": "deep-learning"
+ },
+ {
+  "query": "What is the AMS-02 L1 charge selection used in the helium flux paper and how do I reproduce it on the AMS ntuples?",
+  "expect_hep_analysis": false,
+  "owner": "ams-analysis"
+ },
+ {
+  "query": "Review my AMS-02 electron/positron TRD likelihood template fit for systematic issues.",
+  "expect_hep_analysis": false,
+  "owner": "ams-analysis"
+ },
+ {
+  "query": "Which AMS-02 time-dependent proton flux binning should I use for comparing with neutron monitors?",
+  "expect_hep_analysis": false,
+  "owner": "ams-analysis"
+ },
+ {
+  "query": "Critique the statistical treatment in this CMS paper's abstract and conclusions.",
+  "expect_hep_analysis": false,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Build my BibTeX from INSPIRE for these ten arXiv IDs and fix duplicate keys.",
+  "expect_hep_analysis": false,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Help me restructure the introduction of my thesis chapter on cosmic-ray antiprotons.",
+  "expect_hep_analysis": false,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Make a TikZ schematic of a layered detector cross-section for my paper.",
+  "expect_hep_analysis": false,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Turn this Mermaid sequence diagram into a publication-quality SVG.",
+  "expect_hep_analysis": false,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Write a task brief so a contractor can implement a histogram-merging CLI; include acceptance criteria.",
+  "expect_hep_analysis": false,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Plan our next two-week sprint and estimate these user stories.",
+  "expect_hep_analysis": false,
+  "owner": "agile-development"
+ },
+ {
+  "query": "How do I change the root password on macOS?",
+  "expect_hep_analysis": false,
+  "owner": null
+ },
+ {
+  "query": "My React tree re-renders the root component on every keystroke, how do I stop that?",
+  "expect_hep_analysis": false,
+  "owner": null
+ },
+ {
+  "query": "Explain what a p-value is to a high-school student.",
+  "expect_hep_analysis": false,
+  "owner": null
+ },
+ {
+  "query": "Fit a logistic regression in scikit-learn and report AUC with a bootstrap CI.",
+  "expect_hep_analysis": false,
+  "owner": null
+ },
+ {
+  "query": "What's the square root of 2 to 10 decimal places?",
+  "expect_hep_analysis": false,
+  "owner": null
+ },
+ {
+  "query": "Write a bash script that renames all .jpg files by their EXIF date.",
+  "expect_hep_analysis": false,
+  "owner": null
+ },
+ {
+  "query": "Why is the sky blue? Explain Rayleigh scattering.",
+  "expect_hep_analysis": false,
+  "owner": null
+ }
+]

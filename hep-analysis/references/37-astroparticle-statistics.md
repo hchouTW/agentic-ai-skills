@@ -11,6 +11,10 @@ steeply falling flux. General likelihood, interval, and combination machinery
 modification; this file covers what is different about the astroparticle setting,
 not a restatement of general HEP statistics.
 
+For the flux and interval of a few-count spectral bin (why `sqrt(N)` is wrong, units,
+resolution spillover, background), read
+[35, low-count, high-rigidity bins](35-space-based-direct-detection.md#low-count-high-rigidity-bins).
+
 ## The ON/OFF counting problem and Li & Ma significance
 
 The canonical astroparticle measurement is a Poisson counting experiment with signal
