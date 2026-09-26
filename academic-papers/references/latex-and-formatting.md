@@ -18,6 +18,7 @@ multi-file structuring, encoding) — this file is venue-specific setup only.
 - [Units, numbers, and equations](#units-numbers-and-equations)
 - [Common compile errors](#common-compile-errors)
 - [Length-limit tactics](#length-limit-tactics)
+- [Venue rules: sources and last-verified dates](#venue-rules-sources-and-last-verified-dates)
 
 ## Getting the right class file
 
@@ -25,8 +26,9 @@ Never hand-copy a journal's `.cls`/`.bst` file from memory or reconstruct it —
 these are maintained and versioned by the publisher/society. Get the current
 version from the authoritative source:
 - REVTeX 4.2 (APS: PRL, PRD, PRX, PRA, PRB, ...): APS's REVTeX page.
-- JHEP: SISSA's JHEP author guidelines page (`JHEP3.cls`, `JHEP.bst`).
-- EPJC: Springer's `svjour3`/`spphys` LaTeX package for Physics journals.
+- JHEP: SISSA's JHEP author guidelines page (`jheppub.sty`, loaded on top of
+  `article`, plus `JHEP.bst`). The old `JHEP3.cls` class is no longer what SISSA ships.
+- EPJC: the Springer Nature LaTeX template (`sn-jnl.cls`) with the `[iicol]` option.
 - Nature family: Nature's LaTeX template page (or submit in Word, per journal).
 - JCAP / ApJ / Astroparticle Physics (Elsevier): see "Astroparticle venues" below.
 - NeurIPS / ICML / ICLR / AAAI / ACL family / JMLR / TMLR: see "Statistics and ML
@@ -42,7 +44,7 @@ that only show up after submission.
 Minimal PRL skeleton:
 
 ```latex
-\documentclass[aps,prl,twocolumn,showpacs,superscriptaddress]{revtex4-2}
+\documentclass[aps,prl,reprint,superscriptaddress]{revtex4-2}
 \usepackage{graphicx}
 \usepackage{amsmath,amssymb}
 \usepackage{hyperref}
@@ -53,7 +55,9 @@ Minimal PRL skeleton:
 
 \author{A.\ Researcher}
 \affiliation{Department of Physics, University X}
-\collaboration{The XYZ Collaboration}
+% A collaboration-only byline uses \collaboration{The XYZ Collaboration}
+% (never \author); with individual authors, REVTeX warns
+% "Assuming \noaffiliation for collaboration", which is harmless.
 
 \date{\today}
 
@@ -63,30 +67,46 @@ Minimal PRL skeleton:
 
 \maketitle
 
-% body sections use \section*{...} in PRL (no numbered sections)
+\textit{Introduction}---Body text starts here (PRL uses run-in italic heads,
+not \verb|\section|).
 
 \end{document}
 ```
 
-Notes:
-- PRL uses unnumbered `\section*{}` headings; PRD/PRX allow numbered sections.
+Notes (checked 2026-09 against the APS REVTeX 4.2 author guide and the APS Journals Style
+Guide, November 2024; the skeleton above compiles with Tectonic):
+- PRL does not generally use freestanding headings. Use run-in heads: paragraph indent,
+  italic, em dash (`\textit{Introduction}---Text ...`). PRD/PRX use numbered sections.
+- Do not add `showpacs`/`\pacs{}`: APS stopped asking for PACS codes in 2016 (the scheme
+  has not been maintained since 2010) and uses PhySH subject headings, chosen at submission.
+- PRL length: the body may not exceed 3,750 words (about 4 journal pages), excluding the
+  abstract, author list and affiliations, and references; footnote text in the
+  reference list does count. Figures, displayed equations and tables are converted to
+  word equivalents (APS length guide: two-column figure = 300/(0.5 x aspect ratio) + 40
+  words; single-column figure = 150/aspect ratio + 20; displayed equation = 16 words
+  per row single-column, 32 two-column; table = 13 + 6.5 words per line single-column,
+  26 + 13 two-column). The abstract is limited to 600 characters including spaces.
+  PRD and PRC Letters: 4,500 words. PRD regular articles have no fixed limit.
 - `\collaboration{}` and `\affiliation{}` handle large collaboration author
   lists — for genuinely large collaborations (hundreds of authors), APS
   provides a separate author-list macro package; ask the collaboration's
   publications committee for the current boilerplate rather than typing
   hundreds of `\author{}` lines by hand.
-- `twocolumn` is required for PRL; PRD/PRX are typically single-column for
-  submission and typeset two-column on publication.
+- APS accepts submissions typeset with either the `reprint` or the `twocolumn` option
+  (`reprint` approximates the journal look); `preprint` gives single-column 12pt for
+  drafts. None of these is required for a given journal, and APS re-typesets from the
+  source anyway. Format for US letter paper.
 
 ## JHEP
 
 ```latex
-\documentclass{JHEP3}
+\documentclass[a4paper,11pt]{article}
+\usepackage{jheppub}   % from SISSA's JHEP author page; not in TeX Live
 \usepackage{amsmath,amssymb,graphicx}
 
 \title{...}
-\author[a]{First Author}
-\author[b]{Second Author}
+\author[a]{First Author,}
+\author[b]{and Second Author}
 \affiliation[a]{Institution A}
 \affiliation[b]{Institution B}
 \emailAdd{author@inst.edu}
@@ -105,26 +125,41 @@ Notes:
 \end{document}
 ```
 
-JHEP numbers all sections, expects `\flushbottom`, and its `JHEP.bst` style
+Checked 2026-09: this skeleton compiles with Tectonic against `jheppub.sty`
+v.1.1227 (2018/12/04) and `JHEP.bst` downloaded from SISSA. `jheppub` is a package
+for the standard `article` class, not a document class; the author manual asks for
+the `11pt,a4paper` options. Authors are separated by commas and the last one starts
+with "and", as in SISSA's own example. `\keywords{}` and `\arxivnumber{}` are optional.
+JHEP has no fixed page limit. JHEP numbers all sections, expects `\flushbottom`, and its `JHEP.bst` style
 formats INSPIRE-style BibTeX entries (with `eprint`/`archivePrefix` fields)
 correctly — pull `.bib` entries from INSPIRE-HEP directly rather than
 retyping them (see `citations-and-bibliography.md`).
 
 ## EPJC / Springer
 
-Use Springer's `svjour3` class with the `spphys` style option. Structurally
-closer to JHEP (numbered sections) than to REVTeX's PRL mode. Springer's
-author guidelines page has the current template and a Word alternative if the
-group doesn't use LaTeX.
+EPJC's submission guidelines recommend the Springer Nature LaTeX template
+(`sn-jnl.cls`) with the `[iicol]` option, since the journal is typeset double column;
+manuscripts in other LaTeX templates are converted. The older `svjour3` class with
+`svepjc3.clo` (still on Overleaf, last updated about 2019) is superseded. Headings
+use the decimal system, at most three levels. Word files are also accepted. Checked
+2026-09 from a search-engine copy of Springer's EPJC guidelines page, because the page
+itself redirects to a login step when fetched.
 
 ## Astroparticle venues (JCAP / AASTeX / Elsevier)
 
-- **JCAP** uses SISSA's `jcappub.cls`, structurally close to `JHEP3.cls` (numbered
-  sections, `\flushbottom`, JHEP-compatible bibliography style) — pull the current
-  class from JCAP's author-guidelines page.
-- **ApJ / ApJL** use AASTeX (`\documentclass[modern]{aastexN}` for the current major
-  version `N`) — get the exact current version from the AAS journals author-resources
-  page, since AASTeX version bumps have changed author-list and table syntax before.
+- **JCAP** uses SISSA's `jcappub.sty`, the JCAP twin of `jheppub.sty`: load it with
+  `\usepackage{jcappub}` on `\documentclass[a4paper,11pt]{article}`, with the same
+  front-matter commands and `JHEP.bst` (checked 2026-09: the JHEP skeleton above
+  compiles unchanged with `jcappub.sty` v.1.1227). Pull it from JCAP's author page.
+- **ApJ / ApJL** use AASTeX. The current version is v7 (`\documentclass{aastex7}`,
+  guide covers v7.0.1; `[modern]` is still an optional style), checked 2026-09; the
+  older `aastex631` is what TeX distributions such as Tectonic's bundle still carry,
+  so download v7 from the AAS journals page. AASTeX version bumps have changed
+  author-list and table syntax before. AAS abstracts: at most 250 words. ApJ Letters:
+  at most 3,500 words of main text (excluding acknowledgments and appendices) and at
+  most 5 figures plus tables combined (each figure at most 9 panels); AAS says these
+  limits are no longer strictly compulsory, but exceeding them needs the editor's
+  agreement.
   `natbib`-style author-year citations (`\citep{}`/`\citet{}`) are the default, not
   the numbered style used by REVTeX/JHEP.
 - **Astroparticle Physics (Elsevier)** uses `elsarticle.cls`; get it from Elsevier's
@@ -141,14 +176,30 @@ files.
   specific year's conference — pull the *current year's* template, not a cached
   one from a prior year: margins, font, and section-numbering rules change
   year to year and several of these venues run an automated formatting checker
-  at submission that rejects a paper built on a stale template.
-- **ACL / EMNLP / NAACL** share a common ACL Anthology style file
-  (`acl.sty`/`emnlp.sty` depending on year), with `\citep`/`\citet` author-year
-  citations via that same style — get it from the ACL Anthology's author
-  resources, not a general LaTeX template site.
+  at submission that rejects a paper built on a stale template. 2026 limits
+  (checked 2026-09 on each venue's own page; re-check every year):
+  - NeurIPS 2026: 9 content pages including figures and tables; references, the
+    mandatory paper checklist and optional technical appendices do not count;
+    +1 content page for camera-ready. Over-length papers are not reviewed.
+  - ICML 2026: 8 pages main paper; references, the required impact statement and
+    appendices are unlimited and do not count; +1 page (9) for camera-ready.
+  - ICLR 2026: 9 pages main text at submission, 10 during rebuttal and for
+    camera-ready; references and appendices do not count.
+  - All three are double-blind.
+- **ACL / EMNLP / NAACL** (reviewed through ACL Rolling Review) require the official
+  ACL style template from the ACL GitHub repository, unmodified, with
+  `\citep`/`\citet` author-year citations. ARR limits (checked 2026-09): long papers 8
+  pages of content, short papers 4, plus unlimited references; a "Limitations"
+  section is required (desk rejection without it), goes after the conclusion and
+  before the references, and does not count toward the limit, like the optional
+  ethical-considerations section.
 - **JMLR / TMLR** each have their own dedicated LaTeX template (JMLR's is a
   long-running stable style, closer to a journal's `article`-based class than a
-  yearly-changing conference one).
+  yearly-changing conference one). TMLR requires its own style file and sets no
+  page limit ("submissions may be any length"), but unusually long papers are
+  likely to be reviewed more slowly. JMLR also has no explicit limit. Its author
+  page (reported by search, not fetched) says papers over 50 pages take longer and
+  may be desk-rejected if no editor or reviewers can be found.
 - **Statistics journals** (JASA, Annals of Statistics, Biometrika, JRSS-B) rarely
   mandate a specific heavily-branded class file the way REVTeX/AASTeX do — most
   accept a plain `article`-based submission with the journal's own reference
@@ -163,15 +214,17 @@ files.
 
 ## arXiv-specific rules
 
-- arXiv strips or restricts some packages; prefer `hyperref` with `pdftex`
-  driver and avoid exotic custom packages when possible to reduce upload
-  failures.
-- Upload all source files (`.tex`, `.bib` or the compiled `.bbl`, figure
-  files) — arXiv recompiles from source, so a missing figure file or an
-  un-uploaded `.bst`/custom `.cls` will break the build. When in doubt about
-  a journal class file's arXiv-compatibility, upload the compiled `.bbl` and
-  fall back to a plain `article`-based version for arXiv while keeping the
-  journal-class version for submission.
+- arXiv recompiles from source with TeX Live (2025 by default, 2023 selectable;
+  checked 2026-09). It detects the bibliography and runs BibTeX or biber itself, so
+  either the `.bib` or a pre-built `.bbl` works. A supplied `.bbl` must have the
+  same base name as the main `.tex`, and with biblatex it must match arXiv's biber
+  version, so letting arXiv build it is usually safer.
+- Upload every file the build reads: figures, and any custom `.cls`/`.sty`/`.bst`
+  not in TeX Live (for example `jheppub.sty`, `jcappub.sty`, conference `.sty` files).
+- Use one figure format family: arXiv will not convert between PostScript and
+  PDF/PNG/JPG during processing, so do not mix them.
+- In `hyperref` URLs that contain `#`, write `\string#` so the link survives
+  processing.
 - Category selection (e.g. `hep-ex`, `hep-ph`, `hep-th`, `astro-ph.HE`)
   determines the primary audience and moderation queue — pick the primary
   category that matches the paper's main claim, with cross-lists for
@@ -204,8 +257,8 @@ files.
 
 ## Length-limit tactics
 
-When a venue enforces a hard page/word limit (PRL's ~4 pages is the classic
-case):
+When a venue enforces a hard page/word limit (PRL's 3,750 words, about 4 pages, is
+the classic case):
 - Move derivation detail and extra validation plots to Supplemental
   Material, if the venue supports it, rather than cutting the physics.
 - Combine multi-panel figures rather than using several single-panel
@@ -220,3 +273,30 @@ See `latex-mechanics-and-tooling.md` for notation macros, table syntax,
 tagged-PDF accessibility, `latexdiff` tracked-changes diffing, `latexmk`
 build automation, bibliography-engine choice, multi-file document
 structuring, and non-ASCII name encoding.
+
+## Venue rules: sources and last-verified dates
+
+Venue rules change, conference rules every year. Each rule above is dated. Re-check
+a row when it is more than a year old, or when the user's venue or year differs.
+"Search copy" means the publisher page could not be fetched (login redirect), so the
+value comes from a search engine's copy of that official page.
+
+| Venue | Rule(s) checked | Source | Last verified |
+|---|---|---|---|
+| PRL / PRD / PRC | length limits, word equivalents | https://journals.aps.org/authors/length-guide | 2026-09 |
+| PRL | 600-character abstract, 3,750 words | https://journals.aps.org/prl/info/infoL.html | 2026-09 |
+| APS | PACS dropped, PhySH | PRL editorial 10.1103/PhysRevLett.116.080001 (2016) | 2026-09 |
+| APS | run-in heads in PRL | APS Journals Style Guide for Authors (November 2024) | 2026-09 |
+| APS | `reprint`/`twocolumn`, `superscriptaddress`, `\collaboration` | APS Author Guide for REVTeX 4.2 (CTAN `apsguide4-2.pdf`) | 2026-09 |
+| JHEP | `jheppub.sty` on `article`, front matter | https://jhep.sissa.it/jhep/help/JHEP_TeXclass.jsp and its author manual (2021) | 2026-09 |
+| JCAP | `jcappub.sty` | https://jcap.sissa.it/jcap/help/JCAP_TeXclass.jsp | 2026-09 |
+| EPJC | Springer Nature template, `[iicol]` | https://link.springer.com/journal/10052/submission-guidelines (search copy) | 2026-09 |
+| ApJ / ApJL | AASTeX v7, 250-word abstract, ApJL 3,500 words and 5 display items | https://journals.aas.org/aastexguide/ , https://journals.aas.org/manuscript-preparation/ , https://journals.aas.org/the-astrophysical-journal-letters/ | 2026-09 |
+| Nature Physics | Article: 3,000 words main text, 200-word summary, 6 display items | https://www.nature.com/nphys/content (search copy) | 2026-09 |
+| NeurIPS 2026 | 9 content pages, checklist | https://neurips.cc/Conferences/2026/MainTrackHandbook | 2026-09 |
+| ICML 2026 | 8 pages (+1 camera-ready), impact statement | https://icml.cc/Conferences/2026/CallForPapers | 2026-09 |
+| ICLR 2026 | 9 pages (10 at rebuttal/camera-ready) | https://iclr.cc/Conferences/2026/AuthorGuide | 2026-09 |
+| ACL Rolling Review | 8/4 pages, required Limitations | https://aclrollingreview.org/cfp | 2026-09 |
+| TMLR | no page limit, own style file | https://jmlr.org/tmlr/author-guide.html | 2026-09 |
+| arXiv | TeX Live, BibTeX/biber, `.bbl` naming, figure formats | https://info.arxiv.org/help/submit_tex.html | 2026-09 |
+| Elsevier (`elsarticle`), A&A (`aa.cls`), JMLR, AAAI, statistics journals | not checked | - | - |

@@ -59,15 +59,16 @@ substitutions:
 
 ## Journals and venues
 
-In addition to the collider-physics venues in `latex-and-formatting.md`'s table:
+In addition to the collider-physics venues in `latex-and-formatting.md` (sources and
+last-verified dates are in its final section; rows marked "Not checked" were not verified):
 
 | Venue | Class file | Typical length | Notes |
 |---|---|---|---|
-| PRD (astro-ph flavor) | `revtex4-2` (`\documentclass[aps,prd]{revtex4-2}`) | No hard limit | Same class as collider PRD; astroparticle results commonly published here |
-| JCAP | SISSA's `jcappub.cls` | No hard limit | JHEP-family house style; `\bibliographystyle{JHEP}`-compatible |
-| ApJ / ApJL | AASTeX (`aastex631.cls` or current version) | ApJL is letter-length; ApJ has no hard limit | Get the current class from the AAS journals author-resources page; natbib author-year citation is the house default |
-| Astroparticle Physics (Elsevier) | `elsarticle.cls` | No hard limit | Elsevier house style; check current author guidelines for citation style option |
-| A&A | A&A's own `aa.cls` | No hard limit | Used for some multi-messenger/counterpart papers | 
+| PRD (astro-ph flavor) | `revtex4-2` (`\documentclass[aps,prd,reprint]{revtex4-2}`) | No fixed limit for regular articles (Letters 4,500 words) | Same class as collider PRD; astroparticle results commonly published here |
+| JCAP | `article` + SISSA's `jcappub.sty` | No fixed limit | JHEP-family house style; `\bibliographystyle{JHEP}` |
+| ApJ / ApJL | AASTeX v7 (`aastex7.cls`; TeX distributions may still ship `aastex631`) | ApJL: 3,500 words, ≤ 5 figures+tables (soft limits); abstract ≤ 250 words | Get the current class from the AAS journals author-resources page; natbib author-year citation is the house default |
+| Astroparticle Physics (Elsevier) | `elsarticle.cls` | Not checked | Elsevier house style; check current author guidelines for citation style option |
+| A&A | A&A's own `aa.cls` | Not checked | Used for some multi-messenger/counterpart papers | 
 
 As with the collider-physics class files, always pull the current `.cls`/`.bst` from
 the publisher rather than reconstructing from memory — AASTeX in particular changes

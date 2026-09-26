@@ -43,7 +43,7 @@ Use it for any of:
 - Converting an internal analysis note into a paper draft, or a paper into a talk/proceedings
 - Writing a plain-language public/outreach summary of a published result for a
   collaboration or institution website
-- LaTeX formatting: REVTeX (PRL/PRD/PRX), JHEP class, EPJC/Springer, JCAP, AASTeX
+- LaTeX formatting: REVTeX (PRL/PRD/PRX), JHEP (`jheppub`), EPJC/Springer Nature, JCAP, AASTeX
   (ApJ/ApJL), Elsevier `elsarticle` (Astroparticle Physics journal), NeurIPS/ICML/
   ICLR/AAAI/ACL-family style files, JMLR/TMLR, general `article`
 - Building, cleaning, or deduplicating a BibTeX file; fixing INSPIRE-HEP citation
@@ -211,21 +211,25 @@ rebuttals) is in `references/paper-genre-variants.md`,
 
 ## Journal / venue conventions (quick reference)
 
-| Venue | Class file | Typical length | Notes |
+| Venue | Class file | Length (verified 2026-09) | Notes |
 |---|---|---|---|
-| PRL | `revtex4-2` (`\documentclass[aps,prl,twocolumn]{revtex4-2}`) | ~4 pages, ~3750 words | Letter format, no separate abstract heading |
-| PRD / PRX | `revtex4-2` (`\documentclass[aps,prd]{revtex4-2}`) | No hard limit (PRD), longer form | Full methods allowed |
-| JHEP | `JHEP3.cls` | No hard limit | SISSA house style, `\bibliographystyle{JHEP}` |
-| EPJC | Springer `svjour3`/`spphys` | No hard limit | Springer LaTeX templates |
-| Nature / Nat. Phys. | Nature LaTeX template or Word | ~2000–3000 words main text | Methods/refs often separate |
-| JCAP (astroparticle) | SISSA's `jcappub.cls` | No hard limit | JHEP-family style; common venue for cosmic-ray/dark-matter theory and phenomenology |
-| ApJ / ApJL (astroparticle) | AASTeX (current `aastexN.cls`) | ApJL is letter-length | natbib author-year citations by default |
-| Astroparticle Physics (Elsevier) | `elsarticle.cls` | No hard limit | Elsevier house style |
-| NeurIPS / ICML / ICLR / AAAI | Conference's current-year `.sty` | Hard page limit, unlimited appendix | Single-shot rebuttal, not a revision round; pull the current year's template |
-| ACL / EMNLP / NAACL | Shared ACL Anthology style file | Hard page limit | `natbib` author-year; ACL Rolling Review has a different, revision-carrying cadence |
-| JMLR / TMLR | Venue's own LaTeX template | No hard limit | Journal-style open review, closer to a physics journal's process |
-| Statistics journals (JASA, Annals of Statistics, ...) | Usually plain `article`-based | No hard limit | Journal-specific reference style; theorem/proof structure for theory papers |
-| arXiv preprint | Whatever the target journal uses, or `article` | Match target venue | Always include `\usepackage{hyperref}` sparingly per arXiv rules |
+| PRL | `revtex4-2` (`\documentclass[aps,prl,reprint]{revtex4-2}`) | 3,750 words (about 4 pages); abstract ≤ 600 characters | Run-in italic heads, not `\section`; no PACS (PhySH since 2016) |
+| PRD / PRX | `revtex4-2` (`\documentclass[aps,prd,reprint]{revtex4-2}`) | PRD regular articles: no fixed limit; PRD Letters 4,500 words | Numbered sections, full methods |
+| JHEP | `article` + SISSA's `jheppub.sty` (not a `.cls`) | No fixed limit | `\bibliographystyle{JHEP}`; `\flushbottom` after `\maketitle` |
+| EPJC | Springer Nature template `sn-jnl.cls`, `[iicol]` option | No fixed limit | Old `svjour3` superseded; decimal headings, ≤ 3 levels |
+| Nature Physics | Nature LaTeX template or Word | Article: 3,000 words main text, ~200-word summary paragraph, ≤ 6 display items | Letters retired in 2022; check Nature itself separately |
+| JCAP (astroparticle) | `article` + SISSA's `jcappub.sty` | No fixed limit | Same front matter as JHEP; common for cosmic-ray/dark-matter theory and phenomenology |
+| ApJ / ApJL (astroparticle) | AASTeX v7 (`\documentclass{aastex7}`) | Abstract ≤ 250 words; ApJL 3,500 words and ≤ 5 figures+tables (soft) | natbib author-year citations |
+| Astroparticle Physics (Elsevier) | `elsarticle.cls` | Not checked | Elsevier house style |
+| NeurIPS / ICML / ICLR (2026) | Conference's current-year `.sty` | 9 / 8 / 9 pages main text; appendices and references do not count | Double-blind; NeurIPS checklist, ICML impact statement required; re-check every year |
+| ACL / EMNLP / NAACL (ARR) | Official ACL template, unmodified | Long 8 pages, short 4 | Required "Limitations" section, not counted; `natbib` author-year |
+| JMLR / TMLR | Venue's own LaTeX template | No page limit (long papers review more slowly) | Journal-style review, closer to a physics journal's process |
+| Statistics journals (JASA, Annals of Statistics, ...) | Usually plain `article`-based | Not checked | Journal-specific reference style; theorem/proof structure for theory papers |
+| arXiv preprint | Whatever the target journal uses, or `article` | Match target venue | arXiv runs BibTeX/biber itself; upload any `.sty`/`.cls` not in TeX Live; don't mix PS and PDF figures |
+
+Sources and per-row dates are in `references/latex-and-formatting.md` ("Venue rules:
+sources and last-verified dates"). A row older than a year, or for a different
+conference year, must be re-checked before it is quoted as a hard limit.
 
 Details, obtaining the right class file, and common compile errors are in
 `references/latex-and-formatting.md`; astroparticle-specific venues and author-list
