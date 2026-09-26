@@ -233,7 +233,10 @@ These extend, not replace, `scientific-style.md`'s significance-language table:
   scanned more than one direction, energy bin, or source candidate — quoting only the
   pre-trial number is the astroparticle-physics analogue of the look-elsewhere effect
   in `reading-papers.md`, and referees will ask for the post-trial number if it's
-  missing.
+  missing. For an ON/OFF (source vs. background region) count, the pre-trial
+  significance is usually Li & Ma's eq. 17 (T.-P. Li and Y.-Q. Ma, ApJ 272, 317
+  (1983), doi:10.1086/161295; checked 2026-09-26): cite it and state the ON/OFF
+  exposure ratio alpha used. Computing it belongs to `hep-analysis`.
 - **"Detection" vs. "hint" vs. "evidence"** for a point source or transient
   association follows the same σ-based conventions as `scientific-style.md`'s table,
   but state explicitly whether the quoted significance is pre- or post-trial each

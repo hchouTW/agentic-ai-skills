@@ -19,6 +19,7 @@ phrase the resulting claim once it's calibrated correctly.
 - [Systematic uncertainty](#systematic-uncertainty)
 - [Common probability errors](#common-probability-errors)
 - [Statistical claim calibration](#statistical-claim-calibration)
+- [Sources](#sources)
 
 ## Entry questions
 
@@ -71,7 +72,10 @@ one:
 3. Check whether the analysis's actual sample size and parameter regime
    plausibly satisfy those assumptions — a search near a physical boundary
    (a non-negative signal strength, a cross-section at zero) is a standard case
-   where Wilks' theorem needs a corrected asymptotic form or doesn't apply.
+   where Wilks' theorem [Wilks 1938] needs a corrected asymptotic form or doesn't
+   apply: on a boundary the null distribution becomes a chi-squared mixture
+   [Chernoff 1954], e.g. the half-chi-squared distribution of the discovery test
+   statistic q0 [Cowan et al. 2011].
 4. If the regime is boundary/non-regular/low-count, expect (or perform) a toy
    Monte Carlo calibration of the test statistic rather than accepting the
    asymptotic p-value at face value.
@@ -82,12 +86,14 @@ Other checks:
 - **Local vs. global significance**: for any reported local significance, check
   whether a look-elsewhere effect applies (the search scanned more than one
   place — a mass range, multiple channels, multiple sky positions) and whether
-  a trials-corrected global significance is also given. A 3σ local excess
-  scanned over dozens of independent bins is routinely well below 3σ globally.
+  a trials-corrected global significance is also given [Gross & Vitells 2010].
+  A 3σ local excess scanned over dozens of independent bins is routinely well
+  below 3σ globally.
   See `reading-papers.md`'s look-elsewhere-effect check for where this surfaces
   during a first read.
 - **Upper limits and exclusion**: identify the test statistic and confidence
-  construction (e.g. CLs vs. a plain Neyman construction), whether the limit is
+  construction (e.g. CLs [Junk 1999; Read 2002], the Feldman-Cousins unified
+  ordering [Feldman & Cousins 1998], or a plain Neyman construction), whether the limit is
   observed or expected (with its uncertainty band), and whether nuisance
   parameters are profiled or fixed at the limit-setting point.
 - **Coverage**: a stated confidence level is a coverage property of the
@@ -189,3 +195,25 @@ posterior) — if that evidence isn't there, the calibration gap is the finding.
 See `scientific-style.md`'s significance-language table for the physics σ-based
 convention this pairs with, and `claim-evidence-mapping.md` for recording the
 gap against the paper's central claim.
+
+## Sources
+
+Checked 2026-09-26 against INSPIRE-HEP and Crossref records (the INSPIRE key is
+given where one exists). For current conventions, the PDG "Statistics" review is
+the standard summary.
+
+- Wilks 1938 — S. S. Wilks, Ann. Math. Stat. 9, 60, doi:10.1214/aoms/1177732360
+  (asymptotic chi-squared distribution of the likelihood-ratio statistic).
+- Chernoff 1954 — H. Chernoff, Ann. Math. Stat. 25, 573, doi:10.1214/aoms/1177728725
+  (the parameter-on-boundary case).
+- Cowan et al. 2011 — G. Cowan, K. Cranmer, E. Gross, O. Vitells, Eur. Phys. J. C 71,
+  1554, arXiv:1007.1727, `Cowan:2010js` (asymptotic formulae, Asimov dataset).
+- Gross & Vitells 2010 — Eur. Phys. J. C 70, 525, arXiv:1005.1891, `Gross:2010qma`
+  (look-elsewhere trials factors).
+- Junk 1999 — T. Junk, Nucl. Instrum. Meth. A 434, 435, arXiv:hep-ex/9902006,
+  `Junk:1999kv`; Read 2002 — A. L. Read, J. Phys. G 28, 2693,
+  doi:10.1088/0954-3899/28/10/313 (CLs).
+- Feldman & Cousins 1998 — Phys. Rev. D 57, 3873, arXiv:physics/9711021,
+  `Feldman:1997qc` (unified intervals).
+- PDG 2024 — S. Navas et al. (Particle Data Group), Phys. Rev. D 110, 030001,
+  doi:10.1103/PhysRevD.110.030001, "Statistics" review.

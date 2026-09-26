@@ -5,6 +5,110 @@ bundle, and what `scripts/check_manuscript.py` / `scripts/build_lit_matrix.py` c
 for a user's own manuscript or reading notes (a different, deliberately separate
 concern).
 
+Last pass: 2026-09-26 (TODO round 1, branch `academic-papers-todo-round1`). Counts: 56
+files in the bundle, 41 unit tests (`python3 -m unittest discover -s tests`), bundle
+validator OK. Environment: Tectonic (miniconda) is the only TeX engine; no pdflatex,
+latexmk, bibtex or biber. Network access was available.
+
+## TODO round 1: P1 verification — venues, LaTeX, scripts, databases, statistics (2026-09-26)
+
+The user chose: physics venues first, a last-verified date on each venue row, and
+dropping the three example-related TODO items (the `examples/` directory was
+removed on 2026-09-25).
+
+**LaTeX templates compiled with Tectonic.**
+- `assets/templates/paper_skeleton.tex` + `references.bib`: compiles, BibTeX runs, no
+  undefined references or citations, no warnings.
+- Tectonic's bundle has only `revtex4-2`, `aastex631` and `elsarticle`. JHEP, JCAP, EPJC
+  (Springer Nature), AASTeX v7 and the conference styles must be downloaded.
+- REVTeX PRL snippet: compiles. The corrected JHEP and JCAP skeletons compile against
+  `jheppub.sty`/`jcappub.sty` v.1.1227 and `JHEP.bst` downloaded from SISSA.
+- NeurIPS/ICML/ICLR/ACL styles were not compiled. The reference names no class options
+  for them, only where to get the current year's file.
+
+**Venue rules checked against the venue's own pages, with sources listed in
+`references/latex-and-formatting.md`.** Errors corrected in that file, SKILL.md's
+quick-reference table and `astroparticle-and-cosmic-ray-papers.md`:
+- JHEP: `\documentclass{JHEP3}` was wrong. SISSA ships `jheppub.sty`, loaded on
+  `article` with `11pt,a4paper`. The old snippet mixed `JHEP3` with jheppub's
+  `\author[a]`/`\emailAdd` syntax. JCAP likewise uses `jcappub.sty`, not "`jcappub.cls`".
+- EPJC: it now recommends the Springer Nature template (`sn-jnl`) with `[iicol]`;
+  `svjour3`/`spphys` is superseded. Taken from a search-engine copy of Springer's page,
+  which could not be fetched directly (login redirect).
+- AASTeX: v7 (`aastex7`), not "`aastexN`" or `aastex631`.
+- PRL: the snippet used `showpacs`, but APS dropped PACS in 2016 (editorial
+  10.1103/PhysRevLett.116.080001). "twocolumn is required for PRL" and "PRD/PRX
+  single-column for submission" were wrong: the REVTeX 4.2 APS guide accepts `reprint` or
+  `twocolumn`. "PRL uses `\section*`" was wrong: the APS style guide (Nov 2024) says
+  PRL uses run-in italic heads.
+- Numbers added with dates: PRL 3,750 words and a 600-character abstract, with the
+  APS word-equivalent formulas; PRD/PRC Letters 4,500 words; ApJ Letters 3,500 words and
+  ≤ 5 figures+tables (soft limits); AAS abstracts ≤ 250 words; Nature Physics Article
+  3,000 words (search copy); NeurIPS 2026 9 pages, ICML 2026 8, ICLR 2026 9 (10 at
+  camera-ready), ARR 8/4 pages with a required Limitations section; TMLR has no page
+  limit.
+- The "Nature ~2000–3000 words" row became a Nature Physics row. The removed ACL claim
+  was "`acl.sty`/`emnlp.sty` depending on year"; ARR requires the unmodified official
+  ACL template.
+- arXiv: "prefer hyperref with pdftex driver" and the implication that arXiv needs a
+  `.bbl` were outdated. arXiv runs BibTeX/biber itself (TeX Live 2025 by default), a
+  supplied `.bbl` must match the main file's name, and PS and PDF figures cannot mix.
+- Not checked: Elsevier/`elsarticle` limits, A&A, JMLR (search only), AAAI, statistics
+  journals. They are marked "Not checked" in the tables.
+
+**`scripts/check_manuscript.py` on realistic inputs.**
+- A synthetic multi-file manuscript (`\input`/`\include`, commented-out cite and
+  label, `\citep[see][p.~3]`, a two-line `\cite`, `\citeauthor`/`\citeyear`/`\nocite`,
+  `\cref{a,b}`, `\pageref`, a duplicate `.bib` key, `@article(...)`, `@string`,
+  `@comment`). Before the fix, all 3 issues the checker reported were false positives:
+  the commented cite, the commented label and `\cref{a,b}`. It missed both real
+  issues, the duplicate key and the undefined `\pageref`, and listed 6 cited
+  entries as unused. After the fix its output matches the Tectonic/BibTeX logs.
+- 16 real arXiv sources: 1706.03762, 1207.7214, 2212.09748, ten 2509.xxxxx papers
+  sampled by ID, and three PhD theses (2609.12941, 2607.07476, 2608.24717; 2,300-9,100
+  lines, 14-57 files). They were compared with Tectonic logs where they compiled.
+  - False positives found and fixed: `\ref{#1}` inside a `\newcommand` (ATLAS),
+    `\newcommand\todo` definitions, lower-case "xxx" in a template comment, and
+    "lorem ipsum" in a comment.
+  - True issues found in published theses: 3 duplicate `.bib` keys (2607.07476),
+    and one label defined on two different figures (2608.24717, so its text
+    refers to the wrong figure).
+  - No checker-only disagreement remains on the 5 sources that compiled with a
+    `.bib`. No "unused" entry was actually cited (checked against the produced `.bbl`).
+  - Limitation: 9 of the 16 sources ship no `.bib` (only a `.bbl` or inline
+    `\bibitem`s); for those the citation checks are skipped.
+- 8 regression tests added.
+
+**`scripts/build_lit_matrix.py` on an 18-paper notes CSV** (Excel BOM, unicode, quoted
+commas, embedded newlines, a pipe in a cell). The table rendered correctly with 6
+cells on every line, but the BOM corrupted the first column name. Malformed
+inputs gave: a short row → `AttributeError` crash; extra cells → silently
+dropped; an empty or Latin-1 file → traceback; a semicolon-delimited file →
+silently one column; a pipe in the header → broken table. All are fixed (clean
+`error:` exit 2 or a warning), with 6 regression tests.
+
+**Databases and APIs, queried live on 2026-09-26.**
+- INSPIRE REST (`/api/literature?q=arxiv:...&format=bibtex`, `refersto:`) works.
+  Correction: collaboration papers are keyed by collaboration (`ATLAS:2012yve`); the
+  skill's example `Aad:2012tfa` is now only a legacy alias.
+- arXiv `/bibtex/<id>` works, but its key and year come from the latest version
+  (1706.03762 → `vaswani2023attentionneed`, `year={2023}`); a warning was added.
+- ADS: bibcode `2017ApJ...848L..12A` confirmed through INSPIRE's ADS identifier.
+  ADS's own web UI and API were not reachable without a token.
+- ACL Anthology `/<id>.bib` works. Crossref DOI content negotiation works and was
+  added as a fallback.
+- Not verified: DBLP (bot-check page for scripted requests) and Semantic Scholar
+  (HTTP 429 without an API key). Both are noted in the reference.
+
+**Statistics guidance.** `statistical-inference-for-physics.md` was correct but
+unsourced. Added Wilks 1938, Chernoff 1954, Cowan et al. 2011, Gross & Vitells 2010,
+Junk 1999, Read 2002, Feldman & Cousins 1998 and PDG 2024, each confirmed in INSPIRE or
+Crossref (not from memory). `scientific-style.md`'s 3σ/5σ table now gives the
+one-sided p-values (1.35 × 10⁻³, 2.87 × 10⁻⁷, computed) and cites Lyons
+arXiv:1310.1284 for the convention. Li & Ma was not mentioned anywhere in the skill,
+contrary to the TODO; a citation pointer (ApJ 272, 317, confirmed on Crossref) was
+added to the astroparticle reference.
+
 ## `validate_skill_bundle.py` — checks on this skill bundle
 
 1. **`SKILL.md` exists** and starts with a `---`-delimited YAML frontmatter block.
