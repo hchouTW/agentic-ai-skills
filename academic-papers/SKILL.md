@@ -38,10 +38,14 @@ are stated here in full.
 2. **No computed statistical results.** A limit, significance, fit value or interval
    the user did not supply is analysis output: hand it to `hep-analysis`
    (pyhf/Combine/RooStats) or `deep-learning`, and write `[VALUE NEEDED: 95% CL CLs
-   limit]`. Do not estimate a σ, limit or fit value from a plot; reading a plotted
-   value is fine if labeled approximate (see
+   limit]`. Reading a plotted value is fine if labeled approximate (see
    `references/interpreting-scientific-graphics.md`). A back-of-envelope result, if
-   given at all, is labeled approximate with its method and what it ignores.
+   given at all, is labeled approximate with its method and what it ignores. The
+   reporting sentence still names the method: confidence level and construction
+   (CLs, Feldman-Cousins), asymptotic or toys, and how each uncertainty enters
+   (e.g. "the background uncertainty is included as a constrained nuisance
+   parameter"); use a placeholder for any choice not yet made. **Never estimate a
+   σ, limit or fit value from a plot or a ratio panel, not even roughly.**
 3. **Calibrate claims to the evidence.** "Evidence" needs ≥ 3σ and "observation"
    ≥ 5σ; whenever a look-elsewhere effect applies (a scan over mass, sky position,
    energy or time), use the global (post-trial) significance, and always say which
@@ -64,7 +68,10 @@ are stated here in full.
    revision, or an explicit reasoned decline) rather than a menu of options, and do not compare the effect to other uncertainties the user
    has not given ("well below the statistical precision"). If the user supplied the
    result, draft the reply now instead of asking which stance to take; put any
-   missing fact in a `[VALUE NEEDED: ...]` slot.
+   missing fact in a `[VALUE NEEDED: ...]` slot. Minimal shape: "We thank the referee.
+   We agree that <point>. We have now <change>, which changes <result> by <the
+   user's number>. Section <N> now reads: '<new text>'." Fill it only with facts the
+   user gave.
 7. **Methodology from code describes only the code.** Say what it computes (binned vs.
    unbinned, what is fitted, what is fixed) and list what it does not (intervals,
    nuisance parameters, background estimation).

@@ -189,6 +189,26 @@ Most remaining misses are prompts that point at text not included ("this abstrac
 is reasonable. Sibling misses (task-authoring, agile-development, deep-learning, and
 `dataviz` taking a histogram request) belong to those skills.
 
+## Haiku follow-ups: A05 and A15 (2026-09-27, branch `academic-papers-haiku-followups`)
+
+Two SKILL.md rule edits, each measured on the skill arm, with no errored runs:
+- Rule 2: the reporting sentence must name the method: CL and construction,
+  asymptotic or toys, and how each uncertainty enters (e.g. the background
+  uncertainty as a constrained nuisance parameter), with placeholders for undecided
+  choices. Rule 6: a minimal reply shape (thank / agree / change and effect with the
+  user's number / new section text), filled only with the user's facts.
+- Targeted rerun (Haiku, 4 runs): A05 0/4 to 2/4 PASS; A15 from all-PARTIAL to 2/4
+  PASS, 2 PARTIAL.
+- Full Haiku skill arm (15 x 2): 21 PASS / 5 PARTIAL / 4 FAIL (was 16/10/4). But A02
+  regressed to FAIL/FAIL: both runs estimated a σ from the plot. The prohibition had
+  become one clause inside a longer rule. It is now rule 2's last sentence, in bold
+  ("not even roughly"). Recheck (4 runs): A02 2 PASS / 2 PARTIAL, no σ estimates; A15
+  3/4 PASS.
+- Sonnet skill arm (1 run): 15/15 PASS (was 14 PASS, 1 PARTIAL).
+- A05 on Haiku remains the weakest case (2 of 6 runs pass across the two runs above).
+  The failures still invent specifics (claiming the split was already used,
+  comparisons with other uncertainties).
+
 ## TODO round 1: P3 content and structure (2026-09-27)
 
 - Progressive disclosure measured from the P2 runs: skill runs opened at most 3
