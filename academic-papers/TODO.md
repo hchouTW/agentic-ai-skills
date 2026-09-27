@@ -80,8 +80,8 @@ The workflows and modes are unproven until a fresh model is run on them.
       `references/example-authoring.md`) and that any weak-vs-expert contrast is realistic, not a strawman.
 
 ## P2 follow-ups found 2026-09-27
-- [ ] A05 (hostile referee reply) on Haiku: 0/4 PASS after the last rule-6 edit. Every run drafts a reply now, but it invents specifics (component names, comparisons with other uncertainties). Rules alone did not fix this; next idea is a short worked reply inside SKILL.md's rule 6. Sonnet passes A05 in every run.
-- [ ] A15 (CLs hand-off) is PARTIAL on both models: the limit is no longer reported as final, but the method and background-uncertainty treatment are not always stated.
+- [ ] A05 (hostile referee reply) on Haiku: 2/6 PASS after the rule-6 reply shape (2026-09-27, was 0/4). Remaining failures invent specifics. Next idea if it matters: one worked reply in `references/submission-and-peer-review.md`, since Sonnet already passes.
+- [x] (2026-09-27: rule 2 now requires the method and uncertainty treatment in the sentence; Haiku 3/4 and 2/2 PASS, Sonnet PASS) A15 (CLs hand-off) is PARTIAL on both models
 - [ ] Rerun `tests/run_prompts.py` (Haiku, skill arm, 2 runs) and the trigger sets after any SKILL.md change; use run-to-run comparisons with at least 2 runs, since Haiku varies by several verdicts between identical runs.
 
 ## P3 - improve content and structure
