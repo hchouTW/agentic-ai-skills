@@ -7,7 +7,9 @@ arXiv submission, and how to structure a referee response once reviews come back
 - [Pre-submission checklist](#pre-submission-checklist)
 - [Cover letters](#cover-letters)
 - [Authorship and contributions](#authorship-and-contributions)
+- [Collaboration internal review](#collaboration-internal-review)
 - [arXiv submission mechanics](#arxiv-submission-mechanics)
+- [Editorial decisions: desk rejection, editor queries, transfer offers](#editorial-decisions-desk-rejection-editor-queries-transfer-offers)
 - [Responding to referee reports](#responding-to-referee-reports)
 - [Conference-style rebuttals](#conference-style-rebuttals)
 - [Tracking revisions](#tracking-revisions)
@@ -74,6 +76,22 @@ Deliver the formatted statement, a role-to-author mapping when helpful, and
 unresolved factual questions. Distinguish draft wording from author-confirmed
 declarations; drafting does not authorize contacting authors or submitting forms.
 
+## Collaboration internal review
+
+Large collaborations run their own review before any external submission. The
+stage names and sign-off bodies differ between collaborations, so ask the user
+for theirs rather than assuming. The common shape is: an analysis or editorial
+board reviews the analysis and the draft; the draft then goes to the whole
+collaboration for comments; the comments are answered in writing; and a
+publication committee or spokesperson signs off. When helping at this stage:
+- Answer internal comments like referee comments (point by point, with what
+  changed), and keep the answers: the collaboration's review record is part of
+  the paper's history.
+- Keep the approved numbers frozen. A change to a result after sign-off usually
+  needs the reviewers to approve it again; flag it rather than editing quietly.
+- Use the collaboration's author list, acknowledgments and boilerplate as
+  supplied (see "Authorship and contributions"); never regenerate them.
+
 ## arXiv submission mechanics
 
 - Submit source (not just a compiled PDF) so arXiv can recompile and readers
@@ -93,8 +111,41 @@ declarations; drafting does not authorize contacting authors or submitting forms
   recent papers on INSPIRE-HEP for a populated `arXiv:` field) before
   defaulting to "submit to arXiv first." See
   `astroparticle-and-cosmic-ray-papers.md`'s AMS-02 case study.
+- **Licence** (checked 2026-09-27 on arXiv's help pages): arXiv offers CC BY 4.0,
+  CC BY-SA 4.0, CC BY-NC-SA 4.0, CC BY-NC-ND 4.0, CC0, or its own perpetual,
+  non-exclusive licence 1.0. The choice is irrevocable for that version, so check
+  the target journal's copyright or open-access agreement and any funder mandate
+  first.
+- **Ancillary files** (data behind tables and plots, code, movies) go in an `anc/`
+  directory at the top of the source bundle. There are no TeX files there, and the
+  paper should not link into that directory.
+- **Replacements**: every version stays public, and a replacement gets a new
+  version number (same-day edits before 14:00 US Eastern are the exception). Give
+  the reason in the Comments field, and add the journal reference once published.
+
+## Editorial decisions: desk rejection, editor queries, transfer offers
+
+- **Desk rejection** (rejected without review): read the stated reason before
+  reacting. Scope or "insufficient general interest" means choose another venue.
+  A formatting or length reason means fix it and resubmit if the venue allows. An
+  appeal is worth writing only if the editor misread a specific, checkable fact;
+  make it short and factual.
+- **Editor query** (a question before or during review): answer exactly what was
+  asked, promptly, with the requested files or statements. Do not reopen the
+  science in the reply unless asked.
+- **Transfer or cascade offer** (the publisher proposes moving the manuscript,
+  often with its reviews, to a sister journal): check that the new journal's scope,
+  length limits and open-access or licence terms suit the authors, and whether the
+  reviews travel with it. A transfer needs every author's agreement, like any new
+  submission. The skill cannot know a specific publisher's current transfer rules,
+  so point the user to that publisher's policy page.
 
 ## Responding to referee reports
+
+SKILL.md's rule 6 applies to every reply: draft the text (not strategy notes),
+thank the referee, concede what is valid, answer with the user's own numbers,
+state the exact manuscript change or an explicit reasoned decline, and add no
+comparisons or "standard" details the user did not give.
 
 Structure a response letter point-by-point, in the same order as the
 referee's report:

@@ -52,7 +52,7 @@ but a typical one looks like:
 
 ```csv
 key,year,method,dataset,result,notes
-Aad:2012tfa,2012,cut-based search,7-8 TeV ATLAS,"126.0 +/- 0.4 +/- 0.4 GeV",discovery paper
+ATLAS:2012yve,2012,cut-based search,7-8 TeV ATLAS,"126.0 +/- 0.4 +/- 0.4 GeV",discovery paper
 Chatrchyan:2012xdj,2012,cut-based search,7-8 TeV CMS,"125.3 +/- 0.4 +/- 0.5 GeV",independent discovery
 ```
 

@@ -5,6 +5,237 @@ bundle, and what `scripts/check_manuscript.py` / `scripts/build_lit_matrix.py` c
 for a user's own manuscript or reading notes (a different, deliberately separate
 concern).
 
+Last pass: 2026-09-27 (TODO round 1, branch `academic-papers-todo-round1`). Counts: 60
+files in the bundle, 48 unit tests (`python3 -m unittest discover -s tests`), bundle
+validator OK. Environment: Tectonic (miniconda) is the only TeX engine; no pdflatex,
+latexmk, bibtex or biber. Network access was available.
+
+## TODO round 1: P1 verification — venues, LaTeX, scripts, databases, statistics (2026-09-26)
+
+The user chose: physics venues first, a last-verified date on each venue row, and
+dropping the three example-related TODO items (the `examples/` directory was
+removed on 2026-09-25).
+
+**LaTeX templates compiled with Tectonic.**
+- `assets/templates/paper_skeleton.tex` + `references.bib`: compiles, BibTeX runs, no
+  undefined references or citations, no warnings.
+- Tectonic's bundle has only `revtex4-2`, `aastex631` and `elsarticle`. JHEP, JCAP, EPJC
+  (Springer Nature), AASTeX v7 and the conference styles must be downloaded.
+- REVTeX PRL snippet: compiles. The corrected JHEP and JCAP skeletons compile against
+  `jheppub.sty`/`jcappub.sty` v.1.1227 and `JHEP.bst` downloaded from SISSA.
+- NeurIPS/ICML/ICLR/ACL styles were not compiled. The reference names no class options
+  for them, only where to get the current year's file.
+
+**Venue rules checked against the venue's own pages, with sources listed in
+`references/latex-and-formatting.md`.** Errors corrected in that file, SKILL.md's
+quick-reference table and `astroparticle-and-cosmic-ray-papers.md`:
+- JHEP: `\documentclass{JHEP3}` was wrong. SISSA ships `jheppub.sty`, loaded on
+  `article` with `11pt,a4paper`. The old snippet mixed `JHEP3` with jheppub's
+  `\author[a]`/`\emailAdd` syntax. JCAP likewise uses `jcappub.sty`, not "`jcappub.cls`".
+- EPJC: it now recommends the Springer Nature template (`sn-jnl`) with `[iicol]`;
+  `svjour3`/`spphys` is superseded. Taken from a search-engine copy of Springer's page,
+  which could not be fetched directly (login redirect).
+- AASTeX: v7 (`aastex7`), not "`aastexN`" or `aastex631`.
+- PRL: the snippet used `showpacs`, but APS dropped PACS in 2016 (editorial
+  10.1103/PhysRevLett.116.080001). "twocolumn is required for PRL" and "PRD/PRX
+  single-column for submission" were wrong: the REVTeX 4.2 APS guide accepts `reprint` or
+  `twocolumn`. "PRL uses `\section*`" was wrong: the APS style guide (Nov 2024) says
+  PRL uses run-in italic heads.
+- Numbers added with dates: PRL 3,750 words and a 600-character abstract, with the
+  APS word-equivalent formulas; PRD/PRC Letters 4,500 words; ApJ Letters 3,500 words and
+  ≤ 5 figures+tables (soft limits); AAS abstracts ≤ 250 words; Nature Physics Article
+  3,000 words (search copy); NeurIPS 2026 9 pages, ICML 2026 8, ICLR 2026 9 (10 at
+  camera-ready), ARR 8/4 pages with a required Limitations section; TMLR has no page
+  limit.
+- The "Nature ~2000–3000 words" row became a Nature Physics row. The removed ACL claim
+  was "`acl.sty`/`emnlp.sty` depending on year"; ARR requires the unmodified official
+  ACL template.
+- arXiv: "prefer hyperref with pdftex driver" and the implication that arXiv needs a
+  `.bbl` were outdated. arXiv runs BibTeX/biber itself (TeX Live 2025 by default), a
+  supplied `.bbl` must match the main file's name, and PS and PDF figures cannot mix.
+- Not checked: Elsevier/`elsarticle` limits, A&A, JMLR (search only), AAAI, statistics
+  journals. They are marked "Not checked" in the tables.
+
+**`scripts/check_manuscript.py` on realistic inputs.**
+- A synthetic multi-file manuscript (`\input`/`\include`, commented-out cite and
+  label, `\citep[see][p.~3]`, a two-line `\cite`, `\citeauthor`/`\citeyear`/`\nocite`,
+  `\cref{a,b}`, `\pageref`, a duplicate `.bib` key, `@article(...)`, `@string`,
+  `@comment`). Before the fix, all 3 issues the checker reported were false positives:
+  the commented cite, the commented label and `\cref{a,b}`. It missed both real
+  issues, the duplicate key and the undefined `\pageref`, and listed 6 cited
+  entries as unused. After the fix its output matches the Tectonic/BibTeX logs.
+- 16 real arXiv sources: 1706.03762, 1207.7214, 2212.09748, ten 2509.xxxxx papers
+  sampled by ID, and three PhD theses (2609.12941, 2607.07476, 2608.24717; 2,300-9,100
+  lines, 14-57 files). They were compared with Tectonic logs where they compiled.
+  - False positives found and fixed: `\ref{#1}` inside a `\newcommand` (ATLAS),
+    `\newcommand\todo` definitions, lower-case "xxx" in a template comment, and
+    "lorem ipsum" in a comment.
+  - True issues found in published theses: 3 duplicate `.bib` keys (2607.07476),
+    and one label defined on two different figures (2608.24717, so its text
+    refers to the wrong figure).
+  - No checker-only disagreement remains on the 5 sources that compiled with a
+    `.bib`. No "unused" entry was actually cited (checked against the produced `.bbl`).
+  - Limitation: 9 of the 16 sources ship no `.bib` (only a `.bbl` or inline
+    `\bibitem`s); for those the citation checks are skipped.
+- 8 regression tests added.
+
+**`scripts/build_lit_matrix.py` on an 18-paper notes CSV** (Excel BOM, unicode, quoted
+commas, embedded newlines, a pipe in a cell). The table rendered correctly with 6
+cells on every line, but the BOM corrupted the first column name. Malformed
+inputs gave: a short row → `AttributeError` crash; extra cells → silently
+dropped; an empty or Latin-1 file → traceback; a semicolon-delimited file →
+silently one column; a pipe in the header → broken table. All are fixed (clean
+`error:` exit 2 or a warning), with 6 regression tests.
+
+**Databases and APIs, queried live on 2026-09-26.**
+- INSPIRE REST (`/api/literature?q=arxiv:...&format=bibtex`, `refersto:`) works.
+  Correction: collaboration papers are keyed by collaboration (`ATLAS:2012yve`); the
+  skill's example `Aad:2012tfa` is now only a legacy alias.
+- arXiv `/bibtex/<id>` works, but its key and year come from the latest version
+  (1706.03762 → `vaswani2023attentionneed`, `year={2023}`); a warning was added.
+- ADS: bibcode `2017ApJ...848L..12A` confirmed through INSPIRE's ADS identifier.
+  ADS's own web UI and API were not reachable without a token.
+- ACL Anthology `/<id>.bib` works. Crossref DOI content negotiation works and was
+  added as a fallback.
+- Not verified: DBLP (bot-check page for scripted requests) and Semantic Scholar
+  (HTTP 429 without an API key). Both are noted in the reference.
+
+**Statistics guidance.** `statistical-inference-for-physics.md` was correct but
+unsourced. Added Wilks 1938, Chernoff 1954, Cowan et al. 2011, Gross & Vitells 2010,
+Junk 1999, Read 2002, Feldman & Cousins 1998 and PDG 2024, each confirmed in INSPIRE or
+Crossref (not from memory). `scientific-style.md`'s 3σ/5σ table now gives the
+one-sided p-values (1.35 × 10⁻³, 2.87 × 10⁻⁷, computed) and cites Lyons
+arXiv:1310.1284 for the convention. Li & Ma was not mentioned anywhere in the skill,
+contrary to the TODO; a citation pointer (ApJ 272, 317, confirmed on Crossref) was
+added to the astroparticle reference.
+
+## TODO round 1: P2 behavior and trigger tests (2026-09-26/27)
+
+**Method.** 15 prompts in `tests/prompts.md` (11 physics/astroparticle, 3
+statistics/ML, 1 hand-off), each with Must / Must-not lists. `tests/run_prompts.py`
+runs each prompt in a fresh `claude -p` session with `--setting-sources project` and no
+network tools, in two arms: skill (`/academic-papers <prompt>`) and baseline (no
+repo skills). A separate Opus grader scores each answer blind to the arm, with skill
+names masked. Two runs per prompt per arm unless noted.
+
+**Usage limits.** The account hit its usage/spend limit three times during these runs.
+The CLI returns the limit notice as an ordinary, non-error result, so the first time
+37 answers and all grades were limit messages and looked like FAILs. Both harnesses
+now detect the notice and exclude those runs (see hep-analysis VALIDATION "Harness
+update"). Every number below comes from runs without errors; affected runs were
+rerun.
+
+**Rubric corrections (recorded, not hidden).** A03 penalized labeled placeholder
+citation keys (`[Smith2019]`), which were never the intended target: the rubric now
+forbids only database-style keys presented as real. A07 required the exact `a4paper,11pt`
+options; their absence no longer fails the item. The Sonnet A03 answers were
+re-graded under the corrected rubric. The A07 change came later: the Haiku baseline
+and the first two Haiku skill versions were graded under the stricter old A07
+rubric, which lowers those rows by at most 2 verdicts each.
+
+**Sonnet (both arms, 2 runs, 30 answers per arm).**
+
+| Arm | PASS | PARTIAL | FAIL |
+|---|---|---|---|
+| skill | 27 | 3 | 0 |
+| baseline | 25 | 4 | 1 |
+
+Sonnet without the skill is already strong on most prompts, so these prompts
+discriminate weakly for it. The skill's clear wins: A07 REVTeX→JHEP (skill 2/2 PASS;
+baseline 2/2 PARTIAL, one baseline in the smoke test invented a `{JHEP}` class)
+and A05 hostile referee reply (baseline 1 FAIL).
+
+**Haiku (skill arm reran after each SKILL.md change; baseline once).**
+
+| Version | PASS | PARTIAL | FAIL |
+|---|---|---|---|
+| baseline (no skill) | 7 | 13 | 10 |
+| skill, start of round | 10 | 13 | 7 |
+| + rules appended to "Working style" | 11 | 8 | 11 |
+| + rules moved to a "Rules for every task" section at the top | 16 | 10 | 4 |
+
+- Haiku's skill runs mostly opened no reference files (the `reads` field), so only
+  SKILL.md's own text reached it. The failures traced to SKILL.md: A15 computed a CLs
+  limit by hand (wrongly) and reported it as final; A06 used "abstracts run 150-250
+  words" from SKILL.md's own structure table, which contradicted the PRL
+  600-character row (fixed); A05 wrote strategy notes rather than a reply, and
+  invented "standard" JES components; A03 compared GeV with GV; A11 called a binned
+  fit unbinned and claimed uncertainties the code never computes; A12 once gave
+  unverified BibTeX.
+- The same rules appended at the end of the file did not help (the change is within
+  Haiku's run-to-run noise). Placed at the top they did.
+- Side effect found and fixed: the strict "no unverified citations" rule made Haiku
+  refuse to flag A04's mismatched Higgs mass (it called it "plausible"). Rule 4 now
+  says to flag a probable mismatch plainly, marked "to verify". A 3-run recheck
+  (A01, A04, A05, A12, A15) after the last two edits: A04 3/3 PASS, A12 3/3 PASS, A01
+  2 PASS 1 PARTIAL, A15 3/3 PARTIAL (no longer FAIL), **A05 1 PASS / 2 FAIL (still
+  open)**.
+- Sonnet skill-arm regression check with the final SKILL.md (1 run, no
+  errored runs): 14 PASS, 1 PARTIAL (A15), 0 FAIL. No regression.
+
+**Trigger and routing** (`tests/trigger_queries.json`, 20 should-trigger, 20
+near-misses with owner skills; isolated harness
+`../hep-analysis/tests/routing_eval.py --target academic-papers`, 7 repo skills,
+2 runs).
+
+| Description | Haiku recall | Sonnet recall | False triggers (H / S) |
+|---|---|---|---|
+| original (1,106 characters, over the 1,024 limit) | 0/40 | 27/40 | 0/40 / 0/40 |
+| revised (1,014 characters, "load it before answering from memory", "Not for" siblings) | 25/40 | 34/40 | 0/40 / 0/40 |
+| revised, held-out set `tests/trigger_queries_holdout.json` (written before the revised description was tested, run once) | 20/28 | 23/28 | 0/20 / 0/20 |
+
+Most remaining misses are prompts that point at text not included ("this abstract",
+"reference [12]", "this paragraph"), where answering directly and asking for the text
+is reasonable. Sibling misses (task-authoring, agile-development, deep-learning, and
+`dataviz` taking a histogram request) belong to those skills.
+
+## TODO round 1: P3 content and structure (2026-09-27)
+
+- Progressive disclosure measured from the P2 runs: skill runs opened at most 3
+  references per task (Sonnet mean 0.6-1.2; Haiku 0.1, which is why the hard rules
+  had to move into SKILL.md). The three flagged "overlapping" pairs each state their
+  own scope and point to each other; nothing merged.
+- Coverage gaps confirmed by grep and added to `submission-and-peer-review.md`:
+  collaboration internal review (generic, since stage names differ per
+  collaboration), arXiv licence options, `anc/` ancillary files and replacements
+  (checked on info.arxiv.org on 2026-09-27), desk rejection, editor queries, transfer
+  offers (no publisher-specific rules stated).
+- `tests/test_end_to_end.py` (4 tests): the bundled skeleton and `.bib` pass the checker
+  and compile with Tectonic; each injected mistake type is reported; build_lit_matrix
+  output fed into the paper produces the expected missing-entry reports. 45 tests
+  total.
+- Multi-platform: no Claude-only tool dependencies; `agents/openai.yaml` current.
+- Skill-reviewer pass (`plugin-dev:skill-reviewer`, installed 2026-09-27, read-only):
+  no broken pointers; 14 findings, 13 confirmed and fixed. Rule 3 now uses the global
+  significance whenever a look-elsewhere effect applies, and `scientific-style.md` says
+  the same. Rule 6 allows an explicit reasoned decline. Rule 2 separates reading a
+  plotted value from estimating a σ. The stale `examples/` routing block and a
+  dangling "above" were removed. The body now names `ams-analysis` and
+  `academic-diagrams`. The JMLR row is marked not checked. The Nature Physics
+  "Letters retired 2022" claim now has a sources-table row. README tree and
+  siblings updated. Two duplicated working-style bullets now point to the rules.
+  Not applied: #10, shortening `agents/openai.yaml` `short_description` to 25-64
+  characters, because the reviewer was unsure of that Codex guidance and it was not
+  verified.
+- A05 after the last rule-6 edit (Haiku, skill arm, 4 runs): 0 PASS. All four drafted
+  a reply (the ask-instead-of-draft failure is gone), but each invented specifics:
+  JES component names, "well within the statistical precision", once that the split
+  was already used. Two runs failed on that alone. Recorded as a Haiku limitation;
+  not tuned further, and the rubric was not loosened.
+- Regression check after the review fixes (Haiku, skill arm, A01/A02/A05/A15 x2): A01
+  2/2 PASS, A02 2/2 PARTIAL (the same axis-range remarks missed as before; no σ
+  estimated from the plot), A05 2/2 FAIL (as above), A15 2/2 PARTIAL (unchanged).
+  The description is unchanged (1,014 characters), so triggering was not retested.
+- Heuristic typography checks (user approved 2026-09-27) added as opt-in
+  `check_manuscript.py --style`. They are advisory and never change the exit code. On
+  the 16 real arXiv sources, the first version gave 293 findings. Most `\ref` hits were
+  list continuations ("and \ref") or prepositions ("in \eqref"), and most unit hits
+  were layout lengths (`\vspace{-2mm}`, TikZ `right=2.5cm`). After restricting the ref
+  check to label words (Fig., Table, Eq., Section, ...) and skipping layout lines and
+  `=`/`{`/`-` prefixes: 109 findings. A random sample of 20 per check was all genuine
+  (e.g. "Table \ref{...}", "500 MeV protons", "4.7 fb$^{-1}$"). 3 tests added (48
+  total).
+
 ## `validate_skill_bundle.py` — checks on this skill bundle
 
 1. **`SKILL.md` exists** and starts with a `---`-delimited YAML frontmatter block.

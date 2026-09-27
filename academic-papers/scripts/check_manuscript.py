@@ -4,11 +4,26 @@ check_manuscript.py -- read-only pre-submission checker for a LaTeX manuscript.
 
 Scans a directory of .tex and .bib files and reports, without modifying
 anything:
-  - \\cite{...} keys that do not resolve to any entry in a .bib file
-  - .bib entries that are never cited by any \\cite{...} in the .tex files
+  - citation keys (\\cite, \\citep/\\citet/\\citeauthor/..., biblatex \\parencite/
+    \\textcite/\\autocite/..., \\nocite) that do not resolve to any .bib entry
+  - .bib entries that are never cited (\\nocite{*} marks all as cited)
+  - .bib keys defined more than once (BibTeX "Repeated entry"; case-insensitive)
   - \\label{...} keys defined more than once
-  - \\ref{...} / \\eqref{...} / \\autoref{...} targets with no matching \\label{}
+  - \\ref / \\eqref / \\autoref / \\pageref / \\nameref / \\cref-family targets
+    with no matching \\label{} (\\cref{a,b} lists are split)
   - leftover TODO / FIXME / XXX / placeholder markers
+
+With --style, two advisory typography checks are also reported (they can flag
+correct text, so they never change the exit code):
+  - \\ref / \\eqref after a label word (Fig., Table, Eq., Section, ...) and a
+    plain space ("Fig. \\ref{a}"), where a tie
+    ("Fig.~\\ref{a}") keeps the label and number on one line
+  - a number followed by a unit with no space or a plain space ("125GeV",
+    "125 GeV"), where "125~GeV", "125\\,GeV" or siunitx keeps them together
+
+LaTeX comments (unescaped % to end of line) are ignored, except that TODO
+markers are still reported inside comments. A command's argument may wrap
+onto the next line.
 
 Standard library only. Intended to be run near the end of a drafting session,
 not after every edit.
@@ -30,16 +45,49 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-CITE_RE = re.compile(r"\\(?:cite|citep|citet|citealt|citealp)\*?(?:\[[^\]]*\])?\{([^}]+)\}")
+# Any natbib/biblatex/plain citation command (\cite, \citep, \Citet, \citeauthor,
+# \parencite, \textcite, \autocite, \footcite, \nocite, ...) with up to two
+# optional arguments ([pre][post]) and a key list that may span lines.
+CITE_RE = re.compile(r"\\(?:[A-Za-z]*cite[A-Za-z]*)\*?\s*(?:\[[^\]]*\]\s*){0,2}\{([^}]*)\}")
 LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
-REF_RE = re.compile(r"\\(?:ref|eqref|autoref|cref|Cref)\{([^}]+)\}")
-BIBENTRY_RE = re.compile(r"@\w+\{\s*([^,\s]+)\s*,")
-TODO_RE = re.compile(r"\b(TODO|FIXME|XXX)\b|\[VALUE NEEDED[^\]]*\]|\[CITATION NEEDED[^\]]*\]", re.IGNORECASE)
+REF_RE = re.compile(r"\\(ref|eqref|autoref|pageref|nameref|vref|Vref|cref|Cref|cpageref|Cpageref|labelcref)\*?\{([^}]+)\}")
+MULTI_REF_CMDS = {"cref", "Cref", "cpageref", "Cpageref", "labelcref", "vref", "Vref"}
+BIBENTRY_RE = re.compile(r"@(\w+)\s*[{(]\s*([^,\s]+)\s*,")
+NON_ENTRY_TYPES = {"string", "comment", "preamble"}
+COMMENT_RE = re.compile(r"(?<!\\)%.*")
+# Upper-case TODO/FIXME/XXX only: lower-case "xxx" is a common template placeholder
+# ("fontset=xxx"). "(?<!\\)" skips a macro name such as "\newcommand\TODO"; a
+# \todo{...} call (todonotes) is still a marker.
+TODO_RE = re.compile(r"(?<!\\)\b(?:TODO|FIXME|XXX)\b|(?i:\\todo(?:\[[^\]]*\])?\{|\[VALUE NEEDED[^\]]*\]|\[CITATION NEEDED[^\]]*\])")
 PLACEHOLDER_RE = re.compile(r"lorem ipsum|\?\?\?|\[FIGURE HERE\]|\[TABLE HERE\]", re.IGNORECASE)
+# Advisory --style checks.
+# Only after a label word ("Fig. \ref", "Table \ref"), not "and \ref" or "in \eqref",
+# which gave most false positives on real arXiv sources.
+LABEL_WORDS = (r"(?:Fig(?:ure)?s?|Tab(?:le)?s?|Eqs?|Equations?|Sec(?:tion)?s?|App(?:endix|endices)?"
+               r"|Chap(?:ter)?s?|Refs?|Lines?|Algorithms?|Propositions?|Theorems?|Lemmas?"
+               r"|Corollar(?:y|ies)|Definitions?)")
+REF_NO_TIE_RE = re.compile(r"\b" + LABEL_WORDS + r"\.?[ \t\n]+\\(?:ref|eqref)\{", re.IGNORECASE)
+UNITS = r"(?:[kMGTPE]?eV|[kMGT]?V|[kMG]?Hz|[mcnk]m|[mnµ]s|fb|pb|nb)"
+# Not after "=", "{" or "-" (TikZ/option lengths such as right=2.5cm, \vspace{-2mm}).
+UNIT_NO_TIE_RE = re.compile(r"(?<![\w.\\{=\-])\d+(?:\.\d+)? ?" + UNITS + r"\b")
+# Lines that set layout lengths, not physics quantities.
+LAYOUT_LINE_RE = re.compile(r"\\(?:[vh]space|[vh]skip|vertex|node|draw|includegraphics|setlength|addvspace)"
+                            r"|(?:sep|width|height|distance)\s*=")
+DEFINITION_RE = re.compile(r"\\(?:(?:re|provide)?newcommand|DeclareRobustCommand|def)\b")
 
 
 def split_keys(raw: str):
-    return [k.strip() for k in raw.split(",") if k.strip()]
+    # Keys containing '#' are macro parameters inside a \newcommand body (\ref{#1}).
+    return [k.strip() for k in raw.split(",") if k.strip() and "#" not in k]
+
+
+def strip_comments(text: str) -> str:
+    """Drop LaTeX comments (unescaped % to end of line), keeping the line count."""
+    return "\n".join(COMMENT_RE.sub("", line) for line in text.split("\n"))
+
+
+def line_of(text: str, offset: int) -> int:
+    return text.count("\n", 0, offset) + 1
 
 
 def find_tex_and_bib(root: Path):
@@ -59,27 +107,47 @@ def scan(root: Path):
 
     for tex in tex_files:
         text = tex.read_text(encoding="utf-8", errors="replace")
-        for lineno, line in enumerate(text.splitlines(), start=1):
-            for m in CITE_RE.finditer(line):
-                for key in split_keys(m.group(1)):
-                    cite_keys[key].append((tex, lineno))
-            for m in LABEL_RE.finditer(line):
-                label_defs[m.group(1)].append((tex, lineno))
-            for m in REF_RE.finditer(line):
-                ref_targets[m.group(1)].append((tex, lineno))
-            if TODO_RE.search(line):
+        code = strip_comments(text)
+        for m in CITE_RE.finditer(code):
+            for key in split_keys(m.group(1)):
+                cite_keys[key].append((tex, line_of(code, m.start())))
+        for m in LABEL_RE.finditer(code):
+            if "#" not in m.group(1):
+                label_defs[m.group(1)].append((tex, line_of(code, m.start())))
+        for m in REF_RE.finditer(code):
+            cmd, raw = m.group(1), m.group(2)
+            keys = split_keys(raw) if cmd in MULTI_REF_CMDS else [raw.strip()]
+            keys = [k for k in keys if "#" not in k]
+            for key in keys:
+                ref_targets[key].append((tex, line_of(code, m.start())))
+        # TODO markers count inside comments too ("% TODO" is still unfinished work),
+        # but not on a line that defines a macro such as \newcommand{\todo}[1]{...}.
+        # Placeholder text only counts outside comments, where it would be typeset.
+        for lineno, (line, code_line) in enumerate(zip(text.split("\n"), code.split("\n")), start=1):
+            if TODO_RE.search(line) and not DEFINITION_RE.search(code_line):
                 todos.append((tex, lineno, line.strip()))
-            if PLACEHOLDER_RE.search(line):
+            if PLACEHOLDER_RE.search(code_line):
                 placeholders.append((tex, lineno, line.strip()))
 
     bib_entries = set()
+    bib_defs = defaultdict(list)  # lower-cased key -> [(file, line, key)]
     for bib in bib_files:
         text = bib.read_text(encoding="utf-8", errors="replace")
         for m in BIBENTRY_RE.finditer(text):
-            bib_entries.add(m.group(1))
+            if m.group(1).lower() in NON_ENTRY_TYPES:
+                continue
+            key = m.group(2)
+            bib_entries.add(key)
+            bib_defs[key.lower()].append((bib, line_of(text, m.start()), key))
+    duplicate_bib = {locs[0][2]: [(f, ln) for f, ln, _ in locs]
+                     for locs in bib_defs.values() if len(locs) > 1}
 
+    cite_all = "*" in cite_keys  # \nocite{*}
+    cite_keys.pop("*", None)
     missing_bib = {k: v for k, v in cite_keys.items() if bib_files and k not in bib_entries}
-    unused_bib = sorted(bib_entries - set(cite_keys.keys())) if bib_files else []
+    cited_lower = {k.lower() for k in cite_keys}
+    unused_bib = [] if cite_all or not bib_files else sorted(
+        locs[0][2] for lower, locs in bib_defs.items() if lower not in cited_lower)
     duplicate_labels = {k: v for k, v in label_defs.items() if len(v) > 1}
     undefined_refs = {k: v for k, v in ref_targets.items() if k not in label_defs}
 
@@ -88,6 +156,7 @@ def scan(root: Path):
         "bib_files": bib_files,
         "missing_bib": missing_bib,
         "unused_bib": unused_bib,
+        "duplicate_bib": duplicate_bib,
         "duplicate_labels": duplicate_labels,
         "undefined_refs": undefined_refs,
         "todos": todos,
@@ -97,6 +166,34 @@ def scan(root: Path):
 
 def fmt_locs(locs):
     return "; ".join(f"{f.name}:{ln}" for f, ln in locs[:5]) + (" ..." if len(locs) > 5 else "")
+
+
+def style_scan(root: Path):
+    """Advisory typography findings: (file, line, kind, text) tuples."""
+    findings = []
+    for tex in sorted(root.rglob("*.tex")):
+        code = strip_comments(tex.read_text(encoding="utf-8", errors="replace"))
+        lines = code.split("\n")
+        for regex, kind in ((REF_NO_TIE_RE, "ref without ~"), (UNIT_NO_TIE_RE, "number-unit spacing")):
+            for m in regex.finditer(code):
+                ln = line_of(code, m.start())
+                if kind == "number-unit spacing" and LAYOUT_LINE_RE.search(lines[ln - 1]):
+                    continue
+                findings.append((tex, ln, kind, " ".join(m.group(0).split())))
+    return findings
+
+
+def report_style(findings) -> None:
+    if not findings:
+        print("[STYLE] no typography findings.\n")
+        return
+    print(f"[STYLE] {len(findings)} advisory typography finding(s); these may be false positives "
+          f"and do not affect the exit code:")
+    for f, ln, kind, text in findings[:40]:
+        print(f"  - {f.name}:{ln}: {kind}: {text}")
+    if len(findings) > 40:
+        print(f"  ... and {len(findings) - 40} more")
+    print()
 
 
 def report(results, strict: bool) -> int:
@@ -110,6 +207,14 @@ def report(results, strict: bool) -> int:
         issues += len(results["missing_bib"])
         print(f"[MISSING BIB ENTRY] {len(results['missing_bib'])} cite key(s) not found in any .bib file:")
         for key, locs in sorted(results["missing_bib"].items()):
+            print(f"  - {key}  ({fmt_locs(locs)})")
+        print()
+
+    if results["duplicate_bib"]:
+        issues += len(results["duplicate_bib"])
+        print(f"[DUPLICATE BIB KEY] {len(results['duplicate_bib'])} .bib key(s) defined more than once "
+              "(BibTeX keeps the first and warns \"Repeated entry\"):")
+        for key, locs in sorted(results["duplicate_bib"].items()):
             print(f"  - {key}  ({fmt_locs(locs)})")
         print()
 
@@ -166,6 +271,8 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("path", type=Path, help="Directory containing the manuscript's .tex/.bib files")
     parser.add_argument("--strict", action="store_true", help="Treat unused .bib entries as issues for exit code purposes")
+    parser.add_argument("--style", action="store_true",
+                        help="Also report advisory typography checks (ref ties, number-unit spacing); exit code unaffected")
     args = parser.parse_args(argv)
 
     if not args.path.is_dir():
@@ -173,6 +280,8 @@ def main(argv=None) -> int:
         return 2
 
     results = scan(args.path)
+    if args.style:
+        report_style(style_scan(args.path))
     return report(results, strict=args.strict)
 
 

@@ -1,0 +1,202 @@
+[
+ {
+  "query": "Summarize this arXiv abstract in three sentences and tell me what the main claim actually is: 'We present a measurement of the top-quark mass using 36 fb^-1 ...'",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Is 'evidence for a new resonance' justified if the local significance is 3.2 sigma and the global is 1.5 sigma? I'm drafting the conclusion.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Write the abstract for my PRD paper on the cosmic-ray positron fraction; results below.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Help me respond to referee 2, who says our unfolding is under-regularized.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Convert my PRL manuscript to JHEP format.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Fix the duplicate INSPIRE keys in my bibliography.bib and tell me which entries are the same paper.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Does reference [12] actually support the claim that the B/C ratio flattens above 1 TV? Here's the paragraph and the reference's abstract.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Draft the related-work section for my paper on ground-array air-shower composition from these 8 papers.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "What should go in the Systematic Uncertainties section of a HEP paper, and in what order?",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "We found a mistake in our published JCAP paper; the result changes by 2%. Do we need an erratum?",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Write a Comment on a PRL whose background estimate we think is wrong.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "My thesis committee wants a thesis-by-publication; how do I assemble the four papers into chapters?",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Tighten the prose in this Results paragraph without changing any numbers.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "How do I write the data availability statement for an ApJ paper using public Fermi-LAT data?",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Check my paper for inconsistent notation between the equations in Section 2 and the tables.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Turn this analysis code into a methodology section for a paper we haven't written yet.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Make a poster layout outline for my conference talk on neutrino oscillation results.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "What's the NeurIPS page limit this year and does the appendix count?",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Screen these 40 abstracts for inclusion in a systematic review of dark-matter direct-detection limits.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Critique the statistical claims in this ML paper's evaluation section: they report one seed and a 0.3% gain.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Draw a flowchart of our analysis pipeline for the paper's Figure 1.",
+  "expect_target": false,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Make a Feynman diagram of gg -> H -> ZZ* -> 4l in TikZ.",
+  "expect_target": false,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Compute the CLs upper limit for n=3, b=1.2 with pyhf.",
+  "expect_target": false,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "My RooFit fit of the J/psi peak doesn't converge; which parameters should I float?",
+  "expect_target": false,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "Why does my RDataFrame Filter give fewer events than TTree::Draw with the same cut?",
+  "expect_target": false,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "What is the AMS-02 rigidity resolution at 1 TV and how does it enter the flux unfolding?",
+  "expect_target": false,
+  "owner": "ams-analysis"
+ },
+ {
+  "query": "Design an ablation study for my transformer's attention variants in PyTorch.",
+  "expect_target": false,
+  "owner": "deep-learning"
+ },
+ {
+  "query": "My PyTorch training loss goes NaN after 3 epochs with mixed precision.",
+  "expect_target": false,
+  "owner": "deep-learning"
+ },
+ {
+  "query": "Write a task ticket so a contractor can implement a BibTeX deduplication CLI.",
+  "expect_target": false,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Implement a BibTeX deduplication function in our Python repo with tests.",
+  "expect_target": false,
+  "owner": "agile-development"
+ },
+ {
+  "query": "Write a 500-word essay on the history of the printing press.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "What paper weight should I use for printing my resume?",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "How do I make a paper airplane that flies far?",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Translate this email to my landlord into Spanish.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "What is the capital of Australia?",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Write a bash script to rename PDFs by their creation date.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Recommend a good citation manager app for my phone.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Explain what a p-value is to a high-school student.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Summarize the plot of Hamlet in five sentences.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Fix the CSS so my blog's paper-card component has rounded corners.",
+  "expect_target": false,
+  "owner": null
+ }
+]

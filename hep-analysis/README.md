@@ -43,6 +43,7 @@ HEP_COMBINE_WRAPPER=/path/to/run-in-combine-env python3 -m unittest tests.test_c
 #   claude plugin eval . --runs 2 --model haiku --ablation none --threshold 0
 # Sibling-routing eval: real claude -p child with only the 7 repo skills loaded (Claude Code only):
 #   python3 tests/routing_eval.py tests/trigger_queries_holdout.json --model haiku --runs 2 -j 6
+# (--target <skill> evaluates another repo skill; errored/usage-limited runs are excluded and counted)
 python3 scripts/audit_histograms.py assets/histograms.example.json
 python3 scripts/counting_reference.py --observed 0 --background 0 --level 0.95
 python3 scripts/make_yield_table.py --help

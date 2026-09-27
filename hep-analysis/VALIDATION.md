@@ -6,6 +6,16 @@ environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
 Current counts: bundle 115 required files (plus 40 eval cases in `evals/`); 204 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
 
+## Harness update (2026-09-27, during academic-papers round 1)
+
+`tests/routing_eval.py` gained `--target <skill>` (recall and false triggers for any of
+the seven repo skills; a case's `expect_target` field falls back to
+`expect_hep_analysis`). Runs that end in an error before choosing a skill, and runs
+whose result is the CLI's usage/spend-limit notice (returned as an ordinary result),
+are now excluded from the counts and reported with a warning. Before this, a
+usage-limited run counted as "no skill", which made recall look like 0. The
+hep-analysis results recorded below were not affected: they have no errored runs.
+
 ## TODO round 4: isolated routing harness, held-out trigger set, Sonnet rerun (2026-09-26, branch `hep-analysis-todo-round3`)
 
 - **Description change.** The mention of the "AMS-02 case study" was dropped from the topic

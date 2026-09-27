@@ -24,12 +24,24 @@ from pathlib import Path
 
 
 def read_rows(csv_path: Path) -> tuple[list[str], list[dict[str, str]]]:
-    with csv_path.open(newline="", encoding="utf-8") as f:
+    # utf-8-sig drops the byte-order mark Excel writes, which would otherwise
+    # become part of the first column name.
+    with csv_path.open(newline="", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         if reader.fieldnames is None:
-            raise ValueError(f"{csv_path} has no header row")
+            raise ValueError("no header row (empty file?)")
         fieldnames = list(reader.fieldnames)
-        rows = [dict(row) for row in reader]
+        rows = []
+        for lineno, row in enumerate(reader, start=2):
+            extra = row.pop(None, None)  # cells beyond the header
+            if extra:
+                print(f"warning: {csv_path}: row {lineno} has {len(extra)} cell(s) more than the "
+                      f"header; they are dropped", file=sys.stderr)
+            # A short row gives None for the missing cells.
+            rows.append({k: ("" if v is None else v) for k, v in row.items()})
+    if len(fieldnames) == 1 and any(d in fieldnames[0] for d in ";\t"):
+        print(f"warning: {csv_path} parsed as a single column '{fieldnames[0]}'; the file looks "
+              f"semicolon- or tab-separated, but this script expects commas", file=sys.stderr)
     return fieldnames, rows
 
 
@@ -50,11 +62,11 @@ def sort_rows(rows: list[dict[str, str]], sort_by: str | None, descending: bool)
 
 def escape_cell(value: str) -> str:
     # Markdown table cells can't contain a literal, unescaped pipe or newline.
-    return value.replace("|", "\\|").replace("\n", " ").strip()
+    return value.replace("|", "\\|").replace("\r", " ").replace("\n", " ").strip()
 
 
 def to_markdown_table(fieldnames: list[str], rows: list[dict[str, str]]) -> str:
-    header = "| " + " | ".join(fieldnames) + " |"
+    header = "| " + " | ".join(escape_cell(name) for name in fieldnames) + " |"
     separator = "| " + " | ".join("---" for _ in fieldnames) + " |"
     body_lines = [
         "| " + " | ".join(escape_cell(row.get(col, "")) for col in fieldnames) + " |"
@@ -75,7 +87,12 @@ def main(argv=None) -> int:
         print(f"error: {args.csv_path} is not a file", file=sys.stderr)
         return 2
 
-    fieldnames, rows = read_rows(args.csv_path)
+    try:
+        fieldnames, rows = read_rows(args.csv_path)
+    except ValueError as exc:  # includes UnicodeDecodeError
+        hint = " (save the CSV as UTF-8)" if isinstance(exc, UnicodeDecodeError) else ""
+        print(f"error: {args.csv_path}: {exc}{hint}", file=sys.stderr)
+        return 2
 
     if args.sort_by and args.sort_by not in fieldnames:
         print(f"error: --sort-by '{args.sort_by}' is not a column in {args.csv_path} "

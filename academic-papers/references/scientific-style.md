@@ -53,6 +53,16 @@ Standard HEP convention (not universal, but widely expected by referees):
 State the exact significance number alongside the word, not instead of it
 ("a 3.4σ excess, corresponding to evidence for...").
 
+The σ values are one-sided Gaussian tail probabilities: 3σ is p = 1.35 × 10⁻³ and
+5σ is p = 2.87 × 10⁻⁷ (computed 2026-09-26). The 3σ/5σ thresholds are a field
+convention, not a statistical law; L. Lyons, "Discovering the significance of 5
+sigma", arXiv:1310.1284 (`Lyons:2013yja`), discusses why and when a different
+threshold is argued for. Whenever a look-elsewhere effect applies (a scan over
+mass, sky position, energy or time), the thresholds apply to the global
+(post-trial) significance; always state which one is quoted. Collider searches
+usually quote local and global side by side. Astroparticle point-source searches
+say "pre-trial" and "post-trial" (see below).
+
 ## Astroparticle-specific phrasing
 
 Extends the table above for astroparticle-physics and cosmic-ray writing (see

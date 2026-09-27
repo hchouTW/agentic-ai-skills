@@ -59,15 +59,16 @@ substitutions:
 
 ## Journals and venues
 
-In addition to the collider-physics venues in `latex-and-formatting.md`'s table:
+In addition to the collider-physics venues in `latex-and-formatting.md` (sources and
+last-verified dates are in its final section; rows marked "Not checked" were not verified):
 
 | Venue | Class file | Typical length | Notes |
 |---|---|---|---|
-| PRD (astro-ph flavor) | `revtex4-2` (`\documentclass[aps,prd]{revtex4-2}`) | No hard limit | Same class as collider PRD; astroparticle results commonly published here |
-| JCAP | SISSA's `jcappub.cls` | No hard limit | JHEP-family house style; `\bibliographystyle{JHEP}`-compatible |
-| ApJ / ApJL | AASTeX (`aastex631.cls` or current version) | ApJL is letter-length; ApJ has no hard limit | Get the current class from the AAS journals author-resources page; natbib author-year citation is the house default |
-| Astroparticle Physics (Elsevier) | `elsarticle.cls` | No hard limit | Elsevier house style; check current author guidelines for citation style option |
-| A&A | A&A's own `aa.cls` | No hard limit | Used for some multi-messenger/counterpart papers | 
+| PRD (astro-ph flavor) | `revtex4-2` (`\documentclass[aps,prd,reprint]{revtex4-2}`) | No fixed limit for regular articles (Letters 4,500 words) | Same class as collider PRD; astroparticle results commonly published here |
+| JCAP | `article` + SISSA's `jcappub.sty` | No fixed limit | JHEP-family house style; `\bibliographystyle{JHEP}` |
+| ApJ / ApJL | AASTeX v7 (`aastex7.cls`; TeX distributions may still ship `aastex631`) | ApJL: 3,500 words, ≤ 5 figures+tables (soft limits); abstract ≤ 250 words | Get the current class from the AAS journals author-resources page; natbib author-year citation is the house default |
+| Astroparticle Physics (Elsevier) | `elsarticle.cls` | Not checked | Elsevier house style; check current author guidelines for citation style option |
+| A&A | A&A's own `aa.cls` | Not checked | Used for some multi-messenger/counterpart papers | 
 
 As with the collider-physics class files, always pull the current `.cls`/`.bst` from
 the publisher rather than reconstructing from memory — AASTeX in particular changes
@@ -110,7 +111,7 @@ astronomy (rather than particle-physics) readership:
   papers (optical/radio counterpart identifications, catalogs) that INSPIRE doesn't
   index as completely. ADS's BibTeX export uses `bibcode` identifiers (e.g.
   `2017ApJ...848L..12A`) as the natural key, analogous to INSPIRE's
-  `Aad:2012tfa`-style keys — keep ADS's key format for the same reason: collaborators
+  `Surname:2012abc`-style keys — keep ADS's key format for the same reason: collaborators
   and referees on astronomy-side venues expect it.
 - **A single paper may need both**: pull the HEP-side citations from INSPIRE and the
   astronomy-side ones from ADS into the same `.bib` file. Deduplicate by DOI when a
@@ -232,7 +233,10 @@ These extend, not replace, `scientific-style.md`'s significance-language table:
   scanned more than one direction, energy bin, or source candidate — quoting only the
   pre-trial number is the astroparticle-physics analogue of the look-elsewhere effect
   in `reading-papers.md`, and referees will ask for the post-trial number if it's
-  missing.
+  missing. For an ON/OFF (source vs. background region) count, the pre-trial
+  significance is usually Li & Ma's eq. 17 (T.-P. Li and Y.-Q. Ma, ApJ 272, 317
+  (1983), doi:10.1086/161295; checked 2026-09-26): cite it and state the ON/OFF
+  exposure ratio alpha used. Computing it belongs to `hep-analysis`.
 - **"Detection" vs. "hint" vs. "evidence"** for a point source or transient
   association follows the same σ-based conventions as `scientific-style.md`'s table,
   but state explicitly whether the quoted significance is pre- or post-trial each

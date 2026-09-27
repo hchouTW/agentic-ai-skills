@@ -1,0 +1,126 @@
+[
+ {
+  "query": "Here's the conclusion of my IceCube paper draft. Is 'discovery' too strong for a 4.1 sigma post-trial result?",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Rewrite this introduction paragraph so it's clearer for a PRL audience.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "What's the difference between an erratum and a corrigendum, and which does APS use?",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Referee 1 says our figure 3 y-axis is misleading. How should we respond?",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "I need a one-paragraph summary of arXiv:2401.xxxxx for my group meeting; here's the abstract.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Find the original reference for the Feldman-Cousins method and give me its BibTeX.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Our abstract is 820 characters; PRL wants 600. Cut it down without losing the numbers.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Write the acknowledgments and data availability statement for an ATLAS-style paper.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "How should I structure a review article on cosmic-ray anisotropy?",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Is it OK to cite a conference talk in a JHEP paper, and how?",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Make my ApJ paper's reference list consistent: some entries are ADS bibcodes and some are INSPIRE keys.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Check that every number in my abstract matches the tables in section 5.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "What's a good title for a paper measuring the proton-helium ratio up to 10 TV?",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Write the rebuttal for our ICLR submission; reviewers say our baseline is too weak.",
+  "expect_target": true,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Fit a double Gaussian to my calibration peak in ROOT and give me the resolution.",
+  "expect_target": false,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "Make a publication-quality histogram of my dimuon mass spectrum with matplotlib.",
+  "expect_target": false,
+  "owner": "hep-analysis",
+  "also_ok": [
+   "academic-diagrams",
+   "academic-papers"
+  ]
+ },
+ {
+  "query": "Draw a block diagram of the detector readout chain for my paper.",
+  "expect_target": false,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "What selection does AMS-02 use for the antiproton-to-proton ratio?",
+  "expect_target": false,
+  "owner": "ams-analysis"
+ },
+ {
+  "query": "Tune the learning rate schedule for my ResNet on CIFAR-10.",
+  "expect_target": false,
+  "owner": "deep-learning"
+ },
+ {
+  "query": "Write a spec so another engineer can build a LaTeX linting tool.",
+  "expect_target": false,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Refactor our BibTeX parser module to remove the global state.",
+  "expect_target": false,
+  "owner": "agile-development"
+ },
+ {
+  "query": "Write a cover letter for a job application at a bakery.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "What's the best way to recycle old newspapers?",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Explain how photosynthesis works.",
+  "expect_target": false,
+  "owner": null
+ }
+]
