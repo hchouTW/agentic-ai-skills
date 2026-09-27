@@ -40,6 +40,11 @@ REQUIRED_PATHS = [
     "scripts/validate_agile_notes.py",
     "scripts/validate_skill_bundle.py",
     "tests/test_agile_skill.py",
+    "tests/prompts.md",
+    "tests/behavior_eval.py",
+    "tests/trigger_queries.json",
+    "tests/trigger_queries_holdout.json",
+    "tests/fixtures/shop_repo/README.md",
 ]
 
 REQUIRED_README_SECTIONS = [

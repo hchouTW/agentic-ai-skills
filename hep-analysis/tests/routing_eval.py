@@ -19,6 +19,10 @@ Usage:
   python3 tests/routing_eval.py tests/trigger_queries.json --model haiku \
       --runs 2 -j 4 --out /tmp/routing.json
 
+--fixture DIR copies a small repository into the child's working directory, for
+query sets (such as agile-development's) that assume one; without it the child
+explores an empty directory and often answers without choosing any skill.
+
 Query file: a JSON list of {"query", "expect_hep_analysis", optional "owner"
 (expected skill name or null) and "also_ok" (list of acceptable skills)}.
 With --target <skill>, recall and false triggers are computed for that skill and
@@ -32,6 +36,7 @@ import json
 import os
 import pathlib
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -43,8 +48,10 @@ SKILLS = ["academic-diagrams", "academic-papers", "agile-development",
           "ams-analysis", "deep-learning", "hep-analysis", "task-authoring"]
 
 
-def make_workdir(root: pathlib.Path) -> pathlib.Path:
+def make_workdir(root: pathlib.Path, fixture=None) -> pathlib.Path:
     work = root / "work"
+    if fixture:  # queries that assume a repository need one to look at
+        shutil.copytree(fixture, work)
     skills = work / ".claude" / "skills"
     skills.mkdir(parents=True, exist_ok=True)
     for name in SKILLS:
@@ -117,11 +124,13 @@ def main():
     ap.add_argument("--max-turns", type=int, default=6)
     ap.add_argument("--timeout", type=int, default=300)
     ap.add_argument("--out", help="write per-run results as JSON")
+    ap.add_argument("--fixture", help="directory copied into the child's working "
+                    "directory (a small repo for queries that assume one)")
     args = ap.parse_args()
 
     cases = json.loads(pathlib.Path(args.queries).read_text())
     root = pathlib.Path(tempfile.mkdtemp(prefix="routing_eval_"))
-    work = make_workdir(root)
+    work = make_workdir(root, args.fixture)
     jobs = [(i, r) for i in range(len(cases)) for r in range(args.runs)]
     results = {}
     with concurrent.futures.ThreadPoolExecutor(args.concurrency) as pool:
