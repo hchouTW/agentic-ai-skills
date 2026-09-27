@@ -6,7 +6,7 @@ for a user's own manuscript or reading notes (a different, deliberately separate
 concern).
 
 Last pass: 2026-09-27 (TODO round 1, branch `academic-papers-todo-round1`). Counts: 60
-files in the bundle, 45 unit tests (`python3 -m unittest discover -s tests`), bundle
+files in the bundle, 48 unit tests (`python3 -m unittest discover -s tests`), bundle
 validator OK. Environment: Tectonic (miniconda) is the only TeX engine; no pdflatex,
 latexmk, bibtex or biber. Network access was available.
 
@@ -226,8 +226,15 @@ is reasonable. Sibling misses (task-authoring, agile-development, deep-learning,
   2/2 PASS, A02 2/2 PARTIAL (the same axis-range remarks missed as before; no σ
   estimated from the plot), A05 2/2 FAIL (as above), A15 2/2 PARTIAL (unchanged).
   The description is unchanged (1,014 characters), so triggering was not retested.
-- Not done: the heuristic `check_manuscript.py` checks (unit spacing, `\ref` without
-  `~`), pending the user's decision as TODO.md requires.
+- Heuristic typography checks (user approved 2026-09-27) added as opt-in
+  `check_manuscript.py --style`. They are advisory and never change the exit code. On
+  the 16 real arXiv sources, the first version gave 293 findings. Most `\ref` hits were
+  list continuations ("and \ref") or prepositions ("in \eqref"), and most unit hits
+  were layout lengths (`\vspace{-2mm}`, TikZ `right=2.5cm`). After restricting the ref
+  check to label words (Fig., Table, Eq., Section, ...) and skipping layout lines and
+  `=`/`{`/`-` prefixes: 109 findings. A random sample of 20 per check was all genuine
+  (e.g. "Table \ref{...}", "500 MeV protons", "4.7 fb$^{-1}$"). 3 tests added (48
+  total).
 
 ## `validate_skill_bundle.py` — checks on this skill bundle
 

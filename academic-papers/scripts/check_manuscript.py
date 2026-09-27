@@ -13,6 +13,14 @@ anything:
     with no matching \\label{} (\\cref{a,b} lists are split)
   - leftover TODO / FIXME / XXX / placeholder markers
 
+With --style, two advisory typography checks are also reported (they can flag
+correct text, so they never change the exit code):
+  - \\ref / \\eqref after a label word (Fig., Table, Eq., Section, ...) and a
+    plain space ("Fig. \\ref{a}"), where a tie
+    ("Fig.~\\ref{a}") keeps the label and number on one line
+  - a number followed by a unit with no space or a plain space ("125GeV",
+    "125 GeV"), where "125~GeV", "125\\,GeV" or siunitx keeps them together
+
 LaTeX comments (unescaped % to end of line) are ignored, except that TODO
 markers are still reported inside comments. A command's argument may wrap
 onto the next line.
@@ -52,6 +60,19 @@ COMMENT_RE = re.compile(r"(?<!\\)%.*")
 # \todo{...} call (todonotes) is still a marker.
 TODO_RE = re.compile(r"(?<!\\)\b(?:TODO|FIXME|XXX)\b|(?i:\\todo(?:\[[^\]]*\])?\{|\[VALUE NEEDED[^\]]*\]|\[CITATION NEEDED[^\]]*\])")
 PLACEHOLDER_RE = re.compile(r"lorem ipsum|\?\?\?|\[FIGURE HERE\]|\[TABLE HERE\]", re.IGNORECASE)
+# Advisory --style checks.
+# Only after a label word ("Fig. \ref", "Table \ref"), not "and \ref" or "in \eqref",
+# which gave most false positives on real arXiv sources.
+LABEL_WORDS = (r"(?:Fig(?:ure)?s?|Tab(?:le)?s?|Eqs?|Equations?|Sec(?:tion)?s?|App(?:endix|endices)?"
+               r"|Chap(?:ter)?s?|Refs?|Lines?|Algorithms?|Propositions?|Theorems?|Lemmas?"
+               r"|Corollar(?:y|ies)|Definitions?)")
+REF_NO_TIE_RE = re.compile(r"\b" + LABEL_WORDS + r"\.?[ \t\n]+\\(?:ref|eqref)\{", re.IGNORECASE)
+UNITS = r"(?:[kMGTPE]?eV|[kMGT]?V|[kMG]?Hz|[mcnk]m|[mnµ]s|fb|pb|nb)"
+# Not after "=", "{" or "-" (TikZ/option lengths such as right=2.5cm, \vspace{-2mm}).
+UNIT_NO_TIE_RE = re.compile(r"(?<![\w.\\{=\-])\d+(?:\.\d+)? ?" + UNITS + r"\b")
+# Lines that set layout lengths, not physics quantities.
+LAYOUT_LINE_RE = re.compile(r"\\(?:[vh]space|[vh]skip|vertex|node|draw|includegraphics|setlength|addvspace)"
+                            r"|(?:sep|width|height|distance)\s*=")
 DEFINITION_RE = re.compile(r"\\(?:(?:re|provide)?newcommand|DeclareRobustCommand|def)\b")
 
 
@@ -147,6 +168,34 @@ def fmt_locs(locs):
     return "; ".join(f"{f.name}:{ln}" for f, ln in locs[:5]) + (" ..." if len(locs) > 5 else "")
 
 
+def style_scan(root: Path):
+    """Advisory typography findings: (file, line, kind, text) tuples."""
+    findings = []
+    for tex in sorted(root.rglob("*.tex")):
+        code = strip_comments(tex.read_text(encoding="utf-8", errors="replace"))
+        lines = code.split("\n")
+        for regex, kind in ((REF_NO_TIE_RE, "ref without ~"), (UNIT_NO_TIE_RE, "number-unit spacing")):
+            for m in regex.finditer(code):
+                ln = line_of(code, m.start())
+                if kind == "number-unit spacing" and LAYOUT_LINE_RE.search(lines[ln - 1]):
+                    continue
+                findings.append((tex, ln, kind, " ".join(m.group(0).split())))
+    return findings
+
+
+def report_style(findings) -> None:
+    if not findings:
+        print("[STYLE] no typography findings.\n")
+        return
+    print(f"[STYLE] {len(findings)} advisory typography finding(s); these may be false positives "
+          f"and do not affect the exit code:")
+    for f, ln, kind, text in findings[:40]:
+        print(f"  - {f.name}:{ln}: {kind}: {text}")
+    if len(findings) > 40:
+        print(f"  ... and {len(findings) - 40} more")
+    print()
+
+
 def report(results, strict: bool) -> int:
     n_tex = len(results["tex_files"])
     n_bib = len(results["bib_files"])
@@ -222,6 +271,8 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("path", type=Path, help="Directory containing the manuscript's .tex/.bib files")
     parser.add_argument("--strict", action="store_true", help="Treat unused .bib entries as issues for exit code purposes")
+    parser.add_argument("--style", action="store_true",
+                        help="Also report advisory typography checks (ref ties, number-unit spacing); exit code unaffected")
     args = parser.parse_args(argv)
 
     if not args.path.is_dir():
@@ -229,6 +280,8 @@ def main(argv=None) -> int:
         return 2
 
     results = scan(args.path)
+    if args.style:
+        report_style(style_scan(args.path))
     return report(results, strict=args.strict)
 
 

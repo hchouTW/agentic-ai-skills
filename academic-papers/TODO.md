@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (academic-papers)
 
-State at 2026-09-27: P1, P2 and most of P3 done on branch `academic-papers-todo-round1` (see the "TODO round 1" section of `VALIDATION.md`); open: the P2 follow-ups and the check_manuscript extension decision. Earlier state, 2026-09-21: skill is on `main`; `python3 -m unittest discover -s tests` and
+State at 2026-09-27: P1, P2 and most of P3 done on branch `academic-papers-todo-round1` (see the "TODO round 1" section of `VALIDATION.md`); open: the P2 follow-ups (A05 and A15 on Haiku). Earlier state, 2026-09-21: skill is on `main`; `python3 -m unittest discover -s tests` and
 `python3 scripts/validate_skill_bundle.py` pass. Verification so far is structural (bundle validator), plus
 unit tests for the two helper scripts and hand-checked numbers in a few examples. Nothing has been checked by
 running the skill on a fresh model, and none of the 41 references (~4,300 lines) or 24 examples has been audited
@@ -100,7 +100,7 @@ The workflows and modes are unproven until a fresh model is run on them.
       venue reformatting, code-to-methodology synthesis, arXiv submission.
 - [x] (2026-09-27: `tests/test_end_to_end.py` runs the bundled skeleton + .bib through the checker, injects each mistake type, feeds build_lit_matrix output into the paper, and compiles with Tectonic when available) Add a small end-to-end sample under `assets/` or `examples/` (paper skeleton + `.bib` + notes CSV) that runs
       `check_manuscript.py` and `build_lit_matrix.py` in sequence and serves as a smoke test.
-- [ ] Extend `check_manuscript.py` only for checks that are mechanical and low-false-positive (unused bib
+- [x] (2026-09-27, user approved: opt-in `--style` advisory checks for `\ref` without `~` after a label word and number-unit spacing; tuned on 16 arXiv sources from 293 to 109 hits, all genuine in a 20+20 sample; never affects the exit code) Extend `check_manuscript.py` only for checks that are mechanical and low-false-positive (unused bib
       entries, undefined refs, duplicate labels, unit spacing, `\ref` without `~`); ask before adding heuristics.
 - [x] (2026-09-27: no Claude-only tool dependencies in SKILL.md or references; `agents/openai.yaml` current) Multi-platform check (Codex, Antigravity): confirm `agents/openai.yaml` is current and no instructions
       depend on Claude-only tools. See the repo's multi-platform conventions (memory: multi-platform skills target).

@@ -149,6 +149,8 @@ python3 scripts/build_lit_matrix.py notes.csv --sort-by year -o lit_matrix.md
 
 # Pre-submission check of a manuscript directory
 python3 scripts/check_manuscript.py /path/to/manuscript-dir
+# Also report advisory typography findings (Fig. \ref without ~, "125 GeV" without ~ or \,)
+python3 scripts/check_manuscript.py /path/to/manuscript-dir --style
 ```
 
 `check_manuscript.py` exits `0` if nothing is found and `1` otherwise, so it's usable

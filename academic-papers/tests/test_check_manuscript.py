@@ -7,11 +7,13 @@ from within the paper-writing/ skill folder.
 """
 from __future__ import annotations
 
+import io
 import shutil
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(SKILL_ROOT / "scripts"))
@@ -181,6 +183,35 @@ class TestCheckManuscript(unittest.TestCase):
         self._write("paper.tex", "%TODO(noam): update results\nText \\todo{check number}.\n")
         results = cm.scan(self.tmpdir)
         self.assertEqual([ln for _, ln, _ in results["todos"]], [1, 2])
+
+    # Advisory --style checks (2026-09-27), tuned on 16 real arXiv sources.
+
+    def test_style_ref_without_tie_only_after_label_words(self):
+        self._write(
+            "paper.tex",
+            "See Fig. \\ref{a} and Table \\ref{b}.\n"      # 2 findings
+            "Fig.~\\ref{a}, Props.~\\ref{c} and \\ref{d}, in \\eqref{e}, (\\ref{f}).\n"  # none
+            "% Fig. \\ref{commented}\n",                    # comment: none
+        )
+        kinds = [(ln, k) for _, ln, k, _ in cm.style_scan(self.tmpdir)]
+        self.assertEqual(kinds, [(1, "ref without ~"), (1, "ref without ~")])
+
+    def test_style_number_unit_spacing_skips_layout_lengths(self):
+        self._write(
+            "paper.tex",
+            "at 125 GeV and 125GeV with 4.7 fb$^{-1}$\n"   # 3 findings
+            "125~GeV, 125\\,GeV, \\SI{125}{GeV}, v2 and 2019 data\n"  # none
+            "\\vspace{-2mm} \\node[right=2.5cm] {x};\n",     # layout: none
+        )
+        texts = [text for _, _, kind, text in cm.style_scan(self.tmpdir)]
+        self.assertEqual(texts, ["125 GeV", "125GeV", "4.7 fb"])
+
+    def test_style_findings_do_not_change_exit_code(self):
+        self._write("paper.tex", "See Fig. \\ref{a} at 125 GeV.\\label{a}\n")
+        with mock.patch("sys.stdout", new_callable=io.StringIO) as out:
+            code = cm.main([str(self.tmpdir), "--style"])
+        self.assertEqual(code, 0)
+        self.assertIn("[STYLE] 2 advisory", out.getvalue())
 
     def test_report_exit_code_zero_when_clean(self):
         self._write("paper.tex", r"\cite{K}\label{a}")

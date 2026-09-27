@@ -434,7 +434,9 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   (natbib, biblatex and `\nocite`) missing from any `.bib` file, duplicate `.bib` keys,
   unused `.bib` entries, and leftover TODO/FIXME/placeholder markers. Comments are
   ignored. With no `.bib` (only a `.bbl` or inline `\bibitem`s) the citation checks are
-  skipped. Read-only; standard library only. Run it near the end of a drafting session, not
+  skipped. `--style` adds two advisory typography checks (label word + plain space
+  before `\ref`; number and unit joined by a plain space) that never change the exit
+  code. Read-only; standard library only. Run it near the end of a drafting session, not
   after every sentence.
 
   ```
