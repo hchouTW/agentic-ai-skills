@@ -82,7 +82,10 @@ academic-papers/
 ├── tests/
 │   ├── test_build_lit_matrix.py
 │   ├── test_check_manuscript.py
-│   └── test_skill_bundle.py
+│   ├── test_skill_bundle.py
+│   ├── prompts.md                # graded behavior prompts (Must / Must-not per prompt)
+│   ├── run_prompts.py            # runs prompts.md with/without the skill, blind-graded (calls the model)
+│   └── trigger_queries.json      # 40 trigger/routing queries with owner skills
 └── assets/templates/
     ├── reading_notes_template.md # structured single-paper reading notes shape
     ├── paper_skeleton.tex        # venue-agnostic starting skeleton
@@ -156,6 +159,17 @@ standard library only):
 cd academic-papers
 python3 scripts/validate_skill_bundle.py
 python3 -m unittest discover -s tests -v
+```
+
+Model-behavior checks (Claude Code only; they call the model and cost money; results
+are recorded in `VALIDATION.md`):
+
+```bash
+# Graded prompts, skill vs. baseline, blind grader
+python3 tests/run_prompts.py --model sonnet --runs 2 --out /tmp/ap_runs
+# Trigger and sibling routing, via the isolated harness in hep-analysis
+python3 ../hep-analysis/tests/routing_eval.py tests/trigger_queries.json \
+    --target academic-papers --model haiku --runs 2
 ```
 
 See `VALIDATION.md` for exactly what is checked.

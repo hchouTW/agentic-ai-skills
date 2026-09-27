@@ -5,7 +5,7 @@ bundle, and what `scripts/check_manuscript.py` / `scripts/build_lit_matrix.py` c
 for a user's own manuscript or reading notes (a different, deliberately separate
 concern).
 
-Last pass: 2026-09-26 (TODO round 1, branch `academic-papers-todo-round1`). Counts: 56
+Last pass: 2026-09-27 (TODO round 1, branch `academic-papers-todo-round1`). Counts: 60
 files in the bundle, 41 unit tests (`python3 -m unittest discover -s tests`), bundle
 validator OK. Environment: Tectonic (miniconda) is the only TeX engine; no pdflatex,
 latexmk, bibtex or biber. Network access was available.
@@ -108,6 +108,86 @@ one-sided p-values (1.35 × 10⁻³, 2.87 × 10⁻⁷, computed) and cites Lyons
 arXiv:1310.1284 for the convention. Li & Ma was not mentioned anywhere in the skill,
 contrary to the TODO; a citation pointer (ApJ 272, 317, confirmed on Crossref) was
 added to the astroparticle reference.
+
+## TODO round 1: P2 behavior and trigger tests (2026-09-26/27)
+
+**Method.** 15 prompts in `tests/prompts.md` (11 physics/astroparticle, 3
+statistics/ML, 1 hand-off), each with Must / Must-not lists. `tests/run_prompts.py`
+runs each prompt in a fresh `claude -p` session with `--setting-sources project` and no
+network tools, in two arms: skill (`/academic-papers <prompt>`) and baseline (no
+repo skills). A separate Opus grader scores each answer blind to the arm, with skill
+names masked. Two runs per prompt per arm unless noted.
+
+**Usage limits.** The account hit its usage/spend limit three times during these runs.
+The CLI returns the limit notice as an ordinary, non-error result, so the first time
+37 answers and all grades were limit messages and looked like FAILs. Both harnesses
+now detect the notice and exclude those runs (see hep-analysis VALIDATION "Harness
+update"). Every number below comes from runs without errors; affected runs were
+rerun.
+
+**Rubric corrections (recorded, not hidden).** A03 penalized labeled placeholder
+citation keys (`[Smith2019]`), which were never the intended target: the rubric now
+forbids only database-style keys presented as real. A07 required the exact `a4paper,11pt`
+options; their absence no longer fails the item. The Sonnet A03 answers were
+re-graded under the corrected rubric. The A07 change came later: the Haiku baseline
+and the first two Haiku skill versions were graded under the stricter old A07
+rubric, which lowers those rows by at most 2 verdicts each.
+
+**Sonnet (both arms, 2 runs, 30 answers per arm).**
+
+| Arm | PASS | PARTIAL | FAIL |
+|---|---|---|---|
+| skill | 27 | 3 | 0 |
+| baseline | 25 | 4 | 1 |
+
+Sonnet without the skill is already strong on most prompts, so these prompts
+discriminate weakly for it. The skill's clear wins: A07 REVTeX→JHEP (skill 2/2 PASS;
+baseline 2/2 PARTIAL, one baseline in the smoke test invented a `{JHEP}` class)
+and A05 hostile referee reply (baseline 1 FAIL).
+
+**Haiku (skill arm reran after each SKILL.md change; baseline once).**
+
+| Version | PASS | PARTIAL | FAIL |
+|---|---|---|---|
+| baseline (no skill) | 7 | 13 | 10 |
+| skill, start of round | 10 | 13 | 7 |
+| + rules appended to "Working style" | 11 | 8 | 11 |
+| + rules moved to a "Rules for every task" section at the top | 16 | 10 | 4 |
+
+- Haiku's skill runs mostly opened no reference files (the `reads` field), so only
+  SKILL.md's own text reached it. The failures traced to SKILL.md: A15 computed a CLs
+  limit by hand (wrongly) and reported it as final; A06 used "abstracts run 150-250
+  words" from SKILL.md's own structure table, which contradicted the PRL
+  600-character row (fixed); A05 wrote strategy notes rather than a reply, and
+  invented "standard" JES components; A03 compared GeV with GV; A11 called a binned
+  fit unbinned and claimed uncertainties the code never computes; A12 once gave
+  unverified BibTeX.
+- The same rules appended at the end of the file did not help (the change is within
+  Haiku's run-to-run noise). Placed at the top they did.
+- Side effect found and fixed: the strict "no unverified citations" rule made Haiku
+  refuse to flag A04's mismatched Higgs mass (it called it "plausible"). Rule 4 now
+  says to flag a probable mismatch plainly, marked "to verify". A 3-run recheck
+  (A01, A04, A05, A12, A15) after the last two edits: A04 3/3 PASS, A12 3/3 PASS, A01
+  2 PASS 1 PARTIAL, A15 3/3 PARTIAL (no longer FAIL), **A05 1 PASS / 2 FAIL (still
+  open)**.
+- Sonnet skill-arm regression check with the final SKILL.md (1 run, no
+  errored runs): 14 PASS, 1 PARTIAL (A15), 0 FAIL. No regression.
+
+**Trigger and routing** (`tests/trigger_queries.json`, 20 should-trigger, 20
+near-misses with owner skills; isolated harness
+`../hep-analysis/tests/routing_eval.py --target academic-papers`, 7 repo skills,
+2 runs).
+
+| Description | Haiku recall | Sonnet recall | False triggers (H / S) |
+|---|---|---|---|
+| original (1,106 characters, over the 1,024 limit) | 0/40 | 27/40 | 0/40 / 0/40 |
+| revised (1,014 characters, "load it before answering from memory", "Not for" siblings) | 25/40 | 34/40 | 0/40 / 0/40 |
+| revised, held-out set `tests/trigger_queries_holdout.json` (written before the revised description was tested, run once) | 20/28 | 23/28 | 0/20 / 0/20 |
+
+Most remaining misses are prompts that point at text not included ("this abstract",
+"reference [12]", "this paragraph"), where answering directly and asking for the text
+is reasonable. Sibling misses (task-authoring, agile-development, deep-learning, and
+`dataviz` taking a histogram request) belong to those skills.
 
 ## `validate_skill_bundle.py` — checks on this skill bundle
 

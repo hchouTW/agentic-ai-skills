@@ -1,6 +1,6 @@
 ---
 name: academic-papers
-description: Use when reading, critiquing, or writing anything in the scientific-paper lifecycle — summarizing/critiquing a paper, interpreting a figure/plot/graphic, building a lit review or related-work section, finding literature, verifying citations/claim support, auditing reproducibility/equations/consistency/argument-uniformity/statistical rigor, reviewing accompanying code, reverse-engineering research/algorithmic source code (no paper yet) into a methodology and technical-manual write-up, systematic-review screening, drafting/restructuring a section, formatting for a venue (REVTeX/JHEP/JCAP/AASTeX/NeurIPS/ICML/ACL/JMLR), managing a BibTeX/INSPIRE-HEP/ADS/DBLP bibliography, designing figures/tables, referee/rebuttal responses, a Comment/Reply or erratum, or an adjacent artifact (poster/talk, preregistration, grant proposal, thesis-by-publication, code/data release, COI/ethics statement). Covers physics/HEP, astroparticle, and statistics/ML conventions, plus general academic writing. Trigger for even one piece (e.g. "what does this paper claim", "write my abstract", "fix these referee comments").
+description: "Use for any scientific-paper task, even a quick question - load it before answering from memory: summarizing or critiquing a paper or abstract, judging whether a claim or significance is justified, interpreting a figure, finding literature, lit reviews and related work, checking that a citation supports a claim or number, drafting or tightening a section (title, abstract, results, systematics), referee reports, responses and rebuttals, Comments/Replies and errata, formatting for a venue (REVTeX, JHEP, JCAP, EPJC, AASTeX, NeurIPS/ICML/ICLR/ACL, TMLR) and its length limits, BibTeX cleanup (INSPIRE-HEP/ADS/arXiv/DBLP), reproducibility, notation and consistency audits, turning research code into a methodology write-up, systematic-review screening, figure/table design, posters/talks, theses, proposals, data/code/ethics statements. Physics/HEP, astroparticle and statistics/ML conventions. Not for running fits or limits (hep-analysis), AMS-02 analyses (ams-analysis) or drawing diagrams (academic-diagrams)."
 ---
 
 # Academic Papers
@@ -24,6 +24,48 @@ not just a methods section to read through). This skill owns the *reading and
 writing*, not the analysis itself — if the user still needs to run a fit, produce a
 limit, prove an improvement is real, or debug a plot, hand that off to
 `hep-analysis` or `deep-learning` first.
+
+## Rules for every task
+
+These override anything later in this file. Weaker models skip references, so they
+are stated here in full.
+
+1. **No invented facts or citations.** Never output a citation key, DOI, arXiv ID,
+   page range or BibTeX entry you have not verified in this session; give a lookup
+   route (INSPIRE-HEP/ADS/arXiv query) or mark it `[CITATION NEEDED: ...]`. Do not add
+   trial counts, "standard" systematic breakdowns, validation studies or uncertainties
+   the source or user did not give; say they are missing.
+2. **No computed statistical results.** A limit, significance, fit value or interval
+   the user did not supply is analysis output: hand it to `hep-analysis`
+   (pyhf/Combine/RooStats) or `deep-learning`, and write `[VALUE NEEDED: 95% CL CLs
+   limit]`. Do not estimate a σ from a plot. A rough number, if given at all, is
+   labeled approximate with its method and what it ignores.
+3. **Calibrate claims to the evidence.** "Evidence" needs ≥ 3σ and "observation" ≥ 5σ
+   on the *global* (post-trial) significance; if a claim is stronger than its source,
+   say so and propose the weaker wording rather than softening it.
+4. **Check the citation actually says it.** A number attributed to a paper must be
+   the number that paper reports (a later combination or a PDG average is a different
+   source). If what you know suggests a mismatch (a precision too good for the cited
+   paper's dataset, or a value you recognize from a later combination), say so
+   plainly and name the likely source, marked "to verify". Rule 1 forbids inventing
+   references, not flagging a probable error. Never call an unchecked number "looks
+   right" or "safe to use".
+5. **Compare like with like.** Before comparing values across papers, check quantity
+   and unit (energy in GeV vs. rigidity in GV, per-nucleon vs. total, local vs. global
+   significance, 68% vs. 95% CL) and flag needed conversions.
+6. **Referee replies are drafted text.** Thank the referee, concede what is valid,
+   answer with the user's own numbers, state exactly what changed in the manuscript,
+   stay courteous even to a hostile comment, and never call a criticized choice
+   "validated" unless the user said so. Commit to one concrete revision rather than
+   offering options, and do not compare the effect to other uncertainties the user
+   has not given ("well below the statistical precision").
+7. **Methodology from code describes only the code.** Say what it computes (binned vs.
+   unbinned, what is fitted, what is fixed) and list what it does not (intervals,
+   nuisance parameters, background estimation).
+8. **Venue rules from the table below, not memory.** PRL abstracts are ≤ 600
+   characters; JHEP/JCAP are `article` + `jheppub`/`jcappub` with `\flushbottom`
+   after `\maketitle`. Before converting between classes, read
+   `references/latex-and-formatting.md`.
 
 ## When to use this skill
 
@@ -191,7 +233,7 @@ A typical experimental HEP paper (PRL/PRD/JHEP style) runs, roughly:
 | Section | Purpose | Typical length |
 |---|---|---|
 | Title | States the result, not the method | ≤ 15 words |
-| Abstract | Self-contained summary: context, method, result, significance | 150–250 words |
+| Abstract | Self-contained summary: context, method, result, significance | 150–250 words (PRL: ≤ 600 characters incl. spaces, about 90 words) |
 | Introduction | Physics motivation, prior measurements, what's new here | 0.5–1.5 pages |
 | Detector & Dataset | What data, what detector, what luminosity/energy | 0.25–0.75 pages |
 | Analysis / Event Selection | Cuts, reconstruction, background estimation | 1–3 pages |
@@ -215,13 +257,13 @@ rebuttals) is in `references/paper-genre-variants.md`,
 |---|---|---|---|
 | PRL | `revtex4-2` (`\documentclass[aps,prl,reprint]{revtex4-2}`) | 3,750 words (about 4 pages); abstract ≤ 600 characters | Run-in italic heads, not `\section`; no PACS (PhySH since 2016) |
 | PRD / PRX | `revtex4-2` (`\documentclass[aps,prd,reprint]{revtex4-2}`) | PRD regular articles: no fixed limit; PRD Letters 4,500 words | Numbered sections, full methods |
-| JHEP | `article` + SISSA's `jheppub.sty` (not a `.cls`) | No fixed limit | `\bibliographystyle{JHEP}`; `\flushbottom` after `\maketitle` |
+| JHEP | `article` + SISSA's `jheppub.sty` (not a `.cls`) | No fixed limit | `\abstract{}` before `\begin{document}`; labeled `\author[a]`/`\affiliation[a]`, `\emailAdd`; `\flushbottom`; `\bibliographystyle{JHEP}`. REVTeX front matter does not carry over: read the reference before converting |
 | EPJC | Springer Nature template `sn-jnl.cls`, `[iicol]` option | No fixed limit | Old `svjour3` superseded; decimal headings, ≤ 3 levels |
 | Nature Physics | Nature LaTeX template or Word | Article: 3,000 words main text, ~200-word summary paragraph, ≤ 6 display items | Letters retired in 2022; check Nature itself separately |
 | JCAP (astroparticle) | `article` + SISSA's `jcappub.sty` | No fixed limit | Same front matter as JHEP; common for cosmic-ray/dark-matter theory and phenomenology |
 | ApJ / ApJL (astroparticle) | AASTeX v7 (`\documentclass{aastex7}`) | Abstract ≤ 250 words; ApJL 3,500 words and ≤ 5 figures+tables (soft) | natbib author-year citations |
 | Astroparticle Physics (Elsevier) | `elsarticle.cls` | Not checked | Elsevier house style |
-| NeurIPS / ICML / ICLR (2026) | Conference's current-year `.sty` | 9 / 8 / 9 pages main text; appendices and references do not count | Double-blind; NeurIPS checklist, ICML impact statement required; re-check every year |
+| NeurIPS / ICML / ICLR (2026) | Conference's current-year `.sty` | 9 / 8 / 9 pages main text including figures and tables; references, appendices (and NeurIPS's checklist) do not count; +1 page at camera-ready | Double-blind; NeurIPS checklist, ICML impact statement required; re-check every year |
 | ACL / EMNLP / NAACL (ARR) | Official ACL template, unmodified | Long 8 pages, short 4 | Required "Limitations" section, not counted; `natbib` author-year |
 | JMLR / TMLR | Venue's own LaTeX template | No page limit (long papers review more slowly) | Journal-style review, closer to a physics journal's process |
 | Statistics journals (JASA, Annals of Statistics, ...) | Usually plain `article`-based | Not checked | Journal-specific reference style; theorem/proof structure for theory papers |

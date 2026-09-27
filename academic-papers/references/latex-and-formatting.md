@@ -130,7 +130,21 @@ v.1.1227 (2018/12/04) and `JHEP.bst` downloaded from SISSA. `jheppub` is a packa
 for the standard `article` class, not a document class; the author manual asks for
 the `11pt,a4paper` options. Authors are separated by commas and the last one starts
 with "and", as in SISSA's own example. `\keywords{}` and `\arxivnumber{}` are optional.
-JHEP has no fixed page limit. JHEP numbers all sections, expects `\flushbottom`, and its `JHEP.bst` style
+JHEP has no fixed page limit.
+
+Converting from REVTeX (checked against `jheppub.sty`; the same applies to JCAP):
+- `\begin{abstract}...\end{abstract}` after `\begin{document}` becomes
+  `\abstract{...}` *before* `\begin{document}` (jheppub redefines `\abstract` as a
+  command, so the environment no longer works).
+- REVTeX attaches each `\affiliation` to the authors above it; jheppub links them by
+  label: `\author[a,b]{Name,}`, `\affiliation[a]{...}`. A plain `\author{}` +
+  `\affiliation{}` pair only works for the single-affiliation case.
+- Emails go in `\emailAdd{}` (one per author, in author order), not in `\email{}`.
+  `\collaboration{}` exists in jheppub too.
+- Drop `\pacs{}`, `showpacs`, `superscriptaddress` and PRL run-in heads; use
+  numbered `\section{}`s. Switch `\bibliographystyle{apsrev4-2}` to `{JHEP}`.
+
+JHEP numbers all sections, expects `\flushbottom`, and its `JHEP.bst` style
 formats INSPIRE-style BibTeX entries (with `eprint`/`archivePrefix` fields)
 correctly — pull `.bib` entries from INSPIRE-HEP directly rather than
 retyping them (see `citations-and-bibliography.md`).
