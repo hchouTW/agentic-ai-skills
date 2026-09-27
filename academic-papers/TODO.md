@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (academic-papers)
 
-State at 2026-09-27: P1, P2 and most of P3 done on branch `academic-papers-todo-round1` (see the "TODO round 1" section of `VALIDATION.md`); open: the P2 follow-ups, the check_manuscript extension decision and the skill-reviewer pass. Earlier state, 2026-09-21: skill is on `main`; `python3 -m unittest discover -s tests` and
+State at 2026-09-27: P1, P2 and most of P3 done on branch `academic-papers-todo-round1` (see the "TODO round 1" section of `VALIDATION.md`); open: the P2 follow-ups and the check_manuscript extension decision. Earlier state, 2026-09-21: skill is on `main`; `python3 -m unittest discover -s tests` and
 `python3 scripts/validate_skill_bundle.py` pass. Verification so far is structural (bundle validator), plus
 unit tests for the two helper scripts and hand-checked numbers in a few examples. Nothing has been checked by
 running the skill on a fresh model, and none of the 41 references (~4,300 lines) or 24 examples has been audited
@@ -80,7 +80,7 @@ The workflows and modes are unproven until a fresh model is run on them.
       `references/example-authoring.md`) and that any weak-vs-expert contrast is realistic, not a strawman.
 
 ## P2 follow-ups found 2026-09-27
-- [ ] A05 (hostile referee reply) is still 1 PASS / 2 FAIL on Haiku with the skill: it defends the criticized choice and adds comparisons the user never gave. Rule 6 in SKILL.md covers this; try a short worked reply in `references/submission-and-peer-review.md` and rerun A05 x3.
+- [ ] A05 (hostile referee reply) on Haiku: 0/4 PASS after the last rule-6 edit. Every run drafts a reply now, but it invents specifics (component names, comparisons with other uncertainties). Rules alone did not fix this; next idea is a short worked reply inside SKILL.md's rule 6. Sonnet passes A05 in every run.
 - [ ] A15 (CLs hand-off) is PARTIAL on both models: the limit is no longer reported as final, but the method and background-uncertainty treatment are not always stated.
 - [ ] Rerun `tests/run_prompts.py` (Haiku, skill arm, 2 runs) and the trigger sets after any SKILL.md change; use run-to-run comparisons with at least 2 runs, since Haiku varies by several verdicts between identical runs.
 
@@ -104,7 +104,7 @@ The workflows and modes are unproven until a fresh model is run on them.
       entries, undefined refs, duplicate labels, unit spacing, `\ref` without `~`); ask before adding heuristics.
 - [x] (2026-09-27: no Claude-only tool dependencies in SKILL.md or references; `agents/openai.yaml` current) Multi-platform check (Codex, Antigravity): confirm `agents/openai.yaml` is current and no instructions
       depend on Claude-only tools. See the repo's multi-platform conventions (memory: multi-platform skills target).
-- [ ] (2026-09-27: not run; `plugin-dev:skill-reviewer` is not installed in this environment) Skill-doctor / skill-reviewer pass on `SKILL.md` and `README.md` (`plugin-dev:skill-reviewer`).
+- [x] (2026-09-27: run after plugin-dev was installed; 13 of 14 findings fixed, 1 declined as unverified; see VALIDATION.md) Skill-doctor / skill-reviewer pass on `SKILL.md` and `README.md` (`plugin-dev:skill-reviewer`).
 
 ## P4 - housekeeping and decisions
 - [x] (2026-09-26: already git-ignored; nothing to do) Remove stray `scripts/__pycache__` and `tests/__pycache__` from the working tree if untracked and not ignored.

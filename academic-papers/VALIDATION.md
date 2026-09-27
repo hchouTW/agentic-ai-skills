@@ -205,9 +205,29 @@ is reasonable. Sibling misses (task-authoring, agile-development, deep-learning,
   output fed into the paper produces the expected missing-entry reports. 45 tests
   total.
 - Multi-platform: no Claude-only tool dependencies; `agents/openai.yaml` current.
-- Not run: skill-reviewer (`plugin-dev:skill-reviewer` not installed). Not done: the
-  heuristic `check_manuscript.py` checks (unit spacing, `\ref` without `~`), pending
-  the user's decision as TODO.md requires.
+- Skill-reviewer pass (`plugin-dev:skill-reviewer`, installed 2026-09-27, read-only):
+  no broken pointers; 14 findings, 13 confirmed and fixed. Rule 3 now uses the global
+  significance whenever a look-elsewhere effect applies, and `scientific-style.md` says
+  the same. Rule 6 allows an explicit reasoned decline. Rule 2 separates reading a
+  plotted value from estimating a σ. The stale `examples/` routing block and a
+  dangling "above" were removed. The body now names `ams-analysis` and
+  `academic-diagrams`. The JMLR row is marked not checked. The Nature Physics
+  "Letters retired 2022" claim now has a sources-table row. README tree and
+  siblings updated. Two duplicated working-style bullets now point to the rules.
+  Not applied: #10, shortening `agents/openai.yaml` `short_description` to 25-64
+  characters, because the reviewer was unsure of that Codex guidance and it was not
+  verified.
+- A05 after the last rule-6 edit (Haiku, skill arm, 4 runs): 0 PASS. All four drafted
+  a reply (the ask-instead-of-draft failure is gone), but each invented specifics:
+  JES component names, "well within the statistical precision", once that the split
+  was already used. Two runs failed on that alone. Recorded as a Haiku limitation;
+  not tuned further, and the rubric was not loosened.
+- Regression check after the review fixes (Haiku, skill arm, A01/A02/A05/A15 x2): A01
+  2/2 PASS, A02 2/2 PARTIAL (the same axis-range remarks missed as before; no σ
+  estimated from the plot), A05 2/2 FAIL (as above), A15 2/2 PARTIAL (unchanged).
+  The description is unchanged (1,014 characters), so triggering was not retested.
+- Not done: the heuristic `check_manuscript.py` checks (unit spacing, `\ref` without
+  `~`), pending the user's decision as TODO.md requires.
 
 ## `validate_skill_bundle.py` — checks on this skill bundle
 

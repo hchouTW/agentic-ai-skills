@@ -19,7 +19,8 @@ single-shot OpenReview rebuttals, p-value/effect-size reporting language), and
 general academic reading and writing guidance. Self-contained: no MCP server, cloud
 account, or paid service required.
 
-Designed to sit alongside `hep-analysis` and `deep-learning` in the
+Designed to sit alongside `hep-analysis`, `ams-analysis`, `academic-diagrams` and
+`deep-learning` in the
 [agentic-ai-skills](https://github.com/hchouTW/agentic-ai-skills) bundle — this skill
 owns the reading/writing/formatting/submission side once there's a paper to
 understand or a result to write up.
@@ -30,7 +31,8 @@ understand or a result to write up.
 academic-papers/
 ├── SKILL.md                      # entry point: reading + writing workflows, quick-reference tables
 ├── README.md                     # this file
-├── VALIDATION.md                 # what the integrity checker verifies
+├── VALIDATION.md                 # what was checked and run, with dated results
+├── TODO.md                       # open verification and improvement work
 ├── agents/
 │   └── openai.yaml                # optional Codex UI metadata (display name, short description, default prompt)
 ├── references/
@@ -83,9 +85,11 @@ academic-papers/
 │   ├── test_build_lit_matrix.py
 │   ├── test_check_manuscript.py
 │   ├── test_skill_bundle.py
+│   ├── test_end_to_end.py        # skeleton -> checker -> lit matrix -> Tectonic compile (if installed)
 │   ├── prompts.md                # graded behavior prompts (Must / Must-not per prompt)
 │   ├── run_prompts.py            # runs prompts.md with/without the skill, blind-graded (calls the model)
-│   └── trigger_queries.json      # 40 trigger/routing queries with owner skills
+│   ├── trigger_queries.json      # 40 trigger/routing queries with owner skills (tuning set)
+│   └── trigger_queries_holdout.json  # 24 held-out queries, run once per description change
 └── assets/templates/
     ├── reading_notes_template.md # structured single-paper reading notes shape
     ├── paper_skeleton.tex        # venue-agnostic starting skeleton

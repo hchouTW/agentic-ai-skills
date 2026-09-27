@@ -38,11 +38,15 @@ are stated here in full.
 2. **No computed statistical results.** A limit, significance, fit value or interval
    the user did not supply is analysis output: hand it to `hep-analysis`
    (pyhf/Combine/RooStats) or `deep-learning`, and write `[VALUE NEEDED: 95% CL CLs
-   limit]`. Do not estimate a σ from a plot. A rough number, if given at all, is
-   labeled approximate with its method and what it ignores.
-3. **Calibrate claims to the evidence.** "Evidence" needs ≥ 3σ and "observation" ≥ 5σ
-   on the *global* (post-trial) significance; if a claim is stronger than its source,
-   say so and propose the weaker wording rather than softening it.
+   limit]`. Do not estimate a σ, limit or fit value from a plot; reading a plotted
+   value is fine if labeled approximate (see
+   `references/interpreting-scientific-graphics.md`). A back-of-envelope result, if
+   given at all, is labeled approximate with its method and what it ignores.
+3. **Calibrate claims to the evidence.** "Evidence" needs ≥ 3σ and "observation"
+   ≥ 5σ; whenever a look-elsewhere effect applies (a scan over mass, sky position,
+   energy or time), use the global (post-trial) significance, and always say which
+   one is quoted. If a claim is stronger than its source, say so and propose the
+   weaker wording explicitly, rather than silently softening it.
 4. **Check the citation actually says it.** A number attributed to a paper must be
    the number that paper reports (a later combination or a PDG average is a different
    source). If what you know suggests a mismatch (a precision too good for the cited
@@ -56,9 +60,11 @@ are stated here in full.
 6. **Referee replies are drafted text.** Thank the referee, concede what is valid,
    answer with the user's own numbers, state exactly what changed in the manuscript,
    stay courteous even to a hostile comment, and never call a criticized choice
-   "validated" unless the user said so. Commit to one concrete revision rather than
-   offering options, and do not compare the effect to other uncertainties the user
-   has not given ("well below the statistical precision").
+   "validated" unless the user said so. Commit to one concrete response (a specific
+   revision, or an explicit reasoned decline) rather than a menu of options, and do not compare the effect to other uncertainties the user
+   has not given ("well below the statistical precision"). If the user supplied the
+   result, draft the reply now instead of asking which stance to take; put any
+   missing fact in a `[VALUE NEEDED: ...]` slot.
 7. **Methodology from code describes only the code.** Say what it computes (binned vs.
    unbinned, what is fitted, what is fixed) and list what it does not (intervals,
    nuisance parameters, background estimation).
@@ -113,11 +119,12 @@ Use it for any of:
   method — into a Methodology + Technical Manual document; not for generic
   software with no such content (a CRUD API, a UI library) — see
   `references/code-to-methodology-synthesis.md`; distinct from reviewing
-  code against an already-written paper, above
+  code against an already-written paper (`references/code-review-report.md`, below)
 
 Do **not** reach for this skill for pure numerical/statistical work (fitting, limit
 setting, unfolding — `hep-analysis`; ablations, seed variance, proving an ML result
-is real — `deep-learning`). Do reach for it the moment that work needs to be
+is real — `deep-learning`), AMS-02 data analysis (`ams-analysis`), or drawing a
+schematic or diagram (`academic-diagrams`). Do reach for it the moment that work needs to be
 understood from someone else's paper, or turned into English prose,
 a figure caption, or a formatted document of your own.
 
@@ -143,7 +150,7 @@ a figure caption, or a formatted document of your own.
    evidence / limitations / relevance-to-my-work). Notes taken during reading are far
    more reusable later than a memory of "a paper that showed something like this."
 4. **When reading multiple papers toward a literature review**, build a comparison
-   matrix (method, dataset, key result, year) as you go rather than after — 
+   matrix (method, dataset, key result, year) as you go rather than after —
    `scripts/build_lit_matrix.py` turns a simple CSV of these notes into a formatted
    markdown table ready to drop into a draft. See `references/literature-review.md`.
 5. **Synthesize, don't list.** A literature review or related-work section groups
@@ -219,7 +226,7 @@ Use these when requested or needed to substantiate claims — not for an ordinar
    JHEP, etc.) — page/length limits interact with formatting in ways that are painful
    to discover after the fact. See `references/latex-and-formatting.md`.
 7. **Run a pre-submission pass.** Use `scripts/check_manuscript.py` to catch undefined
-   references, duplicate labels and `.bib` keys, leftover TODOs, and uncited or unused bib entries
+   references, duplicate labels and `.bib` keys, leftover TODOs, cited keys missing from the `.bib`, and unused `.bib` entries
    before the user sends the draft anywhere. Then do a human read-aloud pass for prose
    using `references/scientific-style.md`.
 8. **If reviews come back**, use `references/submission-and-peer-review.md` for how to
@@ -263,9 +270,10 @@ rebuttals) is in `references/paper-genre-variants.md`,
 | JCAP (astroparticle) | `article` + SISSA's `jcappub.sty` | No fixed limit | Same front matter as JHEP; common for cosmic-ray/dark-matter theory and phenomenology |
 | ApJ / ApJL (astroparticle) | AASTeX v7 (`\documentclass{aastex7}`) | Abstract ≤ 250 words; ApJL 3,500 words and ≤ 5 figures+tables (soft) | natbib author-year citations |
 | Astroparticle Physics (Elsevier) | `elsarticle.cls` | Not checked | Elsevier house style |
-| NeurIPS / ICML / ICLR (2026) | Conference's current-year `.sty` | 9 / 8 / 9 pages main text including figures and tables; references, appendices (and NeurIPS's checklist) do not count; +1 page at camera-ready | Double-blind; NeurIPS checklist, ICML impact statement required; re-check every year |
+| NeurIPS / ICML / ICLR (2026) | Conference's current-year `.sty` | 9 / 8 / 9 pages main text including figures and tables; references, appendices (and NeurIPS's checklist) do not count; +1 page at camera-ready (ICLR: 10 pages at rebuttal and camera-ready) | Double-blind; NeurIPS checklist, ICML impact statement required; re-check every year |
 | ACL / EMNLP / NAACL (ARR) | Official ACL template, unmodified | Long 8 pages, short 4 | Required "Limitations" section, not counted; `natbib` author-year |
-| JMLR / TMLR | Venue's own LaTeX template | No page limit (long papers review more slowly) | Journal-style review, closer to a physics journal's process |
+| TMLR | Venue's own LaTeX template | No page limit (long papers review more slowly) | Journal-style open review, closer to a physics journal's process |
+| JMLR | Venue's own LaTeX template | Not checked (search report: no explicit limit; > 50 pages may be desk-rejected) | Journal review |
 | Statistics journals (JASA, Annals of Statistics, ...) | Usually plain `article`-based | Not checked | Journal-specific reference style; theorem/proof structure for theory papers |
 | arXiv preprint | Whatever the target journal uses, or `article` | Match target venue | arXiv runs BibTeX/biber itself; upload any `.sty`/`.cls` not in TeX Live; don't mix PS and PDF figures |
 
@@ -371,15 +379,6 @@ review. Grouped by function; within a group, order roughly follows the workflow.
   collaborations that skip arXiv entirely), desk rejections, editor queries and
   transfer offers, and single-shot conference rebuttals
 
-**Authoring a canonical worked example**
-- Authoring a canonical worked example (Contrast, Execution Trajectory, Gated
-  Pipeline, Decision-Tree, Interactive Elicitation, Adversarial Audit,
-  Test-First, or Postmortem archetype) for this or another skill's
-  `examples/` directory is covered by `task-authoring`'s
-  [example-authoring reference](../task-authoring/references/example-authoring.md),
-  not a file in this bundle — requires `task-authoring` installed alongside
-  this skill.
-
 **Verification, assessment, tracking, and disclosure**
 - Covered above under `## Focused verification and review modes`, which lists
   each mode's trigger and reference file: citation verification, systematic-review
@@ -402,7 +401,7 @@ review. Grouped by function; within a group, order roughly follows the workflow.
 - `references/artifact-packaging-for-release.md` — preparing the user's own
   code/data repository for public release (README, pinned environment,
   license, verified end-to-end reproduction), as the writing-side
-  counterpart to `reproducibility-auditing.md`
+  counterpart to `references/reproducibility-auditing.md`
 - `references/grant-and-fellowship-proposal-writing.md` — Specific Aims/
   research-statement structure, preliminary-results vs. proposed-work
   separation, broader-impacts sections, and budget-justification handling
@@ -447,14 +446,8 @@ review. Grouped by function; within a group, order roughly follows the workflow.
 
 ## Working style within this skill
 
-- **Never misrepresent a paper being read.** Distinguish clearly, in notes and in any
-  summary given to the user, between what a paper claims, what it actually
-  demonstrates, and any interpretation being added — do not blur these together, and
-  flag when a claim in the paper looks stronger than its own evidence supports.
-- **Preserve the user's actual results when writing.** Never invent numbers,
-  uncertainties, significances, or citations. If a value is missing, mark it clearly
-  (`[VALUE NEEDED: signal efficiency]`) rather than guessing or rounding to something
-  plausible-looking.
+- **Rules 1-4 above apply throughout.** In particular, keep separate what a paper
+  claims, what it demonstrates, and any interpretation being added.
 - **Match existing voice** when editing a draft rather than a blank page — improve
   clarity and correctness without rewriting a passage that already works, and flag
   the specific sentences changed rather than silently rewriting whole sections.

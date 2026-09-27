@@ -307,6 +307,7 @@ value comes from a search engine's copy of that official page.
 | EPJC | Springer Nature template, `[iicol]` | https://link.springer.com/journal/10052/submission-guidelines (search copy) | 2026-09 |
 | ApJ / ApJL | AASTeX v7, 250-word abstract, ApJL 3,500 words and 5 display items | https://journals.aas.org/aastexguide/ , https://journals.aas.org/manuscript-preparation/ , https://journals.aas.org/the-astrophysical-journal-letters/ | 2026-09 |
 | Nature Physics | Article: 3,000 words main text, 200-word summary, 6 display items | https://www.nature.com/nphys/content (search copy) | 2026-09 |
+| Nature Physics | Letters retired (2022) | editorial "A farewell to Letters", https://www.nature.com/articles/s41567-022-01621-z (search copy) | 2026-09 |
 | NeurIPS 2026 | 9 content pages, checklist | https://neurips.cc/Conferences/2026/MainTrackHandbook | 2026-09 |
 | ICML 2026 | 8 pages (+1 camera-ready), impact statement | https://icml.cc/Conferences/2026/CallForPapers | 2026-09 |
 | ICLR 2026 | 9 pages (10 at rebuttal/camera-ready) | https://iclr.cc/Conferences/2026/AuthorGuide | 2026-09 |

@@ -142,6 +142,11 @@ publication committee or spokesperson signs off. When helping at this stage:
 
 ## Responding to referee reports
 
+SKILL.md's rule 6 applies to every reply: draft the text (not strategy notes),
+thank the referee, concede what is valid, answer with the user's own numbers,
+state the exact manuscript change or an explicit reasoned decline, and add no
+comparisons or "standard" details the user did not give.
+
 Structure a response letter point-by-point, in the same order as the
 referee's report:
 
