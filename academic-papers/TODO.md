@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (academic-papers)
 
-State at 2026-09-27: P1 and P2 done on branch `academic-papers-todo-round1` (see the "TODO round 1" section of `VALIDATION.md`); P3 open, plus the P2 follow-ups below. Earlier state, 2026-09-21: skill is on `main`; `python3 -m unittest discover -s tests` and
+State at 2026-09-27: P1, P2 and most of P3 done on branch `academic-papers-todo-round1` (see the "TODO round 1" section of `VALIDATION.md`); open: the P2 follow-ups, the check_manuscript extension decision and the skill-reviewer pass. Earlier state, 2026-09-21: skill is on `main`; `python3 -m unittest discover -s tests` and
 `python3 scripts/validate_skill_bundle.py` pass. Verification so far is structural (bundle validator), plus
 unit tests for the two helper scripts and hand-checked numbers in a few examples. Nothing has been checked by
 running the skill on a fresh model, and none of the 41 references (~4,300 lines) or 24 examples has been audited
@@ -85,12 +85,12 @@ The workflows and modes are unproven until a fresh model is run on them.
 - [ ] Rerun `tests/run_prompts.py` (Haiku, skill arm, 2 runs) and the trigger sets after any SKILL.md change; use run-to-run comparisons with at least 2 runs, since Haiku varies by several verdicts between identical runs.
 
 ## P3 - improve content and structure
-- [ ] Progressive disclosure: `SKILL.md` is 416 lines and 41 references total ~4,300 lines. Confirm a typical task
+- [x] (2026-09-27: P2 skill runs read at most 3 references per task (Sonnet mean 0.6-1.2, Haiku 0.1); the flagged pairs each state their scope and point to each other, so no merge; SKILL.md grew to ~470 lines with the rules block, not trimmed) Progressive disclosure: `SKILL.md` is 416 lines and 41 references total ~4,300 lines. Confirm a typical task
       reads at most 2-3 references; trim `SKILL.md` toward a routing table, add "read only if" hints to vague
       rows, and check for overlapping references (e.g. `citation-verification` vs `claim-evidence-mapping`,
       `reproducibility-auditing` vs `manuscript-consistency-auditing`, `latex-and-formatting` vs
       `latex-mechanics-and-tooling` vs `multi-venue-reformatting`).
-- [ ] Coverage gaps to consider (confirm each is really missing before adding): collaboration-paper workflow
+- [x] (2026-09-27: confirmed missing and added to `references/submission-and-peer-review.md`: collaboration internal review, arXiv licence/ancillary files/replacements (checked on arXiv's help pages), desk rejection, editor queries, transfer offers. Already covered: data/code availability, AI-use disclosure, proceedings, non-native English) Coverage gaps to consider (confirm each is really missing before adding): collaboration-paper workflow
       (internal review, publication committee, authorlist/ collaboration policy), arXiv submission mechanics
       (source bundle, ancillary files, licence, categories), data-availability and code-availability
       statements per venue, AI-use disclosure policies, response to a desk rejection or editor query, journal
@@ -98,13 +98,13 @@ The workflows and modes are unproven until a fresh model is run on them.
 - [x] (dropped 2026-09-26 by the user's choice, with `examples/` removed; if a topic needs a model answer, add a short verified walkthrough inside its reference) Add worked examples for topics with none today; check which of the 41 references have no example, and
       cover at least: reading a paper and extracting a claim ledger, a figure interpretation, `.bib` cleanup,
       venue reformatting, code-to-methodology synthesis, arXiv submission.
-- [ ] Add a small end-to-end sample under `assets/` or `examples/` (paper skeleton + `.bib` + notes CSV) that runs
+- [x] (2026-09-27: `tests/test_end_to_end.py` runs the bundled skeleton + .bib through the checker, injects each mistake type, feeds build_lit_matrix output into the paper, and compiles with Tectonic when available) Add a small end-to-end sample under `assets/` or `examples/` (paper skeleton + `.bib` + notes CSV) that runs
       `check_manuscript.py` and `build_lit_matrix.py` in sequence and serves as a smoke test.
 - [ ] Extend `check_manuscript.py` only for checks that are mechanical and low-false-positive (unused bib
       entries, undefined refs, duplicate labels, unit spacing, `\ref` without `~`); ask before adding heuristics.
-- [ ] Multi-platform check (Codex, Antigravity): confirm `agents/openai.yaml` is current and no instructions
+- [x] (2026-09-27: no Claude-only tool dependencies in SKILL.md or references; `agents/openai.yaml` current) Multi-platform check (Codex, Antigravity): confirm `agents/openai.yaml` is current and no instructions
       depend on Claude-only tools. See the repo's multi-platform conventions (memory: multi-platform skills target).
-- [ ] Skill-doctor / skill-reviewer pass on `SKILL.md` and `README.md` (`plugin-dev:skill-reviewer`).
+- [ ] (2026-09-27: not run; `plugin-dev:skill-reviewer` is not installed in this environment) Skill-doctor / skill-reviewer pass on `SKILL.md` and `README.md` (`plugin-dev:skill-reviewer`).
 
 ## P4 - housekeeping and decisions
 - [x] (2026-09-26: already git-ignored; nothing to do) Remove stray `scripts/__pycache__` and `tests/__pycache__` from the working tree if untracked and not ignored.

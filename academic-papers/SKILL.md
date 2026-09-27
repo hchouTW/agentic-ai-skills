@@ -366,9 +366,10 @@ review. Grouped by function; within a group, order roughly follows the workflow.
 
 **Submission and peer review**
 - `references/submission-and-peer-review.md` — pre-submission checklist, cover
-  letters, referee response structure, revision tracking, arXiv submission
-  mechanics (including collaborations that skip arXiv entirely), and single-shot
-  conference rebuttals
+  letters, referee response structure, revision tracking, collaboration internal
+  review, arXiv submission mechanics (licence, ancillary files, replacements;
+  collaborations that skip arXiv entirely), desk rejections, editor queries and
+  transfer offers, and single-shot conference rebuttals
 
 **Authoring a canonical worked example**
 - Authoring a canonical worked example (Contrast, Execution Trajectory, Gated

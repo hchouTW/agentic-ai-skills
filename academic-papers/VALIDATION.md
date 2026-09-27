@@ -6,7 +6,7 @@ for a user's own manuscript or reading notes (a different, deliberately separate
 concern).
 
 Last pass: 2026-09-27 (TODO round 1, branch `academic-papers-todo-round1`). Counts: 60
-files in the bundle, 41 unit tests (`python3 -m unittest discover -s tests`), bundle
+files in the bundle, 45 unit tests (`python3 -m unittest discover -s tests`), bundle
 validator OK. Environment: Tectonic (miniconda) is the only TeX engine; no pdflatex,
 latexmk, bibtex or biber. Network access was available.
 
@@ -188,6 +188,26 @@ Most remaining misses are prompts that point at text not included ("this abstrac
 "reference [12]", "this paragraph"), where answering directly and asking for the text
 is reasonable. Sibling misses (task-authoring, agile-development, deep-learning, and
 `dataviz` taking a histogram request) belong to those skills.
+
+## TODO round 1: P3 content and structure (2026-09-27)
+
+- Progressive disclosure measured from the P2 runs: skill runs opened at most 3
+  references per task (Sonnet mean 0.6-1.2; Haiku 0.1, which is why the hard rules
+  had to move into SKILL.md). The three flagged "overlapping" pairs each state their
+  own scope and point to each other; nothing merged.
+- Coverage gaps confirmed by grep and added to `submission-and-peer-review.md`:
+  collaboration internal review (generic, since stage names differ per
+  collaboration), arXiv licence options, `anc/` ancillary files and replacements
+  (checked on info.arxiv.org on 2026-09-27), desk rejection, editor queries, transfer
+  offers (no publisher-specific rules stated).
+- `tests/test_end_to_end.py` (4 tests): the bundled skeleton and `.bib` pass the checker
+  and compile with Tectonic; each injected mistake type is reported; build_lit_matrix
+  output fed into the paper produces the expected missing-entry reports. 45 tests
+  total.
+- Multi-platform: no Claude-only tool dependencies; `agents/openai.yaml` current.
+- Not run: skill-reviewer (`plugin-dev:skill-reviewer` not installed). Not done: the
+  heuristic `check_manuscript.py` checks (unit spacing, `\ref` without `~`), pending
+  the user's decision as TODO.md requires.
 
 ## `validate_skill_bundle.py` — checks on this skill bundle
 
