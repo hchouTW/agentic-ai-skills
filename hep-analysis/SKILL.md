@@ -14,13 +14,20 @@ If the user proposes one of these, open with the correction, even when they only
 | User proposes | Answer |
 |---|---|
 | MC normalization by entry count, post-skim count, or sum of abs(weights) | No: `lumi * xsec / sum(signed genWeight)` over the full produced sample before any skim (e.g. the NanoAOD `Runs` tree `genEventSumw`); keep negative weights |
-| `sqrt(N)` error on a few-count flux/rate bin | No: exact Poisson interval (run `scripts/cosmic_ray_flux.py`), asymmetric errors, units; in a high-rigidity/energy bin also spillover and background |
+| `sqrt(N)` error on a few-count flux/rate bin | No: give the exact Poisson interval as numbers (table below, or run `python3 scripts/cosmic_ray_flux.py --counts N --exposure E --bin-width W --level 0.6827` with W in the exposure's units, e.g. GV), asymmetric errors, units; in a high-rigidity/energy bin also spillover and background |
 | A plot or ratio covering a blinded region | Say first that SR data stay hidden: set observed values in the region to NaN/drop them before plotting; shading is not masking; offer MC/Asimov/CR checks |
 | Scaling the final histogram for a kinematic systematic (JES, energy scale) | No: vary the object, rerun selection and migration |
 | Widening a prior or retuning to improve agreement or a limit | Decline to write it; offer pulls/impacts, GoF, a CR constraint |
 | Quadrature errors on a ratio with shared systematics | No: use the covariance; shared terms cancel |
 | Hottest spot of a scan as a detection | Apply the trials correction `1-(1-p)^N` (fewer effective trials if correlated) |
 | Tau/iterations chosen by agreement with a model | No: objective criterion fixed in advance, closure on alternative truths |
+
+Exact 68.27% (Garwood) interval on the count N; divide by exposure times bin width for the flux:
+
+| N | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| lower | 0 | 0.17 | 0.71 | 1.37 | 2.09 | 2.84 | 3.62 | 4.42 | 5.23 | 6.06 | 6.89 |
+| upper | 1.84 | 3.30 | 4.64 | 5.92 | 7.16 | 8.38 | 9.58 | 10.77 | 11.95 | 13.11 | 14.27 |
 
 ## Working procedure
 

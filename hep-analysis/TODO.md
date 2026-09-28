@@ -81,7 +81,7 @@ The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven
 - [x] (2026-09-26: moved to the academic-papers, academic-diagrams, agile-development, deep-learning and ams-analysis TODO lists with per-query counts; task-authoring was 4/4 correct) Sibling skills (not hep-analysis): the isolated harness showed that academic-papers (BibTeX/INSPIRE, paper critique), academic-diagrams (Mermaid to SVG, TikZ) and agile-development (sprint planning) are often not invoked at all, even on Sonnet. Move these findings to those skills' TODO lists.
 
 ## Follow-ups found 2026-09-28 (round 5)
-- [ ] P08 on Haiku stays PARTIAL: it says no to sqrt(N) and names `cosmic_ray_flux.py`, but does not run it or give the [1.37, 5.92] interval. Haiku in `claude -p` almost never opens a reference, so anything that must happen has to be in SKILL.md.
+- [x] (2026-09-28: exact command + Garwood table in SKILL.md, guarded by a test; Haiku P08 2 PASS + 1 PARTIAL of 3) P08 on Haiku stays PARTIAL: it says no to sqrt(N) and names `cosmic_ray_flux.py`, but does not run it or give the [1.37, 5.92] interval. Haiku in `claude -p` almost never opens a reference, so anything that must happen has to be in SKILL.md.
 - [ ] If formula-lookup recall matters more: remaining Haiku misses are self-contained numeric questions (calorimeter resolution 0/4, Cherenkov angle, photoelectron yield, TOF reach). Any further description change needs a *fourth* fresh set; `trigger_queries_formula.json` has now been used once for evaluation.
 - [ ] Sonnet routed the TOF+rigidity mass question (`m = R Z sqrt(1/beta^2-1)`) to ams-analysis 2/2; decide whether that is acceptable (AMS-like observable) or a routing gap.
 

@@ -4,7 +4,7 @@ Validation date: 2026-09-28 (latest pass; earlier passes dated below). Helper te
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
-Current counts: bundle 117 required files (plus 40 eval cases in `evals/`); 204 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+Current counts: bundle 117 required files (plus 40 eval cases in `evals/`); 205 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
 
 ## TODO round 5: Haiku prompt rerun, formula-lookup triggering (2026-09-28, branch `hep-analysis-todo-round5`)
 
@@ -65,6 +65,13 @@ Current counts: bundle 117 required files (plus 40 eval cases in `evals/`); 204 
     TOF-plus-rigidity mass question to ams-analysis 2/2. In the second "after" Haiku formula run, 8 negative runs
     errored (a usage limit was hit mid-run). They were rerun once and are counted in the table (0/8 false triggers).
 - Tests: 204 OK (12 skips). Bundle OK (117 files).
+- **P08 follow-up (same day).** The check-first row now gives the exact `cosmic_ray_flux.py` command:
+  in run B one run had invented a `--cl` flag. SKILL.md also has a table of exact 68.27% Garwood
+  intervals for N = 0-10, computed with `scipy.stats.chi2` and matching `poisson_interval`.
+  A new test (`SkillGarwoodTableTest` in `tests/test_reference_values.py`) keeps the table in sync with
+  the script. A mutation check confirmed that it fails on a wrong value. P08 on Haiku, 3 runs: **2 PASS**
+  (the interval [1.37, 5.92] counts, the flux [1.27, 5.48]e-7 (m^2 sr s TV)^-1, spillover and background),
+  plus **1 PARTIAL** (it gave the interval but opened with "Yes, structurally that's right"). No FAIL. Tests: 205 OK (12 skips).
 
 ## Harness update (2026-09-27, during academic-papers round 1)
 
