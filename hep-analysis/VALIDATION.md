@@ -1,10 +1,43 @@
 # Package Validation Record
 
-Validation date: 2026-09-28 (latest pass; earlier passes dated below). Helper test
+Validation date: 2026-09-28, round 6 (latest pass; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
-Current counts: bundle 117 required files (plus 40 eval cases in `evals/`); 205 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+Current counts: bundle 118 required files (plus 40 eval cases in `evals/`); 205 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## TODO round 6: formula recall on a fourth set, TOF-mass routing (2026-09-28, branch `hep-analysis-todo-round6`)
+
+- **Fourth fresh query set `tests/trigger_queries_calc.json`.** It has 20 quick calculations
+  (detector, collider, statistics, astroparticle) and 20 negatives: 12 non-HEP calculations and
+  8 owned by sibling skills. None of these queries was used to write the variant tested here.
+- **One description variant tested:** "including quick calculations, formula lookups, how-to or
+  conceptual questions" (1012 characters). To make room, it dropped "RooStats/" and "/data-driven".
+  Isolated `routing_eval.py`, Haiku, 2 runs per query, two repetitions each:
+
+  | Description | Recall | False triggers |
+  |---|---|---|
+  | current (round 5) | 35/40, 30/40 (65/80) | 0/80 |
+  | variant | 35/40, 35/40 (70/80) | 0/80 |
+
+  - **Not adopted.** The +5/80 is no larger than the spread between the two baseline repetitions
+    (35 vs 30), and the variant removes keywords (RooStats, data-driven) that other queries
+    rely on. The round-5 description stays. No further description tuning is planned; the
+    wording change alone no longer shows a measurable effect.
+  - Residual Haiku misses (both descriptions): the tracker sagitta calculation (8/8 runs missed),
+    photon conversion probability, impact-parameter resolution, carbon rigidity per nucleon,
+    integral proton flux, and the ttbar event count. These are self-contained arithmetic that
+    Haiku answers directly.
+  - Sibling misses seen in passing (not hep-analysis): deep-learning (GPU-hours, VAE KL) and
+    agile-development (story points) got no skill 4/4. The Metropolis-Hastings flowchart went to
+    the built-in `dataviz` and the prompt token budget went to `claude-api` (4/4 each).
+- **TOF-mass routing decision.** The formula-set query "Mass from TOF and rigidity: m = R Z
+  sqrt(1/beta^2 - 1) ..." went to ams-analysis in 4/4 Sonnet runs. Two detector-agnostic rewordings
+  of the same physics went to hep-analysis in 4/4 runs each, and an AMS RICH control went to
+  ams-analysis in 4/4. The trigger is AMS vocabulary: ams-analysis lists "rigidity/charge/velocity/mass
+  observables". **Judged acceptable:** that case now has `also_ok: ["ams-analysis"]`. It is not a
+  hep-analysis gap, because generic wording routes to hep-analysis.
+- Tests: 205 OK (12 skips). Bundle OK (118 files).
 
 ## TODO round 5: Haiku prompt rerun, formula-lookup triggering (2026-09-28, branch `hep-analysis-todo-round5`)
 

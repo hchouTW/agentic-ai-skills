@@ -134,6 +134,7 @@ REQUIRED_PATHS = [
     "tests/routing_eval.py",
     "tests/prompts_eval.py",
     "tests/trigger_queries_formula.json",
+    "tests/trigger_queries_calc.json",
 ]
 
 REQUIRED_README_SECTIONS = [
