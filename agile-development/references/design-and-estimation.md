@@ -2,7 +2,8 @@
 
 Use this reference for work large or risky enough that jumping straight to code
 would waste effort on the wrong approach, and for communicating how long
-something will take and how confident that number is.
+something will take and how confident that number is, including planning what fits
+in a sprint.
 
 ## When a change needs a design doc first
 
@@ -78,6 +79,24 @@ erodes trust the first time it's wrong for a reason nobody flagged in advance.
   sidesteps unstated assumptions about focus time, interruptions, and review
   latency that differ between people and periods - use whichever unit the team
   already has calibration data for.
+
+### Sprint (iteration) planning
+
+- Start from the team's own capacity for this sprint (people-days after leave,
+  on-call and meetings) and its recent velocity in the unit it already uses; if
+  neither is known, ask instead of inventing one.
+- Size each story with the team's scale (points, t-shirt sizes or days). Split any
+  story too big to finish inside the sprint into thin vertical slices (see
+  [product-framing.md](product-framing.md)'s Slicing section) rather than carrying a
+  half-done story over.
+- Only commit stories that meet a readiness bar: acceptance criteria written, open
+  questions and dependencies named. A story with an unresolved dependency goes in
+  as a spike or waits.
+- Commit to less than the full capacity (a common rule of thumb is about 70-80%) to
+  leave room for bugs, reviews and interruptions, and list the stretch items
+  separately so the commitment stays honest.
+- State the sprint goal in one sentence and the assumptions the plan rests on, so
+  a slipped dependency is visible as a re-plan trigger, not a silent overrun.
 
 ## Feature flags and progressive rollout as risk-reduction tools
 

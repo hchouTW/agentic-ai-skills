@@ -1,0 +1,98 @@
+[
+ {
+  "query": "the signup form accepts empty emails, can you fix that",
+  "expect_target": true,
+  "owner": "agile-development"
+ },
+ {
+  "query": "add rate limiting to the login endpoint",
+  "expect_target": true,
+  "owner": "agile-development"
+ },
+ {
+  "query": "rename the `usr` module to `users` across the codebase",
+  "expect_target": true,
+  "owner": "agile-development"
+ },
+ {
+  "query": "upgrade flask to 3.1",
+  "expect_target": true,
+  "owner": "agile-development"
+ },
+ {
+  "query": "add CSV export to the orders page",
+  "expect_target": true,
+  "owner": "agile-development"
+ },
+ {
+  "query": "the nightly job crashed at 3am and orders didn't sync, what do we do",
+  "expect_target": true,
+  "owner": "agile-development"
+ },
+ {
+  "query": "split cart.py into smaller modules without changing behavior",
+  "expect_target": true,
+  "owner": "agile-development"
+ },
+ {
+  "query": "add a `--json` output option to the CLI",
+  "expect_target": true,
+  "owner": "agile-development"
+ },
+ {
+  "query": "we need to add a NOT NULL `currency` column to orders",
+  "expect_target": true,
+  "owner": "agile-development"
+ },
+ {
+  "query": "can you look over this PR before I merge it",
+  "expect_target": true,
+  "owner": "agile-development"
+ },
+ {
+  "query": "should sessions live in Redis or Postgres?",
+  "expect_target": true,
+  "owner": "agile-development"
+ },
+ {
+  "query": "estimate how long the refund feature will take",
+  "expect_target": true,
+  "owner": "agile-development"
+ },
+ {
+  "query": "what does `functools.lru_cache` do?",
+  "expect_target": false
+ },
+ {
+  "query": "fine-tune a ResNet on my images",
+  "expect_target": false,
+  "owner": "deep-learning"
+ },
+ {
+  "query": "write a Jira ticket describing the refund feature for the team",
+  "expect_target": false,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "plot this invariant-mass histogram with a Gaussian fit",
+  "expect_target": false,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "explain the CAP theorem",
+  "expect_target": false
+ },
+ {
+  "query": "convert this markdown table to CSV",
+  "expect_target": false
+ },
+ {
+  "query": "how do I undo my last git commit?",
+  "expect_target": false
+ },
+ {
+  "query": "write the related-work section for my paper",
+  "expect_target": false,
+  "owner": "academic-papers"
+ }
+]

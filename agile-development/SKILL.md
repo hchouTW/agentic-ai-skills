@@ -1,6 +1,6 @@
 ---
 name: agile-development
-description: "Use when making any non-trivial software change - features, bug fixes, refactors, endpoints, UI work, migrations, dependency updates - turning a request into a small, verified, reviewable increment with acceptance criteria and a validation plan. Also covers reviewing a PR, incident response/postmortems, working safely in legacy code without tests, architectural decisions (boundaries, dependency direction, data ownership, ADRs), design docs, estimation, and feature-flagged rollout planning. Triggers on 'implement', 'fix', 'add', 'refactor', 'migrate', 'update', or scoping/reviewing a change, without saying 'Agile'. Also covers implementation discipline (ask vs. assume on ambiguity, minimal changes, avoiding scope creep, verifiable done) - trigger for 'is this overcomplicated', 'am I over-engineering this'. Not for writing a standalone ticket/spec document for someone else to implement (use task-authoring)."
+description: "Use when making any non-trivial software change - features, bug fixes, refactors, endpoints, UI work, migrations, dependency updates - turning a request into a small, verified, reviewable increment with acceptance criteria and a validation plan. Also covers reviewing a PR, incident response/postmortems, working safely in legacy code without tests, architectural decisions (boundaries, dependency direction, data ownership, ADRs), design docs, estimation and sprint planning (sizing stories, fitting a backlog to a sprint), and feature-flagged rollout planning. Triggers on 'implement', 'fix', 'add', 'refactor', 'migrate', 'update', or scoping/reviewing a change, without saying 'Agile'. Also covers implementation discipline (ask vs. assume on ambiguity, minimal changes, avoiding scope creep, verifiable done) - trigger for 'is this overcomplicated', 'am I over-engineering this'. Not for writing a standalone ticket/spec document for someone else to implement (use task-authoring)."
 ---
 
 # Agile Development
@@ -27,7 +27,8 @@ done, reported honestly.
 5. **Implement inside existing conventions.** Match style, naming, and structure;
    avoid unrelated refactors or formatting churn - see
    [references/implementation-discipline.md](references/implementation-discipline.md)
-   for minimal-code guidance.
+   for minimal-code guidance. If you add logic to a code file, the file-level header
+   block (see Code File Requirement) is part of this step, not a follow-up.
 6. **Add or update tests** proportional to behavior, risk, and blast radius - see
    [references/validation-and-done.md](references/validation-and-done.md).
 7. **Run validation**, narrowest first (the specific test), then broader checks
@@ -66,6 +67,8 @@ covering:
 
 For existing files, add or update this block if missing or outdated, proportional to
 the file's complexity, and review it in the diff so it doesn't drift from the code.
+A docstring on the new function does not count: the block sits at the top of the file.
+Do not defer it as out of scope; the request to add logic is what brings it in scope.
 
 This block is the one deliberate exception to "every changed line traces to the request";
 a small logic fix in a file whose block is already accurate needs no change to it.
@@ -96,7 +99,7 @@ report rather than adding one to a trivial diff.
 - **Bash design - load only when designing Bash code** (functions vs. associative arrays, avoiding simulated OOP,
   trap-based cleanup, quoting/`set -euo pipefail` discipline) ->
   [references/bash-balanced-design-guidelines.md](references/bash-balanced-design-guidelines.md)
-- **Design docs/RFCs, estimation and spikes, feature flags and progressive rollout** ->
+- **Design docs/RFCs, estimation and spikes, sprint planning, feature flags and progressive rollout** ->
   [references/design-and-estimation.md](references/design-and-estimation.md)
 - **Software architecture, component boundaries, dependency direction, data
   ownership, architectural tradeoffs, or ADRs** ->
@@ -132,6 +135,8 @@ Copy these into a task when structured notes help:
   that SKILL.md/README.md have their expected structure (standard library only).
 - `tests/test_agile_skill.py` - standard-library tests for `create_story_card.py`/
   `validate_agile_notes.py`. Run `python3 -m unittest discover -s tests -v`.
+- `tests/behavior_eval.py`, `tests/trigger_queries.json` - model-behavior and trigger
+  evals for maintainers (call the `claude` CLI; see README).
 
 Run with `python3`. Read a script before changing it.
 

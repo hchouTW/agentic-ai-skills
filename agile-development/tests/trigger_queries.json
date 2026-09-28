@@ -1,0 +1,273 @@
+[
+ {
+  "query": "add pagination to the users API",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "fix this flaky checkout bug",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "migrate this table to a new schema",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "is this over-engineered?",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "write the postmortem for last night's outage",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "bump lodash to 4.17.21 and make sure the build still passes",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "refactor the auth middleware without changing behavior",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "add a /health endpoint to the service",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "the cart total is wrong with discount codes, find and fix it",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "review my diff before I open the PR",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "add a dark-mode toggle to the settings page",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "prod is returning 500s since the last deploy, help",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "this 300-line function has no tests, I need to add refund handling to it",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "should we split billing into its own service?",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "how long will adding SSO take?",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "roll out the new search ranking to 5% of users first",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "drop the legacy_id column from orders safely",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "add a --dry-run flag to our CLI",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "write a design doc for moving sessions to Redis",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "am I over-engineering this factory registry?",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "prompts.md"
+ },
+ {
+  "query": "explain Python decorators",
+  "expect_target": false,
+  "set": "prompts.md"
+ },
+ {
+  "query": "write a PyTorch training loop",
+  "expect_target": false,
+  "set": "prompts.md",
+  "owner": "deep-learning"
+ },
+ {
+  "query": "draft a ticket for the SSO work",
+  "expect_target": false,
+  "set": "prompts.md",
+  "owner": "task-authoring"
+ },
+ {
+  "query": "fit this histogram in ROOT",
+  "expect_target": false,
+  "set": "prompts.md",
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "what does this regex do?",
+  "expect_target": false,
+  "set": "prompts.md"
+ },
+ {
+  "query": "fix the typo 'recieve' in README.md",
+  "expect_target": false,
+  "set": "prompts.md",
+  "also_ok": [
+   "agile-development"
+  ]
+ },
+ {
+  "query": "what is the difference between a list and a tuple in Python?",
+  "expect_target": false,
+  "set": "prompts.md"
+ },
+ {
+  "query": "summarize this arXiv paper",
+  "expect_target": false,
+  "set": "prompts.md",
+  "owner": "academic-papers"
+ },
+ {
+  "query": "draw a flowchart of our analysis pipeline",
+  "expect_target": false,
+  "set": "prompts.md",
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "format my manuscript for JHEP",
+  "expect_target": false,
+  "set": "prompts.md",
+  "owner": "academic-papers"
+ },
+ {
+  "query": "debug the NaN loss in my transformer",
+  "expect_target": false,
+  "set": "prompts.md",
+  "owner": "deep-learning"
+ },
+ {
+  "query": "compute the AMS-02 proton flux from counts and exposure",
+  "expect_target": false,
+  "set": "prompts.md",
+  "owner": "ams-analysis"
+ },
+ {
+  "query": "write a BibTeX entry for this paper",
+  "expect_target": false,
+  "set": "prompts.md",
+  "owner": "academic-papers"
+ },
+ {
+  "query": "explain how git rebase works",
+  "expect_target": false,
+  "set": "prompts.md"
+ },
+ {
+  "query": "what does the `??` operator do in JavaScript?",
+  "expect_target": false,
+  "set": "prompts.md"
+ },
+ {
+  "query": "turn this idea into a spec another agent can implement",
+  "expect_target": false,
+  "set": "prompts.md",
+  "owner": "task-authoring"
+ },
+ {
+  "query": "generate a canonical worked example for the Contrast archetype",
+  "expect_target": false,
+  "set": "prompts.md",
+  "owner": "task-authoring"
+ },
+ {
+  "query": "design a prompt with a token budget for classifying support emails",
+  "expect_target": false,
+  "set": "prompts.md",
+  "owner": "task-authoring"
+ },
+ {
+  "query": "translate this paragraph into French",
+  "expect_target": false,
+  "set": "prompts.md"
+ },
+ {
+  "query": "what is the time complexity of quicksort?",
+  "expect_target": false,
+  "set": "prompts.md"
+ },
+ {
+  "query": "Plan our next two-week sprint and estimate these user stories.",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "sprint-2026-09-27"
+ },
+ {
+  "query": "We have 4 devs and 10 working days; which of these backlog items fit in the sprint?",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "sprint-2026-09-27"
+ },
+ {
+  "query": "Help me size these stories in story points before sprint planning tomorrow.",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "sprint-2026-09-27"
+ },
+ {
+  "query": "Our velocity is about 30 points. Build the sprint backlog from this list.",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "sprint-2026-09-27"
+ },
+ {
+  "query": "Break this epic into stories small enough to finish in one sprint.",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "sprint-2026-09-27"
+ },
+ {
+  "query": "What should our sprint goal be, given these tickets?",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "sprint-2026-09-27"
+ }
+]

@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (agile-development)
 
-State at 2026-09-21: skill is on `main`; `python3 -m unittest discover -s tests` (41 tests) and
+State at 2026-09-27 (round 2 on branch `agile-development-todo-round2`; see the "Round 2" section of `VALIDATION.md`). Earlier state, 2026-09-21: skill is on `main`; `python3 -m unittest discover -s tests` (41 tests) and
 `python3 scripts/validate_skill_bundle.py` (48 files) pass. Existing verification (see `VALIDATION.md`) is structural:
 helper-script unit tests, cross-link/consistency audits, and example-format checks. The workflow guidance in
 `SKILL.md` and `references/` has never been run on a fresh model to see if it changes behavior. Read `VALIDATION.md`
@@ -28,21 +28,28 @@ git-ignored; do not treat them as live code.
 - [~] (2026-09-21/22: H1-H9 run 3x per cell per arm on Sonnet, Haiku and Opus, plus the question-count cap re-check; results in `VALIDATION.md`; the original 15 prompts mostly do not discriminate and were not repeated; open items are the three checkboxes below) Run each prompt in a fresh subagent with and without the skill; score against the expectations; log pass/fail in
       `VALIDATION.md`. Repeat with Haiku (weaker) and Opus if possible. Look especially for: claiming tests passed
       without running them, scope creep, over-asking, skipping the honest report.
-- [ ] Build a blind scorer for the H1-H9 runs: strip skill mentions from the plans (or randomise wording) so the scorer
+- [x] (2026-09-27: `tests/behavior_eval.py score --blind`; Haiku H1-H9, open vs blind agree on 164/180 verdicts, same direction on every separating bullet; but the scorer still guessed the arm 41/54 right from plan structure, so it is not truly blind) Build a blind scorer for the H1-H9 runs: strip skill mentions from the plans (or randomise wording) so the scorer
       cannot tell the arms apart, then re-score and compare with the non-blind verdicts in `VALIDATION.md`.
-- [ ] Haiku only followed the header rule in 1 of 3 skill runs (H1). Decide whether to make the Code File Requirement more
+- [x] (2026-09-27: workflow step 5 + "a docstring does not count, do not defer it"; Haiku H1 (a) now 3/3, baseline 0/3) Haiku only followed the header rule in 1 of 3 skill runs (H1). Decide whether to make the Code File Requirement more
       prominent in `SKILL.md` for weaker models, then re-run H1 on Haiku (3 runs) to check.
-- [ ] Rubric fixes before the next run: H6 (b) measures a final report but runs write plan plus message; the "did not claim
+- [x] (2026-09-27: done in `tests/prompts.md`; both artifacts gone in the Haiku round) Rubric fixes before the next run: H6 (b) measures a final report but runs write plan plus message; the "did not claim
       anything was verified" bullets in H7-H9 are an artifact of plan-only runs (they say they read a repo they never saw).
-- [~] (2026-09-21: 20+20 queries written and run once, 40/40 correct on the agile-development criterion; caveats in `VALIDATION.md`; 2026-09-21: re-run with real installed descriptions, 50/50 incl. 10 boundary queries, see `VALIDATION.md`; still open: a second scorer and repeated runs) Trigger test for the frontmatter `description`: 20 should-trigger and 20 should-not-trigger queries. Near-misses:
+- [~] (2026-09-21: 20+20 queries written and run once, 40/40 correct on the agile-development criterion; caveats in `VALIDATION.md`; 2026-09-21: re-run with real installed descriptions, 50/50 incl. 10 boundary queries, see `VALIDATION.md`; 2026-09-27: real-harness runs replace the classifier: Haiku 0/52, Sonnet 10-11/52, 0 false triggers; a directive rewrite did not help and was reverted; see the item below) Trigger test for the frontmatter `description`: 20 should-trigger and 20 should-not-trigger queries. Near-misses:
       `task-authoring` (write a standalone ticket/spec), `deep-learning`/`hep-analysis` (domain code), pure Q&A
       about a language feature, a one-line typo fix. Consider `skill-creator` description optimization.
 - [x] (2026-09-21: "Not for ..." sentence added to both descriptions, suites pass; no model re-test, see `VALIDATION.md`) Routing hygiene with sibling skills: `agile-development` vs `task-authoring` (live scoping vs a written
       task document). Run `skill-router`'s validator and tests after any description change.
-- [ ] Under-triggering found by the isolated routing eval (2026-09-26, `hep-analysis/tests/routing_eval.py` on `hep-analysis/tests/trigger_queries_holdout.json`, all 7 repo skills loaded as project skills, 2 runs per query; "none" = the model answered without invoking any skill): "Plan our next two-week sprint and estimate these user stories" 0/2 Haiku,
+- [x] (2026-09-27: decided in scope without an answer from the user (revert if unwanted); sprint subsection + description wording; Sonnet sprint 4-5/12 alone, 12/12 with a CLAUDE.md rule; Haiku 0/12) Under-triggering found by the isolated routing eval (2026-09-26, `hep-analysis/tests/routing_eval.py` on `hep-analysis/tests/trigger_queries_holdout.json`, all 7 repo skills loaded as project skills, 2 runs per query; "none" = the model answered without invoking any skill): "Plan our next two-week sprint and estimate these user stories" 0/2 Haiku,
       0/2 Sonnet (none every time). The description lists "estimation" but never mentions sprints or
       backlog planning; decide whether sprint planning is in scope (ask the user). If yes, name it in the description
       and rerun with the harness.
+
+- [ ] Under-triggering on ordinary coding requests (2026-09-27, `routing_eval.py --fixture tests/fixtures/shop_repo`):
+      from the description alone Sonnet loads the skill in ~20% of should-trigger runs and Haiku in none; a one-line
+      project `CLAUDE.md` rule lifts Sonnet to 48/52 (held-out 21/24) but not Haiku (0/52). Open: (a) rerun with the
+      user's plugins installed (the harness drops them, so real recall may be lower); (b) find anything that makes
+      Haiku load it (an AGENTS.md-style rule naming the skill directly, a SessionStart hook), or accept that Haiku
+      needs it named; (c) "review my diff" is answered directly even with the rule.
 
 ## P2 - close verification gaps in helpers and guidance
 - [x] (2026-09-21: found and fixed BOM, closing-`##`, fenced-code, `Works!` and empty-field defects; 9 regression tests added, 41 tests total. Setext headings remain unsupported by design.) Test `scripts/create_story_card.py` and `scripts/validate_agile_notes.py` on messy input: empty strings, unicode,
@@ -58,7 +65,7 @@ git-ignored; do not treat them as live code.
       what `SKILL.md` says, and note where the instructions were unclear or missing.
 
 ## P3 - improve content and structure
-- [~] (2026-09-21: load-only-when hints added for language guides; reads-per-task not measured on a model) Progressive disclosure: `SKILL.md` is 161 lines and references ~4,600. Confirm a typical task reads at most 2-3
+- [x] (2026-09-21: load-only-when hints added for language guides; 2026-09-27: measured on Haiku H1-H9, mean 0.4 references per skill run, max 3) Progressive disclosure: `SKILL.md` is 161 lines and references ~4,600. Confirm a typical task reads at most 2-3
       references; add "read only if" hints where a routing row is vague. Check that C++/Python/Bash guides are only
       loaded when code in that language is being designed.
 - [x] (2026-09-21: cross-references added, content left in place) Look for overlap: `implementation-discipline.md` vs `validation-and-done.md` vs `risk-and-quality.md`

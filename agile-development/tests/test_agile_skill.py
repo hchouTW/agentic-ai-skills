@@ -343,3 +343,31 @@ class ValidateNotesCliOptInTests(unittest.TestCase):
                            "--require-plan-verification")
         self.assertEqual(result.returncode, 2)
         self.assertNotIn("Traceback", result.stderr)
+
+
+sys.path.insert(0, str(ROOT / "tests"))
+import behavior_eval  # noqa: E402
+
+
+class BehaviorEvalOfflineTests(unittest.TestCase):
+    """Offline parts of tests/behavior_eval.py (no model calls)."""
+
+    def test_prompts_table_parses_all_h_rows_with_bullets(self):
+        prompts = behavior_eval.load_prompts()
+        self.assertEqual([p["id"] for p in prompts], [f"H{i}" for i in range(1, 10)])
+        for p in prompts:
+            self.assertGreaterEqual(len(p["bullets"]), 3, p["id"])
+            self.assertEqual(p["bullets"][0], "a", p["id"])
+
+    def test_redact_removes_skill_names_paths_and_sections(self):
+        text = ("Per the agile-development skill (SKILL.md, Code File Requirement) and "
+                "references/implementation-discipline.md, I read "
+                ".claude/skills/agile-development/SKILL.md; the skill's Core Workflow says so.")
+        out = behavior_eval.redact(text).lower()
+        for leak in ("agile", "skill", "discipline", "code file requirement",
+                     "core workflow", ".claude", "references/"):
+            self.assertNotIn(leak, out)
+
+    def test_redact_leaves_ordinary_plan_text_alone(self):
+        text = "1. Add `days_between(a, b)` to utils/dates.py and a test in tests/test_dates.py."
+        self.assertEqual(behavior_eval.redact(text), text)
