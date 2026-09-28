@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (hep-analysis)
 
-State at 2026-09-28 (round 5 on branch `hep-analysis-todo-round5`; round 4 on `hep-analysis-todo-round3`, see VALIDATION.md): P1-P4 done except open follow-ups (see the 2026-09-24 section of `VALIDATION.md`). Earlier state, 2026-09-21: skill is on `main`; the standard-library tests and `scripts/validate_skill_bundle.py` pass
+State at 2026-09-28 (round 6 on branch `hep-analysis-todo-round6`; round 5 merged via PR #28; round 4 on `hep-analysis-todo-round3`, see VALIDATION.md): P1-P4 done except open follow-ups (see the 2026-09-24 section of `VALIDATION.md`). Earlier state, 2026-09-21: skill is on `main`; the standard-library tests and `scripts/validate_skill_bundle.py` pass
 (see `VALIDATION.md`). Most of the verification so far was structural or numerical on pure-Python helpers. Nothing
 in the skill has been checked by running it on a fresh model. Read `VALIDATION.md` first, then this file.
 
@@ -82,8 +82,8 @@ The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven
 
 ## Follow-ups found 2026-09-28 (round 5)
 - [x] (2026-09-28: exact command + Garwood table in SKILL.md, guarded by a test; Haiku P08 2 PASS + 1 PARTIAL of 3) P08 on Haiku stays PARTIAL: it says no to sqrt(N) and names `cosmic_ray_flux.py`, but does not run it or give the [1.37, 5.92] interval. Haiku in `claude -p` almost never opens a reference, so anything that must happen has to be in SKILL.md.
-- [ ] If formula-lookup recall matters more: remaining Haiku misses are self-contained numeric questions (calorimeter resolution 0/4, Cherenkov angle, photoelectron yield, TOF reach). Any further description change needs a *fourth* fresh set; `trigger_queries_formula.json` has now been used once for evaluation.
-- [ ] Sonnet routed the TOF+rigidity mass question (`m = R Z sqrt(1/beta^2-1)`) to ams-analysis 2/2; decide whether that is acceptable (AMS-like observable) or a routing gap.
+- [x] (2026-09-28, round 6: fourth set `tests/trigger_queries_calc.json`; a "quick calculations" variant scored 70/80 vs 65/80, within noise, not adopted; see VALIDATION.md) If formula-lookup recall matters more: remaining Haiku misses are self-contained numeric questions (calorimeter resolution 0/4, Cherenkov angle, photoelectron yield, TOF reach). Any further description change needs a *fourth* fresh set; `trigger_queries_formula.json` has now been used once for evaluation.
+- [x] (2026-09-28: acceptable. The AMS-vocabulary wording goes to ams-analysis 4/4 and generic wordings go to hep-analysis 4/4; the case now has `also_ok`) Sonnet routed the TOF+rigidity mass question (`m = R Z sqrt(1/beta^2-1)`) to ams-analysis 2/2; decide whether that is acceptable (AMS-like observable) or a routing gap.
 
 ## P3 - improve content and structure
 - [x] (2026-09-25: P2 agents read 1-3 references per task; ref 14 (1,300 lines) got a task-to-section map) `SKILL.md` is ~180 lines and the references total ~7,200 lines: check progressive disclosure. Confirm that a
@@ -102,6 +102,6 @@ The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven
 
 ## P4 - housekeeping and decisions
 - [x] (already gitignored; no action) Remove stray `scripts/__pycache__` and `tests/__pycache__` from the working tree if they are untracked and not ignored.
-- [ ] Update `VALIDATION.md` header date and counts (file count, test count) after each pass. (Recurring; last done 2026-09-28, round 5.)
+- [ ] Update `VALIDATION.md` header date and counts (file count, test count) after each pass. (Recurring; last done 2026-09-28, round 6.)
 - [x] Asked 2026-09-24: all three matter equally (AMS-02/space-based, CMS/ATLAS collider, IACT/neutrino/air shower), so balance the P2 prompts across them.
 - [x] Asked 2026-09-24: yes. Added as "Latest-results policy" in `references/13-sources.md`.

@@ -18,7 +18,7 @@
  {"query": "Heitler model: how does the number of muons in an air shower scale with primary energy and mass?", "expect_hep_analysis": true, "owner": "hep-analysis"},
  {"query": "Energy threshold of an IACT: why does it scale with mirror area and what sets the night-sky background limit?", "expect_hep_analysis": true, "owner": "hep-analysis"},
  {"query": "Neutrino event rate: fold an E^-2 flux of 1e-8 GeV cm^-2 s^-1 sr^-1 with an effective area of 10 m^2 at 100 TeV, how many events per year?", "expect_hep_analysis": true, "owner": "hep-analysis"},
- {"query": "Mass from TOF and rigidity: m = R Z sqrt(1/beta^2 - 1), how does the mass resolution depend on beta resolution?", "expect_hep_analysis": true, "owner": "hep-analysis"},
+ {"query": "Mass from TOF and rigidity: m = R Z sqrt(1/beta^2 - 1), how does the mass resolution depend on beta resolution?", "expect_hep_analysis": true, "owner": "hep-analysis", "also_ok": ["ams-analysis"]},
  {"query": "What's the critical angle for total internal reflection at a glass-air interface with n = 1.5?", "expect_hep_analysis": false, "owner": null},
  {"query": "Give me the formula for the half-life from a decay constant, and compute it for lambda = 0.01 per day.", "expect_hep_analysis": false, "owner": null},
  {"query": "What's the Stokes drag on a 1 mm sphere falling in glycerol?", "expect_hep_analysis": false, "owner": null},
