@@ -1,46 +1,64 @@
 # ams-analysis: open work for the next session
 
-State (2026-09-25): working branch `ams-analysis-round5`; earlier work merged to `main` (latest: PR #11, S01 claims). Earlier note: all required work from the task brief is done and validated (`python3 scripts/validate_skill_bundle.py` OK with 38 files; `python3 -m unittest discover -s tests` 238 tests OK; `python3 scripts/render_source_index.py` in sync). Read `VALIDATION.md` first: it records what was run, what was self-graded versus independently graded, and every known gap. Do not repeat finished work; do not claim a check passed without running it.
+State (verified 2026-09-28 on `main`, all work merged; round 5 via PR #20): `python3 scripts/validate_skill_bundle.py` OK with 38 files; `python3 -m unittest discover -s tests` 238 tests OK; `python3 scripts/render_source_index.py` in sync. Latest behavioral result: grading round 5 scored **81.6%, below the 90% bar** (`tests/grading/round5.md`). Read `VALIDATION.md` first: it records what was run, what was self-graded versus independently graded, and every known gap. Do not repeat finished work; do not claim a check passed without running it.
 
-Ground rules that still apply: standard library only for scripts; every AMS-specific number needs a scoped claim in `data/claims.json` (edit the JSON, run `scripts/validate_evidence_ledger.py`, then `scripts/render_source_index.py --write`); never promote a claim's `verification_strength` without reading the source at that level; label statements [Documented] / [General method] / [Proposal] / [Unknown/needs input].
+Ground rules: standard library only for scripts; every AMS-specific number needs a scoped claim in `data/claims.json` (edit the JSON, run `scripts/validate_evidence_ledger.py`, then `scripts/render_source_index.py --write`); never promote a claim's `verification_strength` or a source's `verification_level` without reading the source at that level; label statements [Documented] / [General method] / [Proposal] / [Unknown/needs input]. For grading, answerers and grader must be different models.
 
-## Done since the first TODO (do not redo)
+## 1. Grading round 6 (next, highest value)
 
-- Supplemental Material text of S43, S45, S46 read; claims C51-C53 added (collection time and cutoff, wavelet red-noise significance, hysteresis procedure). No covariance model across days and no trial-factor correction appear in the text read.
-- C36-C42 re-checked against the paper abstracts; C39 (energy, 1-50 GeV), C41, C42 corrected.
-- Small defects: claim topic index in `source-index`, short-answer rule in `SKILL.md`, current-date note in `source-policy`, ECAL claim C50.
-- Independent grading (Opus grader, nine prompts) done: 7 pass, 2 fail (T29 blocking, T24); narrow fixes made; T29, T24 re-run and fixed, T08 partly fixed. Details in `VALIDATION.md`.
-- PR #1 (branch `ams-analysis-executable-checks`) was merged into `main` (merge commit b74b022); the skill is soft-linked at `~/.claude/skills/ams-analysis`.
+- [ ] Get the suite back above the 90% bar under the round-5 grader setup. The remaining failure pattern is claim-boundary discipline:
+  - expected cross-citations missing (C06; C39/C89/S42; C26);
+  - C72 read as an ECAL-only factor;
+  - documented results pushed one step past their support.
 
-## 1. Behavioral follow-up (highest value)
+  T29 also misses its test-specific critical items: T/A needs A and mass, and S07 is read at main-article level only.
+  - Procedure: same 16 prompts as `tests/grading/round5.md`. Use **one prompt per answerer** (round 5 batched 4 to save cost), at least two samples per prompt, and Opus graders with the rubric and `data/claims.json`. Record the results in a new `tests/grading/round6.md`, archive the answers and grades, and log them in `VALIDATION.md`.
+  - Fix only the narrowest responsible reference; no global rules for isolated style issues. Record scores honestly, including failures.
 
-- [x] (2026-09-25: round 5 graded 16 prompts x 2 samples with a separate Opus grader and archived the answers) Independent grading covers only nine prompts (T05, T08, T24, T29-T34; T05, T08, T24, T29, T32 twice); the other 25 tests were self-graded, and the independent grader was stricter than the self-grades. Round 2 passed all five re-graded prompts but exactly at the 90% bar with source discipline at 1. Regenerate answers to files, grade with a different model that holds the rubric, verify every quoted claim ID against `data/claims.json`, and use more than one sample per prompt.
-- [x] Round 3 (2026-09-21): one fresh Sonnet sample per prompt for T05, T08, T24, T29, T32, T33, graded by a separate Opus grader with the rubric and ledger: 55/58 = 94.8%, no blocking failure; per-test 90-100%. Defects (grouped or over-broad claim IDs in T05 and T32, a wrong classical zero-count limit in T24) were fixed in `source-policy`, `time-dependent-analysis`, `inference-and-unfolding`; the T29 rubric text on S07 was refreshed. Round 4 (independent second sample of T05, T24, T30, T32, T33 plus T23, same grader setup): 57/60 = 95.0%, no blocking failure; both targeted fixes (T30 second reading, T33 dates) and the T24 n=0 limits confirmed. Remaining defects were answerer-side (merged S04/S05 and C31/C27 attributions, no C## on T32 [Documented] tags); added the `validate_response.py` pointer and the C##-on-every-tag rule. Two samples per prompt now for those prompts; the answers were not archived in the repo.
-- [x] The dominant failure pattern (still present at the round-2 pass) is claim-ID precision and scope: a correct fact with the wrong or over-broad claim, or a claim widened to sibling papers. The grouped bracket citations in `antimatter-and-leptons` and `charged-cosmic-rays` were split per paper as a root-cause fix; checked `nuclei-and-isotopes`, `detector-and-observables`, `inference-and-unfolding`: no grouped bracket citations remain (only `time-dependent-analysis` cites ranges, per clause with IDs). Done.
-- [x] T33 date distinction now explicit in `source-policy` step 2; T30 second reading (column sum below one may be migration outside the tabulated range) added to `inference-and-unfolding`. Not yet re-graded: needs a fresh independent sample.
-- [x] (2026-09-25, round 5: both T23 samples scored 9/10 and were short) T23 (ACC) was over-long once; re-check after the short-answer rule.
-- [x] (2026-09-25: run; 81.6% with no blocking failure, below the 90% bar; 4 narrow fixes plus a targeted rerun at 78%; see `tests/grading/round5.md`) Round 5 kit prepared 2026-09-21, not run: `tests/grading/round5.md` (procedure, 16 prompts, results table). It adds tests T35-T41 for the S01-derived claims C63-C100 (also re-checks T30, T33, T23). Needs answerers and a grader that are different models; do not record a score until it is run. Rubrics T03 and T06 were updated because C67 and C72 now document a TRD/ECAL rejection with context.
+## 2. Evidence gaps
 
-- [ ] Round 6 (next): the suite is below the 90% bar under the round-5 grader. Remaining pattern: claim-boundary
-      discipline (missing cross-citations C06, C39/C89/S42, C26; C72 read as ECAL-only; results pushed past their support)
-      and T29's test-specific critical items (T/A needs A and mass; S07 main-article scope). Use one prompt per answerer,
-      at least two samples, and the same grader setup; fix only the narrowest responsible reference.
+- [ ] S02 and S03: APS returned 401 on 2026-09-21. They are not open access and have no arXiv version. They stay at abstract-level (S02) and metadata-only (S03) unless a human supplies the PDFs.
+- [ ] S16 and S20 (grouped rows, still `metadata-only`): their individual papers are already split out as S41-S47 and read at main-article level. Decide whether to mark these rows as grouped pointers to S41-S47 or leave them as they are. Do not upgrade `verification_level` without reading.
+- [ ] Supplemental Material data tables (S41-S47) are not transcribed or checked. Only the supplement text was read (C51-C58). Correlation across days/rotations and trial-factor correction remain undocumented in what was read. Keep them marked unknown.
+- [ ] S01 (Phys. Rept. review): the introduction (section 0) and summary (chapter 17) are unread. They carry no additional measurements, so this is low priority. Figure-only values (resolution curves, rejection curves, cross sections, limits) stay untranscribed by design.
 
-- [ ] Trigger data point from the isolated routing eval (2026-09-26, `hep-analysis/tests/routing_eval.py` on `hep-analysis/tests/trigger_queries_holdout.json`, all 7 repo skills loaded as project skills, 2 runs per query; "none" = the model answered without invoking any skill), plus the hep-analysis tuning set `hep-analysis/tests/trigger_queries.json`:
-      Sonnet 6/6 held-out AMS queries routed here. Haiku 5/6 held-out ("Review my AMS-02 electron/positron TRD
-      likelihood template fit" none once) and 2/4 on the tuning set ("latest AMS-02 positron fraction result and its
-      TRD selection" none once; "Design the AMS-02 antideuteron search selection and review it formally" went to
-      `hep-analysis` once). Low priority; recheck after any description change here or in hep-analysis.
+## 3. Human review
 
-## 2. Close the remaining evidence gaps
+- [ ] Have a human physicist review the ledger judgement calls listed in `VALIDATION.md` ("Ledger migration: differences requiring human review"): claim strengths, `support_kind`, `numeric_quotation_allowed`, tier ranges, and the S02/S03 supersession.
 
-- [x] Supplemental Material text of S41, S42, S44 and S47 read; claims C54-C58 added (S41 and S42 supplements are figures and tables with captions only). Still open: the supplemental data tables themselves are not transcribed or checked, and correlation across days/rotations and trial-factor correction remain undocumented.
-- [ ] S07 and S11 read at main-article level (2026-09-21, open-access PDFs; claims C59-C62). Phys. Rept. review (S01) obtained in full text from the INSPIRE-hosted file; chapter 1 sections 1.2.2-1.8 read (claims C63-C73: tracker, TRD, TOF, ACC, RICH, ECAL, trigger/DAQ); chapters 4-11 (protons, antiprotons, elementary-particle comparison, nuclear cross sections, He/C/O, p/He, Li/Be/B and ratios, He isotopes) read, all of chapters 1-16 now read (claims C63-C100); still unread: the introduction (section 0) and summary (chapter 17), which carry no additional measurements. The numbers in C63-C74, C76-C78, C81-C84, C86-C94 and C96-C100 were checked against rendered PDF pages on 2026-09-21 and match (C64 gained its rigidity-scale accuracy statement from p. 11); C75, C79, C80 and C85 are conventions or interpretation with no fit values. Figure-only values (resolution curves, rejection curves, cross sections, limits) remain untranscribed by design. Figure-only resolutions were not transcribed. Still open: S02 and S03 (APS returned 401 on 2026-09-21, not open access; no arXiv version, so they stay abstract-level or metadata-only unless a human supplies the PDFs), S16, S20 (grouped rows; their individual papers S41-S47 are already split out): upgrade `verification_level` only after reading.
-- [x] S05 inconsistency decided 2026-09-21: full-text (main article only) is correct; `VALIDATION.md` and `data/sources.json` note updated.
-- [ ] Have a human physicist review the ledger judgement calls listed in `VALIDATION.md` (claim strengths, `support_kind`, `numeric_quotation_allowed`, tier ranges, supersession S02/S03).
+## 4. Routing (low priority)
 
-## 3. Optional, only if a routed decision needs it
+- [ ] Trigger data from the isolated routing eval (2026-09-26). Setup: `hep-analysis/tests/routing_eval.py` on `hep-analysis/tests/trigger_queries_holdout.json` and on the tuning set `hep-analysis/tests/trigger_queries.json`, with all 7 repo skills loaded as project skills and 2 runs per query. "none" means the model answered without invoking any skill.
+  - Sonnet: 6/6 held-out AMS queries routed here.
+  - Haiku, held-out: 5/6. "Review my AMS-02 electron/positron TRD likelihood template fit" went to none once.
+  - Haiku, tuning set: 2/4. "latest AMS-02 positron fraction result and its TRD selection" went to none once. "Design the AMS-02 antideuteron search selection and review it formally" went to `hep-analysis` once.
 
-- [ ] Network refresh of the ledger: may only propose metadata changes from INSPIRE or DOI records and must never promote a claim to full-text or rewrite scientific claims without review.
-- [ ] Remaining statistical-validation items listed as not implemented in `references/statistical-diagnostics.md` (Feldman-Cousins or CLs with toys, profile-likelihood boundary behavior, finite-template effects, unfolding scans, correlated ratio toys). Keep each small, seeded and labeled as an approximation.
+  Recheck after any description change here or in hep-analysis.
+
+## 5. Optional, only if a routed decision needs it
+
+- [ ] Network refresh of the ledger. It may only propose metadata changes from INSPIRE or DOI records. It must never promote a claim to full-text or rewrite scientific claims without review.
+- [ ] Remaining statistical-validation items listed as not implemented in `references/statistical-diagnostics.md`: Feldman-Cousins or CLs with toys, profile-likelihood boundary behavior, finite-template effects, unfolding scans, correlated ratio toys. Keep each small, seeded and labeled as an approximation.
 - [ ] A YAML-subset reader for specifications, only if users actually write YAML.
+
+## Done (do not redo; details in `VALIDATION.md`)
+
+- **Setup:** PR #1 (`ams-analysis-executable-checks`) merged (b74b022). The skill is soft-linked at `~/.claude/skills/ams-analysis`.
+- **Independent grading, first pass** (Opus grader, nine prompts): 7 pass, 2 fail (T29 blocking, T24). Narrow fixes were made, and T29 and T24 were re-run and fixed; T08 was only partly fixed.
+- **Rounds 3-4** (2026-09-21), one fresh Sonnet sample per prompt, separate Opus grader:
+  - Round 3 scored 94.8%: T05, T08, T24, T29, T32, T33.
+  - Round 4 scored 95.0%: a second sample of T05, T24, T30, T32, T33, plus T23.
+  - Neither round had a blocking failure. The fixes were in `source-policy`, `time-dependent-analysis` and `inference-and-unfolding`, plus the `validate_response.py` pointer and the rule that every [Documented] tag carries its C## ID. These answers were not archived.
+- **Claim-ID root-cause fix:** the grouped bracket citations in `antimatter-and-leptons` and `charged-cosmic-rays` were split per paper. No grouped citations remain in the other references; `time-dependent-analysis` cites ranges per clause, with IDs.
+- **T33 and T30 fixes:** `source-policy` step 2 now separates the publication date from the data-taking period (T33). `inference-and-unfolding` now says a column sum below one may be migration outside the tabulated range (T30). Both were re-graded in rounds 4-5.
+- **Round 5** (2026-09-25): 16 prompts x 2 Sonnet samples, four Opus graders, answers archived in `tests/grading/round5_answers/`. Scored 261/320 = 81.6% with no blocking failure.
+  - Added tests T35-T41 for the S01 claims C63-C100.
+  - Four narrow fixes, including a reversed column-sum statement in `inference-and-unfolding`.
+  - A targeted rerun scored 47/60 = 78%. T23 is no longer over-long (9/10 in both samples).
+- **Evidence:**
+  - Supplemental Material text of S41-S47 read (C51-C58).
+  - C36-C42 re-checked against the abstracts (C39, C41, C42 corrected).
+  - S05 inconsistency decided: full text, main article only.
+  - S07 and S11 read at main-article level (C59-C62).
+  - S01 chapters 1-16 read (C63-C100). Their numbers were checked against rendered PDF pages on 2026-09-21; C75, C79, C80 and C85 are conventions with no fit values.
+- **Small defects fixed:** claim topic index in `source-index`, short-answer rule in `SKILL.md`, current-date note in `source-policy`, ECAL claim C50.

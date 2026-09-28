@@ -1,86 +1,78 @@
 # TODO for future Claude sessions (agile-development)
 
-State at 2026-09-27 (round 2 on branch `agile-development-todo-round2`; see the "Round 2" section of `VALIDATION.md`). Earlier state, 2026-09-21: skill is on `main`; `python3 -m unittest discover -s tests` (41 tests) and
-`python3 scripts/validate_skill_bundle.py` (48 files) pass. Existing verification (see `VALIDATION.md`) is structural:
-helper-script unit tests, cross-link/consistency audits, and example-format checks. The workflow guidance in
-`SKILL.md` and `references/` has never been run on a fresh model to see if it changes behavior. Read `VALIDATION.md`
-("Limitations" at the end) first, then this file.
+State (verified 2026-09-28 on `main`, all work merged; round 2 via PR #27): `python3 scripts/validate_skill_bundle.py` OK (28 files; it was 48 before `examples/` was removed on 2026-09-25, commit 0c5530f); `python3 -m unittest discover -s tests` 44 tests OK. The skill has been run on fresh models:
+- H1-H9 were run on Sonnet, Haiku and Opus. Round 2 re-ran them on Haiku with open and blind scorers.
+- On Haiku the skill measurably adds the header block, planned tests, a target plus per-step verification for performance work, and irreversibility handling.
 
-Working rules: work on a branch, run the tests and bundle validator before committing, keep `SKILL.md`, `README.md`,
-`scripts/validate_skill_bundle.py` and `agents/openai.yaml` in sync, and ask before pushing or merging. Record every
-result (including negative ones) in `VALIDATION.md`. Run fresh-model tests via subagents (baseline without the skill
-vs. with the skill). Put temporary files in the scratchpad, not the repo.
+The open problem is **triggering**: from the description alone the skill rarely loads. Read `VALIDATION.md` first, especially "Round 2" and "Limitations", then this file.
 
-Note: `tests/` and `scripts/` contain stale `__pycache__` .pyc files for modules that moved to `task-authoring`
-(`test_example_authoring`, `generate_skill_example`, `validate_skill_example`, `check_example_diversity`). They are
-git-ignored; do not treat them as live code.
+Working rules:
+- Work on a branch and ask before pushing or merging.
+- Run the tests and the bundle validator before committing.
+- Keep `SKILL.md`, `README.md`, `scripts/validate_skill_bundle.py` and `agents/openai.yaml` in sync.
+- Record every result, including negative ones, in `VALIDATION.md`.
+- Put temporary files in the scratchpad, not the repo.
 
-## P1 - test that the skill changes model behavior (never done)
-- [x] (2026-09-21: 15 prompts written in `tests/prompts.md`; the trigger-test query lists there still need writing out to 20+20) Write 12-15 realistic prompts in `tests/prompts.md`, each with expected behaviors and the reference it should
-      load. Cover: (a) bug fix with a vague report (should reproduce first, smallest fix); (b) ambiguous feature
-      request where a wrong guess is expensive (should ask); (c) ambiguous but cheap-to-reverse request (should state
-      an assumption and proceed, not ask); (d) DB migration / published API change (risk section, rollback);
-      (e) dependency bump; (f) "review my diff" / PR review; (g) production incident + postmortem; (h) legacy code
-      with no tests (characterization tests); (i) "is this overcomplicated?" over-engineering check; (j) architecture
-      decision / ADR; (k) estimation + spike; (l) feature-flagged rollout; (m) a trivial one-line fix (should NOT
-      pad with the full template - Caveats rule); (n) user says "don't run tests" (user instruction wins);
-      (o) new code file (must add the top-of-file Purpose/What/Usage comment block).
-- [~] (2026-09-21/22: H1-H9 run 3x per cell per arm on Sonnet, Haiku and Opus, plus the question-count cap re-check; results in `VALIDATION.md`; the original 15 prompts mostly do not discriminate and were not repeated; open items are the three checkboxes below) Run each prompt in a fresh subagent with and without the skill; score against the expectations; log pass/fail in
-      `VALIDATION.md`. Repeat with Haiku (weaker) and Opus if possible. Look especially for: claiming tests passed
-      without running them, scope creep, over-asking, skipping the honest report.
-- [x] (2026-09-27: `tests/behavior_eval.py score --blind`; Haiku H1-H9, open vs blind agree on 164/180 verdicts, same direction on every separating bullet; but the scorer still guessed the arm 41/54 right from plan structure, so it is not truly blind) Build a blind scorer for the H1-H9 runs: strip skill mentions from the plans (or randomise wording) so the scorer
-      cannot tell the arms apart, then re-score and compare with the non-blind verdicts in `VALIDATION.md`.
-- [x] (2026-09-27: workflow step 5 + "a docstring does not count, do not defer it"; Haiku H1 (a) now 3/3, baseline 0/3) Haiku only followed the header rule in 1 of 3 skill runs (H1). Decide whether to make the Code File Requirement more
-      prominent in `SKILL.md` for weaker models, then re-run H1 on Haiku (3 runs) to check.
-- [x] (2026-09-27: done in `tests/prompts.md`; both artifacts gone in the Haiku round) Rubric fixes before the next run: H6 (b) measures a final report but runs write plan plus message; the "did not claim
-      anything was verified" bullets in H7-H9 are an artifact of plan-only runs (they say they read a repo they never saw).
-- [~] (2026-09-21: 20+20 queries written and run once, 40/40 correct on the agile-development criterion; caveats in `VALIDATION.md`; 2026-09-21: re-run with real installed descriptions, 50/50 incl. 10 boundary queries, see `VALIDATION.md`; 2026-09-27: real-harness runs replace the classifier: Haiku 0/52, Sonnet 10-11/52, 0 false triggers; a directive rewrite did not help and was reverted; see the item below) Trigger test for the frontmatter `description`: 20 should-trigger and 20 should-not-trigger queries. Near-misses:
-      `task-authoring` (write a standalone ticket/spec), `deep-learning`/`hep-analysis` (domain code), pure Q&A
-      about a language feature, a one-line typo fix. Consider `skill-creator` description optimization.
-- [x] (2026-09-21: "Not for ..." sentence added to both descriptions, suites pass; no model re-test, see `VALIDATION.md`) Routing hygiene with sibling skills: `agile-development` vs `task-authoring` (live scoping vs a written
-      task document). Run `skill-router`'s validator and tests after any description change.
-- [x] (2026-09-27: decided in scope without an answer from the user (revert if unwanted); sprint subsection + description wording; Sonnet sprint 4-5/12 alone, 12/12 with a CLAUDE.md rule; Haiku 0/12) Under-triggering found by the isolated routing eval (2026-09-26, `hep-analysis/tests/routing_eval.py` on `hep-analysis/tests/trigger_queries_holdout.json`, all 7 repo skills loaded as project skills, 2 runs per query; "none" = the model answered without invoking any skill): "Plan our next two-week sprint and estimate these user stories" 0/2 Haiku,
-      0/2 Sonnet (none every time). The description lists "estimation" but never mentions sprints or
-      backlog planning; decide whether sprint planning is in scope (ask the user). If yes, name it in the description
-      and rerun with the harness.
+Tooling:
+- `tests/behavior_eval.py` runs the H-prompts from `tests/prompts.md` in isolated `claude -p` children and scores them in open and blind modes. 54 Haiku runs cost about $1.
+- `hep-analysis/tests/routing_eval.py --fixture tests/fixtures/shop_repo` is the real-harness trigger test. It uses `tests/trigger_queries.json` (tuning) and `tests/trigger_queries_holdout.json`.
+- Earlier trigger results (40/40, 50/50) came from a subagent classifying descriptions and are **not valid**.
 
-- [ ] Under-triggering on ordinary coding requests (2026-09-27, `routing_eval.py --fixture tests/fixtures/shop_repo`):
-      from the description alone Sonnet loads the skill in ~20% of should-trigger runs and Haiku in none; a one-line
-      project `CLAUDE.md` rule lifts Sonnet to 48/52 (held-out 21/24) but not Haiku (0/52). Open: (a) rerun with the
-      user's plugins installed (the harness drops them, so real recall may be lower); (b) find anything that makes
-      Haiku load it (an AGENTS.md-style rule naming the skill directly, a SessionStart hook), or accept that Haiku
-      needs it named; (c) "review my diff" is answered directly even with the rule.
+Note: `scripts/__pycache__` and `tests/__pycache__` hold stale `.pyc` files for modules that moved to `task-authoring` (`test_example_authoring`, `generate_skill_example`, `validate_skill_example`, `check_example_diversity`). They are git-ignored; do not treat them as live code.
 
-## P2 - close verification gaps in helpers and guidance
-- [x] (2026-09-21: found and fixed BOM, closing-`##`, fenced-code, `Works!` and empty-field defects; 9 regression tests added, 41 tests total. Setext headings remain unsupported by design.) Test `scripts/create_story_card.py` and `scripts/validate_agile_notes.py` on messy input: empty strings, unicode,
-      very long criteria, CRLF files, headings with trailing `#`, missing/duplicate sections. Add regression tests for
-      each defect found. Check that generated cards pass the validator (round trip).
-- [~] (2026-09-21: syntax checked; Python guide also got an accuracy review, 8 issues fixed, see `VALIDATION.md`; the Bash and C++ guides got the same review, 5 issues fixed, see `VALIDATION.md`; the design advice itself is not reviewed) Review the three language design guides (`references/cpp-`, `python-`, `bash-balanced-design-guidelines.md`,
-      ~3,000 lines together) for accuracy; `VALIDATION.md` says they were only kept as a single source of truth, not
-      re-validated. Run every code snippet (`g++ -std=c++20 -fsyntax-only`, `python3 -m py_compile`,
-      `bash -n` + `shellcheck` if installed) and fix or label the ones that fail.
-- [x] (2026-09-21: validators pass on all 24; 25/27 Python blocks compile, 2 are REPL transcripts; not executed) Run the runnable snippets in `examples/01-24` and confirm each follows its archetype rules
-      (`task-authoring/references/example-authoring.md`; use `task-authoring`'s example validators).
-- [x] (2026-09-21: Sonnet, 3 tasks in a scratch repo, results verified by re-running; gaps fixed or logged in `VALIDATION.md`) Dogfood: apply the skill to a real small change in a scratch repo (feature + bug fix + migration), following only
-      what `SKILL.md` says, and note where the instructions were unclear or missing.
+## Questions for the user (asked 2026-09-27 and not answered; ask again before acting)
 
-## P3 - improve content and structure
-- [x] (2026-09-21: load-only-when hints added for language guides; 2026-09-27: measured on Haiku H1-H9, mean 0.4 references per skill run, max 3) Progressive disclosure: `SKILL.md` is 161 lines and references ~4,600. Confirm a typical task reads at most 2-3
-      references; add "read only if" hints where a routing row is vague. Check that C++/Python/Bash guides are only
-      loaded when code in that language is being designed.
-- [x] (2026-09-21: cross-references added, content left in place) Look for overlap: `implementation-discipline.md` vs `validation-and-done.md` vs `risk-and-quality.md`
-      (duplicate checklists?), and `software-architecture.md` vs `design-and-estimation.md`.
-- [x] (2026-09-21: probed with 4 plan-only tasks; no new sections needed, one ask-rule wording fix; see `VALIDATION.md`) Gaps to consider (only add if the P1 prompt tests show a need): performance work, flaky-test triage,
-      security-fix handling, monorepo/multi-package changes, working with an existing CI failure, and
-      pair-with-`superpowers` guidance (TDD, verification-before-completion) so instructions do not conflict.
-- [x] (2026-09-21: no Claude-only tools; CLAUDE.md mention widened) Multi-platform check (Codex, Antigravity): confirm `agents/openai.yaml` is current and no instructions depend on
-      Claude-only tools. See the repo's multi-platform conventions.
-- [x] (2026-09-21: 9 findings, 4 applied, rest declined with reasons in `VALIDATION.md`) Skill-doctor / `plugin-dev:skill-reviewer` pass on `SKILL.md` and `README.md`.
+- [ ] Is the Code File Requirement (a top-of-file comment block on every changed file) still wanted? It is the rule most likely to conflict with repository conventions. It is now scoped: not for one-line, docs or review tasks. On Haiku it is the clearest measured effect (H1 (a): 3/3 with the skill, 0/3 without).
+- [ ] Which languages or stacks matter most? The answer decides which design guide gets its design advice reviewed first (see section 2).
+- [ ] Sprint planning was put in scope without an answer: a subsection in `references/design-and-estimation.md` plus the description wording. Confirm it or revert it.
 
-## P4 - housekeeping and decisions
-- [x] (2026-09-21: done; re-do after each pass) Update `VALIDATION.md` header date (still 2026-09-05) and counts after each pass; add a section for the
-      2026-09-21 state.
-- [x] (2026-09-21: Code File Requirement scoped in `SKILL.md`, re-run passes; step-verify folded into workflow step 3, format still unused on H4) New from the 2026-09-21 run (H6: the skill arm skipped the header on a typo fix and said so, so a carve-out would match its behavior; see `VALIDATION.md`): decide whether the Code File Requirement should be relaxed for one-line/docs/review tasks (it was applied to a label rename and a PR review).
-- [ ] Ask the user: which languages/stacks matter most (this sets which design guide gets validated first)?
-- [ ] Ask the user whether the "Code File Requirement" (top-of-file comment block on every changed file) is still
-      wanted; it is the rule most likely to conflict with repository conventions.
+## 1. Triggering (highest value)
+
+- [ ] From the description alone, the skill rarely loads on ordinary coding requests. Measured with `routing_eval.py --fixture tests/fixtures/shop_repo`, 2 runs per query:
+  - Sonnet loads it in about 20% of should-trigger runs; Haiku in 0 of 232.
+  - A one-line project `CLAUDE.md` rule lifts Sonnet to 48/52 (held-out 21/24), with 0 false triggers. It does not help Haiku.
+  - A more directive description did not help and was reverted.
+  - The README now recommends the `CLAUDE.md` line.
+
+  Open:
+  - (a) Rerun with the user's plugins installed. The harness drops the ~112 plugin skills, so real recall may be lower.
+  - (b) Find anything that makes Haiku load the skill: an AGENTS.md-style rule that names the skill directly, or a SessionStart hook. Otherwise accept that Haiku needs the skill named.
+  - (c) "Review my diff" is answered directly even with the `CLAUDE.md` rule.
+
+## 2. Verification gaps
+
+- [ ] Language design guides (`references/cpp-`, `python-`, `bash-balanced-design-guidelines.md`, about 3,000 lines): snippets were syntax-checked, and accuracy reviews fixed 8 Python and 5 Bash/C++ issues. The **design advice itself is not reviewed**. Do this after the stack-priority answer.
+- [ ] Behavior after the round-2 `SKILL.md` edits (header prominence, sprint subsection) was measured on Haiku only, plan-only. If it matters, rerun H1-H9 on Sonnet and Opus with `tests/behavior_eval.py`.
+  - The blind scorer is not truly blind: it guessed the arm right 41 of 54 times from plan structure. Redaction cannot hide structure, so treat the blind mode as a consistency check, not a bias check.
+- [ ] One Haiku skill run broke the H5 four-question cap. Watch for it in the next behavior run.
+
+## 3. Housekeeping
+
+- [ ] Recurring: update the `VALIDATION.md` header date and counts after each pass. Last done 2026-09-27, but it still quotes 48 files. Record the current 28 files and 44 tests, and note the removal of `examples/`.
+- [ ] The `VALIDATION.md` "Limitations" section is stale. It still says the C++ guide "was not re-validated for guidance accuracy", but the 2026-09-21 reviews checked accuracy. It also says the workflow guidance has never been exercised, which rounds 1-2 did. Update it.
+
+## Done (do not redo; details in `VALIDATION.md`)
+
+**P1 - behavior and triggering**
+- `tests/prompts.md`: 15 prompts, (a)-(o), each with expected behaviors, plus the harder H1-H9. The original 15 mostly do not discriminate between the arms.
+- H1-H9 were run 3x per cell per arm on Sonnet, Haiku and Opus (2026-09-21/22), plus a re-check of the question-count cap. Round 2 (2026-09-27) re-ran them on Haiku with open and blind scores: 164/180 verdicts agree, and the direction is the same on every bullet that separates the arms.
+- Rubric fixes: H6 (b) now measures the user message; H7-H9 (d) no longer count repo reads in plan-only runs; H6 (a) allows a matching test update.
+- Header prominence: workflow step 5 now says "a docstring does not count, do not defer it". Haiku H1 (a) went from 1/3 to 3/3.
+- Routing hygiene with `task-authoring`: both descriptions have a "Not for ..." sentence.
+- Sprint planning is in scope. Sonnet loads the skill for sprint queries 4-5/12 alone and 12/12 with the `CLAUDE.md` rule.
+
+**P2 - helpers and guidance (2026-09-21)**
+- Messy-input probes of `create_story_card.py` and `validate_agile_notes.py` found and fixed BOM, closing-`##`, fenced-code, `Works!` and empty-field defects, with regression tests added. Setext headings stay unsupported by design.
+- Snippets in the three language guides were syntax-checked. Accuracy reviews fixed Python 8 and Bash/C++ 5.
+- Examples: the validators passed on all 24, and 25/27 Python blocks compiled. The examples were later removed (2026-09-25).
+- Dogfood: Sonnet ran 3 tasks in a scratch repo. Gaps were fixed or logged.
+
+**P3 - content and structure (2026-09-21)**
+- Progressive disclosure: added "load only when" hints for the language guides. Measured on Haiku: 0.4 references per run, max 3.
+- Overlap between the discipline, validation and risk references, and between architecture and estimation, was handled with cross-references; content stays in place.
+- Gap probe of perf, flaky tests, security, monorepo, CI failure and superpowers pairing: no new sections needed; one ask-rule wording fix.
+- Multi-platform check: no Claude-only tools.
+- Skill-reviewer pass: 4 of 9 findings applied, the rest declined with reasons.
+
+**P4 - decisions**
+- The Code File Requirement is scoped out of one-line, docs and review tasks. The step-verify guidance was folded into workflow step 3.
