@@ -23,6 +23,14 @@ Usage:
 query sets (such as agile-development's) that assume one; without it the child
 explores an empty directory and often answers without choosing any skill.
 
+--user-setup runs the child with the user's own settings instead: user
+CLAUDE.md, installed plugins (with their SessionStart hooks) and ~/.claude/skills
+(which must already hold the repo skills). This measures recall in the real,
+crowded listing. --any-skill keeps the child running after a first, different
+skill (for example a superpowers process skill) and counts a hit if the target
+is loaded at any point within --max-turns; the "skill" field is then the target
+if it was loaded, else the first skill called, and "skills" lists all of them.
+
 Query file: a JSON list of {"query", "expect_hep_analysis", optional "owner"
 (expected skill name or null) and "also_ok" (list of acceptable skills)}.
 With --target <skill>, recall and false triggers are computed for that skill and
@@ -48,10 +56,14 @@ SKILLS = ["academic-diagrams", "academic-papers", "agile-development",
           "ams-analysis", "deep-learning", "hep-analysis", "task-authoring"]
 
 
-def make_workdir(root: pathlib.Path, fixture=None) -> pathlib.Path:
+def make_workdir(root: pathlib.Path, fixture=None, user_setup=False) -> pathlib.Path:
     work = root / "work"
     if fixture:  # queries that assume a repository need one to look at
         shutil.copytree(fixture, work)
+    else:
+        work.mkdir()
+    if user_setup:  # the skills come from ~/.claude/skills
+        return work
     skills = work / ".claude" / "skills"
     skills.mkdir(parents=True, exist_ok=True)
     for name in SKILLS:
@@ -59,15 +71,19 @@ def make_workdir(root: pathlib.Path, fixture=None) -> pathlib.Path:
     return work
 
 
-def run_one(query, model, workdir, max_turns, timeout):
+def run_one(query, model, workdir, max_turns, timeout, user_setup=False,
+            any_skill_target=None):
     cmd = ["claude", "-p", query, "--model", model,
-           "--setting-sources", "project",
            "--output-format", "stream-json", "--verbose",
            "--max-turns", str(max_turns),
            "--allowedTools", "Read", "Glob", "Grep", "Skill"]
+    if not user_setup:
+        cmd[5:5] = ["--setting-sources", "project"]
+    else:  # user permissions apply; keep the child from publishing anything
+        cmd += ["--disallowedTools", "Bash(git push:*)", "Bash(gh:*)", "Write"]
     proc = subprocess.Popen(cmd, cwd=workdir, stdout=subprocess.PIPE,
                             stderr=subprocess.DEVNULL, text=True)
-    skill, tools, cost, error = None, [], None, None
+    skill, skills, tools, cost, error = None, [], [], None, None
     try:
         for line in proc.stdout:
             try:
@@ -79,8 +95,11 @@ def run_one(query, model, workdir, max_turns, timeout):
                     if block.get("type") == "tool_use":
                         tools.append(block["name"])
                         if block["name"] == "Skill":
-                            skill = block.get("input", {}).get("skill", "?")
-                            break
+                            name = block.get("input", {}).get("skill", "?")
+                            skills.append(name.split(":", 1)[-1])
+                            if not any_skill_target or skills[-1] == any_skill_target:
+                                skill = name
+                                break
                 if skill:
                     proc.kill()
                     break
@@ -96,7 +115,10 @@ def run_one(query, model, workdir, max_turns, timeout):
         error = "timeout"
     if skill:
         skill = skill.split(":", 1)[-1]  # tolerate a namespaced name
-    return {"skill": skill, "tools": tools, "cost_usd": cost, "error": error}
+    elif skills:  # --any-skill and the target never loaded
+        skill = skills[0]
+    return {"skill": skill, "skills": skills, "tools": tools, "cost_usd": cost,
+            "error": error}
 
 
 def expects_target(case):
@@ -126,16 +148,21 @@ def main():
     ap.add_argument("--out", help="write per-run results as JSON")
     ap.add_argument("--fixture", help="directory copied into the child's working "
                     "directory (a small repo for queries that assume one)")
+    ap.add_argument("--user-setup", action="store_true", help="use the user's "
+                    "settings, plugins, CLAUDE.md and ~/.claude/skills")
+    ap.add_argument("--any-skill", action="store_true", help="count the target "
+                    "if it loads at any point, not only as the first skill")
     args = ap.parse_args()
 
     cases = json.loads(pathlib.Path(args.queries).read_text())
     root = pathlib.Path(tempfile.mkdtemp(prefix="routing_eval_"))
-    work = make_workdir(root, args.fixture)
+    work = make_workdir(root, args.fixture, args.user_setup)
     jobs = [(i, r) for i in range(len(cases)) for r in range(args.runs)]
     results = {}
     with concurrent.futures.ThreadPoolExecutor(args.concurrency) as pool:
         futs = {pool.submit(run_one, cases[i]["query"], args.model,
-                            work, args.max_turns, args.timeout): (i, r)
+                            work, args.max_turns, args.timeout, args.user_setup,
+                            args.target if args.any_skill else None): (i, r)
                 for i, r in jobs}
         for fut in concurrent.futures.as_completed(futs):
             results[futs[fut]] = fut.result()

@@ -181,6 +181,9 @@ Prefer this for a single, self-explanatory step:
 mapfile -t files < <(find . -name '*.log' -mtime +7)
 ```
 
+(When file names may contain newlines, use `find ... -print0` with
+`mapfile -d ''` on Bash 4.4+, or a `while IFS= read -r -d ''` loop.)
+
 Do not wrap a single command in a function only because "everything should be
 a function":
 
@@ -248,8 +251,8 @@ helpers.sh
 manager.sh
 ```
 
-Prefer precise, verb-first function names and precise, noun-first library
-file names instead:
+Prefer precise, verb-first function names, and library file names that name
+the one responsibility they hold:
 
 ```bash
 lib/parse_args.sh
@@ -293,16 +296,20 @@ Use `flock` for resources that must not be accessed concurrently:
 # `flock` is part of util-linux; it is not installed on stock macOS.
 exec 9>"/var/lock/myscript.lock"
 flock -n 9 || { echo "already running" >&2; exit 1; }
-trap 'flock -u 9' EXIT
 ```
 
-Combine multiple cleanup actions in one trap, or chain trap handlers
-explicitly — Bash does not stack `EXIT` traps automatically.
+The lock needs no unlock trap: it is held by file descriptor 9 and released
+when the script exits and the descriptor closes.
+
+Combine multiple cleanup actions in one function — Bash does not stack `EXIT`
+traps, so a second `trap ... EXIT` silently replaces the first. Bash also runs
+the `EXIT` trap when the script is killed by `SIGINT` or `SIGTERM`, so one
+`EXIT` trap covers those cases:
 
 ```bash
 cleanup() {
   rm -rf -- "${work_dir}"
-  flock -u 9
+  rm -f -- "${pid_file}"
 }
 trap cleanup EXIT
 ```
@@ -315,7 +322,23 @@ Do not write a long `if`/`elif` chain to select behavior when a dispatch
 table would be clearer — this is Bash's nearest equivalent to runtime
 polymorphism.
 
-Acceptable example:
+A `case` statement is the default. It works on every Bash version and keeps
+each branch visible:
+
+```bash
+case "${action}" in
+  start) cmd_start "$@" ;;
+  stop) cmd_stop "$@" ;;
+  status) cmd_status "$@" ;;
+  *)
+    echo "unknown action: ${action}" >&2
+    return 1
+    ;;
+esac
+```
+
+Use a dispatch table when the set of cases is data that something else also
+reads, such as a generated help text or a list of valid subcommands:
 
 ```bash
 declare -A handlers=(
@@ -325,7 +348,8 @@ declare -A handlers=(
 )
 
 main() {
-  local action="$1"
+  local action="${1:-}"
+  shift || true
   local handler="${handlers[${action}]:-}"
 
   if [[ -z "${handler}" ]]; then
@@ -333,24 +357,8 @@ main() {
     return 1
   fi
 
-  "${handler}"
+  "${handler}" "$@"
 }
-```
-
-Use this style when the set of cases is data (subcommands, event types,
-file extensions) rather than when a plain `case` statement already reads
-clearly:
-
-```bash
-case "${action}" in
-  start) cmd_start ;;
-  stop) cmd_stop ;;
-  status) cmd_status ;;
-  *)
-    echo "unknown action: ${action}" >&2
-    return 1
-    ;;
-esac
 ```
 
 Prefer composing small functions over building a deep chain of scripts that
@@ -373,8 +381,9 @@ Prefer:
 
 - `local` variables inside every function
 - Explicit function parameters (`"$1"`, `"$2"`, ...)
-- Explicit return values via `echo`/`printf` captured with `$(...)`, or via
-  an explicit exit status
+- Explicit return values via `printf '%s\n'` captured with `$(...)`, or via
+  an explicit exit status (prefer `printf` to `echo` for data: `echo`
+  mangles values such as `-n` or strings with backslashes)
 - A subshell `( ... )` to scope a `cd` or environment change
 
 Avoid:
@@ -485,6 +494,28 @@ Add `set -E` (errtrace) next to `set -euo pipefail`: without it, the ERR trap is
 inherited by functions, command substitutions or subshells, and a failure inside a
 function exits silently with no diagnostic.
 
+The largest `set -e` gap: when a function is called as a condition
+(`if my_func`, `my_func && ...`, `my_func || ...`, `! my_func`), errexit is
+switched off for everything inside it, however deep. A failing command in the
+middle of the function no longer stops it, and the function returns the status
+of its last command:
+
+```bash
+set -euo pipefail
+
+deploy() {
+  false            # fails, but does not stop deploy() below
+  echo "deployed"  # still runs; deploy() returns 0
+}
+
+if deploy; then
+  echo "reported success"
+fi
+```
+
+So a function whose result callers test must check its own steps explicitly
+(`cmd || return 1`) rather than rely on `set -e`.
+
 Return non-zero from a function for expected failure; reserve `exit` for the
 top-level script, so library functions stay usable when sourced.
 
@@ -517,7 +548,7 @@ Use `readonly` or `declare -r` for values that must not change after being
 set:
 
 ```bash
-readonly max_retries=3
+readonly MAX_RETRIES=3
 ```
 
 Use `[[ ]]` instead of `[ ]` for conditionals — it does not word-split or
@@ -538,14 +569,20 @@ set_channel() {
   local -n channel_ref="$1"
   local value="$2"
 
-  if (( value < 0 || value > 255 )); then
+  # Check the format before any arithmetic: `(( ))` treats a non-number as a
+  # variable name (so "abc" becomes 0 and passes) and expands `$(...)` inside
+  # array subscripts, which runs commands from untrusted input.
+  if [[ ! "${value}" =~ ^[0-9]+$ ]] || (( 10#${value} > 255 )); then
     echo "channel out of range: ${value}" >&2
     return 1
   fi
 
-  channel_ref="${value}"
+  channel_ref="$((10#${value}))"
 }
 ```
+
+Validate the format of any external value with `[[ =~ ]]` before it reaches
+`(( ))`, `$(( ))` or `let`.
 
 Quoting and `readonly` discipline together are what make a Bash script's
 data flow legible without a type checker.
@@ -751,7 +788,7 @@ sed      # stream text substitution
 find     # file traversal, instead of hand-rolled recursive loops
 xargs    # batching arguments into commands
 mktemp   # safe temporary files/directories
-getopts  # option parsing, instead of a hand-rolled argument loop
+getopts  # builtin option parsing (short options only), instead of a hand-rolled loop
 ```
 
 Do not hand-parse JSON, YAML, or CSV with `grep`/`sed`/`cut` when a proper
@@ -879,7 +916,9 @@ As a default:
   chain when the branches are genuinely data-driven.
 - Quote everything; use `readonly` for values that must not change.
 - Check expected failures explicitly; use `set -euo pipefail` and
-  `trap ... ERR` as the safety net underneath, not the only mechanism.
+  `trap ... ERR` as the safety net underneath, not the only mechanism —
+  errexit is off inside any function called as a condition.
+- Validate external values with `[[ =~ ]]` before arithmetic.
 - Prefer established external tools (`jq`, `awk`, `sed`, `find`) over
   reimplementing structured-data handling in pure Bash.
 - Prefer simple, readable, testable, idiomatic Bash — and reach for a
