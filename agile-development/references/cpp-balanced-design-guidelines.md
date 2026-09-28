@@ -2,15 +2,17 @@
 
 When modifying or writing C++ code, prefer a balanced style between object-oriented and procedural programming. Follow established repository conventions when they intentionally differ from this reference.
 
-The examples assume C++20 (designated initializers, `std::numbers`); a C++17 codebase
-needs them adapted.
+The examples assume C++20 (designated initializers, `std::numbers`, concepts); a C++17
+codebase needs them adapted.
 
 The examples follow the
 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html):
 two-space indentation, `PascalCase` function names, `snake_case` variables,
 trailing underscores for data members, and documented namespace endings.
 Google-style code does not use C++ exceptions, so fallible construction is
-expressed with factory functions and return values.
+expressed with factory functions and return values. The Google guide also bans
+the `<filesystem>` header, so the examples use `std::string`/`std::ifstream` for
+paths; use `std::filesystem` only where the repository already does.
 
 ## Contents
 
@@ -78,7 +80,7 @@ class BankAccount {
     return BankAccount(initial_balance);
   }
 
-  bool Deposit(int amount) {
+  [[nodiscard]] bool Deposit(int amount) {
     if (amount <= 0) {
       return false;
     }
@@ -91,7 +93,7 @@ class BankAccount {
     return true;
   }
 
-  bool Withdraw(int amount) {
+  [[nodiscard]] bool Withdraw(int amount) {
     if (amount <= 0 || amount > balance_) {
       return false;
     }
@@ -382,6 +384,24 @@ class FileHandle {
 
 RAII classes should clearly express ownership.
 
+Before writing the five special member functions by hand, check whether a
+standard type already does the job. A `std::unique_ptr` with a custom deleter
+gives the same move-only ownership with no hand-written destructor or move
+operations (the rule of zero):
+
+```cpp
+struct FileCloser {
+  void operator()(std::FILE* file) const { std::fclose(file); }
+};
+
+using FilePtr = std::unique_ptr<std::FILE, FileCloser>;
+
+FilePtr OpenForRead(const char* path) { return FilePtr(std::fopen(path, "r")); }
+```
+
+Write a full RAII class like `FileHandle` when the type also needs its own
+operations or invariants on top of the release.
+
 ---
 
 ## Inheritance and Polymorphism
@@ -459,7 +479,20 @@ struct Rectangle {
 };
 
 using Shape = std::variant<Circle, Rectangle>;
+
+double Area(const Shape& shape) {
+  struct AreaVisitor {
+    double operator()(const Circle& c) const {
+      return std::numbers::pi * c.radius * c.radius;
+    }
+    double operator()(const Rectangle& r) const { return r.width * r.height; }
+  };
+  return std::visit(AreaVisitor{}, shape);
+}
 ```
+
+With a visitor that has one overload per alternative, adding a new
+alternative to the variant is a compile error until every visitor handles it.
 
 ---
 
@@ -509,7 +542,7 @@ double Perimeter(const Polygon& polygon) {
 
   double result = 0.0;
 
-  for (size_t i = 0; i < points.size(); ++i) {
+  for (std::size_t i = 0; i < points.size(); ++i) {
     const auto& current = points[i];
     const auto& next = points[(i + 1) % points.size()];
     result += Distance(current, next);
@@ -638,24 +671,42 @@ Use a clear error-handling strategy that is consistent with the surrounding comp
 Google-style code does not use C++ exceptions. Use a factory function when
 construction can fail, and return a value that makes failure explicit.
 
+Do the fallible work inside the factory and report its result, rather than
+checking a precondition first: an "exists" check before opening races with
+other processes and still leaves the open to fail.
+
 Example:
 
 ```cpp
 class Config {
  public:
-  static std::optional<Config> Load(std::filesystem::path path) {
-    if (!std::filesystem::exists(path)) {
-      return std::nullopt;
+  static std::optional<Config> Load(const std::string& path) {
+    std::ifstream in(path);
+    int timeout_seconds = 0;
+    if (!(in >> timeout_seconds) || timeout_seconds <= 0) {
+      return std::nullopt;  // missing, unreadable, or invalid
     }
-    return Config(std::move(path));
+    return Config(timeout_seconds);
   }
 
- private:
-  explicit Config(std::filesystem::path path) : path_(std::move(path)) {}
+  int timeout_seconds() const { return timeout_seconds_; }
 
-  std::filesystem::path path_;
+ private:
+  explicit Config(int timeout_seconds) : timeout_seconds_(timeout_seconds) {}
+
+  int timeout_seconds_;
 };
 ```
+
+`std::optional` says only *that* loading failed. When the caller needs to
+know *why* (to report it, or to react differently to "missing" and "invalid"),
+return an error-carrying type instead: `absl::StatusOr<Config>` in
+Google/Abseil code, `std::expected<Config, Error>` in C++23, or the
+repository's own result type.
+
+Mark functions whose failure result must be checked `[[nodiscard]]` (as
+`BankAccount::Deposit` above is), so a caller that ignores a `false` or an empty
+`optional` gets a compiler warning instead of a silent bug.
 
 Use return values for expected failure paths.
 
@@ -700,6 +751,17 @@ Pass small value types by value:
 ```cpp
 double Distance(Point a, Point b);
 ```
+
+For read-only strings and contiguous sequences, take a non-owning view so
+callers can pass any compatible container without a copy:
+
+```cpp
+int CountWords(std::string_view text);
+double Average(std::span<const double> samples);
+```
+
+Do not store a `string_view` or `span` beyond the call unless the owner is
+guaranteed to outlive it.
 
 Use `const` local variables when the value should not change:
 
@@ -762,6 +824,14 @@ class Renderer {
 ```
 
 If a pointer is used, clarify whether it owns the object.
+
+A reference data member has costs: it makes the class non-assignable, and a
+constructor taking `const T&` also binds a temporary that dies at the end of
+the full expression, leaving a dangling reference. Use it for objects that are
+constructed once and never reassigned. For a type that must be copy- or
+move-assignable, store a pointer taken from a reference parameter
+(`texture_cache_(&texture_cache)`) and document that the referent must outlive
+the object.
 
 ---
 
@@ -891,6 +961,16 @@ class ReportGenerator {
 };
 ```
 
+When only one function needs the value, pass the value itself instead of a
+collaborator:
+
+```cpp
+bool IsExpired(std::chrono::system_clock::time_point expires_at,
+               std::chrono::system_clock::time_point now) {
+  return now >= expires_at;
+}
+```
+
 Code should be designed so that core logic can be tested without file systems, networks, timers, or global state when possible.
 
 ---
@@ -899,20 +979,34 @@ Code should be designed so that core logic can be tested without file systems, n
 
 Use templates when the algorithm naturally works across multiple types.
 
+Constrain templates with concepts so a wrong argument fails at the call site
+with a readable error, not deep inside the body.
+
 Good example:
 
 ```cpp
-template <typename Range>
-typename Range::value_type Sum(const Range& values) {
-  typename Range::value_type result{};
+template <std::ranges::input_range R>
+  requires std::is_arithmetic_v<std::ranges::range_value_t<R>>
+std::optional<double> Mean(const R& values) {
+  double sum = 0.0;
+  std::size_t count = 0;
 
   for (const auto& value : values) {
-    result += value;
+    sum += value;
+    ++count;
   }
 
-  return result;
+  if (count == 0) {
+    return std::nullopt;
+  }
+  return sum / static_cast<double>(count);
 }
 ```
+
+It accepts a `std::vector<int>`, a `std::array<double, N>`, a C array or a
+range view, and it makes the empty case explicit. Do not write a template for
+what a standard algorithm already does generically (`std::accumulate`,
+`std::ranges::max`, `std::ranges::fold_left` in C++23).
 
 Do not use templates only to avoid writing clear types.
 
@@ -934,10 +1028,11 @@ std::array
 std::string
 std::string_view
 std::optional
+std::expected (C++23; or the repository's status type)
 std::variant
 std::unique_ptr
 std::shared_ptr
-std::filesystem
+std::filesystem (banned in Google style; use where the repository does)
 std::chrono
 std::span
 std::ranges
@@ -1047,6 +1142,7 @@ As a default:
 - Avoid unnecessary inheritance.
 - Avoid fake OOP such as stateless utility classes.
 - Avoid hidden global mutable state.
+- Make failure explicit in return types and mark must-check results `[[nodiscard]]`.
 - Prefer explicit ownership and explicit dependencies.
 - Prefer standard library facilities over custom infrastructure.
 - Prefer simple, readable, testable, idiomatic C++.

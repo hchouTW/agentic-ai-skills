@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-27 (latest pass below; earlier sections keep their own dates). Helper test environment: Python 3, standard library only.
+Validation date: 2026-09-28 (latest pass below; earlier sections keep their own dates). Current state: the bundle validator checks 28 files (48 before `examples/` was removed on 2026-09-25, commit 0c5530f), and `python3 -m unittest discover -s tests` runs 44 tests. Helper test environment: Python 3, standard library only.
 
 ## Completeness pass (2026-09-05)
 
@@ -1308,14 +1308,117 @@ Not verified: two runs per query; the harness drops the ~112 user plugin skills,
 (see hep-analysis VALIDATION), so real Sonnet recall may be lower than 48/52; the fixture is a stub repo; the behavior
 round is Haiku only and plan-only; the blind scorer is not truly blind; Opus was not run.
 
+## Round 3: design-advice review, real-setup routing, a rule that works on Haiku (2026-09-28/29)
+
+User answers (asked again this round): keep the Code File Requirement as scoped; review the design advice of all three
+language guides; keep sprint planning in scope.
+
+**Design-advice review of the language guides.** Earlier reviews (2026-09-21) checked claims for accuracy; this one asked
+whether the advice itself is good. I read each guide in full and changed only what I could check. Every new or changed
+snippet was run.
+
+- Python (`python-balanced-design-guidelines.md`):
+  - The `Config` example now uses EAFP and a `from_file` classmethod instead of an `exists()` check in `__init__`, which
+    raced with other processes and duplicated what `open()` already raises.
+  - The rationale for `None` returns no longer rests on hot-path cost.
+  - Added exception translation with `raise ... from err`, and when a broad `except Exception` is acceptable (a top-level
+    boundary that logs).
+  - The `weakref` advice was wrong: it proxied an injected `TextureCache`, which only makes a caller's dropped reference
+    fail later. It now covers back-references and caches, and says the GC already frees reference cycles.
+  - The union example uses `X | Y` with `match` and mentions `assert_never`.
+  - The generics example re-implemented `sum` with a self-referential bound. It is replaced by `group_by`, with a rule
+    not to write generic helpers the standard library already has.
+  - Added the pass-the-value alternative to injecting a clock.
+  - `typing.Iterator` became `collections.abc.Iterator`.
+  - Checks: all 55 blocks compile; the new snippets ran on Python 3.13 and pass mypy `--strict --python-version 3.10`.
+    mypy also confirmed the earlier untested invariance claim: `list[Circle]` is rejected for `list[Renderable]` and
+    accepted for `Sequence[Renderable]`.
+- C++ (`cpp-balanced-design-guidelines.md`):
+  - The guide claims to follow Google style, but Google bans `<filesystem>` (checked in the current guide text: "does
+    not have sufficient support for testing, and suffers from inherent security vulnerabilities"). This settles the
+    open item from 2026-09-21. The intro now says so, the `Config` example uses `std::ifstream` and does the fallible
+    read inside the factory, and the library list flags it.
+  - Added `absl::StatusOr` or `std::expected` for when the caller needs to know why something failed, and
+    `[[nodiscard]]` on `BankAccount::Deposit`/`Withdraw`, with a rule for it.
+  - Added a rule-of-zero `unique_ptr` custom deleter as the first option before a hand-written RAII class.
+  - Added the costs of reference data members: the class becomes non-assignable, and a `const T&` parameter binds a
+    temporary that then dangles.
+  - Added `string_view`/`span` parameters, a `std::visit` example, and concept-constrained templates (`Mean`, which
+    replaces a `Sum` that duplicated `std::accumulate` and failed on C arrays).
+  - Added pass-the-value testing, and `std::size_t` in `Perimeter`.
+  - Checks, with Apple clang 21, `-std=c++23 -fsanitize=address,undefined`: the new snippets compile and pass their
+    asserts. The `[[nodiscard]]` warning fires. ASan reports stack-use-after-scope for a reference member bound to a
+    temporary. Assigning to such a class does not compile.
+- Bash (`bash-balanced-design-guidelines.md`):
+  - Added the largest `set -e` gap. Inside a function called as a condition (`if f`, `f && ...`, `! f`), errexit is
+    off, so a failing step does not stop the function and it can return 0.
+  - The `set_channel` "validation" example accepted `abc` (an unset name evaluates to 0) and ran `$(...)` from an
+    array-subscript value. It now checks the value with `[[ =~ ^[0-9]+$ ]]` before any arithmetic and uses `10#`, with
+    a general rule.
+  - Removed the unnecessary `flock -u` trap: the lock is released when the descriptor closes. Added that a second
+    `trap ... EXIT` replaces the first, and that the EXIT trap also runs on INT/TERM.
+  - `case` is now the default dispatch and a dispatch table is for data other code reads. Both now pass `"$@"` through.
+  - Smaller fixes: `printf` over `echo` for returned data, a `-print0` note for file names, `getopts` marked as a
+    builtin that handles short options only, `readonly MAX_RETRIES` to match the naming rule, and the file-name advice
+    no longer contradicts its own examples.
+  - Checks: all 44 blocks pass `bash -n`. The new behavior was run on Bash 3.2.57: the errexit gap printed "deployed"
+    and "reported success"; the old check accepted `abc` and printed `INJECTED`; the new check rejects `abc`, `-1`,
+    `256`, empty input and the injection, and accepts `08` as 8. The EXIT trap ran on TERM and INT.
+
+Not verified: Bash 4+/5 behavior (namerefs, `declare -A`, `mapfile -d ''`) was checked for syntax only. The review is
+mine, one pass per guide, not an independent reviewer's. Advice that was fine was left alone, not re-derived.
+
+**Routing in the user's real setup.** `hep-analysis/tests/routing_eval.py` gained `--user-setup` (the child keeps user
+settings: the ~112 plugin skills, the superpowers SessionStart hook and the user's global CLAUDE.md rule, with repo
+skills from `~/.claude/skills`; `git push`, `gh` and Write are disallowed) and `--any-skill` (keep running after a first
+different skill and count the target if it loads within `--max-turns 8`). Tuning set, fixture repo, 2 runs per query.
+
+| Setup | Haiku recall | Sonnet recall | False triggers |
+|-------|--------------|---------------|----------------|
+| real user setup (plugins + global CLAUDE.md rule) | 11/52 | 42/52 | 0/40 each |
+
+- In the real setup Haiku moves from 0 to 11 of 52. Most misses load superpowers `brainstorming` (13 runs) or
+  `systematic-debugging` (8), or no skill (47 first-choice runs across all queries). Sonnet sends every bug report
+  (flaky checkout, cart total, prod 500s) to `systematic-debugging`; that is a reasonable owner and the skills
+  complement each other.
+- With `--any-skill`, no run loaded agile-development after starting with another skill. The first skill chosen is the
+  only one.
+- A first attempt hit the account usage limit (148 errored runs, excluded and rerun). The harness counted the
+  limit-truncated runs as errors, as designed.
+
+**Instruction variants for Haiku** (project-only harness, fixture repo, CLAUDE.md or a project SessionStart hook that
+injects the same text, 2 runs per query):
+
+| Rule text | Channel | Haiku recall | Haiku false triggers | Sonnet recall / FP |
+|-----------|---------|--------------|----------------------|--------------------|
+| names the skill: "call the Skill tool with skill agile-development first" for any change/fix/review/plan | CLAUDE.md | 49/52 | **14/40** | - |
+| same | SessionStart hook | 51/52 | **12/40** | - |
+| names the skill, lists what it covers, and says what it is not for (typos, tickets, PyTorch, physics, papers, diagrams) | CLAUDE.md | **30/52** (held-out 16/24) | 0/40 (held-out 0/16) | **51/52** / 0/40 |
+| same scoped text | SessionStart hook | 26/52 | 0/40 | - |
+
+Findings:
+- Naming the skill in an instruction is what moves Haiku. A generic "check the skills" line did nothing (round 2). A line
+  that names the skill brings Haiku to 49-51 of 52, but it also takes PyTorch, ROOT, ticket, prompt-design and typo
+  requests away from their owners.
+- The scoped line removes every false trigger and keeps 30 of 52 on the tuning set and 16 of 24 on the held-out set.
+  On Sonnet it beats round 2's generic line (51/52 vs. 48/52), and "review my diff" now loads the skill there, which
+  was TODO 1(c). Haiku still misses reviews ("can you look over this PR") and design questions.
+- The channel barely matters: hook and CLAUDE.md are within a few runs of each other. The CLAUDE.md line is simpler, so
+  the README now recommends the scoped line with the numbers.
+
+Cost: about $15 of reported spend (killed runs report none). Not verified: two runs per query; the scoped line was tested
+in the project-only harness, not combined with the user's plugins; the held-out set was not run for the broad named rule.
+
 ## Limitations
 
-- No real project repository, CI system, or code-review tooling was available to
-  exercise the workflow guidance in `SKILL.md`/`references/*.md` end to end - those
-  are process guidance for an LLM to follow, not independently executable, and are
-  reviewed for internal consistency (cross-links, terminology) rather than run.
-- As of the 2026-09-15 dedup pass below, `references/cpp-balanced-design-guidelines.md`
-  is this skill's sole canonical copy; `deep-learning`'s `SKILL.md` now links out to
-  this file instead of vendoring its own (see that skill's VALIDATION.md). This
-  skill's copy was not re-validated for guidance accuracy here, only kept as the
-  single source of truth.
+- The workflow guidance in `SKILL.md` and `references/*.md` is process guidance for an LLM, not executable code. It has
+  been exercised with fresh models: H1-H9 on Sonnet, Haiku and Opus (2026-09-21/22), and again on Haiku in round 2
+  (2026-09-27), plus one Sonnet dogfood run on three tasks in a scratch repository. It has not been run inside a real
+  project's CI or code-review tooling, and the behavior runs are plan-only.
+- The three language design guides (`references/cpp-`, `python-`, `bash-balanced-design-guidelines.md`) had accuracy
+  reviews on 2026-09-21 and a design-advice review on 2026-09-28 (see "Round 3"). New and changed snippets were run:
+  Python 3.13 and mypy `--strict`; Apple clang 21 with `-std=c++23` and sanitizers; Bash 3.2 only. Bash 4+ behavior
+  (namerefs, `declare -A`, `mapfile -d`) was checked by syntax only.
+- `references/cpp-balanced-design-guidelines.md` is the single canonical copy; `deep-learning` links to it (2026-09-15
+  dedup).
+- Triggering is the weakest point. From the description alone the skill rarely loads; see "Round 2" and "Round 3".

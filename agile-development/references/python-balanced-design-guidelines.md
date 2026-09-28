@@ -349,8 +349,8 @@ the standard library does not already provide an appropriate abstraction.
 Example:
 
 ```python
+from collections.abc import Iterator
 from contextlib import contextmanager
-from typing import Iterator
 
 
 @contextmanager
@@ -477,8 +477,8 @@ class Bird(Animal): ...
 A small number of cases may be better represented with a plain union type:
 
 ```python
+import math
 from dataclasses import dataclass
-from typing import Union
 
 
 @dataclass
@@ -492,8 +492,20 @@ class Rectangle:
     height: float
 
 
-Shape = Union[Circle, Rectangle]
+Shape = Circle | Rectangle
+
+
+def area(shape: Shape) -> float:
+    match shape:
+        case Circle(radius=r):
+            return math.pi * r**2
+        case Rectangle(width=w, height=h):
+            return w * h
 ```
+
+A `match` over the union keeps each case's logic in one place, and a type checker
+can flag a missing case if the function ends with `typing.assert_never(shape)`
+(Python 3.11+, or `typing_extensions` on 3.10).
 
 ---
 
@@ -678,18 +690,33 @@ error-handling mechanism, including for constructor failures. Raise a
 specific exception type — never a bare `Exception` — for conditions that are
 genuinely exceptional (invalid input, broken invariants, unreachable state).
 
-Example:
+Prefer "easier to ask forgiveness" (EAFP) over look-before-you-leap checks for
+I/O: attempt the operation and let it raise. A `path.exists()` check before
+opening races with other processes and duplicates the error `open()` already
+raises. Keep `__init__` cheap and free of I/O; put loading in a factory
+classmethod or a free function, so tests can build the object directly:
 
 ```python
+import json
+from dataclasses import dataclass
+from pathlib import Path
+
+
+@dataclass(frozen=True)
 class Config:
-    def __init__(self, path: "Path") -> None:
-        if not path.exists():
-            raise FileNotFoundError(f"config not found: {path}")
-        self._path = path
+    timeout_seconds: int
+
+    @classmethod
+    def from_file(cls, path: Path) -> "Config":
+        with path.open(encoding="utf-8") as handle:  # raises FileNotFoundError
+            data = json.load(handle)
+        return cls(timeout_seconds=int(data["timeout_seconds"]))
 ```
 
-Prefer `None` or another sentinel return value — not exceptions — for
-expected, non-exceptional "not found" outcomes on a hot or common path:
+Prefer `None` or another sentinel return value — not exceptions — when absence
+is a normal, expected outcome that every caller must handle (the `dict.get`
+pattern). A return type of `X | None` makes that visible in the signature, while
+an exception would be easy for callers to forget:
 
 ```python
 def find_user_by_id(user_id: str) -> "User | None":
@@ -727,19 +754,34 @@ broad `except Exception:` blocks that swallow errors silently:
 
 ```python
 try:
-    config = Config(path)
+    config = Config.from_file(path)
 except FileNotFoundError:
-    config = Config(default_path)
+    config = Config.from_file(default_path)
 ```
 
 Avoid this:
 
 ```python
 try:
-    config = Config(path)
+    config = Config.from_file(path)
 except Exception:
     pass
 ```
+
+When a lower layer's exception crosses into your component's API, translate it
+into the component's own exception type and chain it with `from`, so callers
+catch one domain error while the traceback keeps the original cause:
+
+```python
+try:
+    row = database.fetch_order(order_id)
+except LookupError as err:
+    raise OrderError(f"order {order_id} not found") from err
+```
+
+A broad `except Exception` is acceptable only at a top-level boundary (a request
+handler, a CLI `main`, a worker loop) that logs the error with its traceback and
+then fails the request or re-raises.
 
 For failures that need rich diagnostics across process or API boundaries,
 prefer the repository's established result/error type (e.g. a `Result`
@@ -820,16 +862,26 @@ Use `copy.deepcopy` (or a dataclass's own copy pattern) only when a genuine
 independent copy is required; deep copies are easy to reach for and easy to
 overuse.
 
-Use `weakref` for a non-owning reference that must not keep an object alive
-(for example, a cache pointing back at its owner):
+Pass collaborators as ordinary references; a constructor that stores an
+injected dependency (a `Renderer` holding a `TextureCache`) does not need
+`weakref`. The garbage collector frees reference cycles, so `weakref` is not
+needed to avoid leaks either. Use it only when a reference must not decide the
+target's lifetime: a back-reference from a child to its parent, or a cache or
+registry that should drop entries once nothing else uses them
+(`weakref.WeakValueDictionary`):
 
 ```python
 import weakref
 
 
-class Renderer:
-    def __init__(self, texture_cache: "TextureCache") -> None:
-        self._texture_cache = weakref.proxy(texture_cache)
+class TreeNode:
+    def __init__(self, parent: "TreeNode | None" = None) -> None:
+        self.children: list[TreeNode] = []
+        self._parent = weakref.ref(parent) if parent is not None else None
+
+    @property
+    def parent(self) -> "TreeNode | None":
+        return self._parent() if self._parent is not None else None
 ```
 
 Document non-obvious lifetime or aliasing constraints in a docstring rather
@@ -965,6 +1017,17 @@ class ReportGenerator:
         ...
 ```
 
+When only one call needs the value, pass the value itself instead of a
+collaborator. This is simpler than injecting a clock:
+
+```python
+from datetime import datetime
+
+
+def is_expired(expires_at: datetime, now: datetime) -> bool:
+    return now >= expires_at
+```
+
 Code should be designed so that core logic can be tested without file
 systems, networks, timers, or global state when possible — favor plain
 functions and constructor-injected collaborators over `unittest.mock`
@@ -977,25 +1040,27 @@ patching of module internals.
 Use `TypeVar`/`Generic` or `typing.Protocol` when the algorithm naturally
 works across multiple types.
 
-Good example:
+Good example (the item type flows from the input to the output, which `Any`
+would lose):
 
 ```python
-from collections.abc import Sequence
-from typing import Protocol, TypeVar
+from collections.abc import Callable, Hashable, Iterable
+from typing import TypeVar
 
-T = TypeVar("T", bound="SupportsAdd")
-
-
-class SupportsAdd(Protocol):
-    def __add__(self: T, other: T) -> T: ...
+T = TypeVar("T")
+K = TypeVar("K", bound=Hashable)
 
 
-def total(values: Sequence[T]) -> T:
-    result = values[0]
-    for value in values[1:]:
-        result = result + value
-    return result
+def group_by(items: Iterable[T], key: Callable[[T], K]) -> dict[K, list[T]]:
+    groups: dict[K, list[T]] = {}
+    for item in items:
+        groups.setdefault(key(item), []).append(item)
+    return groups
 ```
+
+Do not write a generic helper for something the standard library already does
+generically (`sum`, `max`, `functools.reduce`, `itertools`). On Python 3.12+ the
+same function can be written `def group_by[T, K: Hashable](...)`.
 
 Do not use generics or `Any` only to avoid writing clear types.
 
@@ -1015,7 +1080,7 @@ Use:
 
 ```text
 dataclasses
-collections (deque, defaultdict, Counter, namedtuple)
+collections (deque, defaultdict, Counter; typing.NamedTuple over namedtuple)
 itertools
 functools (lru_cache, singledispatch, reduce)
 pathlib
@@ -1147,8 +1212,9 @@ As a default:
 - Avoid unnecessary inheritance; prefer `typing.Protocol` and composition.
 - Avoid fake OOP such as stateless utility classes.
 - Avoid hidden global mutable state and mutable default arguments.
-- Raise specific exceptions for exceptional conditions; use `None`/sentinel
-  returns for expected, common-path "not found" outcomes.
+- Raise specific exceptions for exceptional conditions and chain them with
+  `from` at layer boundaries; use `None`/sentinel returns when absence is an
+  expected outcome every caller must handle.
 - Prefer explicit ownership and explicit dependencies.
 - Prefer standard library facilities over custom infrastructure.
 - Prefer simple, readable, testable, idiomatic Python.
