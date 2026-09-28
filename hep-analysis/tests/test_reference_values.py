@@ -145,5 +145,22 @@ class IndependentFormulaTests(unittest.TestCase):
         self.assertAlmostEqual(result['flux'], 100 / (2.5e3 * 0.5), places=12)
 
 
+
+class SkillGarwoodTableTest(unittest.TestCase):
+    """The exact-interval table in SKILL.md must match cosmic_ray_flux.poisson_interval."""
+
+    def test_table_matches_script(self):
+        text = (ROOT / 'SKILL.md').read_text()
+        rows = {}
+        for line in text.splitlines():
+            cells = [c.strip() for c in line.strip().strip('|').split('|')]
+            if cells and cells[0] in ('N', 'lower', 'upper'):
+                rows[cells[0]] = cells[1:]
+        self.assertEqual(set(rows), {'N', 'lower', 'upper'})
+        for n, lo, hi in zip(rows['N'], rows['lower'], rows['upper']):
+            exp_lo, exp_hi = poisson_interval(int(n))
+            self.assertAlmostEqual(float(lo), exp_lo, delta=0.006, msg=f'N={n} lower')
+            self.assertAlmostEqual(float(hi), exp_hi, delta=0.006, msg=f'N={n} upper')
+
 if __name__ == '__main__':
     unittest.main()

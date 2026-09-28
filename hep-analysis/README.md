@@ -36,6 +36,8 @@ HEP_PYHF_PYTHON=/path/to/python-with-pyhf python3 -m unittest tests.test_end_to_
 # Model-behavior checks (run by hand on a fresh model, results in VALIDATION.md):
 #   tests/prompts.md (graded prompts), tests/trigger_queries.json (description trigger set),
 #   tests/trigger_queries_holdout.json (held-out set with sibling owners, never used for tuning)
+#   tests/trigger_queries_formula.json (third set: quick formula lookups, 2026-09-28)
+#   python3 tests/prompts_eval.py --model haiku --runs 2 --out <dir>  (runs prompts.md, one dir per run)
 # Combine datacard check (skips unless combine is on PATH or a wrapper runs it in a Combine env):
 HEP_COMBINE_WRAPPER=/path/to/run-in-combine-env python3 -m unittest tests.test_combine_template -v
 # Harness trigger eval of the description (40 cases in evals/, built from tests/trigger_queries.json;

@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (hep-analysis)
 
-State at 2026-09-26 (round 4 on branch `hep-analysis-todo-round3`, see its VALIDATION.md section): P1-P4 done except open follow-ups (see the 2026-09-24 section of `VALIDATION.md`). Earlier state, 2026-09-21: skill is on `main`; the standard-library tests and `scripts/validate_skill_bundle.py` pass
+State at 2026-09-28 (round 5 on branch `hep-analysis-todo-round5`; round 4 on `hep-analysis-todo-round3`, see VALIDATION.md): P1-P4 done except open follow-ups (see the 2026-09-24 section of `VALIDATION.md`). Earlier state, 2026-09-21: skill is on `main`; the standard-library tests and `scripts/validate_skill_bundle.py` pass
 (see `VALIDATION.md`). Most of the verification so far was structural or numerical on pure-Python helpers. Nothing
 in the skill has been checked by running it on a fresh model. Read `VALIDATION.md` first, then this file.
 
@@ -70,15 +70,20 @@ The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven
 ## P2 follow-ups found 2026-09-24
 - [x] (2026-09-26: `tests/routing_eval.py` runs a `claude -p` child with `--setting-sources project` and the 7 repo skills symlinked as project skills; the child sees only those plus 12 built-ins. Sonnet 40/40 recall, 0/40 false triggers on both sets; see VALIDATION.md round 4) Re-run `claude plugin eval` (Sonnet too, not only Haiku) after any description change. For a real sibling-routing harness test, the eval child must not load ~112 user skills: the listing then shows plugin skills without descriptions. Find a way to isolate it (a clean HOME/config) and rerun `evals/` with all seven repo skills.
 - [x] (2026-09-26: `tests/trigger_queries_holdout.json`, 40 cases with owner skills; Haiku 34/40 recall vs 37/40 on the tuning set, 1/40 false trigger; misses are quick formula questions; not tuned, to keep the set held out) Write a fresh trigger query set (not the 40 used for tuning) to check that the revised description generalizes on Haiku.
-- [ ] Re-run `tests/prompts.md` on Haiku after any change to references 02/17/37 or the SKILL.md invariants. (Last done 2026-09-25: 9 PASS / 3 PARTIAL / 2 FAIL; P05 blinding and P07 prior-tuning fixed in SKILL.md/ref 01 and re-passed. Next time, run each prompt at least twice and give each agent its own output directory.)
+- [ ] Re-run `tests/prompts.md` on Haiku after any change to references 02/17/37 or the SKILL.md invariants (now scripted: `tests/prompts_eval.py`; last done 2026-09-28, round 5: after fixes 0 FAIL, P08 2/2 PARTIAL because the interval is not computed; see VALIDATION.md). (Last done 2026-09-25: 9 PASS / 3 PARTIAL / 2 FAIL; P05 blinding and P07 prior-tuning fixed in SKILL.md/ref 01 and re-passed. Next time, run each prompt at least twice and give each agent its own output directory.)
 - [x] (2026-09-25: refs 03/35 fixed; Haiku reruns P01 2/2 PASS, P10 2/2 PASS, P08 2/2 PARTIAL with no F signal; see VALIDATION.md) P01/P08/P10 are PARTIAL on Haiku: RDataFrame `Runs`-tree sumw code (ref 03), units on the flux value (ref 35), and the cutoff safety factor plus backtracing (ref 35). Check whether the references state these clearly enough.
 - [x] (2026-09-25: scripts allowed + 350-word cap gave 2/2 FAIL ("sqrt(3) is a reasonable approximation", ref 35 never read). The SKILL.md flux invariant now says "no" and links ref 35; ref 37 links there too. Result 2/2 PASS; P09/P10/P12 regression 4 PASS, 2 PARTIAL, 0 FAIL) P08 stays PARTIAL on Haiku.
 - [x] (2026-09-25: `claude plugin eval` recall is 20/20 on Sonnet and 12/20 on Haiku; the only false triggers are AMS queries with `ams-analysis` not loaded; see VALIDATION.md) Trigger test was simulated (an agent given the descriptions). If a harness-level trigger eval becomes available
       (e.g. `skill-creator` description optimization or `claude plugin eval`), re-run `tests/trigger_queries.json` through it.
 - [x] (2026-09-25, user chose to tune and commit: Haiku recall 22/40 -> 38/40 runs, false triggers 3 -> 5/40, all on sibling-owned queries; simulated 7-skill routing clean; suite in `evals/`) Decide whether to raise Haiku trigger recall.
 
-- [ ] Optional: Haiku skips the skill for quick formula lookups (Highland, calorimeter terms, force-field, Cherenkov threshold). If this matters, change the description and then test it on a *third* fresh query set, because the held-out set must stay untouched. Only 6 characters of the 1024 limit are left.
+- [x] (2026-09-28: third set `tests/trigger_queries_formula.json`; Haiku recall 48/80 -> 58/80, held-out unchanged; residual misses on self-contained numeric questions) Optional: Haiku skips the skill for quick formula lookups (Highland, calorimeter terms, force-field, Cherenkov threshold). If this matters, change the description and then test it on a *third* fresh query set, because the held-out set must stay untouched. Only 6 characters of the 1024 limit are left.
 - [x] (2026-09-26: moved to the academic-papers, academic-diagrams, agile-development, deep-learning and ams-analysis TODO lists with per-query counts; task-authoring was 4/4 correct) Sibling skills (not hep-analysis): the isolated harness showed that academic-papers (BibTeX/INSPIRE, paper critique), academic-diagrams (Mermaid to SVG, TikZ) and agile-development (sprint planning) are often not invoked at all, even on Sonnet. Move these findings to those skills' TODO lists.
+
+## Follow-ups found 2026-09-28 (round 5)
+- [x] (2026-09-28: exact command + Garwood table in SKILL.md, guarded by a test; Haiku P08 2 PASS + 1 PARTIAL of 3) P08 on Haiku stays PARTIAL: it says no to sqrt(N) and names `cosmic_ray_flux.py`, but does not run it or give the [1.37, 5.92] interval. Haiku in `claude -p` almost never opens a reference, so anything that must happen has to be in SKILL.md.
+- [ ] If formula-lookup recall matters more: remaining Haiku misses are self-contained numeric questions (calorimeter resolution 0/4, Cherenkov angle, photoelectron yield, TOF reach). Any further description change needs a *fourth* fresh set; `trigger_queries_formula.json` has now been used once for evaluation.
+- [ ] Sonnet routed the TOF+rigidity mass question (`m = R Z sqrt(1/beta^2-1)`) to ams-analysis 2/2; decide whether that is acceptable (AMS-like observable) or a routing gap.
 
 ## P3 - improve content and structure
 - [x] (2026-09-25: P2 agents read 1-3 references per task; ref 14 (1,300 lines) got a task-to-section map) `SKILL.md` is ~180 lines and the references total ~7,200 lines: check progressive disclosure. Confirm that a
@@ -97,6 +102,6 @@ The 24 examples (`examples/01-24`) and the invariants in `SKILL.md` are unproven
 
 ## P4 - housekeeping and decisions
 - [x] (already gitignored; no action) Remove stray `scripts/__pycache__` and `tests/__pycache__` from the working tree if they are untracked and not ignored.
-- [ ] Update `VALIDATION.md` header date and counts (file count, test count) after each pass. (Recurring; last done 2026-09-26, round 4.)
+- [ ] Update `VALIDATION.md` header date and counts (file count, test count) after each pass. (Recurring; last done 2026-09-28, round 5.)
 - [x] Asked 2026-09-24: all three matter equally (AMS-02/space-based, CMS/ATLAS collider, IACT/neutrino/air shower), so balance the P2 prompts across them.
 - [x] Asked 2026-09-24: yes. Added as "Latest-results policy" in `references/13-sources.md`.
