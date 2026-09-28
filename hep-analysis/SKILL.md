@@ -1,11 +1,26 @@
 ---
 name: hep-analysis
-description: "Use when analyzing collider or astroparticle physics data/simulation, including quick how-to or conceptual questions - load it before answering from memory: ROOT C++/PyROOT/uproot/awkward/RDataFrame pipelines (incl. crashes, CMake/root-config builds); event selections, cutflows, histograms, fits, efficiencies, yields, unfolding, systematics, ABCD/data-driven backgrounds, limits; RooFit/RooStats/pyhf/Combine (impacts, datacards). Jets/JES/JER, b-tagging, MET, pileup, tag-and-probe, BDT/NN classifiers. Detector subsystems (tracker, ECAL/HCAL, TRD, TOF, RICH, dE/dx, muon), PID, reconstruction, Geant4, calibration. Astroparticle/cosmic-ray physics: spectrum and composition (knee/ankle/GZK, X_max), air showers, ground arrays, IACT, neutrino telescopes (effective area), space-based detection (geomagnetic cutoff, solar modulation), multi-messenger, Li & Ma/trials statistics, and cosmic-ray flux from counts/exposure. Not for AMS-02-specific analyses (use ams-analysis) or unrelated 'root' (Linux/Android, certs)."
+description: "Use when analyzing collider or astroparticle physics data/simulation, including quick formula lookups, how-to or conceptual questions - load it before answering from memory: ROOT C++/PyROOT/uproot/awkward/RDataFrame (crashes, CMake builds); event selections, cutflows, histograms, fits, efficiencies, yields, unfolding, systematics, ABCD/data-driven backgrounds, limits; RooFit/RooStats/pyhf/Combine (impacts, datacards). Jets/JES/JER, b-tagging, MET, pileup, tag-and-probe, BDT/NN classifiers. Detector subsystems and resolutions (tracker, ECAL/HCAL, TRD, TOF, RICH, dE/dx, muon), PID, reconstruction, Geant4, calibration. Astroparticle/cosmic-ray physics: spectrum and composition (knee/ankle/GZK, X_max), air showers, ground arrays, IACT, neutrino telescopes (effective area), space-based detection (geomagnetic cutoff, solar modulation), multi-messenger, Li & Ma/trials statistics, cosmic-ray flux from counts/exposure. Not for AMS-02-specific analyses (use ams-analysis) or unrelated 'root' (Linux/Android, certs)."
 ---
 
 # High-Energy Physics and Astroparticle Physics Experimental Analysis and Statistics
 
 Produce physically traceable, statistically sound, reproducible analyses. Support design, implementation, debugging, review, and explanation. Follow the user's language and established project tools; do not assume an experiment, collision energy, era, or input format. Maintained in English. Preserve existing physics behavior (cuts, weights, binning, fit models) unless the user explicitly asks for a physics change.
+
+## Check first: proposals to correct before answering
+
+If the user proposes one of these, open with the correction, even when they only ask "is that right?". Each row restates an invariant below.
+
+| User proposes | Answer |
+|---|---|
+| MC normalization by entry count, post-skim count, or sum of abs(weights) | No: `lumi * xsec / sum(signed genWeight)` over the full produced sample before any skim (e.g. the NanoAOD `Runs` tree `genEventSumw`); keep negative weights |
+| `sqrt(N)` error on a few-count flux/rate bin | No: exact Poisson interval (run `scripts/cosmic_ray_flux.py`), asymmetric errors, units; in a high-rigidity/energy bin also spillover and background |
+| A plot or ratio covering a blinded region | Say first that SR data stay hidden: set observed values in the region to NaN/drop them before plotting; shading is not masking; offer MC/Asimov/CR checks |
+| Scaling the final histogram for a kinematic systematic (JES, energy scale) | No: vary the object, rerun selection and migration |
+| Widening a prior or retuning to improve agreement or a limit | Decline to write it; offer pulls/impacts, GoF, a CR constraint |
+| Quadrature errors on a ratio with shared systematics | No: use the covariance; shared terms cancel |
+| Hottest spot of a scan as a detection | Apply the trials correction `1-(1-p)^N` (fewer effective trials if correlated) |
+| Tau/iterations chosen by agreement with a model | No: objective criterion fixed in advance, closure on alternative truths |
 
 ## Working procedure
 
@@ -33,7 +48,7 @@ Don't mix more APIs than needed in one script; if mixing, keep boundaries clear 
 ### General
 
 - Do not silently change cuts, object ordering, binning, weights, corrections, models, parameter bounds, or nuisance correlations during a refactor. If a change risks altering physics output, say so and propose a comparison method (event count per cut, histogram integrals, max absolute/relative bin difference, fit parameters/uncertainties).
-- Preserve signed generator weights. Normalize with the sum of generator weights for the corresponding full production, not the selected entry count. Store both sumw and sumw2.
+- Preserve signed generator weights. Normalize with the signed sum of generator weights for the corresponding full production (before any skim), not the selected entry count and not the sum of absolute weights. Store both sumw and sumw2.
 - Do not count the same events, MC statistical information, or auxiliary measurement twice as independent likelihood information. Remove region overlaps or model them jointly.
 - Label observed counts, weighted yields, Asimov expectations, and toy data separately. Arbitrary weighted or background-subtracted data are not ordinary Poisson observations.
 - Poisson expectations must be nonnegative. Do not silently clip negative bins; investigate signed weights, sample statistics, binning, or model suitability.
@@ -46,8 +61,8 @@ Don't mix more APIs than needed in one script; if mixing, keep boundaries clear 
 ### Astroparticle and cosmic-ray
 
 - In an ON/OFF or blind sky-scan search, the OFF/background region must not overlap the ON region, and a reported significance must account for the number of independent trials (positions, energy bins, time windows, source catalogs) actually tested, not just the one presented.
-- Distinguish a flux measured at the top of the atmosphere or at an instrument from one corrected to the local interstellar spectrum; state the solar-modulation epoch/potential and the geomagnetic cutoff applied whenever a low-rigidity cosmic-ray flux is reported.
-- Do not draw a composition conclusion from a single shower observable (X_max or muon content alone) without stating the hadronic interaction model assumed and checking consistency against the other observable, given the current muon-content/X_max modeling discrepancy.
+- Distinguish a flux measured at the top of the atmosphere or at an instrument from one corrected to the local interstellar spectrum; state the solar-modulation epoch/potential and the geomagnetic cutoff applied whenever a low-rigidity cosmic-ray flux is reported. Select events above a safety factor (typically 1.2) times the cutoff backtraced through a realistic field model (per second or per event); a Stormer formula is only a planning estimate.
+- Do not draw a composition conclusion from a single shower observable (X_max or muon content alone) without stating the hadronic interaction model assumed (quote more than one) and checking consistency against the other observable, given the current muon-content/X_max modeling discrepancy. Use the X_max distribution width (sigma(X_max)), not only the mean: protons fluctuate most, and a nucleus of mass A averages fluctuations down (~1/sqrt(A)), so heavier means narrower.
 - A flux or rate reported from raw counts must use an exact Poisson interval, not a Gaussian sqrt(N) approximation, whenever counts are low enough for the two to disagree (routine in a steeply falling spectrum's high-energy tail); state the exposure (effective area/geometric factor times live time times solid angle) and bin width used, separately from the raw count. If asked whether `sqrt(N)` is right for a few-count bin, answer no (not "approximately right"), run `scripts/cosmic_ray_flux.py` for the interval, and for a high-rigidity/energy bin also address resolution spillover and background ([35, low-count bins](references/35-space-based-direct-detection.md#low-count-high-rigidity-bins)).
 - A ratio or fraction of two yields (e.g. a positron fraction or an antiproton/proton ratio) must use the yields' actual covariance, not an independence assumption, whenever they share a systematic (the same acceptance, exposure, or background-template shape) - state which systematics are shared and whether they were treated as correlated. Species-specific effects (e.g. charge confusion, which feeds protons into the antiproton sample) belong to one yield only and do not cancel.
 
@@ -156,6 +171,7 @@ When creating or modifying any code file (C++ source/headers, ROOT macros, PyROO
 - `assets/CMakeLists.txt`, `assets/analysis_config.yaml`, `assets/systematics_config.yaml`, `assets/statistical_histogram_config.yaml`, `assets/combine_datacard_template.txt`: build and config templates (copy and adapt).
 - `tests/test_helpers.py`: standard-library tests for `audit_histograms.py`/`counting_reference.py`/`tag_and_probe_efficiency.py`/`pileup_reweight.py`. Run `python3 -m unittest discover -s tests -v`.
 - `tests/test_astroparticle.py`, `tests/test_ams02.py`, `tests/test_yield_table.py`: standard-library tests for the astroparticle/space-detection helpers and `make_yield_table.py` (including error paths).
+- `tests/prompts_eval.py`, `tests/routing_eval.py`: model-behavior harnesses (they call `claude -p` and cost money): graded prompts from `tests/prompts.md` and trigger/routing evals on the `tests/trigger_queries*.json` sets.
 - `tests/test_reference_values.py`: cross-checks the physics helpers against independent references (scipy quantiles, a numerical profile likelihood, PDG table values, Smart & Shea); scipy tests skip if scipy is missing.
 - `tests/test_root_integration.py` + `tests/make_root_fixtures.py`: run the PyROOT scripts and assets end to end on synthetic ROOT fixtures; skipped unless PyROOT imports (set `HEP_ROOT_PYTHON`, e.g. Homebrew's `python3.14`, when conda Python cannot load Homebrew ROOT).
 

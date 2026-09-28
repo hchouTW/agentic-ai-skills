@@ -1,10 +1,70 @@
 # Package Validation Record
 
-Validation date: 2026-09-26 (latest pass; earlier passes dated below). Helper test
+Validation date: 2026-09-28 (latest pass; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
-Current counts: bundle 115 required files (plus 40 eval cases in `evals/`); 204 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+Current counts: bundle 117 required files (plus 40 eval cases in `evals/`); 204 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## TODO round 5: Haiku prompt rerun, formula-lookup triggering (2026-09-28, branch `hep-analysis-todo-round5`)
+
+- **New harness `tests/prompts_eval.py`.** It runs `tests/prompts.md` through real `claude -p`
+  children (Claude Code, `--setting-sources project`, the seven repo skills symlinked as project
+  skills as in `routing_eval.py`). Each run gets its own directory. P01-P10 and P12-P14 get the hint
+  "Load the hep-analysis skill"; P11, N01 and N02 route on their own. The hep-analysis skill
+  loaded in every hinted run, but Haiku opened a reference file in only 1 of 26 hinted runs. It
+  answered from SKILL.md alone. Earlier passes used Agent-tool subagents, so this
+  harness is stricter: guidance that lives only in a reference is invisible to Haiku.
+- **Run A, current SKILL.md, Haiku, 2 runs each (P01-P14, 28 runs): 16 PASS, 8 PARTIAL, 4 FAIL.**
+  - FAIL: P08 2/2 ("Yes, your formula is correct" for sqrt(3), although the flux invariant says
+    to answer no); P01 once (normalized by the sum of |genWeight|); P05 once (asked whether to
+    "mask entirely, or overlay it with a band/hatching").
+  - PARTIAL: P01 (signed sum but over the skimmed sample), P03 (no check), P05 (no clear refusal),
+    P10 2/2 (no backtracing, no 1.2x factor), P12 2/2 (a sqrt(ln N) heuristic and a wrong
+    expected count; no correlated-trials caveat), P13 (mean only).
+  - PASS: P02, P04, P06, P07, P09, P11 (routed to ams-analysis, dated sources), P14 2/2.
+    N01 and N02 did not load hep-analysis (N02 loaded deep-learning once).
+- **Fix 1: a "Check first" table at the top of SKILL.md.** Each row restates an existing
+  invariant as the correction to a user proposal (normalization, sqrt(N), blinded plots, JES
+  scaling, prior widening, ratio quadrature, scan trials, tau by agreement). The weight
+  invariant now says "before any skim" and "not the sum of absolute weights". No physics change.
+- **Run B, same prompts after fix 1: 21 PASS, 7 PARTIAL, 0 FAIL.** P08 now says no and names
+  the script, spillover and background, but does not compute the interval (2 PARTIAL). P05 2/2
+  PASS (NaN mask stated up front). P01 1 PASS, and 1 PARTIAL whose Runs-tree loop sums into its own
+  branch buffer (a code bug). P10 2 PARTIAL, P13 2 PARTIAL, P12 1 PARTIAL. No regression elsewhere.
+- **Fix 2: invariants.** The cutoff invariant now asks for a 1.2x safety factor over a backtraced
+  cutoff (Stormer is only a planning estimate). The composition invariant now asks for more than one
+  hadronic model and sigma(X_max). Both come from refs 35 and 31.
+  - Rerun: P10 2/2 PASS and P13 2/2 PASS. One P13 run said protons have the *narrower*
+    X_max distribution (reversed), so the invariant now gives the direction (protons fluctuate
+    most, ~1/sqrt(A)). The P13 rerun after that is 2/2 PASS with the correct direction.
+  - P08 2/2 PARTIAL, unchanged: no F signal, but the interval is still not computed.
+- Total reported cost for the prompt runs: about $3.70.
+- **Formula-lookup triggering (optional TODO item).** New third query set
+  `tests/trigger_queries_formula.json` has 20 quick formula/number lookups across collider,
+  detector and astroparticle topics. It also has 20 negatives: 12 unrelated physics, maths or coding
+  formulas, and 8 owned by sibling skills (3 deep-learning, 3 ams-analysis, 1 academic-papers,
+  1 academic-diagrams). It was not used to write the change.
+  Only one description variant was tried on it, so it stays a fair test.
+  - Description change (1018 -> 1019 characters): "quick formula lookups, how-to or conceptual
+    questions"; "Detector subsystems and resolutions". To make room: "pipelines" and
+    "/root-config" dropped, "incl." and "and" dropped.
+  - Isolated `routing_eval.py`, 2 runs per query:
+
+  | Set | Model | Before | After |
+  |---|---|---|---|
+  | formula (recall) | Haiku | 26/40, 22/40 (48/80) | 29/40, 29/40 (58/80) |
+  | formula (false triggers) | Haiku | 0/40, 0/40 | 0/40, 2/40 (AMS tracker resolution, 1/2 runs each time) |
+  | held-out (recall / FP) | Haiku | 34/40, 34/40 / 1, 0 | 34/40 / 0/40 |
+  | tuning (recall / FP) | Haiku | 37/40 / 1/40 (round 4) | 39/40 / 1/40 |
+  | formula (recall / FP) | Sonnet | not run | 35/40 / 0/40 |
+
+  - A gain of about +10 runs out of 80 on formula lookups, with no loss on the held-out or tuning sets.
+    Haiku still skips the skill for self-contained numeric questions: calorimeter resolution
+    (0/4 after), Cherenkov angle in C4F10, photoelectron yield, TOF pi/K reach. Sonnet sent the
+    TOF-plus-rigidity mass question to ams-analysis 2/2. In the second "after" Haiku formula run, 8 negative runs
+    errored (a usage limit was hit mid-run). They were rerun once and are counted in the table (0/8 false triggers).
+- Tests: 204 OK (12 skips). Bundle OK (117 files).
 
 ## Harness update (2026-09-27, during academic-papers round 1)
 
