@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit a structured AMS analysis specification (JSON) against the skill's invariants.
+"""Audit a structured AMS analysis specification (JSON or YAML) against the skill's invariants.
 
 Purpose: turn the non-negotiable invariants (explicit Z/A/units, conditional
 denominators, corrections applied once, no automatic cancellation, tail-aware
@@ -18,12 +18,14 @@ is internally complete and consistent. Numbers in free text are only heuristical
 scanned; register every AMS-specific number in `parameters`.
 
 Usage (from the skill directory):
-  python3 scripts/audit_analysis_spec.py SPEC.json [--claims data/claims.json | --no-claims]
+  python3 scripts/audit_analysis_spec.py SPEC.json|SPEC.yaml [--claims data/claims.json | --no-claims]
                                          [--markdown] [--low-count-threshold N] [--strict]
 The low-count threshold (default 20 expected counts in the smallest bin) is a triage
 [Proposal], not a statistical result; toy validation is the real criterion.
+A `.yaml` or `.yml` file is read with the strict YAML subset of scripts/yaml_subset.py (anything
+outside the subset is exit 2, not a guess); every other suffix is read as JSON.
 Exit codes: 0 no errors (warnings allowed unless --strict); 1 errors; 2 file unreadable
-or not a JSON object. Standard library only. Importable: audit_spec(spec, claims, threshold).
+or not a JSON/YAML object. Standard library only. Importable: audit_spec(spec, claims, threshold).
 """
 from __future__ import annotations
 
@@ -32,6 +34,9 @@ import json
 import re
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import yaml_subset  # noqa: E402  (strict YAML subset, standard library only)
 
 ROOT = Path(__file__).resolve().parents[1]
 VARIABLES = {"rigidity": "GV", "momentum": "GeV/c", "total_energy": "GeV", "kinetic_energy": "GeV",
@@ -425,9 +430,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--strict", action="store_true", help="exit 1 on warnings too")
     args = parser.parse_args(argv)
     try:
-        spec = json.loads(args.spec.read_text(encoding="utf-8"))
+        text = args.spec.read_text(encoding="utf-8")
+        spec = yaml_subset.loads(text) if args.spec.suffix.lower() in (".yaml", ".yml") else json.loads(text)
         if not isinstance(spec, dict):
-            raise ValueError("top level must be a JSON object")
+            raise ValueError("top level must be a JSON or YAML mapping (object)")
         claims = None if args.no_claims else json.loads(args.claims.read_text(encoding="utf-8"))
     except (OSError, ValueError) as exc:
         print(json.dumps({"verdict": "unreadable", "error": str(exc)}, indent=2))

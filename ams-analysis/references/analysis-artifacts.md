@@ -90,7 +90,10 @@ Run from the skill directory. Exit codes: 0 no errors, 1 diagnostics reported er
 | `scripts/validate_response.py` | Axes and edges, normalization under the declared convention, lost probability, empty bins, transpose, double counting, identifiability, optional closure pulls |
 | `scripts/validate_evidence_ledger.py` | IDs, references, states, supersession, over-strong claims, stale verification |
 | `scripts/render_source_index.py` | Render or check the tables in `references/source-index.md` from the JSON ledger |
-| `scripts/audit_analysis_spec.py` | Audit a specification; classify findings as error, warning, proposal, or unresolved; optional verdict-first markdown |
+| `scripts/audit_analysis_spec.py` | Audit a specification (JSON, or YAML by `.yaml`/`.yml` suffix); classify findings as error, warning, proposal, or unresolved; optional verdict-first markdown |
+| `scripts/yaml_subset.py` | Strict YAML-subset reader used for YAML specifications (`tests/fixtures/spec_valid.yaml` is the worked example); `python3 scripts/yaml_subset.py FILE.yaml` prints the parsed JSON |
+
+A YAML specification is read with a strict subset: mappings, lists, quoted or plain scalars, comments, one-line `[ ]` and `{ }`, and `|`/`>` block scalars. Anchors, aliases, tags, multiple documents, multi-line flow or quoted scalars, tab indentation and duplicate keys are rejected with a line number (exit 2), never guessed; dates stay strings and `yes`/`no` stay strings, so write booleans as `true`/`false` and quote any plain text containing `: `.
 
 A passing validator means the input is self-consistent under its declared metadata; it does not mean the response is physically valid, the covariance is correct, or the specification is a sound analysis.
 

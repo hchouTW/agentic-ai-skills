@@ -29,6 +29,7 @@ python3 scripts/ams_kinematics.py convert --from rigidity --to kinetic_energy_pe
 python3 scripts/validate_covariance.py tests/fixtures/cov_valid.json
 python3 scripts/validate_response.py tests/fixtures/response_valid.json
 python3 scripts/audit_analysis_spec.py tests/fixtures/spec_valid.json --markdown
+python3 scripts/audit_analysis_spec.py tests/fixtures/spec_valid.yaml --markdown   # same report from a YAML specification
 python3 scripts/poisson_diagnostics.py upper-limit --n 0 --b 0 --cl 0.95
 python3 scripts/poisson_diagnostics.py cls-limit --n 3 --b 3 --cl 0.95
 python3 scripts/likelihood_limits.py profile-limit --n 5 --b 3 --sigma-b 1 --cl 0.95 --toys 4000 --seed 1

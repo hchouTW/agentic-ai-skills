@@ -54,6 +54,7 @@ SCRIPT_TESTS = {  # script -> the test module that must exist for it
     "validate_evidence_ledger": "test_evidence_ledger",
     "render_source_index": "test_evidence_ledger",
     "audit_analysis_spec": "test_analysis_spec",
+    "yaml_subset": "test_yaml_subset",
     "poisson_diagnostics": "test_poisson",
     "statistical_toys": "test_statistical_toys",
     "likelihood_limits": "test_likelihood_limits",
@@ -64,7 +65,7 @@ SCRIPT_TESTS = {  # script -> the test module that must exist for it
 MAX_SKILL_LINES = 120
 REQUIRED_PATHS = (
     ["SKILL.md", "README.md", "VALIDATION.md", "agents/openai.yaml", "data/sources.json", "data/claims.json",
-     "tests/fixtures/spec_valid.json", "tests/fixtures/cov_valid.json", "tests/fixtures/response_valid.json"]
+     "tests/fixtures/spec_valid.json", "tests/fixtures/spec_valid.yaml", "tests/fixtures/cov_valid.json", "tests/fixtures/response_valid.json"]
     + [f"scripts/{name}.py" for name in SCRIPT_TESTS]
     + [f"tests/{name}.py" for name in sorted(set(SCRIPT_TESTS.values()))]
     + [f"references/{name}.md" for name in REFERENCES]
