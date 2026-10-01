@@ -36,7 +36,7 @@ to separate signal from background and its output is fitted to extract the signa
 Draw a conceptual diagram of how collider data and simulation each get from the detector or generator to a physics result. One figure for a thesis introduction.
 === END
 
-- Must: keep the data chain and the simulation chain as parallel paths that meet at reconstruction/analysis, not one linear chain.
+- Must: keep the data chain and the simulation chain as parallel paths that meet at a shared result (a reconstruction/analysis stage is fine but optional; the skill must not invent it), not one linear chain.
 - Must: state that it is conceptual, not a specific experiment's software.
 - Must not: name experiment-specific software or detector components as facts.
 

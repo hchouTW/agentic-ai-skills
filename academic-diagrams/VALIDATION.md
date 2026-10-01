@@ -168,6 +168,30 @@ in this harness, so graders judge source text only. 2 samples per prompt per arm
 
 The three Sonnet misses named in round 2 (causal-DAG review, PlantUML-to-PDF, distributed-training data flow) no longer miss. Sonnet's remaining misses: Feynman diagram in TikZ (1 run), talk-slide simplification (1), calorimeter TikZ (2), agentic block diagram (2), fit-region review (1). Haiku got worse (-1 tuning, -3 holdout; 4/44 runs, within what two samples can swing, but not an improvement), and its misses are still mostly "no skill loaded" or `dataviz`, as for the sibling skills. The holdout was used for this check, so it is no longer clean; stopped after one attempt as agreed.
 
+## Round 4: Sonnet on the behavioral runner, larger samples (2026-10-02)
+
+Same runner and prompts as Round 3 (D01-D10, blind Opus grader, no SKILL.md or description changes). Sonnet: 6 samples per prompt per arm. Opus: 4 more skill-arm samples per prompt (6 per cell with Round 3's 2; reported separately, and SKILL.md is unchanged since Round 3).
+
+| Model | Skill arm | Baseline arm |
+|---|---|---|
+| Sonnet (60 runs per arm) | 51 PASS, 9 PARTIAL, 0 FAIL | 23 PASS, 22 PARTIAL, 15 FAIL |
+| Opus, new runs only (40) | 37 PASS, 3 PARTIAL, 0 FAIL | not rerun |
+
+- Per prompt, Sonnet skill arm: D01, D03-D07, D09, D10 are 6/6 PASS; D02 1/6 PASS; D08 2/6 PASS (rest PARTIAL). Sonnet baseline fails D07 5/6 (invented counts or edges), D08 6/6, D01 2/6 and D05 2/6; D09 and D10 pass without the skill, so they do not discriminate.
+- **D08 (control vs data flow) is a real gap, not noise.** Sonnet PARTIAL 4/6, Opus PARTIAL 1/4 (and 1/2 in Round 3). The answers draw data flow and memory read/write but state control flow is omitted on purpose, instead of showing it in a second line style or legend.
+- **D02 is mostly a rubric conflict.** All 7 PARTIALs (5 Sonnet, 2 Opus; I read the grader notes for 4 Sonnet and both Opus ones) fail the same item: the lanes meet at "Physics result" and reconstruction/analysis is raised as an open question instead of drawn. That is the skill's no-invented-steps rule working as written against a rubric item that asks for the stage. Decide whether the rubric or the skill should change before treating it as a skill failure. Not changed here, so results stay comparable.
+- Opus skill arm over Round 3 and 4 combined: 56 PASS, 4 PARTIAL, 0 FAIL of 60 runs (D08 accounts for 2 PARTIALs and D02 for 2). Still one grader (Opus) and no rendering.
+- Reads: Sonnet read a reference file in most skill runs (HEP and TikZ references for D02); Haiku did not in Round 3.
+
+**Follow-up edits (2026-10-02).** D08: SKILL.md "Output Style" now says control and data flow both appear whenever a component splits, dispatches or calls others, so control edges are drawn in a second style with a legend entry instead of omitted. D02: the rubric item now asks for parallel paths meeting at a shared result, with a reconstruction/analysis stage optional (the skill must not invent it). Rubric changed after seeing results, so D02 numbers before and after are not strictly comparable.
+
+| Sonnet skill arm after the edits | Result |
+|---|---|
+| D02 + D08, 6 samples each | 11 PASS, 1 PARTIAL (D02: the answer added its own Reconstruction box and drew one linear chain). D08 was 6/6 PASS (was 2/6) |
+| Regression, all of D01-D10, 4 samples each | 37 PASS, 3 PARTIAL. All 3 are D06 (was 6/6): two used single-`$` math in Mermaid labels, which Mermaid does not render, and one gave no stopping criterion. Neither relates to the new line; unresolved, n=4 |
+
+Not rerun: Opus, Haiku. Possible next step: a SKILL.md or Mermaid-reference line on `$$...$$` math in Mermaid labels, if D06 stays PARTIAL on a larger sample.
+
 ## Not verified
 
 - The `subcaption` `figure*` snippet and `dvisvgm` export were not run.
