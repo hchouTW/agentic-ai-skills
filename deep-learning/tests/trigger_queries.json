@@ -6,22 +6,25 @@
   "set": "tune"
  },
  {
-  "query": "my loss goes to NaN after a few hundred steps, here's my training code",
+  "query": "my PyTorch loss goes to NaN after a few hundred steps. loop: `for x,y in dl: loss=F.binary_cross_entropy(torch.sigmoid(model(x)),y); loss.backward(); opt.step()` with lr=3e-3, what's wrong?",
   "expect_target": true,
   "owner": "deep-learning",
-  "set": "tune"
+  "set": "tune",
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
-  "query": "convert this single-GPU training script to DDP",
+  "query": "convert my single-GPU PyTorch training script to DistributedDataParallel with torchrun, it uses a plain DataLoader and torch.save at the end of each epoch",
   "expect_target": true,
   "owner": "deep-learning",
-  "set": "tune"
+  "set": "tune",
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
-  "query": "add mixed precision and gradient accumulation to this PyTorch script",
+  "query": "add bf16 autocast and gradient accumulation over 4 steps to my PyTorch training loop `for x,y in dl: opt.zero_grad(); loss=crit(model(x),y); loss.backward(); opt.step()`",
   "expect_target": true,
   "owner": "deep-learning",
-  "set": "tune"
+  "set": "tune",
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
   "query": "this DataLoader is the bottleneck, GPU sits idle half the time, what do I check",
@@ -30,10 +33,11 @@
   "set": "tune"
  },
  {
-  "query": "RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x64 and 128x10)",
+  "query": "RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x64 and 128x10) from my torch CNN: AdaptiveAvgPool2d((1,1)), Flatten(), nn.Linear(128, 10)",
   "expect_target": true,
   "owner": "deep-learning",
-  "set": "tune"
+  "set": "tune",
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
   "query": "my model resumes from the checkpoint but the loss jumps, what am I missing",
@@ -42,61 +46,69 @@
   "set": "tune"
  },
  {
-  "query": "should I use DDP or FSDP for a 3B model on 8 80GB GPUs",
+  "query": "should I use PyTorch DDP or FSDP to train a 3B-parameter model with AdamW in bf16 on 8 A100 80GB GPUs",
   "expect_target": true,
   "owner": "deep-learning",
-  "set": "tune"
+  "set": "tune",
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
-  "query": "how many GPU-hours and dollars to train a 1.3B model on 100B tokens",
+  "query": "how many GPU-hours and dollars to pretrain a 1.3B-parameter transformer on 100B tokens on H100s, and is that token count right for that size",
   "expect_target": true,
   "owner": "deep-learning",
-  "set": "tune"
+  "set": "tune",
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
-  "query": "is a 0.4% accuracy gain over the baseline real or just seed noise",
+  "query": "my PyTorch model beats the baseline by 0.4% accuracy over one training run each, is that real or just seed noise, how do I test it",
   "expect_target": true,
   "owner": "deep-learning",
-  "set": "tune"
+  "set": "tune",
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
-  "query": "my GNN for jet tagging overfits after 3 epochs, what regularization should I try",
+  "query": "my PyTorch GNN jet tagger overfits after 3 epochs (train acc 0.97, val 0.81, 200k jets, random jet-level split), what should I try",
   "expect_target": true,
   "owner": "deep-learning",
   "set": "tune",
   "also_ok": [
    "hep-analysis"
-  ]
+  ],
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
-  "query": "explain equivariant neural networks for point clouds and when they beat a plain transformer",
+  "query": "in PyTorch, when is an equivariant network for point clouds worth using over a plain transformer on particle-physics jets",
   "expect_target": true,
   "owner": "deep-learning",
   "set": "tune",
   "also_ok": [
    "hep-analysis"
-  ]
+  ],
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
-  "query": "my classifier says 0.99 confidence, is that a calibrated probability, how do I check ECE",
+  "query": "my PyTorch classifier outputs softmax 0.99 on most test examples, is that a calibrated probability, how do I compute ECE and fix it",
   "expect_target": true,
   "owner": "deep-learning",
-  "set": "tune"
+  "set": "tune",
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
-  "query": "the surrogate network is accurate in training range but I need to run it far outside, is that ok",
+  "query": "my PyTorch surrogate network for detector response is accurate on 1-100 GeV training data but I want to run it at 500 GeV, is that ok",
   "expect_target": true,
   "owner": "deep-learning",
-  "set": "tune"
+  "set": "tune",
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
-  "query": "review how I split this dataset, the validation AUC looks too good",
+  "query": "my torch classifier gets validation AUC 0.99 after `random_split(ds, [0.8,0.2])` but several samples come from the same event, review the split",
   "expect_target": true,
   "owner": "deep-learning",
   "set": "tune",
   "also_ok": [
    "agile-development"
-  ]
+  ],
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
   "query": "implement LoRA fine-tuning for a transformer in PyTorch with frozen base weights",
@@ -117,19 +129,21 @@
   "set": "tune"
  },
  {
-  "query": "how long will serving take, how many replicas for 500 QPS with a 250 ms p99 budget",
+  "query": "how many replicas do I need to serve a PyTorch model at 500 QPS under a 250 ms p99 budget if one replica does a batch of 16 in 40 ms",
   "expect_target": true,
   "owner": "deep-learning",
-  "set": "tune"
+  "set": "tune",
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
-  "query": "simulation-trained network performs worse on real data, how do I make it robust to the shift",
+  "query": "my PyTorch network trained on simulated collision events performs worse on real data, how do I make it robust to the shift",
   "expect_target": true,
   "owner": "deep-learning",
   "set": "tune",
   "also_ok": [
    "hep-analysis"
-  ]
+  ],
+  "revised": "2026-10-01 added PyTorch/code context"
  },
  {
   "query": "write a Keras training loop with early stopping callbacks",

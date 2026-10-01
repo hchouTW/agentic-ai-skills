@@ -12,6 +12,47 @@ run, test, and modify without archaeology.
 Out of scope: non-PyTorch DL frameworks, general C++ unrelated to LibTorch/custom ops -
 unless porting code into/out of PyTorch.
 
+## Scope and Proportion
+
+- **Other stacks:** for Keras/TensorFlow/JAX or classical ML (scikit-learn, XGBoost, tabular
+  trees), answer in that stack's own idioms. Do not apply this skill's Workflow, templates,
+  naming conventions, file-header rule or Response Format, and do not read its references;
+  at most one line noting that it is outside PyTorch scope. Porting to/from PyTorch is the
+  exception.
+- **Size the answer to the request.** A one-line shape error gets a short diagnosis and fix,
+  not the full template.
+- **Vague requests** ("make it faster", "improve accuracy") with no code or numbers: ask what
+  is slow or which metric, or state your assumption. Measure or profile first, name at most
+  three ranked suspects, and do not recommend `torch.compile`, AMP or DDP before a
+  measurement shows that they bind.
+
+## Rules to Apply Even Without Opening a Reference
+
+- **Checkpoint config is plain data.** Store `config` as a dict (`vars(args)`,
+  `dataclasses.asdict`). `torch.load` defaults to `weights_only=True` since PyTorch 2.6, so a
+  custom-class config fails to load. Use `weights_only=False` only for files you trust.
+- **Simulation is not data.** A metric on simulated test events says nothing about
+  performance on data. Ask for data-driven validation (control region, sideband or
+  tag-and-probe-style check), compare input and score distributions between data and
+  simulation, and carry the mismodeling as a systematic uncertainty on any efficiency taken
+  from simulation. A score is not a probability until it is calibrated on held-out data that
+  is separate from the test set, and calibration on simulation need not hold on data.
+- **Diagnose before prescribing regularization.** Check split leakage (jets of one event
+  across train and validation), duplicates, seed variance and data size first. Change one
+  thing at a time and judge it against the seed-noise baseline; state an expected effect as a
+  hypothesis, not a result. For set, point-cloud or particle inputs, say whether the model is
+  permutation invariant and whether an ordering (such as pt-sorting) is imposed; keep
+  permutation invariance separate from rotation or Lorentz equivariance.
+- **Do the memory equation before choosing a parallelism strategy.** Mixed-precision AdamW
+  costs about 16 bytes per parameter before activations (2 bf16 weights, 2 gradients, 4 fp32
+  master weights, 8 fp32 Adam moments), so a 3B model needs about 48 GB per replica under
+  plain DDP. Activations grow with batch and sequence length and can be the binding term, in
+  which case sharding weights (FSDP/ZeRO) does not help; recomputation or a smaller
+  micro-batch does. Name what binds, use `scripts/estimate_training_memory.py` for numbers,
+  prefer DDP when it fits, and say that the figures are estimates to confirm on the real job.
+- **Comparisons need matched budgets and several seeds** before words like "better" or
+  "state-of-the-art" go into text.
+
 ## Workflow
 
 1. **Clarify task shape**: classification (binary/multiclass/multilabel), regression,
