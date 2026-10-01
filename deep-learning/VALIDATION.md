@@ -819,6 +819,44 @@ Behavior (2 runs per prompt and arm, plan-only; P=1, ~=0.5, F=0; mean over rubri
   Sonnet runs $3.88, plus scorers and routing ($1.12 Haiku, $1.78 Sonnet).
 - Not done: Opus runs, a third run to separate noise on the 10-point differences, the holdout trigger set.
 
+## P2 follow-up: SKILL.md fixes and re-run (2026-10-01)
+
+Changes to `SKILL.md` (description untouched; 275 to 316 lines): a "Scope and Proportion" section (other
+stacks and classical ML answered in their own idioms without this skill's ceremony; size the answer to the
+request; vague requests get a question or an assumption and a measurement before `torch.compile`/AMP/DDP),
+and a "Rules to Apply Even Without Opening a Reference" section (plain-dict checkpoint config and the
+`weights_only` default; simulation is not data and calibration does not carry over; diagnose before
+prescribing regularization and keep permutation invariance separate from Lorentz equivariance; the memory
+equation, 16 bytes/param for mixed-precision AdamW checked against `estimate_training_memory.py`, with
+activations possibly binding; matched budgets and several seeds before "better"). The trigger tuning file had
+14 of 40 queries rewritten to carry PyTorch/code context.
+
+Re-run of the skill arm (3 runs per prompt) scored against the same 2 baseline runs by the same blind scorer:
+
+| Model | Baseline | Skill, first pass (2 runs) | Skill, after fixes (3 runs) | Skill runs reading SKILL.md | References per run |
+|---|---|---|---|---|---|
+| Haiku | 66.5% | 76.8% | 78.0% | 42/45 | 0.3 |
+| Sonnet | 81.6% | 92.1% | 97.1% | 45/45 | 2.5 |
+
+- Sonnet: the out-of-scope regression is gone (H15 Keras 67 to 100) and "make it faster" is fixed (H10
+  92 to 100); H1, H6, H9 also rose to 100. H14 (scikit-learn, 83) did not move: bullet (c), no ceremony from
+  the skill, still scores partial because the plan reads `SKILL.md` and writes a longer answer than the baseline.
+  H8 (88) and H13 (83) are unchanged.
+- Haiku: +1.2 points overall, which is inside the noise at this n. Gains on H2 (69 to 96), H11 (75 to 88),
+  H10 (67 to 78), H3 (81 to 88); drops on H7 (81 to 58) and H5 (94 to 75). The H7 drop was traced to all three
+  plans leaving out the fp32 optimizer state and master weights and calling DDP "comfortable" without a
+  check on activations; the memory-equation rule was added after that, and a further 3 H7 runs scored about
+  67% across bullets (was 58%, baseline about 38%); bullet (d), "estimates to confirm", still mostly fails.
+- Routing on the revised tuning queries did not change: Haiku recall 1/40, Sonnet 17/40 (was 16/40), false
+  triggers 0/40 both; routed to the expected owner 23/80 and 45/80. Adding PyTorch/code context to the queries
+  therefore did not explain the low recall; Haiku answers directly in this harness, and Sonnet answers
+  directly on more than half of the clearly PyTorch queries. The skill description was not changed and the
+  holdout set was not run. A description rewrite needs a different strategy (see TODO), not more query context.
+- Caveats: 2 baseline vs 3 skill runs; the blind scorer identified the arm 75/75 for Sonnet and 49/75 for
+  Haiku, so the Sonnet comparison is effectively open-label; the H7 re-run used the same 3-run sample size and
+  the rule was written after seeing those plans (a fix aimed at an observed miss, so it needs fresh prompts to
+  confirm); a scorer is a single Sonnet child. Cost of this round: about $5.4 behavior, $3.1 routing.
+
 ## Limitations
 
 - **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that
