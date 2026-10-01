@@ -40,7 +40,7 @@ User decisions (2026-09-26):
 - [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (60 files, 48 tests). Last done 2026-10-01, round 2.
 
 Known residual gaps (only if a user need arises):
-- NeurIPS, ICML, ICLR and ACL styles were not compiled. Only the skeleton, REVTeX, JHEP and JCAP were.
+- The venues' own format checkers (NeurIPS/ICML/ICLR/ACL) were not run; the styles compile under Tectonic only (2026-10-01), not pdfTeX. Re-check each year.
 - Venue rules marked "Not checked": Elsevier/`elsarticle`, A&A, JMLR, AAAI, statistics journals.
 - The DBLP and Semantic Scholar query syntax is not verified live.
 - `SKILL.md` is about 470 lines because of the rules block. A trim was considered and not done, since skill runs read at most 3 references.

@@ -200,9 +200,28 @@ files.
   - ICLR 2026: 9 pages main text at submission, 10 during rebuttal and for
     camera-ready; references and appendices do not count.
   - All three are double-blind.
+  - Style files, options and bibliography setup (compiled with Tectonic 2026-10-01; each
+    official example builds with no errors and no undefined references or citations):
+    - NeurIPS: `\usepackage{neurips_2026}` (from `Formatting_Instructions_For_NeurIPS_2026.zip`,
+      linked on the call-for-papers page). Track options `main`, `position`, `eandd`,
+      `creativeai`, `education` and two workshop options; `final` for camera-ready,
+      `preprint` for arXiv, `nonanonymous` to drop anonymization, `nonatbib` if you load
+      natbib yourself. The template ships `checklist.tex`.
+    - ICML: `\usepackage{icml2026}` plus `\icmltitlerunning{...}`; options `accepted`
+      (camera-ready), `preprint`, `nohyperref`. Ships `icml2026.bst`, so use
+      `\bibliographystyle{icml2026}`.
+    - ICLR: `\usepackage{iclr2026_conference,times}`; `\iclrfinalcopy` for camera-ready;
+      `\bibliographystyle{iclr2026_conference}`. Ships its own `natbib.sty`.
+    - Tectonic is XeTeX-based, so ICML and ICLR give "Font shape `TU/ptm/...' undefined"
+      warnings and embed some CID fonts; the output has no Type 3 fonts. A venue's
+      format checker may still prefer pdfTeX output: do the final build with the engine
+      the venue documents.
 - **ACL / EMNLP / NAACL** (reviewed through ACL Rolling Review) require the official
   ACL style template from the ACL GitHub repository, unmodified, with
-  `\citep`/`\citet` author-year citations. ARR limits (checked 2026-09): long papers 8
+  `\citep`/`\citet` author-year citations. Compiled 2026-10-01 from the ACL GitHub
+  `acl-style-files` master (`acl_latex.tex`, 4 pages, no errors): `\usepackage[review]{acl}`
+  for submission (anonymous, line numbers), `final` for camera-ready, `preprint` for
+  arXiv; bibliography style `acl_natbib`. ARR limits (checked 2026-09): long papers 8
   pages of content, short papers 4, plus unlimited references; a "Limitations"
   section is required (desk rejection without it), goes after the conclusion and
   before the references, and does not count toward the limit, like the optional

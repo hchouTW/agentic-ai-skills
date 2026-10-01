@@ -24,8 +24,13 @@ removed on 2026-09-25).
   (Springer Nature), AASTeX v7 and the conference styles must be downloaded.
 - REVTeX PRL snippet: compiles. The corrected JHEP and JCAP skeletons compile against
   `jheppub.sty`/`jcappub.sty` v.1.1227 and `JHEP.bst` downloaded from SISSA.
-- NeurIPS/ICML/ICLR/ACL styles were not compiled. The reference names no class options
-  for them, only where to get the current year's file.
+- NeurIPS 2026, ICML 2026, ICLR 2026 and ACL (GitHub `acl-style-files` master) official examples
+  compiled with Tectonic on 2026-10-01: all build, with no errors and no undefined references or
+  citations (7, 7, 7 and 4 pages for ICML, ICLR, ACL; NeurIPS 12 with checklist). Only underfull-box
+  and, for ICML/ICLR, XeTeX font-shape warnings. No Type 3 fonts; ICML/ICLR embed some CID fonts
+  because Tectonic is not pdfTeX, so the venue's own format checker was not run. Class options and
+  bibliography styles are now in `references/latex-and-formatting.md`. NeurIPS download URL came from
+  the call-for-papers page; a guessed URL 404'd.
 
 **Venue rules checked against the venue's own pages, with sources listed in
 `references/latex-and-formatting.md`.** Errors corrected in that file, SKILL.md's
