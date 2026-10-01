@@ -22,14 +22,14 @@ Ground rules: standard library only for scripts; every AMS-specific number needs
 
 - [ ] Have a human physicist review the ledger judgement calls listed in `VALIDATION.md` ("Ledger migration: differences requiring human review"): claim strengths, `support_kind`, `numeric_quotation_allowed`, tier ranges, and the S02/S03 supersession.
 
-## 4. Routing (low priority)
+## 4. Routing (rechecked 2026-10-01)
 
-- [ ] Trigger data from the isolated routing eval (2026-09-26). Setup: `hep-analysis/tests/routing_eval.py` on `hep-analysis/tests/trigger_queries_holdout.json` and on the tuning set `hep-analysis/tests/trigger_queries.json`, with all 7 repo skills loaded as project skills and 2 runs per query. "none" means the model answered without invoking any skill.
-  - Sonnet: 6/6 held-out AMS queries routed here.
-  - Haiku, held-out: 5/6. "Review my AMS-02 electron/positron TRD likelihood template fit" went to none once.
-  - Haiku, tuning set: 2/4. "latest AMS-02 positron fraction result and its TRD selection" went to none once. "Design the AMS-02 antideuteron search selection and review it formally" went to `hep-analysis` once.
-
-  Recheck after any description change here or in hep-analysis.
+- [x] Routing recheck (2026-10-01), no description changed since the 2026-09-26 eval. Setup: `hep-analysis/tests/routing_eval.py` on `trigger_queries_holdout.json` and `trigger_queries.json` (40 queries each), all 7 repo skills as project skills, 2 runs per query, `--target ams-analysis`. Raw per-run JSON was in the session scratchpad and not archived. Read the AMS queries from the per-run results: the script's own "recall" line counts every query as an `ams-analysis` target (the files have no per-target flag), so it shows 0/40 and 2/40 and should be ignored here.
+  - Held-out AMS queries (3 queries, 6 runs per model): Sonnet 6/6, Haiku 6/6 routed here (the 2026-09-26 Haiku miss on "Review my AMS-02 electron/positron TRD likelihood template fit" did not recur).
+  - Tuning-set AMS queries (2 queries, 4 runs per model): Sonnet 4/4, Haiku 4/4 (the earlier Haiku misses on the positron-fraction query and the antideuteron-search query did not recur; both models route the antideuteron one here).
+  - False triggers: none on non-AMS queries except "boron-to-carbon with a space magnetic spectrometer" (held-out), routed here 2/2 runs by both models; the query lists `ams-analysis` as acceptable.
+  - Haiku's earlier misses look like run-to-run variance (2 runs per query is thin), not a fixed description gap; no description change made.
+  - Recheck after any description change here or in hep-analysis.
 
 ## 5. Optional, only if a routed decision needs it
 
