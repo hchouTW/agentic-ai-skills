@@ -230,9 +230,11 @@ files.
   long-running stable style, closer to a journal's `article`-based class than a
   yearly-changing conference one). TMLR requires its own style file and sets no
   page limit ("submissions may be any length"), but unusually long papers are
-  likely to be reviewed more slowly. JMLR also has no explicit limit. Its author
-  page (reported by search, not fetched) says papers over 50 pages take longer and
-  may be desk-rejected if no editor or reviewers can be found.
+  likely to be reviewed more slowly. JMLR has no hard limit, but its author
+  page (fetched 2026-10) warns that papers over 35 pages, appendices included, may be
+  rejected if no editor or reviewers are found, and papers over 50 pages need a
+  justification in the cover letter and may be desk-rejected. JMLR rejects papers not
+  in its `jmlr2e.sty` style without review.
 - **Statistics journals** (JASA, Annals of Statistics, Biometrika, JRSS-B) rarely
   mandate a specific heavily-branded class file the way REVTeX/AASTeX do — most
   accept a plain `article`-based submission with the journal's own reference
@@ -333,4 +335,9 @@ value comes from a search engine's copy of that official page.
 | ACL Rolling Review | 8/4 pages, required Limitations | https://aclrollingreview.org/cfp | 2026-09 |
 | TMLR | no page limit, own style file | https://jmlr.org/tmlr/author-guide.html | 2026-09 |
 | arXiv | TeX Live, BibTeX/biber, `.bbl` naming, figure formats | https://info.arxiv.org/help/submit_tex.html | 2026-09 |
-| Elsevier (`elsarticle`), A&A (`aa.cls`), JMLR, AAAI, statistics journals | not checked | - | - |
+| JMLR | `jmlr2e.sty` on `article`; > 35 pages (with appendices) may be rejected if no editor or reviewers are found, > 50 pages need a cover-letter justification and may be desk-rejected; abstract <= 200 words, 5 keywords, running title <= 50 characters; non-JMLR-style papers rejected without review | https://www.jmlr.org/author-info.html , https://www.jmlr.org/format/format.html , https://github.com/JmlrOrg/jmlr-style-file | 2026-10 |
+| AAAI-27 | 7 content pages, 9 total (pages 8-9 references only); double-blind; reproducibility checklist at submission. The style-file name `aaai27.sty` is from a search snippet only: not verified, take it from the Author Kit | https://aaai.org/conference/aaai/aaai-27/submission-instructions/ , https://aaai.org/conference/aaai/aaai-27/main-technical-track-call/ | 2026-10 |
+| Elsevier `elsarticle` (class) | v3.5 (2026-01-09); options `preprint`/`review`/`1p`/`3p`/`5p`/`authoryear`/`number`/`sort&compress`; `.bst` files `elsarticle-num`, `elsarticle-num-names`, `elsarticle-harv`; `keyword` and `highlights` environments | https://mirrors.ctan.org/macros/latex/contrib/elsarticle/doc/elsdoc.pdf | 2026-10 |
+| Astroparticle Physics (journal) | page/word limits, reference style, abstract length, highlights requirement: not verified (publisher pages returned HTTP 403). Take them from the journal's Guide for Authors | https://www.sciencedirect.com/journal/astroparticle-physics/publish/guide-for-authors (not fetchable) | 2026-10 |
+| A&A | `aa.cls`; Letters 3,000 words (search copy only, not verified); structured abstract optional (search copy). aanda.org returned HTTP 403; a "100-word Letter abstract" snippet conflicts and is unsourced | https://www.aanda.org/doc_journal/instructions/aadoc.pdf (not fetchable) | 2026-10 |
+| Statistics journals (JASA, Annals of Statistics) | not verified: the Annals page defers to a "Preparation of Manuscripts" page that was not followed, and tandfonline returned HTTP 403 | https://imstat.org/journals-and-publications/annals-of-statistics/annals-of-statistics-manuscript-submission/ | 2026-10 |

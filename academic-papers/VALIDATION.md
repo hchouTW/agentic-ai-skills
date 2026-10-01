@@ -5,8 +5,8 @@ bundle, and what `scripts/check_manuscript.py` / `scripts/build_lit_matrix.py` c
 for a user's own manuscript or reading notes (a different, deliberately separate
 concern).
 
-Last pass: 2026-10-01 (TODO round 2, branch `academic-papers-todo-round2`; earlier
-passes: round 1 on 2026-09-27, Haiku follow-ups on 2026-09-27). Counts: 60 files in the
+Last pass: 2026-10-01 (TODO round 3, branch `academic-papers-todo-round3`; earlier
+passes: round 2 on 2026-10-01, round 1 on 2026-09-27, Haiku follow-ups on 2026-09-27). Counts: 61 files in the
 bundle, 48 unit tests (`python3 -m unittest discover -s tests`), bundle validator OK.
 Environment: Tectonic (miniconda) is the only TeX engine; no pdflatex, latexmk, bibtex
 or biber. Network access was available.
@@ -236,6 +236,57 @@ slots): 12 Haiku skill-arm runs, 3 PASS / 3 PARTIAL / 6 FAIL (6-run halves: 2/2/
 1/1/4). No better than the 2/6 PASS before it, so it was reverted; `SKILL.md` is
 unchanged. Conclusion: A05 on Haiku is not fixable by more wording in `SKILL.md`; treat
 it as a known Haiku limitation (Sonnet passes) unless a user need arises.
+
+## Round 3: unchecked venue rows and venue format checkers (2026-10-01, branch `academic-papers-todo-round3`)
+
+**Venue rows** (dated rows are in `references/latex-and-formatting.md`):
+- Verified from primary pages: JMLR (35- and 50-page thresholds with appendices, 200-word
+  abstract, `jmlr2e.sty`; this corrects the earlier "no explicit limit" note), AAAI-27
+  (7 content pages, 9 total, double-blind, reproducibility checklist), and the `elsarticle`
+  class itself (v3.5, CTAN `elsdoc.pdf`).
+- Not verified, because the publisher pages returned HTTP 403 and the Chrome extension did
+  not respond: Astroparticle Physics journal rules, A&A (Letters 3,000 words is a search copy
+  only; a conflicting "100-word Letter abstract" snippet is unsourced), JASA, and the Annals
+  of Statistics (its page defers to a "Preparation of Manuscripts" page that was not
+  followed). The `aaai27.sty` file name is from a search snippet only.
+
+**Format checkers**, run on the NeurIPS 2026, ICML 2026, ICLR 2026 and ACL official examples
+recompiled with Tectonic 0.17.0 (all build):
+- ACL: `aclpubcheck` 0.1 (acl-org/aclpubcheck, commit 237bee3) printed "All Clear!" on the
+  camera-ready build (`aclpubcheck -p long`). The anonymous review build gives 193 margin
+  errors, which are spurious (line numbers in the margin); the tool is meant for the final PDF.
+- ICML: the official checker is a web form (papercheck.icml.cc), camera-ready only, needing a
+  real OpenReview paper ID and identity. It was not run, since that would create a bogus
+  record with the venue's service. No downloadable script exists.
+- ICLR and NeurIPS: no checker found after searching the official pages, the ICLR
+  Master-Template repository and the NeurIPS zip. Enforcement is by desk rejection. The
+  NeurIPS checklist is a questionnaire, not a tool.
+- Measured instead with `pdfinfo`, `pdffonts` and `pdfplumber`: main text is 5, 5, 5-6 and 3
+  pages (NeurIPS, ICML, ICLR, ACL), well under the limits; body widths match the style files
+  (ICML 6.8 in measured against 6.75 in); all are anonymous in review mode; no Type 3 fonts.
+  The example papers are short by design, so this says nothing about a full-length paper.
+- Caveat: Tectonic is XeTeX, not pdfTeX. ICML and ICLR get Latin Modern CID fonts instead of
+  Times Type 1, and ICML has one non-embedded Times-Roman. Rebuild with pdfTeX before a real
+  submission. The `aclpubcheck` pass on Tectonic output is evidence, not a guarantee.
+
+**Haiku skill arm, 3 more runs** (`tests/run_prompts.py`, blind Opus grader, 15 prompts each, 45
+answers; no USAGE_LIMIT, ERROR, timeout or empty answer):
+- Per run (PASS/PARTIAL/FAIL): 11/3/1, 5/9/1, 8/6/1. Pooled new runs 24/18/3 (53% PASS). The
+  earlier 2 runs were 21/5/4 (70%). All 5 runs pooled: 45/23/7 (60% PASS).
+- Per-run PASS ranged from 5 to 11 of 15, so run-to-run variance is large and
+  the earlier 21/5/4 was probably an optimistic draw. FAIL counts are stable (3 against 4);
+  the shift is PASS to PARTIAL. No `SKILL.md` regression is implied: the skill rules were not
+  changed between the two measurements.
+- Per prompt, PASS out of the 3 new runs: never A10 (does not say a single split gives no
+  variance estimate and that seeds or cross-validation are needed) and A08 (keeps the old
+  INSPIRE key instead of `ATLAS:2012yve`, with no citation update; one run also asserted
+  NeurIPS page numbers, the only FAIL there); 1/3 for A02, A03, A05, A09, A11, A15; 2/3 for
+  A07, A12, A14; 3/3 for A01, A04, A06, A13. A05 stays the known Haiku limitation.
+- Caveat: the venue table in `SKILL.md` was edited (JMLR, AAAI-wording, Astroparticle Physics,
+  statistics rows) while these runs were in progress. None of the 15 prompts asks about those
+  venues, but the runs are not from a frozen file.
+- Candidates for a later round (not attempted): A10 and A08 never passed on Haiku. Given the
+  A05 history, expect wording changes to land within noise; measure with at least 6 runs.
 
 ## TODO round 1: P3 content and structure (2026-09-27)
 
