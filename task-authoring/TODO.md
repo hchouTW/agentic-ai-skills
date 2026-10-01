@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (task-authoring)
 
-State (2026-10-01, round 2 on branch `task-authoring-todo-round2`): `python3 scripts/validate_skill_bundle.py` OK (25 files, 12-section template contract); `python3 -m unittest discover -s tests` 81 tests OK. Round 2 did the description length, the examples drift and the housekeeping (see `VALIDATION.md` "Round 2"). Verification is still mostly structural (validators, link checks) plus one RED/GREEN fresh-subagent run for `loop-engineering.md`; no behavior or trigger test has been run. Core task authoring, the 8 archetypes and the prompt-engineering reference have never been tested on a fresh model. Read `VALIDATION.md` first (it is still dated 2026-09-12), then this file.
+State (2026-10-01, round 2 on branch `task-authoring-todo-round2`): `python3 scripts/validate_skill_bundle.py` OK (25 files, 12-section template contract); `python3 -m unittest discover -s tests` 81 tests OK. Round 2 did the description length, the examples drift and the housekeeping (see `VALIDATION.md` "Round 2"). Verification is still mostly structural (validators, link checks) plus one RED/GREEN fresh-subagent run for `loop-engineering.md`; trigger sets exist and were run once (see the P1 item), but no behavior test has been run. Core task authoring, the 8 archetypes and the prompt-engineering reference have never been tested on a fresh model. Read `VALIDATION.md` first (it is still dated 2026-09-12), then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -40,12 +40,7 @@ Sibling tooling to reuse instead of hand-run subagents:
 - [ ] Run the prompts with and without the skill on Haiku and Sonnet, and on Opus if possible, with at least 2 runs each. Log the results in `VALIDATION.md` and fix `SKILL.md` where the skill did not help.
 - [ ] Fabrication guard: over 5+ runs, count invented paths, thresholds, dataset versions, or "Confirmed" labels on things that are only inferred. Any hit is a skill bug; tighten the wording.
 - [ ] Check that generated tasks pass `references/task-quality-checklist.md` and the 12-section contract. Consider a small linter for generated tasks: sections in order, non-empty Open Questions, every cited path exists.
-- [ ] Trigger sets: `tests/trigger_queries.json` for tuning (20 should-trigger, 20 should-not) and a held-out set that is never tuned on. Near-misses to include:
-  - ad-hoc scoping inside an active implementation chat (stays with `agile-development`);
-  - "write a README";
-  - "write a commit message";
-  - a generic "write a prompt" with no LLM-call design;
-  - drafting for `academic-papers`.
+- [ ] Trigger sets (partly done 2026-10-01): `tests/trigger_queries.json` (tuning) and `tests/trigger_queries_holdout.json` now exist, smaller than planned (22 and 16 queries; the plan was 20 should-trigger and 20 should-not for tuning). Sonnet recall 22/24 tuning, 13/16 holdout; Haiku 0/24 and 0/16, the same with the old description (harness limit). 0 false triggers. Open: stack-trace-to-task queries load no skill on Sonnet, and prompt-design queries (token budget, ReAct loop) often go to `claude-api`; if that matters, name them in the description (1017 of 1024 characters used) and rerun both sets, then the sibling validators. The holdout is clean for one more change. Run the sets after any change to `SKILL.md`.
 
   Run each affected sibling's validator and tests after any description change. The boundary with `agile-development` was added to both descriptions in ea98f0d.
 

@@ -211,7 +211,15 @@ after every edit in this section: both pass throughout.
 - Example drift, checked against the repository on 2026-10-01: seven skills now have a `validate_skill_bundle.py` (the feature example says five); `academic-papers/examples/` no longer exists (bug example); the `cpp-balanced-design-guidelines.md` duplication was resolved on 2026-09-15 (research example); `hep-analysis/references/40-ams02-case-study.md` is now `38-ams02-case-study.md` and `hep-analysis/examples/` is gone (AMS example); the CMS example's environment statements are dated. A path check over the six examples found no other missing path except the files the performance and AMS examples propose to create. Fixes: the AMS example's reference number and its `examples/` question were corrected, and the other four files carry a dated "Snapshot note" under the title. The feature example's per-skill Repository Context and its "five" were not rewritten.
 - `examples/README.md`: "Four" corrected to six, the unshipped `AI_Agent_Agnostic_Task_Authoring_Workflow.md` citation reworded as provenance, the table rows note what changed.
 - Logged here for the first time: `skill-router` was removed (4e687d7, 2026-09-23, PR #18) and the examples that used it as their subject were rewritten (5953c63, 2026-09-23).
-- Not done in this round: behavior and trigger testing, the archetype-tooling decision, the stale-premise rewrite of the feature example, and the currency check of the prompt-engineering reference.
+- Trigger sets and routing eval (same day, after the description change): `tests/trigger_queries.json` (tuning: 12 target, 10 negatives with an owner or none) and `tests/trigger_queries_holdout.json` (written separately: 8 target, 8 negatives). Near-misses include live implementation requests (`agile-development`), README, commit-message and system-prompt requests, `academic-papers`, `deep-learning`, `hep-analysis` and `academic-diagrams` queries. Harness `hep-analysis/tests/routing_eval.py --target task-authoring`, all 7 repo skills, bare query, 2 runs per query, 0 false triggers in every run.
+
+| Model | Tuning recall | Holdout recall |
+|---|---|---|
+| Sonnet | 22/24 | 13/16 |
+| Haiku | 0/24 | 0/16 |
+
+  Haiku control: with the old 1274-character description the same queries give Haiku 0/24 and 0/16, so the shortening did not cause the Haiku zero (Haiku calls no skill, or another one, in this harness, as for the siblings). Sonnet was not run with the old description, so a small Sonnet change from the shortening is not excluded; its absolute recall is high. Sonnet misses: the production stack-trace-to-task query loaded no skill (2/2), and two prompt-design queries went to `claude-api` (token budget and model tier 2/2; ReAct loop 1/2). The tuning queries were written by the description's author, so the holdout is the better evidence, and it is still clean for one more change.
+- Not done in this round: behavior prompts and fresh-model runs, the archetype-tooling decision, the stale-premise rewrite of the feature example, and the currency check of the prompt-engineering reference.
 
 ## Limitations
 
