@@ -32,12 +32,12 @@ User decisions (2026-09-26):
 
 ## Open
 
-- [ ] **A05 (hostile referee reply) on Haiku:** 2 of 6 runs pass after the rule-6 reply shape (it was 0/4). The remaining failures invent specifics, such as claiming the split was already used, or comparisons with other uncertainties. Sonnet passes. Next idea, if it matters: one worked reply in `references/submission-and-peer-review.md`. That only helps if Haiku reads it, so the rule itself may need to live in `SKILL.md`.
+- [ ] **A05 (hostile referee reply) on Haiku:** 2 of 6 runs pass after the rule-6 reply shape (it was 0/4). The remaining failures invent specifics, such as claiming the split was already used, or comparisons with other uncertainties. Sonnet passes. Round 2 (2026-10-01) tried two more rule-6 sentences (no invented checks; no invented details): 3/6 and 2/6, no better than noise, so reverted (see `VALIDATION.md`). Next idea, if it matters: one worked reply in `references/submission-and-peer-review.md`. That only helps if Haiku reads it, so the rule itself may need to live in `SKILL.md`.
 - [ ] **Recurring, after any `SKILL.md` change:** rerun `tests/run_prompts.py` (Haiku, skill arm, at least 2 runs) and both trigger sets. Last measured after the description rewrite (1,014 of 1,024 characters):
   - Haiku recall: 25/40, held-out 20/28.
   - Sonnet recall: 34/40, held-out 23/28.
   - 0 false triggers.
-- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (60 files, 48 tests). Last done 2026-09-27, round 1. The header still names the round-1 branch and predates the Haiku follow-ups section.
+- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (60 files, 48 tests). Last done 2026-10-01, round 2.
 
 Known residual gaps (only if a user need arises):
 - NeurIPS, ICML, ICLR and ACL styles were not compiled. Only the skeleton, REVTeX, JHEP and JCAP were.
