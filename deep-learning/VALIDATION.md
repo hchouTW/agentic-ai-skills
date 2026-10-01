@@ -1,7 +1,7 @@
 # Package Validation Record
 
 Latest pass: 2026-10-01 (P1 verification, below), on miniconda Python 3.13 with torch
-2.11.0 (CPU and MPS, no CUDA), scipy 1.17.1. Bundle: 66 files; 114 tests, 3 skipped
+2.11.0 (CPU and MPS, no CUDA), scipy 1.17.1. Bundle: 67 files; 114 tests, 3 skipped
 (2 missing-torch degradation tests, 1 torchvision-gated test). Earlier passes
 (2026-09-05 to 2026-09-15) ran without PyTorch; where a section says PyTorch was not
 installed, the Limitations section and the 2026-10-01 pass supersede it.
@@ -963,14 +963,11 @@ baseline runs (2 and 3 per prompt). Skill version: the new description (PR #37) 
 
 ## Limitations
 
-- **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that
-  PyTorch could not be installed here. PyTorch 2.11.0 *is* available in the current
-  environment, and was used to validate `estimate_training_memory.py` against real
-  allocations. The original limitation still stands for the files it named: the
-  tensor/model code paths in the six PyTorch-dependent `scripts/*.py` and the eight
-  `assets/*.py` templates were checked for syntax, argument parsing, and graceful
-  degradation at the time of those passes, and have not since been executed
-  end to end against real data or a GPU/MPS device.
+- **Superseded 2026-10-01:** earlier passes could not run PyTorch. With torch 2.11.0
+  the six PyTorch-dependent `scripts/*.py` and the `assets/*.py` templates (except
+  `vision_transfer.py`, which needs torchvision) were run on CPU, and the
+  `ddp_train_skeleton.py` on 2 gloo processes; see "P1 verification pass". Still not
+  run: `vision_transfer.py`, the ONNX export snippet, anything on a GPU or with NCCL.
 - No GPU is available here, so all memory and throughput figures are analytic
   estimates validated against CPU-side tensor accounting; they were not compared
   against `torch.cuda` allocator reports, and they exclude fragmentation,
@@ -980,11 +977,9 @@ baseline runs (2 and 3 per prompt). Skill version: the new description (PR #37) 
   latency tail for regular workloads and understates it for bursty ones; no load test
   was run. `check_split_integrity.py` detects exact-ID and group leakage only, not
   near-duplicates.
-- No real dataset, training run, or checkpoint file was available, so
-  `assets/train_classifier.py`, `assets/vision_transfer.py`,
-  `assets/ddp_train_skeleton.py`, and the synthetic-data `create_dataset()`
-  helpers in the diagnostic scripts were reviewed for correctness but not run
-  end to end.
+- No real dataset or GPU was available. `assets/train_classifier.py`,
+  `assets/ddp_train_skeleton.py` and the diagnostic scripts were run on synthetic data
+  (2026-10-01), but not on a real dataset; `assets/vision_transfer.py` was not run.
 - As of the 2026-09-15 dedup pass below, this skill no longer vendors a copy of
   `cpp-balanced-design-guidelines.md`; `SKILL.md` links out to `agile-development`'s
   copy instead. That link only resolves when `agile-development` is installed
