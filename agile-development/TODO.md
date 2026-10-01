@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (agile-development)
 
-State (2026-10-01, rounds 4-5 merged via PR #31, round 3 via PR #30; round 6 on `agile-development-todo-round6`): `python3 scripts/validate_skill_bundle.py` OK (30 files); `python3 -m unittest discover -s tests` 44 tests OK. The skill has been run on fresh models:
+State (2026-10-01, rounds 4-5 merged via PR #31, round 3 via PR #30, round 6 via PR #54): `python3 scripts/validate_skill_bundle.py` OK (30 files); `python3 -m unittest discover -s tests` 44 tests OK. The skill has been run on fresh models:
 - H1-H9 were run on Sonnet, Haiku and Opus. Round 2 re-ran them on Haiku and round 5 on Sonnet, with open and blind scorers.
 - On Haiku the skill measurably adds the header block, planned tests, a target plus per-step verification for performance work, and irreversibility handling.
 - On Sonnet (round 5) it adds the header block, a target plus per-step verification, and stops false verification claims. It also makes the typo-fix message too long (H6 (b)), which is open below.
