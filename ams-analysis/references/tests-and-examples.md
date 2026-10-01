@@ -362,6 +362,38 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   critical_requirements: [logistic fit of R_e over 3871 measurements, Delta t = 830 +- 30 days independent of energy (C90), the 10-90% duration definition with Delta_80 = 4.39, t_rev = 1 July 2013 is a stated choice so midpoint delays depend on it, midpoint shifts 260 +- 30 days between 1 and 6 GeV, amplitude near 1 at 1 GeV and zero above 20 GeV, review restates the lepton time-structure paper (C39, C48) and no trial factor or correlation model across bins is in the text read so flag unknown]
   prohibited_claims: [a different duration, a physical-model claim, a correlation matrix, a look-elsewhere-corrected significance]
   citation_expectation: C90, C89, C39
+
+- test_id: T42
+  category: statistical-diagnostics
+  prompt: "I observe 3 events in a rare-species search with an expected background of 4.2 events. What 95% upper limit on the signal should I quote, and how do I show it?"
+  refs: [statistical-diagnostics, inference-and-unfolding]
+  critical_requirements: [background known versus uncertain asked or assumed explicitly, classical Poisson limit may be zero or not meaningful when N is below B and is not a result by itself, use Feldman-Cousins interval or CLs limit and name which one it is without calling one the other, report the expected sensitivity or band next to the observed limit, run or point to scripts/poisson_diagnostics.py rather than hand numbers, a count limit becomes a flux limit only through the exposure, seed and toy count recorded for toy numbers, labeled General method]
+  prohibited_claims: [S/sqrt(B) or Gaussian error as the limit, a CLs limit called a frequentist interval with nominal coverage, any AMS-specific number not in the ledger, an AMS exposure or acceptance]
+  citation_expectation: none required; S31 and S36 may be named for FC and CLs
+
+- test_id: T43
+  category: statistical-diagnostics
+  prompt: "I observed zero antinucleus candidates and my expected background is 0.5 events with a 30% uncertainty. A colleague says the 95% limit is 3.0 events whatever the background is. Who is right, and what should I do about the uncertain background?"
+  refs: [statistical-diagnostics, inference-and-unfolding]
+  critical_requirements: [classical zero-count limit is -ln(1-CL) minus B and so is not independent of the background, the 3.0 is the flat-prior Bayesian or the B=0 value and answers a different question, uncertain background needs profile likelihood or a marginalized or Berger-Boos construction and a comparison, a difference between methods is a systematic on the method, expected sensitivity reported, exposure and its uncertainty needed for a flux limit, labeled General method, no candidate counts or AMS livetimes invented]
+  prohibited_claims: [accepting the colleague's claim for the classical limit without qualification, treating the background as exact when it is uncertain, an invented AMS exposure, calling a profile limit a CLs limit]
+  citation_expectation: none required
+
+- test_id: T44
+  category: statistical-diagnostics
+  prompt: "I unfold my flux with Tikhonov regularization chosen automatically at the L-curve corner, then fit a spectral index to the unfolded points using their diagonal errors. Is that acceptable?"
+  refs: [statistical-diagnostics, inference-and-unfolding]
+  critical_requirements: [a data-driven regularization choice needs a toy comparison of criteria and the L-curve corner is often not safe, closure and pull tests on a truth different from the prior or weights, a fit to unfolded points needs the full covariance of the unfolded result and not the diagonal, a fitted index can depend on the regularization so compare with a forward fold, response statistics from a finite MC sample and the response covariance, any threshold quoted (for example a pull width above 1) is labeled Proposal, not an AMS value, scripts named, no AMS numbers]
+  prohibited_claims: [validating the method by one agreement or one pull width on one truth, diagonal errors as sufficient, an AMS regularization strength or iteration count]
+  citation_expectation: none required
+
+- test_id: T45
+  category: statistical-diagnostics
+  prompt: "I fit a constant to my positron-to-electron ratio in 27-day bins using only the quoted bin errors, because I assume acceptance and efficiency cancel in the ratio. Check this."
+  refs: [statistical-diagnostics, inference-and-unfolding, time-dependent-analysis]
+  critical_requirements: [ratios do not cancel automatically so classify each nuisance as correlated, partial or independent with a stated correlation, bins sharing systematics need the joint covariance and a diagonal-only fit is wrong, run or propose ratio-measured (or ratio-cov when no measured covariance exists; ratio-toys checks cancellation, not a constant fit across bins), chi2 with the full covariance and goodness of fit with a trigger for adding an uncertainty, charge-dependent effects such as charge confusion and the different background do not cancel, no AMS covariance values invented, labeled General method or Proposal]
+  prohibited_claims: [full cancellation assumed, an AMS correlation value or chi2 not in the ledger, diagonal errors accepted]
+  citation_expectation: none required
 ```
 
 Tests T29-T34 exercise the specification and artifact workflow (`analysis-artifacts`), the deterministic checkers, the time-dependent reference and the source-status behavior. Grade the observable decisions listed (what was produced, what was refused, what was flagged as unresolved, which script or ledger entry was used), not keywords or exact phrasing. Their deterministic parts are covered by `tests/`: T30 by `test_covariance.py` and `test_response.py`, T31 by `test_analysis_spec.py`, T33 by `test_evidence_ledger.py`.
