@@ -9,7 +9,10 @@
   "query": "fix this flaky checkout bug",
   "expect_target": true,
   "owner": "agile-development",
-  "set": "prompts.md"
+  "set": "prompts.md",
+  "also_ok": [
+   "systematic-debugging"
+  ]
  },
  {
   "query": "migrate this table to a new schema",
@@ -51,7 +54,10 @@
   "query": "the cart total is wrong with discount codes, find and fix it",
   "expect_target": true,
   "owner": "agile-development",
-  "set": "prompts.md"
+  "set": "prompts.md",
+  "also_ok": [
+   "systematic-debugging"
+  ]
  },
  {
   "query": "review my diff before I open the PR",
@@ -69,7 +75,10 @@
   "query": "prod is returning 500s since the last deploy, help",
   "expect_target": true,
   "owner": "agile-development",
-  "set": "prompts.md"
+  "set": "prompts.md",
+  "also_ok": [
+   "systematic-debugging"
+  ]
  },
  {
   "query": "this 300-line function has no tests, I need to add refund handling to it",

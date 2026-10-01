@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-28 (latest pass below; earlier sections keep their own dates). Current state: the bundle validator checks 28 files (48 before `examples/` was removed on 2026-09-25, commit 0c5530f), and `python3 -m unittest discover -s tests` runs 44 tests. Helper test environment: Python 3, standard library only.
+Validation date: 2026-10-01 (latest pass below; earlier sections keep their own dates). Current state: the bundle validator checks 29 files (48 before `examples/` was removed on 2026-09-25, commit 0c5530f), and `python3 -m unittest discover -s tests` runs 44 tests. Helper test environment: Python 3, standard library only.
 
 ## Completeness pass (2026-09-05)
 
@@ -1409,6 +1409,52 @@ Findings:
 Cost: about $15 of reported spend (killed runs report none). Not verified: two runs per query; the scoped line was tested
 in the project-only harness, not combined with the user's plugins; the held-out set was not run for the broad named rule.
 
+## Round 4: example phrasings, real-setup routing with the line, Bash 5 (2026-10-01)
+
+User answers this round: a bug report routed to superpowers `systematic-debugging` counts as correct; leave the
+global `~/.claude/CLAUDE.md` alone (suggest wording only); install Homebrew Bash to run the Bash 4+ snippets.
+
+**Routing.** `hep-analysis/tests/routing_eval.py`, fixture repo with a `CLAUDE.md` line, 2 runs per query. "Scoped" is
+the round-3 README line. "Phrasings" adds one sentence of example phrasings ("take a look at my pull request", "which
+datastore should we use for X", "is this too complicated", "upgrade package X", "add a column to table Y", "move X to a
+new schema"); it is now the README line.
+
+| Line | Setup | Model | Tuning recall / FP | Holdout (round 2) | Holdout2 (new) |
+|------|-------|-------|--------------------|-------------------|----------------|
+| scoped | project-only (tuning, holdout: round 3) | Haiku | 30/52, 0/40 | 16/24, 0/16 | 16/28, 0/20 |
+| phrasings | project-only | Haiku | **42/52**, 0/40 | 22/24, 0/16 | **24/28**, 0/20 |
+| phrasings | project-only | Sonnet | 52/52, **1/40** | - | - |
+| scoped | user setup (plugins + global rule) | Haiku | 39/52 (43/52 with bug `also_ok`), 0/40 | - | - |
+| scoped | user setup | Sonnet | 52/52, 0/40 | - | - |
+| phrasings | user setup | Haiku | **46/52**, 0/40 | - | - |
+
+Findings:
+- The phrasings sentence lifts Haiku by about 12 of 52 on the tuning set and 8 of 28 on the new held-out set without
+  false triggers. The phrasings were chosen by paraphrasing misses named in the TODO, two of which came from the
+  round-2 held-out set, so that column is no longer clean. `trigger_queries_holdout2.json` (14 should, 10 should-not)
+  was written after the line and before either line was run on it; it is the fair comparison. The same session wrote
+  both, so it is not fully independent.
+- Sonnet with the phrasings line misrouted "debug the NaN loss in my transformer" once (1/40); the scoped line had 0/40.
+- In the real setup the named line removes most superpowers preemption: round 3's generic global rule gave Haiku
+  11/52 and Sonnet 42/52; the scoped line gives 39/52 and 52/52. Remaining Haiku misses: "is this over-engineered?"
+  (no skill), "review my diff" (goes to the `code-review` skill, a reasonable owner) and the odd `brainstorming`.
+- Bug decision applied: six bug queries across the three sets carry `also_ok: ["systematic-debugging"]`, and the
+  one-line rename in holdout2 carries `also_ok: ["agile-development"]` like the typo query.
+- Runs that hit `--max-turns` without choosing a skill count as misses (6 of the 12 holdout2 misses with the scoped
+  line, 3 of 4 with the phrasings line), as in earlier rounds.
+
+Cost: about $4.2 of reported spend for eight batches. Not verified: two runs per query; the holdout2 set is small.
+
+**Bash 4+ snippets on Bash 5.3.20 (Homebrew).** Every snippet using `declare -A`, `local -A`, `mapfile -t`,
+`mapfile -d ''`, `declare -g` or `local -n` was run; all 44 blocks pass `bash -n` on 5.3. All behaved as described
+(`mapfile -d ''` kept a newline in a file name that `mapfile -t` split; the nameref `set_channel` accepts `08` and
+`255` and rejects `abc`, `-1`, `256`, empty input and the subscript injection), with one defect:
+- The dispatch-table `main` called with no action expanded `${handlers[]}`, a "bad array subscript" error that ended
+  the whole script under `set -euo pipefail`, before its "unknown action" message, even when the caller wrote
+  `main || ...`. It now tests the empty key first; re-run, it prints the message and returns 1.
+- Added two traps, each run on 3.2 and 5.3: `((count++))` from 0 ends a `set -e` script on 5.3 but not on 3.2, and
+  `shopt -s inherit_errexit` (4.4+) is needed for `set -e` to apply inside `$(...)`.
+
 ## Limitations
 
 - The workflow guidance in `SKILL.md` and `references/*.md` is process guidance for an LLM, not executable code. It has
@@ -1417,8 +1463,9 @@ in the project-only harness, not combined with the user's plugins; the held-out 
   project's CI or code-review tooling, and the behavior runs are plan-only.
 - The three language design guides (`references/cpp-`, `python-`, `bash-balanced-design-guidelines.md`) had accuracy
   reviews on 2026-09-21 and a design-advice review on 2026-09-28 (see "Round 3"). New and changed snippets were run:
-  Python 3.13 and mypy `--strict`; Apple clang 21 with `-std=c++23` and sanitizers; Bash 3.2 only. Bash 4+ behavior
-  (namerefs, `declare -A`, `mapfile -d`) was checked by syntax only.
+  Python 3.13 and mypy `--strict`; Apple clang 21 with `-std=c++23` and sanitizers; Bash 3.2 and, from round 4,
+  Bash 5.3 for the Bash 4+ snippets.
 - `references/cpp-balanced-design-guidelines.md` is the single canonical copy; `deep-learning` links to it (2026-09-15
   dedup).
-- Triggering is the weakest point. From the description alone the skill rarely loads; see "Round 2" and "Round 3".
+- Triggering is the weakest point. From the description alone the skill rarely loads; a project `CLAUDE.md` line that
+  names it fixes Sonnet and mostly fixes Haiku (see "Round 2" to "Round 4").

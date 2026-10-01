@@ -350,14 +350,15 @@ declare -A handlers=(
 main() {
   local action="${1:-}"
   shift || true
-  local handler="${handlers[${action}]:-}"
 
-  if [[ -z "${handler}" ]]; then
+  # Test for an empty key first: `${handlers[]}` is a "bad array subscript"
+  # error that ends the whole script, even when the caller checks main's status.
+  if [[ -z "${action}" || -z "${handlers[${action}]:-}" ]]; then
     echo "unknown action: ${action}" >&2
     return 1
   fi
 
-  "${handler}" "$@"
+  "${handlers[${action}]}" "$@"
 }
 ```
 
@@ -515,6 +516,12 @@ fi
 
 So a function whose result callers test must check its own steps explicitly
 (`cmd || return 1`) rather than rely on `set -e`.
+
+Two smaller traps. `((count++))` returns status 1 when `count` was 0, so under
+`set -e` it ends the script on Bash 4.1+ (3.2 lets it pass); write `count=$((count + 1))`. And a command
+substitution does not inherit `set -e` unless you also set
+`shopt -s inherit_errexit` (Bash 4.4+), so a failing step inside `$(...)` does not
+stop the steps after it.
 
 Return non-zero from a function for expected failure; reserve `exit` for the
 top-level script, so library functions stay usable when sourced.
