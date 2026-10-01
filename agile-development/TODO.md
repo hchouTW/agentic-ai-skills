@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (agile-development)
 
-State (2026-10-01, rounds 4-5 on branch `agile-development-todo-round4`, PR #31; PR #31 open, not merged; round 3 merged via PR #30): `python3 scripts/validate_skill_bundle.py` OK (30 files); `python3 -m unittest discover -s tests` 44 tests OK. The skill has been run on fresh models:
+State (2026-10-01, rounds 4-5 merged via PR #31, round 3 via PR #30; round 6 on `agile-development-todo-round6`): `python3 scripts/validate_skill_bundle.py` OK (30 files); `python3 -m unittest discover -s tests` 44 tests OK. The skill has been run on fresh models:
 - H1-H9 were run on Sonnet, Haiku and Opus. Round 2 re-ran them on Haiku and round 5 on Sonnet, with open and blind scorers.
 - On Haiku the skill measurably adds the header block, planned tests, a target plus per-step verification for performance work, and irreversibility handling.
 - On Sonnet (round 5) it adds the header block, a target plus per-step verification, and stops false verification claims. It also makes the typo-fix message too long (H6 (b)), which is open below.
@@ -39,8 +39,8 @@ Note: `scripts/__pycache__` and `tests/__pycache__` hold stale `.pyc` files for 
 ## 2. Verification gaps
 
 - [ ] H6 (b): with the skill, the message for a typo fix runs past two sentences (Sonnet ~F~ in round 5, Haiku once in
-  round 2). `SKILL.md` already says to collapse trivial summaries; consider moving that rule into the workflow step 9
-  text and re-running H6 only (`behavior_eval.py run --only H6`).
+  round 2). Round 6 moved the collapse rule into step 9, two wordings, Sonnet 6 runs each: `~~~FP~` and `FFPFFP`, no better than round 5, reverted
+  (see `VALIDATION.md`). Messages still add a tests-not-run caveat and a hypothetical. Next idea: a hard cap in step 9 is not enough; try making the cap the first line of `references/communication.md` or accept it as a Sonnet limitation.
 - [ ] Opus has not been re-run since 2026-09-22 (user chose Sonnet only on 2026-10-01).
 - [ ] The blind scorer is not blind (Sonnet round 5: 54/54 arm guesses right). Treat blind mode as a consistency check.
 
