@@ -5,7 +5,7 @@ responses. Covers the shipped manifest (schema, unique keys and DOIs, ledger
 cross-check), manifest-row construction from INSPIRE and OpenAlex records, the
 download rules (PDF magic, bot-verification and 401/403/429 recorded as blocked and
 never retried through another route of the same candidate, size cap, preprint and repository
-labels, idempotent re-fetch, dry run), safe file names, adopting
+labels, idempotent re-fetch, dry run), opt-in APS supplement discovery and download, safe file names, adopting
 user-downloaded files, hash verification, and the command-line exit codes.
 Run from the skill directory with `python3 -m unittest discover -s tests -v`."""
 import contextlib
@@ -40,12 +40,12 @@ def ok(data=PDF, url=""):
     return fp.Response(200, "application/pdf", data, url)
 
 
-def entry(candidates=None, key=KEY, doi=DOI):
+def entry(candidates=None, supp=None, key=KEY, doi=DOI):
     return {"key": key, "doi": doi, "inspire_id": 1, "title": "t", "journal_ref": "PRL", "date": "2013-04-03",
             "generation": "ams-02", "publisher": "aps", "source_ids": [], "arxiv": [],
             "pdf_candidates": candidates if candidates is not None else
             [{"url": "https://journals.aps.org/prl/pdf/" + doi, "kind": "publisher"}],
-            }
+            "supplement_pages": supp or []}
 
 
 def fetcher(table, tmp, **kw):
@@ -81,8 +81,11 @@ class ShippedManifestTests(unittest.TestCase):
                 self.assertTrue(c["url"].startswith("https://"), p["key"])
                 self.assertIn(c["kind"], fp.CANDIDATE_KINDS)
 
-    def test_manifest_has_no_supplement_fields(self):
-        self.assertFalse(any("supplement" in k for p in self.manifest["papers"] for k in p))
+    def test_supplement_pages_only_for_aps_prl_entries(self):
+        for p in self.manifest["papers"]:
+            pages = p["supplement_pages"]
+            aps = p["pdf_candidates"] and p["pdf_candidates"][0]["url"].startswith("https://journals.aps.org/prl/pdf/")
+            self.assertEqual(pages, [f"https://journals.aps.org/prl/supplemental/{p['doi']}"] if aps else [], p["key"])
 
     def test_no_pdf_is_shipped_and_manifest_is_metadata_only(self):
         text = json.dumps(self.manifest)
@@ -111,6 +114,11 @@ class CheckManifestTests(unittest.TestCase):
         bad = copy.deepcopy(m)
         bad["papers"][0]["source_ids"] = []
         self.assertTrue(any("differ from the ledger" in x for x in fp.check_manifest(bad, led)))
+        bad = copy.deepcopy(m)
+        bad["papers"][0]["supplement_pages"] = ["https://evil.example/x"]
+        self.assertTrue(any("bad supplement page" in x for x in fp.check_manifest(bad, led)))
+        bad = copy.deepcopy(m)
+        bad["papers"][0]["source_ids"] = []
         del bad["papers"][0]["title"]
         self.assertTrue(any("missing field title" in x for x in fp.check_manifest(bad, led)))
         self.assertEqual(fp.check_manifest({}, led), ["manifest has no 'papers' list"])
@@ -142,6 +150,7 @@ class BuildEntryTests(unittest.TestCase):
         self.assertIn(("https://hal.example/x.pdf", "repository"), urls)
         self.assertEqual(urls[-1], ("https://arxiv.org/pdf/1303.0001", "arxiv"))
         self.assertEqual(len(urls), len(set(urls)))
+        self.assertEqual(e["supplement_pages"], ["https://journals.aps.org/prl/supplemental/" + DOI])
         self.assertEqual(fp.check_manifest({"papers": [e]}, {DOI.lower(): ["S02"]}), [])
 
     def test_no_doi_and_generation_rules(self):
@@ -234,6 +243,69 @@ class FetchTests(unittest.TestCase):
             fp.Http().get("http://example.org/x.pdf", 10)
 
 
+class SupplementTests(unittest.TestCase):
+    PAGE = ('<a href="/prl/supplemental/%s/SM-a.pdf">a</a> <a href="/prl/supplemental/%s/SM-a.pdf">dup</a> '
+            '<a href="/prl/supplemental/%s/tables.zip">z</a> <a href="/prl/supplemental/%s/../../evil.pdf">e</a> '
+            '<a href="/other/page.pdf">no</a>') % ((DOI,) * 4)
+
+    def test_discovery_and_download(self):
+        with tempfile.TemporaryDirectory() as d:
+            page = "https://journals.aps.org/prl/supplemental/" + DOI
+            base = "https://journals.aps.org/prl/supplemental/%s/" % DOI
+            table = {page: fp.Response(200, "text/html", self.PAGE.encode(), page),
+                     base + "SM-a.pdf": ok(url=base + "SM-a.pdf"),
+                     base + "tables.zip": fp.Response(200, "application/zip", b"PK\x03\x04zz", "")}
+            f, cache = fetcher(table, d)
+            out = f.fetch_supplements(entry(supp=[page]))
+            self.assertIn("fetched SM-a.pdf", out)
+            self.assertIn("fetched tables.zip", out)
+            self.assertFalse(any("evil" in u for u in f.http.calls))  # links leaving /prl/supplemental/ are ignored
+            self.assertTrue(cache.has(f"supp/{KEY}/SM-a.pdf"))
+            self.assertTrue(all(".." not in r for r in cache.index["files"]))
+            n = len(f.http.calls)
+            self.assertIn("cached SM-a.pdf", f.fetch_supplements(entry(supp=[page])))
+            self.assertEqual(len(f.http.calls), n + 1)  # only the page is fetched again
+
+    def test_supplement_page_blocked_gives_nothing(self):
+        with tempfile.TemporaryDirectory() as d:
+            page = "https://journals.aps.org/prl/supplemental/" + DOI
+            f, _ = fetcher({page: fp.Response(403, "", b"", page)}, d)
+            self.assertEqual(f.fetch_supplements(entry(supp=[page])), [])
+
+    def test_supplement_that_is_not_a_pdf_or_is_blocked_is_not_stored(self):
+        with tempfile.TemporaryDirectory() as d:
+            page = "https://journals.aps.org/prl/supplemental/" + DOI
+            link = '<a href="/prl/supplemental/%s/SM-a.pdf">a</a><a href="/prl/supplemental/%s/SM-b.pdf">b</a>' % (DOI, DOI)
+            table = {page: fp.Response(200, "text/html", link.encode(), page),
+                     page + "/SM-a.pdf": fp.Response(200, "text/html", b"<html>Just a moment</html>", ""),
+                     page + "/SM-b.pdf": fp.Response(429, "", b"", "")}
+            f, cache = fetcher(table, d)
+            self.assertEqual(f.fetch_supplements(entry(supp=[page])),
+                             ["SM-a.pdf: not a PDF", "SM-b.pdf: blocked or error HTTP 429"])
+            self.assertEqual(cache.index["files"], {})
+
+    def test_size_cap_and_file_limit(self):
+        with tempfile.TemporaryDirectory() as d:
+            page = "https://journals.aps.org/prl/supplemental/" + DOI
+            names = [f"SM-{i:02d}.pdf" for i in range(fp.MAX_SUPP_FILES + 5)]
+            html = "".join('<a href="/prl/supplemental/%s/%s">x</a>' % (DOI, n) for n in names)
+            table = {page: fp.Response(200, "text/html", html.encode(), page)}
+            for n in names:
+                table[page + "/" + n] = ok(PDF + b"z" * (2 << 20) if n == "SM-00.pdf" else PDF)
+            f, cache = fetcher(table, d, max_mb=1)
+            out = f.fetch_supplements(entry(supp=[page]))
+            self.assertEqual(len(out), fp.MAX_SUPP_FILES)
+            self.assertIn("SM-00.pdf: too large", out)
+            self.assertFalse(cache.has(f"supp/{KEY}/SM-00.pdf"))
+
+    def test_dry_run_lists_without_network(self):
+        with tempfile.TemporaryDirectory() as d:
+            f, _ = fetcher({}, d)
+            out = f.fetch_supplements(entry(supp=["https://journals.aps.org/prl/supplemental/" + DOI]), dry_run=True)
+            self.assertEqual(out, ["would-list https://journals.aps.org/prl/supplemental/" + DOI])
+            self.assertEqual(f.http.calls, [])
+
+
 class SafeNameAndCacheTests(unittest.TestCase):
     def test_safe_name(self):
         self.assertEqual(fp.safe_name("../../etc/passwd"), "passwd")
@@ -280,10 +352,25 @@ class CliTests(unittest.TestCase):
         code, out = run_cli(["check-manifest"])
         self.assertEqual((code, json.loads(out)["status"]), (0, "pass"))
 
-    def test_supplements_option_is_gone(self):
-        with self.assertRaises(SystemExit) as cm, contextlib.redirect_stderr(io.StringIO()):
-            fp.main(self.base + ["fetch", "--keys", "x", "--supplements"])
-        self.assertEqual(cm.exception.code, 2)
+    def test_supplements_are_opt_in_and_reported(self):
+        page = "https://journals.aps.org/prl/supplemental/" + DOI
+        pdf_url = "https://journals.aps.org/prl/pdf/" + DOI
+        self.manifest.write_text(json.dumps({"papers": [entry(supp=[page])]}), encoding="utf-8")
+        link = '<a href="/prl/supplemental/%s/SM-a.pdf">a</a>' % DOI
+        table = {pdf_url: ok(url=pdf_url), page: fp.Response(200, "text/html", link.encode(), page),
+                 page + "/SM-a.pdf": ok(url=page + "/SM-a.pdf")}
+        http = FakeHttp(table)
+        code, out = run_cli(self.base + ["fetch", "--keys", "PhysRevLett.110.141102", "--delay", "0"], http=http)
+        self.assertEqual(code, 0)
+        self.assertNotIn("supplements", json.loads(out)["results"][0])
+        self.assertNotIn(page, http.calls)  # off by default: no supplement request at all
+        code, out = run_cli(self.base + ["fetch", "--keys", "PhysRevLett.110.141102", "--supplements", "--delay", "0"],
+                            http=http)
+        self.assertEqual(json.loads(out)["results"][0]["supplements"], ["fetched SM-a.pdf"])
+        code, out = run_cli(self.base + ["status"])
+        self.assertEqual(json.loads(out)["papers"][0]["supplements"], 1)
+        code, out = run_cli(self.base + ["fetch", "--all", "--supplements", "--dry-run"], http=FakeHttp({}))
+        self.assertEqual(json.loads(out)["results"][0]["supplements"], ["would-list " + page])
 
     def test_fetch_requires_selection_and_known_key(self):
         self.assertEqual(run_cli(self.base + ["fetch"])[0], 2)

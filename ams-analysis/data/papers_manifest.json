@@ -25,7 +25,8 @@
           "url": "https://arxiv.org/pdf/hep-ex/0002048",
           "kind": "arxiv"
         }
-      ]
+      ],
+      "supplement_pages": []
     },
     {
       "key": "10.1016_S0370-2693_00_00588-8",
@@ -44,7 +45,8 @@
           "url": "https://in2p3.hal.science/in2p3-00005529/document",
           "kind": "repository"
         }
-      ]
+      ],
+      "supplement_pages": []
     },
     {
       "key": "10.1016_S0370-2693_00_00970-9",
@@ -67,7 +69,8 @@
           "url": "https://in2p3.hal.science/in2p3-00006367v1/document",
           "kind": "repository"
         }
-      ]
+      ],
+      "supplement_pages": []
     },
     {
       "key": "10.1016_S0370-2693_99_01427-6",
@@ -88,7 +91,8 @@
           "url": "https://arxiv.org/pdf/hep-ex/0002049",
           "kind": "arxiv"
         }
-      ]
+      ],
+      "supplement_pages": []
     },
     {
       "key": "10.1016_S0370-2693_00_01193-X",
@@ -107,7 +111,8 @@
           "url": "https://in2p3.hal.science/in2p3-00007897/document",
           "kind": "repository"
         }
-      ]
+      ],
+      "supplement_pages": []
     },
     {
       "key": "10.1016_S0370-2693_01_00907-8",
@@ -128,7 +133,8 @@
           "url": "https://arxiv.org/pdf/hep-ph/0103286",
           "kind": "arxiv"
         }
-      ]
+      ],
+      "supplement_pages": []
     },
     {
       "key": "10.1016_S0370-1573_02_00013-3",
@@ -144,7 +150,8 @@
         "S23"
       ],
       "arxiv": [],
-      "pdf_candidates": []
+      "pdf_candidates": [],
+      "supplement_pages": []
     },
     {
       "key": "10.1016_j.nimb.2005.01.015",
@@ -165,7 +172,8 @@
           "url": "https://arxiv.org/pdf/hep-ex/0406065",
           "kind": "arxiv"
         }
-      ]
+      ],
+      "supplement_pages": []
     },
     {
       "key": "10.1109_TNS.2005.862781",
@@ -179,7 +187,8 @@
       "oa_status": "closed",
       "source_ids": [],
       "arxiv": [],
-      "pdf_candidates": []
+      "pdf_candidates": [],
+      "supplement_pages": []
     },
     {
       "key": "10.1016_j.physletb.2007.01.024",
@@ -208,7 +217,8 @@
           "url": "https://iris.unitn.it/bitstream/11572/195491/5/1-s2.0-S0370269307001104-main.pdf",
           "kind": "repository"
         }
-      ]
+      ],
+      "supplement_pages": []
     },
     {
       "key": "10.1016_j.asr.2009.08.005",
@@ -222,7 +232,8 @@
       "oa_status": "closed",
       "source_ids": [],
       "arxiv": [],
-      "pdf_candidates": []
+      "pdf_candidates": [],
+      "supplement_pages": []
     },
     {
       "key": "10.1088_0004-637X_724_1_329",
@@ -247,7 +258,8 @@
           "url": "https://iopscience.iop.org/article/10.1088/0004-637X/724/1/329/pdf",
           "kind": "repository"
         }
-      ]
+      ],
+      "supplement_pages": []
     },
     {
       "key": "inspire-867676",
@@ -268,7 +280,8 @@
           "url": "https://arxiv.org/pdf/1009.1908",
           "kind": "arxiv"
         }
-      ]
+      ],
+      "supplement_pages": []
     },
     {
       "key": "10.1088_0004-637X_736_2_105",
@@ -301,7 +314,8 @@
           "url": "https://iopscience.iop.org/0004-637X/736/2/105/pdf/0004-637X_736_2_105.pdf",
           "kind": "repository"
         }
-      ]
+      ],
+      "supplement_pages": []
     },
     {
       "key": "10.1103_PhysRevLett.110.141102",
@@ -338,6 +352,9 @@
           "url": "https://hdl.handle.net/11365/981934",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.110.141102"
       ]
     },
     {
@@ -352,7 +369,8 @@
       "oa_status": null,
       "source_ids": [],
       "arxiv": [],
-      "pdf_candidates": []
+      "pdf_candidates": [],
+      "supplement_pages": []
     },
     {
       "key": "10.1103_PhysRevLett.113.121101",
@@ -385,6 +403,9 @@
           "url": "https://hdl.handle.net/11365/981932",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.113.121101"
       ]
     },
     {
@@ -410,6 +431,9 @@
           "url": "https://link.aps.org/pdf/10.1103/PhysRevLett.113.121102",
           "kind": "publisher"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.113.121102"
       ]
     },
     {
@@ -443,6 +467,9 @@
           "url": "https://hdl.handle.net/11365/981933",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.113.221102"
       ]
     },
     {
@@ -480,6 +507,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/190674/1/Phys_Rev_Lett_114_171103_2015.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.114.171103"
       ]
     },
     {
@@ -505,6 +535,9 @@
           "url": "https://link.aps.org/pdf/10.1103/PhysRevLett.115.211101",
           "kind": "publisher"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.115.211101"
       ]
     },
     {
@@ -554,6 +587,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/169731/1/Antiproton%20Flux%2c%20Antiproton-to-Proton%20Flux%20Ratio%2c%20and%20Properties%20of%20Elementary%20Particle%20Fluxes%20in%20Primary%20Cosmic%20Rays%20Measured%20with%20the%20Alpha%20Magnetic%20Spectrometer%20on%20the%20International%20Space%20Station.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.117.091103"
       ]
     },
     {
@@ -587,6 +623,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/169528/1/Phys_Rev_Lett_117_231102_2016.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.117.231102"
       ]
     },
     {
@@ -624,6 +663,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/160935/1/Phys_Rev_Lett_119_251101_2017.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.119.251101"
       ]
     },
     {
@@ -655,6 +697,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/187144/1/PhysRevLett.120.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.120.021101"
       ]
     },
     {
@@ -693,6 +738,9 @@
           "url": "https://iris.unitn.it/bitstream/11572/212679/2/PhysRevLett.121.051101.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.121.051101"
       ]
     },
     {
@@ -730,6 +778,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/193949/1/PhysRevLett.121.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.121.051102"
       ]
     },
     {
@@ -761,6 +812,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/172820/1/PhysRevLett.121.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.121.051103"
       ]
     },
     {
@@ -798,6 +852,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/159193/1/PhysRevLett.122.041102.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.122.041102"
       ]
     },
     {
@@ -831,6 +888,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/159875/1/PhysRevLett.122.101101.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.122.101101"
       ]
     },
     {
@@ -872,6 +932,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/157418/1/PhysRevLett.123.181102.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.123.181102"
       ]
     },
     {
@@ -886,7 +949,8 @@
       "oa_status": "closed",
       "source_ids": [],
       "arxiv": [],
-      "pdf_candidates": []
+      "pdf_candidates": [],
+      "supplement_pages": []
     },
     {
       "key": "10.1103_PhysRevLett.124.211102",
@@ -917,6 +981,9 @@
           "url": "https://archive-ouverte.unige.ch/unige:137447",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.124.211102"
       ]
     },
     {
@@ -952,6 +1019,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/157917/1/PhysRevLett.126.041104.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.126.041104"
       ]
     },
     {
@@ -977,7 +1047,8 @@
           "url": "https://iris.unitn.it/bitstream/11572/275670/4/2021_Pysics_Report.pdf",
           "kind": "repository"
         }
-      ]
+      ],
+      "supplement_pages": []
     },
     {
       "key": "10.1103_PhysRevLett.126.081102",
@@ -1000,6 +1071,9 @@
           "url": "https://link.aps.org/pdf/10.1103/PhysRevLett.126.081102",
           "kind": "publisher"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.126.081102"
       ]
     },
     {
@@ -1031,6 +1105,9 @@
           "url": "https://iris.unitn.it/bitstream/11572/312674/1/PhysRevLett.127.021101.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.127.021101"
       ]
     },
     {
@@ -1064,6 +1141,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/164559/1/PhysRevLett.127.271102.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.127.271102"
       ]
     },
     {
@@ -1097,6 +1177,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/164680/1/PhysRevLett.128.231102.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.128.231102"
       ]
     },
     {
@@ -1111,7 +1194,8 @@
       "oa_status": "closed",
       "source_ids": [],
       "arxiv": [],
-      "pdf_candidates": []
+      "pdf_candidates": [],
+      "supplement_pages": []
     },
     {
       "key": "10.1103_PhysRevLett.130.161001",
@@ -1156,6 +1240,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/184345/1/TorstiEtAl2023TemporalStructuresInElectronSpectra.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.130.161001"
       ]
     },
     {
@@ -1203,6 +1290,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/185741/1/PhysRevLett.130.211002.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.130.211002"
       ]
     },
     {
@@ -1219,7 +1309,8 @@
         "S18"
       ],
       "arxiv": [],
-      "pdf_candidates": []
+      "pdf_candidates": [],
+      "supplement_pages": []
     },
     {
       "key": "10.1103_PhysRevLett.131.151002",
@@ -1264,6 +1355,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/183332/1/PhysRevLett.131.151002.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.131.151002"
       ]
     },
     {
@@ -1305,6 +1399,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/189868/1/PhysRevLett.132.261001.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.132.261001"
       ]
     },
     {
@@ -1335,6 +1432,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/188663/1/PhysRevLett.134.051001.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.134.051001"
       ]
     },
     {
@@ -1368,6 +1468,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/188726/1/PhysRevLett.134.051002.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.134.051002"
       ]
     },
     {
@@ -1401,6 +1504,9 @@
           "url": "https://www.utupub.fi/bitstream/10024/189439/1/Torsti_etal_properties_of_cosmic_2025.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/PhysRevLett.134.201001"
       ]
     },
     {
@@ -1417,7 +1523,8 @@
         "S18"
       ],
       "arxiv": [],
-      "pdf_candidates": []
+      "pdf_candidates": [],
+      "supplement_pages": []
     },
     {
       "key": "10.1103_d2vf-fw3v",
@@ -1446,6 +1553,9 @@
           "url": "https://iris.unitn.it/bitstream/11572/496474/1/d2vf-fw3v.pdf",
           "kind": "repository"
         }
+      ],
+      "supplement_pages": [
+        "https://journals.aps.org/prl/supplemental/10.1103/d2vf-fw3v"
       ]
     }
   ]

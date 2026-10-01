@@ -38,7 +38,7 @@ python3 scripts/unfolding_diagnostics.py closure --input response_truth.json --m
 python3 scripts/statistical_toys.py ratio-toys --n1 400 --n2 900 --sys eff:0.03:0.03:0.8 --toys 20000 --seed 1
 python3 scripts/validate_evidence_ledger.py
 python3 scripts/render_source_index.py          # add --write after editing data/*.json
-python3 scripts/fetch_papers.py check-manifest     # paper manifest vs ledger; `fetch --keys PhysRevLett.110.141102` fills a local cache (never the repo)
+python3 scripts/fetch_papers.py check-manifest     # paper manifest vs ledger; `fetch --keys PhysRevLett.110.141102 [--supplements]` fills a local cache (never the repo)
 ```
 
 `data/sources.json` and `data/claims.json` are the machine-readable source and claim ledger; the tables in `references/source-index.md` are generated from them. The kinematics results are general-method arithmetic, never measured AMS performance, and a passing validator shows internal consistency, not physical validity. See [VALIDATION.md](VALIDATION.md) for structural checks, behavioral test results, forward tests, gaps, and limitations.

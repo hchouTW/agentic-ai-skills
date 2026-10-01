@@ -4,7 +4,7 @@
 Purpose: let a maintainer read the primary papers behind the evidence ledger without
 committing PDFs (licenses are per paper and the files are large). The manifest
 `data/papers_manifest.json` holds metadata only: DOI, INSPIRE record, journal
-reference, ledger source IDs, and an ordered list of candidate PDF URLs. PDFs and extracted text go to a cache directory OUTSIDE the repository
+reference, ledger source IDs, and an ordered list of candidate PDF URLs. PDFs, opt-in APS Supplemental Material files and extracted text go to a cache directory OUTSIDE the repository
 (`$AMS_PAPERS_CACHE`, else `~/.cache/ams-analysis/papers`) with a SHA-256 index.
 
 Rules this script follows: it identifies itself, waits between requests, never sends
@@ -20,7 +20,7 @@ Usage (from the skill directory; every command has --help):
   python3 scripts/fetch_papers.py check-manifest             # offline: schema and ledger cross-check
   python3 scripts/fetch_papers.py refresh-manifest           # network: rebuild the manifest (INSPIRE-HEP, OpenAlex)
   python3 scripts/fetch_papers.py status [--cache DIR]       # what is cached, blocked or missing
-  python3 scripts/fetch_papers.py fetch --keys KEY [KEY ...] | --all [--dry-run]
+  python3 scripts/fetch_papers.py fetch --keys KEY [KEY ...] | --all [--supplements] [--dry-run]
   python3 scripts/fetch_papers.py adopt FILE_OR_DIR ...      # register PDFs you downloaded yourself
   python3 scripts/fetch_papers.py verify                     # re-hash the cache against its index
   python3 scripts/fetch_papers.py extract [--keys KEY ...]   # pdftotext -layout next to the PDFs (needs pdftotext)
@@ -52,6 +52,8 @@ MANIFEST = ROOT / "data" / "papers_manifest.json"
 SOURCES = ROOT / "data" / "sources.json"
 USER_AGENT = "ams-analysis-paper-fetch/1 (maintainer cache; no credentials; honors blocks)"
 INSPIRE_QUERY = "collaboration:AMS and document_type:article"
+SUPP_EXT = ("pdf", "zip", "txt", "csv", "dat", "xlsx")
+MAX_SUPP_FILES = 20  # per paper, a guard against a runaway listing
 KEY_RE = re.compile(r"^[A-Za-z0-9._-]{1,120}$")
 BOT_MARKERS = ("just a moment", "making sure you", "human verification", "cf-chl", "captcha", "awswaf",
                "access denied", "enable javascript", "are you a robot", "not a bot")
@@ -117,6 +119,8 @@ def build_entry(hit: dict, openalex: dict | None, ledger_by_doi: dict) -> dict:
             candidates.append({"url": url, "kind": "arxiv"})
             seen.add(url)
     oa = (openalex or {}).get("open_access") or {}
+    supp = [f"https://journals.aps.org/prl/supplemental/{doi}"] if candidates and candidates[0]["url"].startswith(
+        "https://journals.aps.org/prl/pdf/") else []
     return {
         "key": doi_key(doi, m.get("control_number")),
         "doi": doi,
@@ -130,6 +134,7 @@ def build_entry(hit: dict, openalex: dict | None, ledger_by_doi: dict) -> dict:
         "source_ids": sorted(ledger_by_doi.get((doi or "").lower(), [])),
         "arxiv": [a["value"] for a in m.get("arxiv_eprints") or []],
         "pdf_candidates": candidates,
+        "supplement_pages": supp,
     }
 
 
@@ -168,6 +173,9 @@ def check_manifest(manifest: dict, ledger: dict, source_ids: set | None = None) 
         for c in p.get("pdf_candidates", []):
             if not str(c.get("url", "")).startswith("https://") or c.get("kind") not in CANDIDATE_KINDS:
                 problems.append(f"{k}: bad candidate {c}")
+        for u in p.get("supplement_pages", []):
+            if not str(u).startswith("https://journals.aps.org/prl/supplemental/"):
+                problems.append(f"{k}: bad supplement page {u}")
         want = sorted(ledger.get(d, []))
         if sorted(p.get("source_ids", [])) != want:
             problems.append(f"{k}: source_ids {p.get('source_ids')} differ from the ledger rows with this DOI {want}")
@@ -251,6 +259,9 @@ class Cache:
         tmp.write_text(json.dumps(self.index, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         tmp.replace(self.index_path)
 
+    def rel(self, kind: str, key: str, name: str) -> str:
+        return f"pdf/{key}.pdf" if kind == "article" else f"supp/{key}/{safe_name(name)}"
+
     def has(self, rel: str) -> bool:
         return rel in self.index["files"] and (self.root / rel).exists()
 
@@ -303,6 +314,43 @@ class Fetcher:
             self.cache.index["blocked"][key] = {"url": cand["url"], "reason": f"{outcome}: {detail}",
                                                 "date": dt.date.today().isoformat()}
         return "blocked" if outcome == "blocked" else ("failed" if p["pdf_candidates"] else "no-candidate")
+
+    def supplement_links(self, page_url: str) -> list[str]:
+        """Supplement file links on an APS supplemental-material page (only links under /prl/supplemental/)."""
+        resp = self._get(page_url)
+        if resp.status >= 400 or resp.status == 0:
+            return []
+        html = resp.data.decode("utf-8", "replace")
+        found = re.findall(r'href="(/prl/supplemental/[^"#?]+\.(?:%s))"' % "|".join(SUPP_EXT), html)
+        urls = {urllib.parse.urljoin("https://journals.aps.org", h) for h in found if ".." not in h}
+        return sorted(u for u in urls if urllib.parse.urlparse(u).path.startswith("/prl/supplemental/"))[:MAX_SUPP_FILES]
+
+    def fetch_supplements(self, p: dict, dry_run: bool = False) -> list[str]:
+        out = []
+        for page in p.get("supplement_pages", []):
+            if dry_run:
+                out.append(f"would-list {page}")
+                continue
+            for url in self.supplement_links(page):
+                name = safe_name(url)
+                rel = self.cache.rel("supplement", p["key"], name)
+                if self.cache.has(rel):
+                    out.append(f"cached {name}")
+                    continue
+                resp = self._get(url)
+                if resp.status in BLOCKED_STATUS or resp.status >= 400 or resp.status == 0:
+                    out.append(f"{name}: blocked or error HTTP {resp.status}")
+                    continue
+                if len(resp.data) > self.max_bytes:
+                    out.append(f"{name}: too large")
+                    continue
+                if name.lower().endswith(".pdf") and resp.data[:5] != b"%PDF-":
+                    out.append(f"{name}: not a PDF")
+                    continue
+                self.cache.put(rel, resp.data, url=url, version="publisher", kind="supplement",
+                               content_type=resp.content_type)
+                out.append(f"fetched {name}")
+        return out
 
 
 # ---------------------------------------------------------------- commands
@@ -384,8 +432,9 @@ def cmd_status(args) -> int:
     rows = []
     for p in manifest["papers"]:
         art = cache.article(p["key"])
+        supp = [r for r in cache.index["files"] if r.startswith(f"supp/{p['key']}/")]
         state = f"cached ({art['version']})" if art else ("blocked" if p["key"] in cache.index["blocked"] else "missing")
-        rows.append({"key": p["key"], "ref": p["journal_ref"], "status": state,
+        rows.append({"key": p["key"], "ref": p["journal_ref"], "status": state, "supplements": len(supp),
                      "sources": p["source_ids"]})
     counts: dict = {}
     for r in rows:
@@ -410,6 +459,8 @@ def cmd_fetch(args, http=None) -> int:
     for p in chosen:
         res = f.fetch_article(p, args.dry_run)
         entry = {"key": p["key"], "article": res}
+        if args.supplements and p.get("supplement_pages"):
+            entry["supplements"] = f.fetch_supplements(p, args.dry_run)
         if res in ("blocked", "failed", "no-candidate"):
             bad += 1
         results.append(entry)
@@ -503,6 +554,8 @@ def build_parser() -> argparse.ArgumentParser:
     f = sub.add_parser("fetch", help="download papers into the cache")
     f.add_argument("--keys", nargs="*", help="manifest keys or DOI tails such as PhysRevLett.110.141102")
     f.add_argument("--all", action="store_true")
+    f.add_argument("--supplements", action="store_true",
+                   help="also fetch APS Supplemental Material files (off by default; the files can be large)")
     f.add_argument("--dry-run", action="store_true")
     f.add_argument("--delay", type=float, default=1.0, help="seconds between requests")
     f.add_argument("--max-mb", type=int, default=400, help="per-file size cap")
