@@ -121,8 +121,8 @@ Never invent an equation number; leave "-" and flag it when the paper's numberin
 | Graphviz | `dot -Tsvg f.dot -o f.svg` | `dot -Tpdf f.dot -o f.pdf` | `dot -Tpng -Gdpi=300 f.dot -o f.png` |
 | Mermaid | `mmdc -i f.mmd -o f.svg` | `mmdc -i f.mmd -o f.pdf -e pdf` | `mmdc -i f.mmd -o f.png -s 3` |
 | SVG | - | `rsvg-convert -f pdf f.svg -o f.pdf` | `rsvg-convert -d 300 -p 300 f.svg -o f.png` |
-| TikZ | via `dvisvgm` on the DVI or PDF | `\documentclass[tikz,border=2pt]{standalone}` + `pdflatex`/`lualatex` | `pdftoppm -r 300 -png f.pdf f` |
+| TikZ | `pdftocairo -svg f.pdf f.svg` (run; text becomes glyph outlines), or `dvisvgm --pdf f.pdf -o f.svg` (run; keeps text as `<text>`; needs `mutool` or Ghostscript < 10.01; not the Tectonic `.xdv`, which loses the drawing) | `\documentclass[tikz,border=2pt]{standalone}` + `pdflatex`/`lualatex` | `pdftoppm -r 300 -png f.pdf f` |
 
 Prefer vector PDF for LaTeX manuscripts, SVG for web and editing, PNG only when a venue requires raster (>= 300 dpi at final size).
-The Graphviz, `rsvg-convert`, and `mmdc` rows were run in this bundle's validation; the TikZ standalone compile was run with Tectonic; `dvisvgm` and the `subcaption` `figure*` snippet were not.
+The Graphviz, `rsvg-convert`, and `mmdc` rows were run in this bundle's validation; the TikZ standalone compile (Tectonic; fonts embedded, `pdffonts`), `pdftoppm -r 300 -png` and `pdftocairo -svg` were run, and the `subcaption` `figure*` snippet compiled under `twocolumn` article with Tectonic (two panels (a)/(b) plus caption on a float page). `dvisvgm` 3.6.1 was run: on Tectonic's `.xdv` it warns "86 PDF specials ignored" and the SVG has the text overlapping with the boxes and arrow missing, so do not use that route; `dvisvgm --pdf` refuses to run with Ghostscript 10.08 and needs `mutool` or Ghostscript < 10.01 ; with `mutool` (`mupdf-tools`) installed, `dvisvgm --pdf` rendered the boxes, arrow and labels correctly, with text kept as `<text>` elements.
 Check text is still selectable after export (fonts embedded) and that the export did not change the layout.

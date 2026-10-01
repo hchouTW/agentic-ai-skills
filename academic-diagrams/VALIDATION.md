@@ -212,9 +212,11 @@ Not rerun: Opus, Haiku. Possible next step: a SKILL.md or Mermaid-reference line
 
 The same configuration gave D05 0/4 and 5/8 PASS, so the run-to-run spread is as large as any effect. The targeted prompts may have improved (D02 12 samples: 10 PASS vs 2/4), but D04, D06, D07 got worse in the full run (D07 0 PASS vs 3/4), and the overall FAIL count rose from 4 to 7. No effect shown, so the SKILL.md edit was reverted to keep the file short, consistent with the standing decision not to tune for Haiku. Haiku invents details in 5-35% of runs depending on the prompt; treat it as a known limitation.
 
+**Export snippets (2026-10-02).** Run with Tectonic 0.17.0, poppler and a standalone TikZ figure: standalone compile OK with the font embedded; `pdftoppm -r 300 -png` gave a 574x101 PNG; `pdftocairo -svg` gave a valid SVG (text as glyph outlines, so not selectable); the `subcaption` `figure*` snippet compiled in `\documentclass[twocolumn]{article}` and produced both panels (a), (b) and the caption on a float page. `dvisvgm` 3.6.1 (installed with Homebrew; conda-forge was refused pending channel terms): negative result. `dvisvgm fig.xdv` on Tectonic's output warns "86 PDF specials ignored", drops the TikZ boxes and arrow and overlaps the text (rendered and inspected); `dvisvgm --pdf` fails with "Ghostscript < 10.01.0 or mutool is required" (installed Ghostscript 10.08.0). After `brew install mupdf-tools` (mutool 1.28.5), `dvisvgm --pdf fig.pdf -o fig.svg` worked: rendered and inspected, boxes, arrow and both labels correct, text kept as 2 `<text>` elements (selectable), 5 path/rect elements. Beamer overlays were already compiled in Round 1.
+
 ## Not verified
 
-- The `subcaption` `figure*` snippet and `dvisvgm` export were not run.
+- The `dvisvgm` `.xdv` route is broken with Tectonic output (use `--pdf` with mutool). Only one small figure was exported; font-heavy figures and math labels were not tried.
 - APS full-width figure size (17.8 cm) is an unverified default; ICML/NeurIPS/ICLR/JHEP/APS-single-column were checked (see above).
 - The PlantUML component diagram's automatic layout depends on the Graphviz version; the render was inspected with Graphviz from Homebrew only.
 - The prompt run used one fresh agent per prompt and one sample each (Sonnet on 10, Haiku on 4; the Round 3 runner later added 2 samples each on Haiku and Opus); it shows the skill can be followed, not how often it succeeds. The table

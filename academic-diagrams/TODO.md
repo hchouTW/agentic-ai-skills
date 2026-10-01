@@ -27,7 +27,7 @@ User decision (2026-09-25): no "24 examples across 8 archetypes" set for this sk
 
 Not verified (only if a user need arises):
 - APS full-width (`figure*`) size: 17.8 cm is an unverified default, and the REVTeX 4.2 guide states none.
-- The `subcaption` `figure*` snippet and the `dvisvgm` export were never run. The TikZ/Beamer export rows in `references/legends-panels-and-export.md` were not run either.
+- `dvisvgm --pdf` works with `mutool` (verified 2026-10-02 on a small figure; Homebrew `dvisvgm` 3.6.1 and `mupdf-tools`). Its `.xdv` route is broken with Tectonic output. Not tried: math labels and font-heavy figures. The `subcaption` `figure*` snippet, `pdftoppm`, `pdftocairo -svg` and the TikZ standalone compile were also run.
 - The PlantUML component diagram's layout was inspected only with Homebrew Graphviz.
 
 ## Done (do not redo; details in `VALIDATION.md`)
