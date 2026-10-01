@@ -142,12 +142,38 @@ Tools installed into a throwaway scratch directory only: OpenJDK + PlantUML 1.20
 - Sonnet misses: "review this causal DAG" (no skill, 2/2), "convert my PlantUML component diagram to a clean PDF" (none, 2/2), "draw the data flow of our distributed training setup" (none, 2/2), and single misses on an agentic block diagram and a likelihood-fit-region review. Haiku mostly loads no skill, or `dataviz`, for architecture-figure and graphical-model queries, and never loaded one for the DAG review, DOT conversion, setup schematic, slide simplification, unfolding workflow, calorimeter TikZ, PlantUML-to-PDF or fit-region review queries. The same Haiku pattern is in the sibling skills (it often calls no skill in this harness).
 - No description tuning was done after these runs, so the holdout is still clean for one more change. Early queries were chosen by the author of the description, so the tuning set is not independent evidence.
 
+## Round 3: behavioral samples and trigger retune (2026-10-01)
+
+**Runner.** `tests/prompts.md` (D01-D10: the ten manual-run prompts with small concrete inputs and Must / Must-not rubrics) and `tests/run_prompts.py`
+(ported from `academic-papers/tests/run_prompts.py`: fresh `claude -p` per answer, skill arm vs baseline arm, no shell or network, blind Opus grader). Answers cannot be rendered
+in this harness, so graders judge source text only. 2 samples per prompt per arm.
+
+| Model | Skill arm (20 runs) | Baseline arm (20 runs) |
+|---|---|---|
+| Opus | 19 PASS, 1 PARTIAL, 0 FAIL | 11 PASS, 3 PARTIAL, 6 FAIL |
+| Haiku (before SKILL.md edit) | 7 PASS, 12 PARTIAL, 1 FAIL | 8 PASS, 2 PARTIAL, 10 FAIL |
+| Haiku (after SKILL.md edit) | 13 PASS, 5 PARTIAL, 2 FAIL | not rerun |
+
+- Opus follows the skill reliably; the one PARTIAL (D08) drew shared-memory edges as dashed but never separated control flow from data flow. Baseline Opus fails mainly D07 (invented counts or edges), D08 and D02.
+- Haiku with the skill was PARTIAL on 12 of 20 runs, and read no reference files in any run (only SKILL.md is injected), so rules that lived only in references were not applied: state what arrows mean, say a figure was drawn from a listing only, separate control from data flow, add no unrequested nodes. Haiku with the skill was *not* better than Haiku baseline on pass count (7 vs 8) but far fewer FAILs (1 vs 10).
+- **Fix:** four lines added to SKILL.md "Output Style" covering those four points. Rerun (same prompts, 2 samples, skill arm only): 13 PASS, 5 PARTIAL, 2 FAIL. The two FAILs (D01 invented "maximum-likelihood fit" and no signal-model flag; D05 implied a direct S->C edge) are scientific-judgment slips on prompts that passed 2/2 before, so with n=2 this looks like sampling noise but is not shown to be. Still small samples; 20 runs per cell is not a success rate.
+- Concern: Haiku D04 once drew sigma (fixed 0.5) as a shaded circle; D07 once invented call edges between scripts despite the new rule.
+
+**Trigger retune (one attempt).** Description now 1010 characters: dropped the format list ("Outputs editable sources (Mermaid, DOT, ...)") and added the trigger phrases 'review this causal DAG', 'PlantUML to PDF', 'data flow of our training setup'. Same harness, 2 runs per query:
+
+| Model | Tuning recall | Holdout recall | False triggers |
+|---|---|---|---|
+| Sonnet | 22/24 (was 22/24) | 15/20 (was 14/20) | 0 |
+| Haiku | 4/24 (was 5/24) | 2/20 (was 5/20) | 0 |
+
+The three Sonnet misses named in round 2 (causal-DAG review, PlantUML-to-PDF, distributed-training data flow) no longer miss. Sonnet's remaining misses: Feynman diagram in TikZ (1 run), talk-slide simplification (1), calorimeter TikZ (2), agentic block diagram (2), fit-region review (1). Haiku got worse (-1 tuning, -3 holdout; 4/44 runs, within what two samples can swing, but not an improvement), and its misses are still mostly "no skill loaded" or `dataviz`, as for the sibling skills. The holdout was used for this check, so it is no longer clean; stopped after one attempt as agreed.
+
 ## Not verified
 
 - The `subcaption` `figure*` snippet and `dvisvgm` export were not run.
 - APS full-width figure size (17.8 cm) is an unverified default; ICML/NeurIPS/ICLR/JHEP/APS-single-column were checked (see above).
 - The PlantUML component diagram's automatic layout depends on the Graphviz version; the render was inspected with Graphviz from Homebrew only.
-- The prompt run used one fresh agent per prompt and one sample each (Sonnet on 10, Haiku on 4; not yet Opus); it shows the skill can be followed, not how often it succeeds. The table
+- The prompt run used one fresh agent per prompt and one sample each (Sonnet on 10, Haiku on 4; the Round 3 runner later added 2 samples each on Haiku and Opus); it shows the skill can be followed, not how often it succeeds. The table
   below records which file supplies each capability.
 
 | Prompt | Supplied by |

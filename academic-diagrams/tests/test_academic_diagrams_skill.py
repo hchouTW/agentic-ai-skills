@@ -180,5 +180,17 @@ class RealBundle(unittest.TestCase):
             self.assertIn("**Type:**", text.replace("**Diagram type:**", "**Type:**"), path.name)
 
 
+class BehaviorPrompts(unittest.TestCase):
+    def test_prompts_parse_with_rubrics(self):
+        spec = importlib.util.spec_from_file_location("run_prompts", ROOT / "tests" / "run_prompts.py")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        cases = mod.load_cases()
+        self.assertEqual([c["id"] for c in cases], [f"D{i:02d}" for i in range(1, 11)])
+        for case in cases:
+            self.assertTrue(case["prompt"], case["id"])
+            self.assertIn("- Must:", case["rubric"], case["id"])
+
+
 if __name__ == "__main__":
     unittest.main()
