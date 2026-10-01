@@ -22,6 +22,10 @@ Subcommands:
   ratio-cov      per-bin ratios (for example across rigidity) with systematics correlated across bins
                  and between numerator and denominator, from a JSON file; the effect on a weighted
                  mean versus an independent-bins assumption.
+  ratio-measured per-bin ratios of two measured vectors with a supplied joint covariance (numerator
+                 and denominator blocks, including their cross-covariance): linear and toy
+                 propagation, nonlinearity bias, and a constant-ratio fit with the full covariance
+                 versus a diagonal-only treatment.
   ratio-toys     ratio of two quantities with Poisson statistics and multiplicative systematic
                  nuisances whose correlation between numerator and denominator is declared:
                  the ratio's spread versus the naive "cancels" and "independent" assumptions.
@@ -33,8 +37,12 @@ Usage (from the skill directory):
   python3 scripts/statistical_toys.py template-bb --sig 0.1,0.3,0.4,0.2 --bkg 0.4,0.3,0.2,0.1 \\
       --n-data 400 --f 0.2 --mc-sig 200 --mc-bkg 200 --toys 1000 --seed 1
   python3 scripts/statistical_toys.py ratio-cov --input ratio_bins.json --toys 5000 --seed 1
+  python3 scripts/statistical_toys.py ratio-measured --input measured.json --toys 20000 --seed 1
   python3 scripts/statistical_toys.py unfold-scan --input response_truth.json --toys 500 --seed 1
   python3 scripts/statistical_toys.py ratio-toys --n1 400 --n2 900 --sys eff:0.03:0.03:0.8 --toys 20000 --seed 1
+ratio-measured input: {"numerator": [x_1..x_n], "denominator": [y_1..y_n], "covariance": [[...]]} with
+the covariance of the 2n vector (x_1..x_n, y_1..y_n), so its off-diagonal blocks carry the
+numerator-denominator correlation.
 ratio-cov input: {"numerator": [...], "denominator": [...] (expected counts per bin), "systematics": [{"name":
 "eff", "sigma_num": 0.02 or [per-bin], "sigma_den": 0.02 or [per-bin], "num_den_rho": 0.8, "bin_correlation":
 {"kind": "full" | "none" | "exponential", "length": 3}}]}.
@@ -43,7 +51,7 @@ unfold-scan input: {"response": [[...]], "truth": [...], "prior": [...] (optiona
 that a truth bin is reconstructed in a reco bin; column sums are the efficiencies (inefficiency outside
 the matrix), as in scripts/validate_response.py.
 Exit codes: 0 ok; 2 rejected input. Standard library only.
-Importable: boundary, template_stat, template_bb, unfold_scan, ratio_toys, ratio_cov, poisson_draw.
+Importable: boundary, template_stat, template_bb, unfold_scan, ratio_toys, ratio_cov, ratio_measured, poisson_draw.
 """
 from __future__ import annotations
 
@@ -618,6 +626,142 @@ def ratio_cov(doc: dict, toys: int, seed: int) -> dict:
                      "modeled")}
 
 
+# ------------------------------------------------------------------------- ratio-measured
+def _gammaq(a: float, x: float) -> float:
+    """Regularized upper incomplete gamma function Q(a, x) (series and continued fraction)."""
+    if x <= 0.0:
+        return 1.0
+    if x < a + 1.0:
+        term = total = 1.0 / a
+        ap = a
+        for _ in range(500):
+            ap += 1.0
+            term *= x / ap
+            total += term
+            if abs(term) < abs(total) * 1e-15:
+                break
+        return max(0.0, 1.0 - total * math.exp(-x + a * math.log(x) - math.lgamma(a)))
+    b, c, d = x + 1.0 - a, 1e300, 1.0 / (x + 1.0 - a)
+    h = d
+    for i in range(1, 500):
+        an = -i * (i - a)
+        b += 2.0
+        d = an * d + b
+        d = 1e-300 if abs(d) < 1e-300 else d
+        c = b + an / c
+        c = 1e-300 if abs(c) < 1e-300 else c
+        d = 1.0 / d
+        delta = d * c
+        h *= delta
+        if abs(delta - 1.0) < 1e-15:
+            break
+    return min(1.0, math.exp(-x + a * math.log(x) - math.lgamma(a)) * h)
+
+
+def chi2_sf(chi2: float, ndf: int) -> float:
+    return _gammaq(ndf / 2.0, chi2 / 2.0)
+
+
+def _chol_solve(l, b):
+    n = len(l)
+    y = [0.0] * n
+    for i in range(n):
+        y[i] = (b[i] - sum(l[i][j] * y[j] for j in range(i))) / l[i][i]
+    x = [0.0] * n
+    for i in reversed(range(n)):
+        x[i] = (y[i] - sum(l[j][i] * x[j] for j in range(i + 1, n))) / l[i][i]
+    return x
+
+
+def _gls_constant(r, cov):
+    """(mean, sigma, chi2) of a constant fitted to r with covariance cov (Cholesky)."""
+    l = _cholesky(cov)
+    ones = [1.0] * len(r)
+    ci1 = _chol_solve(l, ones)
+    ci_r = _chol_solve(l, r)
+    den = sum(ci1)
+    mean = sum(ci_r) / den
+    res = [v - mean for v in r]
+    chi2 = sum(a * b for a, b in zip(res, _chol_solve(l, res)))
+    return mean, 1.0 / math.sqrt(den), chi2
+
+
+def ratio_measured(doc: dict, toys: int, seed: int) -> dict:
+    if not isinstance(doc, dict):
+        raise ToyError("input must be a JSON object")
+    x, y, c = doc.get("numerator"), doc.get("denominator"), doc.get("covariance")
+    if not isinstance(x, list) or not isinstance(y, list) or len(x) != len(y) or not 2 <= len(x) <= 30:
+        raise ToyError("numerator and denominator must be lists of equal length, 2 to 30 bins")
+    n = len(x)
+    x = [_num(v, "numerator", -1e12, 1e12) for v in x]
+    y = [_num(v, "denominator", 0.0, 1e12, strict_low=True) for v in y]
+    if not isinstance(c, list) or len(c) != 2 * n or any(not isinstance(r, list) or len(r) != 2 * n for r in c):
+        raise ToyError(f"covariance must be a {2 * n} x {2 * n} matrix (numerator block first)")
+    c = [[_num(v, "covariance", -1e24, 1e24) for v in row] for row in c]
+    for i in range(2 * n):
+        if c[i][i] <= 0:
+            raise ToyError("covariance diagonal entries must be positive")
+        for j in range(i):
+            if abs(c[i][j] - c[j][i]) > 1e-8 * math.sqrt(c[i][i] * c[j][j]):
+                raise ToyError("covariance must be symmetric")
+    toys, seed = _toys(toys), _seed(seed)
+    chol = _cholesky(c)  # raises if not positive semi-definite
+    r0 = [x[i] / y[i] for i in range(n)]
+    jac = [[(1.0 / y[i] if k == i else 0.0) if k < n else (-x[i] / y[i] ** 2 if k - n == i else 0.0) for k in range(2 * n)] for i in range(n)]
+    cr = [[sum(jac[a][k] * c[k][m] * jac[b][m] for k in range(2 * n) for m in range(2 * n)) for b in range(n)] for a in range(n)]
+    rng = random.Random(seed)
+    base = x + y
+    draws, bad = [], 0
+    for _ in range(toys):
+        z = [rng.gauss(0, 1) for _ in range(2 * n)]
+        v = [base[i] + sum(chol[i][j] * z[j] for j in range(i + 1)) for i in range(2 * n)]
+        if min(v[n:]) <= 0:
+            bad += 1
+            continue
+        draws.append([v[i] / v[n + i] for i in range(n)])
+    if len(draws) < 10:
+        raise ToyError("too many toys with a non-positive denominator; the denominator is not well measured")
+    m = len(draws)
+    means = [sum(d[i] for d in draws) / m for i in range(n)]
+    sd = [_std([d[i] for d in draws]) for i in range(n)]
+    srt = [sorted(d[i] for d in draws) for i in range(n)]
+    lin = [math.sqrt(max(cr[i][i], 0.0)) for i in range(n)]
+    mean_g, sig_g, chi2_g = _gls_constant(r0, cr)
+    diag = [[cr[i][j] if i == j else 0.0 for j in range(n)] for i in range(n)]
+    mean_d, sig_d, chi2_d = _gls_constant(r0, diag)
+    null = [mean_g * y[i] for i in range(n)]
+    hits = 0
+    for _ in range(toys):
+        z = [rng.gauss(0, 1) for _ in range(2 * n)]
+        v = [(null + y)[i] + sum(chol[i][j] * z[j] for j in range(i + 1)) for i in range(2 * n)]
+        if min(v[n:]) <= 0:
+            continue
+        r = [v[i] / v[n + i] for i in range(n)]
+        hits += _gls_constant(r, cr)[2] >= chi2_g - 1e-12
+    corr = [[cr[i][j] / math.sqrt(cr[i][i] * cr[j][j]) if cr[i][i] > 0 and cr[j][j] > 0 else None for j in range(n)] for i in range(n)]
+    return {"label": LABEL, "method": "per-bin ratios with a supplied joint covariance, linear and seeded-toy propagation",
+            "bins": n, "toys": toys, "toys_discarded_nonpositive_denominator": bad, "seed": seed, "ratio": r0,
+            "linear_sigma": lin, "toy_sigma": sd, "toy_over_linear_sigma": [sd[i] / lin[i] if lin[i] > 0 else None for i in range(n)],
+            "toy_fractional_bias_of_mean": [means[i] / r0[i] - 1.0 if r0[i] != 0 else None for i in range(n)],
+            "toy_16_84_percentile": [[srt[i][int(0.16 * m)], srt[i][min(int(0.84 * m), m - 1)]] for i in range(n)],
+            "ratio_correlation_matrix_linear": corr,
+            "constant_ratio_fit_full_covariance": {"value": mean_g, "sigma": sig_g, "chi2": chi2_g, "ndf": n - 1,
+                                                    "p_value_chi2": chi2_sf(chi2_g, n - 1), "p_value_toys": hits / toys,
+                                                    "binomial_error_on_p_toys": math.sqrt(max(hits / toys * (1 - hits / toys), 0) / toys)},
+            "constant_ratio_fit_diagonal_only": {"value": mean_d, "sigma": sig_d, "chi2": chi2_d, "ndf": n - 1,
+                                                  "p_value_chi2": chi2_sf(chi2_d, n - 1)},
+            "sigma_ratio_diagonal_over_full": sig_d / sig_g,
+            "note": ("the covariance is a user-supplied measured joint covariance of the numerator then denominator vector "
+                     "(for example from a published or internal analysis), not something this script can check beyond "
+                     "symmetry and positive semi-definiteness; the linear propagation is first order and the toys draw a "
+                     "multivariate normal, so a toy-over-linear sigma ratio or a bias away from 1 and 0 marks a "
+                     "nonlinear regime (a poorly measured denominator); the constant-ratio fit uses the linearized ratio "
+                     "covariance; its p-value by chi2 and by toys (drawn at the fitted constant) should agree for "
+                     "well-measured quantities; a diagonal-only treatment of a correlated covariance mis-states the "
+                     "fitted sigma and the chi2 (see sigma_ratio_diagonal_over_full) and is the wrong way to compare a "
+                     "model with the ratio; supplying only uncertainties is not enough, the correlations are the point")}
+
+
 # ---------------------------------------------------------------------------------- CLI
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0], formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -650,6 +794,9 @@ def build_parser() -> argparse.ArgumentParser:
     rc = sub.add_parser("ratio-cov", help="ratios with across-bin correlated systematics")
     rc.add_argument("--input", required=True, help="JSON file: numerator, denominator, systematics")
     common(rc, 5000)
+    rm = sub.add_parser("ratio-measured", help="ratios with a supplied measured joint covariance")
+    rm.add_argument("--input", required=True, help="JSON file: numerator, denominator, covariance (2n x 2n)")
+    common(rm, 20000)
     u = sub.add_parser("unfold-scan", help="iterative unfolding bias/spread scan")
     u.add_argument("--input", required=True, help="JSON file with response, truth, optional prior and max_iterations")
     common(u, 500)
@@ -676,6 +823,12 @@ def main(argv: list[str] | None = None) -> int:
             except (OSError, json.JSONDecodeError) as exc:
                 raise ToyError(f"cannot read {args.input}: {exc}") from None
             result = ratio_cov(doc, args.toys, args.seed)
+        elif args.command == "ratio-measured":
+            try:
+                doc = json.loads(Path(args.input).read_text())
+            except (OSError, json.JSONDecodeError) as exc:
+                raise ToyError(f"cannot read {args.input}: {exc}") from None
+            result = ratio_measured(doc, args.toys, args.seed)
         elif args.command == "unfold-scan":
             try:
                 doc = json.loads(Path(args.input).read_text())

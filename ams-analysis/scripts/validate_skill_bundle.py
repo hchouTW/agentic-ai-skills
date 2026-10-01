@@ -57,6 +57,7 @@ SCRIPT_TESTS = {  # script -> the test module that must exist for it
     "poisson_diagnostics": "test_poisson",
     "statistical_toys": "test_statistical_toys",
     "likelihood_limits": "test_likelihood_limits",
+    "template_fit": "test_template_fit",
     "unfolding_diagnostics": "test_unfolding_diagnostics",
     "validate_skill_bundle": "test_bundle",
 }

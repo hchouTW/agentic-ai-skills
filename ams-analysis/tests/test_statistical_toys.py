@@ -130,6 +130,62 @@ class RatioCovTests(unittest.TestCase):
                 st.ratio_cov(d, 200, 1)
 
 
+class RatioMeasuredTests(unittest.TestCase):
+    @staticmethod
+    def doc(rho_x=0.0, rho_y=0.0, cross=0.0, rel=0.03, ratio=0.5):
+        n = 4
+        y = [200.0, 180.0, 150.0, 120.0]
+        x = [ratio * v for v in y]
+        sx, sy = [rel * v for v in x], [rel * v for v in y]
+        c = [[0.0] * (2 * n) for _ in range(2 * n)]
+        for i in range(n):
+            for j in range(n):
+                c[i][j] = sx[i] * sx[j] * (1.0 if i == j else rho_x)
+                c[n + i][n + j] = sy[i] * sy[j] * (1.0 if i == j else rho_y)
+                c[i][n + j] = c[n + j][i] = cross * sx[i] * sy[j] * (1.0 if i == j else 0.5)
+        return {"numerator": x, "denominator": y, "covariance": c}
+
+    def test_chi2_survival_function_known_values(self):
+        self.assertAlmostEqual(st.chi2_sf(3.841459, 1), 0.05, places=5)
+        self.assertAlmostEqual(st.chi2_sf(9.487729, 4), 0.05, places=5)
+        self.assertAlmostEqual(st.chi2_sf(30.0, 10), 8.566e-4, delta=2e-6)
+        self.assertEqual(st.chi2_sf(0.0, 3), 1.0)
+
+    def test_independent_bins_diagonal_and_full_fits_agree_and_toys_match_chi2(self):
+        out = st.ratio_measured(self.doc(), 6000, 1)
+        full, diag = out["constant_ratio_fit_full_covariance"], out["constant_ratio_fit_diagonal_only"]
+        self.assertAlmostEqual(out["sigma_ratio_diagonal_over_full"], 1.0, delta=0.02)
+        self.assertAlmostEqual(full["value"], diag["value"], delta=1e-6)
+        self.assertAlmostEqual(full["p_value_toys"], full["p_value_chi2"], delta=0.03)
+        for v in out["toy_over_linear_sigma"]:
+            self.assertAlmostEqual(v, 1.0, delta=0.03)
+
+    def test_correlated_covariance_changes_the_fitted_sigma(self):
+        out = st.ratio_measured(self.doc(rho_x=0.8, rho_y=0.8, cross=0.5), 3000, 1)
+        self.assertGreater(abs(out["sigma_ratio_diagonal_over_full"] - 1.0), 0.1)
+        self.assertGreater(out["ratio_correlation_matrix_linear"][0][1], 0.3)
+
+    def test_poorly_measured_denominator_shows_nonlinearity(self):
+        out = st.ratio_measured(self.doc(rel=0.25), 6000, 1)
+        self.assertGreater(max(abs(b) for b in out["toy_fractional_bias_of_mean"]), 0.01)
+
+    def test_reproducible_and_rejections(self):
+        self.assertEqual(st.ratio_measured(self.doc(), 300, 5), st.ratio_measured(self.doc(), 300, 5))
+        good = self.doc()
+        asym = json.loads(json.dumps(good))
+        asym["covariance"][0][1] += 5.0
+        neg = json.loads(json.dumps(good))
+        neg["covariance"][0][0] = -1.0
+        notpsd = json.loads(json.dumps(good))
+        notpsd["covariance"][0][1] = notpsd["covariance"][1][0] = 10 * math.sqrt(notpsd["covariance"][0][0] * notpsd["covariance"][1][1])
+        for d in (asym, neg, notpsd, dict(good, covariance=[[1.0]]), dict(good, denominator=[0.0, 1, 1, 1]),
+                  dict(good, numerator=[1.0]), [1]):
+            with self.assertRaises(st.ToyError):
+                st.ratio_measured(d, 200, 1)
+        with self.assertRaises(st.ToyError):
+            st.ratio_measured(good, 200, None)
+
+
 class UnfoldScanTests(unittest.TestCase):
     def test_identity_response_is_unbiased_at_one_iteration(self):
         doc = {"response": [[1, 0], [0, 1]], "truth": [500, 300], "max_iterations": 3}
@@ -189,6 +245,8 @@ class CliTests(unittest.TestCase):
             path.write_text(json.dumps(RESPONSE))
             rpath = Path(tmp) / "r.json"
             rpath.write_text(json.dumps(RatioCovTests.DOC))
+            mpath = Path(tmp) / "m.json"
+            mpath.write_text(json.dumps(RatioMeasuredTests.doc()))
             for argv in (["boundary", "--n", "5", "--b", "3", "--toys", "200", "--seed", "4"],
                          ["template-stat", "--sig", SIG, "--bkg", BKG, "--n-data", "100", "--f", "0.3", "--mc-sig", "100",
                           "--mc-bkg", "100", "--toys", "100", "--seed", "4"],
@@ -196,6 +254,7 @@ class CliTests(unittest.TestCase):
                          ["template-bb", "--sig", SIG, "--bkg", BKG, "--n-data", "100", "--f", "0.3", "--mc-sig", "100",
                           "--mc-bkg", "100", "--toys", "100", "--seed", "4"],
                          ["ratio-cov", "--input", str(rpath), "--toys", "100", "--seed", "4"],
+                         ["ratio-measured", "--input", str(mpath), "--toys", "200", "--seed", "4"],
                          ["ratio-toys", "--n1", "50", "--n2", "80", "--sys", "x:0.02:0.02:1", "--toys", "200", "--seed", "4"]):
                 code, out = self.run_cli(*argv)
                 self.assertEqual((code, out["status"], out["seed"]), (0, "ok", 4), argv[0])
