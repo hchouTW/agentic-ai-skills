@@ -83,8 +83,10 @@ Normally return: **Diagram type** - short rationale - **source** - optional **ca
 - optional **scientific notes / assumptions**. Simple request: type + source + caption.
 Even for a simple request, always state in one line what the arrows mean, and say when the figure
 was drawn from a description or listing only (so edges and counts beyond it are unknown). Draw
-control flow (who triggers whom) and data flow with different line styles when both appear, and
-add no node the request did not name; list extra steps as open questions instead.
+control flow (who triggers whom) and data flow with different line styles when both appear. They
+both appear whenever the request says a component splits, dispatches or calls others: draw those
+edges in a second style with a legend entry, never omit them, and list unstated triggers as open
+questions. Add no node the request did not name; list extra steps as open questions instead.
 
 ## Publication Standards (summary; detail in `references/academic-figure-style.md`)
 
