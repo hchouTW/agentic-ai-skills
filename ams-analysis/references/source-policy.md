@@ -52,7 +52,7 @@ The populated ledger is machine-readable in `data/sources.json` and `data/claims
 
 1. Open the primary document; do not rely on search snippets or citation aggregators.
 2. Separate **publication date** from the **data-taking interval**. In any "latest" or superseded-paper answer, write both explicitly for each cited result (e.g. "published year Y, data taken years A-B") and say when the newer publication merely extends the data period versus changes the analysis. Example: the positron-flux paper S04 (published 2019) used data from 2011-05-19 to 2017-11-12 (C24); the index records no data-taking period for the 2013-2014 positron-fraction papers (S02, S03), so say so rather than inferring one. Do this even when the user's premise only mentions a publication year.
-3. Check errata, supplementary material, and later superseding publications. When offering verified alternatives, give each one's verification level, publication date and data-taking period from its ledger row.
+3. Check errata, supplementary material, and later superseding publications. When offering verified alternatives, give each one's verification level, publication date and data-taking period from its ledger row. Do this for every alternative, including the review (S01) and the Supplemental Material records (S41-S47, e.g. S46): a short per-alternative line such as `S0x: <verification level>; published <date>; data <period>`, with "not recorded in the index" where the row has none.
 4. Record whether a conference claim is preliminary.
 5. When several AMS results coexist (e.g. different rigidity ranges, periods, track configurations), explain which question each answers rather than retaining only the newest number.
 6. Paraphrase; do not copy long copyrighted passages.

@@ -2744,5 +2744,69 @@
       "analysis": "qualitative summary, no measurement"
     },
     "limitations": "Review-level qualitative summary (Phys. Rept. 894), published 2021: the future-program sentence is a statement of intent, not a result, and is not evidence that any anti-He, anti-C or anti-deuteron candidate exists (invariant 8 of SKILL.md); the 'new and comprehensive model' is the collaboration's opinion and the summary contains no measurement or number. Read from the INSPIRE-hosted PDF text (pdftotext) on 2026-10-01."
+  },
+  {
+    "id": "C105",
+    "claim": "Daily-flux supplement tables (S43-S46), layout and content, read on 2026-10-02 from the extracted table text: each daily flux is a separate table of rigidity bins with three error columns only, statistical, time-dependent systematic and total systematic (plus the same three for the helium-to-proton ratio in the helium file); the proton file has 2824 daily tables (2011-05-20 to 2019-10-29, 21-30 bins per table), the helium file 2824 (same days, 21-26 bins), the electron file 3300 (2011-05-20 to 2021-11-02, 10 bins) and the positron file 3268 (same period, 12 bins); no covariance or correlation matrix between rigidity bins or between days, no trial factor or global significance, and no per-source breakdown of the systematic error is tabulated, the only correlation statement being that for the helium-to-proton ratio the unfolding and absolute-rigidity-scale systematic errors are treated as correlated between the two fluxes",
+    "claim_types": [
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S43",
+      "S44",
+      "S45",
+      "S46"
+    ],
+    "location": "Supplemental Material tables (daily proton, helium, electron and positron fluxes)",
+    "scope": {
+      "text": "daily proton, helium, electron and positron flux tables; layout and absence of correlation information",
+      "species": [
+        "proton",
+        "helium",
+        "electron",
+        "positron"
+      ],
+      "range": "proton 1.00-100 GV; helium, electron and positron bins as tabulated",
+      "data_period": "2011-05-20 to 2019-10-29 (proton, helium); 2011-05-20 to 2021-11-02 (electron, positron)",
+      "analysis": "daily flux supplement table layout"
+    },
+    "limitations": "Layout and absence statements from the extracted text of the table PDFs (pdftotext -layout, searched for correlat, covarian, trial, global significance, look-elsewhere); tabulated flux values were not transcribed, not compared with the figures, and not checked against the main articles, and table counts and bin counts were counted by a script, not by eye. A user who needs bin-to-bin or day-to-day correlations must treat them as unknown, not as zero; the absence is of a tabulated correlation, not evidence that none was used in the fits. Table counts exceed the number of calendar days analyzed in each paper only if tables for days without data are included; do not equate the table count with a number of analyzed days.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": false,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C106",
+    "claim": "Per-rotation nuclei supplement tables (S47): 1029 tables, one per species per Bartels rotation, 147 rotations (numbers 2426 to 2581, from May 15 2011 to November 25 2022) times 7 species (helium, lithium, beryllium, boron, carbon, nitrogen, oxygen); each table gives the flux in rigidity bins with statistical, time-dependent systematic and time-independent systematic errors, and for Li, Be, B, C, N and O also the ratio to the helium flux with the same three error columns; no covariance or correlation matrix across rigidity bins or rotations and no trial factor is tabulated",
+    "claim_types": [
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S47"
+    ],
+    "location": "Supplemental Material, Tables (helium, lithium, beryllium, boron, carbon, nitrogen, oxygen per Bartels rotation)",
+    "scope": {
+      "text": "helium, Li, Be, B, C, N, O flux and ratio-to-helium tables per Bartels rotation; layout and absence of correlation information",
+      "species": [
+        "helium",
+        "lithium",
+        "beryllium",
+        "boron",
+        "carbon",
+        "nitrogen",
+        "oxygen"
+      ],
+      "range": "rigidity bins as tabulated (the first helium bin is 1.92-2.15 GV)",
+      "data_period": "2011-05 to 2022-11",
+      "analysis": "per-rotation nuclei supplement table layout"
+    },
+    "limitations": "Layout and absence statements from the extracted table text (pdftotext -layout) and a script count; the flux values were not transcribed or checked against the figures. The helium table caption calls the third error column 'independent' systematic errors: that is the time-independent systematic term, and no breakdown by source is tabulated. The 147 rotations are fewer than the 156 numbers between 2426 and 2581, so some rotation numbers have no table; the reason was not checked. The absence of a tabulated correlation is not evidence that none exists.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": false,
+    "last_reviewed": "2026-10-02"
   }
 ]
