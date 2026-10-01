@@ -1,17 +1,13 @@
 # ams-analysis: open work for the next session
 
-State (verified 2026-10-01 on `main`, all work merged; rounds 5, 6 and 7 via PR #20, #39 and #40): `python3 scripts/validate_skill_bundle.py` OK with 38 files; `python3 -m unittest discover -s tests` 238 tests OK; `python3 scripts/render_source_index.py` in sync. Latest behavioral results: round 6 scored **88.75% (284/320)** (`tests/grading/round6.md`; round 5 was 81.6%); round 7, a targeted rerun of the 7 weakest tests, scored 126/140 = 90.0% (`tests/grading/round7.md`), estimating the full suite at 90.0-91.25% (not a full-suite run). No blocking failure in either. Read `VALIDATION.md` first: it records what was run, what was self-graded versus independently graded, and every known gap. Do not repeat finished work; do not claim a check passed without running it.
+State (verified 2026-10-01; rounds 5-7 merged via PR #20, #39, #40; round 8 and its two reference fixes uncommitted): `python3 scripts/validate_skill_bundle.py` OK with 38 files; `python3 -m unittest discover -s tests` 238 tests OK (ledger test counts fixed after PR #42: 49 sources, 102 claims); `python3 scripts/render_source_index.py` in sync. Latest behavioral result: **round 8 scored 92.8% (297/320), clean full-suite pass**. Earlier: round 6 scored **88.75% (284/320)** (`tests/grading/round6.md`; round 5 was 81.6%); round 7, a targeted rerun of the 7 weakest tests, scored 126/140 = 90.0% (`tests/grading/round7.md`), estimating the full suite at 90.0-91.25% (not a full-suite run). No blocking failure in either. Read `VALIDATION.md` first: it records what was run, what was self-graded versus independently graded, and every known gap. Do not repeat finished work; do not claim a check passed without running it.
 
 Ground rules: standard library only for scripts; every AMS-specific number needs a scoped claim in `data/claims.json` (edit the JSON, run `scripts/validate_evidence_ledger.py`, then `scripts/render_source_index.py --write`); never promote a claim's `verification_strength` or a source's `verification_level` without reading the source at that level; label statements [Documented] / [General method] / [Proposal] / [Unknown/needs input]. For grading, answerers and grader must be different models.
 
-## 1. Narrow fixes, then one full-suite rerun (next)
+## 1. Behavioral suite (round 8 passed; optional polish)
 
-- [ ] Round 7 (targeted rerun of the 7 tests below 9) scored 126/140 = 90.0%; folded into round 6 the suite is 288-292/320 (90.0-91.25%), but it is not a full-suite run, so the 90% bar is not yet cleanly met (`tests/grading/round7.md`). Remaining defects, none blocking, no reference changed in round 7:
-  - T41 (both samples) misses C39/C89 (S42 abstract, 830 +- 30 d); T41_C contradicts the ledger on S42. This is the third round with the C39/C89/S42 pattern, so it deserves a narrow fix in `time-dependent-analysis`;
-  - T33: principle stated without the C24 data-taking dates;
-  - T39: C80 over-attributed ("consistent" versus "complements" C29);
-  - T40_D arithmetic slip (3.5% should be 1.75%); T05 citation compression onto neighbouring claims.
-- Procedure: make the narrowest fix for the T41 C39/C89 and T39 C80 pattern, then run a full 16-prompt, 2-sample suite (one prompt per answerer, Opus graders) to confirm the bar. Record in `tests/grading/round8.md` and `VALIDATION.md`.
+- [x] Round 8 (2026-10-01): full 16-prompt, 2-sample suite scored **297/320 = 92.8%**, no blocking failure; the 90% bar is cleanly met (`tests/grading/round8.md`). The T39 C80 and T41 C39/C89 fixes helped (T39 10, 9; T41 9, 9), not proven by single samples.
+- [ ] Optional, all non-blocking source-discipline slips seen in round 8: T05 cutoff-scan claims (C20/C31 vs C23/C27/C49/C60) for the second round running; T32 citing proton/helium claims C36/C37 for lepton periodicity; T40 sample sizes and C75 scope; T33 verification level and data-taking period for alternatives. Fix only if a narrow reference change is clearly indicated; the next full run is not required.
 
 ## 2. Evidence gaps
 
@@ -55,6 +51,7 @@ Ground rules: standard library only for scripts; every AMS-specific number needs
   - A targeted rerun scored 47/60 = 78%. T23 is no longer over-long (9/10 in both samples).
 - **Round 6** (2026-10-01, PR #39): the same 16 prompts, one prompt per answerer (32 fresh Sonnet answerers, 2 samples each), four Opus graders. Scored 284/320 = 88.75% with no blocking failure (round 5: 81.6%); T29 went from 6 to 9. One narrow fix, untested at the time: `antimatter-and-leptons` now cites C06 with its abstract-level scope for the S08 antiproton counts. Results in `tests/grading/round6.md`, `round6_answers/`, `round6_grades/`.
 - **Round 7** (2026-10-01, PR #40): targeted rerun of the 7 tests below 9 (T05, T08, T32, T33, T39, T40, T41), 2 fresh samples each, three Opus graders. Scored 126/140 = 90.0%, no blocking failure; T08 rose from 8, 8 to 10, 10. No reference changed. The full-suite estimate is 90.0-91.25%, with selection bias, so it is not a clean pass. Results in `tests/grading/round7.md`, `round7_answers/`, `round7_grades/`.
+- **Round 8** (2026-10-01): full rerun after two narrow fixes (C80 wording in `nuclei-and-isotopes`, S42/C39 sentence in `time-dependent-analysis`). 297/320 = 92.8%, no blocking failure. Results in `tests/grading/round8.md`, `round8_answers/`, `round8_grades/`.
 - **Evidence:**
   - Supplemental Material text of S41-S47 read (C51-C58).
   - C36-C42 re-checked against the abstracts (C39, C41, C42 corrected).

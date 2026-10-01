@@ -19,7 +19,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import render_source_index as rsi  # noqa: E402
 import validate_evidence_ledger as vel  # noqa: E402
 
-TODAY = date(2026, 9, 20)
+TODAY = date(2026, 10, 1)
 
 
 def ledger():
@@ -43,12 +43,12 @@ class ShippedLedgerTests(unittest.TestCase):
     def test_shipped_ledger_is_valid(self):
         report = run(*ledger())
         self.assertEqual(report["status"], "pass", report["errors"] + report["warnings"])
-        self.assertEqual(report["counts"], {"sources": 47, "claims": 100})
+        self.assertEqual(report["counts"], {"sources": 49, "claims": 102})
 
     def test_migration_retains_every_id(self):
         sources, claims = ledger()
-        self.assertEqual([s["id"] for s in sources], [f"S{n:02d}" for n in range(1, 48)])
-        self.assertEqual(sorted(c["id"] for c in claims), sorted(f"C{n:02d}" for n in range(1, 101)))
+        self.assertEqual([s["id"] for s in sources], [f"S{n:02d}" for n in range(1, 50)])
+        self.assertEqual(sorted(c["id"] for c in claims), sorted(f"C{n:02d}" for n in range(1, 103)))
 
     def test_migration_retains_scope_and_limitation_text(self):
         _, claims = ledger()
@@ -280,7 +280,7 @@ class CliTests(unittest.TestCase):
         return code, buf.getvalue()
 
     def test_validator_exit_codes(self):
-        self.assertEqual(self.cli(vel, "--today", "2026-09-20")[0], 0)
+        self.assertEqual(self.cli(vel, "--today", "2026-10-01")[0], 0)
         sources, claims = ledger()
         claims.append(copy.deepcopy(claims[0]))
         with tempfile.TemporaryDirectory() as tmp:

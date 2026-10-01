@@ -179,6 +179,10 @@ Setup as round 6 (one prompt per answerer, fresh Sonnet, two new samples C/D, th
 
 Remaining defects (non-blocking): T41 misses C39/C89 (S42 abstract, 830 +- 30 d) in both samples and T41_C contradicts the ledger on S42; T33 gives the principle but not the C24 data-taking dates; T39 attributes "consistent" to C80 (it says "complements" C29); T40_D arithmetic slip (3.5% should be 1.75%). No reference was changed in this round.
 
+## Round 8: full-suite rerun after the T39/T41 fixes (2026-10-01)
+
+Same procedure as round 6 (16 prompts, 32 fresh Sonnet answerers, one prompt each, four Opus graders). Two narrow reference fixes beforehand: the "consistent with C29" wording for C80 in `nuclei-and-isotopes` was removed, and `time-dependent-analysis` now says the S42 abstract (C39) carries the 830 +- 30 d transition. Scored **297/320 = 92.8%, no blocking failure: the first clean full-suite pass of the 90% bar.** T39 rose to 10, 9 and T41 to 9, 9. Remaining defects are all source discipline (claim-ID attribution), none blocking; the list is in `tests/grading/round8.md`. Single samples, so the two fixes are improved but not proven. Also corrected the stale ledger counts in `tests/test_evidence_ledger.py` (49 sources, 102 claims, date 2026-10-01) after PR #42.
+
 ## Unresolved gaps and limitations
 
 - Supplemental Material of all papers, S02 and all metadata-only rows remain unread; the Phys. Rept. review (S01) chapters 1-16 are read (claims C63-C100), but not its introduction, summary, or the separate papers behind each chapter; per-cut definitions, tables, and the BDT charge-confusion input lists beyond what the main articles state are not in the skill.
