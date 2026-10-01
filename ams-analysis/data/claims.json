@@ -2696,5 +2696,53 @@
     "support_kind": "third_party_context",
     "verification_strength": "page",
     "last_reviewed": "2026-10-01"
+  },
+  {
+    "id": "C103",
+    "claim": "Mission context in the review's introduction: AMS-02 was launched on the Space Shuttle Endeavour and installed on the ISS on May 19, 2011, following the AMS-01 precursor flight of June 1998 on Space Shuttle Discovery; the ISS orbits at an altitude of about 410 km with an orbit inclination of 52 degrees; charged cosmic rays are absorbed in the Earth's atmosphere, so in the energy range up to multi-TeV their charge magnitude and sign, mass and rigidity can only be studied in space; the review describes AMS as the first long-duration (about two 11-year solar cycles), large-acceptance precision magnetic spectrometer to measure the sign and value of the charge, the momentum, the rigidity and the flux of elementary particles (positrons, electrons, antiprotons, protons), nuclei and anti-nuclei directly in space; the review also names precision non-magnetic calorimeter experiments in space (CALET, ISS-CREAM, DAMPE) as providing recent important results",
+    "location": "Section 0, Introduction (p. 4)",
+    "scope": {
+      "text": "AMS-02 mission and orbit context",
+      "species": [],
+      "range": null,
+      "data_period": "2011-05 to about 2018 (review of the first seven years)",
+      "analysis": "mission context, no measurement"
+    },
+    "limitations": "Review-level introduction (Phys. Rept. 894), qualitative context. 'First' and 'long duration' are the collaboration's own characterization, not an independent ranking; the 'about two 11-year solar cycles' is the review's description of the mission's intended duration, not a data period for any result (use each analysis's own data_period). The date, altitude and inclination were read from the INSPIRE-hosted PDF text (pdftotext) on 2026-10-01 and not checked against a rendered page; the installation date agrees with the start of the positron-flux data period in C24.",
+    "claim_types": [
+      "detector_fact"
+    ],
+    "source_ids": [
+      "S01"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-01"
+  },
+  {
+    "id": "C104",
+    "claim": "Summary of the review (chapter 17, p. 111): the review states that the precision and characteristics of the AMS data, measured simultaneously for many types of cosmic rays, provide unique input to the understanding of cosmic-ray production and propagation and require a new and comprehensive model, naming Leaky Box, galprop, dragon and usine as existing models; and that AMS will continue collecting data through the life of the ISS, exploring the physics of complex antimatter (anti-He, anti-C, etc.), of dark matter (anti-deuterons, anti-protons, and positrons), of cosmic-ray nuclei across the periodic table, and solar physics over the entire solar cycle",
+    "claim_types": [
+      "detector_fact"
+    ],
+    "source_ids": [
+      "S01"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": false,
+    "last_reviewed": "2026-10-01",
+    "location": "Section 17, Summary (p. 111)",
+    "scope": {
+      "text": "review summary: model needs and future program",
+      "species": [],
+      "range": null,
+      "data_period": "2011-05 to about 2018 (review of the first seven years)",
+      "analysis": "qualitative summary, no measurement"
+    },
+    "limitations": "Review-level qualitative summary (Phys. Rept. 894), published 2021: the future-program sentence is a statement of intent, not a result, and is not evidence that any anti-He, anti-C or anti-deuteron candidate exists (invariant 8 of SKILL.md); the 'new and comprehensive model' is the collaboration's opinion and the summary contains no measurement or number. Read from the INSPIRE-hosted PDF text (pdftotext) on 2026-10-01."
   }
 ]
