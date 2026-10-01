@@ -1,7 +1,7 @@
 # Package Validation Record
 
-Latest pass: 2026-10-01 (P1 verification, below), on miniconda Python 3.13 with torch
-2.11.0 (CPU and MPS, no CUDA), scipy 1.17.1. Bundle: 67 files; 114 tests, 3 skipped
+Latest pass: 2026-10-01 (round 7: script exit codes and reference asserts, below), on miniconda Python 3.13 with torch
+2.11.0 (CPU and MPS, no CUDA), scipy 1.17.1. Bundle: 67 files; 118 tests, 3 skipped
 (2 missing-torch degradation tests, 1 torchvision-gated test). Earlier passes
 (2026-09-05 to 2026-09-15) ran without PyTorch; where a section says PyTorch was not
 installed, the Limitations section and the 2026-10-01 pass supersede it.
@@ -960,6 +960,29 @@ baseline runs (2 and 3 per prompt). Skill version: the new description (PR #37) 
   scorer blinding failed less here (Sonnet scorer guessed the arm 51/56 and 56/61, Haiku 33/56 and 48/70);
   one scorer child; two scorer calls returned no JSON (H10 in the Haiku H1-H15 run and H105 in the Sonnet fresh run;
   those prompts are excluded from the table and the split, plus one unscored Haiku fresh bullet); no Opus. Cost: about $3.6 for natural runs plus scorers.
+
+## Round 7: data-script exit codes, reference assert blocks (2026-10-01)
+
+Script behavior changes (both scripts are diagnostics, no training behavior touched):
+- `find_nan_batches.py` now exits 1 (with a count on stderr) when any non-finite batch is
+  found, 0 when none; it used to exit 0 either way, so it could not gate a pipeline.
+- `check_dataset_contract.py` now catches a failure to collate the first batch (ragged
+  shapes, mixed types, no `collate_fn`) and exits 1 with a one-line message naming the
+  exception, instead of ending in a raw traceback.
+- 4 new tests in `DataScriptExitCodeTests` (NaN found / clean, ragged / clean). Each
+  fixed-behavior test was run against the old scripts and fails there (1 failure, 1
+  error); the two clean-path tests pass on both. Suite: 118 tests OK, 3 skipped.
+- Not done: letting these scripts take a dataset without editing `create_dataset()`
+  (a CLI design change, left in `TODO.md`).
+
+Reference assert blocks executed on torch 2.11 (CPU) with dummy tensors:
+- `tensor-shapes.md` has two Python blocks (image `[B, C, H, W]` check; segmentation
+  `[B, H, W]` target check): both pass on matching shapes, and a 3-D image trips the
+  first. The file has no tables.
+- `debugging-pytorch.md` has six blocks: the shape asserts, `isfinite` asserts and the
+  `set_detect_anomaly` backward all run. Its dtype advice matches behavior:
+  `cross_entropy` with 1-D float class targets raises `RuntimeError`, and
+  `binary_cross_entropy_with_logits` with `long` targets raises `RuntimeError`.
 
 ## Limitations
 

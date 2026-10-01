@@ -2,7 +2,8 @@
 """Find non-finite tensors in a DataLoader-like dataset.
 
 Edit `create_dataset` for the target project, then run this script to identify
-the first batches containing NaNs or infinities.
+the first batches containing NaNs or infinities. Exits 1 if any non-finite batch is
+found (0 if none), so it can gate a pipeline.
 """
 
 from __future__ import annotations
@@ -63,6 +64,8 @@ def main() -> None:
                     break
     if bad_batches == 0:
         print("No non-finite tensors found in checked batches.")
+    else:
+        sys.exit(f"{bad_batches} batch(es) with non-finite values.")
 
 
 if __name__ == "__main__":
