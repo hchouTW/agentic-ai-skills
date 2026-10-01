@@ -198,6 +198,20 @@ Not rerun: Opus, Haiku. Possible next step: a SKILL.md or Mermaid-reference line
 
 **Haiku run (skill arm, D01-D10, 4 samples each, after all SKILL.md edits).** 23 PASS, 13 PARTIAL, 4 FAIL of 40 (57% PASS; Round 3 after its edit was 13/20 = 65% PASS, 2 FAIL). Not distinguishable at these sizes. FAILs: D05 x2 (adds a direct S->C edge in the notes or caption, and wrong identification remarks: the same invented-detail slip as before), D02 (names Geant4 and detector parts as facts), D09 (labels a pre-norm layer "post-norm" in the caption). Haiku still does not read references, so the new Mermaid line lives in SKILL.md. No tuning for Haiku, per the standing decision.
 
+## Round 5: Opus rerun and a Haiku invented-details attempt (2026-10-02)
+
+**Opus** (skill arm, D01-D10, 4 samples each, after the Round 4 and Mermaid edits): 40 PASS, 0 PARTIAL, 0 FAIL.
+
+**Haiku attempt (reverted).** Added three sentences to SKILL.md "Output Style": notes and captions must not mention an edge, effect or path the request did not state; never call an unmeasured variable adjustable; take pre-norm/post-norm from the code order; use generic labels, not named software or detector parts. Haiku skill arm, all prompts, 4 samples each: 19 PASS, 14 PARTIAL, 7 FAIL (before the edit: 23 / 13 / 4). Targeted rerun, 8 samples on D02, D05, D09: 15 PASS, 8 PARTIAL, 1 FAIL.
+
+| Prompt | Before (4) PASS | After, full run (4) PASS | After, targeted (8) PASS |
+|---|---|---|---|
+| D02 | 2 | 4 | 6 |
+| D05 | 1 | 0 | 5 |
+| D09 | 2 | 1 | 5 |
+
+The same configuration gave D05 0/4 and 5/8 PASS, so the run-to-run spread is as large as any effect. The targeted prompts may have improved (D02 12 samples: 10 PASS vs 2/4), but D04, D06, D07 got worse in the full run (D07 0 PASS vs 3/4), and the overall FAIL count rose from 4 to 7. No effect shown, so the SKILL.md edit was reverted to keep the file short, consistent with the standing decision not to tune for Haiku. Haiku invents details in 5-35% of runs depending on the prompt; treat it as a known limitation.
+
 ## Not verified
 
 - The `subcaption` `figure*` snippet and `dvisvgm` export were not run.
