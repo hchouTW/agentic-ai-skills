@@ -319,12 +319,13 @@ open(...)
 threading.Lock()
 contextlib.suppress(...)
 tempfile.TemporaryDirectory()
-contextlib.closing(sqlite3.connect(...))
+contextlib.closing(sqlite3.connect(...)) as conn, conn  # see below
 ```
 
 Note that `with sqlite3.connect(...) as conn:` only commits or rolls back the
-transaction; it does not close the connection, so wrap it in
-`contextlib.closing(...)` when the connection itself must be released.
+transaction; it does not close the connection. `contextlib.closing(...)` alone
+closes without committing, so the writes are lost. Nest both:
+`with closing(sqlite3.connect(path)) as conn, conn:`.
 
 Avoid manual acquire/release in normal application code.
 
@@ -365,10 +366,13 @@ def timer_state_restored(timer: "Timer") -> Iterator[None]:
 Or as a class when the resource has its own lifecycle:
 
 ```python
+from typing import BinaryIO
+
+
 class FileHandle:
     def __init__(self, path: str) -> None:
         self._path = path
-        self._file = None
+        self._file: BinaryIO | None = None
 
     def __enter__(self) -> "FileHandle":
         self._file = open(self._path, "rb")
@@ -503,9 +507,11 @@ def area(shape: Shape) -> float:
             return w * h
 ```
 
-A `match` over the union keeps each case's logic in one place, and a type checker
-can flag a missing case if the function ends with `typing.assert_never(shape)`
-(Python 3.11+, or `typing_extensions` on 3.10).
+A `match` over the union keeps each case's logic in one place. Because `area`
+returns a value, mypy already reports a missing return when a case is not
+handled. In a function that returns `None`, end the match with
+`case _: typing.assert_never(shape)` (Python 3.11+, or `typing_extensions` on
+3.10) to get the same check.
 
 ---
 
@@ -672,8 +678,7 @@ Prefer this:
 def add_item(item: str, items: list[str] | None = None) -> list[str]:
     if items is None:
         items = []
-    items.append(item)
-    return items
+    return [*items, item]
 ```
 
 Pass dependencies explicitly unless there is a strong reason not to.

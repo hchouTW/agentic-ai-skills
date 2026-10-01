@@ -44,6 +44,8 @@ REQUIRED_PATHS = [
     "tests/behavior_eval.py",
     "tests/trigger_queries.json",
     "tests/trigger_queries_holdout.json",
+    "tests/trigger_queries_holdout2.json",
+    "tests/trigger_queries_holdout3.json",
     "tests/fixtures/shop_repo/README.md",
 ]
 

@@ -2,7 +2,10 @@
  {
   "query": "the signup form accepts empty emails, can you fix that",
   "expect_target": true,
-  "owner": "agile-development"
+  "owner": "agile-development",
+  "also_ok": [
+   "systematic-debugging"
+  ]
  },
  {
   "query": "add rate limiting to the login endpoint",
@@ -27,7 +30,10 @@
  {
   "query": "the nightly job crashed at 3am and orders didn't sync, what do we do",
   "expect_target": true,
-  "owner": "agile-development"
+  "owner": "agile-development",
+  "also_ok": [
+   "systematic-debugging"
+  ]
  },
  {
   "query": "split cart.py into smaller modules without changing behavior",
@@ -47,7 +53,10 @@
  {
   "query": "can you look over this PR before I merge it",
   "expect_target": true,
-  "owner": "agile-development"
+  "owner": "agile-development",
+  "also_ok": [
+   "code-review"
+  ]
  },
  {
   "query": "should sessions live in Redis or Postgres?",

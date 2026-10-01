@@ -1,0 +1,150 @@
+[
+ {
+  "query": "the search box ignores accented characters, please fix",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2",
+  "also_ok": [
+   "systematic-debugging"
+  ]
+ },
+ {
+  "query": "add an audit log entry whenever an admin deletes a user",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2"
+ },
+ {
+  "query": "replace our hand-rolled retry loop with tenacity",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2"
+ },
+ {
+  "query": "we need to backfill the new `region` column for 2M existing rows",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2"
+ },
+ {
+  "query": "pin numpy below 2.0 until the build is green again",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2"
+ },
+ {
+  "query": "could you give my branch a once-over before I ask for review",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2",
+  "also_ok": [
+   "code-review"
+  ]
+ },
+ {
+  "query": "monolith or microservices for the new notifications feature?",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2"
+ },
+ {
+  "query": "this config loader has three layers of abstraction for two settings, is that too much?",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2"
+ },
+ {
+  "query": "payments were double-charged for an hour yesterday, write up what happened",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2"
+ },
+ {
+  "query": "how many days would it take to add 2FA to login?",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2"
+ },
+ {
+  "query": "put the new checkout flow behind a feature flag",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2"
+ },
+ {
+  "query": "extract the email-sending code out of the orders controller",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2"
+ },
+ {
+  "query": "add an `--since` filter to the export command",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2"
+ },
+ {
+  "query": "which of these five tickets can we realistically finish this sprint?",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout2"
+ },
+ {
+  "query": "what is a Python generator?",
+  "expect_target": false,
+  "set": "holdout2"
+ },
+ {
+  "query": "train a small CNN on MNIST in PyTorch",
+  "expect_target": false,
+  "set": "holdout2",
+  "owner": "deep-learning"
+ },
+ {
+  "query": "write a task for another agent to add 2FA",
+  "expect_target": false,
+  "set": "holdout2",
+  "owner": "task-authoring"
+ },
+ {
+  "query": "compute the significance of this bump with Li & Ma",
+  "expect_target": false,
+  "set": "holdout2",
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "tighten the abstract of my paper",
+  "expect_target": false,
+  "set": "holdout2",
+  "owner": "academic-papers"
+ },
+ {
+  "query": "draw a sequence diagram of the login flow",
+  "expect_target": false,
+  "set": "holdout2",
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "rename the variable `tmp` to `total` on line 12",
+  "expect_target": false,
+  "set": "holdout2",
+  "also_ok": [
+   "agile-development"
+  ]
+ },
+ {
+  "query": "what does `git stash pop` do?",
+  "expect_target": false,
+  "set": "holdout2"
+ },
+ {
+  "query": "explain big-O notation",
+  "expect_target": false,
+  "set": "holdout2"
+ },
+ {
+  "query": "write a haiku about autumn",
+  "expect_target": false,
+  "set": "holdout2"
+ }
+]

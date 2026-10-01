@@ -1,0 +1,154 @@
+[
+ {
+  "query": "checkout double-charges when users hit back and resubmit the form, can you track it down and fix it",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3",
+  "also_ok": [
+   "systematic-debugging"
+  ]
+ },
+ {
+  "query": "rename getUser to fetchUser everywhere, it's used in like 40 files",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3"
+ },
+ {
+  "query": "need a migration moving the address columns off customers into their own table, zero downtime please",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3"
+ },
+ {
+  "query": "upgrade us from Django 4.2 to 5.1",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3"
+ },
+ {
+  "query": "add a --dry-run flag to our deploy CLI",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3"
+ },
+ {
+  "query": "Could you add a dark mode toggle to the settings page? It should remember the user's choice across sessions.",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3"
+ },
+ {
+  "query": "go through PR 482 and tell me if anything in there would break prod",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3",
+  "also_ok": [
+   "code-review"
+  ]
+ },
+ {
+  "query": "prod is throwing 502s since the 3pm deploy, help",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3",
+  "also_ok": [
+   "systematic-debugging"
+  ]
+ },
+ {
+  "query": "I have to change the proration logic in billing.py and there are zero tests. where do I even start",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3"
+ },
+ {
+  "query": "should notifications get their own service or stay inside the monolith?",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3"
+ },
+ {
+  "query": "draft a design doc for moving our cron jobs onto a real job queue",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3"
+ },
+ {
+  "query": "here's the backlog, size these stories and tell me what realistically fits in a two-week sprint",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3"
+ },
+ {
+  "query": "plan the rollout for the new pricing engine behind a flag - percentages, kill switch, the works",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3"
+ },
+ {
+  "query": "ok I wrote a plugin registry, a factory and three interfaces just to load a config file. too much?",
+  "expect_target": true,
+  "owner": "agile-development",
+  "set": "holdout3"
+ },
+ {
+  "query": "change DEFAULT_TIMEOUT from 30 to 60 in config.py",
+  "expect_target": false,
+  "set": "holdout3",
+  "also_ok": [
+   "agile-development"
+  ]
+ },
+ {
+  "query": "what's the difference between a mutex and a semaphore?",
+  "expect_target": false,
+  "set": "holdout3"
+ },
+ {
+  "query": "write a ticket for the frontend team describing the CSV export feature so they can build it next sprint",
+  "expect_target": false,
+  "owner": "task-authoring",
+  "set": "holdout3"
+ },
+ {
+  "query": "my PyTorch training loop OOMs after epoch 3, batch size 64, why",
+  "expect_target": false,
+  "owner": "deep-learning",
+  "set": "holdout3"
+ },
+ {
+  "query": "RooFit won't converge on my dimuon mass fit, signal yield keeps hitting the boundary",
+  "expect_target": false,
+  "owner": "hep-analysis",
+  "set": "holdout3"
+ },
+ {
+  "query": "tighten the abstract of my paper and clean up the bibtex entries",
+  "expect_target": false,
+  "owner": "academic-papers",
+  "set": "holdout3"
+ },
+ {
+  "query": "draw a flowchart of our CI pipeline stages for the README",
+  "expect_target": false,
+  "owner": "academic-diagrams",
+  "set": "holdout3"
+ },
+ {
+  "query": "AMS-02 proton flux: how should I estimate the geomagnetic cutoff systematic?",
+  "expect_target": false,
+  "owner": "ams-analysis",
+  "set": "holdout3"
+ },
+ {
+  "query": "translate this error message into Japanese for the user docs",
+  "expect_target": false,
+  "set": "holdout3"
+ },
+ {
+  "query": "good substitute for buttermilk in pancakes?",
+  "expect_target": false,
+  "set": "holdout3"
+ }
+]

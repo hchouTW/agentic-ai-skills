@@ -1,10 +1,12 @@
 # TODO for future Claude sessions (agile-development)
 
-State (2026-09-29, round 3 on branch `agile-development-todo-round3`; round 2 merged via PR #27): `python3 scripts/validate_skill_bundle.py` OK (28 files); `python3 -m unittest discover -s tests` 44 tests OK. The skill has been run on fresh models:
-- H1-H9 were run on Sonnet, Haiku and Opus. Round 2 re-ran them on Haiku with open and blind scorers.
+State (2026-10-01, rounds 4-5 on branch `agile-development-todo-round4`, PR #31; PR #31 open, not merged; round 3 merged via PR #30): `python3 scripts/validate_skill_bundle.py` OK (30 files); `python3 -m unittest discover -s tests` 44 tests OK. The skill has been run on fresh models:
+- H1-H9 were run on Sonnet, Haiku and Opus. Round 2 re-ran them on Haiku and round 5 on Sonnet, with open and blind scorers.
 - On Haiku the skill measurably adds the header block, planned tests, a target plus per-step verification for performance work, and irreversibility handling.
+- On Sonnet (round 5) it adds the header block, a target plus per-step verification, and stops false verification claims. It also makes the typo-fix message too long (H6 (b)), which is open below.
+- Skill runs read far more references on Sonnet (mean 4.2 per run) than on Haiku (0.4).
 
-The open problem is still **triggering**: from the description alone the skill rarely loads. A project `CLAUDE.md` line that names the skill and its exclusions (now in the README) fixes Sonnet (51/52) and half-fixes Haiku (30/52). Read `VALIDATION.md` first, especially "Round 2", "Round 3" and "Limitations", then this file.
+From the description alone the skill rarely loads. The README's project `CLAUDE.md` line names the skill, gives example phrasings and lists exclusions. With it, Sonnet loads the skill 52/52 times and Haiku 42/52 (24/28 on each of two fresh held-out sets, 46/52 with the user's plugins installed). On holdout3, written by a separate session, the line without phrasings did almost as well (23/28), so most of the gain comes from naming the skill, not from the phrasings. Read `VALIDATION.md` first, especially "Round 4", "Round 5" and "Limitations", then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -14,45 +16,44 @@ Working rules:
 - Put temporary files in the scratchpad, not the repo.
 
 Tooling:
-- `tests/behavior_eval.py` runs the H-prompts from `tests/prompts.md` in isolated `claude -p` children and scores them in open and blind modes. 54 Haiku runs cost about $1.
-- `hep-analysis/tests/routing_eval.py --fixture tests/fixtures/shop_repo` is the real-harness trigger test. It uses `tests/trigger_queries.json` (tuning) and `tests/trigger_queries_holdout.json`. `--user-setup` runs with the user's plugins, hooks and global CLAUDE.md; `--any-skill` counts the target even if another skill loads first. To test a rule, copy the fixture to the scratchpad and add a `CLAUDE.md` or `.claude/settings.json` hook there.
+- `tests/behavior_eval.py` runs the H-prompts from `tests/prompts.md` in isolated `claude -p` children and scores them in open and blind modes. 54 Haiku runs cost about $1, and 54 Sonnet runs about $3.3 plus scoring. If a scorer pass prints "scorer returned no JSON" for a prompt, rescore it with `score --only <id>` into the same `--out` file.
+- `hep-analysis/tests/routing_eval.py --fixture tests/fixtures/shop_repo` is the real-harness trigger test. It uses `tests/trigger_queries.json` (tuning), `tests/trigger_queries_holdout.json` (no longer clean for the phrasings line), `tests/trigger_queries_holdout2.json` (written after it by the same session) and `tests/trigger_queries_holdout3.json` (written by a separate session). `--user-setup` runs with the user's plugins, hooks and global CLAUDE.md; `--any-skill` counts the target even if another skill loads first. To test a rule, copy the fixture to the scratchpad and add a `CLAUDE.md` or `.claude/settings.json` hook there.
 - Several runs in a row can hit the account usage limit; errored runs are excluded and printed, so rerun them.
 - Earlier trigger results (40/40, 50/50) came from a subagent classifying descriptions and are **not valid**.
 
 Note: `scripts/__pycache__` and `tests/__pycache__` hold stale `.pyc` files for modules that moved to `task-authoring` (`test_example_authoring`, `generate_skill_example`, `validate_skill_example`, `check_example_diversity`). They are git-ignored; do not treat them as live code.
 
-## User decisions (answered 2026-09-28)
+## User decisions
 
-- The Code File Requirement stays as scoped (not for one-line, docs or review tasks).
-- Sprint planning stays in scope.
-- All three language design guides were to be reviewed for design advice; done in round 3.
+- 2026-09-28: the Code File Requirement stays as scoped; sprint planning stays in scope; all three language guides were reviewed (round 3).
+- 2026-10-01: bug reports routed to `systematic-debugging` and reviews routed to `code-review` count as correct (`also_ok`); H1-H9 rerun on Sonnet only (not Opus); leave the global `~/.claude/CLAUDE.md` alone and only suggest wording; Homebrew Bash 5.3 is installed at `/opt/homebrew/bin/bash`.
 
-## 1. Triggering (highest value)
+## 1. Triggering
 
-- [ ] Haiku with the recommended scoped `CLAUDE.md` line: 30/52 tuning, 16/24 held-out, 0 false triggers. It still misses
-  PR reviews ("can you look over this PR"), design questions ("Redis or Postgres?"), migrations, dependency bumps and
-  "is this over-engineered?". Options: add example phrasings to the line and re-measure on both sets (watch the false
-  triggers, which a broader line pushed to 12-14 of 40), or accept that Haiku needs the skill named.
-- [ ] The scoped line was tested in the project-only harness. Test it together with the user's plugins
-  (`--user-setup` with a fixture `CLAUDE.md`). There the superpowers process skills (`brainstorming`,
-  `systematic-debugging`) take many requests first, and the agile skill never loads afterwards.
-- [ ] Decide whether bug reports should route to `systematic-debugging` rather than here when superpowers is installed.
-  If yes, mark it `also_ok` for bug queries in `trigger_queries*.json`.
-- [ ] The global `~/.claude/CLAUDE.md` rule is the generic kind that reached Sonnet 42/52 in the real setup and Haiku
-  11/52. Suggest the scoped wording to the user; do not edit their global file without asking.
+- [ ] Haiku still misses "is this over-engineered?"-type questions (no skill, with either line) and sometimes an
+  incident report ("prod is throwing 502s"), where it reads files instead. No fix tried yet that does not add false
+  triggers.
+- [ ] Sonnet sent "debug the NaN loss in my transformer" here in 2 of 6 runs (rounds 4-5). If it grows, try naming
+  "training/NaN/loss debugging" in the "not for" clause and re-measure on all four sets.
 
 ## 2. Verification gaps
 
-- [ ] Language guides: Bash 4+/5 behavior (namerefs, `declare -A`, `mapfile -d ''`, errexit on `((c++))`) is checked for
-  syntax only; run it if a newer Bash becomes available (`brew install bash`). The round-3 design review was one pass by
-  one session; an independent reviewer pass is optional.
-- [ ] Behavior after the round-2 `SKILL.md` edits (header prominence, sprint subsection) was measured on Haiku only, plan-only. If it matters, rerun H1-H9 on Sonnet and Opus with `tests/behavior_eval.py`.
-  - The blind scorer is not truly blind: it guessed the arm right 41 of 54 times from plan structure. Redaction cannot hide structure, so treat the blind mode as a consistency check, not a bias check.
-- [ ] One Haiku skill run broke the H5 four-question cap. Watch for it in the next behavior run.
+- [ ] H6 (b): with the skill, the message for a typo fix runs past two sentences (Sonnet ~F~ in round 5, Haiku once in
+  round 2). `SKILL.md` already says to collapse trivial summaries; consider moving that rule into the workflow step 9
+  text and re-running H6 only (`behavior_eval.py run --only H6`).
+- [ ] Opus has not been re-run since 2026-09-22 (user chose Sonnet only on 2026-10-01).
+- [ ] The blind scorer is not blind (Sonnet round 5: 54/54 arm guesses right). Treat blind mode as a consistency check.
 
 ## 3. Housekeeping
 
-- [ ] Recurring: update the `VALIDATION.md` header date and counts after each pass. Last done 2026-09-28 (28 files, 44 tests).
+- [ ] Recurring: update the `VALIDATION.md` header date and counts after each pass. Last done 2026-10-01 (30 files, 44 tests).
+- [ ] Global `~/.claude/CLAUDE.md`: do not edit it (user decision, 2026-10-01). The wording suggested to the user, to follow
+  their existing "check whether one of my domain skills should be applied first" line, is below. It was tested only as
+  a project `CLAUDE.md` line, never in the global file:
+  > For a non-trivial software change, code or PR review, postmortem, design decision, estimation or sprint planning,
+  > that is "agile-development" (also for requests like "take a look at my pull request", "which datastore should we
+  > use", "upgrade package X"); not for one-line fixes, tickets for someone else (task-authoring) or PyTorch code
+  > (deep-learning).
 
 ## Done (do not redo; details in `VALIDATION.md`)
 
@@ -86,3 +87,16 @@ Note: `scripts/__pycache__` and `tests/__pycache__` hold stale `.pyc` files for 
 
 **P4 - decisions**
 - The Code File Requirement is scoped out of one-line, docs and review tasks. The step-verify guidance was folded into workflow step 3.
+
+**Round 4 (2026-10-01)**
+- Example-phrasings sentence added to the README line: Haiku 30->42/52 tuning, 16->24/28 on the new holdout2, 0 false triggers; Sonnet 52/52 with 1/40 false trigger.
+- The line tested with the user's plugins: scoped Haiku 39/52, Sonnet 52/52; phrasings Haiku 46/52; 0 false triggers.
+- Bug queries carry `also_ok: ["systematic-debugging"]` (user decision).
+- Bash 4+ snippets run on Bash 5.3: the dispatch-table example aborted the script on an empty action (fixed); added the `((count++))` and `inherit_errexit` traps.
+
+**Round 5 (2026-10-01)**
+- holdout3, written by a separate session: Haiku phrasings 24/28 vs. scoped 23/28, Sonnet 28/28, 0 false triggers. The phrasings help less than holdout2 suggested.
+- Sonnet false-trigger check at 4 runs: 104/104, 1/80 (the NaN-loss query).
+- H1-H9 on Sonnet: the round-2 edits hold (header, target, per-step verification, no false verification claims); H5 cap held; H6 (b) regressed.
+- Independent reviews of the three language guides: 3 C++, 4 Python and 4 Bash findings, all reproduced and fixed.
+- Review queries carry `also_ok: ["code-review"]` (user decision).

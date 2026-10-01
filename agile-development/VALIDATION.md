@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-28 (latest pass below; earlier sections keep their own dates). Current state: the bundle validator checks 28 files (48 before `examples/` was removed on 2026-09-25, commit 0c5530f), and `python3 -m unittest discover -s tests` runs 44 tests. Helper test environment: Python 3, standard library only.
+Validation date: 2026-10-01 (latest pass below; earlier sections keep their own dates). Current state: the bundle validator checks 30 files (48 before `examples/` was removed on 2026-09-25, commit 0c5530f), and `python3 -m unittest discover -s tests` runs 44 tests. Helper test environment: Python 3, standard library only.
 
 ## Completeness pass (2026-09-05)
 
@@ -1409,16 +1409,160 @@ Findings:
 Cost: about $15 of reported spend (killed runs report none). Not verified: two runs per query; the scoped line was tested
 in the project-only harness, not combined with the user's plugins; the held-out set was not run for the broad named rule.
 
+## Round 4: example phrasings, real-setup routing with the line, Bash 5 (2026-10-01)
+
+User answers this round: a bug report routed to superpowers `systematic-debugging` counts as correct; leave the
+global `~/.claude/CLAUDE.md` alone (suggest wording only); install Homebrew Bash to run the Bash 4+ snippets.
+
+**Routing.** `hep-analysis/tests/routing_eval.py`, fixture repo with a `CLAUDE.md` line, 2 runs per query. "Scoped" is
+the round-3 README line. "Phrasings" adds one sentence of example phrasings ("take a look at my pull request", "which
+datastore should we use for X", "is this too complicated", "upgrade package X", "add a column to table Y", "move X to a
+new schema"); it is now the README line.
+
+| Line | Setup | Model | Tuning recall / FP | Holdout (round 2) | Holdout2 (new) |
+|------|-------|-------|--------------------|-------------------|----------------|
+| scoped | project-only (tuning, holdout: round 3) | Haiku | 30/52, 0/40 | 16/24, 0/16 | 16/28, 0/20 |
+| phrasings | project-only | Haiku | **42/52**, 0/40 | 22/24, 0/16 | **24/28**, 0/20 |
+| phrasings | project-only | Sonnet | 52/52, **1/40** | - | - |
+| scoped | user setup (plugins + global rule) | Haiku | 39/52 (43/52 with bug `also_ok`), 0/40 | - | - |
+| scoped | user setup | Sonnet | 52/52, 0/40 | - | - |
+| phrasings | user setup | Haiku | **46/52**, 0/40 | - | - |
+
+Findings:
+- The phrasings sentence lifts Haiku by about 12 of 52 on the tuning set and 8 of 28 on the new held-out set without
+  false triggers. The phrasings were chosen by paraphrasing misses named in the TODO, two of which came from the
+  round-2 held-out set, so that column is no longer clean. `trigger_queries_holdout2.json` (14 should, 10 should-not)
+  was written after the line and before either line was run on it; it is the fair comparison. The same session wrote
+  both, so it is not fully independent.
+- Sonnet with the phrasings line misrouted "debug the NaN loss in my transformer" once (1/40); the scoped line had 0/40.
+- In the real setup the named line removes most superpowers preemption: round 3's generic global rule gave Haiku
+  11/52 and Sonnet 42/52; the scoped line gives 39/52 and 52/52. Remaining Haiku misses: "is this over-engineered?"
+  (no skill), "review my diff" (goes to the `code-review` skill, a reasonable owner) and the odd `brainstorming`.
+- Bug decision applied: six bug queries across the three sets carry `also_ok: ["systematic-debugging"]`, and the
+  one-line rename in holdout2 carries `also_ok: ["agile-development"]` like the typo query.
+- Runs that hit `--max-turns` without choosing a skill count as misses (6 of the 12 holdout2 misses with the scoped
+  line, 3 of 4 with the phrasings line), as in earlier rounds.
+
+Cost: about $4.2 of reported spend for eight batches. Not verified: two runs per query; the holdout2 set is small.
+
+**Bash 4+ snippets on Bash 5.3.20 (Homebrew).** Every snippet using `declare -A`, `local -A`, `mapfile -t`,
+`mapfile -d ''`, `declare -g` or `local -n` was run; all 44 blocks pass `bash -n` on 5.3. All behaved as described
+(`mapfile -d ''` kept a newline in a file name that `mapfile -t` split; the nameref `set_channel` accepts `08` and
+`255` and rejects `abc`, `-1`, `256`, empty input and the subscript injection), with one defect:
+- The dispatch-table `main` called with no action expanded `${handlers[]}`, a "bad array subscript" error that ended
+  the whole script under `set -euo pipefail`, before its "unknown action" message, even when the caller wrote
+  `main || ...`. It now tests the empty key first; re-run, it prints the message and returns 1.
+- Added two traps, each run on 3.2 and 5.3: `((count++))` from 0 ends a `set -e` script on 5.3 but not on 3.2, and
+  `shopt -s inherit_errexit` (4.4+) is needed for `set -e` to apply inside `$(...)`.
+
+## Round 5: independent held-out set, Sonnet behavior, independent guide reviews (2026-10-01)
+
+User answers this round: review queries routed to the `code-review` skill count as correct (`also_ok`, three queries
+across the sets); rerun H1-H9 on Sonnet only.
+
+**Third held-out set.** A fresh subagent that did not see the `CLAUDE.md` line or the existing sets wrote
+`tests/trigger_queries_holdout3.json` (14 should, 10 should-not) from a scope description. Three of its should-trigger
+queries are near-copies of tuning queries ("--dry-run flag", "dark mode toggle", "prod 5xx since the deploy"); they were
+kept and are also reported without. Project-only harness, fixture repo, 2 runs per query:
+
+| Line | Model | Recall | Without near-copies | False triggers |
+|------|-------|--------|---------------------|----------------|
+| scoped (round 3) | Haiku | 23/28 | 20/22 | 0/20 |
+| phrasings (round 4) | Haiku | 24/28 | 21/22 | 0/20 |
+| phrasings | Sonnet | 28/28 | 22/22 | 0/20 |
+
+On queries written by someone else the phrasings sentence adds almost nothing (24 vs. 23). The round-4 gain on holdout2
+(24 vs. 16 of 28) was probably helped by one session writing both the line and the set. Both lines do well here
+because the independent queries are mostly explicit ("fix it", "migration", "upgrade"). Haiku still misses the
+over-engineering question once per line and the 502 incident twice per line (it reads files instead of loading a skill).
+The phrasings line stays in the README: it does not hurt, and it helped on the round-2 and round-4 sets.
+
+**Sonnet false-trigger check.** Phrasings line, tuning set, 4 runs per query: recall 104/104, false triggers 1/80. "Debug
+the NaN loss in my transformer" loaded agile-development in 1 of 4 runs (2 of 6 runs across rounds 4 and 5); the
+other runs went to deep-learning. Not acted on: an exclusion would need re-measuring, and the line already says
+"PyTorch/ML code (deep-learning)".
+
+**Behavior, Sonnet, H1-H9 x 2 arms x 3 runs (54 runs, $3.28 for the runs; scorer cost not recorded), open and blind
+scores** (baseline / skill; bullets where both arms scored PPP in both modes are omitted):
+
+| Bullet | open | blind |
+|--------|------|-------|
+| H1 (a) header block | FFF / PPP | FFF / PPP |
+| H1 (b) no extras | P~P / PPP | P~P / PPP |
+| H3 (c) never says "suite passes" | ~PP / PPP | ~PP / PPP |
+| H4 (a) measures first | PPP / PP~ | PPP / PP~ |
+| H4 (b) target | FF~ / PPP | F~P / PPP |
+| H4 (c) per-step verification | ~~~ / PPP | ~~~ / PPP |
+| H4 (d) no speculative optimizations | P~~ / PP~ | P~~ / PPP |
+| H5 (b) treats as irreversible | ~~P / PPP | F~~ / PPP |
+| H6 (b) short message | P~P / ~F~ | P~P / ~~~ |
+| H6 (c) records header decision (probe) | FFF / PPP | FFF / PPP |
+| H7 (a), H7 (d), H8 (c), H9 (a) | single ~ in one mode | |
+| H8 (d) no verification claim | FFP / ~P~ | FFP / ~P~ |
+| H9 (b) no delete on a guess | PPF / PPP | PP~ / PPP |
+| H9 (d) no verification claim | ~FF / PPP | ~~F / PPP |
+
+Findings:
+- On Sonnet the round-2 `SKILL.md` edits hold: the skill arm adds the header block (H1 (a)), a target and per-step
+  verification for performance work (H4 (b)-(c)), and stops claiming verification in plan-only runs (H8-H9 (d)).
+- H6 (b) is worse with the skill on Sonnet, as it was once on Haiku in round 2: the typo-fix message to the user runs
+  past two sentences. `SKILL.md` already says to collapse the summary for trivial changes; it is not followed reliably.
+- H5 (c), the four-question cap, held in all skill runs (PPP), so the round-2 Haiku breach did not recur here.
+- The blind scorer guessed the arm right 54 of 54 times; open and blind verdicts agree on 173 of 186. The blind mode is a
+  consistency check only, as noted in round 2.
+- All 27 skill runs read `SKILL.md`; they read 3-6 distinct references (mean 4.2), more than Haiku's 0.4.
+- The first blind pass returned no JSON for H4; it was rescored with `--only H4`.
+
+**Independent reviews of the three language guides.** One fresh subagent per guide reviewed the design advice, ran every
+claim it flagged, and reported findings without editing. I re-ran each finding before changing the guide; all
+reproduced.
+- C++:
+  - `Mean(const R&)` passed its concept for `std::views::filter` and then failed inside the body (a filter view cannot
+    be iterated through `const`), the failure the text says concepts prevent. It now takes `R&&`; vector, C array,
+    transform and filter views all compile and run under ASan/UBSan.
+  - The guide recommended storing a `const TextureCache&` member from a constructor parameter, which the Google guide
+    it follows says to avoid ("pass retained parameters by pointer and document the lifetime and non-null
+    requirements", checked in the current guide text). `Renderer(TextureCache{})` compiled without warning and ASan
+    reported stack-use-after-scope. The recommended form is now a documented `const T*`, for `Renderer` and
+    `ReportGenerator`. The pointer form is assignable, and clang rejects `&TextureCache{}`.
+  - `Config::Load` accepted `30abc` as 30; it now also requires end of input (`30`, ` 45 ` pass; `30abc`, `30 40`, `0`
+    and a missing file fail).
+- Python:
+  - `contextlib.closing(sqlite3.connect(...))` alone closes without committing: a row inserted that way was gone on
+    reopen, while `with closing(...) as conn, conn:` kept it. The guide now says to nest both.
+  - The fixed `add_item` still appended to the caller's list, against the guide's own "do not mutate caller-supplied
+    lists"; it now returns `[*items, item]`.
+  - `FileHandle` failed `mypy --strict` (`self._file = None` inferred as `None`); it is annotated `BinaryIO | None`.
+  - `assert_never` was described as what flags a missing case; for a value-returning function mypy already reports a
+    missing return, and `assert_never` is what a `None`-returning match needs (checked both ways with mypy).
+  - All 55 blocks compile.
+- Bash:
+  - `set_channel` accepted `18446744073709551621` as 5 and `18446744073709551361` as -255 on Bash 5.3, because
+    arithmetic wraps on 64-bit overflow. The format check is now `^[0-9]{1,3}$` and the rule mentions length (`0255`
+    is now rejected).
+  - The hot-loop example used `echo` on file data and dropped a `-n` line, against the guide's own `printf` rule.
+  - Three snippets used `local` at top level (`local: can only be used in a function` on both versions); they now
+    use `declare -A` or plain assignment, and the "prefer" sentence no longer suggests functions operating on a
+    shared variable.
+  - The guide claimed Google style but uses `#!/usr/bin/env bash`, where Google requires `#!/bin/bash`; the intro now
+    names this as a deliberate exception (Bash 4+ examples, macOS `/bin/bash` is 3.2).
+  - All 44 blocks pass `bash -n` on 5.3.
+
+Cost: about $4.9 of reported spend plus the scorer and the review subagents. Not verified: two runs per query for the
+held-out sets; the reviewers were one pass each and capped at 8 findings.
+
 ## Limitations
 
 - The workflow guidance in `SKILL.md` and `references/*.md` is process guidance for an LLM, not executable code. It has
-  been exercised with fresh models: H1-H9 on Sonnet, Haiku and Opus (2026-09-21/22), and again on Haiku in round 2
-  (2026-09-27), plus one Sonnet dogfood run on three tasks in a scratch repository. It has not been run inside a real
+  been exercised with fresh models: H1-H9 on Sonnet, Haiku and Opus (2026-09-21/22), again on Haiku in round 2
+  (2026-09-27) and on Sonnet in round 5 (2026-10-01), plus one Sonnet dogfood run on three tasks in a scratch repository. It has not been run inside a real
   project's CI or code-review tooling, and the behavior runs are plan-only.
 - The three language design guides (`references/cpp-`, `python-`, `bash-balanced-design-guidelines.md`) had accuracy
-  reviews on 2026-09-21 and a design-advice review on 2026-09-28 (see "Round 3"). New and changed snippets were run:
-  Python 3.13 and mypy `--strict`; Apple clang 21 with `-std=c++23` and sanitizers; Bash 3.2 only. Bash 4+ behavior
-  (namerefs, `declare -A`, `mapfile -d`) was checked by syntax only.
+  reviews on 2026-09-21, a design-advice review on 2026-09-28 (see "Round 3") and independent reviews on 2026-10-01
+  (see "Round 5"). New and changed snippets were run:
+  Python 3.13 and mypy `--strict`; Apple clang 21 with `-std=c++23` and sanitizers; Bash 3.2 and, from round 4,
+  Bash 5.3 for the Bash 4+ snippets.
 - `references/cpp-balanced-design-guidelines.md` is the single canonical copy; `deep-learning` links to it (2026-09-15
   dedup).
-- Triggering is the weakest point. From the description alone the skill rarely loads; see "Round 2" and "Round 3".
+- Triggering is the weakest point. From the description alone the skill rarely loads; a project `CLAUDE.md` line that
+  names it fixes Sonnet and mostly fixes Haiku (see "Round 2" to "Round 4").

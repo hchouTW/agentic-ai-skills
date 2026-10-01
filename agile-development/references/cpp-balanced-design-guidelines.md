@@ -683,8 +683,9 @@ class Config {
   static std::optional<Config> Load(const std::string& path) {
     std::ifstream in(path);
     int timeout_seconds = 0;
-    if (!(in >> timeout_seconds) || timeout_seconds <= 0) {
-      return std::nullopt;  // missing, unreadable, or invalid
+    if (!(in >> timeout_seconds) || timeout_seconds <= 0 ||
+        !(in >> std::ws).eof()) {
+      return std::nullopt;  // missing, unreadable, or invalid (e.g. "30abc")
     }
     return Config(timeout_seconds);
   }
@@ -793,11 +794,28 @@ Use `std::shared_ptr` only when ownership is genuinely shared.
 
 Use raw pointers for non-owning nullable references when the repository has no clearer observer type.
 
-Use references for non-owning required dependencies.
+For a non-owning dependency that the object keeps, take a pointer and document
+that it is not owned, must be non-null, and must outlive the object. The Google
+guide asks for this: a reference parameter that must outlive the call can bind
+to a temporary, which then dangles.
 
 Do not infer ownership from a raw pointer. Document non-obvious lifetime constraints and prefer values, references, or standard smart pointers when they express the contract more clearly.
 
 Example:
+
+```cpp
+class Renderer {
+ public:
+  // `texture_cache` is not owned; it must be non-null and outlive this object.
+  explicit Renderer(const TextureCache* texture_cache)
+      : texture_cache_(texture_cache) {}
+
+ private:
+  const TextureCache* texture_cache_;
+};
+```
+
+Avoid a reference member taken from a constructor parameter:
 
 ```cpp
 class Renderer {
@@ -808,30 +826,12 @@ class Renderer {
  private:
   const TextureCache& texture_cache_;
 };
+
+Renderer renderer(TextureCache{});  // compiles; texture_cache_ dangles at once
 ```
 
-Avoid unclear ownership:
-
-```cpp
-class Renderer {
- public:
-  explicit Renderer(TextureCache* texture_cache)
-      : texture_cache_(texture_cache) {}
-
- private:
-  TextureCache* texture_cache_;
-};
-```
-
-If a pointer is used, clarify whether it owns the object.
-
-A reference data member has costs: it makes the class non-assignable, and a
-constructor taking `const T&` also binds a temporary that dies at the end of
-the full expression, leaving a dangling reference. Use it for objects that are
-constructed once and never reassigned. For a type that must be copy- or
-move-assignable, store a pointer taken from a reference parameter
-(`texture_cache_(&texture_cache)`) and document that the referent must outlive
-the object.
+A reference member also makes the class non-assignable. Use reference
+parameters for what a function only reads during the call.
 
 ---
 
@@ -942,10 +942,11 @@ Example:
 ```cpp
 class ReportGenerator {
  public:
-  explicit ReportGenerator(const Clock& clock) : clock_(clock) {}
+  // `clock` is not owned; it must be non-null and outlive this object.
+  explicit ReportGenerator(const Clock* clock) : clock_(clock) {}
 
  private:
-  const Clock& clock_;
+  const Clock* clock_;
 };
 ```
 
@@ -987,7 +988,7 @@ Good example:
 ```cpp
 template <std::ranges::input_range R>
   requires std::is_arithmetic_v<std::ranges::range_value_t<R>>
-std::optional<double> Mean(const R& values) {
+std::optional<double> Mean(R&& values) {
   double sum = 0.0;
   std::size_t count = 0;
 
@@ -1004,7 +1005,9 @@ std::optional<double> Mean(const R& values) {
 ```
 
 It accepts a `std::vector<int>`, a `std::array<double, N>`, a C array or a
-range view, and it makes the empty case explicit. Do not write a template for
+range view (taken by forwarding reference, because views such as
+`std::views::filter` cannot be iterated through `const`), and it makes the empty
+case explicit. Do not write a template for
 what a standard algorithm already does generically (`std::accumulate`,
 `std::ranges::max`, `std::ranges::fold_left` in C++23).
 
