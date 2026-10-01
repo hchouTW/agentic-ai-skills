@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (deep-learning)
 
-State (verified 2026-10-01 on `main` at 50d048e): `python3 scripts/validate_skill_bundle.py` OK (67 files); `python3 -m unittest discover -s tests` 114 tests OK, 3 skipped (2 missing-torch degradation tests, 1 torchvision-gated test). PRs #32 to #37 are merged: P1 verification, the P2 behavior and trigger tests, the `SKILL.md` rules, the fresh confirmation prompts, the description rewrite, and the natural-invocation arm. `SKILL.md` is 316 lines and the description is 844 of 1024 characters. Read `VALIDATION.md` first (the 2026-10-01 sections are the current results), then this file.
+State (verified 2026-10-01 on `main` at 50d048e): `python3 scripts/validate_skill_bundle.py` OK (67 files); `python3 -m unittest discover -s tests` 118 tests OK, 3 skipped (2 missing-torch degradation tests, 1 torchvision-gated test). PRs #32 to #37 are merged: P1 verification, the P2 behavior and trigger tests, the `SKILL.md` rules, the fresh confirmation prompts, the description rewrite, and the natural-invocation arm. `SKILL.md` is 316 lines and the description is 844 of 1024 characters. Read `VALIDATION.md` first (the 2026-10-01 sections are the current results), then this file.
 
 ## Where things stand (numbers are in `VALIDATION.md`)
 
@@ -35,12 +35,13 @@ Working rules:
 
 ## P1 - verification leftovers
 
+Round 7 (2026-10-01) executed the assert blocks in `tensor-shapes.md` and `debugging-pytorch.md` (all fine; see `VALIDATION.md`).
+
 - [ ] `vision_transfer.py`: run it with `torchvision` in a scratchpad venv on a tiny `ImageFolder` tree (only `--help` is tested, and only when torchvision is installed). Check the pretrained-weight download path.
 - [ ] Run the ONNX snippet in `references/export-and-deployment.md` with `onnx` and `onnxscript` in the venv, on both the dynamo default and `dynamo=False` paths, and confirm the `dynamic_axes` advice.
-- [ ] Execute the shape tables in `references/tensor-shapes.md` (the assert one-liners in `tensor-shapes.md` and `debugging-pytorch.md` were not run).
 - [ ] Audit the numbers and claims in `references/` against primary sources: scaling laws, MFU figures, memory multipliers, FSDP/ZeRO behavior, calibration thresholds. Remove or soften anything unsourced, and date anything time-sensitive. Not started.
 - [ ] Check `estimate_training_memory.py` on MPS (it was checked against CPU allocations on 2026-09-09).
-- [ ] Script rough edges found 2026-10-01: `find_nan_batches.py` exits 0 when it finds non-finite values, so it cannot gate a pipeline; `check_dataset_contract.py` ends in a raw collate traceback on ragged samples; the data scripts (`check_dataset_contract.py`, `find_nan_batches.py`, `profile_dataloader.py`) only accept a dataset through the `create_dataset()` hook, with no CLI path.
+- [ ] Script rough edges: `find_nan_batches.py` now exits 1 on non-finite values and `check_dataset_contract.py` exits with a message on ragged samples (round 7). Still open: the data scripts (`check_dataset_contract.py`, `find_nan_batches.py`, `profile_dataloader.py`) only accept a dataset through the `create_dataset()` hook, with no CLI path.
 - [ ] The CUDA/NCCL path of `ddp_train_skeleton.py` and the AMP/CUDA paths stay untested without a GPU. Say so wherever they are relied on.
 
 ## P2 - behavior and trigger testing (first pass done; follow-ups)
@@ -69,6 +70,6 @@ Working rules:
 
 ## P4 - housekeeping
 
-- [ ] Recurring: update the `VALIDATION.md` header after each pass (current: 2026-10-01, 67 files, 114 tests, 3 skipped).
+- [ ] Recurring: update the `VALIDATION.md` header after each pass (current: 2026-10-01, 67 files, 118 tests, 3 skipped).
 - `.pytest_cache/` and `__pycache__/` are git-ignored; leave them alone.
 - Dropped: the two items about the 24 examples (archetype rules, runnable snippets). `examples/` was removed on 2026-09-25, as in the sibling skills.

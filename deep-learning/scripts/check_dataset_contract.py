@@ -2,7 +2,8 @@
 """Smoke-test Dataset outputs for shape, dtype, and collation.
 
 Edit `create_dataset` to return the project dataset, then run this script before
-debugging the training loop.
+debugging the training loop. Exits 1 with a message if the samples cannot be collated
+into a batch (for example ragged shapes without a `collate_fn`).
 """
 
 from __future__ import annotations
@@ -58,7 +59,13 @@ def main() -> None:
     describe(dataset[0], "sample")
 
     loader = DataLoader(dataset, batch_size=args.batch_size, num_workers=args.num_workers)
-    batch = next(iter(loader))
+    try:
+        batch = next(iter(loader))
+    except Exception as exc:  # collate errors surface as RuntimeError, TypeError, ...
+        sys.exit(
+            f"Could not collate a batch of {args.batch_size} samples: {type(exc).__name__}: {exc}\n"
+            "Samples may differ in shape or type; add a collate_fn (padding or a list) or fix the dataset."
+        )
     describe(batch)
 
 

@@ -905,3 +905,64 @@ class SplitIntegrityTests(unittest.TestCase):
              "does-not-exist.json"], capture_output=True, text=True)
         self.assertNotEqual(result.returncode, 0)
         self.assertNotIn("Traceback", result.stderr)
+
+
+@unittest.skipUnless(TORCH_AVAILABLE, "PyTorch is required to build datasets")
+class DataScriptExitCodeTests(unittest.TestCase):
+    """find_nan_batches and check_dataset_contract must signal problems by exit status."""
+
+    def _run_main(self, module_name, dataset, argv):
+        import contextlib
+        import io
+        from unittest import mock
+
+        module = importlib.import_module(module_name)
+        out = io.StringIO()
+        with mock.patch.object(module, "create_dataset", lambda: dataset), \
+                mock.patch.object(sys, "argv", [module_name, *argv]), \
+                contextlib.redirect_stdout(out):
+            try:
+                module.main()
+            except SystemExit as exc:
+                return exc.code, out.getvalue()
+        return None, out.getvalue()
+
+    def test_find_nan_batches_exits_nonzero_on_nan(self):
+        from torch.utils.data import TensorDataset
+
+        x = _torch_probe.randn(16, 4)
+        x[3, 1] = float("nan")
+        code, out = self._run_main(
+            "find_nan_batches", TensorDataset(x), ["--batch-size", "8"])
+        self.assertIsInstance(code, str)
+        self.assertIn("non-finite", out)
+
+    def test_find_nan_batches_exits_zero_when_clean(self):
+        from torch.utils.data import TensorDataset
+
+        code, out = self._run_main(
+            "find_nan_batches", TensorDataset(_torch_probe.randn(16, 4)), ["--batch-size", "8"])
+        self.assertIsNone(code)
+        self.assertIn("No non-finite", out)
+
+    def test_contract_ragged_samples_exit_with_message_not_traceback(self):
+        from torch.utils.data import Dataset
+
+        class Ragged(Dataset):
+            def __len__(self):
+                return 4
+
+            def __getitem__(self, idx):
+                return _torch_probe.zeros(idx + 1)
+
+        code, _ = self._run_main("check_dataset_contract", Ragged(), ["--batch-size", "4"])
+        self.assertIsInstance(code, str)
+        self.assertIn("Could not collate", code)
+
+    def test_contract_clean_dataset_exits_zero(self):
+        from torch.utils.data import TensorDataset
+
+        code, out = self._run_main(
+            "check_dataset_contract", TensorDataset(_torch_probe.randn(8, 3)), ["--batch-size", "4"])
+        self.assertIsNone(code)
+        self.assertIn("batch", out)
