@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (deep-learning)
 
-State (verified 2026-10-01 on branch `deep-learning-todo-p1`): `python3 scripts/validate_skill_bundle.py` OK (62 files); `python3 -m unittest discover -s tests` 114 tests OK, 3 skipped. **P1 was worked on 2026-10-01 (see `VALIDATION.md`, "P1 verification pass"); P2-P4 are untouched.** The skill still has no behavioral or trigger testing.
+State (verified 2026-10-01 on branch `deep-learning-p2-behavior-tests`): `python3 scripts/validate_skill_bundle.py` OK (66 files); `python3 -m unittest discover -s tests` 114 tests OK, 3 skipped. **P1 was worked on 2026-10-01 (merged in PR #32; see `VALIDATION.md`, "P1 verification pass"). P2 first pass was run 2026-10-01 ("P2 behavior and trigger tests, first pass"); P3-P4 are untouched.**
 
 Verification before 2026-10-01 was mostly `py_compile`, `ast.parse`, NumPy re-implementations and `--help` checks. Since then the assets (except `vision_transfer.py`) and the PyTorch-dependent scripts have been run on CPU. Read `VALIDATION.md` first (especially "Limitations"), then this file.
 
@@ -23,10 +23,10 @@ Working rules:
   - Behavior tests: `../academic-papers/tests/run_prompts.py` or `../agile-development/tests/behavior_eval.py` (with and without the skill, blind grader).
   - Findings from the siblings: Haiku loads `SKILL.md` but rarely opens references, so must-do rules belong in `SKILL.md`. Compare at least 2 runs, because Haiku varies between identical runs. A usage-limit notice comes back as an ordinary result, so check for it.
 
-## Questions for the user (ask before P1/P2)
+## Questions for the user (answered 2026-10-01)
 
-- [ ] Which workloads matter most: vision, LLM fine-tuning, HEP/physics ML, or tabular? The answer sets which prompts and assets come first.
-- [ ] Is GPU/CUDA testing available on another machine or in the cloud, for the DDP/FSDP/AMP paths that cannot run on this Mac?
+- [x] Which workloads matter most? HEP-ML (high priority), so P2 prompts lead with it.
+- [x] Is GPU/CUDA testing available? No. The DDP/FSDP/AMP prompts are graded from answer text, and the CUDA/NCCL path stays untested.
 
 ## P1 - verification gaps (things never actually run)
 
@@ -53,7 +53,7 @@ Working rules:
 
 ## P2 - test that the skill changes model behavior
 
-- [ ] Write 12-15 realistic prompts in `tests/prompts.md`, each with Must and Must-not lists (which rule fires, which reference is read). Cover:
+- [x] Write 12-15 realistic prompts in `tests/prompts.md` (done 2026-10-01: H1-H15, HEP-ML first), each with Must and Must-not lists (which rule fires, which reference is read). Cover:
   - NaN loss under AMP;
   - a validation metric that collapses because of group leakage;
   - choosing between DDP and FSDP;
@@ -68,8 +68,8 @@ Working rules:
   - a TensorFlow/JAX request (must not trigger);
   - an HEP-ML request (equivariant or physics-informed; check routing with `hep-analysis`);
   - a sklearn-only question (must not trigger).
-- [ ] Run the prompts with and without the skill on Haiku and Sonnet, and on Opus if possible, with at least 2 runs each. Log the results in `VALIDATION.md`.
-- [ ] Build trigger sets: `tests/trigger_queries.json` for tuning (20 should-trigger, 20 should-not) and a held-out set that is never tuned on. Near-misses to include: TensorFlow/JAX, generic statistics, `hep-analysis` ROOT ML, LLM API usage.
+- [~] Run the prompts with and without the skill on Haiku and Sonnet, and on Opus if possible, with at least 2 runs each. Done for Haiku and Sonnet on 2026-10-01 (Haiku 66.1 to 76.8%, Sonnet 81.6 to 92.1%, logged in `VALIDATION.md`). Open: Opus, a third run, fixes for the regressions (H14/H15 out-of-scope, H10 padding) and the weak bullets (H9 d, H1 d, H3 c).
+- [~] Build trigger sets (tuning and holdout files written 2026-10-01; tuning recall Haiku 1/40, Sonnet 16/40 runs, 0 false triggers; holdout not run; queries need code or PyTorch context before any description change): `tests/trigger_queries.json` for tuning (20 should-trigger, 20 should-not) and a held-out set that is never tuned on. Near-misses to include: TensorFlow/JAX, generic statistics, `hep-analysis` ROOT ML, LLM API usage.
   - Include the isolated routing eval data from 2026-09-26 (`hep-analysis/tests/trigger_queries_holdout.json`, 2 runs per query). Sonnet got 6/6 right and Haiku 2/6. Haiku's results on three queries:
     - "Explain equivariant neural networks for point clouds and when they beat a plain transformer": 0/2 (none).
     - "How do I set up mixed precision and gradient checkpointing for a 1B parameter model in PyTorch?": 1/2.

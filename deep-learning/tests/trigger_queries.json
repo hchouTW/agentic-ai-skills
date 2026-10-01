@@ -1,0 +1,257 @@
+[
+ {
+  "query": "write a training loop for a ResNet18 fine-tune on my custom image folder",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "my loss goes to NaN after a few hundred steps, here's my training code",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "convert this single-GPU training script to DDP",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "add mixed precision and gradient accumulation to this PyTorch script",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "this DataLoader is the bottleneck, GPU sits idle half the time, what do I check",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x64 and 128x10)",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "my model resumes from the checkpoint but the loss jumps, what am I missing",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "should I use DDP or FSDP for a 3B model on 8 80GB GPUs",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "how many GPU-hours and dollars to train a 1.3B model on 100B tokens",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "is a 0.4% accuracy gain over the baseline real or just seed noise",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "my GNN for jet tagging overfits after 3 epochs, what regularization should I try",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune",
+  "also_ok": [
+   "hep-analysis"
+  ]
+ },
+ {
+  "query": "explain equivariant neural networks for point clouds and when they beat a plain transformer",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune",
+  "also_ok": [
+   "hep-analysis"
+  ]
+ },
+ {
+  "query": "my classifier says 0.99 confidence, is that a calibrated probability, how do I check ECE",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "the surrogate network is accurate in training range but I need to run it far outside, is that ok",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "review how I split this dataset, the validation AUC looks too good",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune",
+  "also_ok": [
+   "agile-development"
+  ]
+ },
+ {
+  "query": "implement LoRA fine-tuning for a transformer in PyTorch with frozen base weights",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "how do I export this PyTorch model to ONNX and check the outputs match",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "write a custom autograd Function with a straight-through estimator and a backward hook",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "how long will serving take, how many replicas for 500 QPS with a 250 ms p99 budget",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune"
+ },
+ {
+  "query": "simulation-trained network performs worse on real data, how do I make it robust to the shift",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "tune",
+  "also_ok": [
+   "hep-analysis"
+  ]
+ },
+ {
+  "query": "write a Keras training loop with early stopping callbacks",
+  "expect_target": false,
+  "owner": null,
+  "set": "tune"
+ },
+ {
+  "query": "port this JAX/Flax training step to use pmap across 8 TPUs",
+  "expect_target": false,
+  "owner": null,
+  "set": "tune"
+ },
+ {
+  "query": "tune a RandomForestClassifier in scikit-learn for a 5k-row tabular dataset",
+  "expect_target": false,
+  "owner": null,
+  "set": "tune"
+ },
+ {
+  "query": "what is the difference between a t-test and a Mann-Whitney U test",
+  "expect_target": false,
+  "owner": "academic-papers",
+  "set": "tune",
+  "also_ok": [
+   "academic-papers"
+  ]
+ },
+ {
+  "query": "call the Anthropic API with tool use and stream the response in Python",
+  "expect_target": false,
+  "owner": null,
+  "set": "tune"
+ },
+ {
+  "query": "fit the J/psi peak in RooFit and extract the signal yield",
+  "expect_target": false,
+  "owner": "hep-analysis",
+  "set": "tune"
+ },
+ {
+  "query": "loop over a TTree with uproot and fill a weighted histogram",
+  "expect_target": false,
+  "owner": "hep-analysis",
+  "set": "tune"
+ },
+ {
+  "query": "add pagination to the users REST API",
+  "expect_target": false,
+  "owner": "agile-development",
+  "set": "tune"
+ },
+ {
+  "query": "migrate this table to a new schema without downtime",
+  "expect_target": false,
+  "owner": "agile-development",
+  "set": "tune"
+ },
+ {
+  "query": "draw a TikZ diagram of the detector layout for my paper",
+  "expect_target": false,
+  "owner": "academic-diagrams",
+  "set": "tune"
+ },
+ {
+  "query": "write the related-work section for my paper",
+  "expect_target": false,
+  "owner": "academic-papers",
+  "set": "tune"
+ },
+ {
+  "query": "help me write a SKILL.md for a new skill",
+  "expect_target": false,
+  "owner": "task-authoring",
+  "set": "tune"
+ },
+ {
+  "query": "compute the AMS-02 flux ratio uncertainty from the acceptance and exposure time",
+  "expect_target": false,
+  "owner": "ams-analysis",
+  "set": "tune"
+ },
+ {
+  "query": "pandas groupby is slow on 20M rows, how do I speed it up",
+  "expect_target": false,
+  "owner": null,
+  "set": "tune"
+ },
+ {
+  "query": "explain how transformers work to a non-technical manager, one paragraph",
+  "expect_target": false,
+  "owner": null,
+  "set": "tune"
+ },
+ {
+  "query": "what are the best hyperparameters for XGBoost on a Kaggle credit dataset",
+  "expect_target": false,
+  "owner": null,
+  "set": "tune"
+ },
+ {
+  "query": "set up a GitHub Actions workflow that runs pytest on pull requests",
+  "expect_target": false,
+  "owner": "agile-development",
+  "set": "tune"
+ },
+ {
+  "query": "convert this TensorFlow SavedModel to TFLite",
+  "expect_target": false,
+  "owner": null,
+  "set": "tune"
+ },
+ {
+  "query": "how does the Higgs mechanism give mass to the W boson",
+  "expect_target": false,
+  "owner": null,
+  "set": "tune"
+ },
+ {
+  "query": "explain the C++ rule of five",
+  "expect_target": false,
+  "owner": null,
+  "set": "tune"
+ }
+]

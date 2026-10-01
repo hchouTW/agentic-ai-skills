@@ -1,0 +1,131 @@
+[
+ {
+  "query": "I'm getting different results every run even with the same seed on GPU, how deterministic can I make this",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "holdout"
+ },
+ {
+  "query": "DDP hangs at the end of the epoch on rank 1 only, what could cause that",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "holdout"
+ },
+ {
+  "query": "give me a transformer encoder for tagging jets as sequences of particles with padding masks",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "holdout",
+  "also_ok": [
+   "hep-analysis"
+  ]
+ },
+ {
+  "query": "my validation loss is flat from step 1, the net doesn't seem to learn anything",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "holdout"
+ },
+ {
+  "query": "review my PyTorch Dataset class, num_workers>0 gives duplicated random augmentations",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "holdout"
+ },
+ {
+  "query": "how do I do gradient checkpointing and bf16 for a 1B parameter model in PyTorch",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "holdout"
+ },
+ {
+  "query": "train/val split by event for an ML classifier on collider events, how do I prevent leakage between jets from the same event",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "holdout",
+  "also_ok": [
+   "hep-analysis"
+  ]
+ },
+ {
+  "query": "is it legitimate to claim our network learned the physics because the latent clusters match jet flavor",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "holdout"
+ },
+ {
+  "query": "which learning-rate schedule and batch size scaling should I use when going from 8 to 64 GPUs",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "holdout"
+ },
+ {
+  "query": "write the PyTorch code for a conditional VAE and tell me why the KL term collapses to zero",
+  "expect_target": true,
+  "owner": "deep-learning",
+  "set": "holdout"
+ },
+ {
+  "query": "write a Keras functional model with a custom loss layer",
+  "expect_target": false,
+  "owner": null,
+  "set": "holdout"
+ },
+ {
+  "query": "write a Flax module and training state for a simple MLP in JAX",
+  "expect_target": false,
+  "owner": null,
+  "set": "holdout"
+ },
+ {
+  "query": "what is the best cross-validation scheme for an sklearn gradient boosting model with grouped samples",
+  "expect_target": false,
+  "owner": null,
+  "set": "holdout"
+ },
+ {
+  "query": "what is the p-value for observing 8 events over an expected background of 2.5",
+  "expect_target": false,
+  "owner": "academic-papers",
+  "set": "holdout",
+  "also_ok": [
+   "hep-analysis"
+  ]
+ },
+ {
+  "query": "use the OpenAI chat completions API to summarize PDFs in batch",
+  "expect_target": false,
+  "owner": null,
+  "set": "holdout"
+ },
+ {
+  "query": "write a ROOT macro that fits a Gaussian plus exponential to the invariant mass histogram",
+  "expect_target": false,
+  "owner": "hep-analysis",
+  "set": "holdout"
+ },
+ {
+  "query": "refactor this payments module without changing behavior",
+  "expect_target": false,
+  "owner": "agile-development",
+  "set": "holdout"
+ },
+ {
+  "query": "make a flowchart of my analysis pipeline for the thesis",
+  "expect_target": false,
+  "owner": "academic-diagrams",
+  "set": "holdout"
+ },
+ {
+  "query": "translate this TensorFlow estimator into plain NumPy for a unit test",
+  "expect_target": false,
+  "owner": null,
+  "set": "holdout"
+ },
+ {
+  "query": "explain Bayesian credible intervals versus frequentist confidence intervals",
+  "expect_target": false,
+  "owner": "academic-papers",
+  "set": "holdout"
+ }
+]
