@@ -101,7 +101,7 @@ Beamer with TikZ, reveal stage by stage using `visible on` (compiled with Tecton
 - Put an equation **in a node** only when it *is* the object (e.g. a posterior `$p(\theta\mid x)$`); keep it to one short expression.
 - Put an equation on an **edge label** when it defines the transformation (e.g. `$\theta\to\hat\theta$`), and prefer a symbol plus a definition in the caption over a long formula.
 - Longer equations belong in the manuscript with a reference from the caption, not inside the figure.
-- Mermaid renders KaTeX in labels only in some hosts; in DOT use HTML entities or plain text; TikZ takes LaTeX natively. State which is used.
+- Mermaid renders KaTeX in labels only in some hosts: `mmdc` renders `$$...$$` and shows single-`$` text raw (checked 2026-10-02). In DOT use HTML-like labels with entities (`&theta;`, `&sigma;<sub>stat</sub>`, `&radic;`, `&ge;`, `<i>`), which render correctly (checked); set `fontname` on edges as well as nodes or edge labels fall back to the default serif font, and there is no hat accent (a `<sup>^</sup>` is crude, prefer TikZ for that). TikZ takes LaTeX natively. State which is used.
 - Use the same symbols as the paper (see the symbol table below).
 
 ## 6. Symbol table linking to the paper
