@@ -1,6 +1,6 @@
 ---
 name: academic-diagrams
-description: "Use when generating, converting, reviewing, or simplifying academic diagrams and schematics for papers, theses, posters, and talks: research/analysis workflows, algorithm flowcharts, system and agent architectures, data-flow and sequence diagrams, model-architecture figures, causal/conceptual frameworks, experimental-setup schematics, and turning Mermaid/DOT/PlantUML into publication-quality SVG, PDF or TikZ. First-class HEP (analysis pipelines, Monte Carlo chains, decay trees, Feynman diagrams), statistics (plate notation, causal DAGs, Bayesian workflows) and CS architectures. Outputs editable sources (Mermaid, DOT, PlantUML, TikZ/tikz-feynman, SVG spec, ASCII) plus caption and validation notes. Triggers on 'draw', 'diagram', 'flowchart', 'schematic', 'plate notation', 'causal DAG', 'Feynman diagram', 'architecture figure', 'Mermaid to SVG', 'turn this Methods section into a workflow', 'review this diagram'. Not for data plots (histograms, spectra, ROC curves): see academic-papers and hep-analysis."
+description: "Use when generating, converting, reviewing, or simplifying academic diagrams and schematics for papers, theses, posters, and talks: research/analysis workflows, algorithm flowcharts, system and agent architectures, data-flow and sequence diagrams, model-architecture figures, causal/conceptual frameworks, experimental-setup schematics, and turning Mermaid/DOT/PlantUML into publication-quality SVG, PDF or TikZ. First-class HEP (analysis pipelines, Monte Carlo chains, decay trees, Feynman diagrams), statistics (plate notation, causal DAGs, Bayesian workflows) and CS architectures. Outputs editable sources plus caption and validation notes. Triggers on 'draw', 'diagram', 'flowchart', 'schematic', 'plate notation', 'causal DAG', 'Feynman diagram', 'architecture figure', 'Mermaid to SVG', 'turn this Methods section into a workflow', 'review this causal DAG', 'PlantUML to PDF', 'data flow of our training setup'. Not for data plots (histograms, spectra, ROC curves): see academic-papers and hep-analysis."
 ---
 
 # Academic Diagrams
@@ -81,6 +81,10 @@ was actually run.
 
 Normally return: **Diagram type** - short rationale - **source** - optional **caption**
 - optional **scientific notes / assumptions**. Simple request: type + source + caption.
+Even for a simple request, always state in one line what the arrows mean, and say when the figure
+was drawn from a description or listing only (so edges and counts beyond it are unknown). Draw
+control flow (who triggers whom) and data flow with different line styles when both appear, and
+add no node the request did not name; list extra steps as open questions instead.
 
 ## Publication Standards (summary; detail in `references/academic-figure-style.md`)
 
