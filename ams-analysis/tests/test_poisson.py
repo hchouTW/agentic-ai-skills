@@ -79,6 +79,67 @@ class CoverageTests(unittest.TestCase):
         self.assertAlmostEqual(var, 4.0, delta=0.15)
 
 
+class FeldmanCousinsTests(unittest.TestCase):
+    """Reference values: Feldman and Cousins (1998) Table II (b=0) and the b=0.5, 1, 2 rows, 90% CL."""
+
+    def test_published_values(self):
+        for n, b, lo, hi in ((0, 0.0, 0.0, 2.44), (1, 0.0, 0.11, 4.36), (3, 0.0, 1.10, 7.42),
+                             (0, 0.5, 0.0, 1.94), (0, 1.0, 0.0, 1.61), (0, 2.0, 0.0, 1.08)):
+            iv = pd.fc_interval(n, b, 0.90)
+            self.assertAlmostEqual(iv["lower"], lo, delta=0.015, msg=(n, b))
+            self.assertAlmostEqual(iv["upper"], hi, delta=0.015, msg=(n, b))
+
+    def test_deterministic_and_no_empty_interval_below_background(self):
+        a, b = pd.fc_interval(0, 3.0, 0.90), pd.fc_interval(0, 3.0, 0.90)
+        self.assertEqual(a, b)
+        self.assertEqual(a["lower"], 0.0)
+        self.assertGreater(a["upper"], 0.0)  # unlike the classical limit, never empty or negative
+
+    def test_cli_and_rejection(self):
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = pd.main(["fc-interval", "--n", "0", "--b", "0"])
+        self.assertEqual(code, 0)
+        self.assertAlmostEqual(json.loads(buf.getvalue())["upper"], 2.44, delta=0.015)
+        for call in (lambda: pd.fc_interval(-1, 0.0), lambda: pd.fc_interval(0, -1.0), lambda: pd.fc_interval(0, 0.0, 1.0),
+                     lambda: pd.fc_interval(0, 0.0, 0.9, 0.0)):
+            with self.assertRaises(pd.DiagnosticsError):
+                call()
+
+
+class MarginalizedAndClsTests(unittest.TestCase):
+    def test_cls_zero_count_and_exact_root(self):
+        out = pd.cls_limit(0, 0.0, 0.95)
+        self.assertAlmostEqual(out["observed_upper_limit"], -math.log(0.05), places=6)
+        out = pd.cls_limit(3, 3.0, 0.95)  # CLs+b / CLb = 0.05 with CLb = P(N <= 3 | 3)
+        total = out["observed_upper_limit"] + 3.0
+        self.assertAlmostEqual(pd.poisson_cdf(3, total) / pd.poisson_cdf(3, 3.0), 0.05, places=6)
+        band = out["expected_under_background_only"]
+        self.assertLessEqual(band["-2sigma"], band["-1sigma"])
+        self.assertLessEqual(band["-1sigma"], band["median"])
+        self.assertLessEqual(band["median"], band["+1sigma"])
+        self.assertLessEqual(band["+1sigma"], band["+2sigma"])
+
+    def test_cls_limit_grows_with_background_uncertainty_only_mildly_and_is_deterministic(self):
+        a, b = pd.cls_limit(3, 3.0, 0.95, 0.0), pd.cls_limit(3, 3.0, 0.95, 1.0)
+        self.assertGreater(b["observed_upper_limit"], a["observed_upper_limit"] - 1e-9)
+        self.assertEqual(b, pd.cls_limit(3, 3.0, 0.95, 1.0))
+
+    def test_marginalized_fc_converges_to_known_background_and_widens(self):
+        known = pd.fc_interval(3, 3.0, 0.90, 0.02)
+        tiny = pd.fc_interval(3, 3.0, 0.90, 0.02, 0.001)
+        wide = pd.fc_interval(3, 3.0, 0.90, 0.02, 2.0)
+        self.assertAlmostEqual(tiny["upper"], known["upper"], delta=0.03)
+        self.assertGreater(wide["upper"], known["upper"])
+        self.assertEqual(wide["lower"], 0.0)
+
+    def test_rejections(self):
+        for call in (lambda: pd.cls_limit(1, 1.0, 0.95, -1.0), lambda: pd.cls_limit(1, 1.0, 0.95, 1.0, 2),
+                     lambda: pd.cls_limit(-1, 1.0), lambda: pd.fc_interval(1, 1.0, 0.9, 0.02, float("nan"))):
+            with self.assertRaises(pd.DiagnosticsError):
+                call()
+
+
 class RejectionTests(unittest.TestCase):
     def test_bad_inputs_rejected(self):
         for call in (lambda: pd.upper_limit(-1, 0.0), lambda: pd.upper_limit(1.5, 0.0), lambda: pd.upper_limit(0, -1.0),

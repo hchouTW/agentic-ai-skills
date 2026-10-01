@@ -470,7 +470,7 @@
     "supersedes": [],
     "superseded_by": [],
     "supersession_note": null,
-    "notes": "One record row grouping six PRLs; only the first DOI was recorded originally. Individual abstract-level records S41-S46 were added on 2026-09-20.",
+    "notes": "One record row grouping six PRLs; only the first DOI was recorded originally. Individual abstract-level records S41-S46 were added on 2026-09-20 (since read at main-article and Supplemental Material text level). Decision 2026-10-01: this row is a grouped pointer to S41-S46 for navigation only; cite the individual record for any claim, not S16, and it stays metadata-only.",
     "verification_limitations": "Metadata-only; treat titles as navigation."
   },
   {
@@ -579,7 +579,7 @@
     "supersedes": [],
     "superseded_by": [],
     "supersession_note": null,
-    "notes": "One record row grouping several PRLs; only an example DOI was recorded originally. PRL 134, 051001 now has its own abstract-level record S47.",
+    "notes": "One record row grouping several PRLs; only an example DOI was recorded originally. PRL 134, 051001 now has its own record S47 (read at main-article and Supplemental Material text level). Decision 2026-10-01: this row is a grouped pointer to the individual nuclei PRLs (S47 where split out) for navigation only; cite the individual record for any claim, not S20, and it stays metadata-only.",
     "verification_limitations": "Metadata-only; treat titles as navigation."
   },
   {

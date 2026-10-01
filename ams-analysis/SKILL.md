@@ -25,7 +25,7 @@ Guide realistic AMS-02 detector and charged-cosmic-ray analysis work while separ
 | Unit conversion or quick mass-resolution estimate | 1 | `charged-cosmic-rays` (Variable conversion) or `detector-and-observables` (mass propagation) only; run `scripts/ams_kinematics.py` for the arithmetic |
 | Covariance/response/PSD problems | 3, 6 | `inference-and-unfolding`; run `scripts/validate_covariance.py` / `validate_response.py` on supplied matrices |
 | Write a measurement brief, specification, ledger or response card; formal verdict-first review of a design | 2, 3 | `analysis-artifacts`, then the species and topic references it points to; run `scripts/audit_analysis_spec.py` |
-| Exact Poisson limit or interval numbers, zero-count bound, seeded coverage check | 6 | `statistical-diagnostics` (after `inference-and-unfolding` for the decision) |
+| Exact Poisson limit or interval numbers, zero-count bound, FC/CLs limit, seeded coverage, boundary and profile-likelihood significance and limits, finite-template effect, regularization scan, closure and pulls, response statistics, ratio-cancellation check | 6 | `statistical-diagnostics` (after `inference-and-unfolding` for the decision) |
 | Time-resolved flux or ratio, solar cycle, periodicity, time stability of a flux result | 2, 3, 6 | `time-dependent-analysis`, `charged-cosmic-rays`, `calibration-mc-systematics` |
 | Positron fraction vs flux for a model constraint | 4, 6 | `antimatter-and-leptons`, `inference-and-unfolding` |
 | Maintainer regression only (contains grading rubrics; not needed to answer users) | - | `tests-and-examples` |
@@ -66,7 +66,9 @@ Run from the skill directory with `python3`; each has `--help`, prints JSON, and
 - `scripts/ams_kinematics.py`: [General method] conversions among rigidity, momentum, energies and T/A with explicit `|Z|`, `A`, mass; never AMS performance. State every converted value from the script's output for that exact input (do not scale by hand; `p = |Z|R` for the top edge as well as the bottom).
 - `scripts/validate_covariance.py`, `scripts/validate_response.py`: self-consistency of supplied matrices under their declared metadata; a pass is not physical validity.
 - `scripts/audit_analysis_spec.py`: audits a JSON analysis specification into errors, warnings, proposals, unresolved inputs. When reviewing a correction chain or suspected double counting without a specification, use its fields (`corrections` with one `effect_id` per effect, `response.includes`, `estimator.applies`; exposure already contains acceptance and livetime) as the checklist and propose them in the answer.
-- `scripts/poisson_diagnostics.py`: exact Poisson upper limit, Garwood interval, seeded coverage; classical limit only, known background.
+- `scripts/poisson_diagnostics.py`: exact Poisson upper limit, Garwood interval, Feldman-Cousins interval, CLs limit with expected band, seeded coverage; known or marginalized background.
+- `scripts/statistical_toys.py`: seeded toys for the boundary (q0) p-value, finite-template effect (plain and Barlow-Beeston-lite), D'Agostini iteration scan, and ratio spread (simple and across-bin correlated); approximations, labeled.
+- `scripts/likelihood_limits.py`: profile-likelihood limit and significance (single and multi-bin) with toy calibration. `scripts/unfolding_diagnostics.py`: Tikhonov/SVD scans, closure and pulls, forward-fold versus unfold-then-fit, response-statistics toys.
 - `scripts/validate_evidence_ledger.py`, `scripts/render_source_index.py`: check `data/sources.json` and `data/claims.json` and keep `source-index` in sync.
 
 ## Reference index
@@ -83,7 +85,7 @@ Run from the skill directory with `python3`; each has `--help`, prints JSON, and
 | [calibration-mc-systematics](references/calibration-mc-systematics.md) | Calibrations, MC provenance, data/MC validation, systematic ledger, double counting |
 | [analysis-artifacts](references/analysis-artifacts.md) | Only for designing or writing a structured specification, a brief/ledger/registry/response card, running the checker scripts, or a formal verdict-first review |
 | [time-dependent-analysis](references/time-dependent-analysis.md) | Only for temporal flux or ratio, solar-cycle or charge-sign modulation, periodicity, time stability, joint fits across periods |
-| [statistical-diagnostics](references/statistical-diagnostics.md) | Only when exact Poisson limit/interval numbers, the zero-count bound, or a seeded coverage check are needed |
+| [statistical-diagnostics](references/statistical-diagnostics.md) | Only when exact Poisson/FC/CLs numbers, the zero-count bound, or a seeded toy check (coverage, boundary, template statistics, unfolding scan, ratio) are needed |
 | [source-policy](references/source-policy.md) | Source tiers, ledger schema, "latest" checks, conflicts, unsupported-claim behavior |
 | [source-index](references/source-index.md) | Claim-to-source map with dates, tiers, verification level |
 | [tests-and-examples](references/tests-and-examples.md) | Worked examples, behavioral tests, rubrics, results |

@@ -55,6 +55,9 @@ SCRIPT_TESTS = {  # script -> the test module that must exist for it
     "render_source_index": "test_evidence_ledger",
     "audit_analysis_spec": "test_analysis_spec",
     "poisson_diagnostics": "test_poisson",
+    "statistical_toys": "test_statistical_toys",
+    "likelihood_limits": "test_likelihood_limits",
+    "unfolding_diagnostics": "test_unfolding_diagnostics",
     "validate_skill_bundle": "test_bundle",
 }
 MAX_SKILL_LINES = 120
