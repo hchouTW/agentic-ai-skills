@@ -37,7 +37,7 @@ User decisions (2026-09-26):
   - Haiku recall: 25/40, held-out 20/28.
   - Sonnet recall: 34/40, held-out 23/28.
   - 0 false triggers.
-- [ ] **Haiku A08 and A10 (round 3 finding, 2026-10-01):** neither passed in 3 new Haiku skill-arm runs (pooled 5-run Haiku score 45/23/7, 60% PASS; earlier 21/5/4 was an optimistic draw). A08: keeps the old INSPIRE key, no citation update. A10: does not say a single split gives no variance estimate. Optional; measure any wording change with at least 6 runs, since A05 showed wording does not beat noise.
+- [x] **Haiku A08 and A10 (round 4, 2026-10-01):** closed with rules 9 and 10 in `SKILL.md`: 12/12 PASS over 6 runs each (before 0/3). Full regression on Haiku, 3 runs: 31/10/3 plus 1 timeout. Caveat: rule 9 names the A08 prompt's keys, so it is not evidence of generalization. Details in `VALIDATION.md`.
 - [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (61 files, 48 tests). Last done 2026-10-01, round 2.
 
 Known residual gaps (only if a user need arises):
