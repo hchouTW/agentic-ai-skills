@@ -66,12 +66,15 @@ performance and mission status are superseded by later publications. Rules:
     ~10-15% (H.E.S.S., MAGIC; MAGIC performance paper arXiv:1508.04575) up to ~20%
     (VERITAS); CTA calibration target ~15% (arXiv:1508.07225). Reference 33 changed from
     "~15-20%" to "~10-20%".
-  - AMS-02 mission status (reference 38): checked 2026-09-25 on
-    [ams02.space/tracker-layer-0-upgrade](https://ams02.space/tracker-layer-0-upgrade).
-    The Layer-0 silicon tracker upgrade (a new layer on top of the detector, quoted
-    acceptance gain ~300%) passed qualification tests in June 2025 and is **not yet
-    installed**. Secondary sources (a conference contribution and CERN news, seen only
-    as search snippets and not opened) put launch at the end of 2026 and completion via
-    spacewalks by about May 2027. Re-check after that. Instrument parameters: still only
+  - AMS-02 mission status (reference 38): checked 2026-10-01 on
+    [ams02.space/tracker-layer-0-upgrade](https://ams02.space/tracker-layer-0-upgrade)
+    (undated; states a new silicon layer on top of the detector, acceptance +300%) and the
+    [CERN news item of 2026-08-21](https://home.cern/final-tests-for-the-ams-upgrade-before-spaceflight/)
+    (both opened). Layer-0 is **not yet installed**; CERN plans a Perugia acceptance test
+    to 30 August, CERN measurements in October, flight to Kennedy Space Center in January
+    2027, Dragon launch in April 2027 and connections by May 2027 (planned, Tier 6
+    context). The June 2025 qualification date in earlier notes was not re-verified. The
+    ledger entries are claims C101-C102 in `ams-analysis`. Re-check after that.
+    Instrument parameters: still only
     checked against the website on 2026-09-10, not against Phys. Rept. 894.
 
