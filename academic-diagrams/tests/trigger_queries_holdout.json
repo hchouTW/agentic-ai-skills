@@ -1,0 +1,92 @@
+[
+ {
+  "query": "Can you draw a flowchart of how a variational autoencoder trains, for my thesis? Mermaid is fine.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Here's my Methods section on a two-step unfolding procedure; give me a diagram of the workflow.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Create a TikZ figure showing the layers of an electromagnetic calorimeter with absorber and scintillator plates.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Draw a graphical model with plates for a mixed-membership topic model.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "I want a Feynman diagram of Higgs decay to two photons via a top loop.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Convert my PlantUML component diagram to a clean PDF for the appendix.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Draw a block diagram of an agentic coding system with planner, tool executor and memory, in Mermaid.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Does my diagram of the likelihood fit regions make sense? Review it before I submit.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Make an editable diagram of the bootstrap resampling procedure for the supplementary material.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Draw the data flow of our distributed training setup: parameter servers, workers and a checkpoint store.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Plot the pull distribution for each nuisance parameter from my pyhf fit.",
+  "expect_target": false,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "Why is my LSTM validation loss going up while training loss drops?",
+  "expect_target": false,
+  "owner": "deep-learning"
+ },
+ {
+  "query": "Tighten the abstract of my paper to under 150 words.",
+  "expect_target": false,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Make a scatter plot of efficiency versus pT with error bars in matplotlib.",
+  "expect_target": false,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "Draw a pie chart of our team's time allocation for a slide.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Write the Dockerfile for my analysis container.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "What is the rigidity cutoff for a particle at 51 degrees inclination?",
+  "expect_target": false,
+  "owner": "ams-analysis"
+ },
+ {
+  "query": "Create a ticket for adding dark mode to the settings page.",
+  "expect_target": false,
+  "owner": "task-authoring"
+ }
+]

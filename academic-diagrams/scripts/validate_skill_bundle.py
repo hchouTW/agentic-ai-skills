@@ -5,7 +5,8 @@ Purpose: catch accidental deletions, truncations, or broken relative links in th
 this skill's SKILL.md and README.md depend on.
 
 What it does: checks that every expected file exists and is non-empty, that SKILL.md has
-YAML frontmatter with name/description (name must equal the folder name), that README.md has
+YAML frontmatter with name/description (name must equal the folder name, description at most
+1024 characters), that README.md has
 its expected section headers, that every relative markdown link in SKILL.md resolves, and that
 every examples/*/ directory holds at least one example.
 
@@ -48,6 +49,7 @@ REQUIRED_PATHS = [
     "tests/test_academic_diagrams_skill.py",
 ]
 
+DESCRIPTION_LIMIT = 1024  # characters; sibling skills stay under it
 EXAMPLE_DIRS = ["general", "hep", "statistics", "computer-science"]
 
 REQUIRED_README_SECTIONS = [
@@ -110,6 +112,10 @@ def main() -> None:
             for field in ("name", "description"):
                 if not fm.get(field):
                     problems.append(f"SKILL.md frontmatter is missing {field}")
+            description = fm.get("description", "").strip('"')
+            if len(description) > DESCRIPTION_LIMIT:
+                problems.append(
+                    f"SKILL.md description is {len(description)} characters; limit is {DESCRIPTION_LIMIT}")
             if fm.get("name") and fm["name"] != root.name:
                 problems.append(f"SKILL.md name {fm['name']!r} != folder {root.name!r}")
         for target in broken_links(root / "SKILL.md"):

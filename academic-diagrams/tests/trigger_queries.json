@@ -1,0 +1,112 @@
+[
+ {
+  "query": "Turn this Mermaid sequence diagram into a publication-quality SVG:\n```mermaid\nsequenceDiagram\n  Client->>Server: request\n  Server-->>Client: response\n```",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Make a TikZ schematic of a layered detector cross-section for my paper.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Draw the analysis pipeline for my dijet resonance search as a flowchart for the methods section.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "I need plate notation for a hierarchical Bayesian model with group-level means and a shared variance.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Draw the Feynman diagram for tt-bar production via gluon fusion in tikz-feynman.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Make an architecture figure for our RAG system: retriever, reranker, LLM, vector store.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Turn this Methods paragraph into a workflow diagram I can put in the paper: we select events, estimate backgrounds from sidebands, fit templates, then unfold.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Review this causal DAG for my observational study: is the collider handled right?",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Convert this Graphviz DOT file of my data-flow into something that looks good in a thesis chapter.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Sketch the Monte Carlo chain from generator to detector simulation to reconstruction for a poster.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Draw a schematic of the experimental setup: beam, target, spectrometer magnet, and tracker.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Simplify this busy system diagram so it works on a talk slide.",
+  "expect_target": true,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Plot the invariant-mass histogram with a Gaussian-plus-exponential fit overlay in ROOT.",
+  "expect_target": false,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "Make an ROC curve for my classifier and put AUC in the legend.",
+  "expect_target": false,
+  "owner": "deep-learning"
+ },
+ {
+  "query": "Help me write a caption for Figure 3 in my PRD paper; it shows the unfolded spectrum.",
+  "expect_target": false,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Fix the shape mismatch error in my PyTorch DataLoader collate function.",
+  "expect_target": false,
+  "owner": "deep-learning"
+ },
+ {
+  "query": "Draw a bar chart of monthly revenue for the dashboard I'm building.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Write a task spec for adding a diagram export button to our web app.",
+  "expect_target": false,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Summarize the main result of this arXiv paper on the muon g-2 anomaly.",
+  "expect_target": false,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Refactor this Python function to remove the nested loops.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "How is the AMS-02 TRD used to separate positrons from protons?",
+  "expect_target": false,
+  "owner": "ams-analysis"
+ },
+ {
+  "query": "Make a log-log plot of the cosmic-ray proton flux times E^2.7 versus energy.",
+  "expect_target": false,
+  "owner": "hep-analysis"
+ }
+]
