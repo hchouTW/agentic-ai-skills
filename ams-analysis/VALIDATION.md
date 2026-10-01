@@ -1,6 +1,6 @@
 # Validation Report
 
-Validation date: 2026-09-20 (latest pass: round 5, 2026-09-25). Environment: Python 3 standard library only.
+Validation date: 2026-09-20 (latest pass: round 6, 2026-10-01). Environment: Python 3 standard library only.
 
 ## Files
 
@@ -159,6 +159,17 @@ scored 47/60 = 78%, again with no blocking failure.
 
 Not demonstrated: that the skill passes the 90% bar under this stricter grading. Earlier
 rounds 3-4 scored about 95%, but they used fewer and older tests.
+
+## Round 6: independent grading, one prompt per answerer (2026-10-01)
+
+Same 16 prompts as round 5 (`tests/grading/round5.md`). Deviations from round 5: **one prompt per answerer** (32 fresh Sonnet agents, no batching, two samples A/B per prompt, no web, told not to read `tests-and-examples.md` or `tests/`), and one Opus grader per four tests (both samples of a test with the same grader). Answers: `tests/grading/round6_answers/`; full grades with defect lists: `tests/grading/round6_grades/G1-G4.md`; summary in `tests/grading/round6.md`.
+
+**Suite: 284/320 = 88.75%, no blocking failure. Below the 90% bar (288) by 4 points; round 5 was 81.6%.** Per group: G1 (T05, T08, T23, T24) 69/80; G2 (T29-T32) 73/80; G3 (T33, T35-T37) 71/80; G4 (T38-T41) 71/80. The round-5 failure on T29 is gone (9/9); T30 and T31 reached 9-10.
+
+Remaining defects (all source discipline, none blocking): C06 not cited in either T08 sample although its numbers are quoted correctly (abstract-level S08 numbers cited as "S08" only); T05 cutoff-scan and quadrature practice attributed to C31 instead of C23/C27/C49/C60 and C23/C25/C33; both T08 samples read "negative-sign tracks" as "TRD gives the sign" (answerer misreading, not a reference defect per the grader); T33 misses the data-taking period for the alternatives (C24) and the verification level of S04/S01/S46; T37_A adds an unsourced significance ratio; T32_B and T23 overreach under [Documented] tags.
+
+Fix made (one, narrow): `references/antimatter-and-leptons.md` now attaches C06 and its abstract-level scope to the S08 event counts. **Not re-run**: one sample per prompt cannot separate a fix from answerer/grader variance, and the fix is untested.
+Caveat: graders and answerers were fresh each round; 2 samples per prompt, so the total has a spread of roughly 1-2 points per answer.
 
 ## Unresolved gaps and limitations
 

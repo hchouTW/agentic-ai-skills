@@ -1,19 +1,18 @@
 # ams-analysis: open work for the next session
 
-State (verified 2026-09-28 on `main`, all work merged; round 5 via PR #20): `python3 scripts/validate_skill_bundle.py` OK with 38 files; `python3 -m unittest discover -s tests` 238 tests OK; `python3 scripts/render_source_index.py` in sync. Latest behavioral result: grading round 5 scored **81.6%, below the 90% bar** (`tests/grading/round5.md`). Read `VALIDATION.md` first: it records what was run, what was self-graded versus independently graded, and every known gap. Do not repeat finished work; do not claim a check passed without running it.
+State (verified 2026-10-01 on branch `ams-analysis-grading-round6`, uncommitted; round 5 merged via PR #20): `python3 scripts/validate_skill_bundle.py` OK with 38 files; `python3 -m unittest discover -s tests` 238 tests OK; `python3 scripts/render_source_index.py` in sync. Latest behavioral result: grading round 6 scored **88.75% (284/320), still below the 90% bar by 4 points, no blocking failure** (`tests/grading/round6.md`; round 5 was 81.6%). Read `VALIDATION.md` first: it records what was run, what was self-graded versus independently graded, and every known gap. Do not repeat finished work; do not claim a check passed without running it.
 
 Ground rules: standard library only for scripts; every AMS-specific number needs a scoped claim in `data/claims.json` (edit the JSON, run `scripts/validate_evidence_ledger.py`, then `scripts/render_source_index.py --write`); never promote a claim's `verification_strength` or a source's `verification_level` without reading the source at that level; label statements [Documented] / [General method] / [Proposal] / [Unknown/needs input]. For grading, answerers and grader must be different models.
 
-## 1. Grading round 6 (next, highest value)
+## 1. Grading round 7 (next)
 
-- [ ] Get the suite back above the 90% bar under the round-5 grader setup. The remaining failure pattern is claim-boundary discipline:
-  - expected cross-citations missing (C06; C39/C89/S42; C26);
-  - C72 read as an ECAL-only factor;
-  - documented results pushed one step past their support.
-
-  T29 also misses its test-specific critical items: T/A needs A and mass, and S07 is read at main-article level only.
-  - Procedure: same 16 prompts as `tests/grading/round5.md`. Use **one prompt per answerer** (round 5 batched 4 to save cost), at least two samples per prompt, and Opus graders with the rubric and `data/claims.json`. Record the results in a new `tests/grading/round6.md`, archive the answers and grades, and log them in `VALIDATION.md`.
-  - Fix only the narrowest responsible reference; no global rules for isolated style issues. Record scores honestly, including failures.
+- [ ] Close the last 4 points to the 90% bar. Round 6 (one prompt per answerer, 2 samples, Opus graders) scored 284/320. Remaining defects are source discipline, none blocking:
+  - C06 not cited in T08 (fix applied in `antimatter-and-leptons`, untested);
+  - T05 cutoff-scan/quadrature practice cited to C31 instead of C23/C27/C49/C60 and C23/C25/C33;
+  - T33 misses the data-taking period for alternatives (C24) and the verification level of S04/S01/S46;
+  - T37_A unsourced significance ratio; overreach under [Documented] tags in T23 and T32_B;
+  - T08: both samples read "negative-sign tracks" as "TRD gives the sign" (grader: answerer misreading, not a reference defect).
+- Procedure: rerun only the tests below 9 (T05, T08, T32, T33, T39-T41) with the same setup, 2+ samples each. One sample cannot separate a fix from variance, so compare against the round-6 spread of 1-2 points per answer. Fix only the narrowest responsible reference; no global rules for isolated style issues.
 
 ## 2. Evidence gaps
 
