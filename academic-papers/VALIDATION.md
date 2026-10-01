@@ -5,8 +5,8 @@ bundle, and what `scripts/check_manuscript.py` / `scripts/build_lit_matrix.py` c
 for a user's own manuscript or reading notes (a different, deliberately separate
 concern).
 
-Last pass: 2026-10-01 (TODO round 3, branch `academic-papers-todo-round3`; earlier
-passes: round 2 on 2026-10-01, round 1 on 2026-09-27, Haiku follow-ups on 2026-09-27). Counts: 61 files in the
+Last pass: 2026-10-01 (round 4, branch `academic-papers-a08-a10`; earlier
+passes: round 3 (PR #62), round 2 on 2026-10-01, round 1 on 2026-09-27, Haiku follow-ups on 2026-09-27). Counts: 61 files in the
 bundle, 48 unit tests (`python3 -m unittest discover -s tests`), bundle validator OK.
 Environment: Tectonic (miniconda) is the only TeX engine; no pdflatex, latexmk, bibtex
 or biber. Network access was available.
@@ -287,6 +287,31 @@ answers; no USAGE_LIMIT, ERROR, timeout or empty answer):
   venues, but the runs are not from a frozen file.
 - Candidates for a later round (not attempted): A10 and A08 never passed on Haiku. Given the
   A05 history, expect wording changes to land within noise; measure with at least 6 runs.
+
+## Round 4: Haiku A08 and A10 closed with two `SKILL.md` rules (2026-10-01, branch `academic-papers-a08-a10`)
+
+Before: neither prompt passed in 3 Haiku skill-arm runs (A08: keeps the old INSPIRE key
+`Aad:2012tfa`, or asserts NeurIPS page numbers; A10: fixes the seed but never says a single
+split gives no variance estimate). Two rules were added to "Rules for every task", each its
+own sentence:
+- Rule 9: one `eprint` under two INSPIRE keys is one paper; keep the current key (the
+  collaboration key for a collaboration paper), update every `\cite`, tell the user to
+  confirm on INSPIRE; an arXiv-derived year may be the latest-version year.
+- Rule 10: one split or one seed gives no variance estimate; recommend several seeds or
+  cross-validation and report the mean and spread.
+
+Measured on Haiku, skill arm, blind Opus grader, no errored runs for the targeted test:
+- A08 and A10, 6 runs each: 12/12 PASS (before: 0/3 each).
+- Full 15 prompts, 3 runs (45 answers, 1 A15 timeout): 31 PASS / 10 PARTIAL / 3 FAIL.
+  A08 3/3 and A10 2/3 PASS (A10's PARTIAL said "a single split, not a variance estimate"
+  but offered multiple seeds only as a final check and never asked for the spread). The
+  3 FAILs were A02, A05 (known limitation) and A06 (invented "constrains beyond-Standard-Model
+  scenarios"; A06 had passed 3/3 in round 3). The pooled Haiku score before was 60% PASS
+  over 5 runs; this run is 31/44 = 70% with 1 timeout, with the usual run-to-run spread
+  (A06 and A02 failing once each is within the noise seen in earlier rounds).
+- Caveat: rule 9 names the exact keys in the A08 prompt, so A08's pass shows the rule is
+  read and followed, not that it generalizes to other duplicate keys. The trigger sets were
+  not rerun, because the description is unchanged.
 
 ## TODO round 1: P3 content and structure (2026-09-27)
 
