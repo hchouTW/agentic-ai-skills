@@ -1,9 +1,11 @@
 # Compose an AMS-02 Antiproton/Proton Ratio Worked-Pipeline Script
 
+> Snapshot note (2026-10-01): the repository facts below were verified on 2026-09-12. The AMS-02 case study is now `hep-analysis/references/38-ams02-case-study.md` (it was numbered 40; paths here are updated), and `hep-analysis/examples/` was removed on 2026-09-25, so the last Open Question about a matching example no longer has a home in this repository.
+
 ## Background
 
 The user request was: "Create a task for an antiproton analysis in the AMS
-experiment." `hep-analysis/references/40-ams02-case-study.md`'s "Rare-species
+experiment." `hep-analysis/references/38-ams02-case-study.md`'s "Rare-species
 measurement pattern" section documents the antiproton/proton ratio as
 AMS-02's canonical measurement structure: a ratio of two independent yields
 that share (approximately) the same acceptance, so a large part of the
@@ -62,7 +64,7 @@ consolidated JSON result - together with corresponding unit tests added to
   pipeline's ratio and flux numbers match calling the underlying functions
   directly with the same inputs; and the CLI's JSON output round-trips
   through `json.loads`.
-- Updating `references/40-ams02-case-study.md`'s "Rare-species measurement
+- Updating `references/38-ams02-case-study.md`'s "Rare-species measurement
   pattern" section with a cross-reference to the new script, if confirmed
   during Technical Approach step 1 that no such cross-reference already
   exists.
@@ -84,7 +86,7 @@ consolidated JSON result - together with corresponding unit tests added to
 
 Verified by direct inspection of `agentic-ai-skills` on 2026-09-12:
 
-- `hep-analysis/references/40-ams02-case-study.md`'s "Rare-species
+- `hep-analysis/references/38-ams02-case-study.md`'s "Rare-species
   measurement pattern" section documents the exact three-step pattern this
   pipeline implements (ratio of two yields sharing acceptance; background is
   the abundant species mis-identified; null results reported as upper
@@ -120,7 +122,7 @@ Verified by direct inspection of `agentic-ai-skills` on 2026-09-12:
    signatures and return-dict keys (e.g. `orbit_cutoff_profile`'s
    `min_cutoff_gv` / `max_cutoff_gv` / `time_weighted_mean_cutoff_gv`) to
    compose them without guessing at an interface; while doing so, confirm
-   whether `references/40-ams02-case-study.md` already cross-references any
+   whether `references/38-ams02-case-study.md` already cross-references any
    planned composed pipeline (Scope's conditional documentation update).
 2. Design the pipeline script's single consolidated output schema - one JSON
    object with clearly-named nested sections per stage (`cutoff`,
@@ -138,7 +140,7 @@ Verified by direct inspection of `agentic-ai-skills` on 2026-09-12:
    `json.loads`.
 5. Write the module docstring with the same Purpose / What it does / Usage
    notes / `Run:` sections the other five scripts use, cross-referencing
-   `references/40-ams02-case-study.md`'s "Rare-species measurement pattern"
+   `references/38-ams02-case-study.md`'s "Rare-species measurement pattern"
    section explicitly.
 6. Run `python3 -m unittest discover -s tests -v` from `hep-analysis/` and
    confirm all existing tests plus the new ones pass.
@@ -149,7 +151,7 @@ Verified by direct inspection of `agentic-ai-skills` on 2026-09-12:
   standard-library-only script.
 - A new `AntiprotonRatioPipelineTests` class in `tests/test_ams02.py`.
 - An updated module docstring cross-referencing
-  `references/40-ams02-case-study.md`.
+  `references/38-ams02-case-study.md`.
 - A short note (in the script's docstring, or a new
   `hep-analysis/VALIDATION.md` entry) stating this is the first script in
   this repository to compose more than one of the five existing AMS-02
@@ -170,7 +172,7 @@ Verified by direct inspection of `agentic-ai-skills` on 2026-09-12:
   class, with no regression to the existing four test classes.
 - The new script's docstring follows the existing five scripts'
   Purpose / What it does / Usage notes / `Run:` structure and explicitly
-  links to `references/40-ams02-case-study.md`.
+  links to `references/38-ams02-case-study.md`.
 - No real AMS-02 flight data, calibration constant, or unpublished number is
   introduced - only synthetic or explicitly-cited-published inputs, per this
   repository's existing sourcing discipline.
@@ -197,7 +199,7 @@ Verified by direct inspection of `agentic-ai-skills` on 2026-09-12:
   under a new `hep-analysis/scripts/pipelines/` subdirectory if more
   composed, multi-script examples are expected later? **Open Question** - no
   such subdirectory convention exists in this repository today.
-- Is a corresponding new row in `hep-analysis/examples/` (one of the
+- Is a corresponding worked example (in the former `hep-analysis/examples/`, which no longer exists: archetype examples were removed on 2026-09-25) (one of the
   numbered worked examples, e.g. an Execution-Trajectory or Gated-Pipeline
   archetype demonstrating this exact composition) also wanted alongside the
   script, or is the script-plus-tests deliverable sufficient on its own?
@@ -212,7 +214,7 @@ Verified by direct inspection of `agentic-ai-skills` on 2026-09-12:
 
 ## References
 
-- `hep-analysis/references/40-ams02-case-study.md` - the "Rare-species
+- `hep-analysis/references/38-ams02-case-study.md` - the "Rare-species
   measurement pattern" section this pipeline implements.
 - `hep-analysis/scripts/geomagnetic_cutoff.py`,
   `orbit_averaged_geomagnetic_cutoff.py`, `solar_modulation_force_field.py`,

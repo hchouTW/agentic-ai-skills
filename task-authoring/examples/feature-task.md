@@ -1,5 +1,7 @@
 # Add a `--format json` Output Mode to Each Skill's `validate_skill_bundle.py`
 
+> Snapshot note (2026-10-01): written against the repository on 2026-09-12, when five skills had a `validate_skill_bundle.py`. There are now seven (academic-diagrams, academic-papers, agile-development, ams-analysis, deep-learning, hep-analysis, task-authoring); every "five" below is the 2026-09-12 count, and the file-by-file Repository Context was not re-verified.
+
 ## Background
 
 Every skill in `agentic-ai-skills` (`task-authoring`, `agile-development`,

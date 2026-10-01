@@ -1,0 +1,112 @@
+[
+ {
+  "query": "Create a task for adding rate limiting to our public API.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Write a ticket for the login bug: users who sign in with SSO get logged out after about 5 minutes.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Draft a spec for a CSV export feature that a junior engineer or an AI agent could implement without asking me anything.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Turn this into a task: the nightly report job takes 4 hours now and should be faster.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "I need an implementation-ready task document for migrating our cron jobs to a proper scheduler.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Write a task for investigating why our test suite got flaky last month; the agent will have no context from this chat.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Create a task for RICH reconstruction performance analysis.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Here's a stack trace from production. Write it up as a task for the on-call agent to fix, with acceptance criteria.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Write a canonical worked example for my skill's examples/ directory: an Execution Trajectory of fixing a failing import.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Help me design the prompt for an LLM call that extracts invoice fields as JSON, and budget the tokens.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Design a self-healing retry loop for an agent that runs a linter and fixes errors; set the iteration cap and stop conditions.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Refine this task: 'make the dashboard better'. It needs scope, deliverables and acceptance criteria before anyone starts.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Implement rate limiting on the /search endpoint now; here is the repo.",
+  "expect_target": false,
+  "owner": "agile-development"
+ },
+ {
+  "query": "Add a --verbose flag to this CLI and make sure the tests pass.",
+  "expect_target": false,
+  "owner": "agile-development"
+ },
+ {
+  "query": "Write a README for this repository.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Write a commit message for these staged changes.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Write a system prompt for a customer-support chatbot.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Draft the related-work section for my paper on jet tagging.",
+  "expect_target": false,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "Fix the NaN loss in my PyTorch training loop.",
+  "expect_target": false,
+  "owner": "deep-learning"
+ },
+ {
+  "query": "Review my pull request before I merge it.",
+  "expect_target": false,
+  "owner": "agile-development"
+ },
+ {
+  "query": "Plot the dijet mass spectrum with a smooth background fit in ROOT.",
+  "expect_target": false,
+  "owner": "hep-analysis"
+ },
+ {
+  "query": "Draw a flowchart of our deployment pipeline for the docs.",
+  "expect_target": false,
+  "owner": "academic-diagrams"
+ }
+]

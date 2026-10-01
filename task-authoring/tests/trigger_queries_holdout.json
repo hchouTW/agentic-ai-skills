@@ -1,0 +1,82 @@
+[
+ {
+  "query": "Can you write up a task for adding two-factor authentication? Another engineer will pick it up next week.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Create a ticket from this bug report: the invoice PDF shows the wrong VAT rate for German customers.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "I want a spec an AI coding agent can run with: add pagination to the orders list endpoint.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Turn this into a task document: our Docker image is 3 GB and builds take 20 minutes.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Create a task to research whether we should move our message queue to Kafka.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Generate a Postmortem-style worked example for a skill's examples directory about a bad cache invalidation.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Help me budget tokens and pick a model tier for a pipeline that classifies 50k support emails a day.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Draft an agentic loop for a ReAct agent that searches docs and answers questions, with a max-iteration guardrail.",
+  "expect_target": true,
+  "owner": "task-authoring"
+ },
+ {
+  "query": "Please just fix the typo in the error message in db.py.",
+  "expect_target": false,
+  "owner": "agile-development"
+ },
+ {
+  "query": "What commit message should I use for a refactor of the parser?",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Write the abstract for my PRD paper on the positron fraction.",
+  "expect_target": false,
+  "owner": "academic-papers"
+ },
+ {
+  "query": "My PyTorch dataloader is the bottleneck; how do I speed it up?",
+  "expect_target": false,
+  "owner": "deep-learning"
+ },
+ {
+  "query": "Explain how the AMS-02 TRD separates e+ from protons.",
+  "expect_target": false,
+  "owner": "ams-analysis"
+ },
+ {
+  "query": "Draw plate notation for this hierarchical model.",
+  "expect_target": false,
+  "owner": "academic-diagrams"
+ },
+ {
+  "query": "Write a blog post announcing our new release.",
+  "expect_target": false,
+  "owner": null
+ },
+ {
+  "query": "Estimate the story points for these five backlog items for the next sprint.",
+  "expect_target": false,
+  "owner": "agile-development"
+ }
+]
