@@ -888,6 +888,44 @@ to check that they generalize to scenarios they were not written from. Same harn
   $1.66, Sonnet runs $4.87, plus scorers.
 - Not done: Opus; the holdout trigger set; a description rewrite for recall.
 
+## Description rewrite for trigger recall (2026-10-01)
+
+Problem (earlier sections): on the tuning set Sonnet loaded the skill on only 17/40 runs and Haiku on 1/40;
+Sonnet answered everyday debugging and Q&A (NaN loss, DataLoader bottleneck, shape error, DDP vs FSDP, bf16)
+directly. The sibling skills that trigger well end their description with "even a quick question - load it
+before answering from memory". The new description (844 of 1024 characters, was 979) opens "Use for any PyTorch
+task, even a quick question or a one-line error - load it before answering from memory", shortens the topic
+list, keeps the architecture/scaling/HEP-ML coverage, and ends "PyTorch only, not TensorFlow/JAX/scikit-learn".
+One candidate was tried; it was chosen after looking at which tuning queries missed, then the holdout was run
+once and not tuned on. Harness: `hep-analysis/tests/routing_eval.py --target deep-learning`, 2 runs per query,
+isolated child with the 7 repo skills, no fixture repository.
+
+| Set | Model | Recall before | Recall after | False triggers | Routed to expected owner |
+|---|---|---|---|---|---|
+| Tuning (20+20) | Sonnet | 17/40 | **40/40** | 0/40 | 45 to 68 of 80 |
+| Tuning | Haiku | 1/40 | 2/40 | 0/40 | 23 to 25 of 80 |
+| Holdout (10+10, run once) | Sonnet | not run before | **18/20** | 0/20 | 32/40 |
+| Holdout | Haiku | not run before | 0/20 | 0/20 | 10/40 |
+
+- Holdout Sonnet misses: both runs of "is it legitimate to claim our network learned the physics because the
+  latent clusters match jet flavor" went to `academic-papers` (a defensible owner; the label allowed only
+  `deep-learning`). Every other holdout query hit on both runs and no negative triggered the skill.
+- Haiku is unchanged: it answered directly without calling any skill on almost every query, including for the
+  sibling skills (`agile-development`, `hep-analysis` queries). This looks like a Haiku property in this
+  harness, not something the description controls; Haiku recall of this skill stays close to 0 here.
+- Sibling check (`hep-analysis/tests/trigger_queries_holdout.json`, 40 runs, Sonnet, old description from a
+  separate worktree of `main` vs new): `hep-analysis` recall 38/40 old vs 36/40 new (two single-run flips on
+  two different queries: a calorimeter-resolution question and an RDataFrame delta-R `Define`; noise-level),
+  false triggers 0/40 both, routing to the expected owner 69/80 old vs 73/80 new. The two `deep-learning`-owned
+  queries in that file (jet-tagging GNN overfitting; equivariant networks) now go to `deep-learning` on 4/4
+  runs (0/4 before, no skill chosen).
+- Caveats: 2 runs per query; the tuning set had been seen (14 queries were rewritten for context earlier, and
+  the candidate was written after reading which queries missed), so the holdout is the number to trust; the
+  holdout queries are written by the same author; the wording change and the shorter topic list were tested
+  together, so which part carries the effect is not isolated; Sonnet only for recall in the siblings; the
+  behavior rules in `SKILL.md` were not re-run. Cost: about $1.1 + $1.0 tuning, $0.7 + $0.7 holdout,
+  $0.7 + $0.9 sibling check.
+
 ## Limitations
 
 - **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that
