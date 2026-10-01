@@ -93,8 +93,9 @@ def redact(text):
     return re.sub(rf"{NEUTRAL}(?:'s)?(?:[ ,]+{NEUTRAL}(?:'s)?)+", NEUTRAL, text)
 
 
-def load_prompts(path=PROMPTS_MD):
+def load_prompts(path=None):
     """Return [{id, prompt, rubric, bullets}] for the H-rows of the prompts table."""
+    path = path or PROMPTS_MD
     rows = []
     for line in path.read_text(encoding="utf-8").splitlines():
         m = re.match(r"\|\s*(H\d+)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|\s*$", line)
@@ -299,7 +300,12 @@ def main():
     p = sub.add_parser("report")
     p.add_argument("rundir")
     p.add_argument("scores", nargs="+")
+    for sp in (r, s, p):
+        sp.add_argument("--prompts", help="prompt table to use instead of tests/prompts.md (rows H<number>)")
     args = ap.parse_args()
+    if args.prompts:
+        global PROMPTS_MD
+        PROMPTS_MD = pathlib.Path(args.prompts).resolve()
     return {"run": cmd_run, "score": cmd_score, "report": cmd_report}[args.cmd](args)
 
 
