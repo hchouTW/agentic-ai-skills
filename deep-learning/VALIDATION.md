@@ -857,6 +857,37 @@ Re-run of the skill arm (3 runs per prompt) scored against the same 2 baseline r
   the rule was written after seeing those plans (a fix aimed at an observed miss, so it needs fresh prompts to
   confirm); a scorer is a single Sonnet child. Cost of this round: about $5.4 behavior, $3.1 routing.
 
+## P2 confirmation on fresh prompts (2026-10-01)
+
+`tests/prompts_fresh.md` (H101-H114, 14 prompts) was written after the SKILL.md rules of the previous section,
+to check that they generalize to scenarios they were not written from. Same harness, 3 runs per arm and model
+(both arms fresh), blind Sonnet scorer, plan-only. SKILL.md was the version on `main` at 1752cbe.
+
+| Model | Baseline | With skill | Gain | Same model on H1-H15 after the fixes (baseline to skill) |
+|---|---|---|---|---|
+| Haiku | 58.2% | 80.1% | +21.9 | 66.5% to 78.0% (+11.5) |
+| Sonnet | 80.1% | 95.2% | +15.1 | 81.6% to 97.1% (+15.5) |
+
+- The skill's gain held on prompts it was not written against, and for Haiku it was larger (the fresh-prompt
+  baseline is lower). So the new rules are not just fitted to H1-H15.
+- Biggest gains: Haiku H103 calibration (54 to 96), H107 activation-bound memory (54 to 92), H109 vague request
+  (61 to 94), H102 simulation efficiency (71 to 96), H101 `weights_only` (58 to 88), H105 pT-sorted LSTM
+  (29 to 75), H114 Lorentz equivariance (29 to 58). Sonnet H104 video-frame leakage (62 to 100), H114
+  (62 to 100), H105 (67 to 100), H108 unsupported "significantly" claim (62 to 92), H107 (79 to 100).
+- Remaining weak spots: Haiku H106 (13B on 40 GB, 50 to 62) and H114 (58); Haiku H105 bullet (c) (permutation
+  vs Lorentz symmetry) still fails.
+- Regressions with the skill: both models on H113 (`log(softmax)` NaN, Haiku 79 to 67, Sonnet 88 to 83), mainly
+  bullet (d), keeping the fix minimal; Sonnet on the out-of-scope XGBoost prompt H110 (100 to 83, bullet (c),
+  ceremony); H112 (one-line device error) bullet (c) stays partial for Sonnet and only slightly better for
+  Haiku, so the "stay short" rule is not fully obeyed.
+- SKILL.md reads: 39/42 (Haiku), 41/42 (Sonnet) skill runs; references per run 0.3 and 2.4. Haiku still
+  almost never opens a reference.
+- Caveats: the blind scorer identified the arm in 65/84 (Haiku) and 77/78 (Sonnet) plans, so the Sonnet
+  comparison is effectively open-label; one scorer child (Sonnet); n is small (3 runs, 14 prompts); Sonnet H105
+  needed a rescore after the scorer returned no JSON; one Haiku bullet was left unscored. Cost: Haiku runs
+  $1.66, Sonnet runs $4.87, plus scorers.
+- Not done: Opus; the holdout trigger set; a description rewrite for recall.
+
 ## Limitations
 
 - **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that
