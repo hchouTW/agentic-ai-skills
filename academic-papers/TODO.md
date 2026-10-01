@@ -1,8 +1,8 @@
 # TODO for future Claude sessions (academic-papers)
 
-State (verified 2026-10-01 on `main`, all work merged; round 1 via PR #25, Haiku follow-ups via PR #26, round 2 via PR #53, ML template compile via PR #60): `python3 scripts/validate_skill_bundle.py` OK; `python3 -m unittest discover -s tests` 48 tests OK. P1-P4 are done. The skill has been run on fresh models (15 prompts, blind Opus grader):
+State (verified 2026-10-01 on `main`, all work merged; round 1 via PR #25, Haiku follow-ups via PR #26, round 2 via PR #53, ML template compile via PR #60; round 3 on branch `academic-papers-todo-round3`, not yet merged): `python3 scripts/validate_skill_bundle.py` OK; `python3 -m unittest discover -s tests` 48 tests OK. P1-P4 are done. The skill has been run on fresh models (15 prompts, blind Opus grader):
 - Sonnet skill arm: 15/15 PASS.
-- Haiku skill arm: 21 PASS / 5 PARTIAL / 4 FAIL, vs a 7/13/10 baseline.
+- Haiku skill arm: 21 PASS / 5 PARTIAL / 4 FAIL, vs a 7/13/10 baseline. Three more runs (round 3, 2026-10-01) gave 24/18/3, so the pooled 5-run score is 45/23/7 (60% PASS) and the first figure was an optimistic draw.
 
 No behavioral item is open: A05 on Haiku was closed as a known limitation on 2026-10-01 (only the recurring checks below remain). `examples/` was removed on 2026-09-25, and the user chose to drop the example work. Read `VALIDATION.md` first (the "TODO round 1" and "Haiku follow-ups" sections), then this file.
 
@@ -37,11 +37,12 @@ User decisions (2026-09-26):
   - Haiku recall: 25/40, held-out 20/28.
   - Sonnet recall: 34/40, held-out 23/28.
   - 0 false triggers.
-- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (60 files, 48 tests). Last done 2026-10-01, round 2.
+- [ ] **Haiku A08 and A10 (round 3 finding, 2026-10-01):** neither passed in 3 new Haiku skill-arm runs (pooled 5-run Haiku score 45/23/7, 60% PASS; earlier 21/5/4 was an optimistic draw). A08: keeps the old INSPIRE key, no citation update. A10: does not say a single split gives no variance estimate. Optional; measure any wording change with at least 6 runs, since A05 showed wording does not beat noise.
+- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (61 files, 48 tests). Last done 2026-10-01, round 2.
 
 Known residual gaps (only if a user need arises):
-- The venues' own format checkers (NeurIPS/ICML/ICLR/ACL) were not run; the styles compile under Tectonic only (2026-10-01), not pdfTeX. Re-check each year.
-- Venue rules marked "Not checked": Elsevier/`elsarticle`, A&A, JMLR, AAAI, statistics journals.
+- Venue format checkers (2026-10-01): `aclpubcheck` passes on the ACL example's camera-ready build; ICML's checker is a web form needing a real OpenReview ID (not run); no checker exists for NeurIPS or ICLR. The styles were built with Tectonic, not pdfTeX, so rebuild with pdfTeX before a real submission. Re-check each year.
+- Venue rules not verified (publisher pages returned HTTP 403 on 2026-10-01): Astroparticle Physics journal limits and reference style, A&A (search copy only), JASA and Annals of Statistics. JMLR, AAAI-27 and the `elsarticle` class are verified.
 - The DBLP and Semantic Scholar query syntax is not verified live.
 - `SKILL.md` is about 470 lines because of the rules block. A trim was considered and not done, since skill runs read at most 3 references.
 
