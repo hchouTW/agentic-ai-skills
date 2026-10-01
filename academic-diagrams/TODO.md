@@ -26,8 +26,8 @@ User decision (2026-09-25): no "24 examples across 8 archetypes" set for this sk
 - [x] **Behavioral samples (2026-10-01):** `tests/prompts.md` (D01-D10) and `tests/run_prompts.py` (blind Opus grader, skill vs baseline). Opus skill arm 19/20 PASS (baseline 11/20); Haiku skill arm 7/20 PASS before and 13/20 after four lines added to SKILL.md "Output Style". Round 4 (2026-10-02): Sonnet 6 samples per cell skill 51/60 PASS (0 FAIL) vs baseline 23/60; Opus 4 more skill samples 37/40 PASS. Fixed in Round 4: **D08** control flow was omitted (Sonnet 4/6 PARTIAL); one line added to SKILL.md Output Style, now 6/6 PASS. **D02** rubric changed (the skill refuses to invent a reconstruction stage), 5/6 PASS. Closed: **D06** Mermaid math. Open: Haiku still invents details (D01 fit method, D05 extra edge, D07 call edges) and was not rerun; answers are never rendered here.
 
 Not verified (only if a user need arises):
-- APS full-width (`figure*`) size: 17.8 cm is an unverified default, and the REVTeX 4.2 guide states none.
-- `dvisvgm --pdf` works with `mutool` (verified 2026-10-02 on a small figure; Homebrew `dvisvgm` 3.6.1 and `mupdf-tools`). Its `.xdv` route is broken with Tectonic output. Not tried: math labels and font-heavy figures. The `subcaption` `figure*` snippet, `pdftoppm`, `pdftocairo -svg` and the TikZ standalone compile were also run.
+- APS full-width (`figure*`): REVTeX two-column `\textwidth` is 17.92 cm (measured 2026-10-02), so 17.8 cm fits. APS's own author-guideline figure widths were not checked online.
+- `dvisvgm --pdf` works with `mutool` (verified 2026-10-02 on a small figure; Homebrew `dvisvgm` 3.6.1 and `mupdf-tools`). Its `.xdv` route is broken with Tectonic output. Math labels and font-heavy text were tried 2026-10-02: use `--no-fonts` (or `pdftocairo -svg`); the `woff2` embedded-font SVG was not checked in a browser. The `subcaption` `figure*` snippet, `pdftoppm`, `pdftocairo -svg` and the TikZ standalone compile were also run.
 - The PlantUML component diagram's layout was inspected only with Homebrew Graphviz.
 
 ## Done (do not redo; details in `VALIDATION.md`)

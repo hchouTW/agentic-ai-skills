@@ -42,7 +42,7 @@
 | Target | Width (typical, verify against the venue template) |
 |---|---|
 | Single column (REVTeX/APS) | 8.6 cm (3 3/8 in), stated on the APS journal "Information for Contributors" pages (e.g. PRB); "1.5 or 2 columns may be used" when detail requires it |
-| Double column span (REVTeX/APS) | no width is stated by APS or the REVTeX 4.2 guide (page-spanning figures use `figure*`); ~17.8 cm (7 in) is a common default, not an APS number |
+| Double column span (REVTeX/APS) | neither APS nor the REVTeX 4.2 guide states a width; the class sets `\textwidth` = 510 pt = 17.92 cm in two-column mode (measured with `revtex4-2` under Tectonic, `reprint`, `aps,prl,twocolumn`, `aps,prd,reprint`). Page-spanning figures use `figure*`; draw at 17.8 cm (7 in) or `\textwidth` |
 | JHEP (`jheppub`, `11pt,a4paper`) | text width `.72\paperwidth` = 430 pt = 15.1 cm (measured by compiling `jheppub.sty` v1.1227); 11 pt body, captions `\small` and centered when they fit on one line |
 | NeurIPS 2026 | text width 5.5 in (13.97 cm), single column, 10 pt Times body (`neurips_2026.sty`) |
 | ICML 2026 | two columns; overall text width 6.75 in (17.1 cm), 0.25 in between columns, so each column is 3.25 in (8.26 cm); left margin 0.75 in |
