@@ -42,18 +42,22 @@
     "tier": 1,
     "tier_range": null,
     "tier_text": "1",
-    "verification_level": "abstract+metadata",
-    "verification_note": null,
-    "access_date": "2026-09-20",
-    "publication_date": "2013",
-    "data_taking_period": null,
+    "verification_level": "full-text",
+    "verification_note": "main article only (publisher PDF supplied by the user, read with pdftotext on 2026-10-02; exponents checked against a rendered page)",
+    "access_date": "2026-10-02",
+    "publication_date": "2013-04-03",
+    "data_taking_period": {
+      "start": "2011-05-19",
+      "end": "2012-12-10",
+      "note": "main text; first 18 months of ISS operation"
+    },
     "supersedes": [],
     "superseded_by": [
       "S03"
     ],
-    "supersession_note": "superseded in range/statistics by S03 (from claim C03's limitation)",
+    "supersession_note": "superseded in range and statistics by S03 (claim C03's limitation); S03's text calls its result an extension of this one to 500 GeV with 1.7 times the statistics and consistent with it (claim C113)",
     "notes": null,
-    "verification_limitations": "Full text not obtained; only the INSPIRE abstract and metadata were read."
+    "verification_limitations": "Main article read; the complete positron-fraction table and other supplementary material (its Ref. [13]) were not available, so only the representative bins of Table I exist in the text and none were transcribed; figures were not interpreted."
   },
   {
     "id": "S03",
@@ -73,18 +77,22 @@
     "tier": 1,
     "tier_range": null,
     "tier_text": "1",
-    "verification_level": "metadata-only",
-    "verification_note": null,
-    "access_date": "2026-09-20",
-    "publication_date": "2014",
-    "data_taking_period": null,
+    "verification_level": "full-text",
+    "verification_note": "main articles of all three PRLs (publisher PDFs supplied by the user, read with pdftotext on 2026-10-02)",
+    "access_date": "2026-10-02",
+    "publication_date": "2014-09-18",
+    "data_taking_period": {
+      "start": "2011-05-19",
+      "end": "2013-11-26",
+      "note": "all three papers (30 months of ISS operation)"
+    },
     "supersedes": [
       "S02"
     ],
     "superseded_by": [],
     "supersession_note": "supersedes S02 in range and statistics (from claim C03's limitation)",
-    "notes": "One record row grouping three PRLs (positron fraction, electron and positron fluxes, (e+ + e-) flux).",
-    "verification_limitations": "Metadata-only; treat titles as navigation."
+    "notes": "One record row grouping three PRLs (positron fraction, electron and positron fluxes, (e+ + e-) flux). Publication dates: PRL 113, 121101 and 121102 on 2014-09-18; PRL 113, 221102 on 2014-11-26 (the stored date is the first).",
+    "verification_limitations": "Main articles only; the full tables of the positron fraction, fluxes and the Supplemental Material were not read or transcribed; figures were not interpreted. The three PRLs share one ledger row, so cite the claim (C113-C119), which names the paper."
   },
   {
     "id": "S04",
