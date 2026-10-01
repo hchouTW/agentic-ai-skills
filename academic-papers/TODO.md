@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (academic-papers)
 
-State (verified 2026-10-01 on `main`, all work merged; round 1 via PR #25, Haiku follow-ups via PR #26, round 2 via PR #53): `python3 scripts/validate_skill_bundle.py` OK; `python3 -m unittest discover -s tests` 48 tests OK. P1-P4 are done. The skill has been run on fresh models (15 prompts, blind Opus grader):
+State (verified 2026-10-01 on `main`, all work merged; round 1 via PR #25, Haiku follow-ups via PR #26, round 2 via PR #53, ML template compile via PR #60): `python3 scripts/validate_skill_bundle.py` OK; `python3 -m unittest discover -s tests` 48 tests OK. P1-P4 are done. The skill has been run on fresh models (15 prompts, blind Opus grader):
 - Sonnet skill arm: 15/15 PASS.
 - Haiku skill arm: 21 PASS / 5 PARTIAL / 4 FAIL, vs a 7/13/10 baseline.
 
@@ -72,3 +72,6 @@ Known residual gaps (only if a user need arises):
 - Skill-reviewer pass: 13 of 14 findings fixed.
 
 **P4:** `__pycache__` is already git-ignored.
+
+**P5 - ML templates (2026-10-01, PR #60)**
+- NeurIPS 2026, ICML 2026, ICLR 2026 and ACL official examples compile with Tectonic (no errors, no undefined references). Class options and bibliography styles are in `references/latex-and-formatting.md`; results in `VALIDATION.md`.
