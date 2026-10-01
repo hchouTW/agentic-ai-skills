@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (agile-development)
 
-State (2026-10-01, round 4 on branch `agile-development-todo-round4`; round 3 merged via PR #30): `python3 scripts/validate_skill_bundle.py` OK (29 files); `python3 -m unittest discover -s tests` 44 tests OK. The skill has been run on fresh models:
+State (2026-10-01, round 4 on branch `agile-development-todo-round4`, PR #31; round 3 merged via PR #30): `python3 scripts/validate_skill_bundle.py` OK (29 files); `python3 -m unittest discover -s tests` 44 tests OK. The skill has been run on fresh models:
 - H1-H9 were run on Sonnet, Haiku and Opus. Round 2 re-ran them on Haiku with open and blind scorers.
 - On Haiku the skill measurably adds the header block, planned tests, a target plus per-step verification for performance work, and irreversibility handling.
 
@@ -45,7 +45,13 @@ Note: `scripts/__pycache__` and `tests/__pycache__` hold stale `.pyc` files for 
 ## 3. Housekeeping
 
 - [ ] Recurring: update the `VALIDATION.md` header date and counts after each pass. Last done 2026-10-01 (29 files, 44 tests).
-- [ ] Suggested wording for the user's global `~/.claude/CLAUDE.md` is in the round-4 report; the user decides.
+- [ ] Global `~/.claude/CLAUDE.md`: do not edit it (user decision, 2026-10-01). The wording suggested to the user, to follow
+  their existing "check whether one of my domain skills should be applied first" line, is below. It was tested only as
+  a project `CLAUDE.md` line, never in the global file:
+  > For a non-trivial software change, code or PR review, postmortem, design decision, estimation or sprint planning,
+  > that is "agile-development" (also for requests like "take a look at my pull request", "which datastore should we
+  > use", "upgrade package X"); not for one-line fixes, tickets for someone else (task-authoring) or PyTorch code
+  > (deep-learning).
 
 ## Done (do not redo; details in `VALIDATION.md`)
 
