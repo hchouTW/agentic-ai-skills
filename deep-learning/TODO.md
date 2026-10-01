@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (deep-learning)
 
-State (verified 2026-10-01 on `main` at 50d048e): `python3 scripts/validate_skill_bundle.py` OK (67 files); `python3 -m unittest discover -s tests` 118 tests OK, 3 skipped (2 missing-torch degradation tests, 1 torchvision-gated test). PRs #32 to #37 are merged: P1 verification, the P2 behavior and trigger tests, the `SKILL.md` rules, the fresh confirmation prompts, the description rewrite, and the natural-invocation arm. `SKILL.md` is 316 lines and the description is 844 of 1024 characters. Read `VALIDATION.md` first (the 2026-10-01 sections are the current results), then this file.
+State (verified 2026-10-01 on `main`, all work merged): `python3 scripts/validate_skill_bundle.py` OK (67 files); `python3 -m unittest discover -s tests` 118 tests OK, 3 skipped (2 missing-torch degradation tests, 1 torchvision-gated test). PRs #32 to #37 and #55 (round 7: data-script exit codes, reference assert blocks) are merged: P1 verification, the P2 behavior and trigger tests, the `SKILL.md` rules, the fresh confirmation prompts, the description rewrite, and the natural-invocation arm. `SKILL.md` is 316 lines and the description is 844 of 1024 characters. Read `VALIDATION.md` first (the 2026-10-01 sections are the current results), then this file.
 
 ## Where things stand (numbers are in `VALIDATION.md`)
 

@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (hep-analysis)
 
-State (verified 2026-09-28 on `main`, all work merged; round 6 via PR #29): `python3 scripts/validate_skill_bundle.py` OK (118 files); `python3 -m unittest discover -s tests` 205 tests OK. There are 12 skips without the optional environments: 7 ROOT, 4 pyhf, 1 Combine. There are 5 skips with `HEP_ROOT_PYTHON` set. P1-P4 and follow-up rounds 3-6 are done. Only recurring checks and one dated re-check are open. Read `VALIDATION.md` first, then this file.
+State (verified 2026-10-01 on `main`, all work merged; round 6 via PR #29; no change since): `python3 scripts/validate_skill_bundle.py` OK (118 files); `python3 -m unittest discover -s tests` 205 tests OK. There are 12 skips without the optional environments: 7 ROOT, 4 pyhf, 1 Combine. There are 5 skips with `HEP_ROOT_PYTHON` set. P1-P4 and follow-up rounds 3-6 are done. Only recurring checks and one dated re-check are open. Read `VALIDATION.md` first, then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.

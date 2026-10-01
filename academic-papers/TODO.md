@@ -1,10 +1,10 @@
 # TODO for future Claude sessions (academic-papers)
 
-State (verified 2026-09-28 on `main`, all work merged; round 1 via PR #25, Haiku follow-ups via PR #26): `python3 scripts/validate_skill_bundle.py` OK; `python3 -m unittest discover -s tests` 48 tests OK. P1-P4 are done. The skill has been run on fresh models (15 prompts, blind Opus grader):
+State (verified 2026-10-01 on `main`, all work merged; round 1 via PR #25, Haiku follow-ups via PR #26, round 2 via PR #53): `python3 scripts/validate_skill_bundle.py` OK; `python3 -m unittest discover -s tests` 48 tests OK. P1-P4 are done. The skill has been run on fresh models (15 prompts, blind Opus grader):
 - Sonnet skill arm: 15/15 PASS.
 - Haiku skill arm: 21 PASS / 5 PARTIAL / 4 FAIL, vs a 7/13/10 baseline.
 
-The one behavioral item still open is A05 on Haiku. `examples/` was removed on 2026-09-25, and the user chose to drop the example work. Read `VALIDATION.md` first (the "TODO round 1" and "Haiku follow-ups" sections), then this file.
+No behavioral item is open: A05 on Haiku was closed as a known limitation on 2026-10-01 (only the recurring checks below remain). `examples/` was removed on 2026-09-25, and the user chose to drop the example work. Read `VALIDATION.md` first (the "TODO round 1" and "Haiku follow-ups" sections), then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.

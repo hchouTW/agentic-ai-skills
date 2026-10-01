@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (academic-diagrams)
 
-State (2026-10-01, round 2 on branch `academic-diagrams-todo-round2`; skill via PR #5, tooling follow-ups via PR #22): `python3 scripts/validate_skill_bundle.py` OK (28 files); `python3 -m unittest discover -s tests` 27 tests OK. 2 tests skip when `mmdc` or `plantuml` is not on PATH. P1-P4 are done. Open: under-triggering on Haiku and a few Sonnet query types, and more behavioral samples. Read `VALIDATION.md` "Not verified" first, then this file.
+State (verified 2026-10-01 on `main`, all work merged; skill via PR #5, tooling follow-ups via PR #22, round 2 via PR #57): `python3 scripts/validate_skill_bundle.py` OK (28 files); `python3 -m unittest discover -s tests` 27 tests OK. 2 tests skip when `mmdc` or `plantuml` is not on PATH. P1-P4 are done. Open: under-triggering on Haiku and a few Sonnet query types, and more behavioral samples. Read `VALIDATION.md` "Not verified" first, then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
