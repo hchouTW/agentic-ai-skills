@@ -1,86 +1,60 @@
 # TODO for future Claude sessions (deep-learning)
 
-State (verified 2026-10-01 on branch `deep-learning-p2-behavior-tests`): `python3 scripts/validate_skill_bundle.py` OK (66 files); `python3 -m unittest discover -s tests` 114 tests OK, 3 skipped. **P1 was worked on 2026-10-01 (merged in PR #32; see `VALIDATION.md`, "P1 verification pass"). P2 first pass was run 2026-10-01 ("P2 behavior and trigger tests, first pass"); P3-P4 are untouched.**
+State (verified 2026-10-01 on `main` at 50d048e): `python3 scripts/validate_skill_bundle.py` OK (67 files); `python3 -m unittest discover -s tests` 114 tests OK, 3 skipped (2 missing-torch degradation tests, 1 torchvision-gated test). PRs #32 to #37 are merged: P1 verification, the P2 behavior and trigger tests, the `SKILL.md` rules, the fresh confirmation prompts, the description rewrite, and the natural-invocation arm. `SKILL.md` is 316 lines and the description is 844 of 1024 characters. Read `VALIDATION.md` first (the 2026-10-01 sections are the current results), then this file.
 
-Verification before 2026-10-01 was mostly `py_compile`, `ast.parse`, NumPy re-implementations and `--help` checks. Since then the assets (except `vision_transfer.py`) and the PyTorch-dependent scripts have been run on CPU. Read `VALIDATION.md` first (especially "Limitations"), then this file.
+## Where things stand (numbers are in `VALIDATION.md`)
+
+- **Verification (P1):** assets (except `vision_transfer.py`) and PyTorch-dependent scripts were run on CPU/MPS; calculators were cross-checked; reference snippets were executed on torch 2.11. Fixed: DDP skeleton CPU/gloo fallback, MPS timing in `benchmark_model.py`, small-n detectable effect in `compare_model_runs.py`. Documented drift: `torch.load` `weights_only`, TorchScript deprecation, ONNX needing `onnxscript`.
+- **Behavior with the skill forced** (3 runs; same plan-only frame; blind Sonnet scorer): H1-H15 Haiku 66.5 to 78.0%, Sonnet 81.6 to 97.1%. On the fresh set H101-H114 (written after the rules, not tuned on) Haiku 58.2 to 80.1%, Sonnet 80.1 to 95.2%, so the `SKILL.md` rules generalize.
+- **Behavior with natural invocation** (`behavior_eval.py run --natural`; the model decides to load the skill): the skill loads on only about 30% of plan-only runs (8-9 of 28-30), so the scores sit between baseline and forced (Haiku 67.5 and 68.6%, Sonnet 89.9 and 92.2%). When it loads, scores match the forced arm.
+- **Triggering** (`routing_eval.py`, bare query, 2 runs): Sonnet tuning recall 17/40 to 40/40 and holdout 18/20 with 0 false triggers after the description rewrite; Haiku stays near 0 (2/40 tuning, 0/20 holdout) because it rarely calls any skill in this harness, for the sibling skills too. `hep-analysis` routing was not harmed (36/40 vs 38/40 recall, owner routing 73/80 vs 69/80).
 
 Working rules:
-- Work on a branch and ask before pushing or merging.
+- Work on a branch. Ask before committing, pushing or merging. The user merges PRs (`! gh pr merge N --merge` from the prompt); the auto-mode classifier blocks `gh pr merge` and permission-rule changes from Claude.
 - Run the unittest command and the bundle validator before committing.
 - Keep `SKILL.md`, `README.md`, `scripts/validate_skill_bundle.py` `REQUIRED_PATHS` and `agents/openai.yaml` in sync.
 - Record every result, including negative ones, in `VALIDATION.md`.
 - Do not change training behavior in an asset or reference without saying so.
-- Put temporary files in the scratchpad.
+- Put temporary files in the scratchpad. Behavior and routing evals call `claude -p` and cost money (about $1-2 per model per routing run, about $2-6 per model per 3-run behavior pass).
 
-## Environment (checked 2026-09-28; re-check)
+## Environment (checked 2026-10-01; re-check)
 
 - The miniconda `python3` has `torch 2.11.0`, `scipy 1.17.1`, `numpy 2.4.4` and `torchrun`.
-- MPS is available; CUDA is not. DDP/FSDP paths can only run on CPU with the `gloo` backend.
-- `onnx`, `peft`, `torchvision` and `transformers` are **not** installed. Use a scratchpad venv; never install into the user's conda base.
-- The 2 skipped tests are the *missing-torch* degradation tests (`CleanDegradationWithoutTorchTests`). They skip correctly because torch is present. To exercise them, run the suite under a torch-free Python.
-- Sibling tooling to reuse instead of hand-run subagents:
-  - Trigger tests: `../hep-analysis/tests/routing_eval.py --target deep-learning`. It runs an isolated `claude -p` with the 7 repo skills and grades routing to any owner.
-  - Behavior tests: `../academic-papers/tests/run_prompts.py` or `../agile-development/tests/behavior_eval.py` (with and without the skill, blind grader).
-  - Findings from the siblings: Haiku loads `SKILL.md` but rarely opens references, so must-do rules belong in `SKILL.md`. Compare at least 2 runs, because Haiku varies between identical runs. A usage-limit notice comes back as an ordinary result, so check for it.
+- MPS is available; CUDA is not (the user confirmed there is no GPU). DDP/FSDP paths run on CPU with `gloo` only; the CUDA/NCCL path is untested.
+- `onnx`, `onnxscript`, `peft`, `torchvision` and `transformers` are **not** installed. Use a scratchpad venv; never install into the user's conda base.
+- The 2 missing-torch tests skip correctly because torch is present; run the suite under a torch-free Python to exercise them.
+- Eval tooling:
+  - Triggers: `../hep-analysis/tests/routing_eval.py <file> --target deep-learning --model sonnet --runs 2 -j 3 --out FILE`. Isolated `claude -p`, the 7 repo skills, no fixture repository, bare query.
+  - Behavior: `tests/behavior_eval.py` (`run`, `score --blind`, `report`; `--prompts FILE` selects `prompts.md` or `prompts_fresh.md`; `--arms skill` re-runs only the skill arm; `--natural` lets the model decide whether to load the skill). Copy old baseline runs into a new run directory to reuse them.
+- Lessons for running evals:
+  - The forced skill arm tells the child to read `SKILL.md`, so it cannot test the description; use `--natural` or `routing_eval.py`.
+  - The plan-only "planning exercise" frame lowers how often the skill loads, so the routing eval (bare query) is the better trigger estimate and the natural arm is a lower bound.
+  - Haiku loads `SKILL.md` when told to but opens almost no references (about 0.3 per run); Sonnet reads about 2.4-3. Must-do rules belong in `SKILL.md`.
+  - The blind scorer identifies Sonnet's arm in nearly every plan, so Sonnet comparisons are effectively open-label. It sometimes returns no JSON for a prompt: rescore with `score --only HNNN`.
+  - Compare at least 2 runs, because Haiku varies between identical runs. A usage-limit notice comes back as an ordinary result, so check for it.
 
-## Questions for the user (answered 2026-10-01)
+## P1 - verification leftovers
 
-- [x] Which workloads matter most? HEP-ML (high priority), so P2 prompts lead with it.
-- [x] Is GPU/CUDA testing available? No. The DDP/FSDP/AMP prompts are graded from answer text, and the CUDA/NCCL path stays untested.
+- [ ] `vision_transfer.py`: run it with `torchvision` in a scratchpad venv on a tiny `ImageFolder` tree (only `--help` is tested, and only when torchvision is installed). Check the pretrained-weight download path.
+- [ ] Run the ONNX snippet in `references/export-and-deployment.md` with `onnx` and `onnxscript` in the venv, on both the dynamo default and `dynamo=False` paths, and confirm the `dynamic_axes` advice.
+- [ ] Execute the shape tables in `references/tensor-shapes.md` (the assert one-liners in `tensor-shapes.md` and `debugging-pytorch.md` were not run).
+- [ ] Audit the numbers and claims in `references/` against primary sources: scaling laws, MFU figures, memory multipliers, FSDP/ZeRO behavior, calibration thresholds. Remove or soften anything unsourced, and date anything time-sensitive. Not started.
+- [ ] Check `estimate_training_memory.py` on MPS (it was checked against CPU allocations on 2026-09-09).
+- [ ] Script rough edges found 2026-10-01: `find_nan_batches.py` exits 0 when it finds non-finite values, so it cannot gate a pipeline; `check_dataset_contract.py` ends in a raw collate traceback on ragged samples; the data scripts (`check_dataset_contract.py`, `find_nan_batches.py`, `profile_dataloader.py`) only accept a dataset through the `create_dataset()` hook, with no CLI path.
+- [ ] The CUDA/NCCL path of `ddp_train_skeleton.py` and the AMP/CUDA paths stay untested without a GPU. Say so wherever they are relied on.
 
-## P1 - verification gaps (things never actually run)
+## P2 - behavior and trigger testing (first pass done; follow-ups)
 
-- [x] Run every `assets/*.py` template on tiny synthetic data on CPU (done 2026-10-01; `ddp_train_skeleton.py` needed a CPU/gloo fallback; smoke tests in `tests/test_assets_smoke.py`). **Open:** `vision_transfer.py` needs `torchvision` in a scratchpad venv (only `--help` is tested, and only when torchvision is installed); the CUDA/NCCL path of the DDP skeleton is untested. (`lora_finetune.py` does not need `peft`.)
-- [x] Run each `scripts/*.py` against real PyTorch objects, not just `--help` (done 2026-10-01; fixed the MPS timing bug in `benchmark_model.py`). **Open follow-ups:** `find_nan_batches.py` exits 0 when it finds NaNs; `check_dataset_contract.py` gives a raw traceback on ragged samples; the data scripts have no CLI way to point at a dataset. The original list:
-  - `benchmark_model.py`;
-  - `check_dataset_contract.py`;
-  - `find_nan_batches.py`, with a NaN injected on purpose;
-  - `inspect_checkpoint.py`, with and without optimizer state;
-  - `profile_dataloader.py`;
-  - `check_split_integrity.py`, with a deliberate leak.
-- [x] Cross-check the calculators against independent references (done 2026-10-01 except the MPS check of the memory estimator; fixed the small-n detectable effect in `compare_model_runs.py`). The original list:
-  - `estimate_compute_budget.py`: the 6ND FLOPs rule and the Chinchilla numbers.
-  - `serving_capacity.py`: Little's law and the queueing results, by hand.
-  - `compare_model_runs.py`: paired bootstrap and seed variance vs `scipy`.
-  - `estimate_training_memory.py`: already checked against CPU allocations (2026-09-09). Optionally also check on MPS.
-- [~] Execute the snippets in `references/*.md` that claim to be runnable (mostly done 2026-10-01; drift found for `torch.load`, TorchScript, ONNX; open: run the ONNX snippet with `onnx` + `onnxscript` in a scratchpad venv, and the `tensor-shapes.md` shape tables). The original list: the shape tables in `tensor-shapes.md`, AMP/GradScaler in `mixed-precision.md`, `checkpointing.md`, the hooks in `custom-autograd-and-hooks.md`, and export in `export-and-deployment.md`. Flag API drift against torch 2.11:
-  - deprecated `torch.cuda.amp.*`;
-  - the `torch.load` `weights_only` default;
-  - `torch.compile` options;
-  - `torch.export`;
-  - TorchScript deprecation.
-- [ ] Audit the numbers and claims in `references/` against primary sources: scaling laws, MFU figures, memory multipliers, FSDP/ZeRO behavior, calibration thresholds. Remove or soften anything unsourced, and date anything time-sensitive.
-
-## P2 - test that the skill changes model behavior
-
-- [x] Write 12-15 realistic prompts in `tests/prompts.md` (done 2026-10-01: H1-H15, HEP-ML first), each with Must and Must-not lists (which rule fires, which reference is read). Cover:
-  - NaN loss under AMP;
-  - a validation metric that collapses because of group leakage;
-  - choosing between DDP and FSDP;
-  - missing optimizer state on resume;
-  - a slow DataLoader;
-  - a shape, device or dtype error;
-  - "make it faster" (ambiguous, should ask);
-  - "add a SOTA accuracy claim" (should audit);
-  - an ECE/calibration claim;
-  - a LoRA config;
-  - an ONNX export mismatch;
-  - a TensorFlow/JAX request (must not trigger);
-  - an HEP-ML request (equivariant or physics-informed; check routing with `hep-analysis`);
-  - a sklearn-only question (must not trigger).
-- [~] Run the prompts with and without the skill on Haiku and Sonnet, and on Opus if possible, with at least 2 runs each. Done for Haiku and Sonnet on 2026-10-01 (Haiku 66.1 to 76.8%, Sonnet 81.6 to 92.1%, logged in `VALIDATION.md`). Follow-up 2026-10-01: SKILL.md fixes and a 3-run re-run (Haiku 78.0%, Sonnet 97.1%). Fresh-prompt confirmation done 2026-10-01 (H101-H114: Haiku 58.2 to 80.1%, Sonnet 80.1 to 95.2%, so the rules generalize). Open: Opus; Sonnet H14 and H110 bullet (c) (ceremony on out-of-scope prompts); both models on the `log(softmax)` NaN prompt H113 (keep the fix minimal); Haiku H106, H114, H105(c); Sonnet H8/H13; Haiku H5/H7(d). Do not tune against H101-H114; write a new set next time.
-- [x] Natural-invocation behavior run done 2026-10-01 (`behavior_eval.py run --natural`): the skill loads on ~30% of plan-only runs and behavior is near the forced arm only when it loads (Haiku 67.5/68.6%, Sonnet 89.9/92.2% vs forced 78-80/95-97%). Open: a description or SKILL.md-top change that makes advice-style prompts load the skill under the planning frame, and a bare-query behavior harness (no planning frame) as the better estimate of real use.
-- [x] Description rewrite done 2026-10-01 (844/1024 characters): Sonnet tuning recall 17/40 to 40/40, holdout 18/20 with 0 false triggers; Haiku stays near 0 (0/20 holdout) because it rarely calls any skill in this harness; `hep-analysis` routing not harmed (see `VALIDATION.md`). Original item: build trigger sets (tuning and holdout files written 2026-10-01; tuning recall Haiku 1/40, Sonnet 16/40 runs, 0 false triggers; holdout not run; adding PyTorch/code context to 14 queries did not change recall (Haiku 1/40, Sonnet 17/40), so the gap is not query wording; next try the description itself, with a character budget of 1024 and a held-out check): `tests/trigger_queries.json` for tuning (20 should-trigger, 20 should-not) and a held-out set that is never tuned on. Near-misses to include: TensorFlow/JAX, generic statistics, `hep-analysis` ROOT ML, LLM API usage.
-  - Include the isolated routing eval data from 2026-09-26 (`hep-analysis/tests/trigger_queries_holdout.json`, 2 runs per query). Sonnet got 6/6 right and Haiku 2/6. Haiku's results on three queries:
-    - "Explain equivariant neural networks for point clouds and when they beat a plain transformer": 0/2 (none).
-    - "How do I set up mixed precision and gradient checkpointing for a 1B parameter model in PyTorch?": 1/2.
-    - "My GNN for jet tagging overfits after 3 epochs, what regularization should I try?": 0/2 (none once, `hep-analysis` once).
-  - The description is now 844 of 1024 characters (rewritten 2026-10-01).
-- [ ] Routing hygiene with `hep-analysis`, `agile-development`, `academic-papers` and `task-authoring`. Run each affected skill's validator and tests after any description change.
+- [ ] **Bare-query behavior harness.** Add a mode that gives the prompt with no "planning exercise" frame and the skill available, so the load rate and the behavior approximate real use. Re-measure the natural arm there.
+- [ ] **Make advice-style prompts load the skill.** In the natural arm Sonnet loaded on H1, H4, H5, H7 and never on H2, H3, H6, H9, H11. Try a change to the description or the top of `SKILL.md`, then check it with the routing eval. The holdout `tests/trigger_queries_holdout.json` has now been used once; write a new holdout before tuning against it again.
+- [ ] **A new prompt set (H201 and up) before changing `SKILL.md` again.** Do not tune against H101-H114. Candidates for the next rule changes: out-of-scope ceremony in the forced arm (Sonnet H14 scikit-learn 83 and H110 XGBoost 83 on bullet (c); it does not occur in the natural arm); keeping the NaN fix minimal (H113: Haiku 79 to 67, Sonnet 88 to 83); Haiku H106 (13B on 40 GB, 62) and H114 (Lorentz equivariance, 58) and H105 bullet (c) (permutation vs Lorentz symmetry); Sonnet H8 and H13; Haiku H5 and H7 bullet (d).
+- [ ] Opus runs of the behavior and routing sets (none yet).
+- [ ] Routing hygiene: after the 2026-10-01 rewrite, `hep-analysis` was checked on Sonnet only. Check `agile-development`, `academic-papers`, `ams-analysis` and `task-authoring` routing (and Haiku) after any further description change, and run each affected skill's validator and tests.
+- [ ] Haiku does not call any skill in the routing harness. Decide whether to say so in the README as a known limit, and whether any claim should be Sonnet-only.
 
 ## P3 - content and structure
 
-- [ ] Progressive disclosure: `SKILL.md` is 273 lines and the 31 references total about 3,000 lines. Measure the references read per task from the P2 runs; the target is at most 2-3. Add "read only if" hints where a routing row is vague.
+- [ ] Progressive disclosure: `SKILL.md` is 316 lines and the 31 references total 2,986 lines. Measured references per forced-skill run: Haiku 0.3, Sonnet 2.4-3.0 (target at most 2-3). Add "read only if" hints where a routing row is vague, and move any rule Haiku keeps missing into `SKILL.md` (the 2026-10-01 "Rules to Apply Even Without Opening a Reference" section is the pattern).
 - [ ] Look for overlap:
   - `parallelism-strategy.md` vs `distributed-training.md` vs `training-at-scale.md`;
   - `evaluation-strategy.md` vs `evaluation-metrics.md`;
@@ -88,13 +62,13 @@ Working rules:
 
   Merge or cross-link duplicated tables.
 - [ ] Add coverage only where the prompt tests confirm a gap: FSDP2/`torch.distributed.tensor`, `torch.compile` graph-break debugging, Apple MPS pitfalls, activation checkpointing, metric aggregation in data-parallel eval, and the KV-cache for inference-time attention.
-- [ ] Add regression tests for thinly covered scripts, especially error paths: empty dataset, NaN input, wrong checkpoint keys, zero-length split. The current tests mostly check `--help` and the missing-torch exit path.
-- [ ] Add a minimal end-to-end smoke test under `assets/` plus `tests/`: synthetic data -> `check_dataset_contract` -> `check_split_integrity` -> `train_classifier` -> `inspect_checkpoint` -> `compare_model_runs`. `examples/` no longer exists.
-- [ ] Multi-platform check (Codex, Antigravity): confirm `agents/openai.yaml` is current and that no instructions depend on Claude-only tools.
-- [ ] Skill-reviewer pass on `SKILL.md` and `README.md` (`plugin-dev:skill-reviewer`).
+- [ ] Add regression tests for thinly covered scripts, especially error paths: empty dataset, NaN input, wrong checkpoint keys, zero-length split. `tests/test_assets_smoke.py` covers the assets; the scripts' tests mostly check `--help` and the missing-torch exit path.
+- [ ] Add a minimal end-to-end smoke test: synthetic data -> `check_dataset_contract` -> `check_split_integrity` -> `train_classifier` -> `inspect_checkpoint` -> `compare_model_runs`.
+- [ ] Multi-platform check (Codex, Antigravity): confirm `agents/openai.yaml` is current and that no instructions depend on Claude-only tools. The new "Scope and Proportion" and "Rules" sections in `SKILL.md` were not checked on those platforms.
+- [ ] Skill-reviewer pass on `SKILL.md` (now 316 lines) and `README.md` (`plugin-dev:skill-reviewer`).
 
 ## P4 - housekeeping
 
-- [ ] Recurring: update the `VALIDATION.md` header after each pass. It is still dated 2026-09-05 and says PyTorch is not installed. "Limitations" already marks that as superseded, but the header does not. Also record the current counts: 61 files, 106 tests, 2 skipped.
+- [ ] Recurring: update the `VALIDATION.md` header after each pass (current: 2026-10-01, 67 files, 114 tests, 3 skipped).
 - `.pytest_cache/` and `__pycache__/` are git-ignored; leave them alone.
 - Dropped: the two items about the 24 examples (archetype rules, runnable snippets). `examples/` was removed on 2026-09-25, as in the sibling skills.
