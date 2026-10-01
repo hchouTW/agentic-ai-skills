@@ -32,6 +32,7 @@ python3 scripts/audit_analysis_spec.py tests/fixtures/spec_valid.json --markdown
 python3 scripts/poisson_diagnostics.py upper-limit --n 0 --b 0 --cl 0.95
 python3 scripts/poisson_diagnostics.py cls-limit --n 3 --b 3 --cl 0.95
 python3 scripts/likelihood_limits.py profile-limit --n 5 --b 3 --sigma-b 1 --cl 0.95 --toys 4000 --seed 1
+python3 scripts/template_fit.py bb-fit --input fit.json
 python3 scripts/unfolding_diagnostics.py closure --input response_truth.json --method tikhonov --param 0.01 --seed 1
 python3 scripts/statistical_toys.py ratio-toys --n1 400 --n2 900 --sys eff:0.03:0.03:0.8 --toys 20000 --seed 1
 python3 scripts/validate_evidence_ledger.py
