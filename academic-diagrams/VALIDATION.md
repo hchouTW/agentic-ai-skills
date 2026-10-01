@@ -79,7 +79,7 @@ of incoming/outgoing fermion arrows) and keep the auto-layout one with a warning
 **Venue widths** (`references/academic-figure-style.md`, checked against sources, not just the doc's earlier defaults): ICML 2026 (6.75 in
 overall, 0.25 in gutter, so 3.25 in = 8.26 cm per column; the earlier "~8.5 cm" was slightly off and the row conflated ICML with NeurIPS),
 NeurIPS 2026 (5.5 in), JHEP `jheppub` (15.5 cm on a4paper - **wrong**, corrected to 15.1 cm on 2026-09-25, see below). APS single column (8.6 cm) comes from the RMP style guide; the REVTeX 4.2
-guide itself states no figure widths, and 17.8 cm for a full-width figure is still an unverified default.
+guide itself states no figure widths, and 17.8 cm for a full-width figure was an unverified default then (checked against the class geometry on 2026-10-02, see "APS full-width check").
 
 ## Second sample with a different model (Haiku) (2026-09-21, follow-up)
 
@@ -214,10 +214,14 @@ The same configuration gave D05 0/4 and 5/8 PASS, so the run-to-run spread is as
 
 **Export snippets (2026-10-02).** Run with Tectonic 0.17.0, poppler and a standalone TikZ figure: standalone compile OK with the font embedded; `pdftoppm -r 300 -png` gave a 574x101 PNG; `pdftocairo -svg` gave a valid SVG (text as glyph outlines, so not selectable); the `subcaption` `figure*` snippet compiled in `\documentclass[twocolumn]{article}` and produced both panels (a), (b) and the caption on a float page. `dvisvgm` 3.6.1 (installed with Homebrew; conda-forge was refused pending channel terms): negative result. `dvisvgm fig.xdv` on Tectonic's output warns "86 PDF specials ignored", drops the TikZ boxes and arrow and overlaps the text (rendered and inspected); `dvisvgm --pdf` fails with "Ghostscript < 10.01.0 or mutool is required" (installed Ghostscript 10.08.0). After `brew install mupdf-tools` (mutool 1.28.5), `dvisvgm --pdf fig.pdf -o fig.svg` worked: rendered and inspected, boxes, arrow and both labels correct, text kept as 2 `<text>` elements (selectable), 5 path/rect elements. Beamer overlays were already compiled in Round 1.
 
+**APS full-width check (2026-10-02).** Compiled `revtex4-2` under Tectonic 0.17.0 and printed the lengths: two-column `\textwidth` = 510 pt = 17.92 cm and `\columnwidth` = 246 pt = 8.65 cm in `reprint`, `aps,prl,twocolumn` and `aps,prd,reprint`; `aps,prd,preprint` (single column) `\textwidth` = 468 pt = 16.45 cm. So `figure*` can be up to 17.92 cm wide, and the 17.8 cm (7 in) default fits; the single-column 8.6 cm figure is consistent with 8.65 cm. These are class geometry, not an APS figure rule, and APS journals' author guidelines were not checked online.
+
+**Math labels and font-heavy export (2026-10-02).** One standalone TikZ figure with `amsmath`/`bm` labels (posterior, `\mathcal{L}`, `\hat{\bm\mu}`, `\sqrt{s}`, integral, `\mathrm` text) and bold, italic, mono and small-caps text (13 embedded fonts: CM, LM). Rendered with rsvg and inspected against the `pdftoppm` PNG, which matched the PDF. `pdftocairo -svg` (glyph outlines) matched. `dvisvgm --pdf --no-fonts` matched. Plain `dvisvgm --pdf` (42 `<text>` elements, system fonts) did not: sans fallback, detached radical and integral limits, lost bold/italic, overlapping words (in rsvg; a browser with the fonts missing would behave similarly). `dvisvgm --pdf --font-format=woff2` embeds `@font-face` fonts (13 faces, 25 KB); not checked in a browser. Mermaid KaTeX labels and Graphviz were not retested here.
+
 ## Not verified
 
-- The `dvisvgm` `.xdv` route is broken with Tectonic output (use `--pdf` with mutool). Only one small figure was exported; font-heavy figures and math labels were not tried.
-- APS full-width figure size (17.8 cm) is an unverified default; ICML/NeurIPS/ICLR/JHEP/APS-single-column were checked (see above).
+- The `dvisvgm` `.xdv` route is broken with Tectonic output (use `--pdf` with mutool). Only two small figures were exported; browser rendering of `--font-format=woff2` SVGs was not checked.
+- ICML/NeurIPS/ICLR/JHEP/APS (single and full-width) were checked (see above and Round 5 follow-up).
 - The PlantUML component diagram's automatic layout depends on the Graphviz version; the render was inspected with Graphviz from Homebrew only.
 - The prompt run used one fresh agent per prompt and one sample each (Sonnet on 10, Haiku on 4; the Round 3 runner later added 2 samples each on Haiku and Opus); it shows the skill can be followed, not how often it succeeds. The table
   below records which file supplies each capability.
