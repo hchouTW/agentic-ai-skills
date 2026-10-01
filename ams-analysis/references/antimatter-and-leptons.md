@@ -66,6 +66,8 @@ Both are direct measurements; the physical interpretation (dark matter, pulsars,
 
 ## Antiprotons
 
+**Positron-versus-antiproton interpretation questions (for example "is the constant positron/antiproton ratio proof of a common origin?").** [Documented, C77] The ratio fit is a constant in 60-525 GeV (energy), and the review's samples behind it are 1.9 million positrons (C95) and 5.6e5 antiprotons (C74): state these sample sizes and that they are the review's. [Documented, C75, C06] The antiproton-to-proton shape similarity is in rigidity, a different variable. A constant fit is consistent with a common source but does not prove one.
+
 **Estimand.** `p̄` flux and `p̄/p` versus `|R|`. **Signal signature.** Negative charge sign, `|Z| = 1`, hadron-like TRD/ECAL response, `β` consistent with the rigidity. **Backgrounds.** Electron (negative sign) is the dominant one at some rigidities (rejected with TRD and ECAL; residual modeled), charge-confused protons (positive → negative sign; the tail of the Tracker rigidity response), and secondary/interacting particles. **Design.** Rigidity is used as the variable (charge sign known through Tracker); a template fit of a charge-sign-sensitive variable (e.g. signed rigidity or an estimator that combines Tracker-tail information) in reconstructed bins, with templates for `p̄`, charge-confused `p`, and `e⁻`; the `p` denominator with its own acceptance and efficiency (partial cancellation: verify). See the symbolic likelihood in [Example 6 of tests-and-examples](tests-and-examples.md#example-6-antiproton-template-likelihood). **Do not present the recipe as AMS practice**: it is a proposal; the published analysis details are in S08/S09.
 
 ## Rare-antimatter blueprint
