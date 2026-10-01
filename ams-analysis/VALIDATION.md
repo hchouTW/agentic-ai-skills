@@ -1,6 +1,6 @@
 # Validation Report
 
-Validation date: 2026-09-20 (latest pass: round 7, 2026-10-01). Environment: Python 3 standard library only.
+Validation date: 2026-09-20 (latest pass: round 10, 2026-10-01). Environment: Python 3 standard library only.
 
 ## Files
 
@@ -183,6 +183,13 @@ Remaining defects (non-blocking): T41 misses C39/C89 (S42 abstract, 830 +- 30 d)
 
 Same procedure as round 6 (16 prompts, 32 fresh Sonnet answerers, one prompt each, four Opus graders). Two narrow reference fixes beforehand: the "consistent with C29" wording for C80 in `nuclei-and-isotopes` was removed, and `time-dependent-analysis` now says the S42 abstract (C39) carries the 830 +- 30 d transition. Scored **297/320 = 92.8%, no blocking failure: the first clean full-suite pass of the 90% bar.** T39 rose to 10, 9 and T41 to 9, 9. Remaining defects are all source discipline (claim-ID attribution), none blocking; the list is in `tests/grading/round8.md`. Single samples, so the two fixes are improved but not proven. Also corrected the stale ledger counts in `tests/test_evidence_ledger.py` (49 sources, 102 claims, date 2026-10-01) after PR #42.
 
+
+## Rounds 9 and 10: targeted reruns (2026-10-01)
+
+Same procedure as round 8, on selected tests only; full records in `tests/grading/`.
+- Round 9 (`round9.md`): T05, T32, T33, T40 (round 8 slip fixes) plus new T42-T45 for `statistical-diagnostics`, 2 samples each: 148/160 = 92.5%, no blocking failure. The new statistical tests were written by the same author as the reference they test.
+- Round 10 (`round10.md`): T33, T40, T45 after the round 9 follow-up fixes and the T45 rubric change: 55/60 = 91.7%, no blocking failure. The fixes held; new slips are claim-ID stretching on the lepton time claims and one absolute-versus-percent error on a ratio. A clarifying sentence was added to `time-dependent-analysis` afterwards and is untested.
+- Neither round is a full-suite score; the last full-suite result is round 8 (297/320 = 92.8%).
 ## Unresolved gaps and limitations
 
 - Supplemental Material of all papers, S02 and all metadata-only rows remain unread; the Phys. Rept. review (S01) chapters 1-16, the introduction and the summary are read (claims C63-C100, C103-C104), but not the separate papers behind each chapter; per-cut definitions, tables, and the BDT charge-confusion input lists beyond what the main articles state are not in the skill.
