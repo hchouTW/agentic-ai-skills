@@ -4,6 +4,7 @@
 Replace `build_dataset`, `build_model`, and `run_train_step` with project code.
 Launch with:
     torchrun --nproc_per_node=4 ddp_train_skeleton.py
+Uses NCCL on CUDA; without CUDA it falls back to CPU with the gloo backend (smoke tests only).
 """
 
 from __future__ import annotations
@@ -21,8 +22,11 @@ def setup_distributed():
     local_rank = int(os.environ["LOCAL_RANK"])
     rank = int(os.environ["RANK"])
     world_size = int(os.environ["WORLD_SIZE"])
-    torch.cuda.set_device(local_rank)
-    dist.init_process_group(backend="nccl")
+    if torch.cuda.is_available():
+        torch.cuda.set_device(local_rank)
+        dist.init_process_group(backend="nccl")
+    else:  # CPU smoke-test path: gloo backend, no device_ids
+        dist.init_process_group(backend="gloo")
     return local_rank, rank, world_size
 
 
@@ -43,14 +47,15 @@ def reduce_average(value: torch.Tensor, world_size: int) -> torch.Tensor:
 
 def main() -> None:
     local_rank, rank, world_size = setup_distributed()
-    device = torch.device("cuda", local_rank)
+    use_cuda = torch.cuda.is_available()
+    device = torch.device("cuda", local_rank) if use_cuda else torch.device("cpu")
 
     dataset = build_dataset()
     sampler = DistributedSampler(dataset, shuffle=True)
-    loader = DataLoader(dataset, batch_size=64, sampler=sampler, num_workers=2, pin_memory=True)
+    loader = DataLoader(dataset, batch_size=64, sampler=sampler, num_workers=2, pin_memory=use_cuda)
 
     model = build_model().to(device)
-    model = DistributedDataParallel(model, device_ids=[local_rank])
+    model = DistributedDataParallel(model, device_ids=[local_rank] if use_cuda else None)
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
 

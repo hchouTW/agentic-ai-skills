@@ -1,8 +1,8 @@
 # TODO for future Claude sessions (deep-learning)
 
-State (verified 2026-09-28 on `main`): `python3 scripts/validate_skill_bundle.py` OK (61 files; it was 86 before `examples/` was removed on 2026-09-25, commits 0c5530f and 99cc42f); `python3 -m unittest discover -s tests` 106 tests OK, 2 skipped. **No TODO item has been worked on yet.** This is the only repo skill with no behavioral or trigger testing.
+State (verified 2026-10-01 on branch `deep-learning-todo-p1`): `python3 scripts/validate_skill_bundle.py` OK (62 files); `python3 -m unittest discover -s tests` 114 tests OK, 3 skipped. **P1 was worked on 2026-10-01 (see `VALIDATION.md`, "P1 verification pass"); P2-P4 are untouched.** The skill still has no behavioral or trigger testing.
 
-Verification so far is mostly `py_compile`, `ast.parse`, NumPy re-implementations and `--help` checks. One exception is `estimate_training_memory.py`, validated against real CPU allocations on 2026-09-09. The six PyTorch-dependent scripts and the `assets/*.py` templates have never been run end to end. Read `VALIDATION.md` first (especially "Limitations"), then this file.
+Verification before 2026-10-01 was mostly `py_compile`, `ast.parse`, NumPy re-implementations and `--help` checks. Since then the assets (except `vision_transfer.py`) and the PyTorch-dependent scripts have been run on CPU. Read `VALIDATION.md` first (especially "Limitations"), then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -30,20 +30,20 @@ Working rules:
 
 ## P1 - verification gaps (things never actually run)
 
-- [ ] Run every `assets/*.py` template on tiny synthetic data on CPU: `train_classifier.py`, `ddp_train_skeleton.py` (2 processes, `gloo`, via `torchrun`), `transformer_classifier.py`, `lora_finetune.py` (needs `peft`), `vision_transfer.py` (needs `torchvision`), `inference.py`, `models.py`, `dataset_template.py`, `metrics.py`. Fix or document any that fail. Add a fast smoke test per asset that skips when a dependency is missing.
-- [ ] Run each `scripts/*.py` against real PyTorch objects, not just `--help`:
+- [x] Run every `assets/*.py` template on tiny synthetic data on CPU (done 2026-10-01; `ddp_train_skeleton.py` needed a CPU/gloo fallback; smoke tests in `tests/test_assets_smoke.py`). **Open:** `vision_transfer.py` needs `torchvision` in a scratchpad venv (only `--help` is tested, and only when torchvision is installed); the CUDA/NCCL path of the DDP skeleton is untested. (`lora_finetune.py` does not need `peft`.)
+- [x] Run each `scripts/*.py` against real PyTorch objects, not just `--help` (done 2026-10-01; fixed the MPS timing bug in `benchmark_model.py`). **Open follow-ups:** `find_nan_batches.py` exits 0 when it finds NaNs; `check_dataset_contract.py` gives a raw traceback on ragged samples; the data scripts have no CLI way to point at a dataset. The original list:
   - `benchmark_model.py`;
   - `check_dataset_contract.py`;
   - `find_nan_batches.py`, with a NaN injected on purpose;
   - `inspect_checkpoint.py`, with and without optimizer state;
   - `profile_dataloader.py`;
   - `check_split_integrity.py`, with a deliberate leak.
-- [ ] Cross-check the calculators against independent references, not only for self-consistency. Record the constants and units each one assumes.
+- [x] Cross-check the calculators against independent references (done 2026-10-01 except the MPS check of the memory estimator; fixed the small-n detectable effect in `compare_model_runs.py`). The original list:
   - `estimate_compute_budget.py`: the 6ND FLOPs rule and the Chinchilla numbers.
   - `serving_capacity.py`: Little's law and the queueing results, by hand.
   - `compare_model_runs.py`: paired bootstrap and seed variance vs `scipy`.
   - `estimate_training_memory.py`: already checked against CPU allocations (2026-09-09). Optionally also check on MPS.
-- [ ] Execute the snippets in `references/*.md` that claim to be runnable: the shape tables in `tensor-shapes.md`, AMP/GradScaler in `mixed-precision.md`, `checkpointing.md`, the hooks in `custom-autograd-and-hooks.md`, and export in `export-and-deployment.md`. Flag API drift against torch 2.11:
+- [~] Execute the snippets in `references/*.md` that claim to be runnable (mostly done 2026-10-01; drift found for `torch.load`, TorchScript, ONNX; open: run the ONNX snippet with `onnx` + `onnxscript` in a scratchpad venv, and the `tensor-shapes.md` shape tables). The original list: the shape tables in `tensor-shapes.md`, AMP/GradScaler in `mixed-precision.md`, `checkpointing.md`, the hooks in `custom-autograd-and-hooks.md`, and export in `export-and-deployment.md`. Flag API drift against torch 2.11:
   - deprecated `torch.cuda.amp.*`;
   - the `torch.load` `weights_only` default;
   - `torch.compile` options;

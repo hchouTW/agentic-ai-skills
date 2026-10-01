@@ -185,6 +185,8 @@ The five scripts above are standard library only and do not require PyTorch.
 - `tests/test_deep_learning_skill.py` - standard-library tests for the diagnostic
   scripts above, including their behavior when PyTorch is not installed. Run
   `python3 -m unittest discover -s tests -v`.
+- `tests/test_assets_smoke.py` - CPU smoke tests that run the `assets/` templates on tiny
+  synthetic data (skipped when PyTorch is missing).
 
 Starting points to copy and adapt:
 

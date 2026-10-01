@@ -29,7 +29,17 @@ import sys
 
 DEFAULT_RESAMPLES = 20000
 # z(0.975) + z(0.80): the two-sided 5% / 80% power constant for a mean difference.
+# Valid for large n; with few seeds the t distribution needs a larger factor.
 POWER_CONSTANT = 2.80
+# Exact noncentral-t factors (two-sided 5%, 80% power) keyed by n, computed with
+# scipy.stats.nct; detectable effect = factor * stdev / sqrt(n). Beyond n=30 the
+# normal constant is within ~4%.
+T_POWER_FACTOR = {
+    2: 16.33, 3: 5.65, 4: 4.26, 5: 3.76, 6: 3.51, 7: 3.37, 8: 3.27, 9: 3.20, 10: 3.15,
+    11: 3.11, 12: 3.08, 13: 3.05, 14: 3.03, 15: 3.01, 16: 3.00, 17: 2.98, 18: 2.97,
+    19: 2.96, 20: 2.95, 21: 2.95, 22: 2.94, 23: 2.93, 24: 2.93, 25: 2.92, 26: 2.92,
+    27: 2.91, 28: 2.91, 29: 2.90, 30: 2.90,
+}
 
 
 def _scores(values, name):
@@ -76,7 +86,7 @@ def minimum_detectable_effect(stdev, n):
     """Smallest mean difference detectable at 5% two-sided with 80% power."""
     if n < 2:
         raise ValueError("need at least two observations")
-    return POWER_CONSTANT * stdev / math.sqrt(n)
+    return T_POWER_FACTOR.get(n, POWER_CONSTANT) * stdev / math.sqrt(n)
 
 
 def compare(baseline, variant, level=0.95, lower_is_better=False,

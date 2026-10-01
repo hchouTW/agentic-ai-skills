@@ -38,6 +38,8 @@ def build_model(input_dim: int, num_classes: int) -> nn.Module:
 def synchronize(device: torch.device) -> None:
     if device.type == "cuda":
         torch.cuda.synchronize(device)
+    elif device.type == "mps":
+        torch.mps.synchronize()
 
 
 def main() -> None:

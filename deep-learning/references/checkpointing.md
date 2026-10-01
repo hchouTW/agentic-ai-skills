@@ -24,6 +24,13 @@ if scheduler is not None and ckpt.get("scheduler_state_dict") is not None:
 start_epoch = ckpt["epoch"] + 1
 ```
 
+Since PyTorch 2.6, `torch.load` defaults to `weights_only=True`, which loads only
+tensors and plain containers (dict, list, tuple, str, numbers). A checkpoint whose
+`config` is a custom class instance (a dataclass, `argparse.Namespace`) fails with
+`UnpicklingError` (checked on torch 2.11). Save `config` as a plain dict, e.g.
+`vars(args)` or `dataclasses.asdict(cfg)`. Pass `weights_only=False` only for files you
+produced yourself and trust, since it unpickles arbitrary code.
+
 ## Inference-only weights
 
 ```python

@@ -1,9 +1,10 @@
 # Package Validation Record
 
-Validation date: 2026-09-05. Helper test environment: Python 3, standard library
-only. PyTorch is not installed in this environment and could not be installed
-(network egress to PyPI is blocked), so the scripts' actual tensor/model behavior
-under real PyTorch was not exercised here - see Limitations.
+Latest pass: 2026-10-01 (P1 verification, below), on miniconda Python 3.13 with torch
+2.11.0 (CPU and MPS, no CUDA), scipy 1.17.1. Bundle: 62 files; 114 tests, 3 skipped
+(2 missing-torch degradation tests, 1 torchvision-gated test). Earlier passes
+(2026-09-05 to 2026-09-15) ran without PyTorch; where a section says PyTorch was not
+installed, the Limitations section and the 2026-10-01 pass supersede it.
 
 ## Completeness pass (2026-09-05)
 
@@ -708,6 +709,68 @@ skill folders independently; see project memory on multi-platform install
 constraints) for a single source of truth on this one reference file - accepted
 by the user as the intended tradeoff. Re-ran `python3 scripts/validate_skill_bundle.py`
 ("Bundle OK") and `python3 -m unittest discover -s tests -v` after the change.
+
+## P1 verification pass (2026-10-01)
+
+Ran the previously unexecuted code on torch 2.11.0 (CPU; MPS where noted). Branch
+`deep-learning-todo-p1`.
+
+Assets (tiny synthetic data, CPU):
+- `train_classifier.py` -> `inference.py` round trip: OK (2 epochs, checkpoint loads).
+- `transformer_classifier.py`, `lora_finetune.py` (own `LoRALinear`; it does **not**
+  need `peft`), `models.py`, `metrics.py`, `dataset_template.py`: OK.
+- `ddp_train_skeleton.py`: **failed** on a CUDA-less machine (`torch.cuda.set_device`
+  and hard-coded NCCL). Fixed: it now uses gloo on CPU when CUDA is unavailable; the
+  CUDA/NCCL path is unchanged (and still untested here). Then OK as 2 gloo processes
+  through `torchrun`.
+- `vision_transfer.py`: not run (torchvision not installed).
+- New `tests/test_assets_smoke.py` (7 tests; skips without torch/torchrun/torchvision).
+
+Scripts against real PyTorch objects:
+- `inspect_checkpoint.py`: OK with optimizer state, a bare state_dict, and a
+  checkpoint without optimizer state.
+- `find_nan_batches.py`: finds an injected NaN and an injected inf. It exits 0 even when
+  it finds them, so it cannot gate a pipeline (unlike `check_split_integrity.py`).
+- `check_dataset_contract.py`: OK on the built-in dataset. A ragged dataset ends in a
+  raw `RuntimeError` traceback from the default collate (it names the problem; not
+  caught).
+- `profile_dataloader.py`: OK.
+- `benchmark_model.py`: **bug**: only CUDA was synchronized, so MPS timings measured
+  kernel launch, not execution. Fixed with `torch.mps.synchronize()`. `--amp` is
+  ignored off CUDA and the output says `amp=False`.
+- The `create_dataset()` hook in the data scripts is the only way to point them at a
+  dataset (no CLI path); I tested the failure cases by monkeypatching it.
+
+Calculators vs independent references:
+- `estimate_compute_budget.py` (175e9 params, 300e9 tokens, 1024 GPUs, 312 TFLOP/s,
+  MFU 0.4): FLOPs 3.15e23, 701,122 GPU-hours, 28.5 days match the hand calculation;
+  the compute-optimal token count is 20 tokens per parameter.
+- `serving_capacity.py` (500 QPS, batch 16, 40 ms): 2 replicas, 62.5% utilization,
+  queue + service p99 30.7 ms match M/M/1 (ln(100)/(mu - lambda)) by hand.
+- `compare_model_runs.py`: the paired bootstrap interval for the example file
+  ([0.00306, 0.00734]) matches `scipy.stats.bootstrap` (percentile, 10k resamples)
+  to 5 decimals. **Finding:** the detectable effect used the normal constant 2.80,
+  which understates it with few seeds (exact noncentral-t factor: 3.76 at n=5, 5.65 at
+  n=3, 3.15 at n=10, 2.90 at n=30). Fixed with a table for n = 2..30; n > 30 still uses
+  2.80. For the example file the detectable effect changes from 0.00342 to 0.00459.
+  The bootstrap interval itself is not corrected for small n (a t interval is wider:
+  [0.0018, 0.0086] vs [0.0031, 0.0073]); treat intervals from about 5 seeds as optimistic.
+- `estimate_training_memory.py`: not re-checked; MPS check still open.
+
+References (snippets executed on torch 2.11):
+- Run and correct: `mixed-precision.md` (AMP-disabled path on CPU/MPS, no deprecation
+  warnings), the resume snippet in `checkpointing.md`, the custom `autograd.Function`,
+  forward hook and `checkpoint(use_reentrant=False)` snippets in
+  `custom-autograd-and-hooks.md`, `torch.compile` on CPU, `torch.export`.
+- **API drift found and documented:**
+  - `torch.load` defaults to `weights_only=True`: a checkpoint whose `config` is a custom
+    class instance fails to load. Added to `checkpointing.md`.
+  - TorchScript (`torch.jit.script`/`trace`) is deprecated and warns on 2.11, though it
+    still works. Added to `export-and-deployment.md`.
+  - `torch.onnx.export` needs `onnxscript` (default dynamo path) or `onnx`
+    (`dynamo=False`); the ONNX snippet was not run end to end.
+- Not done: the `tensor-shapes.md` and `debugging-pytorch.md` blocks are assert
+  one-liners (not run as such); the audit of numeric claims against primary sources.
 
 ## Limitations
 
