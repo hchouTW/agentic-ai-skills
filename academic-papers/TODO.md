@@ -32,7 +32,7 @@ User decisions (2026-09-26):
 
 ## Open
 
-- [ ] **A05 (hostile referee reply) on Haiku:** 2 of 6 runs pass after the rule-6 reply shape (it was 0/4). The remaining failures invent specifics, such as claiming the split was already used, or comparisons with other uncertainties. Sonnet passes. Round 2 (2026-10-01) tried two more rule-6 sentences (no invented checks; no invented details): 3/6 and 2/6, no better than noise, so reverted (see `VALIDATION.md`). Next idea, if it matters: one worked reply in `references/submission-and-peer-review.md`. That only helps if Haiku reads it, so the rule itself may need to live in `SKILL.md`.
+- [x] **A05 (hostile referee reply) on Haiku: closed as a known limitation (2026-10-01).** About 2 of 6 runs pass. Three `SKILL.md` rule-6 additions (no invented checks; no invented details; a worked reply) did no better than noise (12 runs for the worked reply: 3/3/6) and were reverted. Sonnet passes. Failures invent specifics, ask a question, or discuss strategy instead of drafting. Details in `VALIDATION.md`.
 - [ ] **Recurring, after any `SKILL.md` change:** rerun `tests/run_prompts.py` (Haiku, skill arm, at least 2 runs) and both trigger sets. Last measured after the description rewrite (1,014 of 1,024 characters):
   - Haiku recall: 25/40, held-out 20/28.
   - Sonnet recall: 34/40, held-out 23/28.

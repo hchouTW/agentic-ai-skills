@@ -223,8 +223,14 @@ from Haiku's run-to-run noise, so both were reverted and `SKILL.md` is unchanged
 Failure modes seen: invented components of the 5-way split (in-situ, flavor, pileup, ...),
 claiming the change was a "cross-check", asking a clarifying question instead of drafting,
 and a strategy discussion (adopt vs. defend) instead of a reply. Rule 6 already bans
-the last two. A05 stays open; the remaining idea is a worked reply in
-`references/submission-and-peer-review.md`, which Haiku rarely reads.
+the last two.
+
+Then the worked-reply idea, placed in `SKILL.md` rule 6 (an invented Gaussian-vs-Poisson
+background scenario, not the A05 content, with the user's number and `[VALUE NEEDED]`
+slots): 12 Haiku skill-arm runs, 3 PASS / 3 PARTIAL / 6 FAIL (6-run halves: 2/2/2 and
+1/1/4). No better than the 2/6 PASS before it, so it was reverted; `SKILL.md` is
+unchanged. Conclusion: A05 on Haiku is not fixable by more wording in `SKILL.md`; treat
+it as a known Haiku limitation (Sonnet passes) unless a user need arises.
 
 ## TODO round 1: P3 content and structure (2026-09-27)
 
