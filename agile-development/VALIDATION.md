@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-10-01 (latest pass below; earlier sections keep their own dates). Current state: the bundle validator checks 30 files (48 before `examples/` was removed on 2026-09-25, commit 0c5530f), and `python3 -m unittest discover -s tests` runs 44 tests. Helper test environment: Python 3, standard library only.
+Validation date: 2026-10-01 (latest pass below, round 6; earlier sections keep their own dates). Current state: the bundle validator checks 30 files (48 before `examples/` was removed on 2026-09-25, commit 0c5530f), and `python3 -m unittest discover -s tests` runs 44 tests. Helper test environment: Python 3, standard library only.
 
 ## Completeness pass (2026-09-05)
 
@@ -1550,6 +1550,20 @@ reproduced.
 
 Cost: about $4.9 of reported spend plus the scorer and the review subagents. Not verified: two runs per query for the
 held-out sets; the reviewers were one pass each and capped at 8 findings.
+
+## Round 6: H6 (b), two step-9 wordings tried and reverted (2026-10-01)
+
+Open scorer, Sonnet, skill arm, `behavior_eval.py run --only H6 --runs 6`, no errored
+runs. Round 5 had H6 (b) at ~F~ in 3 runs. Edits to workflow step 9 in `SKILL.md`:
+- "For a trivial change (a typo, a string or value tweak), the whole message is one or two
+  sentences plus a verification line; skip the headings and the risk list." H6 (b)
+  `~~~FP~` (1 PASS, 4 PARTIAL, 1 FAIL); (a) and (c) all PASS.
+- Plus "say what changed and what you checked, with no hypotheticals": H6 (b) `FFPFFP`
+  (4 FAIL), (a) one PARTIAL. Worse.
+The runs read SKILL.md 6/6. The messages follow the rule in spirit, but still add an
+untested-suite caveat and an "if the grep had found more" hypothetical, which runs the
+message to about 5 sentences (the rubric already scores the message, not the plan).
+Neither wording beats round 5, so both were reverted and `SKILL.md` is unchanged. H6 (b) stays open.
 
 ## Limitations
 
