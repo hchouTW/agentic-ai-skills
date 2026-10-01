@@ -91,7 +91,7 @@ erDiagram
 
 - Node ids with spaces/keywords (`end`, `graph`) break parsing; use short ids + quoted labels.
 - Unbalanced quotes/brackets in labels; `;` and `#` in labels need quoting.
-- No math typesetting by default (KaTeX support is renderer-dependent, `$$...$$`); single-`$...$` is not recognised, so write `$$...$$` or plain Unicode (θ, α, ≥) in labels; use Graphviz/TikZ when real LaTeX is needed.
+- No math typesetting by default (KaTeX support is renderer-dependent, `$$...$$`); single-`$...$` is not recognised, so write `$$...$$` (rendered as KaTeX by `mmdc`, checked 2026-10-02: `\hat{}`, `\mathcal{}`, `\mid` all correct) or plain Unicode (θ, α, ≥, √) in labels; a combining hat (θ̂) renders badly, so use `$$\hat\theta$$` or write "theta-hat"; use Graphviz/TikZ when real LaTeX is needed.
 - Layout is automatic: long chains wrap unpredictably; use subgraphs and `direction` inside them, or switch tools when placement matters.
 - Comments: `%% comment`. Keep the diagram source in the repo next to the paper.
 - Mermaid has no plate notation or Feynman lines; do not fake them.
