@@ -90,7 +90,8 @@ questions. Add no node the request did not name; list extra steps as open questi
 
 ## Publication Standards (summary; detail in `references/academic-figure-style.md`)
 
-- Clarity over decoration; short labels (<= ~4 words), math in LaTeX syntax.
+- Clarity over decoration; short labels (<= ~4 words), math in LaTeX syntax. In Mermaid, single-`$` math does not render;
+  use `$$...$$` (renderer-dependent) or plain Unicode (θ, α) in labels.
 - LR for computational pipelines, TB for research processes, hierarchical for dependencies.
 - Arrows always carry one declared meaning; legend when several coexist.
 - Must survive grayscale and common color-vision deficiencies; never encode meaning by
