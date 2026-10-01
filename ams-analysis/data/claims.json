@@ -2647,5 +2647,54 @@
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-09-21"
+  },
+  {
+    "id": "C101",
+    "claim": "The Tracker Layer-0 upgrade is a new silicon tracker layer on top of the AMS detector, stated by the AMS website to increase AMS acceptance by 300% (the CERN news item says particle acceptance rate by 300%), and to make five years of data taking equal to fifteen years of additional data",
+    "claim_types": [
+      "detector_fact"
+    ],
+    "source_ids": [
+      "S48",
+      "S49"
+    ],
+    "location": "page",
+    "scope": {
+      "text": "Layer-0 upgrade description and quoted gain",
+      "species": [],
+      "range": null,
+      "data_period": null,
+      "analysis": "AMS website and CERN news statement"
+    },
+    "limitations": "Quoted promotional figures with no selection, rigidity range, or definition of acceptance; 'increase by 300%' is the sources' wording; do not use as an analysis acceptance. Ladder count and size are not in the pages read.",
+    "numeric_quotation_allowed": true,
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "verification_strength": "page",
+    "last_reviewed": "2026-10-01"
+  },
+  {
+    "id": "C102",
+    "claim": "Planned schedule as of the CERN news item of 21 August 2026: Layer-0 final acceptance test at INFN-University of Perugia until 30 August, a last series of measurements at CERN in October, flight from Geneva to Kennedy Space Center in January 2027, a dedicated SpaceX Cargo Dragon launch to the ISS planned for April 2027, preparatory spacewalks to install the receiving interface beforehand, and mechanical and power connections expected to be completed during further spacewalks by May 2027; so as of 2026-10-01 Layer-0 is not installed",
+    "claim_types": [
+      "detector_fact"
+    ],
+    "source_ids": [
+      "S49"
+    ],
+    "location": "page",
+    "scope": {
+      "text": "Layer-0 installation plan and status",
+      "species": [],
+      "range": null,
+      "data_period": "planned 2027 detector era",
+      "analysis": "schedule statement"
+    },
+    "limitations": "Institutional news item (Tier 6), not an AMS Collaboration document: label as context, and confirm on the AMS site or NASA before relying on it. Planned dates, not events; may have slipped. The AMS page (S48) gives no schedule. Once installed, treat pre- and post-Layer-0 data as separate detector eras or justify combining; era boundary must come from AMS sources.",
+    "numeric_quotation_allowed": true,
+    "claim_type_note": null,
+    "support_kind": "third_party_context",
+    "verification_strength": "page",
+    "last_reviewed": "2026-10-01"
   }
 ]
