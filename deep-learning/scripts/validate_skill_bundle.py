@@ -79,6 +79,7 @@ REQUIRED_PATHS = [
     "scripts/profile_dataloader.py",
     "scripts/validate_skill_bundle.py",
     "tests/test_deep_learning_skill.py",
+    "tests/test_assets_smoke.py",
 ]
 
 REQUIRED_README_SECTIONS = [

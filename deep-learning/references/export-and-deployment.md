@@ -22,6 +22,12 @@ you validated.
 
 ## TorchScript: trace vs. script
 
+TorchScript is deprecated: on torch 2.11 `torch.jit.script`, `torch.jit.trace` and
+`torch.jit.script_method` emit a warning pointing to `torch.compile` or `torch.export`.
+It still works (verified), so keep it for existing artifacts, but prefer
+`torch.export.export(model, (example_input,))` for new work (verified on torch 2.11 for a
+small MLP: `ep.module()(x)` matches the eager output).
+
 - **`torch.jit.trace(model, example_input)`** runs the model once with example
   input and records the operations executed. Fast and usually just works, but
   **silently bakes in whatever control-flow branch the example input took** - a
@@ -61,6 +67,11 @@ torch.onnx.export(
 )
 ```
 
+- On torch 2.11 `torch.onnx.export` uses the dynamo exporter by default and needs the
+  `onnx` and `onnxscript` packages; without them it raises `ModuleNotFoundError`
+  (`onnxscript`). `dynamo=False` selects the legacy TorchScript-based path, which needs
+  `onnx` and is the path `dynamic_axes` was written for. The snippet below was not
+  run end to end (neither package is installed in the test environment).
 - `dynamic_axes` marks which dimensions are not fixed at export time (batch size is
   the near-universal case; sequence length if the model genuinely supports variable
   length). Omitting it bakes the example input's shape in as a hard requirement.

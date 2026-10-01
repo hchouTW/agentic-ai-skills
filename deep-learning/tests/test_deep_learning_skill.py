@@ -640,12 +640,17 @@ class CompareModelRunsTests(unittest.TestCase):
         self.assertGreaterEqual(wide[1], narrow[1])
 
     def test_minimum_detectable_effect_matches_closed_form(self):
+        self.assertAlmostEqual(minimum_detectable_effect(0.01, 50),
+                               2.80 * 0.01 / math.sqrt(50), places=12)
+
+    def test_mde_uses_t_factor_for_few_seeds(self):
+        # Exact noncentral-t value (scipy.stats.nct) is 3.76 at n=5, not the normal 2.80.
         self.assertAlmostEqual(minimum_detectable_effect(0.01, 5),
-                               2.80 * 0.01 / math.sqrt(5), places=12)
+                               3.76 * 0.01 / math.sqrt(5), places=12)
 
     def test_mde_shrinks_as_sqrt_of_n(self):
-        self.assertAlmostEqual(minimum_detectable_effect(0.01, 5)
-                               / minimum_detectable_effect(0.01, 20), 2.0, places=9)
+        self.assertAlmostEqual(minimum_detectable_effect(0.01, 50)
+                               / minimum_detectable_effect(0.01, 200), 2.0, places=9)
 
     def test_identical_arms_are_not_significant(self):
         scores = [0.80, 0.81, 0.79, 0.82, 0.80]
