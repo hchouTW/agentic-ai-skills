@@ -7,7 +7,7 @@ committing PDFs (licenses are per paper and the files are large). The manifest
 reference, ledger source IDs, and an ordered list of candidate PDF URLs. PDFs, opt-in APS Supplemental Material files and extracted text go to a cache directory OUTSIDE the repository
 (`$AMS_PAPERS_CACHE`, else `~/.cache/ams-analysis/papers`) with a SHA-256 index.
 
-Rules this script follows: it identifies itself, waits between requests, never sends
+Rules this script follows: it identifies itself, waits between requests, retries a transient error (HTTP 5xx, 406, network failure) once after a pause, never sends
 credentials, and never works around a bot-verification page, a login or an HTTP
 401/403/429: such a paper is recorded as `blocked` and left for a human to download
 and register with `adopt`. A cached arXiv or repository copy is labeled as such (the
@@ -58,6 +58,7 @@ KEY_RE = re.compile(r"^[A-Za-z0-9._-]{1,120}$")
 BOT_MARKERS = ("just a moment", "making sure you", "human verification", "cf-chl", "captcha", "awswaf",
                "access denied", "enable javascript", "are you a robot", "not a bot")
 BLOCKED_STATUS = {401, 403, 429}
+RETRY_STATUS = {0, 406, 500, 502, 503, 504}  # transient only; a block (BLOCKED_STATUS) or a 404 is never retried
 REQUIRED = ("key", "doi", "inspire_id", "title", "journal_ref", "date", "generation", "publisher",
             "source_ids", "pdf_candidates")
 CANDIDATE_KINDS = {"publisher": "publisher", "arxiv": "arxiv", "repository": "repository"}
@@ -280,12 +281,14 @@ class Cache:
 
 
 class Fetcher:
-    def __init__(self, cache: Cache, http=None, delay: float = 1.0, max_mb: int = 400, sleep=time.sleep, log=print):
+    def __init__(self, cache: Cache, http=None, delay: float = 1.0, max_mb: int = 400, sleep=time.sleep, log=print,
+                 retries: int = 1, retry_wait: float = 5.0):
         self.cache, self.http = cache, http or Http()
         self.delay, self.max_bytes, self.sleep, self.log = delay, max_mb << 20, sleep, log
+        self.retries, self.retry_wait = max(0, retries), retry_wait
         self._last = 0.0
 
-    def _get(self, url: str) -> Response:
+    def _once(self, url: str) -> Response:
         wait = self.delay - (time.monotonic() - self._last)
         if self._last and wait > 0:
             self.sleep(wait)
@@ -293,6 +296,17 @@ class Fetcher:
             return self.http.get(url, self.max_bytes)
         finally:
             self._last = time.monotonic()
+
+    def _get(self, url: str) -> Response:
+        """GET with the polite delay; retries only transient errors (RETRY_STATUS), never a block."""
+        resp = self._once(url)
+        for attempt in range(self.retries):
+            if resp.status not in RETRY_STATUS:
+                break
+            self.log(f"  transient HTTP {resp.status} for {url}; retrying in {self.retry_wait:g} s ({attempt + 1}/{self.retries})")
+            self.sleep(self.retry_wait)
+            resp = self._once(url)
+        return resp
 
     def fetch_article(self, p: dict, dry_run: bool = False) -> str:
         key = p["key"]
@@ -454,7 +468,8 @@ def cmd_fetch(args, http=None) -> int:
         print(json.dumps({"verdict": "unreadable", "error": str(exc)}))
         return 2
     cache = Cache(args.cache)
-    f = Fetcher(cache, http=http, delay=args.delay, max_mb=args.max_mb, log=lambda s: print(s, file=sys.stderr))
+    f = Fetcher(cache, http=http, delay=args.delay, max_mb=args.max_mb, log=lambda s: print(s, file=sys.stderr),
+                retries=args.retries, retry_wait=args.retry_wait)
     results, bad = [], 0
     for p in chosen:
         res = f.fetch_article(p, args.dry_run)
@@ -559,6 +574,8 @@ def build_parser() -> argparse.ArgumentParser:
     f.add_argument("--dry-run", action="store_true")
     f.add_argument("--delay", type=float, default=1.0, help="seconds between requests")
     f.add_argument("--max-mb", type=int, default=400, help="per-file size cap")
+    f.add_argument("--retries", type=int, default=1, help="retries for transient errors (5xx, 406, network); 0 disables; blocks are never retried")
+    f.add_argument("--retry-wait", type=float, default=5.0, help="seconds to wait before a retry")
     a = sub.add_parser("adopt", help="register PDFs you downloaded yourself (matched by file name)")
     a.add_argument("paths", nargs="+")
     a.add_argument("--force", action="store_true")

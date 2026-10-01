@@ -4,7 +4,7 @@ Network access is never used: the HTTP layer is replaced by a fake that maps URL
 responses. Covers the shipped manifest (schema, unique keys and DOIs, ledger
 cross-check), manifest-row construction from INSPIRE and OpenAlex records, the
 download rules (PDF magic, bot-verification and 401/403/429 recorded as blocked and
-never retried through another route of the same candidate, size cap, preprint and repository
+never retried, one retry for transient errors only, size cap, preprint and repository
 labels, idempotent re-fetch, dry run), opt-in APS supplement discovery and download, safe file names, adopting
 user-downloaded files, hash verification, and the command-line exit codes.
 Run from the skill directory with `python3 -m unittest discover -s tests -v`."""
@@ -241,6 +241,104 @@ class FetchTests(unittest.TestCase):
     def test_http_layer_refuses_plain_http(self):
         with self.assertRaises(ValueError):
             fp.Http().get("http://example.org/x.pdf", 10)
+
+
+class SeqHttp:
+    """url -> list of responses, consumed in order (the last one repeats)."""
+
+    def __init__(self, table):
+        self.table, self.calls = {u: list(v) for u, v in table.items()}, []
+
+    def get(self, url, max_bytes):
+        self.calls.append(url)
+        seq = self.table.get(url, [fp.Response(404, "text/html", b"not found", url)])
+        return seq.pop(0) if len(seq) > 1 else seq[0]
+
+
+class RetryTests(unittest.TestCase):
+    URL = "https://arxiv.org/pdf/hep-ex/0406065"
+
+    def make(self, seq, tmp, **kw):
+        sleeps = []
+        cache = fp.Cache(Path(tmp) / "cache")
+        f = fp.Fetcher(cache, http=SeqHttp({self.URL: seq}), delay=0, sleep=sleeps.append, log=lambda s: None, **kw)
+        return f, cache, sleeps
+
+    def cand(self):
+        return entry([{"url": self.URL, "kind": "arxiv"}])
+
+    def test_transient_error_is_retried_once_after_the_wait(self):
+        for code in (406, 500, 502, 503, 504, 0):
+            with tempfile.TemporaryDirectory() as d:
+                f, cache, sleeps = self.make([fp.Response(code, "", b"", self.URL), ok(url=self.URL)], d, retry_wait=7.5)
+                self.assertEqual(f.fetch_article(self.cand()), "fetched (arxiv)", code)
+                self.assertEqual(f.http.calls, [self.URL, self.URL], code)
+                self.assertEqual(sleeps, [7.5], code)
+
+    def test_gives_up_after_the_configured_retries(self):
+        with tempfile.TemporaryDirectory() as d:
+            f, cache, sleeps = self.make([fp.Response(503, "", b"", self.URL)], d, retries=2, retry_wait=1)
+            self.assertEqual(f.fetch_article(self.cand()), "failed")
+            self.assertEqual(len(f.http.calls), 3)  # first try plus two retries
+            self.assertEqual(sleeps, [1, 1])
+            self.assertIsNone(cache.article(KEY))
+
+    def test_blocks_and_not_found_are_never_retried(self):
+        for code in (401, 403, 429, 404, 410):
+            with tempfile.TemporaryDirectory() as d:
+                f, _, sleeps = self.make([fp.Response(code, "", b"", self.URL), ok(url=self.URL)], d)
+                self.assertNotEqual(f.fetch_article(self.cand()), "fetched (arxiv)", code)
+                self.assertEqual(len(f.http.calls), 1, code)
+                self.assertEqual(sleeps, [], code)
+
+    def test_bot_verification_page_is_not_retried(self):
+        with tempfile.TemporaryDirectory() as d:
+            wall = fp.Response(200, "text/html", b"<html>Just a moment...</html>", self.URL)
+            f, cache, sleeps = self.make([wall, ok(url=self.URL)], d)
+            self.assertEqual(f.fetch_article(self.cand()), "blocked")
+            self.assertEqual((len(f.http.calls), sleeps), (1, []))
+
+    def test_retries_zero_disables_it(self):
+        with tempfile.TemporaryDirectory() as d:
+            f, _, sleeps = self.make([fp.Response(503, "", b"", self.URL), ok(url=self.URL)], d, retries=0)
+            self.assertEqual(f.fetch_article(self.cand()), "failed")
+            self.assertEqual((len(f.http.calls), sleeps), (1, []))
+            f2 = fp.Fetcher(fp.Cache(Path(d) / "c2"), http=SeqHttp({}), retries=-3)
+            self.assertEqual(f2.retries, 0)
+
+    def test_supplement_requests_are_retried_too(self):
+        with tempfile.TemporaryDirectory() as d:
+            page = "https://journals.aps.org/prl/supplemental/" + DOI
+            link = ('<a href="/prl/supplemental/%s/SM-a.pdf">a</a>' % DOI).encode()
+            table = {page: [fp.Response(503, "", b"", page), fp.Response(200, "text/html", link, page)],
+                     page + "/SM-a.pdf": [ok(url=page + "/SM-a.pdf")]}
+            sleeps = []
+            f = fp.Fetcher(fp.Cache(Path(d) / "cache"), http=SeqHttp(table), delay=0, sleep=sleeps.append,
+                           log=lambda s: None, retry_wait=2)
+            self.assertEqual(f.fetch_supplements(entry(supp=[page])), ["fetched SM-a.pdf"])
+            self.assertEqual(sleeps, [2])
+
+    def test_dry_run_makes_no_request_and_no_retry(self):
+        with tempfile.TemporaryDirectory() as d:
+            f, _, sleeps = self.make([fp.Response(503, "", b"", self.URL)], d)
+            self.assertEqual(f.fetch_article(self.cand(), dry_run=True), "would-fetch")
+            self.assertEqual((f.http.calls, sleeps), ([], []))
+
+    def test_cli_options(self):
+        with tempfile.TemporaryDirectory() as d:
+            m = Path(d) / "m.json"
+            m.write_text(json.dumps({"papers": [entry([{"url": self.URL, "kind": "arxiv"}])]}), encoding="utf-8")
+            base = ["--manifest", str(m), "--cache", str(Path(d) / "cache"), "fetch", "--all", "--delay", "0",
+                    "--retry-wait", "0"]
+            http = SeqHttp({self.URL: [fp.Response(406, "", b"", self.URL), ok(url=self.URL)]})
+            code, out = run_cli(base, http=http)
+            self.assertEqual((code, len(http.calls)), (0, 2))
+            self.assertEqual(json.loads(out)["results"][0]["article"], "fetched (arxiv)")
+            m.write_text(json.dumps({"papers": [entry([{"url": self.URL, "kind": "arxiv"}], key="K2", doi="10.1/x")]}),
+                         encoding="utf-8")
+            http = SeqHttp({self.URL: [fp.Response(406, "", b"", self.URL), ok(url=self.URL)]})
+            code, _ = run_cli(base + ["--retries", "0"], http=http)
+            self.assertEqual((code, len(http.calls)), (1, 1))
 
 
 class SupplementTests(unittest.TestCase):
