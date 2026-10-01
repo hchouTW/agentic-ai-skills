@@ -1,7 +1,7 @@
 # Package Validation Record
 
 Latest pass: 2026-10-01 (P1 verification, below), on miniconda Python 3.13 with torch
-2.11.0 (CPU and MPS, no CUDA), scipy 1.17.1. Bundle: 62 files; 114 tests, 3 skipped
+2.11.0 (CPU and MPS, no CUDA), scipy 1.17.1. Bundle: 66 files; 114 tests, 3 skipped
 (2 missing-torch degradation tests, 1 torchvision-gated test). Earlier passes
 (2026-09-05 to 2026-09-15) ran without PyTorch; where a section says PyTorch was not
 installed, the Limitations section and the 2026-10-01 pass supersede it.
@@ -771,6 +771,53 @@ References (snippets executed on torch 2.11):
     (`dynamo=False`); the ONNX snippet was not run end to end.
 - Not done: the `tensor-shapes.md` and `debugging-pytorch.md` blocks are assert
   one-liners (not run as such); the audit of numeric claims against primary sources.
+
+## P2 behavior and trigger tests, first pass (2026-10-01)
+
+Added `tests/prompts.md` (15 plan-only behavior prompts H1-H15, HEP-ML first), `tests/behavior_eval.py`
+(adapted from `agile-development/tests/behavior_eval.py`: with/without the skill, blind Sonnet scorer),
+`tests/trigger_queries.json` (20 should-trigger, 20 should-not) and `tests/trigger_queries_holdout.json`
+(10 and 10; **not run yet and not to be tuned on**). Isolation as in `hep-analysis/tests/routing_eval.py`.
+No GPU: DDP/FSDP/AMP prompts are graded from answer text.
+
+Trigger recall on the tuning set (2 runs per query, no fixture repo, isolated child):
+
+| Model | deep-learning recall | False triggers | Routed to the expected owner |
+|---|---|---|---|
+| Haiku | 1/40 runs | 0/40 | 25/80 |
+| Sonnet | 16/40 runs | 0/40 | 44/80 |
+
+Most misses are plain PyTorch requests answered directly without any skill (no errors, no usage-limit
+notices). Other skills miss the same way in this harness (`agile-development` on "add pagination",
+`task-authoring` on "write a SKILL.md"), so part of the gap is the empty-directory, one-line-query setup and
+not only the description. Several queries say "here's my training code" without code. The description (979 of
+1024 characters) was **not** changed. Next: make the queries carry code or PyTorch context, re-run, and only
+then consider a description change.
+
+Behavior (2 runs per prompt and arm, plan-only; P=1, ~=0.5, F=0; mean over rubric bullets):
+
+| Model | Baseline | With skill | Skill runs that read SKILL.md | References read per skill run |
+|---|---|---|---|---|
+| Haiku | 66.1% | 76.8% | 28/30 | mean 0.2 (max 2) |
+| Sonnet | 81.6% | 92.1% | 30/30 | mean 3.0 (max 4) |
+
+- Largest Haiku gains: H7 DDP vs FSDP memory equation (38 to 81), H1 jet-tagger overfitting (25 to 44), H9
+  resume (25 to 50), H3 sim-to-data (62 to 81), H4 calibration (62 to 81). Largest Sonnet gains: H2 equivariance
+  (62 to 100), H5 split leakage (69 to 100), H9 (62 to 94), H10 (67 to 92), H1 (75 to 94).
+- Regressions: out-of-scope or simple prompts. Sonnet H15 (Keras, 100 to 67) and H14 (scikit-learn, 100 to 83);
+  Haiku H10 "make it faster" (83 to 67, bullet c: padded list), H14 (100 to 92). Haiku also dipped on H6
+  (88 to 81) and H13 (88 to 81).
+- Still weak with the skill: Haiku H9 bullet (d) (`weights_only`/plain-dict config) F/F, H1 bullet (d), H3 bullet (c)
+  (mismodeling systematic), H2 bullet (c).
+- Haiku loads `SKILL.md` but almost never opens a reference (mean 0.2), so rubric items that only a reference
+  states are mostly missed; must-do rules belong in `SKILL.md`, as in the sibling skills. Sonnet reads about 3
+  references per run, at the top of the 2-3 target.
+- Caveats: n is small (2 runs, 14-15 prompts, about 112 scored bullets per arm and model); the blind scorer
+  guessed the arm correctly in 43/60 (Haiku) and 60/60 (Sonnet) plan pairs, so the blinding largely failed for
+  Sonnet and its scores lean toward the open-label picture; Sonnet H1 needed a rescore after the scorer returned
+  no JSON; H15 bullet (c) was unscored for Haiku; the scorer is a single Sonnet child. Cost: Haiku runs $1.23,
+  Sonnet runs $3.88, plus scorers and routing ($1.12 Haiku, $1.78 Sonnet).
+- Not done: Opus runs, a third run to separate noise on the 10-point differences, the holdout trigger set.
 
 ## Limitations
 

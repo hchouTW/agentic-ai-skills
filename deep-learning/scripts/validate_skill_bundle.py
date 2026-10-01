@@ -80,6 +80,10 @@ REQUIRED_PATHS = [
     "scripts/validate_skill_bundle.py",
     "tests/test_deep_learning_skill.py",
     "tests/test_assets_smoke.py",
+    "tests/prompts.md",
+    "tests/behavior_eval.py",
+    "tests/trigger_queries.json",
+    "tests/trigger_queries_holdout.json",
 ]
 
 REQUIRED_README_SECTIONS = [
