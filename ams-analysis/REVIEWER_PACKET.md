@@ -1,6 +1,6 @@
 # Physicist review packet: the ams-analysis evidence ledger
 
-Snapshot generated 2026-10-02 from `data/sources.json` (49 sources) and `data/claims.json` (106 claims) at the commit that adds this file. It is a reading aid, not part of the skill: it is not wired to the ledger and goes stale when the JSON changes (regenerate rather than edit). Nothing in the ledger has been changed for this packet.
+Snapshot generated 2026-10-02 from `data/sources.json` (49 sources) and `data/claims.json` (106 claims); **updated the same day with an addendum (end of file) for the 13 claims C107-C119 and the changed rows C03, S02 and S03 after the S02/S03 papers were read**. Parts 1-3 below predate that change except where marked. It is a reading aid, not part of the skill: it is not wired to the ledger and goes stale when the JSON changes (regenerate rather than edit). Nothing in the ledger has been changed for this packet.
 
 ## What is being asked, and how long it takes
 
@@ -46,14 +46,14 @@ C21, C23, C25, C28, C30, C51, C54, C55, C56, C59, C60, C61, C62, C63, C64, C65, 
 
 ### 7. Tiers and supersession
 - S26 (a theory paper pair on "tentative antihelium events") is stored as tier 5 with range [5, 6], and S28 (antideuteron: the only AMS-tagged INSPIRE hit is a 2008 conference paper; a 2013 JCAP paper on AMS-02/GAPS prospects is third party) as tier 3 with range [3, 6]. **Question:** the tier table has no class for a theory paper (tier 5 is "other experiments"); is 5 or 6 the better home for S26, and are S24/S25 (antihelium search items with no journal reference; their type, talk or thesis, was never established) correctly held at tier 3 and treated as preliminary? Also, S01 (the collaboration's own Physics Reports review) is tier 1 although tier 6 lists "reviews": is that right for a collaboration-authored review?
-- S02 (PRL 110, 141102, 2013) is marked superseded by S03 (a row grouping PRL 113, 121101, 121102 and 221102, 2014) in range and statistics, taken from the author's earlier note. **Question:** is "superseded" the right relation (rather than "extended by"), and is it right to treat the three 2014 PRLs as one row? Neither S02's body nor S03 was read (APS blocked access; S02 is abstract-level and S03 metadata-only).
+- S02 (PRL 110, 141102, 2013) is marked superseded by S03 (a row grouping PRL 113, 121101, 121102 and 221102, 2014) in range and statistics, taken from the author's earlier note. **Question:** is "superseded" the right relation (rather than "extended by"), and is it right to treat the three 2014 PRLs as one row? S02 and S03 were read at main-article level on 2026-10-02 (after this packet's first version; see the addendum), and S03's text itself describes its result as extending S02 to 500 GeV with 1.7 times the statistics and consistent with it.
 - The 11 tier-4 rows are statistics/method papers (Feldman-Cousins, Barlow-Beeston, Read CLs, TUnfold, pyhf, PDG, ...): **Question:** is "general method" the right label for how the skill uses them, and are any of them cited for something they do not say?
 
 ### 8. Things the ledger does not know (please say if any is wrong or important)
 - Supplemental tables (daily and per-rotation fluxes, S43-S47) were surveyed for layout only (C105, C106); no correlation across days or rotations and no trial-factor correction is tabulated in the text read. The skill marks both unknown rather than zero.
 - S16 and S20 are grouped navigation pointers (not cited for claims); individual PRLs are S41-S47.
 - Figure-only content (resolution curves, rejection curves, cross sections, limits) is not transcribed by design.
-- S02 and S03 full texts and the S41/S42 supplement figures were not read.
+- The complete tables and Supplemental Material of S02 and S03 and the S41/S42 supplement figures were not read (the S02 and S03 main articles were, see the addendum).
 
 ## Part 2. All claims
 
@@ -223,3 +223,28 @@ Full wording, location, scope and limitations of every claim: `references/source
 | S47 | 1 | full-text | 2025 | 2011-05 to 2022-11 | Solar Modulation of Cosmic Nuclei over a Solar Cycle: Results from th… (Main article (publisher PDF) and the Supplemental Material text were read with pdftotext () |
 | S48 | 2 | page | page fetched 2026-10-01 | - | AMS-02 Tracker Layer-0 Upgrade web page (Web-fetch summary of the page; no installation status or timeline on the page.) |
 | S49 | 6 | page | 2026-08-21 | - | Final tests for the AMS upgrade before spaceflight (CERN news) (Web-fetch summary; schedule dates are planned and may have slipped since 2026-08-21.) |
+
+## Addendum (2026-10-02): S02 and S03 read, claims C03 and C107-C119
+
+The publisher PDFs of PRL 110, 141102 (S02) and PRL 113, 121101, 121102 and 221102 (S03) were supplied by the user and read at main-article level. Changed: S02 and S03 `full-text` (main articles only), C03 `full-text` (was abstract+metadata, so call 2 and call 1 above no longer list it as abstract-level), 13 new claims below. Please review them the same way (verdict column), in particular: (a) whether each claim's numbers belong to the paper named (S03 groups three PRLs in one source row, so the claim text names the PRL), (b) the cutoff-energy comparison caveat between C109 (S02, 1/Es in GeV^-1 with a 760 GeV cutoff) and C113 (S03, 1/Es in TeV^-1), (c) whether the detector statements of C112 are quoted with their conditions.
+
+| ID | Src | Scope | Strength | Support | Num | Claim | Verdict |
+|---|---|---|---|---|---|---|---|
+| C03 | S02 | e+/e-; 0.5-350 GeV; 2011-05-19 to 2012-12-10 | full-text | primary | yes | Positron fraction measured 0.5-350 GeV on 6.8×10⁶ positron and electron events (the sample is 6.8×10⁶ primary positrons and electrons plus about 7×10⁵ protons, from the… |  |
+| C107 | S02 | e+/e-; 0.5-350 GeV; 2011-05-19 to 2012-12-10 | full-text | primary | yes | Positron fraction analysis, selection and fit (2013 first result): events are selected with a track in the TRD and in the tracker, a cluster of hits in the ECAL and a TO… |  |
+| C108 | S02 | e+/e-; 0.5-350 GeV (examples in 83.2-100 GeV); 2011-05-19 to 2012-12-… | full-text | primary | yes | Positron fraction systematics (2013 first result): the sources are asymmetric e+/e- acceptance, e± selection, bin-to-bin migration, reference spectra and charge confusio… |  |
+| C109 | S02 | e+/e-; fit range 1-350 GeV; 2011-05-19 to 2012-12-10 | full-text | primary | yes | Minimal-model fit of the positron fraction (2013 first result): the e+ and e- fluxes are modelled as the sum of a diffuse power law each plus a common source term with e… |  |
+| C110 | S02 | e+/e-; 0.5-350 GeV; 2011-05-19 to 2012-12-10 | full-text | primary | yes | Results of the 2013 first positron-fraction paper: below 10 GeV the positron fraction decreases with increasing energy, as expected from secondary production by collisio… |  |
+| C111 | S02 | e+/e-; 16-350 GeV; 2011-05-19 to 2012-12-10 | full-text | primary | yes | Dipole anisotropy of the positron-to-electron ratio (2013 first result): arrival directions of positrons and electrons give a sky map in galactic coordinates expanded in… |  |
+| C112 | S02 | e+/e-/proton; as stated per item; 2011-05-19 to 2012-12-10 (on-orbit… | full-text | primary | yes | Detector and calibration statements in the 2013 first positron-fraction paper: tracker coordinate resolution better than 10 micrometres in the bending direction, charge… |  |
+| C113 | S03 | e+/e-; 0.5-500 GeV; 2011-05-19 to 2013-11-26 | full-text | primary | yes | High-statistics positron fraction (PRL 113, 121101): 0.5-500 GeV from all data of the first 30 months (2011-05-19 to 2013-11-26), a factor 1.7 more statistics than the 2… |  |
+| C114 | S03 | e+/e-; 0.5-500 GeV; 2011-05-19 to 2013-11-26 | full-text | primary | yes | Method statements in the high-statistics positron-fraction paper (PRL 113, 121101): over 41×10⁹ events were analyzed; the selection follows the 2013 paper (TRD and track… |  |
+| C115 | S03 | e+/e-; 0.5-700 GeV (electrons), 0.5-500 GeV (positrons); 2011-05-19 t… | full-text | primary | yes | Electron and positron flux definition and exposure (PRL 113, 121102): Phi = N / (A_eff eps_trig T Delta E) with A_eff = A_geom eps_sel eps_id (1 + delta), A_geom about 5… |  |
+| C116 | S03 | e+/e-; 0.5-700 GeV (electrons), 0.5-500 GeV (positrons); 2011-05-19 t… | full-text | primary | yes | Template fit, charge confusion and systematics of the electron and positron fluxes (PRL 113, 121102): the negative-rigidity sample is pure electrons after the E/p and sh… |  |
+| C117 | S03 | e+/e-; 0.5-700 GeV (e-), 0.5-500 GeV (e+); 2011-05-19 to 2013-11-26 | full-text | primary | yes | Results of the electron and positron flux paper (PRL 113, 121102): the electron flux 0.5-700 GeV and the positron flux 0.5-500 GeV each need a description beyond a singl… |  |
+| C118 | S03 | e+ + e-; 0.5 GeV-1 TeV; 2011-05-19 to 2013-11-26 | full-text | primary | yes | Method of the combined (e+ + e-) flux (PRL 113, 221102): over 41×10⁹ events (2011-05-19 to 2013-11-26) give 10.6×10⁶ (e+ + e-) events in 74 energy bins from 0.5 GeV to 1… |  |
+| C119 | S03 | e+ + e-; 0.5 GeV-1 TeV (power law from 30.2 GeV); 2011-05-19 to 2013-… | full-text | primary | yes | Result of the combined (e+ + e-) flux (PRL 113, 221102): the flux is smooth and shows no structures from 10 GeV to 1 TeV; it cannot be described by a single power law ov… |  |
+
+Source S02: level `full-text`, published 2013-04-03, data 2011-05-19 to 2012-12-10; Main article read; the complete positron-fraction table and other supplementary material (its Ref. [13]) were not available, so only the representative bins of Table I exist in the text and none were transcribed; figures were not interpreted.
+
+Source S03: level `full-text`, published 2014-09-18, data 2011-05-19 to 2013-11-26; Main articles only; the full tables of the positron fraction, fluxes and the Supplemental Material were not read or transcribed; figures were not interpreted. The three PRLs share one ledger row, so cite the claim (C113-C119), which names the paper.
