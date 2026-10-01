@@ -63,7 +63,10 @@
   "query": "review my diff before I open the PR",
   "expect_target": true,
   "owner": "agile-development",
-  "set": "prompts.md"
+  "set": "prompts.md",
+  "also_ok": [
+   "code-review"
+  ]
  },
  {
   "query": "add a dark-mode toggle to the settings page",

@@ -53,7 +53,10 @@
  {
   "query": "can you look over this PR before I merge it",
   "expect_target": true,
-  "owner": "agile-development"
+  "owner": "agile-development",
+  "also_ok": [
+   "code-review"
+  ]
  },
  {
   "query": "should sessions live in Redis or Postgres?",

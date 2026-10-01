@@ -14,7 +14,9 @@ The examples follow the
 two-space indentation, `lower_snake_case` for function and variable names,
 `UPPER_SNAKE_CASE` for constants and exported environment variables, `[[ ]]`
 over `[ ]`, `$(...)` over backticks, and `local` for every function-scoped
-variable. Bash has no classes, RAII, or exceptions, so this guide reframes
+variable. One deliberate exception: the shebang is `#!/usr/bin/env bash`, not
+Google's `#!/bin/bash`, so that a newer Bash on `PATH` runs the Bash 4+ examples
+(`/bin/bash` on macOS is 3.2). Bash has no classes, RAII, or exceptions, so this guide reframes
 those C++/Python concepts around what Bash actually offers: functions,
 variables, arrays, subshells, traps, and exit status. See the
 [C++](cpp-balanced-design-guidelines.md) and
@@ -118,7 +120,7 @@ or a Python `@dataclass`.
 Prefer this:
 
 ```bash
-local -A point=(
+declare -A point=(
   [x]=3
   [y]=4
 )
@@ -156,7 +158,7 @@ Use an associative array (or a `declare -A` returned via a nameref) when:
 Example:
 
 ```bash
-local -A opts=(
+declare -A opts=(
   [verbose]=0
   [output]="/tmp/report.txt"
 )
@@ -232,12 +234,12 @@ Counter_increment my_counter
 echo "$(Counter_get my_counter)"
 ```
 
-Prefer a plain variable and functions that operate on it directly, or an
-associative array passed by name when several related pieces of state must
-travel together:
+Prefer a plain variable, passed to functions as an argument and returned on
+stdout, or an associative array passed by name when several related pieces of
+state must travel together:
 
 ```bash
-local counter=0
+counter=0
 counter=$((counter + 1))
 echo "${counter}"
 ```
@@ -579,7 +581,7 @@ set_channel() {
   # Check the format before any arithmetic: `(( ))` treats a non-number as a
   # variable name (so "abc" becomes 0 and passes) and expands `$(...)` inside
   # array subscripts, which runs commands from untrusted input.
-  if [[ ! "${value}" =~ ^[0-9]+$ ]] || (( 10#${value} > 255 )); then
+  if [[ ! "${value}" =~ ^[0-9]{1,3}$ ]] || (( 10#${value} > 255 )); then
     echo "channel out of range: ${value}" >&2
     return 1
   fi
@@ -589,7 +591,9 @@ set_channel() {
 ```
 
 Validate the format of any external value with `[[ =~ ]]` before it reaches
-`(( ))`, `$(( ))` or `let`.
+`(( ))`, `$(( ))` or `let`, and limit its length: Bash arithmetic wraps on 64-bit
+overflow, so a long digit string can pass a range check (`18446744073709551621`
+becomes 5).
 
 Quoting and `readonly` discipline together are what make a Bash script's
 data flow legible without a type checker.
@@ -808,7 +812,7 @@ process per line is often the actual performance problem:
 ```bash
 # Builtin substring, no fork per line.
 while IFS= read -r line; do
-  echo "${line#prefix-}"
+  printf '%s\n' "${line#prefix-}"
 done < "${file}"
 ```
 

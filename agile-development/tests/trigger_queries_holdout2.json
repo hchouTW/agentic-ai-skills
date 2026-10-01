@@ -36,7 +36,10 @@
   "query": "could you give my branch a once-over before I ask for review",
   "expect_target": true,
   "owner": "agile-development",
-  "set": "holdout2"
+  "set": "holdout2",
+  "also_ok": [
+   "code-review"
+  ]
  },
  {
   "query": "monolith or microservices for the new notifications feature?",
