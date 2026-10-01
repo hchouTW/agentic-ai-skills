@@ -81,6 +81,7 @@ REQUIRED_PATHS = [
     "tests/test_deep_learning_skill.py",
     "tests/test_assets_smoke.py",
     "tests/prompts.md",
+    "tests/prompts_fresh.md",
     "tests/behavior_eval.py",
     "tests/trigger_queries.json",
     "tests/trigger_queries_holdout.json",
