@@ -1,6 +1,6 @@
 # Validation Report
 
-Validation date: 2026-09-20 (latest pass: round 6, 2026-10-01). Environment: Python 3 standard library only.
+Validation date: 2026-09-20 (latest pass: round 7, 2026-10-01). Environment: Python 3 standard library only.
 
 ## Files
 
@@ -170,6 +170,14 @@ Remaining defects (all source discipline, none blocking): C06 not cited in eithe
 
 Fix made (one, narrow): `references/antimatter-and-leptons.md` now attaches C06 and its abstract-level scope to the S08 event counts. **Not re-run**: one sample per prompt cannot separate a fix from answerer/grader variance, and the fix is untested.
 Caveat: graders and answerers were fresh each round; 2 samples per prompt, so the total has a spread of roughly 1-2 points per answer.
+
+## Round 7: targeted rerun of the tests below 9 (2026-10-01)
+
+Setup as round 6 (one prompt per answerer, fresh Sonnet, two new samples C/D, three Opus graders), on T05, T08, T32, T33, T39, T40, T41 only. Results: `tests/grading/round7.md`; answers `round7_answers/`; grades `round7_grades/`.
+
+**Rerun total 126/140 = 90.0%, no blocking failure** (round 6, same tests: 118/140). T08 rose from 8, 8 to 10, 10 (C06 now cited with scope). Full-suite estimate: 292/320 = 91.25% if the rerun scores replace round 6 for these tests (optimistic, selection bias), 288/320 = 90.0% if all four samples per test are pooled. Neither is a full-suite rerun, so **no clean pass is claimed**.
+
+Remaining defects (non-blocking): T41 misses C39/C89 (S42 abstract, 830 +- 30 d) in both samples and T41_C contradicts the ledger on S42; T33 gives the principle but not the C24 data-taking dates; T39 attributes "consistent" to C80 (it says "complements" C29); T40_D arithmetic slip (3.5% should be 1.75%). No reference was changed in this round.
 
 ## Unresolved gaps and limitations
 

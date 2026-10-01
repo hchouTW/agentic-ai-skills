@@ -1,18 +1,17 @@
 # ams-analysis: open work for the next session
 
-State (verified 2026-10-01 on branch `ams-analysis-grading-round6`, uncommitted; round 5 merged via PR #20): `python3 scripts/validate_skill_bundle.py` OK with 38 files; `python3 -m unittest discover -s tests` 238 tests OK; `python3 scripts/render_source_index.py` in sync. Latest behavioral result: grading round 6 scored **88.75% (284/320), still below the 90% bar by 4 points, no blocking failure** (`tests/grading/round6.md`; round 5 was 81.6%). Read `VALIDATION.md` first: it records what was run, what was self-graded versus independently graded, and every known gap. Do not repeat finished work; do not claim a check passed without running it.
+State (verified 2026-10-01 on branch `ams-analysis-grading-round6`, uncommitted; round 5 merged via PR #20): `python3 scripts/validate_skill_bundle.py` OK with 38 files; `python3 -m unittest discover -s tests` 238 tests OK; `python3 scripts/render_source_index.py` in sync. Latest behavioral results: round 6 scored **88.75% (284/320)** (`tests/grading/round6.md`; round 5 was 81.6%); round 7, a targeted rerun of the 7 weakest tests, scored 126/140 = 90.0% (`tests/grading/round7.md`), estimating the full suite at 90.0-91.25% (not a full-suite run). No blocking failure in either. Read `VALIDATION.md` first: it records what was run, what was self-graded versus independently graded, and every known gap. Do not repeat finished work; do not claim a check passed without running it.
 
 Ground rules: standard library only for scripts; every AMS-specific number needs a scoped claim in `data/claims.json` (edit the JSON, run `scripts/validate_evidence_ledger.py`, then `scripts/render_source_index.py --write`); never promote a claim's `verification_strength` or a source's `verification_level` without reading the source at that level; label statements [Documented] / [General method] / [Proposal] / [Unknown/needs input]. For grading, answerers and grader must be different models.
 
-## 1. Grading round 7 (next)
+## 1. Narrow fixes, then one full-suite rerun (next)
 
-- [ ] Close the last 4 points to the 90% bar. Round 6 (one prompt per answerer, 2 samples, Opus graders) scored 284/320. Remaining defects are source discipline, none blocking:
-  - C06 not cited in T08 (fix applied in `antimatter-and-leptons`, untested);
-  - T05 cutoff-scan/quadrature practice cited to C31 instead of C23/C27/C49/C60 and C23/C25/C33;
-  - T33 misses the data-taking period for alternatives (C24) and the verification level of S04/S01/S46;
-  - T37_A unsourced significance ratio; overreach under [Documented] tags in T23 and T32_B;
-  - T08: both samples read "negative-sign tracks" as "TRD gives the sign" (grader: answerer misreading, not a reference defect).
-- Procedure: rerun only the tests below 9 (T05, T08, T32, T33, T39-T41) with the same setup, 2+ samples each. One sample cannot separate a fix from variance, so compare against the round-6 spread of 1-2 points per answer. Fix only the narrowest responsible reference; no global rules for isolated style issues.
+- [ ] Round 7 (targeted rerun of the 7 tests below 9) scored 126/140 = 90.0%; folded into round 6 the suite is 288-292/320 (90.0-91.25%), but it is not a full-suite run, so the 90% bar is not yet cleanly met (`tests/grading/round7.md`). Remaining defects, none blocking, no reference changed in round 7:
+  - T41 (both samples) misses C39/C89 (S42 abstract, 830 +- 30 d); T41_C contradicts the ledger on S42. This is the third round with the C39/C89/S42 pattern, so it deserves a narrow fix in `time-dependent-analysis`;
+  - T33: principle stated without the C24 data-taking dates;
+  - T39: C80 over-attributed ("consistent" versus "complements" C29);
+  - T40_D arithmetic slip (3.5% should be 1.75%); T05 citation compression onto neighbouring claims.
+- Procedure: make the narrowest fix for the T41 C39/C89 and T39 C80 pattern, then run a full 16-prompt, 2-sample suite (one prompt per answerer, Opus graders) to confirm the bar. Record in `tests/grading/round8.md` and `VALIDATION.md`.
 
 ## 2. Evidence gaps
 
