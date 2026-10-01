@@ -43,6 +43,22 @@ class FrontmatterAndLinks(unittest.TestCase):
             md.write_text("[ok](ok.md) [bad](missing.md#s) [web](https://e.com/x)")
             self.assertEqual(bundle.broken_links(md), ["missing.md"])
 
+    def test_description_within_limit(self):
+        fm = bundle.frontmatter_fields((ROOT / "SKILL.md").read_text(encoding="utf-8"))
+        self.assertLessEqual(len(fm["description"].strip('"')), bundle.DESCRIPTION_LIMIT)
+
+    def test_validator_flags_long_description(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d) / "academic-diagrams"
+            shutil.copytree(ROOT, root, ignore=shutil.ignore_patterns("__pycache__"))
+            skill = root / "SKILL.md"
+            text = skill.read_text(encoding="utf-8")
+            skill.write_text(text.replace('description: "', 'description: "' + "x" * 200, 1), encoding="utf-8")
+            result = subprocess.run([sys.executable, str(root / "scripts" / "validate_skill_bundle.py")],
+                                    capture_output=True, text=True)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("limit is 1024", result.stdout)
+
     def test_skill_name_matches_folder(self):
         fm = bundle.frontmatter_fields((ROOT / "SKILL.md").read_text(encoding="utf-8"))
         self.assertEqual(fm["name"], ROOT.name)

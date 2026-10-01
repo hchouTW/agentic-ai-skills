@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (academic-diagrams)
 
-State (verified 2026-09-28 on `main`, all work merged; skill via PR #5, tooling follow-ups via PR #22): `python3 scripts/validate_skill_bundle.py` OK (28 files); `python3 -m unittest discover -s tests` 25 tests OK. 2 tests skip when `mmdc` or `plantuml` is not on PATH. P1-P4 are done. Open: the description (over the length limit, and it under-triggers) and more behavioral samples. Read `VALIDATION.md` "Not verified" first, then this file.
+State (2026-10-01, round 2 on branch `academic-diagrams-todo-round2`; skill via PR #5, tooling follow-ups via PR #22): `python3 scripts/validate_skill_bundle.py` OK (28 files); `python3 -m unittest discover -s tests` 27 tests OK. 2 tests skip when `mmdc` or `plantuml` is not on PATH. P1-P4 are done. Open: under-triggering on Haiku and a few Sonnet query types, and more behavioral samples. Read `VALIDATION.md` "Not verified" first, then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -21,14 +21,8 @@ User decision (2026-09-25): no "24 examples across 8 archetypes" set for this sk
 
 ## Open
 
-- [ ] **Description over the length limit.** The frontmatter `description` is 1180 characters; the limit is 1024, and siblings keep under it (hep-analysis 1019, academic-papers 1014). It dates from the initial build (2026-09-21), and `scripts/validate_skill_bundle.py` does not check the length. Fix this together with the item below.
-  - Add a length check to the validator, with a test.
-  - `task-authoring` has the same problem (1274 characters). Tell its TODO.
-- [ ] **Under-triggering** found by the isolated routing eval (2026-09-26). Setup: `hep-analysis/tests/routing_eval.py` on `hep-analysis/tests/trigger_queries_holdout.json`, all 7 repo skills loaded as project skills, 2 runs per query. "none" means the model answered without invoking any skill.
-  - "Turn this Mermaid sequence diagram into a publication-quality SVG": 0/2 Haiku, 0/2 Sonnet (none every time).
-  - "Make a TikZ schematic of a layered detector cross-section for my paper": 0/2 Haiku (none once, built-in `dataviz` once), 2/2 Sonnet.
-
-  To fix, name Mermaid-to-SVG conversion and "schematic" in the shortened description, then write this skill's own trigger sets. Follow the siblings' pattern: `tests/trigger_queries.json` for tuning and a held-out set that is never tuned on. Rerun with the harness on Haiku and Sonnet, and run the sibling validators and tests after the change.
+- [x] **Description length (2026-10-01):** now 1014 characters; the validator enforces the 1024 limit (test added). `task-authoring` still has the problem (1274); its TODO is updated.
+- [ ] **Under-triggering, round 2 (2026-10-01):** the description now names Mermaid-to-SVG and "schematic", and this skill has its own trigger sets (`tests/trigger_queries.json` for tuning, `tests/trigger_queries_holdout.json` kept for a final check). Measured: Sonnet 22/24 tuning and 14/20 holdout, Haiku 5/24 and 5/20, 0 false triggers. Both queries from the first eval now route on Sonnet; on Haiku the Mermaid-to-SVG query still goes to the built-in `dataviz`. Remaining Sonnet misses: causal-DAG review, PlantUML-to-PDF conversion, distributed-training data flow. If it matters, name "review/convert an existing diagram" and PlantUML in the description (watch the 1024 limit; there is little room), then rerun both sets on Haiku and Sonnet and the sibling validators. Haiku may be capped by the harness the way it is for the siblings.
 - [ ] **Behavioral samples.** The prompt run has only one sample per prompt per model: Sonnet on 10 prompts, Haiku on 4, Opus not run. It shows the skill can be followed, not how often it succeeds. Haiku showed weaker scientific judgment: plate notation, causal identification, invented details. Siblings now have scripted `claude -p` runners with blind graders (`academic-papers/tests/run_prompts.py`, `agile-development/tests/behavior_eval.py`). Port one to run the 10 prompts, at least 2 samples each, on Haiku and Opus.
 
 Not verified (only if a user need arises):

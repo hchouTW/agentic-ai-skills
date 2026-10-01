@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-21 (follow-ups 2026-09-25). Helper test environment: Python 3, standard library only; Graphviz `dot` present, no LaTeX (Mermaid CLI available through npx).
+Validation date: 2026-09-21 (follow-ups 2026-09-25, round 2 on 2026-10-01). Helper test environment: Python 3, standard library only; Graphviz `dot` present, no LaTeX (Mermaid CLI available through npx).
 
 ## Initial build (2026-09-21)
 
@@ -127,6 +127,20 @@ Tools installed into a throwaway scratch directory only: OpenJDK + PlantUML 1.20
   text width is centered" was a misreading of `\bottomfraction{.6}` and was removed. Figure rules from the JHEP author manual (raster
   150-250 dpi, embedded fonts, no transparency layers, "figure 2" not "fig. 2") added. None of the three sets a minimum font size for
   text inside figures; that is now said explicitly.
+
+## Round 2: description length and triggering (2026-10-01)
+
+- The frontmatter description was 1180 characters (limit 1024). It is now 1014: it names conversion of Mermaid/DOT/PlantUML to SVG, PDF or TikZ and "schematic", and drops the long species lists. `scripts/validate_skill_bundle.py` now fails a description over 1024 characters (quotes stripped before counting); 2 new tests (the real bundle is within the limit; a copy with a padded description makes the validator exit 1). Suite: 27 tests OK, 2 skipped (no `mmdc`/`plantuml`). Sibling validators and tests all pass (academic-papers 48, agile-development 44, ams-analysis 366, deep-learning 114 with 3 skipped, hep-analysis 205 with 12 skipped, task-authoring 78).
+- New trigger sets: `tests/trigger_queries.json` (tuning: 12 target queries, 10 sibling or generic negatives) and `tests/trigger_queries_holdout.json` (written separately: 10 target, 8 negatives). Harness: `hep-analysis/tests/routing_eval.py --target academic-diagrams`, all 7 repo skills, bare query, 2 runs per query. Shown as recall over target runs; 0 false triggers in every run; routing to the expected owner overall was 34/44 and 25/36 runs on Sonnet and 12/44 and 9/36 on Haiku (positives and negatives together).
+
+| Model | Tuning recall | Holdout recall |
+|---|---|---|
+| Sonnet | 22/24 | 14/20 |
+| Haiku | 5/24 | 5/20 |
+
+- The two queries from the earlier eval: "Mermaid sequence diagram into a publication-quality SVG" 2/2 on Sonnet (was 0/2), still 0/2 on Haiku (the built-in `dataviz` skill loads both times); "TikZ schematic of a layered detector cross-section" 2/2 on both models (Haiku was 0/2).
+- Sonnet misses: "review this causal DAG" (no skill, 2/2), "convert my PlantUML component diagram to a clean PDF" (none, 2/2), "draw the data flow of our distributed training setup" (none, 2/2), and single misses on an agentic block diagram and a likelihood-fit-region review. Haiku mostly loads no skill, or `dataviz`, for architecture-figure and graphical-model queries, and never loaded one for the DAG review, DOT conversion, setup schematic, slide simplification, unfolding workflow, calorimeter TikZ, PlantUML-to-PDF or fit-region review queries. The same Haiku pattern is in the sibling skills (it often calls no skill in this harness).
+- No description tuning was done after these runs, so the holdout is still clean for one more change. Early queries were chosen by the author of the description, so the tuning set is not independent evidence.
 
 ## Not verified
 

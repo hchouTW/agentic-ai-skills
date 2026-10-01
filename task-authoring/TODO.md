@@ -23,7 +23,7 @@ Sibling tooling to reuse instead of hand-run subagents:
 
 ## P1 - description and behavior
 
-- [ ] **The description is over the length limit:** 1274 characters, where the limit is 1024; the TODO's earlier "~1170" was wrong. `academic-diagrams` has the same problem at 1180. `scripts/validate_skill_bundle.py` does not check the length. Shorten the description first; how much depends on the archetype decision above. Add a length check with a test, then run the trigger sets below.
+- [ ] **The description is over the length limit:** 1274 characters, where the limit is 1024; the TODO's earlier "~1170" was wrong. `academic-diagrams` had the same problem at 1180 and was fixed on 2026-10-01 (1014 characters; its validator now enforces the limit, a pattern to copy here). `scripts/validate_skill_bundle.py` does not check the length. Shorten the description first; how much depends on the archetype decision above. Add a length check with a test, then run the trigger sets below.
 - [ ] Write 12-15 realistic prompts in `tests/prompts.md`, each with Must and Must-not lists (which reference is read, which rule fires). Cover:
   - a bare one-line feature request;
   - a bug report pasted verbatim;
