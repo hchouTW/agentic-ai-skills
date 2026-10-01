@@ -192,6 +192,12 @@ Same runner and prompts as Round 3 (D01-D10, blind Opus grader, no SKILL.md or d
 
 Not rerun: Opus, Haiku. Possible next step: a SKILL.md or Mermaid-reference line on `$$...$$` math in Mermaid labels, if D06 stays PARTIAL on a larger sample.
 
+**D06 recheck (2026-10-02).** Skill arm, D06 only, same SKILL.md as the follow-up edits: Sonnet 20 samples 17 PASS, 3 PARTIAL, 0 FAIL; Opus 10 samples 10 PASS. All 3 Sonnet PARTIALs fail the same item, valid source without unsupported label syntax (Mermaid math); none lacked a stopping criterion. So the 3/4 PARTIAL above was mostly sampling noise; the residual is about 15% (3/20, so roughly 5-35% at 95%) for Sonnet on Mermaid math labels. Not tuned. Haiku not run.
+
+**Mermaid math rule (2026-10-02).** Added to SKILL.md "Publication Standards" and `references/mermaid-patterns.md`: single-`$` math does not render in Mermaid; use `$$...$$` or plain Unicode. D06, Sonnet, 20 more samples: 18 PASS, 2 PARTIAL (was 17/20). Neither remaining PARTIAL is about Mermaid math: both use TikZ `rounded rectangle` without `shapes.misc`. So the Mermaid-math slip no longer appears (0 of 20, was 3 of 20), but the pass count is not clearly better; the effect is not shown, only the failure mode is gone. Regression, all prompts, 3 Sonnet samples each: 29 PASS, 1 PARTIAL (D03: the text says dashed means fit output while the DOT draws CR to L dashed; a text/source mismatch, unrelated).
+
+**Haiku run (skill arm, D01-D10, 4 samples each, after all SKILL.md edits).** 23 PASS, 13 PARTIAL, 4 FAIL of 40 (57% PASS; Round 3 after its edit was 13/20 = 65% PASS, 2 FAIL). Not distinguishable at these sizes. FAILs: D05 x2 (adds a direct S->C edge in the notes or caption, and wrong identification remarks: the same invented-detail slip as before), D02 (names Geant4 and detector parts as facts), D09 (labels a pre-norm layer "post-norm" in the caption). Haiku still does not read references, so the new Mermaid line lives in SKILL.md. No tuning for Haiku, per the standing decision.
+
 ## Not verified
 
 - The `subcaption` `figure*` snippet and `dvisvgm` export were not run.
