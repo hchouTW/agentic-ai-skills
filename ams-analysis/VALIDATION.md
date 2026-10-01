@@ -185,7 +185,7 @@ Same procedure as round 6 (16 prompts, 32 fresh Sonnet answerers, one prompt eac
 
 ## Unresolved gaps and limitations
 
-- Supplemental Material of all papers, S02 and all metadata-only rows remain unread; the Phys. Rept. review (S01) chapters 1-16 are read (claims C63-C100), but not its introduction, summary, or the separate papers behind each chapter; per-cut definitions, tables, and the BDT charge-confusion input lists beyond what the main articles state are not in the skill.
+- Supplemental Material of all papers, S02 and all metadata-only rows remain unread; the Phys. Rept. review (S01) chapters 1-16, the introduction and the summary are read (claims C63-C100, C103-C104), but not the separate papers behind each chapter; per-cut definitions, tables, and the BDT charge-confusion input lists beyond what the main articles state are not in the skill.
 - The ledger corrections after round 2 were not re-graded.
 - Round-3 evaluations of T29-T34 are single-sample and self-graded; see the table above.
 - The independent grader is a model; a human expert review of the physics and of the AMS-practice paragraphs is still advisable.
