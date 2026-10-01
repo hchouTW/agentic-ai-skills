@@ -156,10 +156,12 @@ def cmd_run(args):
     def one(job):
         p, arm, r = job
         body = FRAME.format(prompt=p["prompt"])
-        if arm == "skill":
+        if arm == "skill" and not args.natural:
             body = SKILL_PREFIX + body
-        res = claude(body, args.model, dirs[arm], ["Read", "Glob", "Grep"], args.timeout)
-        rec = {"id": p["id"], "arm": arm, "run": r, "model": args.model, **res}
+        tools = ["Read", "Glob", "Grep"] + (["Skill"] if args.natural else [])
+        res = claude(body, args.model, dirs[arm], tools, args.timeout)
+        rec = {"id": p["id"], "arm": arm, "run": r, "model": args.model,
+               "natural": args.natural, **res}
         (out / f"{p['id']}_{arm}_{r}.json").write_text(json.dumps(rec, indent=1))
         return rec
 
@@ -287,6 +289,9 @@ def main():
     r.add_argument("--arms", nargs="*", choices=ARMS)
     r.add_argument("-j", "--concurrency", type=int, default=6)
     r.add_argument("--timeout", type=int, default=600)
+    r.add_argument("--natural", action="store_true",
+                   help="skill arm without the 'read SKILL.md' instruction and with the Skill tool "
+                        "allowed, so the model decides whether to load the skill (tests the description)")
     r.add_argument("--out", required=True)
     s = sub.add_parser("score")
     s.add_argument("rundir")

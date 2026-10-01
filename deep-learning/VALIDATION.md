@@ -926,6 +926,41 @@ isolated child with the 7 repo skills, no fixture repository.
   behavior rules in `SKILL.md` were not re-run. Cost: about $1.1 + $1.0 tuning, $0.7 + $0.7 holdout,
   $0.7 + $0.9 sibling check.
 
+## Behavior with the new description: natural-invocation arm (2026-10-01)
+
+The forced-skill arm of `tests/behavior_eval.py` tells the child to read `SKILL.md`, so the description never
+comes into play there and a re-run would only re-measure noise. A `--natural` option was added: the skill is
+visible, the `Skill` tool is allowed, and nothing tells the model to load it. 2 natural runs per prompt on
+H1-H15 and on the fresh H101-H114, same plan-only frame and blind Sonnet scorer, scored against the existing
+baseline runs (2 and 3 per prompt). Skill version: the new description (PR #37) with the rules from #34.
+
+| Set | Model | Baseline | Natural | Forced-skill (earlier) | Natural runs that loaded the skill |
+|---|---|---|---|---|---|
+| H1-H15 | Haiku | 65.6% | 67.5% | 78.0% | 8/30 |
+| H1-H15 | Sonnet | 83.8% | 89.9% | 97.1% | 9/30 |
+| H101-H114 | Haiku | 61.1% | 68.6% | 80.1% | 8/28 |
+| H101-H114 | Sonnet | 84.0% | 92.2% | 95.2% | 8/28 |
+
+- Natural runs land between the baseline and the forced arm, because the model loads the skill in only about
+  30% of runs in this frame. Scores split by whether the skill loaded (a descriptive split, not causal: the
+  skill tends to load on the harder prompts): H1-H15 Haiku 76.6% loaded (n=8) vs 66.0% not (n=20); Sonnet 98.6%
+  (n=9) vs 86.1% (n=21); fresh Haiku 82.8% (n=8) vs 65.2% (n=20); Sonnet 95.8% (n=7) vs 90.1% (n=19). So
+  when the skill loads, behavior matches the forced arm, and when it does not, scores stay near baseline.
+- The ~30% load rate is much lower than the routing eval's 40/40 (Sonnet tuning) and 18/20 (holdout). The
+  routing eval gives the bare query; this harness wraps the prompt in a "planning exercise" frame ("Reply with
+  a Plan and a Message to user"), which seems to make the model plan from memory instead of loading a skill.
+  Real use is closer to the bare query, so the routing eval is the better trigger estimate and this arm is a
+  lower bound on how often the skill loads for advice-style prompts.
+- Which prompts load: Sonnet loaded on H1, H4, H5, H7 (jet tagger, calibration, leakage, memory) but never on
+  H2, H3, H6, H9, H11 and the out-of-scope prompts (H14/H15, H110/H111 never loaded, as intended); Haiku's
+  loads are scattered.
+- Out-of-scope prompts never loaded the skill under either model, so the natural arm shows no
+  out-of-scope ceremony (the H14/H15/H110 regressions of the forced arm do not occur in practice).
+- Caveats: 2 runs per prompt, so each prompt has 2 plans; the loaded/not-loaded split is small (n=7-9 loaded);
+  scorer blinding failed less here (Sonnet scorer guessed the arm 51/56 and 56/61, Haiku 33/56 and 48/70);
+  one scorer child; two scorer calls returned no JSON (H10 in the Haiku H1-H15 run and H105 in the Sonnet fresh run;
+  those prompts are excluded from the table and the split, plus one unscored Haiku fresh bullet); no Opus. Cost: about $3.6 for natural runs plus scorers.
+
 ## Limitations
 
 - **Superseded as of the 2026-09-09 pass:** the two earlier passes recorded that
