@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (academic-diagrams)
 
-State (verified 2026-10-02 on `main`, all work merged; skill via PR #5, tooling PR #22, rounds 2-6 via PR #57, #64-#69): `python3 scripts/validate_skill_bundle.py` OK (28 files); `python3 -m unittest discover -s tests` 28 tests OK. 2 tests skip when `mmdc` or `plantuml` is not on PATH. P1-P4 are done. Open: Haiku under-triggering (likely harness cap; the holdout set is spent) and Haiku invented-detail/judgment slips (known limitation: Round 5 SKILL.md attempt showed no effect and was reverted; Round 6 Haiku 48/100 PASS). Sonnet 100/100 and Opus 60/60 PASS on the runner (Round 6), so it no longer discriminates for them; new prompts (D11+) would be needed for further Sonnet/Opus checks. Read `VALIDATION.md` "Not verified" first, then this file.
+State (verified 2026-10-02 on branch `academic-diagrams-samples`; skill via PR #5, tooling PR #22, rounds 2-5 and export checks via PR #57, #64-#69 merged, round 6 in PR #70, open): `python3 scripts/validate_skill_bundle.py` OK (28 files); `python3 -m unittest discover -s tests` 28 tests OK. 2 tests skip when `mmdc` or `plantuml` is not on PATH. P1-P4 are done. Open: Haiku under-triggering (likely harness cap; the holdout set is spent) and Haiku invented-detail/judgment slips (known limitation: Round 5 SKILL.md attempt showed no effect and was reverted; Round 6 Haiku 48/100 PASS). Sonnet 100/100 and Opus 60/60 PASS on the runner (Round 6), so it no longer discriminates for them; new prompts (D11+) would be needed for further Sonnet/Opus checks. Read `VALIDATION.md` "Not verified" first, then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -12,7 +12,7 @@ User decision (2026-09-25): no "24 examples across 8 archetypes" set for this sk
 
 ## Environment and tooling (re-check, they may have changed)
 
-- Graphviz `dot` and `rsvg-convert` are present.
+- Graphviz `dot`, `rsvg-convert`, poppler (`pdftoppm`, `pdftocairo`), Homebrew `dvisvgm` 3.6.1 and `mupdf-tools` (`mutool`, needed by `dvisvgm --pdf`; Ghostscript 10.08 is too new) are present. Headless Google Chrome (`--headless=new --screenshot`) works for checking SVGs; the Claude-in-Chrome extension was not connected on 2026-10-02.
 - Mermaid CLI works through `npx` but is not always on PATH as `mmdc`.
 - `tectonic` (XeTeX, miniconda) is the only system TeX engine.
 - LuaLaTeX and PlantUML (with Java) are not installed system-wide; `java` is a stub. On 2026-09-25 they were installed into a throwaway scratch conda env plus a minimal `install-tl` (LuaLaTeX needs `LANG=en_US.UTF-8`).
@@ -26,9 +26,11 @@ User decision (2026-09-25): no "24 examples across 8 archetypes" set for this sk
 - [x] **Behavioral samples (2026-10-01):** `tests/prompts.md` (D01-D10) and `tests/run_prompts.py` (blind Opus grader, skill vs baseline). Opus skill arm 19/20 PASS (baseline 11/20); Haiku skill arm 7/20 PASS before and 13/20 after four lines added to SKILL.md "Output Style". Round 4 (2026-10-02): Sonnet 6 samples per cell skill 51/60 PASS (0 FAIL) vs baseline 23/60; Opus 4 more skill samples 37/40 PASS. Fixed in Round 4: **D08** control flow was omitted (Sonnet 4/6 PARTIAL); one line added to SKILL.md Output Style, now 6/6 PASS. **D02** rubric changed (the skill refuses to invent a reconstruction stage), 5/6 PASS. Closed: **D06** Mermaid math. Round 6 (2026-10-02): Sonnet 100/100, Opus 60/60, Haiku 48/100 PASS (10 samples per cell). Open: Haiku still invents details (D01, D05, D07, D09) and misses D08's control-flow rule; answers are never rendered here.
 
 Not verified (only if a user need arises):
-- APS full-width (`figure*`): REVTeX two-column `\textwidth` is 17.92 cm (measured 2026-10-02), so 17.8 cm fits. APS's own author-guideline figure widths were not checked online.
-- `dvisvgm --pdf` works with `mutool` (verified 2026-10-02 on a small figure; Homebrew `dvisvgm` 3.6.1 and `mupdf-tools`). Its `.xdv` route is broken with Tectonic output. Math labels and font-heavy text were tried 2026-10-02: use `--no-fonts` (or `pdftocairo -svg`); the `woff2` SVG, Mermaid `$$` labels and Graphviz HTML labels were checked 2026-10-02 (Round 6). The `subcaption` `figure*` snippet, `pdftoppm`, `pdftocairo -svg` and the TikZ standalone compile were also run.
+- APS's own author-guideline figure widths were not checked online (REVTeX two-column `\textwidth` is 17.92 cm, measured, so the 17.8 cm default fits).
 - The PlantUML component diagram's layout was inspected only with Homebrew Graphviz.
+- Only small figures were exported to SVG/PNG/PDF; large multi-panel figures were not.
+
+Export findings to keep (all 2026-10-02, details in `VALIDATION.md`): `dvisvgm` on Tectonic's `.xdv` is broken; use `dvisvgm --pdf --no-fonts` or `pdftocairo -svg`; plain `dvisvgm --pdf` breaks math fonts outside a viewer with Computer Modern; `woff2` SVGs render right in Chrome; Mermaid needs `$$...$$` for math; Graphviz edge labels need `fontname`.
 
 ## Done (do not redo; details in `VALIDATION.md`)
 
