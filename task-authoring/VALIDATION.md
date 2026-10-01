@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-12. Helper test environment: Python 3, standard library only.
+Validation date: 2026-09-12 (latest pass: round 2, 2026-10-01). Helper test environment: Python 3, standard library only.
 
 ## Initial build (2026-09-12)
 
@@ -203,6 +203,15 @@ Considered and left unchanged:
 Re-ran `python3 scripts/validate_skill_bundle.py` (25 files, template
 contract intact) and `python3 -m unittest discover -s tests -v` (78 tests)
 after every edit in this section: both pass throughout.
+
+## Round 2: description length, examples drift (2026-10-01)
+
+- The frontmatter description was 1274 characters (limit 1024); it is now 1017. The archetype names were folded into "eight archetypes, e.g. Contrast, Test-First, Postmortem", the supported-agent list and the prompt-design list were shortened, and the Background/Objective/... list became "Background, Scope, Repository Context and Acceptance Criteria". `scripts/validate_skill_bundle.py` now fails a description over 1024 characters (`DESCRIPTION_LIMIT`). The archetype-tooling question in `TODO.md` is still unanswered, so all three jobs stay in the description.
+- 3 new tests: the shipped description is within the limit; a scratch copy of the bundle with a padded description makes the validator exit 1; every `examples/*-task.md` passes `check_template_sections` (it did when checked by hand on 2026-09-28; no test covered it). Suite: 81 tests OK (78 before); bundle validator OK (25 files).
+- Example drift, checked against the repository on 2026-10-01: seven skills now have a `validate_skill_bundle.py` (the feature example says five); `academic-papers/examples/` no longer exists (bug example); the `cpp-balanced-design-guidelines.md` duplication was resolved on 2026-09-15 (research example); `hep-analysis/references/40-ams02-case-study.md` is now `38-ams02-case-study.md` and `hep-analysis/examples/` is gone (AMS example); the CMS example's environment statements are dated. A path check over the six examples found no other missing path except the files the performance and AMS examples propose to create. Fixes: the AMS example's reference number and its `examples/` question were corrected, and the other four files carry a dated "Snapshot note" under the title. The feature example's per-skill Repository Context and its "five" were not rewritten.
+- `examples/README.md`: "Four" corrected to six, the unshipped `AI_Agent_Agnostic_Task_Authoring_Workflow.md` citation reworded as provenance, the table rows note what changed.
+- Logged here for the first time: `skill-router` was removed (4e687d7, 2026-09-23, PR #18) and the examples that used it as their subject were rewritten (5953c63, 2026-09-23).
+- Not done in this round: behavior and trigger testing, the archetype-tooling decision, the stale-premise rewrite of the feature example, and the currency check of the prompt-engineering reference.
 
 ## Limitations
 

@@ -1,5 +1,7 @@
 # Fix `academic-papers`' Bundle Validator Silently Skipping `examples/` Paths
 
+> Snapshot note (2026-10-01): written against the repository on 2026-09-12. `academic-papers/examples/` (25 files) was removed on 2026-09-25, so the scenario below no longer reproduces in that skill; the example still shows how a bug task states reproduction, expected versus actual behavior and its Open Questions.
+
 ## Background
 
 `academic-papers/scripts/validate_skill_bundle.py` scans `SKILL.md` for

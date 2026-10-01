@@ -1,22 +1,24 @@
-# task-authoring Examples
-
-Four worked Task Markdown outputs, one per category named in
-`AI_Agent_Agnostic_Task_Authoring_Workflow.md`, each following
+Six worked Task Markdown outputs, one per category (feature, bug, performance,
+research) from the original authoring workflow this skill was built from, plus two
+`hep-analysis` requests. Each follows
 [../templates/task-template.md](../templates/task-template.md) exactly and
-each demonstrating the Confirmed / Inferred / Unresolved distinction from
+each demonstrates the Confirmed / Inferred / Unresolved distinction from
 `SKILL.md`'s Core Workflow with a non-trivial Open Questions section - none
-of them mark an unknown as resolved just to look complete.
+of them mark an unknown as resolved just to look complete. `tests/` checks that
+every `*-task.md` here carries the 12 required sections in order.
 
-All four target this repository (`agentic-ai-skills`) itself as the
-inspected repository, so every Repository Context claim in them is a real,
-verified fact about this repository rather than an invented one.
+All six target this repository (`agentic-ai-skills`) itself as the inspected
+repository, so every Repository Context claim was a real, verified fact about it
+when written (September 2026) rather than an invented one. The
+repository has changed since: each file that went stale carries a dated
+"Snapshot note" under its title saying what changed.
 
 | Example | Category | Scenario | Open Questions highlight |
 |---|---|---|---|
-| [feature-task.md](feature-task.md) | Feature | Adding a `--format json` output mode to every skill's `validate_skill_bundle.py` | Whether the JSON shape should be factored into one shared module instead of duplicated five times, and whether there's a concrete consumer for it yet |
-| [bug-task.md](bug-task.md) | Bug | `academic-papers`' bundle validator only checks `references/`, `scripts/`, and `assets/` paths, so a broken `examples/` reference in `SKILL.md` passes silently | Whether `examples/` should be checked or documented as deliberately excluded, and whether the orphan check should cover it too |
+| [feature-task.md](feature-task.md) | Feature | Adding a `--format json` output mode to every skill's `validate_skill_bundle.py` | Whether the JSON shape should be factored into one shared module instead of duplicated five times (seven skills have one now), and whether there's a concrete consumer for it yet |
+| [bug-task.md](bug-task.md) | Bug | `academic-papers`' bundle validator only checks `references/`, `scripts/`, and `assets/` paths, so a broken `examples/` reference in `SKILL.md` passes silently (that directory was removed on 2026-09-25) | Whether `examples/` should be checked or documented as deliberately excluded, and whether the orphan check should cover it too |
 | [performance-task.md](performance-task.md) | Performance | "Create a task for RICH reconstruction performance analysis" - the authoring reference's own worked example, run against this repository | This repository has no RICH reconstruction code, dataset, or baseline at all - nearly every implementation detail is marked Unresolved rather than invented |
-| [research-task.md](research-task.md) | Research | Investigating whether `cpp-balanced-design-guidelines.md`'s confirmed byte-identical duplication across two skills should be deduplicated | Whether any other duplicated reference file exists beyond the one already found, and whether a fix may break the single-folder `cp -r` installation model |
+| [research-task.md](research-task.md) | Research | Investigating whether `cpp-balanced-design-guidelines.md`'s confirmed byte-identical duplication across two skills should be deduplicated (resolved on 2026-09-15; one copy remains) | Whether any other duplicated reference file exists beyond the one already found, and whether a fix may break the single-folder `cp -r` installation model |
 
 Two further examples target `hep-analysis` domain requests specifically -
 still Task Markdown outputs against this same repository, but chosen to

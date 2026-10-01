@@ -1,5 +1,7 @@
 # Investigate Whether Shared Reference Files Should Be Deduplicated Across Skills
 
+> Snapshot note (2026-10-01): written against the repository on 2026-09-12. The duplication investigated here was resolved on 2026-09-15: only `agile-development/references/cpp-balanced-design-guidelines.md` keeps the file and `deep-learning` links to it, so the byte-identical premise no longer holds. The example still shows how a research task frames an inventory, mechanism comparison and recommendation.
+
 ## Background
 
 `agile-development/references/cpp-balanced-design-guidelines.md` and

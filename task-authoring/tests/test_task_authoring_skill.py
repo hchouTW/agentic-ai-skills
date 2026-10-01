@@ -5,6 +5,8 @@ Standard library only.
 """
 from __future__ import annotations
 
+import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -164,3 +166,43 @@ class ValidateSkillBundleCliTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DescriptionLengthTests(unittest.TestCase):
+    def _description(self, skill_md: Path) -> str:
+        frontmatter = skill_md.read_text(encoding="utf-8").split("---", 2)[1]
+        return re.search(r'^description:\s*"?(.*?)"?\s*$', frontmatter, re.MULTILINE).group(1)
+
+    def test_shipped_description_is_within_the_limit(self):
+        self.assertLessEqual(
+            len(self._description(ROOT / "SKILL.md")), validate_skill_bundle.DESCRIPTION_LIMIT
+        )
+
+    def test_validator_flags_an_overlong_description(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            scratch = Path(tmp) / "task-authoring"
+            shutil.copytree(ROOT, scratch, ignore=shutil.ignore_patterns("__pycache__"))
+            skill = scratch / "SKILL.md"
+            skill.write_text(
+                skill.read_text(encoding="utf-8").replace('description: "', 'description: "' + "x" * 200, 1),
+                encoding="utf-8",
+            )
+            result = subprocess.run(
+                [sys.executable, str(scratch / "scripts/validate_skill_bundle.py")],
+                capture_output=True,
+                text=True,
+            )
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("limit is 1024", result.stdout)
+
+
+class ShippedExamplesTests(unittest.TestCase):
+    def test_every_example_task_follows_the_section_contract(self):
+        examples = sorted((ROOT / "examples").glob("*-task.md"))
+        self.assertTrue(examples, "no example task files found")
+        for path in examples:
+            with self.subTest(example=path.name):
+                problems = validate_skill_bundle.check_template_sections(
+                    path.read_text(encoding="utf-8")
+                )
+                self.assertEqual(problems, [])

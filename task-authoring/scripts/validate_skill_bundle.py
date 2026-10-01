@@ -9,7 +9,7 @@ reference specifies - no more, no fewer.
 What it does: checks that every file this package is expected to ship (SKILL.md,
 README.md, agents metadata, references, adapters, templates, examples, scripts,
 tests) exists and is non-empty, that SKILL.md has YAML frontmatter with
-name/description, that README.md has its expected section headers, and that
+name/description (description at most 1024 characters), that README.md has its expected section headers, and that
 templates/task-template.md's heading structure exactly matches the section
 contract (one top-level title, then the fixed list of ## / ### sections in order).
 
@@ -59,6 +59,8 @@ REQUIRED_README_SECTIONS = [
 # The exact, ordered section contract from "Task Generation Requirements" in
 # AI_Agent_Agnostic_Task_Authoring_Workflow.md: Title (a single top-level
 # heading, checked separately), then these ## / ### sections in order.
+DESCRIPTION_LIMIT = 1024  # characters; the sibling skills stay under it
+
 REQUIRED_TEMPLATE_SECTIONS = [
     "## Background",
     "## Objective",
@@ -134,6 +136,11 @@ def main() -> None:
         if field not in frontmatter:
             print(f"SKILL.md frontmatter is missing {field}")
             raise SystemExit(1)
+
+    match = re.search(r'^description:\s*"?(.*?)"?\s*$', frontmatter, re.MULTILINE)
+    if match and len(match.group(1)) > DESCRIPTION_LIMIT:
+        print(f"SKILL.md description is {len(match.group(1))} characters; limit is {DESCRIPTION_LIMIT}")
+        raise SystemExit(1)
 
     readme = (root / "README.md").read_text(encoding="utf-8")
     missing_sections = [s for s in REQUIRED_README_SECTIONS if s not in readme]

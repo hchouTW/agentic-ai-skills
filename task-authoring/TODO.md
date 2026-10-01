@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (task-authoring)
 
-State (verified 2026-09-28 on `main`): `python3 scripts/validate_skill_bundle.py` OK (25 files, 12-section template contract); `python3 -m unittest discover -s tests` 78 tests OK. **No TODO item has been worked on yet.** Verification so far is structural (validators, link checks) plus one RED/GREEN fresh-subagent run for `loop-engineering.md`. Core task authoring, the 8 archetypes and the prompt-engineering reference have never been tested on a fresh model. Read `VALIDATION.md` first (it is still dated 2026-09-12), then this file.
+State (2026-10-01, round 2 on branch `task-authoring-todo-round2`): `python3 scripts/validate_skill_bundle.py` OK (25 files, 12-section template contract); `python3 -m unittest discover -s tests` 81 tests OK. Round 2 did the description length, the examples drift and the housekeeping (see `VALIDATION.md` "Round 2"). Verification is still mostly structural (validators, link checks) plus one RED/GREEN fresh-subagent run for `loop-engineering.md`; no behavior or trigger test has been run. Core task authoring, the 8 archetypes and the prompt-engineering reference have never been tested on a fresh model. Read `VALIDATION.md` first (it is still dated 2026-09-12), then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -23,7 +23,7 @@ Sibling tooling to reuse instead of hand-run subagents:
 
 ## P1 - description and behavior
 
-- [ ] **The description is over the length limit:** 1274 characters, where the limit is 1024; the TODO's earlier "~1170" was wrong. `academic-diagrams` had the same problem at 1180 and was fixed on 2026-10-01 (1014 characters; its validator now enforces the limit, a pattern to copy here). `scripts/validate_skill_bundle.py` does not check the length. Shorten the description first; how much depends on the archetype decision above. Add a length check with a test, then run the trigger sets below.
+- [x] **Description length (2026-10-01):** 1274 to 1017 characters; the validator enforces 1024 (tests added). Still to do: the trigger sets below; the archetype decision may allow cutting further.
 - [ ] Write 12-15 realistic prompts in `tests/prompts.md`, each with Must and Must-not lists (which reference is read, which rule fires). Cover:
   - a bare one-line feature request;
   - a bug report pasted verbatim;
@@ -51,14 +51,9 @@ Sibling tooling to reuse instead of hand-run subagents:
 
 ## P2 - shipped examples and tooling
 
-- [ ] **Stale example premises.** The 6 `examples/*-task.md` files are all Task Markdown against this repo, and their Repository Context has drifted:
-  - `research-task.md` investigates the duplication of `cpp-balanced-design-guidelines.md` across two skills. That duplication was resolved on 2026-09-15: only `agile-development` keeps it, and deep-learning links to it.
-  - `bug-task.md` is about `academic-papers`' validator not checking `examples/`. That skill no longer has `examples/`.
-  - `feature-task.md` says the validator is "duplicated five times". There are now 7 `validate_skill_bundle.py` files.
-  - `ams-antiproton-analysis-task.md` proposes a `hep-analysis/examples/` entry, but that directory was removed.
-  - Re-verify every path, count and "confirmed absent" claim in all six. Then fix, re-date or replace each example.
-- [ ] `examples/README.md` says "Four worked Task Markdown outputs" but lists six. It still cites the unshipped `AI_Agent_Agnostic_Task_Authoring_Workflow.md` as a source; reword that as provenance, as was done for `performance-task.md`.
-- [ ] `check_template_sections` passes on all 6 examples (checked by hand 2026-09-28), but no test runs it over `examples/`. Add one.
+- [ ] **Stale example premises (partly done 2026-10-01).** The six `examples/*-task.md` files were re-checked against the repository. Done: the AMS example's reference number (40 to 38) and `examples/` question are corrected; the feature, bug, research and CMS examples carry a dated "Snapshot note" saying what changed. Still open: actually rewrite or replace the feature example (its "five" skills, now seven, and the per-skill Repository Context), the bug example (the `academic-papers/examples/` scenario no longer exists) and the research example (the duplication was resolved on 2026-09-15). Replacement scenarios that are true today would be better than notes.
+- [x] `examples/README.md` count (six) and the `AI_Agent_Agnostic_Task_Authoring_Workflow.md` citation fixed (2026-10-01).
+- [x] `check_template_sections` runs over every `examples/*-task.md` in a test (2026-10-01).
 - [ ] Depending on the archetype decision:
   - Generate one example per archetype with `generate_skill_example.py` into a scratch skill.
   - Run `validate_skill_example.py` on each. Record where the output needed manual fixes and where the validator missed a real defect, and add regression tests.
@@ -76,5 +71,5 @@ Sibling tooling to reuse instead of hand-run subagents:
 
 ## P4 - housekeeping
 
-- [ ] Recurring: update the `VALIDATION.md` header date (still 2026-09-12) and the counts (25 files, 78 tests) after each pass. Also record the removal of `skill-router` (4e687d7) and the example rewrite (5953c63), which are not logged there.
+- [ ] Recurring: update the `VALIDATION.md` header date and counts (25 files, 81 tests) after each pass. Done 2026-10-01; the `skill-router` removal and the example rewrite are now logged there.
 - `scripts/__pycache__` and `tests/__pycache__` are untracked and git-ignored. Nothing to do.
