@@ -1,10 +1,12 @@
 # TODO for future Claude sessions (agile-development)
 
-State (2026-10-01, rounds 4-5 on branch `agile-development-todo-round4`, PR #31; round 3 merged via PR #30): `python3 scripts/validate_skill_bundle.py` OK (30 files); `python3 -m unittest discover -s tests` 44 tests OK. The skill has been run on fresh models:
+State (2026-10-01, rounds 4-5 on branch `agile-development-todo-round4`, PR #31; PR #31 open, not merged; round 3 merged via PR #30): `python3 scripts/validate_skill_bundle.py` OK (30 files); `python3 -m unittest discover -s tests` 44 tests OK. The skill has been run on fresh models:
 - H1-H9 were run on Sonnet, Haiku and Opus. Round 2 re-ran them on Haiku and round 5 on Sonnet, with open and blind scorers.
 - On Haiku the skill measurably adds the header block, planned tests, a target plus per-step verification for performance work, and irreversibility handling.
+- On Sonnet (round 5) it adds the header block, a target plus per-step verification, and stops false verification claims. It also makes the typo-fix message too long (H6 (b)), which is open below.
+- Skill runs read far more references on Sonnet (mean 4.2 per run) than on Haiku (0.4).
 
-From the description alone the skill rarely loads. The README's project `CLAUDE.md` line names the skill, gives example phrasings and lists exclusions. With it, Sonnet loads the skill 52/52 times and Haiku 42/52 (24/28 on each of two fresh held-out sets, 46/52 with the user's plugins installed). Read `VALIDATION.md` first, especially "Round 4", "Round 5" and "Limitations", then this file.
+From the description alone the skill rarely loads. The README's project `CLAUDE.md` line names the skill, gives example phrasings and lists exclusions. With it, Sonnet loads the skill 52/52 times and Haiku 42/52 (24/28 on each of two fresh held-out sets, 46/52 with the user's plugins installed). On holdout3, written by a separate session, the line without phrasings did almost as well (23/28), so most of the gain comes from naming the skill, not from the phrasings. Read `VALIDATION.md` first, especially "Round 4", "Round 5" and "Limitations", then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -14,7 +16,7 @@ Working rules:
 - Put temporary files in the scratchpad, not the repo.
 
 Tooling:
-- `tests/behavior_eval.py` runs the H-prompts from `tests/prompts.md` in isolated `claude -p` children and scores them in open and blind modes. 54 Haiku runs cost about $1.
+- `tests/behavior_eval.py` runs the H-prompts from `tests/prompts.md` in isolated `claude -p` children and scores them in open and blind modes. 54 Haiku runs cost about $1, and 54 Sonnet runs about $3.3 plus scoring. If a scorer pass prints "scorer returned no JSON" for a prompt, rescore it with `score --only <id>` into the same `--out` file.
 - `hep-analysis/tests/routing_eval.py --fixture tests/fixtures/shop_repo` is the real-harness trigger test. It uses `tests/trigger_queries.json` (tuning), `tests/trigger_queries_holdout.json` (no longer clean for the phrasings line), `tests/trigger_queries_holdout2.json` (written after it by the same session) and `tests/trigger_queries_holdout3.json` (written by a separate session). `--user-setup` runs with the user's plugins, hooks and global CLAUDE.md; `--any-skill` counts the target even if another skill loads first. To test a rule, copy the fixture to the scratchpad and add a `CLAUDE.md` or `.claude/settings.json` hook there.
 - Several runs in a row can hit the account usage limit; errored runs are excluded and printed, so rerun them.
 - Earlier trigger results (40/40, 50/50) came from a subagent classifying descriptions and are **not valid**.
