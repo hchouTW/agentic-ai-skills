@@ -25,7 +25,7 @@ Ground rules: standard library only for scripts; every AMS-specific number needs
 
 ## 3. Human review
 
-- [ ] Have a human physicist review the ledger judgement calls listed in `VALIDATION.md` ("Ledger migration: differences requiring human review"): claim strengths, `support_kind`, `numeric_quotation_allowed`, tier ranges, and the S02/S03 supersession.
+- [ ] Have a human physicist review the ledger judgement calls listed in `VALIDATION.md` ("Ledger migration: differences requiring human review"): claim strengths, `support_kind`, `numeric_quotation_allowed`, tier ranges, and the S02/S03 supersession. Reviewer packet prepared 2026-10-02: `REVIEWER_PACKET.md` (8 judgement calls with the affected claim IDs, a 106-row claim table with a verdict column, a 49-row source table; a snapshot generated from `data/*.json`, regenerate if the ledger changes). Still open until a physicist returns verdicts.
 
 ## 4. Routing (rechecked 2026-10-01)
 
