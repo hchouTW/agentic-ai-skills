@@ -614,7 +614,7 @@
     "year": 1999,
     "year_text": "1999",
     "dois": [
-      "10.1016/S0370-2693"
+      "10.1016/S0370-2693(99)00874-6"
     ],
     "url": null,
     "locator_text": "10.1016/S0370-2693(99)00874-6",
@@ -641,7 +641,7 @@
     "year": 2002,
     "year_text": "2002",
     "dois": [
-      "10.1016/S0370-1573"
+      "10.1016/S0370-1573(02)00013-3"
     ],
     "url": null,
     "locator_text": "10.1016/S0370-1573(02)00013-3",
@@ -847,7 +847,7 @@
     "supersedes": [],
     "superseded_by": [],
     "supersession_note": null,
-    "notes": null,
+    "notes": "INSPIRE (2026-10-02) lists an erratum, EPJC 73, 2501 (2013), DOI 10.1140/epjc/s10052-013-2501-z; the erratum itself was not read.",
     "verification_limitations": null
   },
   {
@@ -884,7 +884,7 @@
     "year": 1993,
     "year_text": "1993",
     "dois": [
-      "10.1016/0010-4655"
+      "10.1016/0010-4655(93)90005-W"
     ],
     "url": null,
     "locator_text": "10.1016/0010-4655(93)90005-W",
@@ -938,7 +938,7 @@
     "year": 1995,
     "year_text": "1995",
     "dois": [
-      "10.1016/0168-9002"
+      "10.1016/0168-9002(95)00274-X"
     ],
     "url": null,
     "locator_text": "10.1016/0168-9002(95)00274-X",
@@ -992,7 +992,7 @@
     "year": 1999,
     "year_text": "1999",
     "dois": [
-      "10.1016/S0168-9002"
+      "10.1016/S0168-9002(99)00498-2"
     ],
     "url": null,
     "locator_text": "10.1016/S0168-9002(99)00498-2",
