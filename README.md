@@ -1,45 +1,41 @@
 # Agentic AI Skills
 
-A collection of portable [Agent Skills](https://code.claude.com/docs/en/skills) for
-Claude Code, Codex, [Antigravity](https://antigravity.google/docs/skills), and other
-skill-aware agents. Each skill is a self-contained folder built around a `SKILL.md`,
-with references, helper scripts, and templates resolved through relative paths. None
-require an MCP server, cloud account, or paid service.
+Portable [Agent Skills](https://code.claude.com/docs/en/skills) for Claude Code, Codex,
+[Antigravity](https://antigravity.google/docs/skills), and other skill-aware agents. Each
+skill is a self-contained folder built around a `SKILL.md`, with references, scripts, and
+templates resolved through relative paths. None needs an MCP server, cloud account, or paid
+service.
 
 ## Skills
 
-| Skill | What it covers |
+| Skill | Use it for |
 |---|---|
-| [`agile-development`](agile-development/) | Turning a software request into a small, verified, reviewable increment: scoping, acceptance criteria, validation plans, code review, incident response — plus implementation discipline: ask vs. assume, minimum code, surgical diffs, verifiable done. |
-| [`deep-learning`](deep-learning/) | PyTorch engineering: models, training/eval loops, DataLoaders, mixed precision, DDP, LoRA, profiling, export, and debugging NaNs/shapes/perf — plus architect-level work: architecture selection and scaling laws, parallelism strategy and compute budgeting, ablation discipline, serving capacity, and data/evaluation strategy. |
-| [`hep-analysis`](hep-analysis/) | High-energy physics: ROOT C++, PyROOT, uproot/awkward, RDataFrame, cutflows, systematics, fits, limits, unfolding — plus detector subsystems (tracking, calorimetry, TRD/TOF/RICH particle ID), event reconstruction, the generator→Geant4→calibration simulation chain, and astroparticle/cosmic-ray physics (spectrum and composition, extensive air showers, ground-based arrays, imaging atmospheric Cherenkov, neutrino telescopes, space-based direct detection, multi-messenger analysis, an AMS-02 case study, and cosmic-ray flux calculation). |
-| [`ams-analysis`](ams-analysis/) | AMS-02 detector and physics analysis: Tracker/magnet, TOF, TRD, ECAL, RICH, ACC response chains; rigidity/charge/velocity/mass observables; charged cosmic-ray flux and ratio blueprints, electrons/positrons, antiprotons, rare antimatter, nuclei and isotopes; efficiency/acceptance/backgrounds, unfolding and likelihoods, systematics — source-traced to public AMS literature, with hallucination-resistant handling of unpublished results. |
-| [`academic-diagrams`](academic-diagrams/) | Scientifically validated academic diagrams as editable text sources (Mermaid, Graphviz DOT, PlantUML, TikZ/tikz-feynman, SVG spec, ASCII) with captions: research/algorithm/architecture/model figures plus first-class HEP (analysis pipelines, Monte Carlo chains, detector schematics, region/likelihood workflows, decay trees, Feynman-style), probability/statistics (graphical models and plates, Bayesian/frequentist workflows, causal DAGs, MCMC), and computer-science (agentic, RAG, ML, distributed, database) support; builds the scientific model of the figure before rendering it. |
-| [`academic-papers`](academic-papers/) | Reading and critically evaluating scientific papers, building literature reviews, and drafting/formatting/submitting a manuscript — REVTeX/JHEP/JCAP/AASTeX/Elsevier/NeurIPS/ICML/ICLR/ACL LaTeX, INSPIRE-HEP/ADS/arXiv/DBLP bibliographies, HEP/astroparticle/cosmic-ray and statistics/ML conventions (exposure vs. luminosity, pre-/post-trial significance, skymaps, reproducibility checklists, single-shot rebuttals). |
-| [`task-authoring`](task-authoring/) | Turning a short natural-language request into an implementation-ready Task Markdown document, vendor-neutral across Claude Code, Codex, Antigravity, and other repository-aware agents — reads the applicable authoring reference, inspects the target repository, and classifies findings as Confirmed/Inferred/Unresolved instead of fabricating project-specific details. |
+| [`agile-development`](agile-development/) | Turning a software change into a small, verified, reviewable increment: scoping, acceptance criteria, validation plans, code and PR review, incident response, architecture decisions, estimation. Also implementation discipline (ask vs. assume, minimum code, surgical diffs). |
+| [`task-authoring`](task-authoring/) | Turning a short request into an implementation-ready Task Markdown document that another person or agent can pick up without the original conversation. Also worked-example authoring and LLM prompt/token budgeting. |
+| [`deep-learning`](deep-learning/) | PyTorch engineering: models, training loops, mixed precision, DDP/FSDP, debugging NaNs and shapes, export. Also ML decisions: scaling, parallelism, ablations, data splits, evaluation, serving. |
+| [`hep-analysis`](hep-analysis/) | Collider and astroparticle analysis: ROOT, uproot, RDataFrame, cutflows, fits, limits, unfolding, systematics, detector and reconstruction physics, cosmic-ray flux. |
+| [`ams-analysis`](ams-analysis/) | AMS-02 detector response and charged cosmic-ray analyses, traced to public AMS literature, with careful handling of unpublished results. |
+| [`academic-papers`](academic-papers/) | Reading and critiquing papers, literature reviews, drafting and formatting manuscripts for physics and ML venues, bibliographies, referee responses. |
+| [`academic-diagrams`](academic-diagrams/) | Publication-quality diagrams as editable sources (Mermaid, DOT, PlantUML, TikZ, SVG) with captions, including HEP, statistics, and computer-science figures. |
+
+Skills defer to each other where their domains meet (for example `ams-analysis` sends
+generic ROOT and statistics questions to `hep-analysis`), but each works on its own.
 
 ## Installation
 
 Copy the skill folders you want into your agent's skill directory:
 
 ```bash
-# Claude Code (personal)
-cp -r academic-diagrams academic-papers agile-development ams-analysis deep-learning hep-analysis task-authoring ~/.claude/skills/
+SKILLS="academic-diagrams academic-papers agile-development ams-analysis deep-learning hep-analysis task-authoring"
 
-# Claude Code (project-scoped)
-cp -r academic-diagrams academic-papers agile-development ams-analysis deep-learning hep-analysis task-authoring .claude/skills/
-
-# Codex
-cp -r academic-diagrams academic-papers agile-development ams-analysis deep-learning hep-analysis task-authoring ~/.codex/skills/
-
-# Antigravity (workspace-scoped; falls back to .agent/skills/ on older installs)
-cp -r academic-diagrams academic-papers agile-development ams-analysis deep-learning hep-analysis task-authoring .agents/skills/
-
-# Antigravity (global)
-cp -r academic-diagrams academic-papers agile-development ams-analysis deep-learning hep-analysis task-authoring ~/.gemini/config/skills/
+cp -r $SKILLS ~/.claude/skills/            # Claude Code (personal)
+cp -r $SKILLS .claude/skills/              # Claude Code (project)
+cp -r $SKILLS ~/.codex/skills/             # Codex
+cp -r $SKILLS .agents/skills/              # Antigravity (workspace; older installs read .agent/skills/)
+cp -r $SKILLS ~/.gemini/config/skills/     # Antigravity (global)
 ```
 
-Each skill's own `README.md` has per-agent invocation details.
+Keep each folder whole. Each skill's own `README.md` has its per-agent invocation details.
 
 ## Verifying a skill bundle
 
@@ -51,29 +47,10 @@ python3 scripts/validate_skill_bundle.py
 python3 -m unittest discover -s tests -v
 ```
 
-See each skill's `VALIDATION.md` for what is checked.
+See each skill's `VALIDATION.md` for what is checked and how it was evaluated.
 
-## `examples/` worked examples
+## Worked examples
 
-Two skills ship an `examples/` directory, `academic-diagrams` and `task-authoring`. The other
-skills' archetype example sets were removed (2026-09-25). The archetype format covers canonical
-worked examples for a realistic scenario in that skill's domain, in one of
-eight archetypes - **Contrast** (a "Common Weak Approach" vs. "Expert-Level
-Best Practice" plus key takeaways), **Execution Trajectory** (a step-by-step
-task resolution), **Gated Pipeline** (a multi-phase build with explicit
-acceptance gates), **Decision-Tree** (a branching triage matrix plus an
-end-to-end execution script), **Interactive Elicitation** ("Grill-Me" -
-Socratic clarification of a vague request into a final spec), **Adversarial
-Audit** (ruthlessly attacking a candidate artifact to find and patch real
-failure modes), **Test-First / Red-to-Green** (a failing test through a
-minimal fix to a verified, metric-backed pass), or **Incident Postmortem**
-(alert through blameless 5-Whys RCA to a permanent fix and a concrete
-monitoring rule) - `academic-diagrams`' `examples/` holds diagram examples by domain, and
-`task-authoring`'s holds one worked task per category (feature, bug, performance,
-research, plus two physics-analysis tasks), each indexed in its `examples/README.md`. `task-authoring`'s
-`references/example-authoring.md` documents
-all eight generation prompts, an archetype-selection guide, the actor-stance
-conventions, the diversity rule, and the format spec, and its
-`scripts/generate_skill_example.py`/`scripts/validate_skill_example.py`
-scaffold and validate new entries, in any of the eight archetypes, for any
-installed skill - see that skill's own `README.md` for the commands.
+`academic-diagrams` and `task-authoring` ship an `examples/` directory, each with its own
+index (`examples/README.md`). `task-authoring` also holds the tooling to author and validate
+new examples for any installed skill; see its `README.md` for the commands.

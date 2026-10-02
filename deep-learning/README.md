@@ -1,31 +1,28 @@
 # PyTorch Engineering Skill
 
-A portable Agent Skill maintained entirely in English. Its core is `SKILL.md` plus references, helper scripts, and starting-point templates resolved through relative paths. It requires no specific MCP server, cloud account, or paid service beyond a working PyTorch installation for the scripts that exercise real tensors/models.
+An Agent Skill for PyTorch work: writing, debugging, reviewing and explaining models, training and evaluation code, plus the engineering decisions around them (scaling, evaluation design, serving, drift, calibration). It is PyTorch-only, so it is not for TensorFlow, JAX or scikit-learn. It needs no MCP server, cloud account or paid service; only the scripts that run real tensors need a working PyTorch installation, and none need a GPU.
+
+`SKILL.md` is the entry point. It routes to `references/`, `scripts/` and `assets/` through relative paths, so keep the whole `deep-learning/` folder together.
 
 ## Installation and invocation
 
-Extract the archive and keep the complete `deep-learning/` folder.
+- **Codex:** place the folder in `~/.codex/skills/` (or wherever your environment loads skills), reload skills, and invoke `$deep-learning`. `agents/openai.yaml` holds optional Codex UI metadata.
+- **Claude Code:** copy it to `.claude/skills/deep-learning/` in a project or `~/.claude/skills/deep-learning/` for personal use. Invoke `/deep-learning` or describe a matching task. See the [official Claude Code skill documentation](https://code.claude.com/docs/en/skills).
+- **Antigravity:** copy it to `.agents/skills/deep-learning/` in the workspace or `~/.gemini/config/skills/deep-learning/` for a global install (older installs may read `.agent/skills/`). It triggers automatically from the `name`/`description` and needs no explicit invocation. See the [Antigravity skills documentation](https://antigravity.google/docs/skills).
+- **Other agents:** tell the agent to read `SKILL.md` first and follow its reference routing, giving the file location explicitly if discovery is unsupported.
 
-- **Codex:** place the folder in the skill directory used by your environment, commonly `~/.codex/skills/`, or import it through the mechanism supported by your version. Reload skills and invoke `$deep-learning`. `agents/openai.yaml` supplies optional Codex UI metadata.
-- **Claude Code:** copy it to `.claude/skills/deep-learning/` in the project or `~/.claude/skills/deep-learning/` for personal use. Invoke `/deep-learning` or describe a matching task (train a model, fix a NaN loss, review a DataLoader). See the [official Claude Code skill documentation](https://code.claude.com/docs/en/skills).
-- **Antigravity:** copy it to `.agents/skills/deep-learning/` in the workspace (or `~/.gemini/config/skills/deep-learning/` for a global install; older installs may still read `.agent/skills/`). It triggers automatically - the agent reads every installed skill's `name`/`description` at session start and loads the full `SKILL.md` when a task matches, no explicit invocation needed. See the [Antigravity skills documentation](https://antigravity.google/docs/skills).
-- **Other agents:** instruct the agent to read `SKILL.md` first and follow its reference routing. Provide the file location explicitly if automatic discovery is unsupported.
+Installing only adds this folder; it changes no other agent settings. Install `agile-development` in the same parent directory if you want the C++ design reference that `SKILL.md` links to (`../agile-development/references/cpp-balanced-design-guidelines.md`).
 
-This delivery creates a single folder; it does not change other global agent settings. Load references selectively instead of pasting the entire package into global instructions.
+All maintained instructions, templates and metadata are in English. The skill can still answer in the user's language.
 
 ## Quick checks
 
-From the skill directory:
+Run from the `deep-learning/` directory:
 
 ```bash
-python3 -m unittest discover -s tests -v
 python3 scripts/validate_skill_bundle.py
+python3 -m unittest discover -s tests
 python3 scripts/check_pytorch_env.py
-python3 scripts/inspect_checkpoint.py <checkpoint.pt>
-python3 scripts/check_dataset_contract.py --help
-python3 scripts/find_nan_batches.py --help
-python3 scripts/profile_dataloader.py --help
-python3 scripts/benchmark_model.py --help
 python3 scripts/estimate_training_memory.py assets/scaling_plan.example.json
 python3 scripts/estimate_compute_budget.py --params 7e9 --tokens 1.4e12 --gpus 64
 python3 scripts/compare_model_runs.py assets/eval_runs.example.json
@@ -33,24 +30,35 @@ python3 scripts/serving_capacity.py --qps 500 --batch-size 16 --batch-latency-ms
 python3 scripts/check_split_integrity.py assets/dataset_splits.example.json
 ```
 
-The five estimator/checker scripts (`estimate_training_memory.py`, `estimate_compute_budget.py`, `compare_model_runs.py`, `serving_capacity.py`, `check_split_integrity.py`) are standard-library only and run without PyTorch; `check_split_integrity.py` exits nonzero on the shipped example, which deliberately contains a group leak. The other six require PyTorch to actually run (`check_pytorch_env.py` reports its absence clearly; the other five accept `--help` and fail with a clear message rather than a raw traceback when PyTorch is missing). None require a GPU; they fall back to CPU.
+- `check_split_integrity.py` exits nonzero on the shipped example, which contains a deliberate group leak.
+- Standard library only (no PyTorch): the estimator scripts above, `compare_model_runs.py`, `serving_capacity.py`, `check_split_integrity.py`.
+- Need PyTorch: `check_pytorch_env.py`, `inspect_checkpoint.py <checkpoint.pt>`, `check_dataset_contract.py`, `find_nan_batches.py`, `profile_dataloader.py`, `benchmark_model.py` (run the last four with `--help` for arguments).
+
+Validation history and measured results are in `VALIDATION.md`; open items are in `TODO.md`.
 
 ## Coverage and boundaries
 
-The package covers writing and reviewing PyTorch code: `nn.Module` models, training and evaluation loops, datasets and DataLoaders, losses, optimizers, schedulers, mixed precision, gradient accumulation, checkpointing, distributed training (DDP), reproducibility, inference, and performance/memory tuning, plus debugging tensor shape/device/dtype errors, NaNs, and slow dataloaders. It also covers Transformer/attention architectures and positional encoding, RNN/LSTM/GRU sequence models (packed sequences, teacher forcing, seq2seq), generative models (VAE/GAN/diffusion training loops and their characteristic failure modes), transfer learning (replacing a classifier head, freezing/unfreezing schedules, backbone-vs-head parameter groups, BatchNorm pitfalls under freezing), parameter-efficient fine-tuning (LoRA) and quantization, custom `autograd.Function`s/hooks/activation checkpointing, model export and deployment (TorchScript, ONNX, `torch.compile` serving modes), and classification/regression evaluation metrics (aggregation across batches and distributed ranks, macro F1/per-class recall/ROC-AUC/PR-AUC for imbalance, MAE/RMSE, validation-protocol pitfalls such as leaking scaler/tokenizer fit into validation data).
+Covers:
 
-It also covers the architect-level decisions around that code: choosing and sizing an architecture (inductive bias against data scale, depth/width, scaling laws and their limits, reviewing an architecture proposal); establishing that a change actually helped (seed variance as the noise floor, matched compute and tuning budgets, leave-one-out and add-one-in ablations, paired comparisons and the common confounds); training at scale (the memory equation and choosing among DDP, ZeRO/FSDP, tensor, pipeline and sequence parallelism; MFU, compute and cost budgeting, compute-optimal sizing, batch-size and learning-rate scaling, checkpointing and failure recovery, hyperparameter search under a budget); production serving (latency percentile and cost budgets, dynamic and continuous batching, KV-cache concurrency limits, capacity planning with utilization headroom); the model lifecycle (drift versus upstream data breakage, monitoring layers, regression suites, shadow/canary/staged rollout, versioning, retraining triggers, incident response); and data and evaluation strategy (label quality, splits that survive, group and temporal leakage, deduplication and contamination, imbalance, eval harness design, slice evaluation, behavioral tests, the offline-online gap, and ship criteria).
+- PyTorch code: models, training and evaluation loops, datasets and DataLoaders, losses, optimizers, mixed precision, checkpointing, DDP/FSDP, reproducibility, inference, and speed/memory tuning.
+- Debugging shape, device and dtype errors, NaN or exploding loss, and slow dataloaders.
+- Model families and techniques: Transformers, RNN/LSTM, VAE/GAN/diffusion, transfer learning, LoRA and quantization, autograd and hooks, export (TorchScript, ONNX, `torch.compile`).
+- Architecture and scaling decisions, ablations and seed noise, parallelism strategy, compute and cost budgets.
+- Data and evaluation: splits and leakage, eval design, metrics, serving capacity, drift and lifecycle.
+- Scientific ML: uncertainty and calibration, distribution shift, physics-informed and equivariant models, interpretation limits.
 
-It also covers research-grade scientific reasoning: classifying and diagnosing training failures (implementation, optimization, capacity, data, generalization, numerical, objective mismatch); predictive uncertainty and calibration (aleatoric vs. epistemic, ECE/NLL/Brier and their limits, temperature scaling, ensembles); robustness and distribution shift beyond IID aggregate performance, including simulation-to-data shift for scientific ML/HEP; physics-informed constraints, surrogate models/emulators, and simulation-based inference; symmetry and equivariant learning (sets, graphs, point clouds, Lorentz-aware modeling); and interpretation discipline for attribution, attention, and learned representations - preventing unsupported jumps from an explanation or embedding to a causal or physical claim.
+Defers or out of scope:
 
-It is explicitly PyTorch-only - not TensorFlow, JAX, or other frameworks - and covers C++ design only where it borders PyTorch (LibTorch, custom ops, CUDA/C++ extensions), not general C++ unrelated to those. For that C++ design guidance, `SKILL.md`'s reference-routing table points at `agile-development`'s copy (`../agile-development/references/cpp-balanced-design-guidelines.md`) rather than vendoring a duplicate here - the link only resolves if `agile-development` is installed alongside `deep-learning` at that relative path (true for the default same-parent-directory install on every platform in this section, but not guaranteed for a `deep-learning`-only install). For broader engineering process (scoping, testing, review), pair it with `agile-development`; for the scientific/statistical validity of a downstream conclusion, pair it with `academic-papers`.
-
-All maintained instructions, templates, and metadata are in English. The skill can still answer a user in their requested language.
+- Other frameworks (TensorFlow, JAX, scikit-learn).
+- General C++ design, except where it borders PyTorch (LibTorch, custom ops, CUDA extensions); this points to `agile-development`.
+- Engineering process (scoping, testing, review): pair with `agile-development`.
+- Statistical validity of a downstream scientific conclusion: pair with `academic-papers`.
 
 ## Example prompts
 
-"Write a training loop for a ResNet18 fine-tune on a custom image dataset."
-
-"My loss goes to NaN after a few hundred steps - here's my training code."
-
-"Review this Dataset/DataLoader for correctness and performance."
+- "Write a training loop for a ResNet18 fine-tune on a custom image dataset."
+- "My loss goes to NaN after a few hundred steps; here is my training code."
+- "Review this Dataset/DataLoader for correctness and performance."
+- "Which parallelism strategy fits a 7B model on 64 GPUs?"
+- "Are these two runs actually different, or is it seed noise?"
+- "Why does my validation score look too good? Check my splits for leakage."
