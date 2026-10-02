@@ -18,8 +18,9 @@ Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 208 
   were executed on the same synthetic 400-event TTree as before (reference: 185 events with two
   selected jets, 169 and weighted integral 95.0 inside a 0-500 GeV histogram range):
   - run 3: built its own synthetic file, ran the script and reported the output. On my file it
-    gives 185 events and integral 95.00, matching the reference. One printed statistic (mean
-    mass 263.18) matches none of the references I computed (205.1, 211.7, 250.0);
+    gives 185 events and integral 95.00, matching the reference. Its printed mean mass
+    (263.18) is the weighted mean over all 185 events, which I had not computed at the time (corrected
+    2026-10-02: it is right);
   - run 1: built test data and a logic test. Its script reads the tree `events`, so on a
     NanoAOD-style `Events` tree it fails with `KeyInFileError`; on a file with the tree renamed it
     gives 185 events and integral 95.00. Its summary says "All code is verified", which overstates
@@ -53,6 +54,20 @@ Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 208 
     gets one working script from two P02 runs, against none before; the cost is one run that
     exhausted its turns. With 2 samples per prompt the 26/6/0 -> 26/5/1 difference is within
     noise except for that new failure, which is not.
+- **Iteration cap added to the same step** ("Keep this to a few runs: if the same failure survives
+  three fixes, stop, deliver the code with the failing output, and say it does not yet work";
+  `SkillRunBeforeDeliverTest` checks it; tests still 208, bundle 119 files, description
+  unchanged). Rerun `prompts_eval.py --model haiku --only P02 --runs 6 -j 6`, $0.97 ($0.12-0.21 per
+  run): **0/6 hit the turn limit** (before the cap: 1/6 of the full-rerun runs, plus 1/2 P02 runs).
+  All six delivered a script, a test-data generator and a tested summary. Executed on the
+  synthetic 400-event TTree, all six give 185 events with two selected jets; five print sum of
+  weights 107.00 or integral 95.00 exactly as the reference, and one (run 4) prints entries 185,
+  sum(w) 95.000 inside its histogram range and a warning that it cannot write a ROOT file without
+  ROOT, then lists the bins. No run reports a result it did not obtain.
+- Limits of this evidence: no run needed to stop and report a failure, so the cap itself was not
+  exercised; 0/6 against 1/6 is not significant, and the P02 prompt is the only one that executes
+  code. The other 15 prompts were not rerun for the cap (a one-sentence addition to a step that
+  does not affect text-only answers); the previous full rerun stands for them.
 
 ## P02 awkward leading-object rule (2026-10-02, branch `hep-analysis-p02-awkward`)
 

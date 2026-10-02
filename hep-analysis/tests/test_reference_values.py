@@ -169,6 +169,7 @@ class SkillRunBeforeDeliverTest(unittest.TestCase):
         text = (ROOT / 'SKILL.md').read_text()
         self.assertIn('Run any code you deliver before delivering it', text)
         self.assertIn('if you could not run it, say so', text)
+        self.assertIn('if the same failure survives three fixes, stop', text)
         # it belongs in the numbered working procedure, not buried below
         self.assertLess(text.index('Run any code you deliver'), text.index('## API selection'))
 
