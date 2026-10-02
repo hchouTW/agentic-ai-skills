@@ -162,6 +162,18 @@ class SkillGarwoodTableTest(unittest.TestCase):
             self.assertAlmostEqual(float(lo), exp_lo, delta=0.006, msg=f'N={n} lower')
             self.assertAlmostEqual(float(hi), exp_hi, delta=0.006, msg=f'N={n} upper')
 
+class SkillRunBeforeDeliverTest(unittest.TestCase):
+    """The working procedure must tell the model to execute the code it delivers."""
+
+    def test_rule_present_in_working_procedure(self):
+        text = (ROOT / 'SKILL.md').read_text()
+        self.assertIn('Run any code you deliver before delivering it', text)
+        self.assertIn('if you could not run it, say so', text)
+        self.assertIn('if the same failure survives three fixes, stop', text)
+        # it belongs in the numbered working procedure, not buried below
+        self.assertLess(text.index('Run any code you deliver'), text.index('## API selection'))
+
+
 class SkillAwkwardLeadingObjectTest(unittest.TestCase):
     """SKILL.md must carry the leading-object rule that Haiku (which skips references) needs."""
 
