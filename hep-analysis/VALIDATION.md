@@ -1,10 +1,37 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, full Haiku rerun after the P08 wording (latest pass; P08 run-the-script wording the same day; full Haiku rerun after PR #101 the same day; P03 per-cut check line the same day; full Haiku rerun after PR #99 the same day; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, no-data prompt experiment, not adopted (latest pass; full Haiku rerun after the P08 wording the same day; P08 run-the-script wording the same day; full Haiku rerun after PR #101 the same day; P03 per-cut check line the same day; full Haiku rerun after PR #99 the same day; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
 Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 214 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## No-data prompts: build a synthetic sample instead of asking? (2026-10-02, branch `hep-analysis-nodata`, NOT adopted)
+
+- Question from `TODO.md`: when a prompt names data that is not provided (P05, P02), should the model
+  build a labelled synthetic sample and deliver tested code instead of asking for files?
+- Baseline on the merged wording, P05 + P02 x8 each, $1.86: **P05 asks and delivers nothing in 8 of
+  8 runs**; **P02 already builds a synthetic sample and delivers in 8 of 8** (so the question is
+  really about P05); 2 of the 8 P02 runs ended by `error_max_turns` with no answer (in 5 and 9 Bash
+  commands), although the three-fix cap was in place.
+- Tried a rule in step 4 of the working procedure (do not stop at questions; build the synthetic
+  sample; label it synthetic in the file name, plot and printed text; never present synthetic
+  numbers as results; mask the blinded region by default, in the demo too). Guard test, 215 tests.
+  Rerun, P05 + P02 x8, $1.88:
+  - **P05: 1 of 8 delivered** (a plotting script, a synthetic-data generator and a PNG, 6 Bash
+    commands); 4 more offered to build a synthetic example but as a question ("would you like me
+    to?"); 3 asked as before. The delivered run masks the observed values above 1 TeV to NaN in the
+    script, but its summary describes the plot as if informative ("the ratio hovers around
+    0.86-1.0 ... suggesting reasonable agreement") without saying the numbers are synthetic, which
+    is what the rule forbids; it also sets the MC to NaN in the signal region "for visualization".
+  - **P02: unchanged**: 8 of 8 delivered, 1 of 8 hit the turn limit (before 2 of 8); cost the same.
+- Decision: **not adopted, the SKILL.md change was reverted** before commit. The effect on P05 is
+  small (1 of 8 against 0 of 8), the one delivery overclaims synthetic results in a blinded-analysis
+  context, and for P05 asking where the files are is a defensible answer. P02 needs no rule.
+- Residual found: P02 still hits the 25-turn limit in about 1 of 8 to 2 of 8 runs when it builds and
+  debugs its own test data; across the day's P02 runs with the cap in place the count is 3 of 24. The
+  cap line is not reliable; in real use there is no 25-turn limit, so the effect there is unknown.
+- Not done: P02 scripts from this run were not executed against the reference file.
 
 ## Full Haiku rerun after the P08 wording (2026-10-02, branch `hep-analysis-p08-script`)
 

@@ -24,7 +24,8 @@ Working rules:
 
 ## Open
 
-- [ ] **Decision needed: no-data prompts.** When a prompt names a file or data it does not provide (P05, P02), Haiku often asks where the files are instead of delivering. Option: tell the model to build a small synthetic sample and deliver tested code. It changes `SKILL.md`, so ask first, then rerun P02 and P05 (4+ samples) and execute the scripts. Single-run slips seen in the last rerun (P02 placeholder cutflow, P10 no backtracing) are not tasks.
+- [x] **No-data prompts (decided 2026-10-02, not adopted):** a rule to build a labelled synthetic sample instead of asking was tried; P05 delivered in 1 of 8 runs (0 of 8 before) and that run presented synthetic numbers as informative, while P02 already delivers 8 of 8. The `SKILL.md` change was reverted; details in `VALIDATION.md`. Reopen only if a user asks for the behavior.
+- [ ] **P02 turn limit:** about 1 of 8 to 2 of 8 P02 runs still end by `error_max_turns` (3 of 24 with the three-fix cap in place) while building and debugging their own test data. Options: accept it (the harness limit is 25 turns, real use has none), or shorten what the model is asked to test. Needs a decision before more wording.
 - [ ] **Dated re-check (after mid-2027):** check the AMS-02 Layer-0 status in ref 38. The installation creates a new detector era, and the schedule is known only from a CERN news item (ams-analysis C102).
 - [ ] **Recurring, on any change to references 02/17/37 or the `SKILL.md` invariants, procedure or "Check first" rows:** re-run `tests/prompts.md` on Haiku with `tests/prompts_eval.py`, at least 2 samples per prompt (about $1.5-1.8, 32 runs). Last run 2026-10-02 after every change of that day: 30 PASS, 8 -> 2 PARTIAL over seven reruns, 0 FAIL. Per-prompt results are in `VALIDATION.md`.
 - [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (file count, test count, skips). Last done 2026-10-02 (119 files, 214 tests, 12 skips).
