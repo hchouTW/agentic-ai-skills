@@ -3720,7 +3720,7 @@
   },
   {
     "id": "C140",
-    "claim": "Bin-to-bin migration corrected by unfolding; the corrections (N_i - ℵ_i)/ℵ_i are +15% at 3 GV, +7% at 5 GV, -5% at 200 GV and -6% at 3.3 TV; rigidity resolution: tracker bending coordinate resolution of 5.5 μm in agreement with simulation, MDR of 3.5 TV with 5% uncertainty and 10% uncertainty on the amplitudes of the non-Gaussian tails; resulting systematic error on the flux from the rigidity resolution function is less than 1% below 150 GV and 3% at 3.3 TV",
+    "claim": "Bin-to-bin migration corrected by unfolding (procedure by reference to Ref. [20]); N_i is the number of events corrected for bin-to-bin migration, as used in the flux Phi_i = N_i/(A_i eps_i T_i dR_i) (Eq. 1), and ℵ_i is the number of observed events in bin i, so the corrections (N_i - ℵ_i)/ℵ_i are +15% at 3 GV, +7% at 5 GV, -5% at 200 GV and -6% at 3.3 TV; rigidity resolution: tracker bending coordinate resolution of 5.5 μm in agreement with simulation, MDR of 3.5 TV with 5% uncertainty and 10% uncertainty on the amplitudes of the non-Gaussian tails; resulting systematic error on the flux from the rigidity resolution function is less than 1% below 150 GV and 3% at 3.3 TV",
     "claim_types": [
       "analysis_method",
       "performance_number"
@@ -3740,7 +3740,7 @@
       "data_period": "2011-05-19 to 2016-05-26",
       "analysis": "nitrogen flux analysis, unfolding"
     },
-    "limitations": "Unfolding procedure is described in the paper by reference (Ref. [20]); the bending-coordinate resolution figure is in the Supplemental Material of Ref. [16], not read.",
+    "limitations": "Unfolding procedure is described in the paper by reference (Ref. [20]); the Letter states the 5.5 μm bending-coordinate resolution; its derivation is in the Supplemental Material of Ref. [16], not read.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-10-02"
