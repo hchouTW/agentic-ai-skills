@@ -33,6 +33,8 @@ mjj = (jets[:, 0] + jets[:, 1]).mass                         # 5. only now index
 # Fill with weights and keep sum(w^2) (e.g. hist ... .Weight()); keep weights signed.
 ```
 
+Do not pick the leading object with `arr[ak.argsort(arr, axis=1)[:, 0]]`: an integer array indexes events, so it returns whole events (for `pt = [[50,40,30],[60,20],[90,80,70,10]]` it gives `[[50,40,30]]*3`, not `[50,60,90]`). Reorder the objects with the argsort as in step 2, then take `[:, 0]`, or, for the single leading object, `ak.firsts(pt[ak.argmax(pt, axis=1, keepdims=True)])`.
+
 ## RDataFrame and C++
 
 Book related actions before triggering evaluation or writing results to reduce repeated event scans. Name filters. Count/Report are unweighted; compute sums of weight and weight squared at each selection node for a weighted cutflow. Filter empty collections or define an explicit alternative before accessing their first elements.

@@ -162,5 +162,28 @@ class SkillGarwoodTableTest(unittest.TestCase):
             self.assertAlmostEqual(float(lo), exp_lo, delta=0.006, msg=f'N={n} lower')
             self.assertAlmostEqual(float(hi), exp_hi, delta=0.006, msg=f'N={n} upper')
 
+class SkillAwkwardLeadingObjectTest(unittest.TestCase):
+    """SKILL.md must carry the leading-object rule that Haiku (which skips references) needs."""
+
+    def test_rule_present_in_skill_md(self):
+        text = (ROOT / 'SKILL.md').read_text()
+        self.assertIn('jets = jets[ak.argsort(jets.pt, axis=1, ascending=False)]', text)
+        self.assertIn('Never write `jets.pt[ak.argsort(jets.pt, axis=1)[:, 0]]`', text)
+
+    def test_documented_pattern_picks_leading_jets_and_the_banned_one_does_not(self):
+        try:
+            import awkward as ak
+        except ImportError:
+            self.skipTest('awkward not installed')
+        pt = ak.Array([[50, 40, 30], [60, 20], [90, 80, 70, 10]])
+        order = ak.argsort(pt, axis=1, ascending=False)
+        self.assertEqual(ak.to_list(pt[order][:, 0]), [50, 60, 90])
+        self.assertEqual(ak.to_list(ak.firsts(pt[order][:, :1])), [50, 60, 90])
+        self.assertEqual(ak.to_list(ak.firsts(pt[ak.argmax(pt, axis=1, keepdims=True)])), [50, 60, 90])
+        banned = ak.to_list(pt[order[:, 0]])
+        self.assertNotEqual(banned, [50, 60, 90])
+        self.assertEqual(banned, [[50, 40, 30]] * 3)  # whole events, not one jet each
+
+
 if __name__ == '__main__':
     unittest.main()

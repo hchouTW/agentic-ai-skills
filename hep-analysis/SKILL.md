@@ -50,6 +50,8 @@ Exact 68.27% (Garwood) interval on the count N; divide by exposure times bin wid
 
 Don't mix more APIs than needed in one script; if mixing, keep boundaries clear (e.g. uproot for inspection, RDataFrame for production, ROOT files as interchange).
 
+awkward leading objects: apply the object mask, order each event with `jets = jets[ak.argsort(jets.pt, axis=1, ascending=False)]`, cut with `ak.num(jets, axis=1) >= 2` (on the jets and the weights together), then index `jets[:, 0]` and `jets[:, 1]`. Never write `jets.pt[ak.argsort(jets.pt, axis=1)[:, 0]]`: an integer array indexes *events*, so it returns whole events, not one jet per event. Full pattern: [data pipelines](references/02-data-pipelines.md).
+
 ## Analysis invariants
 
 ### General
