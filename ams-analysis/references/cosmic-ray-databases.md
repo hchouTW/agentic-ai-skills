@@ -36,7 +36,7 @@ Which AMS datasets these databases hold, and with what values, is [Unknown/needs
 ## Cross-checking an AMS number
 
 1. Fix the estimand and variable (invariant 1): species, rigidity or energy, time resolution.
-2. Query on the native axis with `combo_level=0` and `energy_convert_level=0`, restricted to the AMS sub-experiments (`exp_dates=AMS`, optionally with a time interval); use the Python library or REST (C128).
+2. Query on the native axis with `combo_level=0` and `energy_convert_level=0`, restricted to the AMS sub-experiments (`exp_dates=AMS`, optionally with a time interval); use the Python library or REST (C128). Say why: combo level 0 returns native points only (levels 1-2 form ratios or products at query time within 5% or 20% in energy), and conversion level 0 returns only the queried axis (level 1 exact conversions only; level 2 uses a proxy A and mass for elements and, per the page, is a last resort that can cause systematic errors larger than the data uncertainties) (C127). Time series are excluded by default (C128).
 3. Map each returned `SUBEXP_NAME` to its AMS paper through its name and data-taking range, then to the ledger source and claim (period and range must match the claim's scope).
 4. Compare value, bins and uncertainty with the paper's statement; where they differ, the paper wins, and the difference (transcription from a plot, rebinning, a different data period) is worth reporting to the CRDB team.
 5. Note the `PUBLI-DATAORIGIN` (table or plot) and the energy-scale column when present (C126).
