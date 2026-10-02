@@ -46,6 +46,7 @@ REFERENCES = [
     "analysis-artifacts",
     "time-dependent-analysis",
     "statistical-diagnostics",
+    "cosmic-ray-databases",
 ]
 SCRIPT_TESTS = {  # script -> the test module that must exist for it
     "ams_kinematics": "test_kinematics",
