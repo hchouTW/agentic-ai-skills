@@ -1,10 +1,50 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, Haiku `tests/prompts.md` rerun (latest pass; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, P10 solar-epoch fix and rerun (latest pass; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
 Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 205 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## P10 solar-epoch fix, rerun (2026-10-02, branch `hep-analysis-p10-cycle24`)
+
+- Change: one sentence added to the astroparticle invariant in `SKILL.md` (the solar-modulation
+  bullet): take the epoch's phase from the sunspot record; cycle 24 had its minimum in Dec 2008
+  and a double maximum (Nov 2011 and 2012-mid 2013, smoothed peak Apr 2014), so 2011-2013 is
+  solar maximum, not a declining phase. It restates reference 35 and links to it. The
+  description is unchanged (1019 of 1024 characters).
+- Rerun: `tests/prompts_eval.py --model haiku --only P10 --runs 3`, $0.14, `reads=0` on all
+  three runs again. **Epoch correct 3/3** (before: 0/2, "minimum" and "declining"). **2 PASS +
+  1 PARTIAL.** Run 0 PARTIAL: it applies the 1.2x margin to the orbit-averaged Stormer cutoff
+  with no per-event backtracing, and says Voyager 1 crossed the termination shock in late 2012
+  (the heliopause crossing was August 2012). Runs 1 and 2 PASS: 1.2x margin, backtracing, solar
+  maximum, demodulate the ISS flux and label TOA versus LIS; run 2 gives phi ~800-900 MV.
+- Three samples only; the Voyager slip in run 0 is a new, unrelated error, and the sample is too
+  small to say it is rare. Tests and bundle validator unchanged and passing (119 files, 205
+  tests, 12 skips).
+- **Full 16-prompt Haiku rerun after the change** (`prompts_eval.py --model haiku --runs 2 -j 4`,
+  32 runs, $1.52, no errors; every hinted run loaded hep-analysis, and `reads=0` except one P04
+  run that read one reference): **26 PASS, 6 PARTIAL, 0 FAIL** (before the change: 24 / 8 / 0).
+  - PASS x2: P03, P04, P06, P07, P09, P11, P13, P14, N01, N02. P11 run 1 routed to
+    `ams-analysis` (reads=4) and gave a sourced, dated antiproton result; run 0 loaded no skill and
+    gave no number.
+  - P01 PASS + PARTIAL: run 1 gives the right signed full-sample denominator but no RDataFrame
+    code beyond prose.
+  - P02 PASS + PARTIAL: run 0 masks first and indexes `[:, 0]`, `[:, 1]` with sumw2. Run 1 repeats
+    the awkward bug `selected_pt[pt_argsort[:, 0]]`, which selects events, not jets.
+  - P05 PASS + PARTIAL: run 1 says the observed SR values are set to NaN; run 0 offers a masked
+    template with no explicit refusal.
+  - P08 PASS + PARTIAL: both reject sqrt(N) and give [1.37, 5.92]. Run 1 then divides by 1.08e7
+    and quotes 1.27e-8 and 5.48e-8; the correct values are 1.27e-7 and 5.48e-7 (a 10x
+    arithmetic error).
+  - P10 PASS + PARTIAL: **both runs say 2011-2013 is solar maximum.** Run 0 (PASS) has the 1.2x
+    margin, a backtracing alternative and phi ~600-700 MV. Run 1 (PARTIAL) omits the 1.2x margin.
+  - P12 PASS + PARTIAL: run 0 has 2.74 sigma and a post-trial p of 0.76 (exact 0.71). Run 1 gets
+    2.67 sigma from a rounded logarithm, p_global 0.80, and calls a global p of 0.8 "a deficit".
+  - Across all five P10 runs after the change the epoch is correct 5/5 (before: 0/2). Haiku's
+    arithmetic slips (P08 run 1, P12 run 1, earlier P01) vary from run to run and are not tied to
+    this change. With 2 samples per prompt, 24/8/0 against 26/6/0 is within noise: it shows no
+    regression but does not show that the sentence helps anywhere except P10.
 
 ## Haiku prompts.md rerun, unchanged SKILL.md (2026-10-02, branch `hep-analysis-prompts-rerun`)
 
