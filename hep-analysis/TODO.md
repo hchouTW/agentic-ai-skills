@@ -10,7 +10,7 @@ Working rules:
 - Do not change physics behavior in a template or reference without saying so.
 - Haiku in `claude -p` loads `SKILL.md` but almost never opens a reference, so anything that must happen goes in `SKILL.md`.
 
-**Description is frozen** at the round-5 wording: 6 of 1024 characters are left. The round-6 "quick calculations" variant gained only noise (70/80 vs 65/80). Any further description change needs a *fifth* fresh query set, because four sets are now used: `trigger_queries.json` (tuning), `trigger_queries_holdout.json`, `trigger_queries_formula.json`, `trigger_queries_calc.json`. After any change, rerun `tests/routing_eval.py` on Sonnet and Haiku, and run the sibling skills' validators and tests.
+**Description is frozen** at the round-5 wording: 6 of 1024 characters are left. The round-6 "quick calculations" variant gained only noise (70/80 vs 65/80). A *fifth* fresh set, `trigger_queries_task.json` (task-style requests: review/write/debug with pasted configs and errors; balanced collider / space / IACT-neutrino-air-shower; 20 positives, 20 negatives of which 8 are non-HEP and 12 sibling near-misses), was built 2026-10-02 and has **not been run**: keep it unrun until a description change is actually proposed, then run it once as the deciding set. A sixth set is needed after that. Spent sets: `trigger_queries.json` (tuning), `trigger_queries_holdout.json`, `trigger_queries_formula.json`, `trigger_queries_calc.json`. After any change, rerun `tests/routing_eval.py` on Sonnet and Haiku, and run the sibling skills' validators and tests.
 
 ## Environment facts (re-check, they may have changed)
 
