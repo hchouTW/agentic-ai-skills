@@ -72,8 +72,9 @@ Verified by inspection on 2026-10-02 (paths relative to
 
 ## Acceptance Criteria
 
-- No file in the repository references `legacy_id` except the two historical
-  migrations (`001`, `002`).
+- No file under `task-authoring/tests/fixtures/shop_repo/` references `legacy_id`
+  except the two historical migrations (`001`, `002`); other copies of the fixture
+  and notes elsewhere in the repository are out of scope.
 - `invoice()` returns the same dictionary before and after, asserted by a test
   that ran green before step 3 and after step 5.
 - The migration's header names the backup file and the exact command that
@@ -85,7 +86,9 @@ Verified by inspection on 2026-10-02 (paths relative to
 
 ## Validation
 
-- Run the new test before and after the code change.
+- Run the new test before and after the code change (the fixture has no test
+  runner configuration; run it from the fixture root so `app` imports, for example
+  `PYTHONPATH=. python3 -m pytest tests`).
 - Build a scratch `shop.db` from `001`, insert sample rows, apply `002`, query
   `PRAGMA table_info(orders)`, then run the restore command and compare rows.
 - Re-run the `legacy_id` search and confirm only the migrations match.
@@ -101,6 +104,9 @@ Verified by inspection on 2026-10-02 (paths relative to
   task assumes a backup is enough.
 - Which SQLite version runs in production? **TBD**; decides the `DROP COLUMN`
   form.
+- Does column order matter after a restore? **TBD**; `ADD COLUMN` puts `legacy_id`
+  last, so the restored table's column order differs from `001`. The criteria
+  above compare data, not order.
 
 ## References
 
