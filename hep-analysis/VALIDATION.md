@@ -1,10 +1,23 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, ref 13 live re-check (latest pass; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, ref 13 caveat follow-up (latest pass; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
 Current counts: bundle 118 required files (plus 40 eval cases in `evals/`); 205 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## Ref 13 caveat follow-up (2026-10-02, branch `hep-analysis-ref13-caveats`)
+
+- Full texts read for the IACT energy scale. CTA (arXiv:1508.07225): requirement <10% on the
+  energy scale, baseline calibration methods ~15%. The earlier note "CTA calibration target
+  ~15%" was wrong and is corrected in ref 13. VERITAS (arXiv:2111.04676): ~25% on the absolute
+  flux for an index-2.5 source, no separate energy-scale percentage, so "up to ~20% for
+  VERITAS" was unconfirmed. H.E.S.S. (arXiv:2403.12608): no single energy-scale percentage, ~10%
+  residual atmospheric-transparency variation. Ref 33 now quotes these figures (range ~10-20%
+  kept as an order of magnitude, checked 2026-10-02).
+- Phys. Rept. 894 not read (publisher paywall). Ref 38 quotes no numeric instrument parameters
+  beyond the Layer-0 status; the website-only subsystem numbers are in the ref 13 AMS row.
+  Still open.
 
 ## Ref 13 latest-results re-check (2026-10-02, branch `hep-analysis-ref13-recheck`)
 
