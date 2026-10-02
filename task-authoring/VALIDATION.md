@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-12 (latest pass: round 3h, 2026-10-02). Helper test environment: Python 3, standard library only.
+Validation date: 2026-09-12 (latest pass: round 3i, 2026-10-02). Helper test environment: Python 3, standard library only.
 
 ## Initial build (2026-09-12)
 
@@ -336,3 +336,20 @@ T13, skill arm only, 3 runs each, open (non-blind) scorer, no baseline rerun:
 | (e) illustrative framing | P ~ P | P P P |
 
 Result: (e) no longer fails on either model (Haiku 2 P / 1 ~ / 0 F, previously F in both runs; Sonnet 3 P). Haiku (b) and (c) stay partial. Haiku runs read 1-3 files each; the rule sits in `SKILL.md`, which all 6 runs read. Small sample (3 runs), not blind: treat as a directional fix. The scorer's per-run self-contradiction check (4 h vs 16 min) was not separately inspected. No benign-prompt pair was needed: the rule only labels, it refuses nothing.
+
+## Round 3i: hand read of skill-arm tasks for invented facts (2026-10-02)
+
+Method: T2, T3, T8 and T12, skill arm, 2 runs each on Haiku and Sonnet (16 plans, fresh run on this branch, not the Round 3g plans), every repository claim checked by hand against `tests/fixtures/shop_repo`. Not scored, not blind; the linter cannot see these.
+
+Sonnet: no invented fact in 8 plans. Every one noticed the repository contradicting the request (T2: `TENOFF` alone already gives -5.00 and no caller or UI exists; T3: no export endpoint; T8: no signup and no `users` migration; T12: only reader is `app/billing.py:5`). In T2, T3 and T12 Sonnet said it could not run `scripts/lint_task.py` (the eval sandbox hides the skill's `scripts/`): an eval artifact, not a skill fault.
+
+Haiku: 6 of 8 plans state a false or unsupported fact. One pattern recurs, the request's premise written into Background as repository fact:
+- T8 run 1: "The application currently allows user registration". No signup exists. (Run 0 got this right.)
+- T3 run 1: "causes memory spikes that impact other concurrent requests" and a scope that builds an endpoint, without saying none exists. T3 run 0: "product catalogs" as an export source (no such thing).
+- T2 run 0: "`app/billing.py`: Calls cart totals for invoicing". It does not call `cart_total`. Both T2 runs take the report's two-code premise as given and miss that `TENOFF` alone is already negative.
+- T12 runs 0 and 1: an invented history for `legacy_id` ("remnant from an earlier system integration", "used to support migration from a legacy system") and "no longer used" as fact. Both put backup or rollback Out of Scope ("assuming standard backup policies are in place", "Assumed no given this is demo code"), against the destructive-change rule; this is worse than the partial result recorded for T9/T12 in 3g.
+- T2/T12: "numbered files (001, 002, etc.)" is a convention inferred from one file, written as a repository fact.
+
+Not found in any plan: a cited path that does not exist, invented row counts or milliseconds (T3 benchmark sizes of 100/10K/100K rows are proposed test sizes, not claims).
+
+Decision: no rule change in this round. The recurring Haiku class (premise as fact, destructive rule skipped) goes to TODO as a candidate rule that must be paired with a benign prompt; Haiku T12 backup/rollback is added to the known Haiku limits.
