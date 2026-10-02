@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-12 (latest pass: round 3i, 2026-10-02). Helper test environment: Python 3, standard library only.
+Validation date: 2026-09-12 (latest pass: round 3j, 2026-10-02). Helper test environment: Python 3, standard library only.
 
 ## Initial build (2026-09-12)
 
@@ -353,3 +353,23 @@ Haiku: 6 of 8 plans state a false or unsupported fact. One pattern recurs, the r
 Not found in any plan: a cited path that does not exist, invented row counts or milliseconds (T3 benchmark sizes of 100/10K/100K rows are proposed test sizes, not claims).
 
 Decision: no rule change in this round. The recurring Haiku class (premise as fact, destructive rule skipped) goes to TODO as a candidate rule that must be paired with a benign prompt; Haiku T12 backup/rollback is added to the known Haiku limits.
+
+## Round 3j: premise-as-fact rule, benign prompt T14 (2026-10-02)
+
+Change: a Decision Rule in `SKILL.md` (a claim in the request about the repository or its history is Unresolved until checked; Background states what the repository shows; a premise the repository does not show goes to Open Questions; a premise the check confirms is written as Confirmed and not turned into a question). New benign prompt T14 in `tests/prompts.md` (`invoice()` should also return `created_at`; the premise is true, and the rubric fails over-hedging). Bundle validator OK, 104 tests OK.
+
+Run: skill arm, hand read, not scored, not blind. Haiku T2, T3, T8, T12, T14 x 3 runs (15 plans); Sonnet T14, T2, T12 x 2 runs (6 plans). Compared with the Round 3i plans (2 runs each, other draws):
+
+| Haiku check | 3i (before) | 3j (after) |
+|---|---|---|
+| T2: `billing.py` stated as a `cart_total` caller | 1 of 2 | 0 of 3 ("may depend", verify) |
+| T2: sees `TENOFF` alone is already negative | 0 of 2 | 1 of 3 (run 2 says $5 becomes -$5) |
+| T3: says no export endpoint was found | 0 of 2 | 2 of 3 |
+| T8: signup stated as existing | 1 of 2 | 2 of 3 (run 0 says it is unresolved) |
+| T12: invented history for `legacy_id` | 2 of 2 | 3 of 3 |
+| T12: backup or rollback raised (not out of scope) | 0 of 2 | 2 of 3 as a question |
+| T14 (benign): over-hedges a fact the repository shows | n/a | 1 of 3 (run 1 asks whether `created_at` exists); 2 of 3 invent a motive ("coupling", "delivery timeline") |
+
+Sonnet: T14 states `invoice()`, `query` and `created_at` as Confirmed with the file evidence and asks no existence question (2 of 2); T2 and T12 keep the Round 3i behavior (2 of 2 each). No over-hedging found.
+
+Result: partial and directional. Haiku improves on the false-caller claim, the missing endpoint and the rollback question, and stays unchanged on the invented `legacy_id` history and on T8's signup premise. One benign over-hedge in 3 Haiku runs, none in Sonnet. Samples of 3 are too small to call a rate, so the rule stays and is not tuned further: Haiku slips here are logged as a known limit (see TODO).

@@ -121,6 +121,14 @@ task:
 - Never represent an Inferred conclusion as a Confirmed repository fact.
 - Never fabricate Unresolved information merely to make Open Questions look
   shorter or the task look more complete.
+- A claim in the request about the repository or its history (an endpoint,
+  signup flow, caller or column exists; code is "unused" or "slow"; why
+  something was added) is Unresolved until you have checked it. Background
+  states what the repository shows. When the repository does not show the
+  premise or contradicts it, say so in Background and ask in Open Questions;
+  do not write the premise as fact or invent its history. When the check
+  confirms the premise, write it as Confirmed and do not turn it into a
+  question.
 - Only cite repository paths that were actually verified to exist.
 - A user-supplied or repository-defined format changes the headings, not the
   evidence rules: still check the repository, still label Inferred items, and
