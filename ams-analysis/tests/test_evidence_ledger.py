@@ -43,12 +43,26 @@ class ShippedLedgerTests(unittest.TestCase):
     def test_shipped_ledger_is_valid(self):
         report = run(*ledger())
         self.assertEqual(report["status"], "pass", report["errors"] + report["warnings"])
-        self.assertEqual(report["counts"], {"sources": 49, "claims": 124})
+        self.assertEqual(report["counts"], {"sources": 53, "claims": 130})
+
+    def test_cosmic_ray_database_rows_stay_secondary_and_unverified_where_unread(self):
+        sources, claims = ledger()
+        by = {s["id"]: s for s in sources}
+        for sid in ("S50", "S51", "S52", "S53"):
+            self.assertEqual(by[sid]["tier"], 6, sid)
+        self.assertEqual(by["S52"]["verification_level"], "not-verified")
+        self.assertIsNone(by["S52"]["access_date"])
+        self.assertEqual([c["id"] for c in claims if "S52" in c["source_ids"]], [])
+        for cid in ("C125", "C126", "C127", "C128", "C129", "C130"):
+            c = find(claims, cid)
+            self.assertEqual(c["support_kind"], "third_party_context", cid)
+            self.assertNotEqual(c["verification_strength"], "full-text", cid)
+        self.assertIn("not a primary AMS source", find(claims, "C125")["limitations"])
 
     def test_migration_retains_every_id(self):
         sources, claims = ledger()
-        self.assertEqual([s["id"] for s in sources], [f"S{n:02d}" for n in range(1, 50)])
-        self.assertEqual(sorted(c["id"] for c in claims), sorted(f"C{n:02d}" for n in range(1, 125)))
+        self.assertEqual([s["id"] for s in sources], [f"S{n:02d}" for n in range(1, 54)])
+        self.assertEqual(sorted(c["id"] for c in claims), sorted(f"C{n:02d}" for n in range(1, 131)))
 
     def test_migration_retains_scope_and_limitation_text(self):
         _, claims = ledger()
