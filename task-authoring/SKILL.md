@@ -121,6 +121,14 @@ task:
 - Never represent an Inferred conclusion as a Confirmed repository fact.
 - Never fabricate Unresolved information merely to make Open Questions look
   shorter or the task look more complete.
+- A claim in the request about the repository or its history (an endpoint,
+  signup flow, caller or column exists; code is "unused" or "slow"; why
+  something was added) is Unresolved until you have checked it. Background
+  states what the repository shows. When the repository does not show the
+  premise or contradicts it, say so in Background and ask in Open Questions;
+  do not write the premise as fact or invent its history. When the check
+  confirms the premise, write it as Confirmed and do not turn it into a
+  question.
 - Only cite repository paths that were actually verified to exist.
 - A user-supplied or repository-defined format changes the headings, not the
   evidence rules: still check the repository, still label Inferred items, and
@@ -135,6 +143,13 @@ task:
   table, deleting data, a migration with no down path), say so in Technical
   Approach, require a backup or rollback path in Acceptance Criteria, and list
   the readers of the thing being removed that the repository shows.
+- A canonical worked example that presents an incident, run, dataset or
+  measurement (any archetype, Postmortem above all) is a constructed
+  scenario: label it illustrative in its opening lines, keep every number and
+  date in it consistent from header to body, and never present invented
+  specifics (dates, counts, durations, customers) as a real event. For a
+  skill example this applies to a request like "write a postmortem example
+  for ..."; a real incident the user describes is still written up as given.
 - Keep agent-specific adapters discovery-only; the Core Workflow and the
   template contract live in exactly one place each.
 - When the work under authoring is an agentic, autonomous, or iterative loop,

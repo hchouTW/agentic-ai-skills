@@ -297,6 +297,11 @@ name at least one concrete, checkable monitoring rule (a metric + threshold
 + action), not "add more monitoring". Frontmatter scenario field:
 `incident:`.
 
+Postmortem (and every archetype that tells a story) is an illustrative
+scenario, not a real event: say so in the opening lines (for example a
+`> Illustrative scenario` note under the title), and keep durations, counts
+and timestamps identical wherever they recur (header, timeline, body, 5-Whys).
+
 ## Correctness review
 
 The validator enforces structure, per-archetype rules (gate lines, table

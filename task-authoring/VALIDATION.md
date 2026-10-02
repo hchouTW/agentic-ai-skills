@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-12 (latest pass: round 2, 2026-10-01). Helper test environment: Python 3, standard library only.
+Validation date: 2026-09-12 (latest pass: round 3l, 2026-10-02). Helper test environment: Python 3, standard library only.
 
 ## Initial build (2026-09-12)
 
@@ -320,3 +320,89 @@ after every edit in this section: both pass throughout.
 - No integration with `skill-router`'s routing table was made - see this
   task's Open Questions; `task-authoring` is not currently discoverable
   through `skill-router`'s automatic triage.
+
+## Round 3h: illustrative-incident rule, T13 rerun (2026-10-02)
+
+Change: a Decision Rule in `SKILL.md` and a paragraph in `references/example-authoring.md` say a worked example's incident, run or measurement is a constructed scenario, labelled illustrative in its opening lines, with numbers and dates consistent throughout. A real incident the user describes is still written up as given. Bundle validator OK, 104 tests OK.
+
+T13, skill arm only, 3 runs each, open (non-blind) scorer, no baseline rerun:
+
+| Bullet | Haiku (was 0 P in 3g, (e) F/F) | Sonnet |
+|---|---|---|
+| (a) five sections | P ~ P | P P P |
+| (b) literal fences, diff | P ~ ~ | P P ~ |
+| (c) 5-Whys | ~ ~ P | P P P |
+| (d) monitoring rule | P P P | P P P |
+| (e) illustrative framing | P ~ P | P P P |
+
+Result: (e) no longer fails on either model (Haiku 2 P / 1 ~ / 0 F, previously F in both runs; Sonnet 3 P). Haiku (b) and (c) stay partial. Haiku runs read 1-3 files each; the rule sits in `SKILL.md`, which all 6 runs read. Small sample (3 runs), not blind: treat as a directional fix. The scorer's per-run self-contradiction check (4 h vs 16 min) was not separately inspected. No benign-prompt pair was needed: the rule only labels, it refuses nothing.
+
+## Round 3i: hand read of skill-arm tasks for invented facts (2026-10-02)
+
+Method: T2, T3, T8 and T12, skill arm, 2 runs each on Haiku and Sonnet (16 plans, fresh run on this branch, not the Round 3g plans), every repository claim checked by hand against `tests/fixtures/shop_repo`. Not scored, not blind; the linter cannot see these.
+
+Sonnet: no invented fact in 8 plans. Every one noticed the repository contradicting the request (T2: `TENOFF` alone already gives -5.00 and no caller or UI exists; T3: no export endpoint; T8: no signup and no `users` migration; T12: only reader is `app/billing.py:5`). In T2, T3 and T12 Sonnet said it could not run `scripts/lint_task.py` (the eval sandbox hides the skill's `scripts/`): an eval artifact, not a skill fault.
+
+Haiku: 6 of 8 plans state a false or unsupported fact. One pattern recurs, the request's premise written into Background as repository fact:
+- T8 run 1: "The application currently allows user registration". No signup exists. (Run 0 got this right.)
+- T3 run 1: "causes memory spikes that impact other concurrent requests" and a scope that builds an endpoint, without saying none exists. T3 run 0: "product catalogs" as an export source (no such thing).
+- T2 run 0: "`app/billing.py`: Calls cart totals for invoicing". It does not call `cart_total`. Both T2 runs take the report's two-code premise as given and miss that `TENOFF` alone is already negative.
+- T12 runs 0 and 1: an invented history for `legacy_id` ("remnant from an earlier system integration", "used to support migration from a legacy system") and "no longer used" as fact. Both put backup or rollback Out of Scope ("assuming standard backup policies are in place", "Assumed no given this is demo code"), against the destructive-change rule; this is worse than the partial result recorded for T9/T12 in 3g.
+- T2/T12: "numbered files (001, 002, etc.)" is a convention inferred from one file, written as a repository fact.
+
+Not found in any plan: a cited path that does not exist, invented row counts or milliseconds (T3 benchmark sizes of 100/10K/100K rows are proposed test sizes, not claims).
+
+Decision: no rule change in this round. The recurring Haiku class (premise as fact, destructive rule skipped) goes to TODO as a candidate rule that must be paired with a benign prompt; Haiku T12 backup/rollback is added to the known Haiku limits.
+
+## Round 3j: premise-as-fact rule, benign prompt T14 (2026-10-02)
+
+Change: a Decision Rule in `SKILL.md` (a claim in the request about the repository or its history is Unresolved until checked; Background states what the repository shows; a premise the repository does not show goes to Open Questions; a premise the check confirms is written as Confirmed and not turned into a question). New benign prompt T14 in `tests/prompts.md` (`invoice()` should also return `created_at`; the premise is true, and the rubric fails over-hedging). Bundle validator OK, 104 tests OK.
+
+Run: skill arm, hand read, not scored, not blind. Haiku T2, T3, T8, T12, T14 x 3 runs (15 plans); Sonnet T14, T2, T12 x 2 runs (6 plans). Compared with the Round 3i plans (2 runs each, other draws):
+
+| Haiku check | 3i (before) | 3j (after) |
+|---|---|---|
+| T2: `billing.py` stated as a `cart_total` caller | 1 of 2 | 0 of 3 ("may depend", verify) |
+| T2: sees `TENOFF` alone is already negative | 0 of 2 | 1 of 3 (run 2 says $5 becomes -$5) |
+| T3: says no export endpoint was found | 0 of 2 | 2 of 3 |
+| T8: signup stated as existing | 1 of 2 | 2 of 3 (run 0 says it is unresolved) |
+| T12: invented history for `legacy_id` | 2 of 2 | 3 of 3 |
+| T12: backup or rollback raised (not out of scope) | 0 of 2 | 2 of 3 as a question |
+| T14 (benign): over-hedges a fact the repository shows | n/a | 1 of 3 (run 1 asks whether `created_at` exists); 2 of 3 invent a motive ("coupling", "delivery timeline") |
+
+Sonnet: T14 states `invoice()`, `query` and `created_at` as Confirmed with the file evidence and asks no existence question (2 of 2); T2 and T12 keep the Round 3i behavior (2 of 2 each). No over-hedging found.
+
+Result: partial and directional. Haiku improves on the false-caller claim, the missing endpoint and the rollback question, and stays unchanged on the invented `legacy_id` history and on T8's signup premise. One benign over-hedge in 3 Haiku runs, none in Sonnet. Samples of 3 are too small to call a rate, so the rule stays and is not tuned further: Haiku slips here are logged as a known limit (see TODO).
+
+## Round 3k: description trim with both trigger sets rerun, reverted (2026-10-02)
+
+Candidate: 925 characters (was 1017). It added "stack trace" to the task wording and the 'turn this stack trace into a task' trigger, named the prompt-design terms more briefly (ReAct loop with max-iteration guardrails), and added a negative trigger for writing Claude API or SDK code (use `claude-api`). Harness: `hep-analysis/tests/routing_eval.py --target task-authoring`, Sonnet, 2 runs per query, same sets, same day, so the comparison is like for like.
+
+| Set | Current description (baseline) | Candidate |
+|---|---|---|
+| `trigger_queries.json` (22) recall | 20/24 runs, 0 false triggers | 19/24, 0 false triggers |
+| `trigger_queries_holdout.json` (16) recall | 12/16, 0 false triggers | 12/16, 0 false triggers |
+
+The misses did not move. Stack-trace-to-task (case 7) and the self-healing retry loop (case 10) still load no skill in 2 of 2 runs; the holdout token-budget and ReAct queries (cases 6, 7) still go to `claude-api` in 2 of 2 runs. The candidate added one miss (case 11, "Refine this task: 'make the dashboard better'", run 1), which is within run-to-run noise but is not a gain.
+
+Decision: reverted, the current description stays. Wording in the description does not fix these misses: the model answers the stack-trace query without calling any skill, and the LLM-prompt-design queries are contested with `claude-api` by design. The holdout set has now been used for a change; treat it as no longer clean for the next one. Fresh baseline for later reruns on 2026-10-02: Sonnet 20/24 and 12/16, 0 false triggers (Haiku was 0 in this harness before).
+
+## Round 3l: Opus behavior eval, T1-T14 (2026-10-02)
+
+Model `opus`, baseline vs skill, 2 runs per arm per prompt (56 runs, no usage-limit notice in any result), current branch (illustrative-incident and premise-as-fact rules in `SKILL.md`, description unchanged). Per-bullet scorer: Sonnet; 59 bullets, 118 verdicts per arm. The blind scorer returned no JSON for T7 once and was rescored with `--only T7`.
+
+| Scorer | Baseline P / ~ / F | Skill P / ~ / F |
+|---|---|---|
+| Open | 58 / 26 / 34 | 106 / 11 / 1 |
+| Blind | 57 / 28 / 33 | 108 / 10 / 0 |
+
+Open and blind agree on 214 of 236 bullet verdicts. The blind scorer named the arm correctly in 55 of 55 guesses, so the template gives the arm away and the gap is overstated, as in Round 3g. All 28 skill runs read `SKILL.md`; 1 to 3 references per run (mean 2.1).
+
+Skill-arm non-passes (12 verdicts) and what they are:
+- Eight are "has the 12 template sections" (T3, T8, T12 (d)): the scorer counts about 10 headings. This is a scorer miscount: `scripts/lint_task.py` on the extracted documents of T1, T2, T3, T8, T12 and T14 (12 runs) reports 0 errors; its warnings are proposed new files (`migrations/002_*.sql`, `tests/test_billing.py`) and `app/db.query`, not invented existing paths.
+- T2 (c) in both runs: the plan assumes a clamp at 0 while asking the floor question, so the floor is partly written as a rule.
+- T6: a `Done when` bullet that depends on open points, and an inline Open Questions note inside the requested three-part format (the format-compliance case; partly the known frame effect).
+
+Hand read for invented facts, premise cases T3, T8, T12 (6 skill plans): none. All say no export endpoint and no signup exist, that `users` has no migration, that the history of `legacy_id` is Unresolved, and that the drop is destructive. This is the Sonnet pattern, not the Haiku one (Round 3i/3j).
+
+Result: Opus matches Sonnet or does slightly better with the skill (Sonnet 3g: 99 / 9 / 0 against 57 / 23 / 28 over 108). The baseline gap is again mostly template and evidence-labelling, which the skill supplies.
