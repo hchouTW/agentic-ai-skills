@@ -214,6 +214,18 @@ class SkillKinematicSystematicRowTest(unittest.TestCase):
             self.assertIn(needle, row)
 
 
+class SkillSyntheticSampleRuleTest(unittest.TestCase):
+    """Step 4 must point to the generator, and the generator must be documented."""
+
+    def test_skill_md_points_to_the_generator(self):
+        text = (ROOT / 'SKILL.md').read_text()
+        self.assertIn('python3 scripts/make_synthetic_nanoaod.py --out sample.root', text)
+        self.assertIn('instead of writing your own ROOT-writing code', text)
+        self.assertIn('write a ROOT output file only if asked', text)
+        self.assertIn('- `scripts/make_synthetic_nanoaod.py`:', text)
+        self.assertLess(text.index('make_synthetic_nanoaod.py --out sample.root'), text.index('## API selection'))
+
+
 class SkillAwkwardLeadingObjectTest(unittest.TestCase):
     """SKILL.md must carry the leading-object rule that Haiku (which skips references) needs."""
 

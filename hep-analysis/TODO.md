@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (hep-analysis)
 
-State (verified 2026-10-02 on `main`, all work merged through PR #102): `python3 scripts/validate_skill_bundle.py` OK (119 files); `python3 -m unittest discover -s tests` 214 tests OK. There are 12 skips without the optional environments: 7 ROOT, 4 pyhf, 1 Combine. There are 5 skips with `HEP_ROOT_PYTHON` set. P1-P4 and follow-up rounds 3-6 are done, and the 2026-10-02 passes (ref 13 and AMS checks, awkward, run-before-deliver, units, P03 and P08 wording) are merged. Open: one decision, one dated re-check and two recurring checks. Read `VALIDATION.md` first, then this file.
+State (verified 2026-10-02 on `main`, all work merged through PR #102): `python3 scripts/validate_skill_bundle.py` OK (121 files); `python3 -m unittest discover -s tests` 222 tests OK. There are 12 skips without the optional environments: 7 ROOT, 4 pyhf, 1 Combine. There are 5 skips with `HEP_ROOT_PYTHON` set. P1-P4 and follow-up rounds 3-6 are done, and the 2026-10-02 passes (ref 13 and AMS checks, awkward, run-before-deliver, units, P03 and P08 wording) are merged. Open: one decision, one dated re-check and two recurring checks. Read `VALIDATION.md` first, then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -25,10 +25,10 @@ Working rules:
 ## Open
 
 - [x] **No-data prompts (decided 2026-10-02, not adopted):** a rule to build a labelled synthetic sample instead of asking was tried; P05 delivered in 1 of 8 runs (0 of 8 before) and that run presented synthetic numbers as informative, while P02 already delivers 8 of 8. The `SKILL.md` change was reverted; details in `VALIDATION.md`. Reopen only if a user asks for the behavior.
-- [ ] **P02 turn limit:** about 1 of 8 to 2 of 8 P02 runs still end by `error_max_turns` (3 of 24 with the three-fix cap in place) while building and debugging their own test data. Options: accept it (the harness limit is 25 turns, real use has none), or shorten what the model is asked to test. Needs a decision before more wording.
+- [x] **P02 turn limit (fixed 2026-10-02):** the turns went to learning uproot's writing API for the test data and the output histogram. `scripts/make_synthetic_nanoaod.py` now builds the sample and prints the expected numbers, and `SKILL.md` says not to write ROOT output unless asked: P02 x16 went from 3/24 turn-limit runs to 0/16, with all 16 scripts verified against the known numbers. Details in `VALIDATION.md`.
 - [ ] **Dated re-check (after mid-2027):** check the AMS-02 Layer-0 status in ref 38. The installation creates a new detector era, and the schedule is known only from a CERN news item (ams-analysis C102).
 - [ ] **Recurring, on any change to references 02/17/37 or the `SKILL.md` invariants, procedure or "Check first" rows:** re-run `tests/prompts.md` on Haiku with `tests/prompts_eval.py`, at least 2 samples per prompt (about $1.5-1.8, 32 runs). Last run 2026-10-02 after every change of that day: 30 PASS, 8 -> 2 PARTIAL over seven reruns, 0 FAIL. Per-prompt results are in `VALIDATION.md`.
-- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (file count, test count, skips). Last done 2026-10-02 (119 files, 214 tests, 12 skips).
+- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (file count, test count, skips). Last done 2026-10-02 (121 files, 222 tests, 12 skips).
 
 Accepted residuals (not tasks unless priorities change):
 - Haiku skips the skill for self-contained numeric questions: calorimeter resolution 0/4, Cherenkov angle, photoelectron yield, TOF reach.
@@ -71,3 +71,4 @@ Accepted residuals (not tasks unless priorities change):
 - Ref 13 live re-check and IACT caveats corrected (CTA requirement <10%, VERITAS flux ~25%); AMS-02 numbers checked against Phys. Rept. 894; fifth query set built and kept unrun.
 - `SKILL.md` additions: cycle-24 solar epoch (P10), awkward leading-object rule (P02), run-delivered-code step with a three-fix cap and run-bundled-scripts line, MC-normalization units note and RDataFrame code request (P01), per-cut yield check for kinematic systematics (P03), run `cosmic_ray_flux.py` with Bash and quote its output (P08). Each has a guard test; tests 205 -> 214.
 - `tests/prompts_eval.py` records Bash commands per run. Seven full Haiku reruns that day went from 24/8/0 to 30/2/0 (PASS/PARTIAL/FAIL).
+- `scripts/make_synthetic_nanoaod.py` (synthetic NanoAOD-like sample with known expected counts) fixed the P02 turn-limit failures; a rule to build a synthetic sample when no data is given was tried and not adopted.
