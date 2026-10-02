@@ -43,7 +43,7 @@ class ShippedLedgerTests(unittest.TestCase):
     def test_shipped_ledger_is_valid(self):
         report = run(*ledger())
         self.assertEqual(report["status"], "pass", report["errors"] + report["warnings"])
-        self.assertEqual(report["counts"], {"sources": 60, "claims": 174})
+        self.assertEqual(report["counts"], {"sources": 60, "claims": 180})
 
     def test_cosmic_ray_database_rows_stay_secondary_and_unverified_where_unread(self):
         sources, claims = ledger()
@@ -62,7 +62,7 @@ class ShippedLedgerTests(unittest.TestCase):
     def test_migration_retains_every_id(self):
         sources, claims = ledger()
         self.assertEqual([s["id"] for s in sources], [f"S{n:02d}" for n in range(1, 61)])
-        self.assertEqual(sorted(c["id"] for c in claims), sorted(f"C{n:02d}" for n in range(1, 175)))
+        self.assertEqual(sorted(c["id"] for c in claims), sorted(f"C{n:02d}" for n in range(1, 181)))
 
     def test_migration_retains_scope_and_limitation_text(self):
         _, claims = ledger()
