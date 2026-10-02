@@ -1,10 +1,100 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, P03 per-cut check line (latest pass; full Haiku rerun after PR #99 the same day; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, full Haiku rerun after the P08 wording (latest pass; P08 run-the-script wording the same day; full Haiku rerun after PR #101 the same day; P03 per-cut check line the same day; full Haiku rerun after PR #99 the same day; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
 Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 214 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## Full Haiku rerun after the P08 wording (2026-10-02, branch `hep-analysis-p08-script`)
+
+On the branch with every SKILL.md change of the day (awkward rule, run-before-deliver with cap,
+units note, P03 per-cut check, P08 "run it with Bash before you answer"). `prompts_eval.py --model
+haiku --runs 2 -j 4`, 32 runs, $1.82, no errors; this is the first full rerun that records Bash
+commands. **30 PASS, 2 PARTIAL, 0 FAIL.** Full reruns that day: 24/8/0, 26/6/0, 26/5/1, 24/8/0,
+28/4/0, 29/3/0, now 30/2/0.
+
+- P08 2 PASS: both executed `cosmic_ray_flux.py` and gave flux 2.78e-7 with the right asymmetric
+  errors and the spillover and background caveats (10 of 10 runs correct and complete since the
+  wording, including the 8-run test).
+- P12 2 PASS: both ran Bash (the `li_ma_significance.py` script, one after a wrong module path and
+  a hand calculation) and gave 2.74 sigma and a post-trial p of about 0.7; step 4's "run a bundled
+  script" line is being followed beyond the flux case.
+- P11 2 PASS: both runs loaded `ams-analysis` (4 reference reads each) and gave a sourced, dated
+  result (PRL 134, 1.00-41.9 GV, 2011-2022); earlier reruns loaded no skill in 0 of 2 and 1 of 2
+  runs. Two samples, so not yet a trend.
+- P01 2 PASS (10 of 10 since PR #99), P03 2 PASS (normalization-only, per-cut yield check and the
+  identical-yields warning in both; 4 of 4 since PR #101; MET named in 1 of 2), P04, P05 (both state
+  that data above 1 TeV is masked), P06, P07, P09, P13, P14, N01, N02 PASS.
+- PARTIAL x2:
+  - P02 run 1: the script is correct on the synthetic TTree (185 events, mass range 22.90-1038.86
+    GeV, weighted integral 95.00 over its 0-500 GeV range), but it prints placeholder text in its
+    cutflow ("Total events: (unknown)", "Events with >=2 selected jets: (see output above)") and
+    labels the integral as "Histogram entries: 95". Run 0 PASS (185 events, sum of weights 107.00,
+    sum of weights^2 185.00).
+  - P10 run 1: solar maximum, 1.2x margin and demodulation are right, but it never mentions
+    backtracing and bases the cutoff on a safety-factored Stormer value; run 0 PASS.
+- P05 and P07 runs executed only `ls` and `find` on the empty working directory; harmless.
+- Conclusion: no regression anywhere from the day's changes; the P08 slip is gone; the two PARTIALs
+  are single-run slips with no change near them.
+
+## P08: run the flux script before answering (2026-10-02, branch `hep-analysis-p08-script`)
+
+- Harness: `tests/prompts_eval.py` now records each run's Bash commands (`bash` in `result.json`,
+  `bash=N` in the printed line), so it is visible whether the bundled script was executed. Earlier
+  rerun files do not have it.
+- Baseline on the wording from PR #99 ("run the script ... do not divide by hand"), P08 x8, $0.44:
+  the script was executed in **5 of 8** runs and the flux, errors and units were right and complete in
+  **4 of 8**. The failures sit in the runs that did not execute it: 2 of 3 non-runners wrote a flux
+  a factor 10 too small (1e-8), the third gave only the command; one runner garbled the upper error
+  (5.48e-8 for +2.70e-7).
+- Change in the sqrt(N) row of `SKILL.md`: run `scripts/cosmic_ray_flux.py` "with Bash before you
+  answer", quote the `flux`, `flux_lower` and `flux_upper` it prints, "Never write a flux value you
+  did not read from that output; if you cannot run it, give the formula and the count interval from
+  the table only." `SkillUnitsAndScriptRulesTest` updated to the new phrases. Tests still 214,
+  bundle 119 files, description unchanged (1019 of 1024).
+- Rerun on the new wording, P08 x8, $0.44: the script was executed in **8 of 8** runs and the numbers
+  were right and complete in **8 of 8** (flux 2.78e-7, lower 1.27e-7 or error -1.51e-7, upper 5.48e-7
+  or error +2.70e-7, no 1e-8 values). One-sided Fisher exact test on correct-and-complete runs, 4/8
+  against 8/8: p = 0.038.
+- Scoring rule used (automatic, numbers only): central flux 2.78 with a 10^-7 exponent, a lower value
+  1.27e-7 or 1.51e-7, an upper value 5.48e-7, 5.49e-7 or 2.70e-7, and no such value with a 10^-8
+  exponent; "ran" means a Bash command containing `cosmic_ray_flux`. The scorer was fixed on the
+  baseline before the new wording was tried.
+- Other rubric items on the new runs: asymmetric errors 8/8; spillover mentioned 6/8; background
+  mentioned 7/8 (run 4 mentions neither, run 5 only background); the count interval [1.37, 5.92] is
+  stated in 4/8 (the others give the equivalent flux bounds). So the numerical slip is gone but two
+  runs drop the spillover caveat, which they included before.
+- Limits: 8 samples per arm; the full 16-prompt rerun after this change is in the next section up;
+  this branch also carries the record of the rerun after PR #101.
+
+## Full Haiku rerun after PR #101 (2026-10-02, branch `hep-analysis-rerun-after-101`)
+
+Follow-up to PR #101, on merged `main` with the P03 per-cut check, the P01 units note, the
+run-the-script rule, the run-before-deliver rule and cap, and the awkward and cycle-24 lines all in
+place. `prompts_eval.py --model haiku --runs 2 -j 4`, 32 runs, $1.72, no errors. **29 PASS, 3
+PARTIAL, 0 FAIL.** Full reruns that day: 24/8/0, 26/6/0, 26/5/1, 24/8/0, 28/4/0, now 29/3/0.
+
+- Fixed prompts stay fixed: P01 2 PASS (factor 1000, `genEventSumw`, code; 8 of 8 runs since PR
+  #99), P03 2 PASS (flat scaling is only a normalization change, per-cut yield check with the
+  identical-yields warning, and MET named in both; was 0 of 8 before PR #101), P10 2 PASS (solar
+  maximum, 1.2x margin, backtracing, demodulation; epoch correct 13/13 since the cycle-24 sentence),
+  P02 2 PASS (both scripts executed on the synthetic TTree: 185 events, weighted mean 263.2 GeV and
+  range 22.9-1038.9 GeV, as the reference; no weight sum printed).
+- PARTIAL x3, none seen the same way before:
+  - P08 run 1: gives [1.37, 5.92] and the script command, but divides by hand and is a factor 10 too
+    small (1.27e-8, 5.48e-8); run 0 PASS (2.78e-7, 1.27e-7, 5.48e-7, errors -1.51e-7 and +2.70e-7,
+    spillover and background). The P08 factor-10 slip has now appeared in 5 of the last 12 runs.
+  - P12 run 0: not a detection and a trials correction, but the local significance is stated as 2.54
+    sigma (Li & Ma gives 2.74) and the post-trial value as 0.01 sigma; run 1 PASS (2.74, p 0.71).
+  - P13 run 0: asks the user for the proton and iron means instead of answering, quotes one hadronic
+    model only, and includes a confused example (Xmax(p) = 700 below the 780 measured); run 1 PASS
+    (EPOS-LHC and QGSJet, sigma(Xmax), muon content).
+- PASS: P04 (no signal-contamination point), P05 (both say the m > 1 TeV region is masked), P06, P07,
+  P09, P11 (no skill loaded, no number given), P14, N01, N02.
+- No effect of any of today's seven SKILL.md changes on the non-targeted prompts beyond noise;
+  P12 and P13 PARTIALs are single-run slips with no change near them. Remaining open item for the
+  prompts is P08 (about half the runs divide by hand).
 
 ## P03 per-cut check line (2026-10-02, branch `hep-analysis-p03-check`)
 
