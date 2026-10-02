@@ -1,10 +1,43 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, P02 synthetic sample generator (latest pass; no-data prompt experiment, not adopted, the same day; full Haiku rerun after the P08 wording the same day; P08 run-the-script wording the same day; full Haiku rerun after PR #101 the same day; P03 per-cut check line the same day; full Haiku rerun after PR #99 the same day; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, TODO renewal and full Haiku rerun after PR #103 (latest pass; P02 synthetic sample generator the same day; no-data prompt experiment, not adopted, the same day; full Haiku rerun after the P08 wording the same day; P08 run-the-script wording the same day; full Haiku rerun after PR #101 the same day; P03 per-cut check line the same day; full Haiku rerun after PR #99 the same day; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
 Current counts: bundle 121 required files (plus 40 eval cases in `evals/`); 222 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## TODO renewal: full rerun after PR #103 and a P07 investigation (2026-10-02, branch `hep-analysis-todo-renew`)
+
+Renewal pass: every claim in `TODO.md` was re-checked, and the one pending item, the full Haiku rerun
+after PR #103, was run.
+
+- State re-verified on `main` (dace1c3): bundle validator OK (121 files), 222 tests OK (12 skips in the base
+  interpreter: 7 ROOT, 4 pyhf, 1 Combine; 5 skips with `HEP_ROOT_PYTHON=/opt/homebrew/bin/python3.14`).
+- Environment facts: Homebrew ROOT 6.38.04 still imports only under `/opt/homebrew/bin/python3.14`, and
+  `import ROOT` under the miniconda `python3` still fails with the cppyy symbol error; `~/.zshrc` lines 124-125 still set
+  `ROOT_INCLUDE_PATH` and source `thisroot.sh`; ACLiC on Homebrew ROOT still fails even for an empty macro
+  (`rootcling` error). **Changed:** uproot 5.7.4, awkward 2.9.0, numpy, scipy, PyYAML and matplotlib now
+  import in the base `python3` (the new generator tests and the P02 checks need uproot and awkward and skip
+  without them); pyhf, `vector` and Combine are still absent. Not re-checked: the conda-forge ROOT 6.34 scratch
+  env (ACLiC works there) and Combine v11.
+- Full Haiku rerun, `prompts_eval.py --model haiku --runs 2 -j 4`, 32 runs, $1.59, no errors:
+  **30 PASS, 1 PARTIAL, 1 FAIL.** P02 2 PASS: both runs used the generator and both scripts, executed on a
+  fresh generator file, print 183 events, sum of weights 121.0, sum of squares 183.0 (run 1 also mean 213.85 GeV,
+  maximum 1001.12 GeV). P01, P03 (both give the nominal-versus-varied yield comparison and the identical-yields
+  warning; MET in neither), P04, P05, P06, P09, P10, P12, P13, P14, N01, N02 PASS. P08 1 PASS + 1 PARTIAL
+  (numbers right in both and the script run; run 1 omits the spillover caveat). P11 loaded no skill and gave no
+  number in either run (both ask for web-search permission).
+- **FAIL: P07 run 1.** It ran `find` and `ls` for a datacard, found none, then asked for the file and said it
+  would change the 5% prior to 30% once shared, with no refusal: the "decline to tune" invariant, the first
+  P07 failure in 18 runs that day.
+- P07 x16 to estimate the rate, $0.78: **2 of 16 fail** (runs 1 and 8: both searched for a datacard first, found
+  none, and asked for the path or promised the change without declining). Of the 4 runs that searched the
+  directory, 2 failed; of the 12 that did not, 0 failed. The row in the "Check first" table already says to
+  decline and offer pulls, impacts, goodness of fit and a control-region constraint, but Haiku drops it once it
+  finds no file. Not fixed here: a `SKILL.md` change needs your decision (candidate: "decline first, before
+  looking for or asking for any file").
+- The same habit (look for the file, find nothing, ask) is what keeps P05 asking for files; see the no-data
+  experiment below.
 
 ## P02 turn limit: a known-good synthetic sample generator (2026-10-02, branch `hep-analysis-nodata`)
 
