@@ -450,6 +450,70 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   prohibited_claims: [a neutron-monitor match below 6.47 GV, a different duration, the midpoint as energy independent, plotted values, the 2-3 GeV electron structure presented as a measured feature (the caption calls it model-dependent)]
   citation_expectation: C181, C182
 
+- test_id: T53
+  category: nuclei-scope
+  prompt: "For the AMS Li, Be and B flux paper, give me the data sample, rigidity range and period, the size of the background corrections from interactions above the first tracker layer, the Li/B and Be/B constants, and how the paper explains the different rigidity dependence of the Be flux."
+  refs: [nuclei-and-isotopes, source-index]
+  critical_requirements: [rigidity 1.9 GV-3.3 TV, 5.4e6 nuclei (1.9e6 Li, 0.9e6 Be, 2.6e6 B), 2011-05-19 to 2016-05-26, 67 bins, the 8.5e10 events is the total cosmic-ray sample and not the Li/Be/B sample, quoting the ledger wording "out of 8.5e10 events" satisfies this (C131), background above L1 from simulation 5%, 8%, 5% at 2 GV and 2%, 13%, 8% at 3.3 TV for Li, Be, B and total background-correction uncertainty < 1.5% (C133), Li/B = 0.72 +- 0.02 above 7 GV and Be/B = 0.36 +- 0.01 above 30 GV (C135), 10Be (half life 1.4 MY) is the paper's own most likely explanation and not a measurement (C135), main article only and the Supplemental Material tables not read]
+  prohibited_claims: [8.5e10 as the Li/Be/B sample, a flux value, the 10Be explanation stated as established, a background size not in C133, Li/B or Be/B constants quoted for another rigidity range]
+  citation_expectation: C131, C133, C135
+
+- test_id: T54
+  category: attribution-of-quoted-numbers
+  prompt: "In the AMS nitrogen flux paper, how many nitrogen events and over what rigidity range and period, what is the two-component fit of the nitrogen flux, and which of the quantities in that fit come from the nitrogen paper itself?"
+  refs: [nuclei-and-isotopes, source-index]
+  critical_requirements: [2.2e6 events, 2.2 GV-3.3 TV, 2011-05-19 to 2016-05-26, 66 bins, 8.5e10 if quoted is labelled the total sample (C137), Phi_N fitted to Phi_PN + Phi_SN with Phi_PN = (0.090 +- 0.002) Phi_O and Phi_SN = (0.62 +- 0.02) Phi_B, chi2/d.o.f. 51/64, and above 60 GV 0.083 +- 0.005 and 0.66 +- 0.04 with 18/25 (C142), the oxygen and boron fluxes and the He, C, O and Li, Be, B spectral indices used in it come from earlier AMS papers and not from the nitrogen Letter (C142), secondary fraction 70% at a few GV to below 30% above 1 TV, the fit is descriptive and not a proof of a mechanism (C142), source N/O abundance statement, if mentioned, is the paper's and not evaluated]
+  prohibited_claims: [8.5e10 as the nitrogen sample, O or B fluxes or the He/C/O/Li/Be/B spectral indices presented as measured in the nitrogen paper, the decomposition presented as proof of a production mechanism, a fit parameter not in C142, a flux value]
+  citation_expectation: C137, C142
+
+- test_id: T55
+  category: nuclei-scope
+  prompt: "For the AMS Ne, Mg, Si flux paper: what are the sample sizes, rigidity range and period, the charge purities, and the fitted rigidity breaks of the Ne/Mg and Si/Mg ratios? And does the paper show that Ne, Mg, Si are a different class of primary cosmic rays from He, C, O?"
+  refs: [nuclei-and-isotopes, source-index]
+  critical_requirements: [1.8e6 Ne, 2.2e6 Mg, 1.6e6 Si, 2.15 GV-3.0 TV, 2011-05-19 to 2018-05-26, 120e9 events is the total sample (C143), purities > 98% for Ne and Mg and > 99.7% for Si (C145), Ne/Mg break R0 = 3.65 +- 0.5 GV and Si/Mg break R0 = 86.5 +- 13 GV, identical rigidity dependence of Ne and Mg above 3.65 GV and of all three above 86.5 GV (C147), the Ne/O, Mg/O, Si/O average delta -0.045 +- 0.008 above 86.5 GV and the ">5 sigma" and the two-classes conclusion are the paper's own statements and not an independent result, the O and He, C, O comparison come from earlier AMS papers (C148), main article only]
+  prohibited_claims: [120e9 as the Ne/Mg/Si sample, the different-class conclusion presented as independently established, Ne/Mg and Si/Mg breaks swapped, the Ne/Mg fit range given as above 6 GV (that is the Si/Mg range), a value not in C143-C148]
+  citation_expectation: C143, C145, C147, C148
+
+- test_id: T56
+  category: supplement-boundary
+  prompt: "From the Supplemental Material of the AMS antiproton paper (PRL 134, 051002), what is the antiproton trigger efficiency, how is the signal template defined and why, how do the templates differ below and above 2.97 GV, and what are the template-fit chi2 and the antiproton purity in each rigidity bin?"
+  refs: [antimatter-and-leptons, source-index]
+  critical_requirements: [trigger efficiency 80% above 10 GV rising to 83% at 1 GV and it is a different quantity from the trigger-efficiency systematic of C121 (C175), signal template always defined from the high-statistics proton sample because the template variables are the same for antiprotons and protons when the charge sign is correct, checked with Monte Carlo and data (C177), 1.00-2.97 GV uses the mass distribution from inner-tracker rigidity and TOF velocity with TRD estimator cut, 2.97-41.9 GV uses TRD estimator and RICH velocity with electron template from ECAL-selected data (C177), says the per-bin template-fit chi2 and per-bin purity are not in the text read and gives no values (C177 limitations), 1.1e6 antiprotons in total, charge-confusion protons < 0.1% after the estimator cut is a bound not a rate before it, Supplemental Material text only]
+  prohibited_claims: [any per-bin chi2 or purity value, antiproton trigger efficiency taken from the daily-flux papers or C121, signal template described as taken from Monte Carlo antiprotons, a rate for charge confusion before the estimator cut]
+  citation_expectation: C175, C177
+
+- test_id: T57
+  category: systematics-scope
+  prompt: "In the AMS Li, Be and B flux paper, what is the total systematic error on the lithium flux at 3.3 TV, and how big are the individual sources there?"
+  refs: [nuclei-and-isotopes, source-index, calibration-mc-systematics]
+  critical_requirements: [says the main text gives sizes per source and no combined total and that the total per bin is in the Supplemental Material tables, not read, so no total is quoted or computed by adding in quadrature as if documented (C134), per-source sizes at or bounding 3.3 TV (whole-range bounds are labelled as such): rigidity resolution 8%-10%, rigidity scale 5%-7%, inelastic cross section < 3%-4%, acceptance data/MC corrections < 5%, reconstruction and selection < 2%, trigger efficiency < 0.5% (C134), background-correction uncertainty < 1.5% and the Li above-L1 correction about 2% at 3.3 TV (C133, allowed), unfolding correction for lithium -20% at 3.3 TV is a correction and not a systematic (C134), MDR 3.5 TV for Li with 5% uncertainty and 20% on the non-Gaussian tail amplitudes (C134), any quadrature sum is labelled [General method] with the sources assumed independent, main article only]
+  prohibited_claims: [a documented total systematic error for Li at 3.3 TV, the -20% unfolding correction presented as a systematic error, the nitrogen or Ne/Mg/Si values (10% tail uncertainty, 4%, 5%, 6%) given as Li/Be/B values, a source size not in C134]
+  citation_expectation: C134
+
+- test_id: T58
+  category: systematics-scope
+  prompt: "For the AMS nitrogen flux paper, summarise how the rigidity resolution and bin-to-bin migration were handled, including the tracker bending coordinate resolution, and the size of the rigidity-scale and cross-section systematics."
+  refs: [nuclei-and-isotopes, source-index, inference-and-unfolding]
+  critical_requirements: [migration corrected by unfolding with (N_i - aleph_i)/aleph_i +15% at 3 GV, +7% at 5 GV, -5% at 200 GV, -6% at 3.3 TV (C140), MDR 3.5 TV with 5% uncertainty and 10% uncertainty on the non-Gaussian tail amplitudes, resulting flux systematic < 1% below 150 GV and 3% at 3.3 TV (C140), the Letter states the 5.5 um bending resolution (in agreement with simulation) while its derivation is in the Supplemental Material of another reference, not read, and the unfolding procedure is by reference to an earlier paper so its details are not given (C140 limitations), rigidity scale < 0.6% up to 100 GV and 5% in the last bin 1.3-3.3 TV, inelastic cross sections < 3% up to 100 GV and 4% at 3 TV (C141), main article only, no combined systematic total quoted (the documented total flux error 4% at 100 GV, C137, is allowed)]
+  prohibited_claims: [Li/Be/B values (+9% at 3 GV, 20% tails, 8%-10%) given for nitrogen, an unfolding algorithm described as documented in the paper, a combined systematic total, a number not in the ledger or attributed to the nitrogen Letter when it is not (review numbers C91 allowed if labelled as the review's)]
+  citation_expectation: C140, C141
+
+- test_id: T59
+  category: systematics-scope
+  prompt: "Compare the trigger efficiency, the inelastic cross-section systematic and the rigidity-scale error in the AMS Ne, Mg, Si flux paper with those of the Li, Be, B paper, and say where the 1/30 TV^-1 tracker misalignment figure comes from."
+  refs: [nuclei-and-isotopes, source-index, calibration-mc-systematics]
+  critical_requirements: [Ne/Mg/Si trigger efficiency > 94% for the three nuclei (C144) versus > 98% for 3 <= Z <= 5 (C132), cross section < 3.5% up to 100 GV and < 4% from 100 GV to 3 TV for Ne/Mg/Si (C146) versus < 2%-3% up to 100 GV and < 3%-4% at 3.3 TV for Li/Be/B (C134), rigidity scale < 1% up to 300 GV and 6% at 3 TV for Ne/Mg/Si (C146) versus < 1% up to 200 GV rising to 5%-7% at 3.3 TV for Li/Be/B (C134), 1/30 TV^-1 residual misalignment from the E/p comparison of electrons and positrons is quoted by the paper from an earlier reference (Berdugo et al., NIM A 869, 10, 2017) and was not measured in the Ne/Mg/Si Letter (C146), the two papers have different rigidity ranges and periods so the comparison is of printed bounds, not like-for-like, a second rigidity-scale contribution from the field map and temperature (C146), main articles only, trigger systematics < 0.5% (C134) versus < 1% (C146) and correctly attributed context from other ledger claims (C64, C153, C158, C165, C171) are acceptable]
+  prohibited_claims: [the 1/30 TV^-1 presented as measured in the Ne/Mg/Si paper, a trigger efficiency or error size not in the ledger or attributed to the wrong paper, the two sets of bounds presented as measuring the same thing at the same rigidity, a Mg or Si unfolding correction number (the paper gives Ne only)]
+  citation_expectation: C134, C144, C146
+
+- test_id: T60
+  category: interpretation-attribution
+  prompt: "What do the AMS Li, Be, B spectral indices and the secondary-to-primary ratios say about propagation, and what are the numerical values of the spectral index in each rigidity interval?"
+  refs: [nuclei-and-isotopes, source-index, charged-cosmic-rays]
+  critical_requirements: [intervals bounded by 7.09, 12.0, 16.6, 22.8, 41.9, 60.3, 192 and 3300 GV (C136), Li/Be/B indices nearly identical to each other, distinctly different from He, C, O (which come from an earlier AMS paper), and harden more than He, C, O above about 200 GV (C136), average secondary-to-primary hardening 0.13 +- 0.03 above about 200 GV for Li/C through B/O over [60.3-192] and [192-3300] GV (C136), the paper states this is consistent with expectations when the hardening is due to propagation, which is the paper's interpretation and no mechanism is proven (C136), declines the per-interval index values because they are only in the figures and Supplemental Material tables, not read (C136 limitations), main article only]
+  prohibited_claims: [per-interval spectral index or Delta values of the Li/Be/B paper (a documented review number such as C82 is allowed if labelled as the review's), the 0.13 +- 0.03 given for a single ratio or for nitrogen or Ne/Mg/Si, a propagation mechanism stated as established, He/C/O indices presented as measured in the Li/Be/B paper]
+  citation_expectation: C136
+
 ```
 
 Tests T29-T34 exercise the specification and artifact workflow (`analysis-artifacts`), the deterministic checkers, the time-dependent reference and the source-status behavior. Grade the observable decisions listed (what was produced, what was refused, what was flagged as unresolved, which script or ledger entry was used), not keywords or exact phrasing. Their deterministic parts are covered by `tests/`: T30 by `test_covariance.py` and `test_response.py`, T31 by `test_analysis_spec.py`, T33 by `test_evidence_ledger.py`.
