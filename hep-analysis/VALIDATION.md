@@ -1,10 +1,38 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, P03 per-cut check line (latest pass; full Haiku rerun after PR #99 the same day; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, full Haiku rerun after PR #101 (latest pass; P03 per-cut check line the same day; full Haiku rerun after PR #99 the same day; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
 Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 214 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## Full Haiku rerun after PR #101 (2026-10-02, branch `hep-analysis-rerun-after-101`)
+
+Follow-up to PR #101, on merged `main` with the P03 per-cut check, the P01 units note, the
+run-the-script rule, the run-before-deliver rule and cap, and the awkward and cycle-24 lines all in
+place. `prompts_eval.py --model haiku --runs 2 -j 4`, 32 runs, $1.72, no errors. **29 PASS, 3
+PARTIAL, 0 FAIL.** Full reruns that day: 24/8/0, 26/6/0, 26/5/1, 24/8/0, 28/4/0, now 29/3/0.
+
+- Fixed prompts stay fixed: P01 2 PASS (factor 1000, `genEventSumw`, code; 8 of 8 runs since PR
+  #99), P03 2 PASS (flat scaling is only a normalization change, per-cut yield check with the
+  identical-yields warning, and MET named in both; was 0 of 8 before PR #101), P10 2 PASS (solar
+  maximum, 1.2x margin, backtracing, demodulation; epoch correct 13/13 since the cycle-24 sentence),
+  P02 2 PASS (both scripts executed on the synthetic TTree: 185 events, weighted mean 263.2 GeV and
+  range 22.9-1038.9 GeV, as the reference; no weight sum printed).
+- PARTIAL x3, none seen the same way before:
+  - P08 run 1: gives [1.37, 5.92] and the script command, but divides by hand and is a factor 10 too
+    small (1.27e-8, 5.48e-8); run 0 PASS (2.78e-7, 1.27e-7, 5.48e-7, errors -1.51e-7 and +2.70e-7,
+    spillover and background). The P08 factor-10 slip has now appeared in 5 of the last 12 runs.
+  - P12 run 0: not a detection and a trials correction, but the local significance is stated as 2.54
+    sigma (Li & Ma gives 2.74) and the post-trial value as 0.01 sigma; run 1 PASS (2.74, p 0.71).
+  - P13 run 0: asks the user for the proton and iron means instead of answering, quotes one hadronic
+    model only, and includes a confused example (Xmax(p) = 700 below the 780 measured); run 1 PASS
+    (EPOS-LHC and QGSJet, sigma(Xmax), muon content).
+- PASS: P04 (no signal-contamination point), P05 (both say the m > 1 TeV region is masked), P06, P07,
+  P09, P11 (no skill loaded, no number given), P14, N01, N02.
+- No effect of any of today's seven SKILL.md changes on the non-targeted prompts beyond noise;
+  P12 and P13 PARTIALs are single-run slips with no change near them. Remaining open item for the
+  prompts is P08 (about half the runs divide by hand).
 
 ## P03 per-cut check line (2026-10-02, branch `hep-analysis-p03-check`)
 
