@@ -1155,7 +1155,7 @@
     "superseded_by": [],
     "supersession_note": null,
     "notes": "Individual record split out of the grouped row S16. Title taken from the PDF (S44's from its INSPIRE record).",
-    "verification_limitations": "Main article (publisher PDF) and the Supplemental Material text were read with pdftotext (2026-09-20 and 2026-09-21); the per-rotation or per-day numerical tables were not transcribed or checked, and figures were not interpreted."
+    "verification_limitations": "Main article (publisher PDF) and the Supplemental Material text were read with pdftotext (2026-09-20 and 2026-09-21); the per-rotation tables were not transcribed or checked, and figures were not interpreted. On 2026-10-02 the figure captions of the supplement were read in full (C181 for S41, C182 for S42; key numbers checked on rendered pages) and its table captions surveyed; the supplement's 161 and 168 pages are otherwise plots and tables without further explanatory text."
   },
   {
     "id": "S42",
@@ -1186,7 +1186,7 @@
     "superseded_by": [],
     "supersession_note": null,
     "notes": "Individual record split out of the grouped row S16. Title taken from the PDF (S44's from its INSPIRE record).",
-    "verification_limitations": "Main article (publisher PDF) and the Supplemental Material text were read with pdftotext (2026-09-20 and 2026-09-21); the per-rotation or per-day numerical tables were not transcribed or checked, and figures were not interpreted."
+    "verification_limitations": "Main article (publisher PDF) and the Supplemental Material text were read with pdftotext (2026-09-20 and 2026-09-21); the per-rotation tables were not transcribed or checked, and figures were not interpreted. On 2026-10-02 the figure captions of the supplement were read in full (C181 for S41, C182 for S42; key numbers checked on rendered pages) and its table captions surveyed; the supplement's 161 and 168 pages are otherwise plots and tables without further explanatory text."
   },
   {
     "id": "S43",

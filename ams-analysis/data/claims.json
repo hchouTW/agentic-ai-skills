@@ -4881,5 +4881,59 @@
     "verification_strength": "full-text",
     "numeric_quotation_allowed": false,
     "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C181",
+    "claim": "Neutron-monitor comparison in the proton and helium time-structure supplement (S41, PRL 121, 051101, Supplemental Material Fig. SM 2 caption): the relative variation of the AMS proton integral flux, integrated above a minimum rigidity (the figure uses minimum rigidities 2.40, 3.64, 6.47, 10.10 and 21.10 GV), is compared with the relative variation of the rate of the Oulu, Finland neutron monitor, both normalized to their averages from May 2011 to May 2017; the AMS error bars are the quadratic sum of the statistical and time-dependent systematic errors; the caption states that the relative time-dependent variation of this neutron monitor matches the AMS proton flux only when the flux is integrated over rigidities greater than 6.47 GV",
+    "claim_types": [
+      "published_result"
+    ],
+    "source_ids": [
+      "S41"
+    ],
+    "location": "Supplemental Material, Fig. SM 2 caption (checked on the rendered page)",
+    "scope": {
+      "text": "AMS integral proton flux versus the Oulu neutron monitor",
+      "species": [
+        "proton"
+      ],
+      "range": "integral flux above 2.40-21.10 GV (match stated above 6.47 GV)",
+      "data_period": "2011-05 to 2017-05 (79 Bartels rotations)",
+      "analysis": "proton flux versus neutron monitor"
+    },
+    "limitations": "Caption text only; the plotted points were not read and no value is claimed from them. The match is the caption's statement for this neutron monitor and these minimum rigidities, not a general statement about neutron monitors or an energy response function.",
+    "numeric_quotation_allowed": true,
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "verification_strength": "full-text",
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C182",
+    "claim": "Captions of the electron and positron time-structure supplement (S42, PRL 121, 051102, Supplemental Material Figs. SM 1-SM 7): for each Bartels rotation the difference between data and the fits of the model of the cited Ref. [36] normalized to the experimental uncertainties is shown as a function of energy; the caption says the positron distribution reveals no visible structures and the electron distribution reveals a model-dependent structure, stable in time, between 2 GeV and 3 GeV (examples are Bartels rotations 2433 and 2495); the electron spectral index gamma = d(log Phi)/d(log E) is obtained in a model-independent way from the time-averaged data and compared with the index from the fitted model, whose version without solar modulation shows a break in the spectral index between 2 GeV and 10 GeV, and with a recent model of the local interstellar electron spectrum; the time evolution of the electron and positron spectral indices at E = 10 GeV is determined model-independently from data in the energy range 7.1-13.41 GeV and compared with the per-rotation model fits; the positron-to-electron ratio Re as a function of time is fitted for several energies with the logistic parameterization of Eq. (3) of that paper, with the polarity of the heliospheric magnetic field marked and the period without well-defined polarity shaded, compared with PAMELA data (normalized to the AMS data in 2012 because PAMELA published only the relative variation of Re) and with a numerical solar modulation model; the effective reversal time t_rev is the authors' choice, the midpoint t_1/2 of the transition depends on energy, and the duration of the transition from 10% to 90% of the change in magnitude is independent of energy at 830 +- 30 days",
+    "claim_types": [
+      "analysis_method",
+      "published_result"
+    ],
+    "source_ids": [
+      "S42"
+    ],
+    "location": "Supplemental Material, Fig. SM 1-SM 7 captions (SM 4 and SM 7 checked on rendered pages)",
+    "scope": {
+      "text": "electron and positron time-structure supplement figure captions",
+      "species": [
+        "e-",
+        "e+"
+      ],
+      "range": "1-50 GeV; spectral index at E = 10 GeV from 7.1-13.41 GeV",
+      "data_period": "2011-05 to 2017-05 (79 Bartels rotations)",
+      "analysis": "model residuals, spectral indices and logistic fit of Re"
+    },
+    "limitations": "Figure captions only; no plotted value was read. The model, its equations and its references are in the main article and the cited papers, not restated. The 830 +- 30 days duration duplicates the value in C39 and C90 (the review) and is the caption's statement for this fit; the structure between 2 GeV and 3 GeV is called model-dependent by the caption and must not be quoted as a measured feature.",
+    "numeric_quotation_allowed": true,
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "verification_strength": "full-text",
+    "last_reviewed": "2026-10-02"
   }
 ]
