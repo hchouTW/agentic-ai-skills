@@ -20,6 +20,7 @@ From the skill directory (pure Python standard library, no external dependencies
 ```bash
 python3 -m unittest discover -s tests -v
 python3 scripts/validate_skill_bundle.py
+python3 scripts/lint_task.py examples/migration-task.md --repo ..
 python3 scripts/generate_skill_example.py --archetype contrast --skill agile-development --role "Staff Software Engineer" --use-case "scoping a bug fix"
 python3 scripts/generate_skill_example.py --archetype trajectory --skill agile-development --role "Senior Software Engineer" --problem-input "a raw bug report"
 python3 scripts/generate_skill_example.py --archetype gated-pipeline --skill agile-development --role "Principal Software Engineer" --high-stakes-task "a feature-flagged rollout RFC"

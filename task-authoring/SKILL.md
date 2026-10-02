@@ -87,7 +87,10 @@ task:
 - **Acceptance-criteria style** (what makes a criterion verifiable vs. vague)
   -> [references/acceptance-criteria.md](references/acceptance-criteria.md)
 - **Final quality gate before writing the task** ->
-  [references/task-quality-checklist.md](references/task-quality-checklist.md)
+  [references/task-quality-checklist.md](references/task-quality-checklist.md);
+  when a shell is available, also run
+  `python3 scripts/lint_task.py TASK.md --repo <target repo>` (sections,
+  empty sections, placeholders, cited paths that do not exist, loop limits)
 - **How a specific agent environment discovers or loads this skill** (Claude
   Code, Codex, Antigravity, or an unlisted generic agent) ->
   [references/adapters/](references/adapters/) - discovery notes only, they do
