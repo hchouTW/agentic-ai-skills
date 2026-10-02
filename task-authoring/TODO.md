@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (task-authoring)
 
-State (verified 2026-10-02 on `main` at 3031ead; nothing in `task-authoring/` has changed since PR #107, merge commit 186b232, and the PR #108 header fix): `python3 scripts/validate_skill_bundle.py` OK (30 files, 12-section template contract); `python3 -m unittest discover -s tests` 101 tests OK; description 1017 of 1024 characters. Round 3 to 3e in `VALIDATION.md` (latest, 2026-10-02) ran the first behavior eval (12 prompts, Haiku and Sonnet, baseline vs skill, blind scorer: skill 56/98 and 93/98 bullets passed vs 20 and 50 for baseline; the scorer was not blind in practice, so the gap is overstated), added three `SKILL.md` rules from the failures, rewrote the stale examples, added three examples and a generated-task linter. Not yet tested on a fresh model: Opus, the canonical-example and archetype jobs, and the three new example tasks (nobody implemented them). Read `VALIDATION.md` first (Round 3e), then this file.
+State (verified 2026-10-02 on `main` at 3031ead; nothing in `task-authoring/` has changed since PR #107, merge commit 186b232, and the PR #108 header fix): `python3 scripts/validate_skill_bundle.py` OK (30 files, 12-section template contract); `python3 -m unittest discover -s tests` 104 tests OK; description 1017 of 1024 characters. Round 3 to 3e in `VALIDATION.md` (latest, 2026-10-02) ran the first behavior eval (12 prompts, Haiku and Sonnet, baseline vs skill, blind scorer: skill 56/98 and 93/98 bullets passed vs 20 and 50 for baseline; the scorer was not blind in practice, so the gap is overstated), added three `SKILL.md` rules from the failures, rewrote the stale examples, added three examples and a generated-task linter. Not yet tested on a fresh model: Opus, the canonical-example and archetype jobs, and the three new example tasks (nobody implemented them). Read `VALIDATION.md` first (Round 3e), then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -58,7 +58,7 @@ Sibling tooling to reuse instead of hand-run subagents:
 - [x] `examples/README.md` count (six) and the `AI_Agent_Agnostic_Task_Authoring_Workflow.md` citation fixed (2026-10-01).
 - [x] `check_template_sections` runs over every `examples/*-task.md` in a test (2026-10-01).
 - [~] Archetype decision (keep and test): first pass done 2026-10-02 (generate 8, validate 8, fill 8 in a scratch skill, `METRIC_RE` fixed, see `VALIDATION.md` Round 3b). Still open below:
-  - Done: generation and validation per archetype; validator misses recorded. Open: regression tests for fence-content checks, metric-inside-fence and the Red marker matching "error" in prose.
+  - Done: generation and validation per archetype; validator misses recorded. Done 2026-10-02 (`VALIDATION.md` Round 3f): the test-first Red failure marker and Green metric must now sit inside a fence (3 tests). Open: fence-content checks for the other archetypes (that a fence is a diff, log or failing test), and the postmortem monitoring rule, which is still read from prose.
   - Open: the validator does not catch a wrong causal chain, assertions where executed output is required, an invented API in a diff, fabricated numeric inputs, pre-written outcomes, leading elicitation options, or any check on the role/stance words (list in `VALIDATION.md` Round 3b); decide which, if any, deserve a mechanical check.
   - Checked: the example-authoring pass made no cross-skill (agile-development) claims. `check_example_diversity.py` is documented as historical and is kept; running or removing it is still undecided.
 - [x] (done 2026-10-02: no model names, prices or token math in the file; two dated bullets added, see Round 3c) Currency of `references/prompt-engineering-and-token-optimization.md`: token math, model names and tiers, pricing. Use the `claude-api` skill as the source, and date or remove anything time-sensitive.
@@ -73,6 +73,6 @@ Sibling tooling to reuse instead of hand-run subagents:
 
 ## P4 - housekeeping
 
-- [ ] Recurring: update the `VALIDATION.md` header date and counts (30 files, 101 tests) after each pass. Last done 2026-10-02; the `skill-router` removal and the example rewrite are logged there.
+- [ ] Recurring: update the `VALIDATION.md` header date and counts (30 files, 104 tests) after each pass. Last done 2026-10-02; the `skill-router` removal and the example rewrite are logged there.
 - [ ] Open from the Round 3d reviewer pass (model output, not yet decided): shorten the description and use the room for negative triggers; a three-line job-routing block and one imperative rule per non-task job in the Decision Rules; collapse the 13-point Generic Agent Instruction into outcome checks; trim the 14 example prompts in `SKILL.md`; move the maintainer note out of the Decision Rules; stop restating the archetype list and script flags in the README.
 - `scripts/__pycache__` and `tests/__pycache__` are untracked and git-ignored. Nothing to do.

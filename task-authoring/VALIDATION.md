@@ -282,6 +282,11 @@ after every edit in this section: both pass throughout.
 - Sonnet rerun after the destructive-change rule (skill arm only, 2 runs per prompt, scored with the saved baseline): skill 93 P / 5 ~ / 0 F of 98 (was 89 / 9 / 0), baseline 50 / 27 / 21. T12(a)-(c) PP, T12(d) ~~. Blind scorer not blind in practice, as before. No Haiku rerun after this rule beyond the 3-run T12 check in Round 3b.
 - `SKILL.md` "Final quality gate" now points at the linter; `README.md` Quick checks lists it. Bundle validator OK (30 files); 101 tests OK.
 
+## Round 3f: test-first validator reads fences (2026-10-02)
+
+- `validate_skill_example.py` test-first checks searched the whole section, so "error" or "FAILED" in prose satisfied the Red check and a number in prose satisfied the Green metric. Both now search only inside closed fences (`fenced_blocks`, `fenced_text`). Three tests added (marker in prose only, metric in prose only, fence helper with prose and an unclosed fence). Suite 104 tests OK; bundle validator OK (30 files). The shipped examples are not archetype examples, so none changed.
+- Not done: the other items in the Next-session list (human read for invented facts, canonical-example prompt and Haiku rerun, description trim with trigger-set reruns, Opus); they need model runs.
+
 ## Limitations
 
 - `SKILL.md`/`references/*.md` are process guidance for an LLM to follow,

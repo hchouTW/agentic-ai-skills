@@ -876,6 +876,31 @@ class ValidateTestFirstTests(unittest.TestCase):
         problems = validate_skill_example.validate(broken)
         self.assertTrue(any("Verified Passing Execution (Green)" in p and "numeric metric" in p for p in problems))
 
+    def test_failure_marker_only_in_prose_is_reported(self):
+        broken = GOOD_TEST_FIRST.replace(
+            "```\n$ python3 -m pytest tests/test_loader_throughput.py\n"
+            "FAILED tests/test_loader_throughput.py::test_dataloader_sustains_throughput\n"
+            "AssertionError: 212 samples/sec\n```",
+            "The run hit an error and FAILED as expected.\n\n"
+            "```\n$ python3 -m pytest tests/test_loader_throughput.py\nran the suite\n```",
+        )
+        problems = validate_skill_example.validate(broken)
+        self.assertTrue(any("Executable Failing Test (Red)" in p and "raw failure" in p for p in problems))
+
+    def test_green_metric_only_in_prose_is_reported(self):
+        broken = GOOD_TEST_FIRST.replace(
+            "```\n$ python3 -m pytest tests/test_loader_throughput.py\n"
+            "1 passed in 12.3s\nthroughput=612 samples/sec, gpu_util=93%\n```",
+            "Throughput reached 612 samples/sec.\n\n"
+            "```\n$ python3 -m pytest tests/test_loader_throughput.py\n1 passed\n```",
+        )
+        problems = validate_skill_example.validate(broken)
+        self.assertTrue(any("Verified Passing Execution (Green)" in p and "numeric metric" in p for p in problems))
+
+    def test_fenced_blocks_helper_ignores_prose_and_unclosed_fence(self):
+        text = "prose\n```\na\n```\nmore\n```py\nb\n```\ntail\n```\nopen"
+        self.assertEqual([b.strip() for b in validate_skill_example.fenced_blocks(text)], ["a", "b"])
+
     def test_generated_scaffold_fails_validation_until_filled_in(self):
         args = _scaffold_args(archetype="test-first", use_case=None, target="a throughput invariant", takeaways=None)
         skeleton = generate_skill_example.build_skeleton(args)
