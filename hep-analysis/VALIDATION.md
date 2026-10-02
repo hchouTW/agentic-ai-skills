@@ -30,7 +30,29 @@ Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 208 
 - Compared with the previous P02 rerun (0/4 scripts ran at all): 1/4 runs end to end, 1/4 runs
   except for a tree-name assumption, 2/4 ask a question instead. With 4 samples this shows the
   rule changes behaviour, not that it is reliable. Not checked: whether the rule shifts other
-  prompts (more questions, more cost); the full `tests/prompts.md` rerun was not done.
+  prompts (more questions, more cost); the full `tests/prompts.md` rerun is in the last bullet of this section.
+- **Full 16-prompt Haiku rerun with the rule** (`prompts_eval.py --model haiku --runs 2 -j 4`, 32
+  runs, $1.63; one run ended by `error_max_turns`): **26 PASS, 5 PARTIAL, 1 FAIL** (before the rule:
+  26 / 6 / 0). Every hinted run loaded hep-analysis; `reads=0` throughout; per-run cost $0.02-0.06
+  except the two P02 runs.
+  - FAIL: P02 run 0 hit the 25-turn limit while writing and debugging its own tests and returned
+    no answer. Its script (`dijet_mass_analysis.py`) is correct on a NanoAOD-style tree (185
+    events, sum of weights 107.00, integral 95.00, as the reference), so this is a new failure
+    mode of the rule: the model spends its turns executing code. The harness limit is 25 turns.
+  - P02 run 1 PASS: delivered a script and a test, and on my synthetic file it gives 185 events
+    and a weighted integral 74.0 over its 0-300 GeV range, matching the reference (74.0).
+  - PARTIAL: P01 x2 (both use `lumi_fb * xsec_pb / sumw` with no fb-to-pb factor, a 1000x unit
+    error; one then claims the sum of weights equals `lumi_fb * xsec_pb`), P03 x2 (no yield check;
+    run 0 also cites invented `docs.anthropic.com` links), P08 run 0 (flux and errors a factor 10
+    too small, 1.27e-8 for 1.27e-7).
+  - PASS: P02 run 1, P04-P07, P08 run 1, P09-P14, N01, N02. P10 solar epoch correct 2/2 (7/7 since
+    the cycle-24 sentence). P11 loaded no skill in both runs: run 0 asked for WebSearch permission
+    and gave no number, run 1 gave no number and generic method text. P14 run 1 names a
+    nonexistent `TUnfold::GetL_Lcurve()`.
+  - Reading: the rule does not change the non-code prompts (same PASS pattern and cost), and it
+    gets one working script from two P02 runs, against none before; the cost is one run that
+    exhausted its turns. With 2 samples per prompt the 26/6/0 -> 26/5/1 difference is within
+    noise except for that new failure, which is not.
 
 ## P02 awkward leading-object rule (2026-10-02, branch `hep-analysis-p02-awkward`)
 
