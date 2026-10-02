@@ -1,108 +1,62 @@
-# High-Energy Physics and Astroparticle Physics Experimental Analysis and Statistics Skill
+# hep-analysis
 
-A portable Agent Skill maintained entirely in English. Its core is `SKILL.md` plus references resolved through relative paths. It requires no specific MCP server, cloud account, or paid service. It supplies analysis decisions and verification procedures, not experiment-internal calibrations or official collaboration policy.
+An Agent Skill for collider and astroparticle physics analysis: ROOT C++, PyROOT, uproot/awkward and RDataFrame code, plus the physics and statistics layer on top of it (selections, weights, systematics, fits, limits, unfolding, validation, detector and reconstruction questions, cosmic-ray and gamma-ray statistics). It gives analysis decisions and verification procedures. It is not a source of experiment-internal calibrations or official collaboration policy. It needs no MCP server, cloud account or paid service; ROOT, uproot, pyhf and Combine are optional and only needed to run the code you ask for.
 
-This package covers writing and reviewing the underlying ROOT C++, PyROOT,
-uproot/awkward-array, and RDataFrame code itself (event loops, CMake builds,
-debugging, style) in addition to the statistical/physics-analysis layer on top of it
-(design, weights, systematics, fitting, inference, unfolding, validation); see
-[references/14-root-balanced-design-guidelines.md](references/14-root-balanced-design-guidelines.md)
-and [references/15-cmake-and-build.md](references/15-cmake-and-build.md) onward for
-the coding-level guidance. This folder was previously shipped as two separate skills - a
-coding-focused `hep-analysis` and a statistics-focused `hep-experiment-analysis`;
-their content has since been merged into this single `hep-analysis` skill.
+All maintained instructions, templates, metadata, comments and validation notes are in English. The skill can still answer in the language you use.
 
 ## Installation and invocation
 
-Extract the archive and keep the complete `hep-analysis/` folder.
+Keep the complete `hep-analysis/` folder (`SKILL.md` plus `references/`, `scripts/`, `assets/`).
 
-- **Codex:** place the folder in the skill directory used by your environment, commonly `~/.codex/skills/`, or import it through the mechanism supported by your version. Reload skills and invoke `$hep-analysis`. `agents/openai.yaml` supplies optional Codex UI metadata.
-- **Claude Code:** copy it to `.claude/skills/hep-analysis/` in the project or `~/.claude/skills/hep-analysis/` for personal use. Invoke `/hep-analysis` or describe a matching task. See the [official Claude Code skill documentation](https://code.claude.com/docs/en/skills).
-- **Antigravity:** copy it to `.agents/skills/hep-analysis/` in the workspace (or `~/.gemini/config/skills/hep-analysis/` for a global install; older installs may still read `.agent/skills/`). It triggers automatically - the agent reads every installed skill's `name`/`description` at session start and loads the full `SKILL.md` when a task matches, no explicit invocation needed. See the [Antigravity skills documentation](https://antigravity.google/docs/skills).
-- **Other agents:** instruct the agent to read `SKILL.md` first and follow its reference routing. Provide the file location explicitly if automatic discovery is unsupported.
+- **Codex:** put it in `~/.codex/skills/` (or wherever your version looks), reload skills, and invoke `$hep-analysis`. `agents/openai.yaml` holds optional Codex UI metadata.
+- **Claude Code:** copy to `.claude/skills/hep-analysis/` (project) or `~/.claude/skills/hep-analysis/` (personal). Invoke `/hep-analysis` or describe a matching task. See the [Claude Code skills documentation](https://code.claude.com/docs/en/skills).
+- **Antigravity:** copy to `.agents/skills/hep-analysis/` (workspace) or `~/.gemini/config/skills/hep-analysis/` (global). It triggers automatically from the skill `description`. See the [Antigravity skills documentation](https://antigravity.google/docs/skills).
+- **Other agents:** tell the agent to read `SKILL.md` first and follow its reference routing.
 
-This delivery creates a single folder; it does not change other global agent settings. If a separate `hep-experiment-analysis` skill installation still exists from before the merge, remove it - keeping both risks duplicate or conflicting skill triggering. Load references selectively instead of pasting the entire package into global instructions.
+If an old `hep-experiment-analysis` skill is still installed, remove it; it was merged into this one and keeping both can cause duplicate triggering.
 
 ## Quick checks
 
-From the skill directory:
+Run from this directory:
 
 ```bash
-python3 -m unittest discover -s tests -v
+python3 scripts/validate_skill_bundle.py
+python3 -m unittest discover -s tests
 # ROOT integration tests skip unless PyROOT imports; point them at a ROOT-capable Python:
 HEP_ROOT_PYTHON=/opt/homebrew/bin/python3.14 python3 -m unittest tests.test_root_integration -v
-# End-to-end smoke test (needs numpy + pyhf; skips otherwise):
+# End-to-end pyhf smoke test (skips without numpy + pyhf):
 HEP_PYHF_PYTHON=/path/to/python-with-pyhf python3 -m unittest tests.test_end_to_end -v
-# Model-behavior checks (run by hand on a fresh model, results in VALIDATION.md):
-#   tests/prompts.md (graded prompts), tests/trigger_queries.json (description trigger set),
-#   tests/trigger_queries_holdout.json (held-out set with sibling owners, never used for tuning)
-#   tests/trigger_queries_formula.json (third set: quick formula lookups, 2026-09-28)
-#   tests/trigger_queries_calc.json (fourth set: quick calculations, round 6)
-#   tests/trigger_queries_task.json (fifth set: task-style requests, built 2026-10-02, NOT yet run)
-#   python3 tests/prompts_eval.py --model haiku --runs 2 --out <dir>  (runs prompts.md, one dir per run)
-# Combine datacard check (skips unless combine is on PATH or a wrapper runs it in a Combine env):
+# Combine datacard check (skips unless combine is on PATH or a wrapper runs it):
 HEP_COMBINE_WRAPPER=/path/to/run-in-combine-env python3 -m unittest tests.test_combine_template -v
-# Harness trigger eval of the description (40 cases in evals/, built from tests/trigger_queries.json;
-# Claude Code only, costs ~$3 on Haiku with 2 runs):
-#   claude plugin eval . --runs 2 --model haiku --ablation none --threshold 0
-# Sibling-routing eval: real claude -p child with only the 7 repo skills loaded (Claude Code only):
-#   python3 tests/routing_eval.py tests/trigger_queries_holdout.json --model haiku --runs 2 -j 6
-# (--target <skill> evaluates another repo skill; errored/usage-limited runs are excluded and counted)
-python3 scripts/audit_histograms.py assets/histograms.example.json
-python3 scripts/counting_reference.py --observed 0 --background 0 --level 0.95
-python3 scripts/make_yield_table.py --help
-python3 scripts/tag_and_probe_efficiency.py --pass-count 92 --total 100
-python3 scripts/pileup_reweight.py assets/pileup_profiles.example.json
-python3 scripts/multiple_scattering.py assets/detector_stack.example.json --rigidity 100
-python3 scripts/calorimeter_resolution.py --fit assets/calorimeter_response.example.json
-python3 scripts/pid_separation_power.py --mode tof --species pi K --momentum 2.0 --path 1.2 --time-resolution 60
-python3 scripts/cherenkov_angle.py --index 1.05 --species pi K --momentum 10
-python3 scripts/li_ma_significance.py --on 15 --off 5 --alpha 0.5
-python3 scripts/geomagnetic_cutoff.py --latitude 41.5
-python3 scripts/cr_spectrum_powerlaw_fit.py --input assets/cosmic_ray_spectrum.example.json --break-energy 4.0e15
-python3 scripts/xmax_gaisser_hillas.py --n-max 2e7 --x-max 750 --x0 -60 --lambda-param 60 --depths 400,750,900
-python3 scripts/orbit_averaged_geomagnetic_cutoff.py --inclination 51.6 --altitude-re 1.0627
-python3 scripts/solar_modulation_force_field.py --modulate --energy 1.0 --mass 0.938272 --charge 1 --phi 0.5 --lis-normalization 1e4 --lis-index 2.7
-python3 scripts/particle_ratio_with_uncertainty.py --n1 1200 --sigma1 40 --n2 85000 --sigma2 300
-python3 scripts/cosmic_ray_flux.py --counts 42 --exposure 1.5e7 --bin-width 10
-python3 scripts/make_synthetic_nanoaod.py --out /tmp/sample.root --events 400 --seed 1
-bash scripts/check_root_cpp_env.sh
 ```
 
-After the test lines, the first seventeen script commands use only the Python standard library. `check_root_cpp_env.sh` and the
-remaining `scripts/*_root*`/`inspect_root_file.*`/`compare_root_histograms.py`/
-`summarize_histogram_statistics.py`/`roofit_workspace_summary.py`/
-`check_systematic_variations.py` scripts require a
-ROOT/PyROOT installation to run; `tests/test_root_integration.py` executes them on
-synthetic ROOT fixtures when PyROOT is importable (skipped otherwise - see
-[VALIDATION.md](VALIDATION.md)). See
-[VALIDATION.md](VALIDATION.md) for results and limitations. ROOT, uproot, pyhf, and
-Combine snippets require their respective environments; their execution is not
-implied by the helper tests. `tests/test_combine_template.py` fills the Combine datacard template and, when
-`combine` is on PATH or `HEP_COMBINE_WRAPPER` is set, checks its limit against pyhf.
+Helper scripts in `scripts/` (most are standard-library Python; each takes `--help`):
+
+```bash
+python3 scripts/counting_reference.py --observed 0 --background 0 --level 0.95
+python3 scripts/li_ma_significance.py --on 15 --off 5 --alpha 0.5
+python3 scripts/cosmic_ray_flux.py --counts 42 --exposure 1.5e7 --bin-width 10
+python3 scripts/tag_and_probe_efficiency.py --pass-count 92 --total 100
+python3 scripts/make_synthetic_nanoaod.py --out sample.root --events 400 --seed 1  # needs numpy, awkward, uproot
+bash scripts/check_root_cpp_env.sh                                                # needs ROOT
+```
+
+Model-behavior and routing evals (graded prompts, trigger-query sets, `routing_eval.py`, `evals/`) are run by hand; see `tests/` and [VALIDATION.md](VALIDATION.md) for commands, results and limitations. Open work is in [TODO.md](TODO.md).
 
 ## Coverage and boundaries
 
-The package covers data quality, object selection, triggers, MC normalization, histograms, efficiencies, data-driven backgrounds, systematic uncertainties, joint likelihoods, fit diagnostics, significance, CLs, intervals, Bayesian inference, cross sections, unfolding, ML validation, and preservation, including pyhf/HistFactory/Combine workspace-and-datacard model mapping (channels, normfactor/normsys/histosys/shapesys, shared-parameter naming) - plus the ROOT C++/PyROOT/RDataFrame/uproot coding layer itself: API selection, event-loop and histogram code patterns, CMake/root-config builds, debugging ROOT/PyROOT errors, code style/naming/documentation conventions, general C++ class/struct/RAII/ownership design beyond ROOT-specific patterns, and ROOT-specific class/ownership/dictionary design (TObject inheritance decisions, class dictionaries and I/O, directory-based ownership, RAII vs. ROOT ownership, branch-buffer structs, template dictionary limits). It also covers physics-object-level detail (jet clustering/JES/JER, b-tagging, MET, pileup jets, overlap removal), trigger and luminosity methodology (tag-and-probe efficiency measurement with exact binomial intervals, turn-on curves, prescales, luminosity normalization, pileup reweighting), and multivariate analysis practice (choosing between BDTs/NNs/cuts, feature engineering, training, calibration, classifier stability under systematic variations, and regression targets such as energy/mass regression with their own loss-choice, closure, and uncertainty-propagation concerns).
-
-It further covers the detector, reconstruction, and simulation layers beneath all of that, organized by detector technology and assuming no particular experiment: subsystem layout, magnetic spectrometry (rigidity versus momentum, material budget, multiple scattering, maximum detectable rigidity, charge confusion), silicon and gas tracking with pattern recognition and Kalman fitting, vertexing, electromagnetic and hadronic calorimetry (shower development, the stochastic/noise/constant resolution decomposition, e/h non-compensation, leakage), and particle identification across TRD, time-of-flight, RICH/Cherenkov, dE/dx, and muon systems including combined PID likelihoods and isotope separation. On top of that it covers event reconstruction (clustering, track-cluster association and particle-flow subtraction, ambiguity resolution, reconstruction under pileup) and reconstruction performance (truth-matching criteria, efficiency versus fake rate versus purity, resolution and bias, scale factors, closure tests), and the full simulation chain from event generation (matching/merging, negative weights, PDF and scale variations) through Geant4 full simulation (geometry and material budget, physics lists, production cuts, digitization, fast simulation) to calibration and alignment (test-beam versus in-situ, alignment weak modes and charge-antisymmetric rigidity bias, time-dependent conditions).
-
-It also covers astroparticle and cosmic-ray physics: the cosmic-ray spectrum and its knee/ankle/GZK features, composition observables and the muon-content/X_max discrepancy, Fermi acceleration and the Hillas criterion, Galactic propagation and secondary/primary ratios, extensive air showers (Heitler-Matthews toy model, Gaisser-Hillas/Greisen longitudinal profiles, shower universality), ground-based detection (surface arrays, fluorescence, hybrid reconstruction, atmospheric monitoring), imaging atmospheric Cherenkov gamma-ray astronomy (Hillas-parameter and multivariate gamma/hadron separation, ON/OFF background estimation), high-energy neutrino telescopes (track/cascade/double-bang topologies, atmospheric-background rejection), space-based and balloon direct detection (geomagnetic cutoff, solar modulation, antiparticle-excess interpretation), multi-messenger coincidence analysis, and the Li & Ma significance and sky-scan/catalog trials-factor statistics this domain requires. It includes a case study of the Alpha Magnetic Spectrometer (AMS-02) on the ISS - combining a permanent-magnet tracker, TRD, TOF, RICH, and ECAL, its orbital and solar-cycle-driven systematics (inclined-orbit geomagnetic cutoff, solar modulation over a multi-year mission), and the positron-fraction/antiproton-ratio rare-species measurement pattern - plus general differential cosmic-ray flux calculation from raw counts with exact Poisson statistics and background subtraction. The AMS case study is a short overview; for AMS-specific design, review, published results, or currency checks, install and use the sibling `ams-analysis` skill.
-
-It further covers a unified detector-measurement framework (forward model/inverse problem, the response-calibration-alignment-reconstruction-validation-systematics chain) with technology-level treatment of signal formation and readout, gaseous/micro-pattern/fiber/emulsion tracking, timing detectors, muon systems, noble-liquid/neutrino/rare-event detectors, Cherenkov-imaging variants and photosensors, rigorous performance-metric and residual/pull/coverage definitions, data/MC validation and scale factors, detector-systematics propagation and detector combination, eight defect-to-physics-bias case studies, practical checklists, comparison tables, and a glossary (references 39-50).
-
-It primarily addresses event counts, templates, and common particle-physics measurements. Time-dependent oscillations, full amplitude analyses, heavy-ion centrality and flow, hardware calibration, and lattice QCD require additional specialized models. Follow the experiment's data-governance and unblinding rules when using internal data.
-
-All maintained instructions, templates, metadata, comments, and validation notes are in English. The skill can still answer a user in their requested language.
+- Analysis and statistics: design, data quality, object selection, triggers and luminosity, MC normalization, histograms, efficiencies, data-driven backgrounds, systematics, likelihoods, fit diagnostics, significance, CLs, intervals, unfolding, ML validation, preservation, and pyhf/HistFactory/Combine model mapping (references 01-13, 18-20).
+- Coding layer: ROOT/PyROOT/RDataFrame/uproot API choice, event-loop patterns, CMake builds, debugging, C++ design and ownership (references 14-17).
+- Detectors and reconstruction: tracking, calorimetry, PID, reconstruction performance, event generation, Geant4, calibration and alignment, and a technology-level detector measurement framework (references 21-29, 39-50).
+- Astroparticle: cosmic-ray spectrum and composition, air showers, ground arrays, IACT gamma-ray analysis, neutrino telescopes, space-based detection (geomagnetic cutoff, solar modulation), multi-messenger analysis, Li & Ma and trials-factor statistics, flux from counts (references 30-37).
+- Defers to siblings: AMS-02-specific design, review, published results and currency checks go to `ams-analysis` (reference 38 is only a short overview); paper writing to `academic-papers`; diagrams to `academic-diagrams`; PyTorch to `deep-learning`.
+- Out of scope without extra models: time-dependent oscillations, full amplitude analyses, heavy-ion centrality and flow, hardware calibration, lattice QCD. Follow your experiment's data-governance and unblinding rules for internal data.
 
 ## Example prompts
 
-"Use this skill to inspect my sample manifest and cutflow while preserving the selection. Identify yield-changing issues and produce a minimal correction with comparison commands."
-
-"Use this skill to build a nuisance-correlation table and likelihood from my SR/CR templates. Start with Asimov data, assess fit diagnostics and coverage requirements, then calculate the expected limit."
-
-"Write an RDataFrame selection for >=2 muons with pT>25 GeV, make a pT histogram with a cutflow, and set up the CMake build for it."
-
-"Use this skill to check whether my gamma-ray source excess is significant once the sky-scan trials factor is included, and to fit the cosmic-ray spectrum's break energy from my flux table."
-
-"Use this skill to estimate the geomagnetic cutoff range for an AMS-02-like ISS orbit, propagate the uncertainty on a positron-fraction measurement from independent yields, and compute the differential flux and its exact statistical uncertainty from raw counts and exposure."
+- "Inspect my sample manifest and cutflow while preserving the selection. Find yield-changing issues and give a minimal correction with comparison commands."
+- "Build a nuisance-correlation table and likelihood from my SR/CR templates. Start with Asimov data, check fit diagnostics, then compute the expected limit."
+- "Write an RDataFrame selection for >=2 muons with pT>25 GeV, make a pT histogram with a cutflow, and set up the CMake build."
+- "Is my gamma-ray source excess significant once the sky-scan trials factor is included?"
+- "Fit the break energy of the cosmic-ray spectrum in my flux table."
+- "Compute the differential flux and exact Poisson uncertainty from raw counts and exposure."

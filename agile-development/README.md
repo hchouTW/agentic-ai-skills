@@ -1,56 +1,54 @@
 # Agile Development Skill
 
-A portable Agent Skill maintained entirely in English. Its core is `SKILL.md` plus references and templates resolved through relative paths. It requires no specific MCP server, cloud account, or paid service. It supplies a workflow and checklists for turning a software request into a small, verified, reviewable increment - not a project-management tool or ticketing-system integration.
+A portable Agent Skill that turns a software request into a small, verified, reviewable increment: acceptance criteria, a validation plan, minimal changes and an honest report. It is a workflow with checklists, not a project-management tool or ticketing integration. It needs no MCP server, cloud account or paid service; the helper scripts use only the Python standard library.
 
 ## Installation and invocation
 
-Copy or symlink the complete `agile-development/` folder (keep it whole).
+Copy or symlink the whole `agile-development/` folder.
 
-- **Codex:** place the folder in the skill directory used by your environment, commonly `~/.codex/skills/`, or import it through the mechanism supported by your version. Reload skills and invoke `$agile-development`. `agents/openai.yaml` supplies optional Codex UI metadata.
-- **Claude Code:** copy it to `.claude/skills/agile-development/` in the project or `~/.claude/skills/agile-development/` for personal use. Invoke `/agile-development` or describe a matching task (new feature, bug fix, refactor, scoping, review). See the [official Claude Code skill documentation](https://code.claude.com/docs/en/skills).
-- **Antigravity:** copy it to `.agents/skills/agile-development/` in the workspace (or `~/.gemini/config/skills/agile-development/` for a global install; older installs may still read `.agent/skills/`). It triggers automatically - the agent reads every installed skill's `name`/`description` at session start and loads the full `SKILL.md` when a task matches, no explicit invocation needed. See the [Antigravity skills documentation](https://antigravity.google/docs/skills).
-- **Other agents:** instruct the agent to read `SKILL.md` first and follow its reference routing. Provide the file location explicitly if automatic discovery is unsupported.
+- **Codex:** put it in `~/.codex/skills/` (or your environment's skill directory), reload skills and invoke `$agile-development`. `agents/openai.yaml` holds optional UI metadata.
+- **Claude Code:** copy to `.claude/skills/agile-development/` (project) or `~/.claude/skills/agile-development/` (personal). Invoke `/agile-development` or describe a matching task. See the [Claude Code skills documentation](https://code.claude.com/docs/en/skills).
+- **Antigravity:** copy to `.agents/skills/agile-development/` (workspace) or `~/.gemini/config/skills/agile-development/` (global). It triggers automatically from the `name`/`description`. See the [Antigravity skills documentation](https://antigravity.google/docs/skills).
+- **Other agents:** tell the agent to read `SKILL.md` first and follow its reference routing.
 
-**Make it load for ordinary coding requests.** Models rarely load a process skill for a plain "add X" or "fix Y" on their own. In the routing evals (see `VALIDATION.md`, rounds 2-4), Sonnet loaded this skill in 10 of 52 runs from the description alone and Haiku in none. A project `CLAUDE.md` (or `AGENTS.md`/`GEMINI.md`) line that **names this skill, gives example phrasings and says what it is not for** worked best. Measured with the line below (round 4): Haiku 42 of 52 on the tuning queries and 24 of 28 on a fresh held-out set, with no false triggers. Sonnet loaded it 52 of 52 times and misrouted 1 of 40 unrelated requests. In a setup with about 110 plugin skills (superpowers and others) and a global CLAUDE.md rule, Haiku loaded it 46 of 52 times with no false triggers. The same line without the example phrasings reached Haiku 30 of 52 and 16 of 28. On a third held-out set written by a separate session (round 5), the two lines were close (Haiku 24 vs. 23 of 28, Sonnet 28 of 28), so the phrasings help less than the second set suggests. A generic "check the installed skills first" line reached Sonnet 48 of 52 but Haiku 0. A line that names the skill without the exclusions made Haiku load it for 49 of 52 but also for 14 of 40 unrelated requests. The tested line (edit the "not for" list to match your installed skills):
+Models rarely load a process skill for a plain "add X" or "fix Y" from the description alone. A line in the project `CLAUDE.md` (or `AGENTS.md`/`GEMINI.md`) that names the skill, gives example phrasings and lists exclusions works best. Edit the exclusions to match your installed skills:
 
 > Before starting a task, check the skill list and call the Skill tool for the skill that fits. For a non-trivial change to software in this repository (feature, bug fix, refactor, migration, dependency update), a code or PR review, an incident postmortem, a design or architecture decision, estimation or sprint planning, that is "agile-development" - call it before reading files or asking questions. It also covers requests phrased like "take a look at my pull request", "which datastore should we use for X", "is this too complicated", "upgrade package X", "add a column to table Y" or "move X to a new schema". It is not for one-line or typo fixes, writing a ticket or spec for someone else (task-authoring), PyTorch/ML code (deep-learning), physics analysis (hep-analysis), papers (academic-papers) or diagrams (academic-diagrams).
 
-With the superpowers plugin installed and no such line, its process skills (`brainstorming`, `systematic-debugging`) often load first instead, especially for bug reports. A bug report that goes to `systematic-debugging`, or a review that goes to `code-review`, counts as correctly routed in the trigger sets (`also_ok`); the two skills complement each other. With the line, they rarely preempt this skill.
-
-This delivery creates a single folder; it does not change other global agent settings. Load references selectively instead of pasting the entire package into global instructions.
+Measured loading rates for this line and its variants are in `VALIDATION.md` (Rounds 2-5) and `TODO.md`.
 
 ## Quick checks
 
-From the skill directory (pure Python standard library, no external dependencies):
+From this directory:
 
 ```bash
-python3 -m unittest discover -s tests -v
+python3 -m unittest discover -s tests
 python3 scripts/validate_skill_bundle.py
 python3 scripts/create_story_card.py --actor "user" --capability "export a CSV" --outcome "download active users"
 python3 scripts/validate_agile_notes.py assets/story-card.md
-python3 scripts/validate_agile_notes.py --help
 ```
 
-`create_story_card.py` prints a filled-in story card to stdout (or `--output <path>`); `validate_agile_notes.py` checks a markdown note for Story/Acceptance Criteria/Validation/Risks headings and exits non-zero with a clear message (not a traceback) if a heading or the file is missing. Two opt-in flags add structure checks from `references/implementation-discipline.md`: `--require-plan-verification` requires every numbered plan step to carry a real verification (rejecting placeholders such as "looks right"), and `--require-assumptions` adds an Assumptions heading to the existing requirements rather than replacing them. Both are off by default, so notes that passed before still pass.
-
-Model-behavior evals (not unit tests; they call the `claude` CLI and cost money): `tests/behavior_eval.py` runs the H1-H9 prompts from `tests/prompts.md` in isolated plan-only children with and without the skill, then scores them with an optional blind scorer that redacts skill mentions and checks whether it can still tell the arms apart. `tests/trigger_queries.json` is the trigger/routing query set for the repo harness (`tests/trigger_queries_holdout.json`, `tests/trigger_queries_holdout2.json` and `tests/trigger_queries_holdout3.json` are held-out sets; the second was written after the example phrasings above, the third by a separate session that never saw them): `python3 ../hep-analysis/tests/routing_eval.py tests/trigger_queries.json --target agile-development --model haiku`.
+- `create_story_card.py` prints a filled story card (or writes it with `--output <path>`).
+- `validate_agile_notes.py` checks a note for Story, Acceptance Criteria, Validation and Risks headings. Optional `--require-plan-verification` and `--require-assumptions` add the structure checks from `references/implementation-discipline.md`.
+- `tests/behavior_eval.py` and the routing harness (`python3 ../hep-analysis/tests/routing_eval.py tests/trigger_queries.json --target agile-development --model haiku`) call the `claude` CLI and cost money. They are not part of the unit tests; see `tests/prompts.md` and `VALIDATION.md`.
 
 ## Coverage and boundaries
 
-The package governs *how* to work: identifying the outcome, writing acceptance criteria, slicing scope, matching existing conventions, testing proportionally, reviewing the diff, and reporting honestly. Reference material covers story framing, validation strategy and definition of done, scenario playbooks (bug fix, new feature, endpoint, UI feature, DB migration, dependency update, CLI change, incident response, legacy code without tests), risk areas (API changes, data/persistence, security/privacy, dependencies, config, observability, performance, accessibility, reviewing someone else's change), status-update communication, lightweight design docs/estimation and sprint planning/feature-flagged rollout, software architecture (recognizing architectural decisions, boundaries and dependency direction, data ownership, ADRs), and C++, Python, and Bash design guidelines.
+- Covers: story framing, acceptance criteria, validation strategy, definition of done.
+- Covers: playbooks for bug fixes, features, endpoints, UI, DB migrations, dependency updates, CLI changes, incidents and legacy code without tests.
+- Covers: risk review, PR review, status updates, design docs, estimation, sprint planning, feature-flagged rollout, architecture decisions and ADRs.
+- Covers: implementation discipline (ask vs. assume, minimal changes, verifiable success criteria) and C++, Python and Bash design guidelines.
+- Defers to `task-authoring`: standalone tickets and specs, worked examples for a skill's `examples/`, and LLM prompt or token-budget design (install it alongside).
+- Defers to domain skills (`deep-learning`, `hep-analysis`) for specialized code, and to explicit user instructions that override its workflow.
 
-It also covers implementation discipline - the failure modes that show up in the diff rather than in the plan: deciding whether to ask or assume when a request is ambiguous (by what being wrong costs, rather than by a fixed default), writing the minimum code that solves the problem instead of speculative features and single-caller abstractions, keeping changes surgical so every changed line traces to the request (including the asymmetry between cleaning up orphans your change created and leaving pre-existing dead code alone), and turning a vague task into verifiable success criteria with a per-step plan.
-
-Authoring a canonical worked example for a skill's `examples/` directory, and designing or budgeting a prompt for an LLM call, are covered by `task-authoring`'s `references/example-authoring.md` and `references/prompt-engineering-and-token-optimization.md` (requires `task-authoring` installed alongside this skill) - including the two optional story-card fields (prompt directive, token budget) that reference can add to [assets/story-card.md](assets/story-card.md) for stories whose behavior depends on an LLM call.
-
-It does not decide *what* to build - pair it with a domain skill (e.g. `deep-learning`, `hep-analysis`) for specialized code, and it defers to explicit user instructions that override its default workflow (e.g. "don't run tests").
-
-All maintained instructions, templates, and metadata are in English. The skill can still answer a user in their requested language.
+All maintained instructions, templates and metadata are in English. The skill can still answer in the user's language.
 
 ## Example prompts
 
-"Add an endpoint that lets admins export a CSV of active users."
-
-"This refactor of the auth middleware shouldn't change behavior - help me do it safely."
-
-"I have a bug report saying the cart total is wrong with discount codes - find and fix it."
+- "Add an endpoint that lets admins export a CSV of active users."
+- "This refactor of the auth middleware shouldn't change behavior - help me do it safely."
+- "The cart total is wrong with discount codes - find and fix it."
+- "Review my pull request that adds rate limiting."
+- "Which datastore should we use for session data? Write it up as an ADR."
+- "Is this too complicated for what it does?"
+- "Plan a sprint from this backlog of 12 stories."

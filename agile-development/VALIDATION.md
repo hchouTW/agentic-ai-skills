@@ -1580,3 +1580,7 @@ Neither wording beats round 5, so both were reverted and `SKILL.md` is unchanged
   dedup).
 - Triggering is the weakest point. From the description alone the skill rarely loads; a project `CLAUDE.md` line that
   names it fixes Sonnet and mostly fixes Haiku (see "Round 2" to "Round 4").
+
+## README routing summary (moved from README.md, 2026-10-02)
+
+The README previously carried a long paragraph on loading rates; it now only links here. Summary, with the tables in Rounds 2-5 as the source of record: from the description alone Sonnet loaded the skill in 10 of 52 runs and Haiku in none; a project CLAUDE.md line naming the skill with example phrasings and exclusions gave Haiku 42/52 (tuning) and 24/28 (holdout2), Sonnet 52/52 with 1/40 false trigger, and Haiku 46/52 in a setup with about 110 plugin skills plus a global rule. The same line without phrasings gave Haiku 30/52 and 16/28; on holdout3 (separate session) 23/28 vs. 24/28 with phrasings, Sonnet 28/28. A generic "check the installed skills first" line gave Sonnet 48/52 and Haiku 0; a line naming the skill without exclusions gave Haiku 49/52 but 14/40 false triggers. With superpowers installed and no such line, `brainstorming` and `systematic-debugging` often load first; bug reports routed to `systematic-debugging` and reviews routed to `code-review` count as correct (`also_ok`).
