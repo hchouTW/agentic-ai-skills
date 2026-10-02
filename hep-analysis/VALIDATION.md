@@ -1,10 +1,44 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, AMS-02 numbers vs Phys. Rept. 894 (latest pass; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, Haiku `tests/prompts.md` rerun (latest pass; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
 Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 205 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## Haiku prompts.md rerun, unchanged SKILL.md (2026-10-02, branch `hep-analysis-prompts-rerun`)
+
+Recurring check. `python3 tests/prompts_eval.py --model haiku --runs 2 -j 4`, 16 prompts x 2 runs,
+one fresh `claude -p` child each, reported cost $1.41. P01-P10 and P12-P14 get the "load
+hep-analysis" hint; P11, N01 and N02 route on their own. No file under `references/` or
+`SKILL.md` changed since the 2026-09-28 run. **32 runs: 24 PASS, 8 PARTIAL, 0 FAIL.** Every
+hinted run loaded hep-analysis and none opened a reference (`reads=0`), so behaviour comes from
+`SKILL.md` alone. The no-hint controls: N01 and N02 loaded no skill (correct); P11 also loaded no
+skill (it did not route to `ams-analysis`) but gave no "latest" number and pointed to INSPIRE and
+arXiv, so it meets E1.
+
+| Prompt | Runs | Notes |
+|---|---|---|
+| P01 | PARTIAL, PASS | Run 0 used `138 fb^-1 * 833.9 pb / sumw` with no fb-to-pb factor, a 1000x unit error; run 1 used 138e3. Both correctly use the signed `genEventSumw` over the full sample. Neither shows weighted per-cut sums (graded as not part of the question) |
+| P02 | PARTIAL, PARTIAL | Run 0 picks the leading jets with `jet_pt_sel[sorted_idx[:, 0]]`; in awkward that selects whole events, not jets (verified: every event returns the first event's jets), so the mass is wrong. Run 1 masks first and indexes `[:, 0]`, `[:, 1]` correctly but stores no sumw2 |
+| P03 | PARTIAL, PASS | Both say to vary the jets and rerun the selection. Only run 1 gives the yield-comparison check and mentions MET |
+| P04 | PASS, PASS | Both investigate the correlation and prefer a closure-derived correction. Neither mentions signal contamination in B/C/D |
+| P05 | PARTIAL, PASS | Neither wrote code (empty directory). Run 1 states the SR data would be set to NaN; run 0 offers a masked plot without an explicit refusal |
+| P06, P07 | PASS x4 | Overlap named and fixed; the prior change declined with pulls/impacts/GOF/CR offered |
+| P08 | PASS, PARTIAL | Both reject sqrt(N) and give [1.37, 5.92]. Run 0 also gives the flux and errors (2.78e-7, -1.51e-7, +2.70e-7 per m^2 sr s TV, checked). Run 1 left dR symbolic and did not use the stated 1.2-1.8 TV bin |
+| P09 | PASS x2 | Shared systematics cancel, charge confusion stays |
+| P10 | PARTIAL, PARTIAL | Both give the 1.2x safety factor, a backtraced cutoff and demodulation of only the ISS flux. Both get the epoch wrong: run 0 calls 2011-2013 "post-solar-max" and "minimum", run 1 "minimum -> maximum -> minimum". Reference 35 has it right (rising to the April 2014 maximum), but Haiku did not open it |
+| P11 | PASS x2 | No "latest" number. Run 1 adds generic method text that is unsourced and partly wrong (a TRD charge sign) |
+| P12 | PASS x2 | Both 2.74 sigma and a post-trial p of 0.7 (run 0 wrote 0.68, an arithmetic slip; exact 0.71) |
+| P13, P14 | PASS x4 | Model dependence, sigma(Xmax), muons; objective tau plus closure. P14 run 0 has wrong TUnfold code and claims native GCV support |
+| N01, N02 | PASS x4 | No HEP content, no hep-analysis load |
+
+Compared with 2026-09-28 (round 5: 0 FAIL, P08 2 PASS + 1 PARTIAL): still 0 FAIL, P08 1 PASS +
+1 PARTIAL. P10 is the one change worth acting on: round 3 had P10 2/2 PASS because Haiku read the
+cycle-24 paragraph; with `reads=0` it falls back to its own wrong epoch. The fix, if wanted, is one
+line in the `SKILL.md` astroparticle invariant (cycle 24: minimum Dec 2008, maximum Apr 2014, so
+2011-2013 is the rising phase near maximum). Not applied: it changes `SKILL.md`, which the TODO
+says to ask about first. Counts unchanged: 119 files, 205 tests, 12 skips.
 
 ## AMS-02 numbers checked against Phys. Rept. 894 (2026-10-02, branch `hep-analysis-ams-physrep`)
 

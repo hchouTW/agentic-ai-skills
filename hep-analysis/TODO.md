@@ -24,8 +24,8 @@ Working rules:
 ## Open
 
 - [ ] **Dated re-check (after mid-2027):** check the AMS-02 Layer-0 status in ref 38. The installation creates a new detector era, and the schedule is known only from a CERN news item (ams-analysis C102).
-- [ ] **Recurring, on any change to references 02/17/37 or the `SKILL.md` invariants:** re-run `tests/prompts.md` on Haiku with `tests/prompts_eval.py`, at least 2 samples per prompt. Last run 2026-09-28 (round 5): 0 FAIL. P08 went from 2/2 PARTIAL to 2 PASS + 1 PARTIAL once the exact command and the Garwood table were put in `SKILL.md`.
-- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (file count, test count, skips). Last done 2026-09-28, round 6.
+- [ ] **Recurring, on any change to references 02/17/37 or the `SKILL.md` invariants:** re-run `tests/prompts.md` on Haiku with `tests/prompts_eval.py`, at least 2 samples per prompt. Last run 2026-10-02 (no file changed since round 5): 24 PASS, 8 PARTIAL, 0 FAIL of 32. Open finding: P10 2/2 PARTIAL, Haiku calls 2011-2013 solar minimum or declining because it does not open ref 35; a one-line cycle-24 fact in the `SKILL.md` astroparticle invariant would fix it (ask first, then rerun with `--only P10 --runs 3`).
+- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (file count, test count, skips). Last done 2026-10-02 (119 files, 205 tests, 12 skips).
 
 Accepted residuals (not tasks unless priorities change):
 - Haiku skips the skill for self-contained numeric questions: calorimeter resolution 0/4, Cherenkov angle, photoelectron yield, TOF reach.
