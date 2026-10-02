@@ -41,12 +41,17 @@ REQUIRED_PATHS = [
     "examples/bug-task.md",
     "examples/performance-task.md",
     "examples/research-task.md",
+    "examples/migration-task.md",
+    "examples/agentic-loop-task.md",
+    "examples/data-ml-task.md",
     "scripts/validate_skill_bundle.py",
     "scripts/generate_skill_example.py",
     "scripts/validate_skill_example.py",
     "scripts/check_example_diversity.py",
+    "scripts/lint_task.py",
     "tests/test_task_authoring_skill.py",
     "tests/test_example_authoring.py",
+    "tests/test_lint_task.py",
 ]
 
 REQUIRED_README_SECTIONS = [

@@ -1,24 +1,35 @@
-Six worked Task Markdown outputs, one per category (feature, bug, performance,
-research) from the original authoring workflow this skill was built from, plus two
-`hep-analysis` requests. Each follows
+Nine worked Task Markdown outputs: one per category (feature, bug, performance,
+research) from the original authoring workflow this skill was built from, three
+added on 2026-10-02 (migration, agentic loop, data/ML), plus two `hep-analysis`
+requests. Each follows
 [../templates/task-template.md](../templates/task-template.md) exactly and
 each demonstrates the Confirmed / Inferred / Unresolved distinction from
 `SKILL.md`'s Core Workflow with a non-trivial Open Questions section - none
 of them mark an unknown as resolved just to look complete. `tests/` checks that
 every `*-task.md` here carries the 12 required sections in order.
 
-All six target this repository (`agentic-ai-skills`) itself as the inspected
+All of them target this repository (`agentic-ai-skills`) itself as the inspected
 repository, so every Repository Context claim was a real, verified fact about it
-when written (September 2026) rather than an invented one. The
-repository has changed since: each file that went stale carries a dated
-"Snapshot note" under its title saying what changed.
+when written rather than an invented one. The feature, bug and research examples
+were rewritten on 2026-10-02 against the repository as it is now (seven skills,
+no `academic-papers/examples/`, no byte-identical reference files). The
+performance, CMS and AMS examples were written in September 2026; those that
+went stale carry a dated "Snapshot note" under their title.
 
 | Example | Category | Scenario | Open Questions highlight |
 |---|---|---|---|
-| [feature-task.md](feature-task.md) | Feature | Adding a `--format json` output mode to every skill's `validate_skill_bundle.py` | Whether the JSON shape should be factored into one shared module instead of duplicated five times (seven skills have one now), and whether there's a concrete consumer for it yet |
-| [bug-task.md](bug-task.md) | Bug | `academic-papers`' bundle validator only checks `references/`, `scripts/`, and `assets/` paths, so a broken `examples/` reference in `SKILL.md` passes silently (that directory was removed on 2026-09-25) | Whether `examples/` should be checked or documented as deliberately excluded, and whether the orphan check should cover it too |
+| [feature-task.md](feature-task.md) | Feature | Adding a `--format json` output mode to all seven skills' `validate_skill_bundle.py`, whose text outputs differ in four wordings and one takes a path argument | Whether the JSON shape should live in one shared module (skills install as separate folders), and whether any consumer exists |
+| [bug-task.md](bug-task.md) | Bug | `academic-papers`' bundle validator ignores `agents/openai.yaml`: deleting it still prints "passed all checks" (reproduced), although `task-authoring`'s validator requires the same file | Whether the file is required or optional (the README says "optional"), nobody has stated the intent |
 | [performance-task.md](performance-task.md) | Performance | "Create a task for RICH reconstruction performance analysis" - the authoring reference's own worked example, run against this repository | This repository has no RICH reconstruction code, dataset, or baseline at all - nearly every implementation detail is marked Unresolved rather than invented |
-| [research-task.md](research-task.md) | Research | Investigating whether `cpp-balanced-design-guidelines.md`'s confirmed byte-identical duplication across two skills should be deduplicated (resolved on 2026-09-15; one copy remains) | Whether any other duplicated reference file exists beyond the one already found, and whether a fix may break the single-folder `cp -r` installation model |
+| [research-task.md](research-task.md) | Research | Whether the three near-copy `behavior_eval.py` harnesses (similarity 0.83-0.95) should be consolidated, given the `cp -r` per-skill install | Whether the harnesses run only from a checkout or also from an installed skill folder |
+
+Three examples cover categories the first four did not:
+
+| Example | Category | Scenario | Open Questions highlight |
+|---|---|---|---|
+| [migration-task.md](migration-task.md) | Migration | Dropping `orders.legacy_id` in the demo shop under `tests/fixtures/shop_repo/`; irreversible, so backup and restore are acceptance criteria | Outside readers of the column, and whether a backup is a sufficient rollback |
+| [agentic-loop-task.md](agentic-loop-task.md) | Agentic loop | A bounded retry-until-complete mode for `tests/behavior_eval.py run`; names the pattern, termination, early-stop and cap | The maximum number of passes is TBD (none was given) |
+| [data-ml-task.md](data-ml-task.md) | Data / ML | Gating `deep-learning/assets/train_classifier.py` on `check_split_integrity.py` | The synthetic data has no sample IDs, so what a manifest ID refers to is unresolved |
 
 Two further examples target `hep-analysis` domain requests specifically -
 still Task Markdown outputs against this same repository, but chosen to

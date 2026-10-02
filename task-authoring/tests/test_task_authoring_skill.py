@@ -164,8 +164,6 @@ class ValidateSkillBundleCliTests(unittest.TestCase):
             self.assertIn("Validation", result.stdout)
 
 
-if __name__ == "__main__":
-    unittest.main()
 
 
 class DescriptionLengthTests(unittest.TestCase):
@@ -206,3 +204,52 @@ class ShippedExamplesTests(unittest.TestCase):
                     path.read_text(encoding="utf-8")
                 )
                 self.assertEqual(problems, [])
+
+
+class BundleErrorPathTests(unittest.TestCase):
+    """Missing and empty required files, bad frontmatter: exit code 1 and a message naming the problem."""
+
+    def _run_on_scratch(self, mutate):
+        with tempfile.TemporaryDirectory() as tmp:
+            scratch = Path(tmp) / "task-authoring"
+            shutil.copytree(ROOT, scratch, ignore=shutil.ignore_patterns("__pycache__"))
+            mutate(scratch)
+            return subprocess.run(
+                [sys.executable, str(scratch / "scripts/validate_skill_bundle.py")],
+                capture_output=True,
+                text=True,
+            )
+
+    def test_missing_required_file_is_listed(self):
+        result = self._run_on_scratch(lambda s: (s / "references/acceptance-criteria.md").unlink())
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("missing files:", result.stdout)
+        self.assertIn("references/acceptance-criteria.md", result.stdout)
+
+    def test_empty_required_file_is_listed(self):
+        result = self._run_on_scratch(lambda s: (s / "references/task-quality-checklist.md").write_text(""))
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("empty files:", result.stdout)
+        self.assertIn("references/task-quality-checklist.md", result.stdout)
+
+    def test_missing_frontmatter_is_reported(self):
+        def mutate(s):
+            skill = s / "SKILL.md"
+            skill.write_text(skill.read_text(encoding="utf-8").split("---\n", 2)[2], encoding="utf-8")
+
+        result = self._run_on_scratch(mutate)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("missing YAML frontmatter", result.stdout)
+
+    def test_missing_frontmatter_field_is_reported(self):
+        def mutate(s):
+            skill = s / "SKILL.md"
+            skill.write_text(skill.read_text(encoding="utf-8").replace("name:", "nom:", 1), encoding="utf-8")
+
+        result = self._run_on_scratch(mutate)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("frontmatter is missing name:", result.stdout)
+
+
+if __name__ == "__main__":
+    unittest.main()

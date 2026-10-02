@@ -13,6 +13,10 @@ look complete.
 
 ## Core Workflow
 
+This is the workflow for the task-document job. Authoring a canonical example or
+designing a prompt has no target repository to inspect: for those, go straight
+to the matching reference under "When to Load References".
+
 1. **Understand the user intent.** Extract the primary objective, the
    requested feature/analysis/fix/investigation, explicit constraints, the
    requested output format, and known domain context. Do not expand the task
@@ -83,12 +87,16 @@ task:
 - **Acceptance-criteria style** (what makes a criterion verifiable vs. vague)
   -> [references/acceptance-criteria.md](references/acceptance-criteria.md)
 - **Final quality gate before writing the task** ->
-  [references/task-quality-checklist.md](references/task-quality-checklist.md)
+  [references/task-quality-checklist.md](references/task-quality-checklist.md);
+  when a shell is available, also run
+  `python3 scripts/lint_task.py TASK.md --repo <target repo>` (sections,
+  empty sections, placeholders, cited paths that do not exist, loop limits)
 - **How a specific agent environment discovers or loads this skill** (Claude
   Code, Codex, Antigravity, or an unlisted generic agent) ->
   [references/adapters/](references/adapters/) - discovery notes only, they do
   not restate any rule above.
-- **Worked examples per task category** (feature, bug, performance, research)
+- **Worked examples per task category** (feature, bug, performance, research,
+  migration, agentic loop, data/ML)
   -> [examples/](examples/)
 - **Authoring a canonical worked example** in any of eight archetypes -
   Contrast (Weak vs. Expert), Execution Trajectory, Gated Pipeline,
@@ -114,6 +122,19 @@ task:
 - Never fabricate Unresolved information merely to make Open Questions look
   shorter or the task look more complete.
 - Only cite repository paths that were actually verified to exist.
+- A user-supplied or repository-defined format changes the headings, not the
+  evidence rules: still check the repository, still label Inferred items, and
+  say so inside the format's own slots when the request assumes something the
+  repository contradicts (for example a database table that does not exist).
+  Add no sections the format does not have.
+- When the request is "write the task, then implement it", deliver the task
+  document and stop there. Say that implementation is a separate step for
+  `agile-development` (or a domain skill); do not write the implementation
+  code in the same reply.
+- When the change is destructive or hard to reverse (dropping a column or
+  table, deleting data, a migration with no down path), say so in Technical
+  Approach, require a backup or rollback path in Acceptance Criteria, and list
+  the readers of the thing being removed that the repository shows.
 - Keep agent-specific adapters discovery-only; the Core Workflow and the
   template contract live in exactly one place each.
 - When the work under authoring is an agentic, autonomous, or iterative loop,

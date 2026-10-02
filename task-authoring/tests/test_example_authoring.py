@@ -982,5 +982,17 @@ class DiversityCheckerTests(unittest.TestCase):
             self.assertIn("diversity violation(s) found", result.stdout)
 
 
+class MetricRegexTests(unittest.TestCase):
+    """Units a real log or monitoring rule uses must count as a concrete metric (found 2026-10-02)."""
+
+    def test_percent_word_and_hyphenated_units_match(self):
+        for text in ("loss rose 0.5 percent", "a 2,000-step window", "p99 latency 85 ms", "error rate 0.5%"):
+            self.assertIsNotNone(validate_skill_example.METRIC_RE.search(text), text)
+
+    def test_plain_numbers_do_not_match(self):
+        for text in ("step 3 of the plan", "version 12"):
+            self.assertIsNone(validate_skill_example.METRIC_RE.search(text), text)
+
+
 if __name__ == "__main__":
     unittest.main()
