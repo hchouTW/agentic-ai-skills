@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-12 (latest pass: round 3k, 2026-10-02). Helper test environment: Python 3, standard library only.
+Validation date: 2026-09-12 (latest pass: round 3l, 2026-10-02). Helper test environment: Python 3, standard library only.
 
 ## Initial build (2026-09-12)
 
@@ -386,3 +386,23 @@ Candidate: 925 characters (was 1017). It added "stack trace" to the task wording
 The misses did not move. Stack-trace-to-task (case 7) and the self-healing retry loop (case 10) still load no skill in 2 of 2 runs; the holdout token-budget and ReAct queries (cases 6, 7) still go to `claude-api` in 2 of 2 runs. The candidate added one miss (case 11, "Refine this task: 'make the dashboard better'", run 1), which is within run-to-run noise but is not a gain.
 
 Decision: reverted, the current description stays. Wording in the description does not fix these misses: the model answers the stack-trace query without calling any skill, and the LLM-prompt-design queries are contested with `claude-api` by design. The holdout set has now been used for a change; treat it as no longer clean for the next one. Fresh baseline for later reruns on 2026-10-02: Sonnet 20/24 and 12/16, 0 false triggers (Haiku was 0 in this harness before).
+
+## Round 3l: Opus behavior eval, T1-T14 (2026-10-02)
+
+Model `opus`, baseline vs skill, 2 runs per arm per prompt (56 runs, no usage-limit notice in any result), current branch (illustrative-incident and premise-as-fact rules in `SKILL.md`, description unchanged). Per-bullet scorer: Sonnet; 59 bullets, 118 verdicts per arm. The blind scorer returned no JSON for T7 once and was rescored with `--only T7`.
+
+| Scorer | Baseline P / ~ / F | Skill P / ~ / F |
+|---|---|---|
+| Open | 58 / 26 / 34 | 106 / 11 / 1 |
+| Blind | 57 / 28 / 33 | 108 / 10 / 0 |
+
+Open and blind agree on 214 of 236 bullet verdicts. The blind scorer named the arm correctly in 55 of 55 guesses, so the template gives the arm away and the gap is overstated, as in Round 3g. All 28 skill runs read `SKILL.md`; 1 to 3 references per run (mean 2.1).
+
+Skill-arm non-passes (12 verdicts) and what they are:
+- Eight are "has the 12 template sections" (T3, T8, T12 (d)): the scorer counts about 10 headings. This is a scorer miscount: `scripts/lint_task.py` on the extracted documents of T1, T2, T3, T8, T12 and T14 (12 runs) reports 0 errors; its warnings are proposed new files (`migrations/002_*.sql`, `tests/test_billing.py`) and `app/db.query`, not invented existing paths.
+- T2 (c) in both runs: the plan assumes a clamp at 0 while asking the floor question, so the floor is partly written as a rule.
+- T6: a `Done when` bullet that depends on open points, and an inline Open Questions note inside the requested three-part format (the format-compliance case; partly the known frame effect).
+
+Hand read for invented facts, premise cases T3, T8, T12 (6 skill plans): none. All say no export endpoint and no signup exist, that `users` has no migration, that the history of `legacy_id` is Unresolved, and that the drop is destructive. This is the Sonnet pattern, not the Haiku one (Round 3i/3j).
+
+Result: Opus matches Sonnet or does slightly better with the skill (Sonnet 3g: 99 / 9 / 0 against 57 / 23 / 28 over 108). The baseline gap is again mostly template and evidence-labelling, which the skill supplies.

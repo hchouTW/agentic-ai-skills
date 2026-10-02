@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (task-authoring)
 
-State (2026-10-02, branch `ta-incident-rule` (Round 3i hand read recorded) on top of `main` 20a9426; nothing pushed). Round 3k: description trim tried and reverted (no gain). Round 3j added the premise-as-fact rule (Haiku partial, Sonnet clean, 1 of 3 Haiku over-hedges on benign T14); Round 3h added the illustrative-incident rule: T13(e) now P/~/P on Haiku and 3 P on Sonnet (3 runs, skill arm, not blind): `python3 scripts/validate_skill_bundle.py` OK (30 files, 12-section template contract); `python3 -m unittest discover -s tests` 104 tests OK; description 1017 of 1024 characters. Latest behavior eval is Round 3g in `VALIDATION.md` (T1-T13, Haiku and Sonnet, baseline vs skill, 2 runs each, 108 bullet verdicts per cell): Haiku skill 67 P / 36 ~ / 5 F against baseline 18 / 25 / 65; Sonnet skill 99 / 9 / 0 against 57 / 23 / 28. The blind scorer named the arm in 102 of 104 runs (the 12-section template gives it away), so the gap is overstated. Not yet tested: Opus, and the three newest example tasks (migration, agentic-loop, data-ml) that nobody has implemented. Read `VALIDATION.md` (Round 3g, then 3e) first, then this file.
+State (2026-10-02, branch `ta-incident-rule` (Round 3i hand read recorded) on top of `main` 20a9426; nothing pushed). Round 3l: Opus eval clean. Round 3k: description trim tried and reverted (no gain). Round 3j added the premise-as-fact rule (Haiku partial, Sonnet clean, 1 of 3 Haiku over-hedges on benign T14); Round 3h added the illustrative-incident rule: T13(e) now P/~/P on Haiku and 3 P on Sonnet (3 runs, skill arm, not blind): `python3 scripts/validate_skill_bundle.py` OK (30 files, 12-section template contract); `python3 -m unittest discover -s tests` 104 tests OK; description 1017 of 1024 characters. Latest behavior eval is Round 3g in `VALIDATION.md` (T1-T13, Haiku and Sonnet, baseline vs skill, 2 runs each, 108 bullet verdicts per cell): Haiku skill 67 P / 36 ~ / 5 F against baseline 18 / 25 / 65; Sonnet skill 99 / 9 / 0 against 57 / 23 / 28. The blind scorer named the arm in 102 of 104 runs (the 12-section template gives it away), so the gap is overstated. Opus is tested (Round 3l). Not yet tested: the three newest example tasks (migration, agentic-loop, data-ml) that nobody has implemented. Read `VALIDATION.md` (Round 3g, then 3e) first, then this file.
 
 Working rules:
 - Work on a branch in a worktree (`git worktree add .worktrees/<name> origin/main`); the main checkout is shared with other Claude sessions that switch branches under you. Check `git branch --show-current` before every commit. Ask before pushing or merging.
@@ -23,7 +23,7 @@ Tooling to reuse instead of hand-run subagents:
 
 ## Next, in this order
 
-1. **Opus runs** (T1-T14, 2 runs per arm), if wanted.
+None queued. Opus was run in Round 3l (skill 106 / 11 / 1 against baseline 58 / 26 / 34, no invented facts in the premise cases), so no tier is untested. New work should come from a failure, a repository change that stales an example, or a request for a new consumer (see Open items).
 
 ## Known Haiku limits (do not over-tune)
 
