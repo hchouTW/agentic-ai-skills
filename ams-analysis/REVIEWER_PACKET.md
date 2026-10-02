@@ -248,3 +248,16 @@ The publisher PDFs of PRL 110, 141102 (S02) and PRL 113, 121101, 121102 and 2211
 Source S02: level `full-text`, published 2013-04-03, data 2011-05-19 to 2012-12-10; Main article read; the complete positron-fraction table and other supplementary material (its Ref. [13]) were not available, so only the representative bins of Table I exist in the text and none were transcribed; figures were not interpreted.
 
 Source S03: level `full-text`, published 2014-09-18, data 2011-05-19 to 2013-11-26; Main articles only; the full tables of the positron fraction, fluxes and the Supplemental Material were not read or transcribed; figures were not interpreted. The three PRLs share one ledger row, so cite the claim (C113-C119), which names the paper.
+
+## Addendum 2 (2026-10-02): S09 read, claims C07 and C120-C124
+
+The main article of PRL 134, 051002 (S09) was read from the local paper cache. S09 is now `full-text` (main article only), C07 was promoted from abstract+metadata (so it no longer belongs in call 1 or call 2 above) and expanded, and five claims were added. Please review them like the others; in particular whether the 'universal relation' and the spectral-shape attributions in C123 and C124 are worded as the collaboration's reading and not as a result.
+
+| ID | Src | Scope | Strength | Support | Num | Claim | Verdict |
+|---|---|---|---|---|---|---|---|
+| C07 | S09 | antiproton; 1.00-41.9 GV; 2011-05 to 2022-06 (139 Bartels rotations) | full-text | primary | yes | Antiproton results over an 11-year solar cycle (continuous per-Bartels-rotation fluxes from May 2011 to June 2022): 1.1×10⁶ antiprotons, 1.00-41.9 GV; the magnitude of t… |  |
+| C120 | S09 | antiproton; 1.00-41.9 GV; 2011-05 to 2022-06 (139 Bartels rotations) | full-text | primary | yes | Antiproton flux per Bartels rotation, method (PRL 134, 051002): the flux in the i-th absolute rigidity bin for the j-th period is N / (A (1 + delta) eps T Delta R) with… |  |
+| C121 | S09 | antiproton; 1.00-41.9 GV (values at the quoted rigidities); 2011-05 t… | full-text | primary | yes | Systematic errors of the antiproton fluxes (PRL 134, 051002): background subtraction has two independent components added in quadrature, the event selection (3.5% at 1 G… |  |
+| C122 | S09 | antiproton; 1.00-41.9 GV; 2011-05 to 2022-06 (139 Bartels rotations) | full-text | primary | yes | Rigidity and time dependence of the antiproton flux (PRL 134, 051002): each Bartels-rotation flux is tabulated in Tables S1-S139 and the 11-year average in Table S140 of… |  |
+| C123 | S09 | antiproton/proton/e-/e+; 1.00-2.97 GV (hysteresis below 11.0 GV, line… | full-text | primary | yes | Correlations between the antiproton and the other elementary particle fluxes (PRL 134, 051002), rigidity 1.00-2.97 GV with 13-rotation moving averages: the antiproton an… |  |
+| C124 | S09 | antiproton/proton/e-/e+; 1.00-11.0 GV for Delta M / Delta gamma; M an… | full-text | primary | yes | Model-independent spectral-shape analysis (PRL 134, 051002): the spectral index gamma = d log(Phi) / d log(R) of the 11-year time-averaged fluxes is determined with slid… |  |

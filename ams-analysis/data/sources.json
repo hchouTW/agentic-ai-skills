@@ -257,20 +257,20 @@
     "tier": 1,
     "tier_range": null,
     "tier_text": "1",
-    "verification_level": "abstract+metadata",
-    "verification_note": null,
-    "access_date": "2026-09-20",
+    "verification_level": "full-text",
+    "verification_note": "main article only (publisher PDF from the local paper cache, read with pdftotext on 2026-10-02; superscripts of the key sample sizes checked on a rendered page)",
+    "access_date": "2026-10-02",
     "publication_date": "2025-02-03",
     "data_taking_period": {
-      "start": null,
-      "end": null,
-      "note": "11-year solar cycle; exact dates not recorded in the ledger (claim C07)"
+      "start": "2011-05",
+      "end": "2022-06",
+      "note": "139 Bartels rotations; claims C07, C120"
     },
     "supersedes": [],
     "superseded_by": [],
     "supersession_note": null,
-    "notes": null,
-    "verification_limitations": null
+    "notes": "Published under CC BY 4.0 (open access funded by CERN), as stated in the paper.",
+    "verification_limitations": "Main article only. The Supplemental Material (event selection and geomagnetic-cutoff details, Tables S1-S140, Figs. S1-S9, Table SA with the 4 sigma comparison, the hysteresis method) is cached locally but was not read; the machine-readable tables were not transcribed; figures were not interpreted."
   },
   {
     "id": "S10",

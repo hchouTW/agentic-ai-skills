@@ -161,7 +161,7 @@
   },
   {
     "id": "C07",
-    "claim": "Antiproton results over an 11-year solar cycle: 1.1×10⁶ events, 1.00-41.9 GV; smaller time variation than `p`, `e⁻`, `e⁺`",
+    "claim": "Antiproton results over an 11-year solar cycle (continuous per-Bartels-rotation fluxes from May 2011 to June 2022): 1.1×10⁶ antiprotons, 1.00-41.9 GV; the magnitude of the antiproton flux temporal variation is significantly smaller than those of protons, electrons and positrons; a hysteresis between the antiproton and proton fluxes is observed while the antiproton and electron fluxes show a linear correlation; a model-independent analysis finds a universal relation between spectral shape and the magnitude of flux variation for positively and negatively charged particles",
     "claim_types": [
       "published_result"
     ],
@@ -170,20 +170,20 @@
     "source_ids": [
       "S09"
     ],
-    "location": "abstract",
+    "location": "abstract; Results; conclusion",
     "scope": {
       "text": "2025",
       "species": [
         "antiproton"
       ],
       "range": "1.00-41.9 GV",
-      "data_period": "11-year solar cycle",
-      "analysis": "antiproton over a solar cycle, 2025"
+      "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
+      "analysis": "antiproton flux over a solar cycle, 2025"
     },
-    "limitations": "abstract only",
-    "verification_strength": "abstract+metadata",
+    "limitations": "Main article only; the 'universal relation' is the collaboration's model-independent finding, detailed in C124. Supplemental Material not read.",
+    "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
-    "last_reviewed": "2026-09-20"
+    "last_reviewed": "2026-10-02"
   },
   {
     "id": "C08",
@@ -3162,6 +3162,144 @@
       "analysis": "2014 combined flux result"
     },
     "limitations": "Main article only. An energy spectrum of the sum, in energy not rigidity; it is not the sum of the e- and e+ spectral indices of C117. Later measurements supersede it in precision and range.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C120",
+    "claim": "Antiproton flux per Bartels rotation, method (PRL 134, 051002): the flux in the i-th absolute rigidity bin for the j-th period is N / (A (1 + delta) eps T Delta R) with N the number of events corrected for background and bin-to-bin migration by an unfolding procedure (from an earlier AMS paper), A the effective acceptance from Monte Carlo including geometric acceptance, selection efficiencies and antiproton interactions in the AMS materials, delta a small data-minus-Monte-Carlo correction obtained for every selection cut from the other detectors (8% at 1 GV decreasing to 3% at 10 GV), eps the trigger efficiency and T the collection time; the flux is measured in 139 Bartels rotations (27 days each) from May 2011 to June 2022 in 11 rigidity bins from 1.00 to 41.9 GV; over 2.0×10¹¹ cosmic-ray events were recorded in the first 11 years, there are about 10⁴ protons per antiproton, the sample is selected with the combined information of TRD, TOF, RICH, tracker and ECAL, and after selection and background subtraction 1.1×10⁶ antiprotons are obtained; several independent analyses of the same data by different groups were consistent",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S09"
+    ],
+    "location": "main text, Event selection; Data analysis",
+    "scope": {
+      "text": "antiproton per-Bartels-rotation flux",
+      "species": [
+        "antiproton"
+      ],
+      "range": "1.00-41.9 GV",
+      "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
+      "analysis": "antiproton flux per Bartels rotation, method"
+    },
+    "limitations": "Main article only. The event selection, the geomagnetic cutoff, the background templates and the collection time are described in the Supplemental Material and earlier papers (S08), which this claim does not cover; the unfolding method is cited, not described. Rigidity bins are absolute rigidity at the top of the detector.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C121",
+    "claim": "Systematic errors of the antiproton fluxes (PRL 134, 051002): background subtraction has two independent components added in quadrature, the event selection (3.5% at 1 GV, 0.5% at 10 GV) and the statistical fluctuation of the background template used to separate antiprotons from electrons and pions (1.5% at 1 GV, below 1% above 3 GV); the trigger efficiency error is below 1% over the whole rigidity range and in every rotation; the geomagnetic-cutoff error is about 2% at 1 GV and below 0.4% above 2 GV; the acceptance error, mainly from antiproton interaction cross sections in the detector materials, is time-independent, 4% at 1 GV decreasing to 2% above 20 GV, with the efficiency-related acceptance-correction error below 1%; the unfolding error has a time-independent part from the rigidity resolution function (Gaussian core width varied by 5% and non-Gaussian tails by 20%: 2.5% at 1 GV, below 0.2% above 10 GV) and a time-dependent part from the variation of the antiproton spectral shape per rotation (about 4% at 1 GV, below 0.3% above 3 GV); the absolute rigidity scale (residual tracker misalignment and the magnetic-field map with temperature corrections) gives below 0.5% up to 41.9 GV; the total systematic error adds the time-independent and time-dependent terms in quadrature and is about 9% at 1 GV and about 4% above 5 GV for all rotations",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S09"
+    ],
+    "location": "main text, Data analysis",
+    "scope": {
+      "text": "antiproton flux systematics",
+      "species": [
+        "antiproton"
+      ],
+      "range": "1.00-41.9 GV (values at the quoted rigidities)",
+      "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
+      "analysis": "antiproton flux systematic ledger"
+    },
+    "limitations": "Main article only. Percentages belong to the flux of this paper at the quoted rigidities and are not typical of other bins or analyses; a bin-to-bin or rotation-to-rotation covariance matrix is not given in the text read (the 13-rotation moving averages account for correlated systematics, per the figure caption).",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C122",
+    "claim": "Rigidity and time dependence of the antiproton flux (PRL 134, 051002): each Bartels-rotation flux is tabulated in Tables S1-S139 and the 11-year average in Table S140 of the Supplemental Material (values not read here); the flux increases with rigidity below 2.97 GV and decreases above it, the time-averaged flux increasing from 1 to 2 GV, peaking between 2 and 4 GV with a turnover at about 3 GV and decreasing from 4 GV, while the proton, electron and positron time-averaged fluxes all decrease with rigidity; the antiproton flux varies significantly in time below about 10 GV, with the relative variation decreasing with rigidity and not visible above about 10 GV (13-rotation moving averages with a step of one rotation); the antiproton, proton, electron and positron fluxes all reach a minimum around 2014-2015 and a maximum around 2020, and below about 4 GV the magnitude of the antiproton temporal variation is significantly smaller than that of the other three; the data cover most of solar cycle 24, including the 2013 polarity reversal, and the beginning of cycle 25",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S09"
+    ],
+    "location": "main text, Results",
+    "scope": {
+      "text": "antiproton flux versus rigidity and time",
+      "species": [
+        "antiproton"
+      ],
+      "range": "1.00-41.9 GV",
+      "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
+      "analysis": "antiproton flux rigidity and time dependence"
+    },
+    "limitations": "Main article only; descriptions of figures as stated in the text, figures themselves were not interpreted and tabulated values were not read. Proton, electron and positron fluxes are taken from earlier AMS papers (S43, S45, S46) rebinned; the claim does not restate them.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C123",
+    "claim": "Correlations between the antiproton and the other elementary particle fluxes (PRL 134, 051002), rigidity 1.00-2.97 GV with 13-rotation moving averages: the antiproton and proton fluxes show a hysteresis (two distinct branches at a given proton flux, before and after 2014-2015) like that between the electron and positron fluxes, and a hysteresis between the antiproton and proton fluxes is observed in every rigidity bin below 11.0 GV; below 4.88 GV the detailed antiproton-proton hysteresis differs from the electron-positron hysteresis by more than 4 sigma (from a table in the Supplemental Material, not read); the antiproton and electron fluxes show a linear relation in all rigidity bins from 1.00 to 7.09 GV, in which the antiproton flux is modulated significantly less than the electron flux, as the proton and positron fluxes show a linear relation with the proton modulated less than the positron; the paper concludes that particles with the same charge sign are modulated similarly with differences from mass and spectral shape, that the hysteresis shows a clear charge-sign effect, and that the difference between the antiproton-electron and proton-positron relations shows the importance of the spectral shape",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S09"
+    ],
+    "location": "main text, Results",
+    "scope": {
+      "text": "antiproton, proton, electron and positron flux correlations",
+      "species": [
+        "antiproton",
+        "proton",
+        "e-",
+        "e+"
+      ],
+      "range": "1.00-2.97 GV (hysteresis below 11.0 GV, linear relation to 7.09 GV)",
+      "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
+      "analysis": "flux correlations and hysteresis"
+    },
+    "limitations": "Main article only. The conclusions about charge-sign effect and spectral shape are the collaboration's interpretation of these correlations, not a model; the hysteresis method follows an earlier paper (S45) and the 4 sigma figure comes from a Supplemental Material table that was not read. Electron and positron flux inputs are from earlier AMS papers.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C124",
+    "claim": "Model-independent spectral-shape analysis (PRL 134, 051002): the spectral index gamma = d log(Phi) / d log(R) of the 11-year time-averaged fluxes is determined with sliding windows of 5-7 rigidity bins (figure in the Supplemental Material, not read), the antiproton index is positive below about 3 GV and gamma(p-bar) > gamma(e-) and gamma(p) > gamma(e+) in every rigidity bin, the difference between the antiproton and electron indices being much larger than that between the proton and positron; the relative magnitude of the flux variation M is the ratio of the maximum to the minimum 13-rotation moving-average flux over the 11 years, with M(p-bar) much smaller than that of the other fluxes below 4.02 GV and M(p-bar) < M(e-), M(p) < M(e+); the ratio Delta M / Delta gamma is below zero (the flux with the larger index varies less) and approaches zero with increasing rigidity up to 11 GV, and it is the same within errors for the negatively charged pair (e-, p-bar) and the positively charged pair (e+, p), which the collaboration calls a universal relation between flux-variation magnitude and spectral index independent of charge sign and takes to show that the differences in modulation between p-bar and e- and between p and e+ are mainly due to spectral shape and to be input for the antiproton local interstellar spectrum",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S09"
+    ],
+    "location": "main text, Results; conclusion",
+    "scope": {
+      "text": "spectral index versus magnitude of flux variation",
+      "species": [
+        "antiproton",
+        "proton",
+        "e-",
+        "e+"
+      ],
+      "range": "1.00-11.0 GV for Delta M / Delta gamma; M and gamma per bin up to 41.9 GV",
+      "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
+      "analysis": "model-independent M versus gamma analysis"
+    },
+    "limitations": "Main article only. The 'universal relation' and the attribution to spectral shape are the collaboration's reading, not a transport-model result; the index and M values per bin are in the Supplemental Material and figures and were not read; errors on the ratios are shown in a figure only.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-10-02"
