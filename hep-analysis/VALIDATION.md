@@ -22,6 +22,29 @@ Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 205 
 - Three samples only; the Voyager slip in run 0 is a new, unrelated error, and the sample is too
   small to say it is rare. Tests and bundle validator unchanged and passing (119 files, 205
   tests, 12 skips).
+- **Full 16-prompt Haiku rerun after the change** (`prompts_eval.py --model haiku --runs 2 -j 4`,
+  32 runs, $1.52, no errors; every hinted run loaded hep-analysis, and `reads=0` except one P04
+  run that read one reference): **26 PASS, 6 PARTIAL, 0 FAIL** (before the change: 24 / 8 / 0).
+  - PASS x2: P03, P04, P06, P07, P09, P11, P13, P14, N01, N02. P11 run 1 routed to
+    `ams-analysis` (reads=4) and gave a sourced, dated antiproton result; run 0 loaded no skill and
+    gave no number.
+  - P01 PASS + PARTIAL: run 1 gives the right signed full-sample denominator but no RDataFrame
+    code beyond prose.
+  - P02 PASS + PARTIAL: run 0 masks first and indexes `[:, 0]`, `[:, 1]` with sumw2. Run 1 repeats
+    the awkward bug `selected_pt[pt_argsort[:, 0]]`, which selects events, not jets.
+  - P05 PASS + PARTIAL: run 1 says the observed SR values are set to NaN; run 0 offers a masked
+    template with no explicit refusal.
+  - P08 PASS + PARTIAL: both reject sqrt(N) and give [1.37, 5.92]. Run 1 then divides by 1.08e7
+    and quotes 1.27e-8 and 5.48e-8; the correct values are 1.27e-7 and 5.48e-7 (a 10x
+    arithmetic error).
+  - P10 PASS + PARTIAL: **both runs say 2011-2013 is solar maximum.** Run 0 (PASS) has the 1.2x
+    margin, a backtracing alternative and phi ~600-700 MV. Run 1 (PARTIAL) omits the 1.2x margin.
+  - P12 PASS + PARTIAL: run 0 has 2.74 sigma and a post-trial p of 0.76 (exact 0.71). Run 1 gets
+    2.67 sigma from a rounded logarithm, p_global 0.80, and calls a global p of 0.8 "a deficit".
+  - Across all five P10 runs after the change the epoch is correct 5/5 (before: 0/2). Haiku's
+    arithmetic slips (P08 run 1, P12 run 1, earlier P01) vary from run to run and are not tied to
+    this change. With 2 samples per prompt, 24/8/0 against 26/6/0 is within noise: it shows no
+    regression but does not show that the sentence helps anywhere except P10.
 
 ## Haiku prompts.md rerun, unchanged SKILL.md (2026-10-02, branch `hep-analysis-prompts-rerun`)
 
