@@ -1,10 +1,27 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, Haiku `tests/prompts.md` rerun (latest pass; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, P10 solar-epoch fix and rerun (latest pass; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
 Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 205 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## P10 solar-epoch fix, rerun (2026-10-02, branch `hep-analysis-p10-cycle24`)
+
+- Change: one sentence added to the astroparticle invariant in `SKILL.md` (the solar-modulation
+  bullet): take the epoch's phase from the sunspot record; cycle 24 had its minimum in Dec 2008
+  and a double maximum (Nov 2011 and 2012-mid 2013, smoothed peak Apr 2014), so 2011-2013 is
+  solar maximum, not a declining phase. It restates reference 35 and links to it. The
+  description is unchanged (1019 of 1024 characters).
+- Rerun: `tests/prompts_eval.py --model haiku --only P10 --runs 3`, $0.14, `reads=0` on all
+  three runs again. **Epoch correct 3/3** (before: 0/2, "minimum" and "declining"). **2 PASS +
+  1 PARTIAL.** Run 0 PARTIAL: it applies the 1.2x margin to the orbit-averaged Stormer cutoff
+  with no per-event backtracing, and says Voyager 1 crossed the termination shock in late 2012
+  (the heliopause crossing was August 2012). Runs 1 and 2 PASS: 1.2x margin, backtracing, solar
+  maximum, demodulate the ISS flux and label TOA versus LIS; run 2 gives phi ~800-900 MV.
+- Three samples only; the Voyager slip in run 0 is a new, unrelated error, and the sample is too
+  small to say it is rare. Tests and bundle validator unchanged and passing (119 files, 205
+  tests, 12 skips).
 
 ## Haiku prompts.md rerun, unchanged SKILL.md (2026-10-02, branch `hep-analysis-prompts-rerun`)
 
