@@ -4935,5 +4935,31 @@
     "support_kind": "primary",
     "verification_strength": "full-text",
     "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C183",
+    "claim": "ASI SSDC Cosmic Ray Database search page (screenshot, 2026-10-02): the page is headed 'COSMIC RAY Database' with the subtitle 'Database for charged Cosmic Ray measurements' and the SSDC logo, shows 'Version 3.3', and has Login and 'Feedback and contacts' links; its introduction says that the present Cosmic Ray DataBase (CRDB) provides access to published data from missions dedicated to charged cosmic-ray measurements, that the current data-set is 'not comprehensive but in expansion', that the data are organized in a SQL database searched through queries based on particle species, measurement of interest and/or mission name (a refined search is also available), that query results are given as a table ready to be plotted, exported and downloaded in various formats and comprise the published data points with their uncertainties and some meta-data, that when more than the original data are provided (for example data obtained after some manipulation such as an energy-rigidity conversion or a change of units) this is reported in the output file, and that users should always consult the original publication before using the data; it invites feedback for adding new data or signalling inaccuracies and thanks users for citing it ('Thank you for citing us'); a button reads 'Most recent time-dependent AMS data available here!'; the search form has a Particle selector (shown as ALL), a 'Plot: - vs -' pair of selectors, an Experiments selector shown as 'All selected (25)', Special datasets check boxes 'SEP events' and 'trapped', and SEARCH and RESET buttons",
+    "claim_types": [
+      "analysis_method"
+    ],
+    "claim_type_note": "secondary compilation: what the database page says about itself, not AMS practice",
+    "support_kind": "third_party_context",
+    "source_ids": [
+      "S52"
+    ],
+    "location": "search page (single screenshot supplied by the maintainer)",
+    "scope": {
+      "text": "ASI SSDC cosmic-ray database search form and introduction on 2026-10-02",
+      "species": [
+        "charged cosmic rays (compilation)"
+      ],
+      "range": null,
+      "data_period": null,
+      "analysis": "page self-description, search parameters and output notes"
+    },
+    "limitations": "One screenshot of the search form: no query was run, so what the 25 experiments are, which AMS-02 datasets and periods exist, the output formats, the access terms and whether a login is needed for any function are all unknown. The page calls itself CRDB, which is not the LPSC CRDB (S50, claims C125-C129); 'Version 3.3' is this page's own label. A value from this database is secondary and never an AMS result; the 'Most recent time-dependent AMS data' button says nothing about which periods it holds. Do not extend this claim to the 2017 description (C130) or the reverse.",
+    "verification_strength": "page",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
   }
 ]

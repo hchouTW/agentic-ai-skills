@@ -351,3 +351,11 @@ Changed rows to re-check: S09, S41, S42 (notes), S20 (note), C120 and C123 (belo
 | C180 | S09 | antiproton; 1.00-41.9 GV; 2011-05 to 2022-06 (139 Bartels rotations) | full-text | primary | no | Layout of the antiproton flux tables (PRL 134, 051002 Supplemental Material, introductory text of SM-antip-BR-Tables.pdf, table values not transcribed): Tables S1 to S13… |  |
 | C181 | S41 | proton; integral flux above 2.40-21.10 GV (match stated above 6.47 GV… | full-text | primary | yes | Neutron-monitor comparison in the proton and helium time-structure supplement (S41, PRL 121, 051101, Supplemental Material Fig. SM 2 caption): the relative variation of … |  |
 | C182 | S42 | e-, e+; 1-50 GeV; spectral index at E = 10 GeV from 7.1-13.41 GeV; 20… | full-text | primary | yes | Captions of the electron and positron time-structure supplement (S42, PRL 121, 051102, Supplemental Material Figs. SM 1-SM 7): for each Bartels rotation the difference b… |  |
+
+## Addendum 5 (2026-10-02): SSDC search page, source S52 and claim C183
+
+S52 was upgraded from not-verified to page level from one maintainer screenshot of the search form (no query run). Please check: is C183 worded narrowly enough (it records only the page's own introduction text, selector labels and the "25 experiments" count, and no holdings), and is it right to keep the page's "Version 3.3" separate from the LPSC CRDB version.
+
+| ID | Src | Scope | Strength | Support | Num | Claim | Verdict |
+|---|---|---|---|---|---|---|---|
+| C183 | S52 | charged cosmic rays (compilation); search form, 2026-10-02 | page | third_party_context | yes | ASI SSDC Cosmic Ray Database search page (screenshot): introduction text, search selectors, All selected (25), Version 3.3 |  |
