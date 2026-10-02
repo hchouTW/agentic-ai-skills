@@ -185,7 +185,8 @@ class SkillUnitsAndScriptRulesTest(unittest.TestCase):
         self.assertIn('reads `genEventSumw` from `Runs`', self.text)
 
     def test_flux_row_asks_to_run_the_script_and_quote_its_output(self):
-        for needle in ('quote its `flux`, `flux_lower` and `flux_upper`', 'do not divide by hand'):
+        for needle in ('with Bash before you answer', 'quote the `flux`, `flux_lower` and `flux_upper` it prints',
+                       'Never write a flux value you did not read from that output'):
             self.assertIn(needle, self.text)
 
     def test_procedure_asks_to_run_bundled_scripts(self):

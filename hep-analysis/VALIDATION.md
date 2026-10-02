@@ -1,10 +1,40 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, full Haiku rerun after PR #101 (latest pass; P03 per-cut check line the same day; full Haiku rerun after PR #99 the same day; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, P08 run-the-script wording (latest pass; full Haiku rerun after PR #101 the same day; P03 per-cut check line the same day; full Haiku rerun after PR #99 the same day; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
 Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 214 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## P08: run the flux script before answering (2026-10-02, branch `hep-analysis-p08-script`)
+
+- Harness: `tests/prompts_eval.py` now records each run's Bash commands (`bash` in `result.json`,
+  `bash=N` in the printed line), so it is visible whether the bundled script was executed. Earlier
+  rerun files do not have it.
+- Baseline on the wording from PR #99 ("run the script ... do not divide by hand"), P08 x8, $0.44:
+  the script was executed in **5 of 8** runs and the flux, errors and units were right and complete in
+  **4 of 8**. The failures sit in the runs that did not execute it: 2 of 3 non-runners wrote a flux
+  a factor 10 too small (1e-8), the third gave only the command; one runner garbled the upper error
+  (5.48e-8 for +2.70e-7).
+- Change in the sqrt(N) row of `SKILL.md`: run `scripts/cosmic_ray_flux.py` "with Bash before you
+  answer", quote the `flux`, `flux_lower` and `flux_upper` it prints, "Never write a flux value you
+  did not read from that output; if you cannot run it, give the formula and the count interval from
+  the table only." `SkillUnitsAndScriptRulesTest` updated to the new phrases. Tests still 214,
+  bundle 119 files, description unchanged (1019 of 1024).
+- Rerun on the new wording, P08 x8, $0.44: the script was executed in **8 of 8** runs and the numbers
+  were right and complete in **8 of 8** (flux 2.78e-7, lower 1.27e-7 or error -1.51e-7, upper 5.48e-7
+  or error +2.70e-7, no 1e-8 values). One-sided Fisher exact test on correct-and-complete runs, 4/8
+  against 8/8: p = 0.038.
+- Scoring rule used (automatic, numbers only): central flux 2.78 with a 10^-7 exponent, a lower value
+  1.27e-7 or 1.51e-7, an upper value 5.48e-7, 5.49e-7 or 2.70e-7, and no such value with a 10^-8
+  exponent; "ran" means a Bash command containing `cosmic_ray_flux`. The scorer was fixed on the
+  baseline before the new wording was tried.
+- Other rubric items on the new runs: asymmetric errors 8/8; spillover mentioned 6/8; background
+  mentioned 7/8 (run 4 mentions neither, run 5 only background); the count interval [1.37, 5.92] is
+  stated in 4/8 (the others give the equivalent flux bounds). So the numerical slip is gone but two
+  runs drop the spillover caveat, which they included before.
+- Limits: 8 samples per arm; no full 16-prompt rerun after this change; this branch also carries the
+  record of the rerun after PR #101.
 
 ## Full Haiku rerun after PR #101 (2026-10-02, branch `hep-analysis-rerun-after-101`)
 

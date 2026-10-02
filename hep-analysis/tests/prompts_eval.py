@@ -65,7 +65,7 @@ def run_one(pid, text, run, model, out, max_turns, timeout):
            "--max-turns", str(max_turns),
            "--allowedTools", "Read", "Glob", "Grep", "Skill", "Write", "Edit",
            "Bash(python3:*)"]
-    skill_calls, reads, answer, cost, error = [], [], "", None, None
+    skill_calls, reads, bash_cmds, answer, cost, error = [], [], [], "", None, None
     try:
         proc = subprocess.run(cmd, cwd=work, capture_output=True, text=True,
                               timeout=timeout)
@@ -83,6 +83,8 @@ def run_one(pid, text, run, model, out, max_turns, timeout):
                         skill_calls.append(inp.get("skill"))
                     elif block["name"] == "Read":
                         reads.append(inp.get("file_path", "").replace(str(REPO) + "/", ""))
+                    elif block["name"] == "Bash":
+                        bash_cmds.append(inp.get("command", ""))
             elif msg.get("type") == "result":
                 answer = msg.get("result") or ""
                 cost = msg.get("total_cost_usd")
@@ -91,7 +93,7 @@ def run_one(pid, text, run, model, out, max_turns, timeout):
     except subprocess.TimeoutExpired:
         error = "timeout"
     res = {"id": pid, "run": run, "skills": skill_calls, "reads": reads,
-           "cost_usd": cost, "error": error, "answer": answer}
+           "bash": bash_cmds, "cost_usd": cost, "error": error, "answer": answer}
     (work / "result.json").write_text(json.dumps(res, indent=1))
     return res
 
@@ -118,7 +120,7 @@ def main():
     for res in results:
         print(f"{res['id']} run{res['run']}: skills={res['skills']} "
               f"refs={len([p for p in res['reads'] if 'references/' in p])} "
-              f"err={res['error']} chars={len(res['answer'])}")
+              f"bash={len(res['bash'])} err={res['error']} chars={len(res['answer'])}")
     cost = sum(r["cost_usd"] or 0 for r in results)
     print(f"model {args.model}; reported cost ${cost:.2f}; answers in {out}")
     (out / "summary.json").write_text(json.dumps(results, indent=1))
