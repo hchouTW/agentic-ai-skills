@@ -32,9 +32,9 @@ Archetype-specific rules:
   2 distinct, separately-labeled attack vectors; "4. Hardened Architectural
   Patch" contains a fenced code block (diff or corrected artifact).
 - `test-first`: "2. Executable Failing Test (Red)" contains a fenced block
-  with a failure marker (FAILED/AssertionError/Error/non-zero exit); "4.
-  Verified Passing Execution (Green)" contains a fenced block plus a numeric
-  metric.
+  with a failure marker (FAILED/AssertionError/Error/non-zero exit) inside the
+  fence, not in the prose around it; "4. Verified Passing Execution (Green)"
+  contains a fenced block with a numeric metric inside the fence.
 - `postmortem`: "1. Incident Symptom & Alert Payload" contains a fenced
   block; "3. 5-Whys Root Cause Deep-Dive" has exactly 5 numbered Why steps and
   does not stop at "human error"; "4. Permanent Surgical Fix (Diff)" contains
@@ -223,6 +223,16 @@ def section_text(body: str, name: str) -> str:
     return ""
 
 
+def fenced_blocks(text: str) -> list[str]:
+    """Contents of each closed ``` fence in text."""
+    parts = re.split(r"^```.*$", text, flags=re.MULTILINE)
+    return parts[1::2] if len(parts) % 2 == 1 else parts[1:-1:2]
+
+
+def fenced_text(text: str) -> str:
+    return "\n".join(fenced_blocks(text))
+
+
 def check_takeaway_count(body: str) -> list[str]:
     takeaways_text = section_text(body, "Key Takeaways")
     count = sum(1 for line in takeaways_text.splitlines() if BULLET_RE.match(line))
@@ -314,13 +324,13 @@ def check_test_first(body: str) -> list[str]:
     red_text = section_text(body, red_section)
     if len(CODE_FENCE_RE.findall(red_text)) < 2:
         problems.append(f'"{red_section}" must contain a fenced code block, not just prose')
-    elif not FAILURE_MARKER_RE.search(red_text):
+    elif not FAILURE_MARKER_RE.search(fenced_text(red_text)):
         problems.append(f'"{red_section}" must show a raw failure (FAILED/AssertionError/non-zero exit)')
     green_section = "4. Verified Passing Execution (Green)"
     green_text = section_text(body, green_section)
     if len(CODE_FENCE_RE.findall(green_text)) < 2:
         problems.append(f'"{green_section}" must contain a fenced code block, not just prose')
-    if not METRIC_RE.search(green_text):
+    if not METRIC_RE.search(fenced_text(green_text)):
         problems.append(f'"{green_section}" must include at least one concrete numeric metric')
     return problems
 
