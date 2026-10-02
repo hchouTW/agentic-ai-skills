@@ -4398,7 +4398,7 @@
   },
   {
     "id": "C164",
-    "claim": "Na and Al bin-to-bin migration and small systematic errors: migration corrected by unfolding, with corrections (N_i - ℵ_i)/ℵ_i of +20% at 3 GV decreasing smoothly to +6% at 10 GV, -1% at 100 GV, -10% at 300 GV and -20% at 3.0 TV for Na and similar for Al; systematic error from trigger efficiency < 1% over the entire rigidity range; geomagnetic cutoff factor varied from 1.0 to 1.4 gives < 0.1% below 30 GV; total corrections to the effective acceptance from data-MC differences < 5% over the entire rigidity range; systematic errors from reconstruction and selection < 1% over the entire rigidity range",
+    "claim": "Na and Al bin-to-bin migration and small systematic errors: migration corrected by unfolding (procedure by reference to Ref. [25]); N_i is the number of events corrected for bin-to-bin migration, as used in the flux, and ℵ_i is the number of observed events in bin i, so the corrections (N_i - ℵ_i)/ℵ_i are +20% at 3 GV decreasing smoothly to +6% at 10 GV, -1% at 100 GV, -10% at 300 GV and -20% at 3.0 TV for Na and similar for Al; systematic error from trigger efficiency < 1% over the entire rigidity range; geomagnetic cutoff factor varied from 1.0 to 1.4 gives < 0.1% below 30 GV; total corrections to the effective acceptance from data-MC differences < 5% over the entire rigidity range; systematic errors from reconstruction and selection < 1% over the entire rigidity range",
     "claim_types": [
       "analysis_method",
       "performance_number"
