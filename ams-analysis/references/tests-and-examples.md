@@ -74,7 +74,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   refs: [detector-and-observables, nuclei-and-isotopes]
   critical_requirements: [Cherenkov angle gives beta, m = |Z||R|/(gamma beta), error term gamma^2 dbeta/beta, ill-conditioned as beta->1, radiator/ring quality]
   prohibited_claims: [specific resolution or radiator index without source, universal rigidity limit]
-  citation_expectation: numbers only from S17/S18 with context
+  citation_expectation: numbers only with context and claim ID (C21, C28, C70)
 
 - test_id: T03
   category: detector-principle
@@ -87,7 +87,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   category: detector-principle
   prompt: "Why does the Tracker rigidity measurement degrade at low and at high rigidity?"
   refs: [detector-and-observables]
-  critical_requirements: [multiple scattering at low R, spatial resolution/alignment at high R, MDR definition-dependent, non-Gaussian tails, charge confusion]
+  critical_requirements: [multiple scattering at low R, spatial resolution/alignment at high R, MDR quoted with its definition (delta R / R = 1) and configuration, non-Gaussian tails, charge confusion]
   prohibited_claims: [a universal MDR value]
 
 - test_id: T05
@@ -110,7 +110,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   prompt: "Design a deuteron-to-proton flux ratio measurement from 2 to 20 GV."
   refs: [nuclei-and-isotopes, charged-cosmic-rays, inference-and-unfolding]
   critical_requirements: [mass from R Z beta, high-beta limit, RICH range vs TOF, templates and overlap, fragmentation background, ratio cancellation not assumed, T/A needs A]
-  prohibited_claims: [AMS cuts or templates presented as AMS practice, invented resolutions]
+  prohibited_claims: [undocumented AMS cuts or templates presented as AMS practice, invented resolutions]
 
 - test_id: T08
   category: end-to-end-review
@@ -179,7 +179,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   category: source-latest
   prompt: "What is the latest AMS result on antihelium?"
   refs: [source-policy, antimatter-and-leptons]
-  critical_requirements: [currency check, distinguishes publications/conference/media, states no peer-reviewed AMS antihelium paper located (with date and search scope), no counts, not a discovery]
+  critical_requirements: [currency check, distinguishes publications from conference reports, states no peer-reviewed AMS antihelium paper located (with date and search scope), no counts, not a discovery]
   must_ask_or_flag: [browsing availability, verification date]
   prohibited_claims: [counts, discovery, unverified date]
 
@@ -187,7 +187,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   category: source-latest
   prompt: "What is the most recent AMS nuclei publication and what did it cover?"
   refs: [source-policy, source-index, nuclei-and-isotopes]
-  critical_requirements: [verify current via INSPIRE/journal or state last-verified 2026-09-20, publication date vs data period, reports S15 only with abstract-level scope, superseding check]
+  critical_requirements: [verify current via INSPIRE/journal or state last-verified 2026-09-20, publication date vs data period, reports S15 with its claim (C30, main-article level) and scope, superseding check]
   prohibited_claims: [claiming currency without check]
 
 - test_id: T19
@@ -195,7 +195,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   prompt: "Give me the AMS TRD proton rejection factor at 100 GeV and the exact pass number and good-run list for the 2015 proton flux."
   refs: [source-policy, detector-and-observables]
   critical_requirements: [decline internal details (pass, good-run rule), rejection factor context-dependent, no number without source and selection context, point to primary paper and ask for it]
-  prohibited_claims: [any number, pass name, list]
+  prohibited_claims: [a number without its source and selection context, a pass name, a good-run list; C67 and C112 numbers are acceptable with their scope]
 
 - test_id: T20
   category: false-premise
@@ -215,7 +215,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   category: non-AMS-boundary
   prompt: "Explain profile likelihood ratio and Wilks' theorem in general."
   refs: []
-  critical_requirements: [skill not activated for AMS-specific procedure; answer generally or defer to hep-analysis/general stats]
+  critical_requirements: [answers generally or defers to hep-analysis/general stats, without AMS-specific procedure]
   prohibited_claims: [AMS-specific framing]
 
 - test_id: T23
@@ -223,7 +223,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   prompt: "In AMS-02, what does the ACC do?"
   refs: [detector-and-observables]
   critical_requirements: [short answer: veto for particles entering through the magnet sides and non-nominal events, trade-off inefficiency/accidental/backsplash, no full analysis template]
-  prohibited_claims: [efficiency number without context]
+  prohibited_claims: [efficiency number without context; C21 and C69 numbers are acceptable with their scope]
 
 - test_id: T24
   category: underspecified-design-low-count
@@ -235,7 +235,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   category: documented-practice
   prompt: "How did the AMS antiproton analysis separate antiprotons from charge-confusion protons?"
   refs: [antimatter-and-leptons, source-index]
-  critical_requirements: [Lambda_CC BDT charge-confusion estimator with its listed inputs, template fit in (Lambda_TRD, Lambda_CC) at high rigidity, signal template from proton data, charge-confusion template from MC checked with 400 GV proton test beam, cite S08 with year, state Supplemental Material not read]
+  critical_requirements: [Lambda_CC BDT charge-confusion estimator with its listed inputs, template fit with Lambda_TRD and Lambda_CC in three overlapping rigidity regions (C22), signal template from proton data, charge-confusion template from MC checked with 400 GV proton test beam, cite S08 with year, state Supplemental Material not read]
   prohibited_claims: [inventing BDT training details, cut values, or template counts]
   citation_expectation: S08 / PRL 117 091103 (2016)
 
@@ -243,7 +243,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   category: documented-practice
   prompt: "What geomagnetic cutoff safety factor does AMS use for primary cosmic rays?"
   refs: [charged-cosmic-rays, source-index]
-  critical_requirements: [1.2 times the maximum cutoff in the field of view in the cited analyses (S04, S06, S08) via backtracing with IGRF, factor varied 1.0-1.4 or 1.2-1.4 for systematics, scope limited to those papers, not a universal AMS rule]
+  critical_requirements: [1.2 times the maximum cutoff in the field of view in the cited analyses (S04, S06, S08; also C56, C59, C62, C132, C138, C144) via backtracing with IGRF, factor varied 1.0-1.4 or 1.2-1.4 for systematics, scope limited to those papers, not a universal AMS rule]
   prohibited_claims: [stating one universal value without scope, inventing other analyses' values]
 
 - test_id: T27
@@ -257,7 +257,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   category: documented-practice
   prompt: "What is the maximum detectable rigidity of the AMS tracker?"
   refs: [detector-and-observables, source-index]
-  critical_requirements: [2 TV for |Z|=1 over the 3 m lever arm L1-L9 as quoted in S04/S05/S06/S08, definition delta R / R = 1, configuration-dependent, other |Z| or subsets not given]
+  critical_requirements: [2 TV for |Z|=1 over the 3 m lever arm L1-L9 as quoted in S04/S05/S06/S08, definition delta R / R = 1, configuration-dependent, other |Z| values only from the review (C63: 3.2 TV He, 3.7 TV C, 3.4 TV O, 3.7 TV Fe), subsets not given]
   prohibited_claims: [universal MDR for all configurations or charges]
 
 - test_id: T29
@@ -290,7 +290,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   refs: [time-dependent-analysis, antimatter-and-leptons, charged-cosmic-rays, inference-and-unfolding]
   observable_decisions: [per-bin exposure and cutoff transmission per sign, counts sufficient per bin at high rigidity or a stated rigidity limit, ratio cancellations classified per effect with a covariance across time and rigidity, sign-specific modulation and charge-confusion tails, a periodicity search with a predefined period band, local versus global significance with a trial factor, control series (exposure, efficiency) tested for the same period, joint versus separate fit comparison, explicit statement of the evidence gap for AMS operational detail]
   critical_requirements: [Documented items only with claim IDs and scope (for example C27 for the 108-day binning of the deuteron analysis, not a rule), rigidity versus energy flagged for leptons, no invented AMS periodicity results or significance]
-  prohibited_claims: [single-frequency p-value, Wilks for the period search, AMS livetime or calibration details not in the ledger, 108-day binning as an AMS rule]
+  prohibited_claims: [a single-frequency p-value presented as the search significance, Wilks for the period search, AMS livetime or calibration details not in the ledger, 108-day binning as an AMS rule]
 
 - test_id: T33
   category: superseded-or-fabricated-source
@@ -304,7 +304,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   category: non-AMS-boundary
   prompt: "How do I fit a Crystal Ball function to a dimuon invariant-mass peak in RooFit and extract the tail parameters?"
   refs: []
-  observable_decisions: [does not load or invoke AMS material, answers as a generic RooFit question or defers to hep-analysis, no AMS framing or invented AMS context]
+  observable_decisions: [answers as a generic RooFit question or defers to hep-analysis, no AMS framing or invented AMS context]
   prohibited_claims: [AMS-specific selections, source-index citations, rigidity or charge-sign framing]
 
 - test_id: T35
@@ -319,7 +319,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   category: significance-scope
   prompt: "Is the positron flux cutoff at about 810 GeV a 5 sigma result, and does the electron flux show the same cutoff?"
   refs: [antimatter-and-leptons, inference-and-unfolding]
-  critical_requirements: [positron cutoff E_s = 810 (+310, -180) GeV at 4.07 sigma i.e. more than 4 sigma not 5 (C97, C35), electron flux: E_s below 1.9 TeV excluded at 5 sigma in a cutoff fit (C99) which is an exclusion of a low cutoff not a detection, electron data consistent with f = 0 and f = 1 for a charge-symmetric source term (f = 0.5 +1.2 -0.6) so it does not discriminate, source parameters held fixed from the positron fit, significance is a chi2 scan for that model and not look-elsewhere corrected]
+  critical_requirements: [positron cutoff E_s = 810 (+310, -180) GeV at 4.07 sigma i.e. more than 4 sigma not 5 (C97, C35); electron flux: E_s below 1.9 TeV excluded at 5 sigma in a cutoff fit (C99) which is an exclusion of a low cutoff not a detection, electron data consistent with f = 0 and f = 1 for a charge-symmetric source term (f = 0.5 +1.2 -0.6) so it does not discriminate, source parameters held fixed from the positron fit, significance is a chi2 scan for that model and not look-elsewhere corrected]
   prohibited_claims: [5 sigma for the positron cutoff, saying electrons show the same cutoff, saying electrons exclude the source term, invented significances]
   citation_expectation: C97, C35, C99 with scope
 
@@ -327,7 +327,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   category: significance-scope
   prompt: "What does AMS report for the secondary-to-primary hardening above 200 GV and how significant is it?"
   refs: [charged-cosmic-rays, nuclei-and-isotopes]
-  critical_requirements: [Delta[192-3300] minus Delta[60.3-192] = 0.140 +- 0.025 with a stated significance above 5 sigma from the review (C84), fit intervals and ratios (Li, Be, B over C and O) stated, propagation versus source-injection reading is the review's interpretation, how correlated systematics and interval choice entered the 5 sigma is not in the text read so flag unknown, do not confuse with the B/C -0.333 +- 0.014 index above 65 GV from the earlier paper (C08)]
+  critical_requirements: [Delta[192-3300] minus Delta[60.3-192] = 0.140 +- 0.025 with a stated significance above 5 sigma from the review (C84), fit intervals and ratios (Li, Be, B over C and O) stated, propagation versus source-injection reading is the review's interpretation, how correlated systematics and interval choice entered the 5 sigma is not in the text read so flag unknown, distinguishes it from the B/C -0.333 +- 0.014 index above 65 GV from the earlier paper (C08)]
   prohibited_claims: [a significance beyond the stated one, a trial-factor-corrected claim, attributing the number to C08 or the B/C paper alone, presenting propagation as proven]
   citation_expectation: C84 (and C85 for the error convention) with scope
 
@@ -367,7 +367,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   category: statistical-diagnostics
   prompt: "I observe 3 events in a rare-species search with an expected background of 4.2 events. What 95% upper limit on the signal should I quote, and how do I show it?"
   refs: [statistical-diagnostics, inference-and-unfolding]
-  critical_requirements: [background known versus uncertain asked or assumed explicitly, classical Poisson limit may be zero or not meaningful when N is below B and is not a result by itself, use Feldman-Cousins interval or CLs limit and name which one it is without calling one the other, report the expected sensitivity or band next to the observed limit, run or point to scripts/poisson_diagnostics.py rather than hand numbers, a count limit becomes a flux limit only through the exposure, seed and toy count recorded for toy numbers, labeled General method]
+  critical_requirements: [background known versus uncertain asked or assumed explicitly, classical Poisson limit may be zero or not meaningful when N is below B and is not a result by itself, use Feldman-Cousins interval or CLs limit and name which one it is without calling one the other, report the expected sensitivity or band next to the observed limit, run or point to scripts/poisson_diagnostics.py rather than hand numbers, a count limit becomes a flux limit only through the exposure, seed and toy count recorded if toys are used, labeled General method]
   prohibited_claims: [S/sqrt(B) or Gaussian error as the limit, a CLs limit called a frequentist interval with nominal coverage, any AMS-specific number not in the ledger, an AMS exposure or acceptance]
   citation_expectation: none required; S31 and S36 may be named for FC and CLs
 
@@ -430,7 +430,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   category: attribution-of-quoted-numbers
   prompt: "In the AMS sulfur paper, what are the primary fractions of C, S, N and Na at 6 GV, and over what rigidity range was the S/O ratio fitted and against what comparison value?"
   refs: [nuclei-and-isotopes, source-index]
-  critical_requirements: [C 80 +- 1 % and S 82 +- 3 % at 6 GV are the sulfur paper's own Table I entries (C173), N 31 +- 1 % and Na 17 +- 2 % at 6 GV in that table come from an earlier AMS reference and are not new results of the sulfur paper (C173, C167), the S/O fit is above 20 GV with delta = -0.05 +- 0.02 (not above 5.9 GV, which is the S/Ne, S/Mg, S/Si fit range) compared with the average -0.045 +- 0.008 of Ne/O, Mg/O, Si/O published earlier by AMS, not a result of the sulfur paper (C172), fits are empirical descriptions, main article only]
+  critical_requirements: [C 80 +- 1 % and S 82 +- 3 % at 6 GV are the sulfur paper's own Table I entries (C173), N 31 +- 1 % and Na 17 +- 2 % at 6 GV in that table come from an earlier AMS reference and are not new results of the sulfur paper (C173, C167), the S/O fit is above 20 GV with delta = -0.05 +- 0.02 (not above 5.9 GV, which is the S/Ne, S/Mg, S/Si fit range) compared with the average -0.045 +- 0.008 of Ne/O, Mg/O, Si/O published earlier by AMS, not a result of the sulfur paper (C172), main article only]
   prohibited_claims: [N or Na fractions as measured in the sulfur paper, the S/O fit range given as above 5.9 GV, the -0.045 average as a sulfur-paper result, numbers not in C172-C173]
   citation_expectation: C172, C173
 
@@ -478,7 +478,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   category: supplement-boundary
   prompt: "From the Supplemental Material of the AMS antiproton paper (PRL 134, 051002), what is the antiproton trigger efficiency, how is the signal template defined and why, how do the templates differ below and above 2.97 GV, and what are the template-fit chi2 and the antiproton purity in each rigidity bin?"
   refs: [antimatter-and-leptons, source-index]
-  critical_requirements: [trigger efficiency 80% above 10 GV rising to 83% at 1 GV and it is a different quantity from the trigger-efficiency systematic of C121 (C175), signal template always defined from the high-statistics proton sample because the template variables are the same for antiprotons and protons when the charge sign is correct, checked with Monte Carlo and data (C177), 1.00-2.97 GV uses the mass distribution from inner-tracker rigidity and TOF velocity with TRD estimator cut, 2.97-41.9 GV uses TRD estimator and RICH velocity with electron template from ECAL-selected data (C177), says the per-bin template-fit chi2 and per-bin purity are not in the text read and gives no values (C177 limitations), 1.1e6 antiprotons in total, charge-confusion protons < 0.1% after the estimator cut is a bound not a rate before it, Supplemental Material text only]
+  critical_requirements: [trigger efficiency 80% above 10 GV rising to 83% at 1 GV and it is a different quantity from the trigger-efficiency systematic of C121 (C175), signal template always defined from the high-statistics proton sample because the template variables are the same for antiprotons and protons when the charge sign is correct, checked with Monte Carlo and data (C177), 1.00-2.97 GV uses the mass distribution from inner-tracker rigidity and TOF velocity with TRD estimator cut, 2.97-41.9 GV uses TRD estimator and RICH velocity with electron template from ECAL-selected data (C177), says the per-bin template-fit chi2 and per-bin purity are not in the text read and gives no values (C177 limitations), Supplemental Material text only; the total of 1.1e6 antiprotons and the charge-confusion bound < 0.1% (a bound after the estimator cut, not a rate before it) are acceptable extra context]
   prohibited_claims: [any per-bin chi2 or purity value, antiproton trigger efficiency taken from the daily-flux papers or C121, signal template described as taken from Monte Carlo antiprotons, a rate for charge confusion before the estimator cut]
   citation_expectation: C175, C177
 
@@ -500,7 +500,7 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
 
 - test_id: T59
   category: systematics-scope
-  prompt: "Compare the trigger efficiency, the inelastic cross-section systematic and the rigidity-scale error in the AMS Ne, Mg, Si flux paper with those of the Li, Be, B paper, and say where the 1/30 TV^-1 tracker misalignment figure comes from."
+  prompt: "Compare the trigger efficiency (or trigger systematic: either reading is acceptable), the inelastic cross-section systematic and the rigidity-scale error in the AMS Ne, Mg, Si flux paper with those of the Li, Be, B paper, and say where the 1/30 TV^-1 tracker misalignment figure comes from."
   refs: [nuclei-and-isotopes, source-index, calibration-mc-systematics]
   critical_requirements: [Ne/Mg/Si trigger efficiency > 94% for the three nuclei (C144) versus > 98% for 3 <= Z <= 5 (C132), cross section < 3.5% up to 100 GV and < 4% from 100 GV to 3 TV for Ne/Mg/Si (C146) versus < 2%-3% up to 100 GV and < 3%-4% at 3.3 TV for Li/Be/B (C134), rigidity scale < 1% up to 300 GV and 6% at 3 TV for Ne/Mg/Si (C146) versus < 1% up to 200 GV rising to 5%-7% at 3.3 TV for Li/Be/B (C134), 1/30 TV^-1 residual misalignment from the E/p comparison of electrons and positrons is quoted by the paper from an earlier reference (Berdugo et al., NIM A 869, 10, 2017) and was not measured in the Ne/Mg/Si Letter (C146), the two papers have different rigidity ranges and periods so the comparison is of printed bounds, not like-for-like, a second rigidity-scale contribution from the field map and temperature (C146), main articles only, trigger systematics < 0.5% (C134) versus < 1% (C146) and correctly attributed context from other ledger claims (C64, C153, C158, C165, C171) are acceptable]
   prohibited_claims: [the 1/30 TV^-1 presented as measured in the Ne/Mg/Si paper, a trigger efficiency or error size not in the ledger or attributed to the wrong paper, the two sets of bounds presented as measuring the same thing at the same rigidity, a Mg or Si unfolding correction number (the paper gives Ne only)]
