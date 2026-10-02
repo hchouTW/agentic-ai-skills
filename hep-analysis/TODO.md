@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (hep-analysis)
 
-State (verified 2026-10-02 on `main`, all work merged; round 6 via PR #29; ref 13 re-check and caveats via PR #90-#92, fifth query set via PR #93, AMS numbers checked against Phys. Rept. 894 on 2026-10-02): `python3 scripts/validate_skill_bundle.py` OK (118 files); `python3 -m unittest discover -s tests` 208 tests OK. There are 12 skips without the optional environments: 7 ROOT, 4 pyhf, 1 Combine. There are 5 skips with `HEP_ROOT_PYTHON` set. P1-P4 and follow-up rounds 3-6 are done. Only recurring checks and one dated re-check are open. Read `VALIDATION.md` first, then this file.
+State (verified 2026-10-02 on `main`, all work merged; round 6 via PR #29; ref 13 re-check and caveats via PR #90-#92, fifth query set via PR #93, AMS numbers checked against Phys. Rept. 894 on 2026-10-02): `python3 scripts/validate_skill_bundle.py` OK (118 files); `python3 -m unittest discover -s tests` 213 tests OK. There are 12 skips without the optional environments: 7 ROOT, 4 pyhf, 1 Combine. There are 5 skips with `HEP_ROOT_PYTHON` set. P1-P4 and follow-up rounds 3-6 are done. Only recurring checks and one dated re-check are open. Read `VALIDATION.md` first, then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -23,10 +23,10 @@ Working rules:
 
 ## Open
 
-- [ ] **Run-before-deliver rule with iteration cap (branch `hep-analysis-run-before-deliver`):** Haiku P02 x6 after the cap: 0/6 hit the turn limit and all six scripts run and match the reference (185 events, sums as expected); the full prompts rerun before the cap gave 26 PASS / 5 PARTIAL / 1 FAIL (the FAIL was a turn-limit run). Not exercised: no run needed the cap. Open: after merge, a full rerun to confirm no other prompt shifted, and whether a prompt with no data should build a synthetic sample instead of asking.
+- [ ] **Run-before-deliver follow-ups:** the full rerun after the cap is done (24 PASS / 8 PARTIAL / 0 FAIL). The P01 units note and the P08 run-the-script rule are in (branch `hep-analysis-p01-p08-fixes`): P01 4/4 PASS, P08 2 PASS + 2 PARTIAL on 4 samples. Open: a full rerun after merge to confirm nothing else shifted; whether P08 needs more (2/4 still do the arithmetic by hand or only print the command); whether a prompt with no data should build a synthetic sample instead of asking.
 - [ ] **Dated re-check (after mid-2027):** check the AMS-02 Layer-0 status in ref 38. The installation creates a new detector era, and the schedule is known only from a CERN news item (ams-analysis C102).
 - [ ] **Recurring, on any change to references 02/17/37 or the `SKILL.md` invariants:** re-run `tests/prompts.md` on Haiku with `tests/prompts_eval.py`, at least 2 samples per prompt. Last run 2026-10-02: 24 PASS, 8 PARTIAL, 0 FAIL of 32, then 26 / 6 / 0 after the cycle-24 sentence was added to `SKILL.md`. P10 solar-epoch finding fixed the same day with one `SKILL.md` sentence: epoch correct 3/3, 2 PASS + 1 PARTIAL (no backtracing in one run, a wrong Voyager date in the same run).
-- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (file count, test count, skips). Last done 2026-10-02 (119 files, 208 tests, 12 skips).
+- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (file count, test count, skips). Last done 2026-10-02 (119 files, 213 tests, 12 skips).
 
 Accepted residuals (not tasks unless priorities change):
 - Haiku skips the skill for self-contained numeric questions: calorimeter resolution 0/4, Cherenkov angle, photoelectron yield, TOF reach.

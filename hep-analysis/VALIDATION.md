@@ -1,10 +1,65 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, P02 run-before-deliver rule (latest pass; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, P01 units note and P08 run-the-script rule (latest pass; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
-Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 208 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 213 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## P01 units note and P08 run-the-script rule (2026-10-02, branch `hep-analysis-p01-p08-fixes`)
+
+- Changes in `SKILL.md`: (1) the MC-normalization "Check first" row now says lumi in fb^-1 times
+  xsec in pb needs a factor 1000 (`lumi_fb * 1000 * xsec_pb / sumw`) and to show RDataFrame code
+  reading `genEventSumw` from `Runs`; (2) the sqrt(N) row now says to run
+  `scripts/cosmic_ray_flux.py` (bin width in the exposure's units, e.g. 0.6 for 1.2-1.8 TV), quote its
+  `flux`, `flux_lower` and `flux_upper`, and not to divide by hand; (3) working-procedure step 4 asks
+  to run a bundled script when it computes the number asked for. `SkillUnitsAndScriptRulesTest`
+  guards the wording, the factor, and the script's output for N = 3, exposure 1.8e7, dR 0.6 (flux
+  2.7778e-7, interval 1.2660e-7 to 5.4799e-7). Tests 208 -> 213, bundle 119 files, description
+  unchanged (1019 of 1024).
+- Rerun `prompts_eval.py --model haiku --only P01 P08 --runs 4 -j 4`, $0.40:
+  - **P01: 4/4 PASS.** All four use `lumi_fb * 1000 * xsec_pb / sum` with the signed full-sample
+    `genEventSumw` and give RDataFrame/ROOT code (before: 0 of the last 4 had the factor, and none
+    had code). Some explanatory sentences are still loose (for example "sum(|weights|) >> count"),
+    which the rubric does not grade.
+  - **P08: 2 PASS, 2 PARTIAL** (before: 0 PASS, 2 PARTIAL in the last rerun). Runs 1 and 3 give
+    flux 2.78e-7, interval 1.27e-7 to 5.48e-7, asymmetric errors, units, spillover and background,
+    all equal to the script's output. Run 2 still divides by hand and is a factor 10 too small
+    (2.78e-8) while advising the script; run 0 gives only the command and the count interval. So
+    the rule is followed by about half the runs. The result files do not record tool calls, so I
+    cannot say whether the correct runs executed the script or computed the numbers right.
+- Reading: the units note works (4/4 against 0/4); the run-the-script line helps but does not make
+  Haiku reliable at P08 (2/4). 4 samples; no full rerun after this change.
+
+## Full Haiku rerun on merged main, rule and cap in place (2026-10-02, branch `hep-analysis-rerun-after-cap`)
+
+Follow-up to PR #98. `prompts_eval.py --model haiku --runs 2 -j 4`, 32 runs, $1.56, no errors, no
+turn-limit run. **24 PASS, 8 PARTIAL, 0 FAIL.** Sequence of full reruns today: 24/8/0 (no change),
+26/6/0 (cycle-24 sentence), 26/5/1 (run-before-deliver rule, one turn-limit run), 24/8/0 (rule plus
+cap). All differences except the single FAIL are within the noise of 2 samples per prompt.
+
+- P02 2 PASS: both scripts were executed on the synthetic 400-event TTree. Run 0 prints 185 events,
+  sum of weights 107 (reference 107.0). Run 1 prints 185 events, weighted integral 108.00 and 184
+  unweighted entries, which equals the reference for its 0-1000 GeV range (the one event above
+  1000 GeV has weight -1). Each ran its own test first.
+- P10: 1 PASS + 1 PARTIAL. The solar epoch is correct in both runs (9/9 since the cycle-24
+  sentence), but run 0 states the cutoff geography backwards ("higher at the poles, lower at the
+  equator"; the vertical cutoff is highest at the equator).
+- PARTIAL x2 each, recurring: **P01** (both runs again use `lumi_fb * xsec_pb / sumw` with no
+  fb-to-pb factor of 1000; one writes "fb^-1 * pb / sumw -> dimensionless"; 4 of the last 4 P01
+  runs have this slip, and neither run shows RDataFrame code), **P03** (no per-cut yield check, as
+  in every rerun), **P08** (run 0 quotes the flux a factor 10 too small, 2.78e-8 instead of
+  2.78e-7, and a wrong sqrt(3) comparison; run 1 leaves dR symbolic; neither runs
+  `scripts/cosmic_ray_flux.py`, which the answers only print as a command).
+- P05: 1 PASS + 1 PARTIAL (run 1 never mentions masking the signal region).
+- PASS: P04, P06, P07, P09, P11, P12, P13, P14, N01, N02. P11 loaded no skill in either run and gave
+  no number (0/2 routed; 1/2 in an earlier rerun). P04 runs mention neither signal contamination
+  nor a data validation region beyond closure.
+- No effect of the rule or cap on any non-code prompt (same cost per run, $0.02-0.07).
+- Not fixed, candidates: a units note in the "Check first" row for MC normalization (lumi in
+  fb^-1 times xsec in pb needs 1000), and a line telling the model to run the skill's own script
+  (`cosmic_ray_flux.py`) and quote its output instead of doing the arithmetic. Both change
+  `SKILL.md` and need a decision.
 
 ## P02 run-before-deliver rule (2026-10-02, branch `hep-analysis-run-before-deliver`)
 
