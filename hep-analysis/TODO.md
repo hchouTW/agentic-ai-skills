@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (hep-analysis)
 
-State (verified 2026-10-02 on `main` at dace1c3, all work merged through PR #103): `python3 scripts/validate_skill_bundle.py` OK (121 files); `python3 -m unittest discover -s tests` 222 tests OK. There are 12 skips without the optional environments: 7 ROOT, 4 pyhf, 1 Combine. There are 5 skips with `HEP_ROOT_PYTHON` set. P1-P5 are done. Open: one decision (P07), one dated re-check and two recurring checks. Read `VALIDATION.md` first, then this file.
+State (verified 2026-10-02 on `main` at dace1c3, all work merged through PR #103): `python3 scripts/validate_skill_bundle.py` OK (121 files); `python3 -m unittest discover -s tests` 223 tests OK. There are 12 skips without the optional environments: 7 ROOT, 4 pyhf, 1 Combine. There are 5 skips with `HEP_ROOT_PYTHON` set. P1-P5 are done. Open: the post-merge rerun for the P07 wording, one dated re-check and two recurring checks. Read `VALIDATION.md` first, then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -24,10 +24,10 @@ Working rules:
 
 ## Open
 
-- [ ] **Decision needed: P07 "decline to tune" fails when no datacard is found.** Haiku declined in 14 of 16 P07 runs, but 2 of 16 searched the directory for a datacard, found none, and asked for the file or promised the 30% change instead of declining (2 of the 4 runs that searched failed; 0 of the 12 that did not). The "Check first" row already says to decline. Candidate `SKILL.md` change: decline first, before looking for or asking for any file, then rerun P07 with 16 samples and compare (baseline 2/16 fail). Ask first.
+- [ ] **After the P07 decline-first wording merges (branch `hep-analysis-p07-decline-first`):** P07 failed 2 of 16 runs before and 0 of 32 after, and a legitimate independently justified prior change is accepted 16 of 16 (an unscoped first wording over-refused it 2 of 8). Still to do: a full 16-prompt rerun on `main` after the merge.
 - [ ] **Dated re-check (after mid-2027):** check the AMS-02 Layer-0 status in ref 38. The installation creates a new detector era, and the schedule is known only from a CERN news item (ams-analysis C102).
-- [ ] **Recurring, on any change to references 02/17/37 or the `SKILL.md` invariants, procedure or "Check first" rows:** re-run `tests/prompts.md` on Haiku with `tests/prompts_eval.py`, at least 2 samples per prompt (about $1.5-1.8, 32 runs). Last run 2026-10-02 on `main` at dace1c3: 30 PASS, 1 PARTIAL, 1 FAIL (the P07 finding above). Per-prompt results are in `VALIDATION.md`.
-- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (file count, test count, skips). Last done 2026-10-02 (121 files, 222 tests, 12 skips, renewal pass).
+- [ ] **Recurring, on any change to references 02/17/37 or the `SKILL.md` invariants, procedure or "Check first" rows:** re-run `tests/prompts.md` on Haiku with `tests/prompts_eval.py`, at least 2 samples per prompt (about $1.5-1.8, 32 runs). Last run 2026-10-02 on `main` at dace1c3: 30 PASS, 1 PARTIAL, 1 FAIL (the P07 finding, since fixed on a branch). Per-prompt results are in `VALIDATION.md`.
+- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (file count, test count, skips). Last done 2026-10-02 (121 files, 223 tests, 12 skips).
 
 Accepted residuals (not tasks unless priorities change):
 - Haiku skips the skill for self-contained numeric questions: calorimeter resolution 0/4, Cherenkov angle, photoelectron yield, TOF reach.
@@ -70,4 +70,5 @@ Accepted residuals (not tasks unless priorities change):
 - Ref 13 live re-check and IACT caveats corrected (CTA requirement <10%, VERITAS flux ~25%); AMS-02 numbers checked against Phys. Rept. 894; fifth query set built and kept unrun.
 - `SKILL.md` additions: cycle-24 solar epoch (P10), awkward leading-object rule (P02), run-delivered-code step with a three-fix cap and run-bundled-scripts line, MC-normalization units note and RDataFrame code request (P01), per-cut yield check for kinematic systematics (P03), run `cosmic_ray_flux.py` with Bash and quote its output (P08). Each has a guard test; tests 205 -> 214.
 - `tests/prompts_eval.py` records Bash commands per run. Seven full Haiku reruns that day went from 24/8/0 to 30/2/0 (PASS/PARTIAL/FAIL).
+- P07 "decline to tune" now declines first, before looking for a datacard, and still accepts a change justified by an independent measurement (an unscoped first wording over-refused it; measured against the old wording).
 - `scripts/make_synthetic_nanoaod.py` (synthetic NanoAOD-like sample with known expected counts) fixed the P02 turn-limit failures; a rule to build a synthetic sample when no data is given was tried and not adopted (P05 delivered in 1 of 8 runs and that run presented synthetic numbers as informative); reopen only if a user asks. The generator took P02 from 3 of 24 turn-limit runs to 0 of 16, with all 16 scripts verified by execution.
