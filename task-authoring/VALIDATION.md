@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-12 (latest pass: round 3l, 2026-10-02). Helper test environment: Python 3, standard library only.
+Validation date: 2026-09-12 (latest pass: round 3m, 2026-10-02). Helper test environment: Python 3, standard library only.
 
 ## Initial build (2026-09-12)
 
@@ -406,3 +406,17 @@ Skill-arm non-passes (12 verdicts) and what they are:
 Hand read for invented facts, premise cases T3, T8, T12 (6 skill plans): none. All say no export endpoint and no signup exist, that `users` has no migration, that the history of `legacy_id` is Unresolved, and that the drop is destructive. This is the Sonnet pattern, not the Haiku one (Round 3i/3j).
 
 Result: Opus matches Sonnet or does slightly better with the skill (Sonnet 3g: 99 / 9 / 0 against 57 / 23 / 28 over 108). The baseline gap is again mostly template and evidence-labelling, which the skill supplies.
+
+## Round 3m: implementer dry run of the three untested examples (2026-10-02)
+
+Each of `examples/migration-task.md`, `agentic-loop-task.md` and `data-ml-task.md` was handed to a fresh Sonnet subagent in its own throwaway worktree with only the document and the repository, told to implement it as written, make the smallest choice where the document is silent, and report. The agentic-loop agent was told not to call a paid model. Changes were discarded; the reports are model output.
+
+| Example | Verdict | Criteria | False facts | Main guesses |
+|---|---|---|---|---|
+| migration | implementable with guesses | all passed (2 tests, scratch backup/drop/restore round trip) | none | scope of "no file in the repository references `legacy_id`"; column order after restore; no test run command |
+| data-ml | implementable with guesses | all passed (121 tests OK, 3 skipped, failing manifest exits 1 before any epoch) | none | report format, import mechanism, malformed manifest, "same checkpoint files" |
+| agentic-loop | implementable with guesses | all passed (111 tests, 7 new, stub `claude`) | one: cites a `TODO.md` section "Sibling tooling" that does not exist | the cap, usage-limit text and pass semantics; **a real contradiction** between the cap and early-stop criteria |
+
+The contradiction: an always-empty stub triggers "no progress" at pass 2, so "stops after exactly the maximum number of passes" could not be shown with it unless the cap was 2. Not verified: the real 2-prompt Haiku run and its `VALIDATION.md` line (needs a model call; the agent correctly declined to invent counts), and whether anything outside the repository reads `legacy_id`.
+
+Fixes made to the examples: agentic-loop (dead section name replaced by "Tooling to reuse instead of hand-run subagents", cap criterion uses a one-job-per-pass stub, early-stop needs a cap of 3 or more and cannot fire on pass 1, `--retry-passes N` is the total number of passes, the real run is marked as needing a model); migration (search scope fixed to the fixture tree, run command example, column-order Open Question); data-ml (checkpoint file names named, malformed-manifest Open Question). Bundle validator OK, 104 tests OK.

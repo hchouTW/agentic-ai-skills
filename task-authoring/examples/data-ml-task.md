@@ -74,7 +74,8 @@ Verified by inspection on 2026-10-02:
   exits nonzero before the first epoch and the output names the group leak and
   the temporal violation.
 - A manifest that passes the check allows training to start and finish a 1-epoch
-  CPU run with the same checkpoint files as without the flag.
+  CPU run with the same checkpoint file names (`best.pt`, `last.pt`) as without the
+  flag.
 - Without `--split-manifest`, the existing smoke test passes unchanged.
 - No logic from `check_split_integrity.py` is duplicated in the training script.
 - The pre-existing tests in `deep-learning/tests/` still pass.
@@ -93,6 +94,8 @@ Verified by inspection on 2026-10-02:
   with their own data loader.
 - May a file in `assets/` import from `scripts/`? Skill folders are copied
   whole, so it works if both are present. **Requires Confirmation.**
+- What should an unreadable or malformed manifest do? **TBD**; the task assumes it
+  also exits nonzero with a message, before any model or output directory exists.
 - Should a failing check be overridable (a `--force` flag)? **TBD**; none is
   assumed.
 

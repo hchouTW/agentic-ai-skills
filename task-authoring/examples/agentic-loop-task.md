@@ -8,7 +8,7 @@
 two arms per prompt. A child can end with no output (`error_max_turns` was seen on
 9 Haiku runs on 2026-10-02). `run` now resumes: it keeps a saved run if its `text`
 is non-empty and its `error` is empty, and redoes the others. The user reruns the
-command by hand each time. `TODO.md` ("Sibling tooling") also records that a
+command by hand each time. `TODO.md` ("Tooling to reuse instead of hand-run subagents") also records that a
 usage-limit notice comes back as an ordinary result with text, so an empty-output
 check alone would miss it.
 
@@ -65,7 +65,8 @@ set of jobs each pass, executing only the incomplete ones). Each pass is one
    finishes no more runs than the previous one (**no progress**), or when any
    result's text matches a usage-limit notice (the exact match string is an Open
    Question), since further passes would only repeat the failure.
-5. Stop at the maximum number of passes (**iteration cap**) with a nonzero
+5. Stop at the maximum number of passes (**iteration cap**; `--retry-passes N` is
+   the total number of passes, one pass without the flag) with a nonzero
    status; the cap value is not specified by the requester (Open Questions).
 6. Exit 0 only when the incomplete count is zero.
 
@@ -79,11 +80,13 @@ set of jobs each pass, executing only the incomplete ones). Each pass is one
 
 - Termination: with a stub that succeeds on the second attempt, `run` stops after
   the second pass, exits 0, and every saved result is complete.
-- Iteration cap: with a stub that always returns empty output, `run` stops after
-  exactly the configured maximum number of passes, exits nonzero, and prints the
-  count of incomplete runs; it never starts an extra pass.
+- Iteration cap: with a stub that completes exactly one more job each pass but
+  never all of them (so "no progress" never fires), `run` stops after exactly the
+  configured maximum number of passes, exits nonzero, and prints the count of
+  incomplete runs; it never starts an extra pass.
 - Early stop: with a stub that always fails the same two jobs, `run` stops at the
-  second pass as "no progress", before the cap, with a distinct message.
+  second pass as "no progress", before the cap (cap of 3 or more), with a
+  distinct message. Pass 1 has no previous pass, so it cannot trigger this.
 - Usage limit: a stub that returns the usage-limit text stops the loop after the
   pass that saw it.
 - Default behavior without the flag is unchanged: one pass, exit code as before.
@@ -92,9 +95,12 @@ set of jobs each pass, executing only the incomplete ones). Each pass is one
 ## Validation
 
 - Run the new tests with `python3 -m unittest discover -s tests`.
-- Force a failure on purpose (the always-empty stub) to confirm the loop stops
-  at the cap and reports it rather than running on.
-- One real run on a 2-prompt subset with `--model haiku` to compare pass counts.
+- Force a failure on purpose with the one-job-per-pass stub to confirm the loop
+  stops at the cap and reports it rather than running on. (The always-failing
+  stub stops earlier, as "no progress".)
+- One real run on a 2-prompt subset with `--model haiku` to compare pass counts
+  (needs a model call; run it by hand or leave the `VALIDATION.md` line to the
+  requester rather than inventing counts).
 
 ## Open Questions
 
@@ -111,5 +117,5 @@ set of jobs each pass, executing only the incomplete ones). Each pass is one
 
 - `task-authoring/references/loop-engineering.md`
 - `task-authoring/tests/behavior_eval.py`
-- `task-authoring/TODO.md`, "Sibling tooling to reuse"
+- `task-authoring/TODO.md`, "Tooling to reuse instead of hand-run subagents"
 - `task-authoring/VALIDATION.md`, "Round 3" (the `error_max_turns` finding)
