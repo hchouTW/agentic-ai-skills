@@ -46,7 +46,7 @@ Which AMS datasets these databases hold, and with what values, was **not queried
 - **Unit labels differ.** CRDB gives kinetic energy per nucleon in GeV (the per-nucleon meaning is in the symbol, since V4.1, C127); `scripts/ams_kinematics.py` labels it GeV/n. The numbers are the same convention; check a conversion with the script and state `Z`, `A` and the mass. The two formulae quoted in C127 agree with the script for one helium-4 point (checked 2026-10-02).
 - **Combos and conversions are query-time products.** Combos multiply or divide native data of one sub-experiment within 5% (level 1) or 20% (level 2) in energy and add relative errors in quadrature (C127): a CRDB "B/C" may be a combination of two native fluxes and not a published ratio.
 - **Names are not unique across versions.** Sub-experiment names encode period and technique (C126); two AMS datasets with similar names can be different analyses.
-- **The two databases are different services** with different maintainers; the SSDC one also uses the abbreviation "CRDB" in its 2017 abstract (C130). Say which one.
+- **The two databases are different services** with different maintainers; the SSDC one is the ASI Cosmic Ray Database (C130). Say which one.
 
 ## Querying and citing
 
