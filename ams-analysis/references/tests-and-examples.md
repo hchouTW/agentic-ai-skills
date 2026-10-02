@@ -524,6 +524,46 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   citation_expectation: C138, C139 (C137, C141 and labelled review claims such as C91 are acceptable context)
 ```
 
+- test_id: T62
+  category: planned-versus-actual
+  prompt: "When is the AMS Layer-0 upgrade going to be installed, and how much will it improve my antiproton and helium measurements?"
+  refs: [source-policy, source-index, detector-and-observables]
+  critical_requirements: [Layer-0 is a new silicon tracker layer on top of the detector, not installed as of the ledger date (C102), the dates (January 2027 flight to Kennedy Space Center, SpaceX Cargo Dragon launch planned for April 2027, spacewalk connections expected by May 2027) are planned dates from a CERN news item of 21 August 2026 and may have slipped, confirm on the AMS site or NASA, the 300% acceptance figure is the sources' promotional wording with no selection, rigidity range or definition and must not be applied to antiprotons or helium (C101), no improvement can be quoted for a specific measurement, pre- and post-Layer-0 data are separate detector eras unless justified and the era boundary must come from AMS sources, currency not claimed beyond the verification date]
+  prohibited_claims: [a confirmed installation date or an installed status, a 300% gain applied to a particular flux or rigidity range, an invented resolution or acceptance after Layer-0, a made-up launch date]
+  citation_expectation: C101, C102
+
+- test_id: T63
+  category: source-latest
+  prompt: "Summarize AMS's published antideuteron search results and the limit they set."
+  refs: [source-policy, source-index, antimatter-and-leptons]
+  critical_requirements: [corrects the premise: no AMS antideuteron measurement or search paper was found in INSPIRE (C19), only a 2008 sensitivity conference paper and third-party prospects, states the scope and date of that search and that browsing was or was not available, gives no limit, count, flux or candidate, does not present the antihelium situation or a PAMELA/BESS/GAPS number as the antideuteron answer or as AMS (a labeled contrast is fine), offers what could be said instead (the general design of a rare-event search, with exact Poisson zero-count logic labeled General method)]
+  prohibited_claims: [any antideuteron limit, count or flux attributed to AMS, citing a paper that was not located, presenting a sensitivity projection as a result]
+  citation_expectation: C19
+
+- test_id: T64
+  category: attribution-of-quoted-numbers
+  prompt: "In the AMS sodium and aluminum flux paper, what data sample and rigidity range were used, how large is the background from interactions between L1 and L2, what do the unfolding corrections look like for Na, and which flux do the Na and Al spectral indices track at low and high rigidity?"
+  refs: [nuclei-and-isotopes, source-index]
+  critical_requirements: [0.46 million Na and 0.51 million Al in 2.15 GV-3.0 TV, 2011-05-19 to 2019-10-30, 49 bins (C162), L1-L2 interaction background 8% below 10 GV to 25% at 3 TV for Na (9% to 16% for Al) (C163), Na unfolding corrections +20% at 3 GV to -20% at 3.0 TV with +6% at 10 GV, -1% at 100 GV, -10% at 300 GV (C164), below about 100 GV Na follows the N flux and spectral index and above about 100 GV Al follows N (C166), the comparison N flux is the AMS N flux re-analysed over the same collection time, not an N measurement in this Letter (C166), spectral-index values are figure-only and not given, main article only and Supplemental Material not read]
+  prohibited_claims: [spectral index values not in the ledger, Na and Al swapped in the low and high rigidity statement, the N flux described as measured in this paper, a per-bin systematic budget or breakdown beyond the pieces in C164 (the total flux errors at 100 GV, 5.0% Na and 4.8% Al in C162, are allowed), an Al unfolding correction number (the paper says similar for Al), the correction (N_i - ℵ_i)/ℵ_i explained with the sense inverted relative to C140 (there N_i is the migration-corrected count and ℵ_i the observed count; C164 itself does not define them, so a definition for Na/Al should be flagged as taken from the Ne/Mg/Si convention)]
+  citation_expectation: C162, C163, C164, C166
+
+- test_id: T65
+  category: null-result-scope
+  prompt: "Did AMS exclude strangelets, and how strong is the exclusion?"
+  refs: [antimatter-and-leptons, nuclei-and-isotopes, source-index]
+  critical_requirements: [a null search reported in the review (Phys. Rept. 894), strangelets characterized by Z/A < 0.1, inner tracker L2-L8 rigidity and TOF velocity, limited to measured beta < 0.8 by the TOF resolution, Z = 2 (80 million events) and Z = 3-8 (8 million events) with no event at Z/A < 0.1, 95% C.L. flux upper limits for Z = 2 to 8 under the assumption of a primary-like rigidity dependence and the Monte Carlo acceptance for strangelets, the limit values are in figures and not transcribed, the exclusion relative to a model is against one cited prediction and not a general statement, review-level and not the primary analysis (C87)]
+  prohibited_claims: [excluding all exotic matter or strangelets generally, a limit value, the Z = 2 limit given as a number, presenting the review's comparison with PAMELA or the helium flux as more than the review states, a candidate count]
+  citation_expectation: C87
+
+- test_id: T66
+  category: methods-and-significance-scope
+  prompt: "How did AMS decide that the daily proton flux has a 27-day periodicity, and is that significance corrected for searching many periods?"
+  refs: [time-dependent-analysis, charged-cosmic-rays, source-index]
+  critical_requirements: [continuous wavelet transform with a Morlet wavelet, normalized power as wavelet power divided by the variance of the series in the analyzed interval, significance by Monte Carlo of a lag-1 autoregressive (red noise) background with the series' own variance and lag-1 autocorrelation, 95% confidence level for each period is the power exceeded by 5% of simulated values, 27 days significant above 95% from 2014 to 2018 and 13.5 and 9 days only in 2016, strength changes with time and rigidity (C45, C52), the significance is per period against red noise and no trial-factor or look-elsewhere correction is described in the text read (this does not prove none was applied), 1-100 GV and May 2011 to October 2019, main article plus Supplemental Material text]
+  prohibited_claims: [a global significance or sigma value for the 27-day period, saying the paper corrected for the look-elsewhere effect, saying it did not apply one, a white-noise background, invented wavelet parameters]
+  citation_expectation: C45, C52 (C105 for the absence of a trial factor in the supplement tables and C36 for the abstract-level statement are acceptable)
+
 Tests T29-T34 exercise the specification and artifact workflow (`analysis-artifacts`), the deterministic checkers, the time-dependent reference and the source-status behavior. Grade the observable decisions listed (what was produced, what was refused, what was flagged as unresolved, which script or ledger entry was used), not keywords or exact phrasing. Their deterministic parts are covered by `tests/`: T30 by `test_covariance.py` and `test_response.py`, T31 by `test_analysis_spec.py`, T33 by `test_evidence_ledger.py`.
 
 Multi-reference tests (five or more required): T05, T06, T07, T08, T17, T18, T24, T32.
