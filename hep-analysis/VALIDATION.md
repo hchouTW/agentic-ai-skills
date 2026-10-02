@@ -1,10 +1,24 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, ref 13 caveat follow-up (latest pass; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, AMS-02 numbers vs Phys. Rept. 894 (latest pass; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
 Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 205 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## AMS-02 numbers checked against Phys. Rept. 894 (2026-10-02, branch `hep-analysis-ams-physrep`)
+
+- Source: the text of the publisher PDF (a local copy of Aguilar et al., Phys. Rept. 894 (2021)
+  1-116, extracted to the scratchpad; the PDF is not added to the repository).
+- Every subsystem claim named in the ref 13 AMS row was confirmed: RICH radiator (16 NaF tiles
+  n = 1.33 + 92 aerogel tiles n = 1.05; beta thresholds 0.75 and 0.953), ACC (16 curved
+  scintillator panels, tested efficiency 0.99999), tracker (9 layers, 5-10 um bending-plane
+  resolution, proton MDR 2.0 TV), ECAL (17 X0, ~200 um and 0.3 degree at 1 TeV), magnet 1.4 kG.
+- ECAL energy resolution: only in Fig. 28, no number in the text, so not quoted.
+- Reference 38 still keeps no AMS numbers on purpose (they belong to `ams-analysis`); only the
+  ref 13 source row and the status item changed. A stale "reference 40" in that row (the AMS
+  case study is reference 38) was fixed.
+- The numbers describe the pre-Layer-0 instrument.
 
 ## Fifth query set built, not run (2026-10-02, branch `hep-analysis-queryset5`)
 

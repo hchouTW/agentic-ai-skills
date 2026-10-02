@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (hep-analysis)
 
-State (verified 2026-10-02 on `main`, all work merged; round 6 via PR #29; ref 13 live re-check via PR #90): `python3 scripts/validate_skill_bundle.py` OK (118 files); `python3 -m unittest discover -s tests` 205 tests OK. There are 12 skips without the optional environments: 7 ROOT, 4 pyhf, 1 Combine. There are 5 skips with `HEP_ROOT_PYTHON` set. P1-P4 and follow-up rounds 3-6 are done. Only recurring checks and one dated re-check are open. Read `VALIDATION.md` first, then this file.
+State (verified 2026-10-02 on `main`, all work merged; round 6 via PR #29; ref 13 re-check and caveats via PR #90-#92, fifth query set via PR #93, AMS numbers checked against Phys. Rept. 894 on 2026-10-02): `python3 scripts/validate_skill_bundle.py` OK (118 files); `python3 -m unittest discover -s tests` 205 tests OK. There are 12 skips without the optional environments: 7 ROOT, 4 pyhf, 1 Combine. There are 5 skips with `HEP_ROOT_PYTHON` set. P1-P4 and follow-up rounds 3-6 are done. Only recurring checks and one dated re-check are open. Read `VALIDATION.md` first, then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -23,7 +23,6 @@ Working rules:
 
 ## Open
 
-- [ ] **Ref 13 open caveat:** AMS-02 subsystem numbers in the ref 13 AMS row (RICH radiator, ACC efficiency, tracker/ECAL resolution) are website-sourced only; check them against Phys. Rept. 894 (Elsevier paywall; needs the user's access or a PDF). The IACT energy-scale caveats (CTA, VERITAS, H.E.S.S.) were resolved on 2026-10-02.
 - [ ] **Dated re-check (after mid-2027):** check the AMS-02 Layer-0 status in ref 38. The installation creates a new detector era, and the schedule is known only from a CERN news item (ams-analysis C102).
 - [ ] **Recurring, on any change to references 02/17/37 or the `SKILL.md` invariants:** re-run `tests/prompts.md` on Haiku with `tests/prompts_eval.py`, at least 2 samples per prompt. Last run 2026-09-28 (round 5): 0 FAIL. P08 went from 2/2 PARTIAL to 2 PASS + 1 PARTIAL once the exact command and the Garwood table were put in `SKILL.md`.
 - [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (file count, test count, skips). Last done 2026-09-28, round 6.
