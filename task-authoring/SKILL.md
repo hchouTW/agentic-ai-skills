@@ -135,6 +135,13 @@ task:
   table, deleting data, a migration with no down path), say so in Technical
   Approach, require a backup or rollback path in Acceptance Criteria, and list
   the readers of the thing being removed that the repository shows.
+- A canonical worked example that presents an incident, run, dataset or
+  measurement (any archetype, Postmortem above all) is a constructed
+  scenario: label it illustrative in its opening lines, keep every number and
+  date in it consistent from header to body, and never present invented
+  specifics (dates, counts, durations, customers) as a real event. For a
+  skill example this applies to a request like "write a postmortem example
+  for ..."; a real incident the user describes is still written up as given.
 - Keep agent-specific adapters discovery-only; the Core Workflow and the
   template contract live in exactly one place each.
 - When the work under authoring is an agentic, autonomous, or iterative loop,

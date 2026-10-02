@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (task-authoring)
 
-State (2026-10-02, branch `task-authoring-todo-renew` on top of `main` 3031ead; nothing pushed): `python3 scripts/validate_skill_bundle.py` OK (30 files, 12-section template contract); `python3 -m unittest discover -s tests` 104 tests OK; description 1017 of 1024 characters. Latest behavior eval is Round 3g in `VALIDATION.md` (T1-T13, Haiku and Sonnet, baseline vs skill, 2 runs each, 108 bullet verdicts per cell): Haiku skill 67 P / 36 ~ / 5 F against baseline 18 / 25 / 65; Sonnet skill 99 / 9 / 0 against 57 / 23 / 28. The blind scorer named the arm in 102 of 104 runs (the 12-section template gives it away), so the gap is overstated. Not yet tested: Opus, and the three newest example tasks (migration, agentic-loop, data-ml) that nobody has implemented. Read `VALIDATION.md` (Round 3g, then 3e) first, then this file.
+State (2026-10-02, branch `ta-incident-rule` on top of `main` 20a9426; nothing pushed). Round 3h added the illustrative-incident rule: T13(e) now P/~/P on Haiku and 3 P on Sonnet (3 runs, skill arm, not blind): `python3 scripts/validate_skill_bundle.py` OK (30 files, 12-section template contract); `python3 -m unittest discover -s tests` 104 tests OK; description 1017 of 1024 characters. Latest behavior eval is Round 3g in `VALIDATION.md` (T1-T13, Haiku and Sonnet, baseline vs skill, 2 runs each, 108 bullet verdicts per cell): Haiku skill 67 P / 36 ~ / 5 F against baseline 18 / 25 / 65; Sonnet skill 99 / 9 / 0 against 57 / 23 / 28. The blind scorer named the arm in 102 of 104 runs (the 12-section template gives it away), so the gap is overstated. Not yet tested: Opus, and the three newest example tasks (migration, agentic-loop, data-ml) that nobody has implemented. Read `VALIDATION.md` (Round 3g, then 3e) first, then this file.
 
 Working rules:
 - Work on a branch in a worktree (`git worktree add .worktrees/<name> origin/main`); the main checkout is shared with other Claude sessions that switch branches under you. Check `git branch --show-current` before every commit. Ask before pushing or merging.
@@ -23,10 +23,9 @@ Tooling to reuse instead of hand-run subagents:
 
 ## Next, in this order
 
-1. **Illustrative-incident rule.** Haiku T13(e) failed in both skill runs: the worked example presents a dated production incident with exact counts as fact, and one run contradicts itself (4 hours in the header, 16 minutes in the body). Nothing in `SKILL.md` or `example-authoring.md` says a worked example's incident is labelled illustrative. Add the rule to `SKILL.md`, then rerun T13 on Haiku and Sonnet (3 runs each) and log it.
-2. **Read more skill-arm tasks by hand for invented facts.** Round 3g read only T13. One earlier real fabrication was found this way (Haiku T6 invented a discount-codes table). The linter and a raw path count cannot find these. Read at least T2, T8, T12 and T3 from both models.
-3. **Description trim with both trigger sets rerun.** Shorten the description and use the room for negative triggers; stack-trace-to-task queries load no skill on Sonnet, and prompt-design queries (token budget, ReAct loop) often go to `claude-api`. Run both sets, then each affected sibling's validator and tests. The boundary with `agile-development` was added to both descriptions in ea98f0d.
-4. **Opus runs** (T1-T13, 2 runs per arm), if wanted.
+1. **Read more skill-arm tasks by hand for invented facts.** Round 3g read only T13. One earlier real fabrication was found this way (Haiku T6 invented a discount-codes table). The linter and a raw path count cannot find these. Read at least T2, T8, T12 and T3 from both models.
+2. **Description trim with both trigger sets rerun.** Shorten the description and use the room for negative triggers; stack-trace-to-task queries load no skill on Sonnet, and prompt-design queries (token budget, ReAct loop) often go to `claude-api`. Run both sets, then each affected sibling's validator and tests. The boundary with `agile-development` was added to both descriptions in ea98f0d.
+3. **Opus runs** (T1-T13, 2 runs per arm), if wanted.
 
 ## Known Haiku limits (do not over-tune)
 

@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-12 (latest pass: round 2, 2026-10-01). Helper test environment: Python 3, standard library only.
+Validation date: 2026-09-12 (latest pass: round 3h, 2026-10-02). Helper test environment: Python 3, standard library only.
 
 ## Initial build (2026-09-12)
 
@@ -320,3 +320,19 @@ after every edit in this section: both pass throughout.
 - No integration with `skill-router`'s routing table was made - see this
   task's Open Questions; `task-authoring` is not currently discoverable
   through `skill-router`'s automatic triage.
+
+## Round 3h: illustrative-incident rule, T13 rerun (2026-10-02)
+
+Change: a Decision Rule in `SKILL.md` and a paragraph in `references/example-authoring.md` say a worked example's incident, run or measurement is a constructed scenario, labelled illustrative in its opening lines, with numbers and dates consistent throughout. A real incident the user describes is still written up as given. Bundle validator OK, 104 tests OK.
+
+T13, skill arm only, 3 runs each, open (non-blind) scorer, no baseline rerun:
+
+| Bullet | Haiku (was 0 P in 3g, (e) F/F) | Sonnet |
+|---|---|---|
+| (a) five sections | P ~ P | P P P |
+| (b) literal fences, diff | P ~ ~ | P P ~ |
+| (c) 5-Whys | ~ ~ P | P P P |
+| (d) monitoring rule | P P P | P P P |
+| (e) illustrative framing | P ~ P | P P P |
+
+Result: (e) no longer fails on either model (Haiku 2 P / 1 ~ / 0 F, previously F in both runs; Sonnet 3 P). Haiku (b) and (c) stay partial. Haiku runs read 1-3 files each; the rule sits in `SKILL.md`, which all 6 runs read. Small sample (3 runs), not blind: treat as a directional fix. The scorer's per-run self-contradiction check (4 h vs 16 min) was not separately inspected. No benign-prompt pair was needed: the rule only labels, it refuses nothing.
