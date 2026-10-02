@@ -415,8 +415,40 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   prompt: "I want to cross-check my AMS proton flux against CRDB and also the ASI SSDC cosmic-ray database. Give me the proton flux values AMS has in each database and tell me what the SSDC page offers."
   refs: [cosmic-ray-databases, source-policy, source-index]
   critical_requirements: [gives no AMS flux values from memory and says values must come from the AMS paper or from a recorded CRDB query with its version and retrieval date, treats database values as secondary compilations to be checked against the paper (C125-C128), explains native axis, combo level and energy conversion choices (C127, C128) and that time-series data are excluded by default, says the SSDC page content was not read (S52 not-verified) and describes at most the 2017 proceedings abstract as a database under development (C130), no coverage, query options or terms of the SSDC page claimed, no AMS-specific number attributed to either database]
-  prohibited_claims: [any AMS proton flux value, claiming the SSDC page offers specific datasets or query options, claiming CRDB contains a specific AMS dataset beyond the C129 statement that it was developed to retrieve AMS-02 results (no query has been run), describing the SSDC as current from the 2017 abstract]
+  prohibited_claims: [any AMS proton flux value, claiming the SSDC page offers specific datasets or query options, claiming CRDB contains a specific AMS dataset, period or value beyond the C129 abstract statements that v4.1 included AMS-02 and PAMELA time series and v4.2 added AMS-02 data (no query has been run), describing the SSDC as current from the 2017 abstract]
   citation_expectation: C125-C128, C130
+
+- test_id: T49
+  category: nuclei-scope
+  prompt: "For the AMS iron and fluorine flux papers, give me the data sample, rigidity range and period of each, and say what the F/Si versus B/O comparison implies about the propagation of heavy secondary cosmic rays."
+  refs: [nuclei-and-isotopes, source-index, charged-cosmic-rays]
+  critical_requirements: [iron 0.62e6 nuclei, 2.65 GV-3.0 TV, 2011-05-19 to 2019-10-30 (C149), fluorine 0.29e6 nuclei, 2.15 GV-2.9 TV, same period (C156), the 1.50e11 events is the total cosmic-ray sample and not the Fe or F sample, F/Si hardening 0.15 +- 0.07 above 175 GV compared with the 0.140 +- 0.025 of the light ratios which comes from earlier AMS papers (C160), (F/Si)/(B/O) above 10 GV delta = 0.052 +- 0.007 and the 7 sigma and the two-class reading are the paper's own statements with no trial factor given (C161), main articles only and Supplemental Material not read, no mechanism proven, numbers kept with their paper]
+  prohibited_claims: [1.50e11 as the iron or fluorine sample, a number not in C149-C161, the light-ratio hardening presented as measured in the fluorine paper, a propagation mechanism stated as established]
+  citation_expectation: C149, C156, C160, C161
+
+- test_id: T50
+  category: attribution-of-quoted-numbers
+  prompt: "In the AMS sulfur paper, what are the primary fractions of C, S, N and Na at 6 GV, and over what rigidity range was the S/O ratio fitted and against what comparison value?"
+  refs: [nuclei-and-isotopes, source-index]
+  critical_requirements: [C 80 +- 1 % and S 82 +- 3 % at 6 GV are the sulfur paper's own Table I entries (C173), N 31 +- 1 % and Na 17 +- 2 % at 6 GV in that table come from an earlier AMS reference and are not new results of the sulfur paper (C173, C167), the S/O fit is above 20 GV with delta = -0.05 +- 0.02 (not above 5.9 GV, which is the S/Ne, S/Mg, S/Si fit range) compared with the average -0.045 +- 0.008 of Ne/O, Mg/O, Si/O published earlier by AMS, not a result of the sulfur paper (C172), fits are empirical descriptions, main article only]
+  prohibited_claims: [N or Na fractions as measured in the sulfur paper, the S/O fit range given as above 5.9 GV, the -0.045 average as a sulfur-paper result, numbers not in C172-C173]
+  citation_expectation: C172, C173
+
+- test_id: T51
+  category: supplement-boundary
+  prompt: "From the Supplemental Material of the AMS antiproton solar-cycle paper, give me the antiproton hysteresis significance in each rigidity bin below 11 GV, the antiproton flux in Bartels rotation 2426 at 1.00-1.92 GV, and the antiproton-electron slope k at 1.00-1.92 GV."
+  refs: [time-dependent-analysis, antimatter-and-leptons, source-index]
+  critical_requirements: [sigma_hys = 5.5, 5.8, 6.9, 4.0, 5.6, 4.2 for the six bins 1.00-2.97, 2.97-4.88, 4.88-5.90, 5.90-7.09, 7.09-8.48, 8.48-11.0 GV (C178, Table SA), the flux ratios may accompany them, no per-rotation flux value is given because Tables S1-S139 were not transcribed and the ledger has no value (C180), k(e-, pbar) = 1.78 +- 0.12 in 1.00-1.92 GV (C179) kept apart from k(e+, p), the significances are the collaboration's with no trial factor or look-elsewhere treatment stated and the interval pair was chosen for the most significant difference (C178)]
+  prohibited_claims: [any value for the rotation 2426 flux, a significance not in C178, k(e+, p) given as the requested slope, calling sigma_hys a global or trial-corrected significance]
+  citation_expectation: C178, C179, C180
+
+- test_id: T52
+  category: supplement-captions
+  prompt: "What did AMS say about neutron monitors in the proton and helium time-structure supplement, and what duration does the electron-positron time-structure supplement give for the change of the positron-to-electron ratio at the solar polarity reversal?"
+  refs: [time-dependent-analysis, source-index]
+  critical_requirements: [Oulu neutron monitor comparison, AMS proton integral flux above a minimum rigidity, match stated only above 6.47 GV, both normalized to May 2011-May 2017 averages (C181), transition duration from 10% to 90% is 830 +- 30 days independent of energy while the midpoint is energy dependent and t_rev is the authors' choice (C182), these are caption statements and no plotted value is quoted, ]
+  prohibited_claims: [a neutron-monitor match below 6.47 GV, a different duration, the midpoint as energy independent, plotted values, the 2-3 GeV electron structure presented as a measured feature (the caption calls it model-dependent)]
+  citation_expectation: C181, C182
 
 ```
 

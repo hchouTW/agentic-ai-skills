@@ -2,7 +2,7 @@
 
 ## When to read this file
 
-Read before quoting any AMS number, date, or status, and when a user asks where a statement comes from. Schema and rules are in [source-policy](source-policy.md). The two tables below are **generated** from `data/sources.json` and `data/claims.json`: edit those files, run `python3 scripts/validate_evidence_ledger.py`, then `python3 scripts/render_source_index.py --write`; do not edit the tables by hand. Access/verification date for every row: **2026-09-20** unless stated.
+Read before quoting any AMS number, date, or status, and when a user asks where a statement comes from. Schema and rules are in [source-policy](source-policy.md). The two tables below are **generated** from `data/sources.json` and `data/claims.json`: edit those files, run `python3 scripts/validate_evidence_ledger.py`, then `python3 scripts/render_source_index.py --write`; do not edit the tables by hand. Access/verification date for every row: **2026-09-20** unless stated; rows read later carry their own `access_date` in `data/sources.json` (for example S02, S03, S09 and the nuclei papers S54-S60 were read on 2026-10-02), so state a source's own date, not 2026-09-20, when you give its verification level.
 
 ## Contents
 

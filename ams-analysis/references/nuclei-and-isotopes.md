@@ -92,7 +92,7 @@ Orthogonal `|Z|` chains; alternative discriminants (mass vs `β`-at-fixed-`R`); 
 
 ## Required source classes
 
-Tier 1: S11-S15 and S54-S60 for what AMS measured and how (S54 Li, Be, B, C131-C136; S55 N, C137-C142; S56 Ne, Mg, Si, C143-C148; S57 Fe, C149-C155; S58 F, C156-C161; S59 Na, Al, C162-C167; S60 S and the primary composition, C168-C174; main articles only, Supplemental Material not read; numbers a paper quotes from an earlier reference are marked as such in the claim; S20 is only a navigation pointer to these); Tier 2 detector papers for RICH and Tracker performance (S17-S19); Tier 4 PDG for nuclear interaction and kinematics conventions; Tier 4/5 for nuclear cross-section models (state model provenance, do not attribute to AMS).
+Tier 1: S11-S15 and S54-S60 for what AMS measured and how (S54 Li, Be, B, C131-C136; S55 N, C137-C142; S56 Ne, Mg, Si, C143-C148; S57 Fe, C149-C155; S58 F, C156-C161; S59 Na, Al, C162-C167; S60 S and the primary composition, C168-C174; main articles only, Supplemental Material not read; numbers a paper quotes from an earlier reference are marked as such in the claim, so do not present them as that paper's own result (for example the 0.140 +- 0.025 hardening of the light ratios in the fluorine paper, C160, or the N, Na and Al fractions in the sulfur paper, C173); S20 is only a navigation pointer to these); Tier 2 detector papers for RICH and Tracker performance (S17-S19); Tier 4 PDG for nuclear interaction and kinematics conventions; Tier 4/5 for nuclear cross-section models (state model provenance, do not attribute to AMS).
 
 ## Questions to ask the user
 
