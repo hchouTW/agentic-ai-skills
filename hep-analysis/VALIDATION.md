@@ -1,10 +1,39 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, P10 solar-epoch fix and rerun (latest pass; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, P02 awkward leading-object rule (latest pass; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
-Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 205 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 207 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## P02 awkward leading-object rule (2026-10-02, branch `hep-analysis-p02-awkward`)
+
+- Problem: in 2 of 4 earlier Haiku P02 runs the leading jets were picked with
+  `jets.pt[ak.argsort(jets.pt, axis=1)[:, 0]]`, which in awkward selects *events* by position and
+  returns whole events (verified: `[[50,40,30]] * 3` instead of `[50, 60, 90]`). Reference 02 has
+  the right ordered pattern, but Haiku does not open references.
+- Change: one rule in the `SKILL.md` API-selection section (order each event with the argsort
+  applied to the array, cut with `ak.num`, then index `[:, 0]`, `[:, 1]`; never index with the
+  argsort result), a matching "do not" paragraph and an `ak.argmax(..., keepdims=True)` option in
+  reference 02, and `SkillAwkwardLeadingObjectTest` in `tests/test_reference_values.py` (checks the
+  rule text and demonstrates the failure and the fix with awkward; skips without awkward).
+  Tests 205 -> 207, all passing; bundle 119 files; description unchanged (1019 of 1024).
+- Rerun: `prompts_eval.py --model haiku --only P02 --runs 4`, $0.28. **The banned pattern appears in
+  0/4 scripts** (before: 2/4); all four order the array and index `[:, 0]`.
+- **But none of the four scripts runs.** Each was executed on a synthetic 400-event TTree
+  (185 events with two selected jets, mean mjj 250.004, sumw 107.0 as the reference):
+  - run 0: `ak.Record({...})` instead of `ak.zip` -> `IndexError: scalar Record cannot be sliced`;
+  - run 1: calls `ak.take`, which does not exist in awkward -> `AttributeError`; it also builds
+    the selection with `ak.mask`, so `ak.num` would count rejected jets even if it ran;
+  - run 2: the analysis is correct (185 events, as the reference) and it crashes only when writing
+    the output histogram (`TypeError: ... tuple`);
+  - run 3: `ak.num(record_array, axis=1) >= 2` -> `ValueError: cannot broadcast records`.
+  None of these is the targeted bug. They are untested code written in an empty working directory.
+- Consequence for earlier grades: P02 was graded by reading the script. Executing exposes runtime
+  failures that reading missed, so earlier P02 PASS grades (here and in older passes) overstate
+  correctness. Other code-writing prompts may be affected the same way.
+- Not done: a rule to run the code on a small synthetic file before delivering it. It would
+  address this whole class, but it changes the `SKILL.md` working procedure, so it needs a decision.
 
 ## P10 solar-epoch fix, rerun (2026-10-02, branch `hep-analysis-p10-cycle24`)
 
