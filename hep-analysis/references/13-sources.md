@@ -63,12 +63,16 @@ performance and mission status are superseded by later publications. Rules:
     flattening beginning at 10 EeV", but the Auger fit it cites (PRL 125 (2020) 121106)
     has `gamma` rising from ~2.5 to ~3.0 near 13 EeV, i.e. a steepening. Reference 30
     follows Auger.
-  - IACT energy-scale systematic (reference 33): checked 2026-09-25. Current IACTs report
-    ~10-15% (H.E.S.S., MAGIC; MAGIC performance paper arXiv:1508.04575) up to ~20%
-    (VERITAS); CTA calibration target ~15% (arXiv:1508.07225). Reference 33 changed from
-    "~15-20%" to "~10-20%". Re-checked 2026-10-02: the MAGIC abstract states <15%; the
-    CTA abstract gives no number (the ~15% is not confirmed from the abstract; check the
-    paper body before quoting it); H.E.S.S. and VERITAS values not re-opened.
+  - IACT energy-scale systematic (reference 33): checked 2026-09-25, re-read in full text
+    2026-10-02. MAGIC: energy-scale systematic <15% (abstract of arXiv:1508.04575). CTA
+    (arXiv:1508.07225): the **requirement** is <10% on the energy scale, and the baseline
+    calibration methods are expected to reach ~15% (a target "<10%" and an expected "~15%",
+    not a "~15% target" as the 2026-09-25 note said). H.E.S.S. (arXiv:2403.12608, sect. 5): no
+    single energy-scale percentage; about 10% variation in atmospheric transparency remains
+    after run selection. VERITAS (arXiv:2111.04676, sect. 6): ~25% total on the absolute flux
+    for an index-2.5 source (+5-10% in quadrature above ~10 TeV) and +-0.2 on the index; it
+    gives no separate energy-scale percentage, so the earlier "up to ~20% for VERITAS" is
+    **not confirmed** and reference 33 now quotes the flux figure instead.
   - AMS-02 mission status (reference 38): checked 2026-10-01, re-opened 2026-10-02 (CERN
     item and tracker page unchanged, no sign of installation or schedule change), on
     [ams02.space/tracker-layer-0-upgrade](https://ams02.space/tracker-layer-0-upgrade)
