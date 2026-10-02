@@ -1,10 +1,36 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, P02 awkward leading-object rule (latest pass; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, P02 run-before-deliver rule (latest pass; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
-Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 207 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 208 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## P02 run-before-deliver rule (2026-10-02, branch `hep-analysis-run-before-deliver`)
+
+- Change: step 4 of the `SKILL.md` working procedure now begins "Run any code you deliver before
+  delivering it": on the user's sample if there is one, otherwise on a small synthetic sample
+  built with the stated branch names; compare a count or yield with a hand-computed expectation;
+  show the cutflow it printed; if it could not be run, say so. `SkillRunBeforeDeliverTest` guards
+  the wording and its position before "API selection". Tests 207 -> 208, all passing; bundle
+  119 files; description unchanged (1019 of 1024).
+- Rerun: `prompts_eval.py --model haiku --only P02 --runs 4`, $0.54 (before: $0.28). The scripts
+  were executed on the same synthetic 400-event TTree as before (reference: 185 events with two
+  selected jets, 169 and weighted integral 95.0 inside a 0-500 GeV histogram range):
+  - run 3: built its own synthetic file, ran the script and reported the output. On my file it
+    gives 185 events and integral 95.00, matching the reference. One printed statistic (mean
+    mass 263.18) matches none of the references I computed (205.1, 211.7, 250.0);
+  - run 1: built test data and a logic test. Its script reads the tree `events`, so on a
+    NanoAOD-style `Events` tree it fails with `KeyInFileError`; on a file with the tree renamed it
+    gives 185 events and integral 95.00. Its summary says "All code is verified", which overstates
+    it (the file-reading path had not been run on a real tree);
+  - runs 0 and 2: no code. Each asked where the ROOT file is, or offered to build a synthetic
+    example, with no script delivered. Defensible for a prompt with no file, but not what the rule
+    asks.
+- Compared with the previous P02 rerun (0/4 scripts ran at all): 1/4 runs end to end, 1/4 runs
+  except for a tree-name assumption, 2/4 ask a question instead. With 4 samples this shows the
+  rule changes behaviour, not that it is reliable. Not checked: whether the rule shifts other
+  prompts (more questions, more cost); the full `tests/prompts.md` rerun was not done.
 
 ## P02 awkward leading-object rule (2026-10-02, branch `hep-analysis-p02-awkward`)
 
