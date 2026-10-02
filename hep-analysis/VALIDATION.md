@@ -4,7 +4,21 @@ Validation date: 2026-10-02, ref 13 caveat follow-up (latest pass; ref 13 live r
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
-Current counts: bundle 118 required files (plus 40 eval cases in `evals/`); 205 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 205 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## Fifth query set built, not run (2026-10-02, branch `hep-analysis-queryset5`)
+
+- `tests/trigger_queries_task.json`: 40 cases, none duplicating the 160 in the other four sets.
+  Style differs from the earlier sets (conceptual, formula, numeric): task-style requests with
+  pasted datacards, error messages, review and write-a-script asks. Positives: 7 collider,
+  7 space/cosmic-ray direct detection, 6 IACT/neutrino/air-shower (the user's equal-weight
+  rule). Four space cases are AMS-style and carry `also_ok: ["ams-analysis"]`. Negatives: 8
+  non-HEP with HEP-like vocabulary (root, weights, unfolding, Monte Carlo, broken power law) and
+  12 sibling near-misses with `owner` set (3 ams-analysis, 3 deep-learning, 3 academic-papers,
+  2 academic-diagrams, 1 task-authoring).
+- Deliberately **not run**: running it now would spend it. No model results exist for it; it is
+  reserved as the deciding set for the next proposed description change.
+- Bundle validator `REQUIRED_PATHS` and README updated (118 -> 119 files).
 
 ## Ref 13 caveat follow-up (2026-10-02, branch `hep-analysis-ref13-caveats`)
 
