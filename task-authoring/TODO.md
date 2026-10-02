@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (task-authoring)
 
-State (2026-10-02): everything below is on branch `task-authoring-behavior-eval`, open as PR #107 against `main` (not merged; `main` was last verified 2026-10-01). `python3 scripts/validate_skill_bundle.py` OK (30 files, 12-section template contract); `python3 -m unittest discover -s tests` 101 tests OK. Round 3 to 3e in `VALIDATION.md` (latest, 2026-10-02) ran the first behavior eval (12 prompts, Haiku and Sonnet, baseline vs skill, blind scorer: skill 56/98 and 93/98 bullets passed vs 20 and 50 for baseline; the scorer was not blind in practice, so the gap is overstated), added three `SKILL.md` rules from the failures, rewrote the stale examples, added three examples and a generated-task linter. Not yet tested on a fresh model: Opus, the canonical-example and archetype jobs, and the three new example tasks (nobody implemented them). Read `VALIDATION.md` first (Round 3e), then this file.
+State (2026-10-02): merged to `main` as PR #107 (merge commit 186b232). `python3 scripts/validate_skill_bundle.py` OK (30 files, 12-section template contract); `python3 -m unittest discover -s tests` 101 tests OK. Round 3 to 3e in `VALIDATION.md` (latest, 2026-10-02) ran the first behavior eval (12 prompts, Haiku and Sonnet, baseline vs skill, blind scorer: skill 56/98 and 93/98 bullets passed vs 20 and 50 for baseline; the scorer was not blind in practice, so the gap is overstated), added three `SKILL.md` rules from the failures, rewrote the stale examples, added three examples and a generated-task linter. Not yet tested on a fresh model: Opus, the canonical-example and archetype jobs, and the three new example tasks (nobody implemented them). Read `VALIDATION.md` first (Round 3e), then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -20,7 +20,7 @@ Sibling tooling to reuse instead of hand-run subagents:
 
 - Archetype-example tooling: keep and test it (P2 item "Depending on the archetype decision" is now live).
 - 12-section template: stays fixed.
-- Next session, in this order: (1) get PR #107 reviewed and merged; (2) a human read of a few skill-arm tasks for invented facts, then add the canonical-example prompt(s) and a Haiku rerun after the destructive-change rule; (3) tests for the validator blind spots below; (4) the description trim with both trigger sets rerun; (5) Opus runs if wanted.
+- Next session, in this order: (1) a human read of a few skill-arm tasks for invented facts, then add the canonical-example prompt(s) and a Haiku rerun after the destructive-change rule; (2) tests for the validator blind spots below; (3) the description trim with both trigger sets rerun; (4) Opus runs if wanted.
 
 ## Questions for the user
 
