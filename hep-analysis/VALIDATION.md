@@ -1,10 +1,22 @@
 # Package Validation Record
 
-Validation date: 2026-09-28, round 6 (latest pass; earlier passes dated below). Helper test
+Validation date: 2026-10-02, ref 13 live re-check (latest pass; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
 Current counts: bundle 118 required files (plus 40 eval cases in `evals/`); 205 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## Ref 13 latest-results re-check (2026-10-02, branch `hep-analysis-ref13-recheck`)
+
+- PDG 2026 still current (pdg.lbl.gov). PDG 2026 cosmic-ray review text re-read: knee/second
+  knee/ankle/instep/suppression values match reference 30 (revised March 2026).
+- AMS Layer-0 (ref 38): CERN item of 2026-08-21 and the tracker page re-opened; Layer-0 not
+  installed, schedule unchanged (Perugia to 30 Aug, CERN October, KSC January 2027, launch
+  April 2027, connections May 2027).
+- IACT energy scale (ref 33): MAGIC abstract (arXiv:1508.04575) says <15%. The CTA abstract
+  (arXiv:1508.07225) gives no number, so the CTA ~15% target is unconfirmed; H.E.S.S. and
+  VERITAS not re-opened. No reference text changed; only check dates and this caveat.
+- Not re-checked: Phys. Rept. 894 against AMS instrument parameters (still open).
 
 ## TODO round 6: formula recall on a fourth set, TOF-mass routing (2026-09-28, branch `hep-analysis-todo-round6`)
 

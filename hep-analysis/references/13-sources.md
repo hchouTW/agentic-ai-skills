@@ -50,11 +50,12 @@ performance and mission status are superseded by later publications. Rules:
   12 months, or state that it was not re-checked.
 - Standard physics constants and textbook formulas (PDG constants, Bethe-Bloch, Highland,
   Stormer, force field) are stable and exempt, but still cite the edition they came from.
-- Items to re-verify on each pass. Live check done 2026-09-25 (the 2026-09-24 pass was
-  from knowledge only):
+- Items to re-verify on each pass. Live checks done 2026-09-25 and re-run 2026-10-02 (the
+  2026-09-24 pass was from knowledge only):
   - PDG edition: the 2026 edition is current; the links above now point to it (all four
-    PDFs resolve). Checked 2026-09-25.
-  - Knee/ankle/GZK energies and indices (reference 30): checked 2026-09-25 against the
+    PDFs resolve). Checked 2026-09-25; pdg.lbl.gov still shows 2026 as current, 2026-10-02.
+  - Knee/ankle/GZK energies and indices (reference 30): checked 2026-09-25, text re-read
+    2026-10-02 (unchanged, still "Revised March 2026"), against the
     [PDG 2026 cosmic-ray review](https://pdg.lbl.gov/2026/reviews/rpp2026-rev-cosmic-rays.pdf)
     (revised March 2026). Reference 30 corrected to match: knee at a few PeV, `gamma`
     ~2.7 -> ~3; second knee ~100 PeV, -> ~3.3; ankle ~5 EeV, -> ~2.5; instep from ~10 EeV;
@@ -65,8 +66,11 @@ performance and mission status are superseded by later publications. Rules:
   - IACT energy-scale systematic (reference 33): checked 2026-09-25. Current IACTs report
     ~10-15% (H.E.S.S., MAGIC; MAGIC performance paper arXiv:1508.04575) up to ~20%
     (VERITAS); CTA calibration target ~15% (arXiv:1508.07225). Reference 33 changed from
-    "~15-20%" to "~10-20%".
-  - AMS-02 mission status (reference 38): checked 2026-10-01 on
+    "~15-20%" to "~10-20%". Re-checked 2026-10-02: the MAGIC abstract states <15%; the
+    CTA abstract gives no number (the ~15% is not confirmed from the abstract; check the
+    paper body before quoting it); H.E.S.S. and VERITAS values not re-opened.
+  - AMS-02 mission status (reference 38): checked 2026-10-01, re-opened 2026-10-02 (CERN
+    item and tracker page unchanged, no sign of installation or schedule change), on
     [ams02.space/tracker-layer-0-upgrade](https://ams02.space/tracker-layer-0-upgrade)
     (undated; states a new silicon layer on top of the detector, acceptance +300%) and the
     [CERN news item of 2026-08-21](https://home.cern/final-tests-for-the-ams-upgrade-before-spaceflight/)
