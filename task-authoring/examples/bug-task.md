@@ -1,139 +1,122 @@
-# Fix `academic-papers`' Bundle Validator Silently Skipping `examples/` Paths
+# Decide Whether `academic-papers`' Bundle Validator Should Require `agents/openai.yaml`
 
-> Snapshot note (2026-10-01): written against the repository on 2026-09-12. `academic-papers/examples/` (25 files) was removed on 2026-09-25, so the scenario below no longer reproduces in that skill; the example still shows how a bug task states reproduction, expected versus actual behavior and its Open Questions.
+> Verified against the repository on 2026-10-02. Replaces the 2026-09-12 version, whose scenario (`examples/` paths skipped by the same regex) no longer applies because `academic-papers/examples/` was removed.
 
 ## Background
 
-`academic-papers/scripts/validate_skill_bundle.py` scans `SKILL.md` for
-backtick-quoted relative paths so it can (a) confirm each referenced file
-exists on disk, and (b) flag files in the bundle that `SKILL.md` never
-mentions. The regex it uses to find those paths is:
+`academic-papers/scripts/validate_skill_bundle.py` checks that `SKILL.md` has
+frontmatter, that the frontmatter `name` matches the folder, that backtick
+paths in `SKILL.md` exist, that every file under `references/`, `scripts/` and
+`assets/` is mentioned in `SKILL.md`, and that scripts parse. Its path regex is:
 
 ```python
 BACKTICK_PATH_RE = re.compile(r"`((?:references|scripts|assets)/[^`\s]+)`")
 ```
 
-This only matches paths under `references/`, `scripts/`, or `assets/`. The
-bundle also ships an `examples/` directory (25 files), and `SKILL.md` points
-at it, but nothing in `SKILL.md`, the validator's docstring, or `README.md`
-says that `examples/` paths are deliberately left unchecked. It's a side
-effect of the regex's fixed prefix list. If `SKILL.md` gained a backtick
-reference to a missing or misspelled file such as `examples/no-such-file.md`,
-the validator would still report success, even though the same typo under
-`references/` fails. The orphaned-file check has the same gap, because it
-walks only `references/`, `scripts/`, and `assets/`.
+and the orphan check loops over `("references", "scripts", "assets")`. The
+skill also ships `agents/openai.yaml` (Codex UI metadata) and `tests/`, which
+neither check looks at. Deleting `agents/openai.yaml` from a copy of the bundle
+still prints `OK: ... passed all checks.` and exits 0 (reproduced 2026-10-02).
+`README.md` describes the file as "optional Codex UI metadata", so the
+silence may be intended; nothing in the validator's docstring says so either
+way.
 
 ## Objective
 
-`academic-papers/scripts/validate_skill_bundle.py` either (a) checks
-backtick-quoted `examples/` paths in `SKILL.md` the same way it checks
-`references/` paths, or (b) documents `examples/` as deliberately out of
-scope in its docstring and `README.md`. The right choice depends on what the
-maintainer intends (see Open Questions).
+`validate_skill_bundle.py` has one documented, tested behavior for
+`agents/openai.yaml`: either it must exist (and, if present, be non-empty), or
+its absence is documented as acceptable and a test asserts that.
 
 ## Scope
 
 ### In Scope
 
-- Decide (with the maintainer) whether `examples/` belongs to the set of
-  directories the validator checks, or should stay excluded on purpose.
-- Update `BACKTICK_PATH_RE` and the directory tuple in
-  `check_no_orphaned_files()` to match that decision, or document the
-  exclusion.
-- Add a regression test covering the case that currently passes silently.
+- Decide, with the maintainer, whether the file is required or optional.
+- Implement that decision in `academic-papers/scripts/validate_skill_bundle.py`
+  and state it in the module docstring's "Checks" list.
+- Add a regression test for the chosen behavior.
 
 ### Out of Scope
 
-- Moving, renaming, or renumbering any of the existing examples.
-- Checking example *content*, such as archetype rules. `task-authoring`'s
-  `validate_skill_example.py` already does that.
-- The other directories the validator also ignores (`agents/`, `tests/`),
-  unless the maintainer asks for them together.
+- Validating the YAML content of `agents/openai.yaml`.
+- Checking `tests/`, and the other skills' validators (each skill has its own;
+  `task-authoring`'s lists `agents/openai.yaml` in `REQUIRED_PATHS`).
+- Changing the exit codes (the docstring says 0 or 1; `main()` also returns 2
+  with an `error:` line when the path is not a directory, which the docstring
+  does not mention; that mismatch is a separate, smaller fix).
 
 ## Repository Context
 
-Verified by direct inspection on 2026-09-23:
+Verified by inspection on 2026-10-02:
 
 - `academic-papers/scripts/validate_skill_bundle.py` defines
-  `BACKTICK_PATH_RE` as shown above. `check_referenced_paths_exist()`
-  applies that regex, and `check_no_orphaned_files()` iterates over the
-  hard-coded tuple `("references", "scripts", "assets")`.
-- `academic-papers/examples/` exists and holds 25 files. `SKILL.md` mentions
-  it only as the bare directory `` `examples/` ``, so no file-level
-  reference exists yet. The bug is latent, not currently visible in the
-  shipped bundle.
-- A scratch copy of the bundle, with backtick references to both
-  `examples/no-such-file.md` and `references/no-such-file.md` appended to
-  `SKILL.md`, reported only the `references/` path as missing. The
-  `examples/` path passed silently.
-- `academic-papers/tests/test_skill_bundle.py`'s `TestSyntheticBundles`
-  class builds synthetic bundles in a temporary directory. None of its cases
-  uses an `examples/` path.
+  `BACKTICK_PATH_RE` as above; `check_referenced_paths_exist()` applies it and
+  `check_no_orphaned_files()` iterates the three directories.
+- `academic-papers/agents/openai.yaml` exists. `SKILL.md` does not mention it;
+  `README.md` mentions it at its file-tree entry and in the per-agent
+  invocation notes.
+- A scratch copy of the bundle with `agents/openai.yaml` deleted produced
+  `OK: <path> passed all checks.` and exit code 0.
+- `academic-papers/tests/test_skill_bundle.py` has `TestRealBundle` (runs the
+  validator on the real bundle) and `TestSyntheticBundles` (synthetic bundles
+  in a temporary directory, e.g. `test_orphaned_file_detected`,
+  `test_valid_minimal_bundle`). No case covers `agents/`.
+- `task-authoring/scripts/validate_skill_bundle.py` lists `agents/openai.yaml`
+  in its required files, so the two skills currently disagree.
 
 ## Technical Approach
 
-1. Confirm with the maintainer whether `examples/` files should be required
-   to be referenced from `SKILL.md`. Checking that referenced paths exist is
-   cheap. Requiring every file to be referenced (the orphan check) would fail
-   today, because `SKILL.md` points only at the directory.
-2. If `examples/` should be checked: add `examples` to the regex prefix list
-   so referenced paths must exist. Also add it to the orphan-check tuple
-   only if the maintainer wants that stricter rule. The existing
-   `any(rel.startswith(r.rstrip("/") + "/") ...)` clause already treats a
-   bare `examples/` reference as covering every file under it, but the
-   regex's `[^`\s]+` part requires at least one character after the slash,
-   so re-check that a bare directory reference is still matched.
-3. If `examples/` should stay excluded: list that choice in the module
-   docstring's "Checks" section and in `README.md`, so the gap is documented
-   instead of accidental.
-4. Add a test to `TestSyntheticBundles` that writes a synthetic `SKILL.md`
-   referencing a missing `examples/` file and asserts the chosen behavior.
+1. Ask the maintainer which behavior is intended (Open Questions).
+2. If required: add an `agents/openai.yaml` existence (and non-empty) check
+   to `validate()` and an entry in the docstring's "Checks". The real bundle
+   must still pass.
+3. If optional: say so in the docstring ("`agents/` is intentionally
+   unchecked") and keep the code as is.
+4. Add a test to `TestSyntheticBundles`: a minimal valid synthetic bundle with
+   and without `agents/openai.yaml`, asserting the chosen result.
 
 ## Deliverables
 
-- Updated `academic-papers/scripts/validate_skill_bundle.py`.
-- A new regression test in `academic-papers/tests/test_skill_bundle.py`.
-- A short note in `academic-papers/VALIDATION.md` describing the fix and
-  which resolution was chosen (checked or documented as excluded).
+- Updated `academic-papers/scripts/validate_skill_bundle.py` (code or
+  docstring, per the decision).
+- One new test in `academic-papers/tests/test_skill_bundle.py`.
+- A short note in `academic-papers/VALIDATION.md` giving the decision and
+  what was run.
 
 ## Acceptance Criteria
 
-- A synthetic `SKILL.md` that references a missing `examples/` file no
-  longer passes silently. The validator either reports the missing path, or
-  the exclusion is documented and a test asserts it.
-- Every `references/`, `scripts/`, and `assets/` path the validator checks
-  today is still checked exactly as before.
-- `python3 scripts/validate_skill_bundle.py` still exits `0` on the current,
-  unmodified `academic-papers` bundle.
-- `python3 -m unittest discover -s tests -v` passes, including the new
-  regression test.
+- A synthetic minimal bundle without `agents/openai.yaml` is rejected (if
+  required) or accepted with the choice documented in the docstring (if
+  optional), and a test asserts exactly that.
+- `python3 scripts/validate_skill_bundle.py` still exits 0 on the unmodified
+  `academic-papers` bundle.
+- The existing checks (frontmatter, name, referenced paths, orphans, syntax)
+  behave as before; the existing tests pass.
+- `python3 -m unittest discover -s tests -v` passes from `academic-papers/`.
 
 ## Validation
 
-- Run `python3 -m unittest discover -s tests -v` from `academic-papers/` and
-  confirm the new test and all existing tests pass.
-- Run `python3 scripts/validate_skill_bundle.py` from `academic-papers/` and
-  confirm it still reports "passed all checks" on the real bundle.
-- Repeat the scratch-copy experiment from Repository Context and confirm the
-  `examples/no-such-file.md` reference now behaves as chosen.
+- Run the unit tests from `academic-papers/`.
+- Run the validator on the real bundle and expect `passed all checks`.
+- Repeat the scratch-copy experiment (copy the skill, delete
+  `agents/openai.yaml`, run the validator) and confirm the result matches the
+  decision.
 
 ## Open Questions
 
-- Should the validator check `examples/` paths (option a), or should
-  `examples/` stay deliberately unchecked and be documented as such
-  (option b)? **Requires Confirmation.** The gap was found during
-  inspection, and no one has said which behavior is intended.
-- If `examples/` is checked, should the orphan check also require every
-  example to be referenced from `SKILL.md`, or is the bare `examples/`
-  directory reference enough? **TBD.**
-- Is this worth fixing now, while `SKILL.md` has no file-level `examples/`
-  references, or should it wait until one is added? **TBD.**
+- Is `agents/openai.yaml` required for `academic-papers`, as it is for
+  `task-authoring`, or genuinely optional as its README says? **Requires
+  Confirmation.** Nobody has stated the intent.
+- If required, should the check only test existence, or also that the file is
+  non-empty? **TBD.**
+- Should the `examples`-style gap for other unchecked directories (`tests/`)
+  be handled together? **TBD**; out of scope as written.
 
 ## References
 
-- `agentic-ai-skills/academic-papers/scripts/validate_skill_bundle.py`: the
-  file containing the regex and the orphan-check directory tuple.
-- `agentic-ai-skills/academic-papers/tests/test_skill_bundle.py`: the
-  existing synthetic-bundle test class to extend.
-- `agentic-ai-skills/academic-papers/SKILL.md`: the document the regex
-  scans.
+- `academic-papers/scripts/validate_skill_bundle.py`: the regex, the orphan
+  check and the docstring.
+- `academic-papers/tests/test_skill_bundle.py`: the synthetic-bundle tests.
+- `academic-papers/README.md`: the "optional" wording for `agents/openai.yaml`.
+- `task-authoring/scripts/validate_skill_bundle.py`: the sibling that requires
+  the file.

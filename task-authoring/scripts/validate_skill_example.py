@@ -137,7 +137,7 @@ FAILURE_MARKER_RE = re.compile(
     re.IGNORECASE,
 )
 METRIC_RE = re.compile(
-    r"\d+(\.\d+)?\s*(%|ms|milliseconds|s\b|seconds?|minutes?|req/s|rps|qps|samples/sec|steps?\b|MB|GB|x\b)",
+    r"\d+(\.\d+)?[\s-]*(%|percent\b|ms|milliseconds|s\b|seconds?|minutes?|req/s|rps|qps|samples/sec|steps?\b|MB|GB|x\b)",
     re.IGNORECASE,
 )
 ACTION_WORD_RE = re.compile(

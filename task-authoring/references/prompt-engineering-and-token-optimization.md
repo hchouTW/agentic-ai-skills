@@ -52,6 +52,11 @@ Plan-and-Solve), self-healing error feedback, and mandatory guardrails
   part of its acceptance criteria, the same way `agile-development`'s
   risk-and-quality.md's Performance section treats a latency or query-count
   budget.
+- Measure token counts with the provider's token-counting endpoint, not an
+  estimate or another vendor's tokenizer, and re-measure when the model
+  changes: tokenizers differ between model generations, so a budget written
+  for one model can be wrong for the next. See the `claude-api` skill's
+  token-counting guide for the current call (checked 2026-10-02).
 - When a prompt needs to shrink, cut redundant boilerplate (repeated
   instructions, unused examples, verbose formatting) before cutting
   substantive constraints.
@@ -106,6 +111,12 @@ When a feature strings multiple LLM calls together (e.g. extract -> classify
 - Default to the cheapest tier that reliably meets the acceptance criteria;
   escalate to a larger tier only after measuring a concrete failure rate on
   the cheaper one, not on suspicion that it might struggle.
+- Before moving up a tier, try lowering the reasoning-effort setting or
+  turning thinking down where the model offers it; on recent models that is
+  often a cheaper lever than a bigger model, and settings differ per model, so
+  read the `claude-api` skill's model notes for the one in use (checked
+  2026-10-02). Model names, prices and limits are deliberately not listed in
+  this file; take them from that skill or the Models API when writing a task.
 - Re-check the tier choice when the task shape changes materially (longer
   context, stricter structured-output requirements, tighter latency).
 - In a multi-call pipeline, pick each call's tier independently against that
