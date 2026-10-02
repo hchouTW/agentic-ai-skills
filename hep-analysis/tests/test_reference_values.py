@@ -226,6 +226,20 @@ class SkillSyntheticSampleRuleTest(unittest.TestCase):
         self.assertLess(text.index('make_synthetic_nanoaod.py --out sample.root'), text.index('## API selection'))
 
 
+class SkillDeclineFirstRuleTest(unittest.TestCase):
+    """P07: decline to tune before looking for any datacard, and never offer to make the change later."""
+
+    def test_check_first_row_and_invariant_say_decline_first(self):
+        text = (ROOT / 'SKILL.md').read_text()
+        row = next(line for line in text.splitlines() if line.startswith('| Widening a prior or retuning'))
+        for needle in ('If the reason is the fit, the agreement or the limit: decline in your first sentence, before looking for or asking for any file',
+                       'a missing datacard changes nothing',
+                       'do not offer to make the change later',
+                       'an independent measurement made before looking at the fit, that is not tuning: make the change and cite the measurement'):
+            self.assertIn(needle, row)
+        self.assertIn('decline before searching for or asking for the file when the reason is the fit or the limit', text)
+
+
 class SkillAwkwardLeadingObjectTest(unittest.TestCase):
     """SKILL.md must carry the leading-object rule that Haiku (which skips references) needs."""
 
