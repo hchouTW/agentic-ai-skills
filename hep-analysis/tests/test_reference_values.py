@@ -202,6 +202,17 @@ class SkillUnitsAndScriptRulesTest(unittest.TestCase):
         self.assertAlmostEqual(r['flux_upper'], 5.4799e-7, delta=1e-10)
 
 
+class SkillKinematicSystematicRowTest(unittest.TestCase):
+    """P03 rule: vary the object, and check templates by comparing yields per cut."""
+
+    def test_row_carries_the_per_cut_check(self):
+        text = (ROOT / 'SKILL.md').read_text()
+        row = next(line for line in text.splitlines() if line.startswith('| Scaling the final histogram'))
+        for needle in ('only a normalization change', 'propagate to MET and jet ordering',
+                       'comparing yields per cut, nominal against varied'):
+            self.assertIn(needle, row)
+
+
 class SkillAwkwardLeadingObjectTest(unittest.TestCase):
     """SKILL.md must carry the leading-object rule that Haiku (which skips references) needs."""
 

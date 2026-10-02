@@ -1,10 +1,26 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, full Haiku rerun after PR #99 (latest pass; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, P03 per-cut check line (latest pass; full Haiku rerun after PR #99 the same day; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
-Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 213 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 214 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## P03 per-cut check line (2026-10-02, branch `hep-analysis-p03-check`)
+
+- Change: the `SKILL.md` "Scaling the final histogram for a kinematic systematic" row now reads: a flat
+  bin scaling is only a normalization change; vary the object (and propagate to MET and jet ordering),
+  rerun selection and migration, then check the templates by comparing yields per cut, nominal against
+  varied: identical yields mean the variation did not propagate. `SkillKinematicSystematicRowTest`
+  guards the three phrases. Tests 213 -> 214, bundle 119 files, description unchanged (1019 of 1024).
+- Rerun `prompts_eval.py --model haiku --only P03 --runs 6 -j 6`, $0.27. **6/6 PASS**: every run says
+  a flat scaling only changes the normalization, varies the jets and reruns the selection, and gives
+  the per-cut yield comparison with the "identical yields mean it did not propagate" warning; run 3
+  also points to `scripts/check_systematic_variations.py`. Before the line: 0 of the 2 runs in each
+  of the last four full reruns gave any yield check.
+- Not fully followed: MET propagation appears in only 2 of 6 answers (jet ordering in 5 of 6),
+  although the row names both. It is a sub-item of the rubric, so the runs still pass.
+- 6 samples on one prompt; no full rerun after this change.
 
 ## Full Haiku rerun after PR #99 (2026-10-02, branch `hep-analysis-rerun-after-99`)
 
