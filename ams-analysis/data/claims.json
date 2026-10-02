@@ -3459,5 +3459,1258 @@
     "verification_strength": "abstract+metadata",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C131",
+    "claim": "Li, Be and B fluxes measured in the rigidity range 1.9 GV to 3.3 TV with a total of 5.4 × 10^6 nuclei (1.9 × 10^6 lithium, 0.9 × 10^6 beryllium, 2.6 × 10^6 boron) collected by AMS during the first 5 y, May 19, 2011 to May 26, 2016, aboard the ISS, out of 8.5 × 10^10 cosmic ray events collected in that time; the total error on each of the fluxes is 3%-4% in the 100-108 GV bin; fluxes measured in 67 bins from 1.9 GV to 3.3 TV, identical for all nuclei",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S54"
+    ],
+    "location": "Abstract; Introduction; Event selection; Data analysis",
+    "scope": {
+      "text": "Li, Be, B data sample",
+      "species": [
+        "Li",
+        "Be",
+        "B"
+      ],
+      "range": "1.9 GV to 3.3 TV",
+      "data_period": "2011-05-19 to 2016-05-26",
+      "analysis": "Li, Be, B flux analysis"
+    },
+    "limitations": "The 3%-4% total error is quoted only for the 100-108 GV bin; per-bin errors elsewhere are in the Supplemental Material tables (not read). Collection time is stated only as constant at 1.23 × 10^8 seconds above 30 GV.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C132",
+    "claim": "Event selection: downward going, reconstructed track in the inner tracker passing through L1 (and through L9 for R >= 1.3 TV), track-fit chi2/d.o.f. < 10 in the bending coordinate; measured rigidity above 1.2 times the maximum geomagnetic cutoff in the AMS field of view (IGRF, backtracing to 50 Earth's radii); charge on tracker L1, inner tracker, upper TOF and (R >= 1.3 TV) L9 compatible with Z = 3, 4, 5; collection time only for normal detector operation, AMS pointing within 40 degrees of the local zenith, ISS outside the South Atlantic Anomaly; trigger efficiency > 98% for 3 <= Z <= 5 over the entire rigidity range; flux from Phi_i = N_i/(A_i eps_i T_i dR_i) with N_i corrected for bin-to-bin migration",
+    "claim_types": [
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S54"
+    ],
+    "location": "Event selection; Data analysis",
+    "scope": {
+      "text": "Li, Be, B selection and charge/rigidity measurement",
+      "species": [
+        "Li",
+        "Be",
+        "B"
+      ],
+      "range": "1.9 GV to 3.3 TV (L9 requirement at R >= 1.3 TV)",
+      "data_period": "2011-05-19 to 2016-05-26",
+      "analysis": "Li, Be, B flux analysis"
+    },
+    "limitations": "Charge cuts themselves (Fig. 1 and Fig. 2 of the Supplemental Material) were not read; the main text gives no numerical charge-cut values.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C133",
+    "claim": "Backgrounds: charge confusion from noninteracted nuclei negligible over the whole rigidity range; residual background from heavier nuclei interacting above tracker L2; background from interactions between L1 and L2 (TRD and upper TOF), evaluated by fitting the tracker-L1 charge distribution with Li, Be, B and C templates, is < 0.5% for lithium and beryllium and < 3% for boron; background from interactions above L1 (carbon fiber and aluminum honeycomb support structures) estimated from simulation: 5%, 8%, 5% at 2 GV and 2%, 13%, 8% at 3.3 TV for Li, Be, B respectively; uncertainty on the fluxes from these background corrections < 1.5% in the whole rigidity range",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S54"
+    ],
+    "location": "Event selection",
+    "scope": {
+      "text": "Li, Be, B backgrounds",
+      "species": [
+        "Li",
+        "Be",
+        "B"
+      ],
+      "range": "1.9 GV to 3.3 TV (values at 2 GV and 3.3 TV as stated)",
+      "data_period": "2011-05-19 to 2016-05-26",
+      "analysis": "Li, Be, B flux analysis, backgrounds"
+    },
+    "limitations": "The text writes '2 GV' and '3.3 TV' as the quoted points; intermediate rigidities are not given in the main text.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C134",
+    "claim": "Migration, resolution and systematic sizes: unfolding corrections (N_i - aleph_i)/aleph_i of +9% at 3 GV, +3% at 5 GV, -5% at 150 GV, -20% at 3.3 TV for lithium, very similar for beryllium and boron; trigger-efficiency systematic < 0.5%; geomagnetic cutoff factor varied 1.0 to 1.4 gives < 0.1% below 30 GV; acceptance corrections from data/MC differences < 5% and reconstruction and selection systematic < 2% over the entire rigidity range; inelastic cross-section systematic < 2%-3% up to 100 GV and < 3%-4% at 3.3 TV; rigidity resolution systematic < 1.5% below 200 GV rising to 8%-10% at 3.3 TV; rigidity scale systematic below 1% up to 200 GV rising to 5%-7% at 3.3 TV (tracker misalignment 1/30 TV^-1 from E/p of e+/e-); MDR 3.5 TV for Li, 3.6 TV for Be, 3.7 TV for B with 5% uncertainty and 20% uncertainty on the amplitudes of the non-Gaussian tails; tracker bending coordinate accuracy 5.3-5.8 micrometer; average mass numbers 6.5 ± 0.1 (Li), 8.0 ± 0.2 (Be), 10.7 ± 0.1 (B) used in the EK conversion",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S54"
+    ],
+    "location": "Data analysis",
+    "scope": {
+      "text": "Li, Be, B systematic errors and unfolding",
+      "species": [
+        "Li",
+        "Be",
+        "B"
+      ],
+      "range": "1.9 GV to 3.3 TV (values at the rigidities stated)",
+      "data_period": "2011-05-19 to 2016-05-26",
+      "analysis": "Li, Be, B flux analysis, systematics"
+    },
+    "limitations": "Beryllium and boron unfolding corrections are only 'very similar' to lithium in the text, with no numbers; the total systematic error per bin is in the Supplemental Material (not read); the quoted systematic sizes are per source, not a total.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C135",
+    "claim": "Flux behaviour and ratios: the Li and B fluxes have an identical rigidity dependence above 7 GV and all three fluxes (Li, Be, B) have an identical rigidity dependence above 30 GV; the different rigidity dependence of the Be flux is described by the paper as most likely due to the significant presence of the radioactive 10Be isotope (half life 1.4 MY); fits to a constant give Li/B = 0.72 ± 0.02 (chi2/d.o.f. = 51/53) above 7 GV and Be/B = 0.36 ± 0.01 (chi2/d.o.f. = 27/35) above 30 GV; Li/Be ratio 2.0 ± 0.1 above 30 GV; the three fluxes deviate from a single power law above 200 GV in an identical way, a behavior also observed in the AMS primary He, C, O fluxes",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S54"
+    ],
+    "location": "Abstract; Results; Conclusion",
+    "scope": {
+      "text": "Li, Be, B flux rigidity dependence and flux ratios",
+      "species": [
+        "Li",
+        "Be",
+        "B"
+      ],
+      "range": "Li/B above 7 GV; Be/B and Li/Be above 30 GV; deviation from single power law above 200 GV (all to 3.3 TV)",
+      "data_period": "2011-05-19 to 2016-05-26",
+      "analysis": "Li, Be, B flux analysis, flux ratios"
+    },
+    "limitations": "The 10Be explanation is the paper's own statement ('most likely'), not a measurement. The 7, 30 and 200 GV boundaries are printed with a tilde (about) in the text for the first two. Flux values themselves are in the Supplemental Material tables (not read); no flux value is quoted here.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C136",
+    "claim": "Spectral indices: gamma = d[log(Phi)]/d[log(R)] computed over rigidity intervals bounded by 7.09, 12.0, 16.6, 22.8, 41.9, 60.3, 192 and 3300 GV; the magnitude and rigidity dependence of the Li, Be, B spectral indices are nearly identical but distinctly different from He, C, O (AMS, Ref. 14), and above about 200 GV Li, Be, B harden more than He, C, O; for secondary-to-primary ratios, Delta = d[log(Phi_S/Phi_P)]/d[log(R)] over intervals [60.3-192] and [192-3300] GV (Li/C, Be/C, B/C, Li/O, Be/O, B/O) shows an average hardening of 0.13 ± 0.03 above about 200 GV; the paper states this is consistent with expectations when the hardening is due to propagation properties in the Galaxy",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S54"
+    ],
+    "location": "Results; Conclusion",
+    "scope": {
+      "text": "Li, Be, B spectral indices and secondary-to-primary spectral-index differences",
+      "species": [
+        "Li",
+        "Be",
+        "B",
+        "He",
+        "C",
+        "O"
+      ],
+      "range": "7.09 to 3300 GV (intervals as listed); hardening quoted above about 200 GV",
+      "data_period": "2011-05-19 to 2016-05-26 (Li, Be, B); He, C, O from AMS Ref. 14",
+      "analysis": "model-independent spectral index analysis"
+    },
+    "limitations": "Individual interval values of gamma and Delta are shown only in Figs. 2 and 3 and the Supplemental Material tables (not read, not interpreted); only the average 0.13 ± 0.03 is quoted. The propagation-consistency statement is the paper's interpretation of the secondary-to-primary hardening, not a measurement of mechanism. The He, C, O fluxes and indices come from a different AMS paper (Ref. 14).",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C137",
+    "claim": "Nitrogen flux measurement from 2.2 GV to 3.3 TV based on 2.2 × 10^6 events, from data collected during the first five years of operation aboard the ISS (May 19, 2011 to May 26, 2016); in that period AMS collected 8.5 × 10^10 cosmic ray events; the collection time includes only seconds with the detector in normal operating conditions, AMS pointing within 40° of the local zenith and the ISS outside the South Atlantic Anomaly, and becomes constant at 1.23 × 10^8 seconds above 30 GV; trigger efficiency > 98% over the entire rigidity range; the flux is measured in 66 bins from 2.2 GV to 3.3 TV; total flux error 4% at 100 GV",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S55"
+    ],
+    "location": "Introduction; Event selection; Data analysis",
+    "scope": {
+      "text": "nitrogen flux, data sample and period",
+      "species": [
+        "N"
+      ],
+      "range": "2.2 GV to 3.3 TV",
+      "data_period": "2011-05-19 to 2016-05-26",
+      "analysis": "nitrogen flux analysis"
+    },
+    "limitations": "Event counts are those quoted by the paper for this letter; the 2.2 × 10^6 events are the nitrogen nuclei after background subtraction.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C138",
+    "claim": "Event selection: nitrogen events are required to be downward-going with a reconstructed inner-tracker track passing through L1 (for R ≥ 1.3 TV also through L9) and track fit χ²/d.o.f. < 10 in the bending coordinate; measured rigidity must exceed 1.2 times the maximum geomagnetic cutoff within the AMS field of view (backtracing from the top of AMS out to 50 Earth radii with the most recent IGRF model); charge measurements on L1, the upper TOF, the inner tracker, the lower TOF and, for R > 1.3 TV, L9 are all required to be compatible with Z = 7; charge confusion from noninteracting nuclei is negligible (< 0.1%) over the whole rigidity range; overall purities of 90%-95% depending on rigidity; rigidity is measured with the tracker in the permanent-magnet field",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S55"
+    ],
+    "location": "Event selection",
+    "scope": {
+      "text": "nitrogen event selection and charge determination",
+      "species": [
+        "N"
+      ],
+      "range": "2.2 GV to 3.3 TV",
+      "data_period": "2011-05-19 to 2016-05-26",
+      "analysis": "nitrogen flux analysis, selection"
+    },
+    "limitations": "Per-cut definitions and the charge-selection figures are in the Supplemental Material, which was not read.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C139",
+    "claim": "Backgrounds: residual background from interactions of heavy nuclei such as O, F and Ne in the material between L1 and L2 (TRD and upper TOF) is evaluated by fitting the L1 charge distribution of events selected as nitrogen by the inner tracker with N, O, F and Ne charge templates (templates from L2, noninteracting events requiring L1 and L3-L8 to measure the same charge) and is < 5% over the entire rigidity range; background from O, F and Ne interacting in materials above L1 is estimated from simulation and is < 3% below 200 GV, increasing up to 6% at 3.3 TV; overall uncertainty due to total background subtraction < 1.5% over the entire rigidity range",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S55"
+    ],
+    "location": "Event selection",
+    "scope": {
+      "text": "nitrogen backgrounds and background-subtraction uncertainty",
+      "species": [
+        "N",
+        "O",
+        "F",
+        "Ne"
+      ],
+      "range": "2.2 GV to 3.3 TV",
+      "data_period": "2011-05-19 to 2016-05-26",
+      "analysis": "nitrogen flux analysis, backgrounds"
+    },
+    "limitations": "The simulation validation of nuclear interactions is shown in the Supplemental Material, which was not read.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C140",
+    "claim": "Bin-to-bin migration corrected by unfolding; the corrections (N_i - ℵ_i)/ℵ_i are +15% at 3 GV, +7% at 5 GV, -5% at 200 GV and -6% at 3.3 TV; rigidity resolution: tracker bending coordinate resolution of 5.5 μm in agreement with simulation, MDR of 3.5 TV with 5% uncertainty and 10% uncertainty on the amplitudes of the non-Gaussian tails; resulting systematic error on the flux from the rigidity resolution function is less than 1% below 150 GV and 3% at 3.3 TV",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S55"
+    ],
+    "location": "Data analysis",
+    "scope": {
+      "text": "nitrogen unfolding and rigidity resolution",
+      "species": [
+        "N"
+      ],
+      "range": "2.2 GV to 3.3 TV",
+      "data_period": "2011-05-19 to 2016-05-26",
+      "analysis": "nitrogen flux analysis, unfolding"
+    },
+    "limitations": "Unfolding procedure is described in the paper by reference (Ref. [20]); the bending-coordinate resolution figure is in the Supplemental Material of Ref. [16], not read.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C141",
+    "claim": "Systematic errors on the nitrogen flux quoted in the text: trigger efficiency < 0.7% over the entire rigidity range; geomagnetic cutoff factor varied from 1.0 to 1.4 gives a negligible systematic uncertainty (< 0.1%) below 30 GV; total corrections to the effective acceptance from data-MC differences < 3% up to 500 GV and < 5% at 3.3 TV; reconstruction and selection < 1% over the entire rigidity range; inelastic cross sections (for N+C and N+O) < 3% up to 100 GV and 4% at 3 TV; absolute rigidity scale (tracker misalignment, magnetic field map and temperature) < 0.6% up to 100 GV and 5% in the last bin, 1.3-3.3 TV",
+    "claim_types": [
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S55"
+    ],
+    "location": "Data analysis",
+    "scope": {
+      "text": "nitrogen flux systematic uncertainties quoted in the text",
+      "species": [
+        "N"
+      ],
+      "range": "2.2 GV to 3.3 TV",
+      "data_period": "2011-05-19 to 2016-05-26",
+      "analysis": "nitrogen flux analysis, systematic errors"
+    },
+    "limitations": "Only values printed in the main text; the full error breakdown is tabulated in the Supplemental Material, which was not read.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C142",
+    "claim": "Spectral index and primary/secondary decomposition: the spectral index, calculated model-independently as γ = d[log(Φ)]/d[log(R)] over nonoverlapping rigidity intervals above 8.48 GV, is situated between the primary (He, C, O) and secondary (Li, Be, B) spectral indices, hardens rapidly with rigidity above ~100 GV and becomes identical to the spectral indices of He, C and O above ~700 GV; the flux deviates from a single power law; a fit of Φ_N over the entire rigidity range to the weighted sum of the oxygen flux (primary) and boron flux (secondary) gives Φ_PN = (0.090 ± 0.002) × Φ_O and Φ_SN = (0.62 ± 0.02) × Φ_B with χ²/d.o.f. = 51/64; the same fit above 60 GV gives (0.083 ± 0.005) × Φ_O + (0.66 ± 0.04) × Φ_B with χ²/d.o.f. = 18/25; the secondary-component contribution changes from 70% at a few GV to below 30% above 1 TV",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S55"
+    ],
+    "location": "Results; Abstract; Conclusion",
+    "scope": {
+      "text": "nitrogen spectral index and primary/secondary fit",
+      "species": [
+        "N",
+        "He",
+        "C",
+        "O",
+        "Li",
+        "Be",
+        "B"
+      ],
+      "range": "2.2 GV to 3.3 TV (fit over entire range; spectral index above 8.48 GV; second fit above 60 GV)",
+      "data_period": "2011-05-19 to 2016-05-26",
+      "analysis": "nitrogen flux spectral index; N = primary(O) + secondary(B) fit"
+    },
+    "limitations": "Descriptive fit of a two-component form, not proof of a mechanism; uses the published O and B fluxes of Refs. [8,9]; the paper itself says the fit permits determination of the N/O abundance ratio at the source without Galactic propagation, a statement not evaluated here. He, C, O and Li, Be, B spectral indices and the O and B fluxes come from earlier AMS papers (Refs. [8], [9]), not from this Letter.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C143",
+    "claim": "Ne, Mg, Si fluxes: rigidity range 2.15 GV to 3.0 TV with 1.8 × 10^6 Ne, 2.2 × 10^6 Mg and 1.6 × 10^6 Si nuclei (after background subtraction) collected during the first 7 years of ISS operation, May 19, 2011 to May 26, 2018, from 120 × 10^9 cosmic ray events; collection time reaches 1.74 × 10^8 seconds above 30 GV; fluxes measured in 66 rigidity bins from 2.15 GV to 3.0 TV, with identical bin widths for the three nuclei; total error ~5% at 100 GV for each flux; the maximum detectable rigidity is 3.2 TV for Z = 10, 3.1 TV for Z = 12 and 3.0 TV for Z = 14",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S56"
+    ],
+    "location": "Introduction; Event selection; Data analysis",
+    "scope": {
+      "text": "Ne, Mg, Si data sample, period and binning",
+      "species": [
+        "Ne",
+        "Mg",
+        "Si"
+      ],
+      "range": "2.15 GV to 3.0 TV",
+      "data_period": "2011-05-19 to 2018-05-26",
+      "analysis": "Ne, Mg, Si flux measurement"
+    },
+    "limitations": "Numbers are as printed in the main text; the exponent 10^6 etc. is rendered in pdftotext as '106'. Supplemental Material not read.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C144",
+    "claim": "Event selection and charge determination: collection time includes only seconds with normal detector operating conditions, AMS pointing within 40° of the local zenith and the ISS outside the South Atlantic Anomaly; events are downward going with an inner-tracker track through L1 (also through L9 for R ≥ 1.2 TV) and track-fit chi2/d.o.f. < 10 in the bending coordinate; measured rigidity greater than 1.2 times the maximum geomagnetic cutoff within the field of view; charge measurements on L1, inner tracker, upper TOF, lower TOF and, for R > 1.2 TV, L9 must be compatible with Z = 10 (Ne), 12 (Mg), 14 (Si); trigger efficiency > 94% for the three nuclei over the entire rigidity range",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S56"
+    ],
+    "location": "Event selection; Detector",
+    "scope": {
+      "text": "Ne, Mg, Si event selection, charge selection and trigger efficiency",
+      "species": [
+        "Ne",
+        "Mg",
+        "Si"
+      ],
+      "range": "2.15 GV to 3.0 TV",
+      "data_period": "2011-05-19 to 2018-05-26",
+      "analysis": "Ne, Mg, Si flux measurement"
+    },
+    "limitations": "Per-cut definitions beyond the text, and Fig. S1 (charge distribution), are in the Supplemental Material, not read. The cutoff is calculated by backtracing with the International Geomagnetic Reference Field model as stated in the paper.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C145",
+    "claim": "Charge purity and backgrounds: charge selection yields purities of > 98% for Ne and Mg and > 99.7% for Si; the residual background from interactions of heavy nuclei such as Na, Mg, Al and Si in the material between L1 and L2 (TRD and upper TOF) is evaluated by fitting the L1 charge distribution with Na, Mg, Al, Si charge templates and is < 0.3% for the three nuclei over the entire rigidity range; the background from Na, Mg, Al, Si, P, S and heavier nuclei interacting in materials above L1, estimated from simulation, is < 2% for Ne, < 1.5% for Mg and negligible for Si over the entire rigidity range; the overall uncertainty due to background subtraction is < 0.5% for the three nuclei",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S56"
+    ],
+    "location": "Event selection",
+    "scope": {
+      "text": "Ne, Mg, Si charge purity and background sizes",
+      "species": [
+        "Ne",
+        "Mg",
+        "Si"
+      ],
+      "range": "entire rigidity range, 2.15 GV to 3.0 TV",
+      "data_period": "2011-05-19 to 2018-05-26",
+      "analysis": "Ne, Mg, Si flux measurement, backgrounds"
+    },
+    "limitations": "MC samples are generated according to AMS flux measurements as stated in the paper; Figs. S1-S2 are in the Supplemental Material, not read.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C146",
+    "claim": "Bin-to-bin migration and systematic errors: migration corrected by unfolding, with corrections (N_i - ℵ_i)/ℵ_i of +18% at 3 GV, +9% at 5 GV, -2% at 150 GV and -5% at 3 TV for Ne, very similar for Mg and Si; systematic error on the fluxes < 1% from trigger efficiency, < 1% from reconstruction and selection, negligible (< 0.1%) from the geomagnetic cutoff factor varied from 1.0 to 1.4 below 30 GV, < 3.5% up to 100 GV and < 4% from 100 GV to 3 TV from inelastic cross sections, < 1% below 300 GV and 2.5% at 3 TV from the rigidity resolution functions (Gaussian-core widths varied by 5%, non-Gaussian-tail amplitudes by 10%), and from the absolute rigidity scale < 1% up to 300 GV and 6% at 3 TV; the residual tracker misalignment error on the rigidity scale, estimated by comparing the E/p ratio for electrons and positrons, is 1/30 TV^-1 (quoted from Ref. [26], Berdugo et al., NIM A 869, 10 (2017)); a second rigidity-scale contribution comes from the magnetic field map measurement and its temperature corrections",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S56"
+    ],
+    "location": "Data analysis",
+    "scope": {
+      "text": "Ne, Mg, Si migration correction and systematic error sizes",
+      "species": [
+        "Ne",
+        "Mg",
+        "Si"
+      ],
+      "range": "2.15 GV to 3.0 TV",
+      "data_period": "2011-05-19 to 2018-05-26",
+      "analysis": "Ne, Mg, Si flux measurement, systematics"
+    },
+    "limitations": "Error sizes are those quoted in the text for the three nuclei; the paper gives no combined systematic table in the main text (flux tables are in the Supplemental Material, not read). Migration corrections are quoted for Ne only, 'very similar' for Mg and Si. 1/30 TV^-1 is a cited value, not measured in this Letter.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C147",
+    "claim": "Ne/Mg and Si/Mg flux-ratio fits (Eq. 2, ratio = k (R/R0)^Δ for R ≤ R0 and k for R > R0): Ne/Mg gives k = 0.84 ± 0.02, R0 = 3.65 ± 0.5 GV, Δ = 0.19 ± 0.08 with chi2/d.o.f. = 42/64 over the entire rigidity range; Si/Mg gives k = 0.89 ± 0.02, R0 = 86.5 ± 13 GV, Δ = 0.069 ± 0.005 with chi2/d.o.f. = 29/53 above 6 GV; the paper concludes that the Ne and Mg fluxes have an identical rigidity dependence above 3.65 GV and that all three fluxes have an identical rigidity dependence above 86.5 GV",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S56"
+    ],
+    "location": "Results",
+    "scope": {
+      "text": "Ne/Mg and Si/Mg flux ratio fit parameters",
+      "species": [
+        "Ne",
+        "Mg",
+        "Si"
+      ],
+      "range": "Ne/Mg: entire range 2.15 GV to 3.0 TV; Si/Mg: above 6 GV",
+      "data_period": "2011-05-19 to 2018-05-26",
+      "analysis": "Ne, Mg, Si flux ratios fit with Eq. (2)"
+    },
+    "limitations": "Fit parameters and conclusions as stated by the paper; ratios are in Tables SIV-SV of the Supplemental Material, not read. The ± symbols are lost in pdftotext, so the quoted uncertainties are read from the printed pairs 'value  error'.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C148",
+    "claim": "Spectral behaviour and comparison with He, C, O: spectral indices gamma = d[log(Phi)]/d[log(R)] were obtained over nonoverlapping rigidity intervals bounded by 7.09, 12.0, 16.6, 28.8, 45.1, 86.5, 192.0, 441.0 and 3000.0 GV; the Ne and Mg spectral indices are identical in this range and the three flux spectral indices harden identically with rigidity above ~200 GV; fits of the Ne/O, Mg/O and Si/O ratios above 20 GV with a double power law (break at 86.5 GV) give above 86.5 GV delta(Ne/O) = -0.046 ± 0.010, delta(Mg/O) = -0.049 ± 0.011 and delta(Si/O) = -0.040 ± 0.011, with average <delta> = -0.045 ± 0.008, a difference from zero of more than 5 sigma, from which the paper concludes that Ne, Mg, Si are a different class of primary cosmic rays than He, C, O (which have identical rigidity dependence above 60 GV)",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S56"
+    ],
+    "location": "Results; Conclusion",
+    "scope": {
+      "text": "Ne, Mg, Si spectral indices and Ne/O, Mg/O, Si/O ratio indices",
+      "species": [
+        "Ne",
+        "Mg",
+        "Si",
+        "O",
+        "He",
+        "C"
+      ],
+      "range": "spectral indices 7.09 GV to 3000.0 GV; ratio fits above 20 GV, delta above 86.5 GV",
+      "data_period": "2011-05-19 to 2018-05-26",
+      "analysis": "Ne, Mg, Si spectral index and Ne/O, Mg/O, Si/O ratio analysis"
+    },
+    "limitations": "Paper's own conclusion on 'two different classes' is quoted as the paper's statement, not an independent result; the O flux and He, C, O comparison come from earlier AMS publications (Refs. [2], [30]); Eq. (5) fit parameters and Fig. S4 are in the Supplemental Material, not read; no values are taken from figures.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C149",
+    "claim": "Fe: 2.65 GV to 3.0 TV, 0.62 × 10⁶ iron nuclei collected by AMS during the first 8.5 years (May 19, 2011 to October 30, 2019) of operation aboard the ISS, out of 1.50 × 10¹¹ cosmic ray events; the flux is measured in 49 bins from 2.65 GV to 3.0 TV, with bin widths chosen according to the rigidity resolution and available statistics; the total flux error is 4.8% at 100 GV; the paper states there are no measurements of the Fe flux in rigidity before this Letter",
+    "claim_types": [
+      "published_result",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S57"
+    ],
+    "location": "Abstract; Introduction; Event selection; Data analysis",
+    "scope": {
+      "text": "Fe flux data sample, period and binning",
+      "species": [
+        "Fe"
+      ],
+      "range": "2.65 GV to 3.0 TV",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "Fe flux analysis"
+    },
+    "limitations": "Total flux error 4.8% is quoted only at 100 GV; the 1.50 × 10¹¹ events is the total cosmic ray sample, not the Fe sample.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C150",
+    "claim": "Fe event selection: events downward going with a reconstructed inner-tracker track passing through L1; for R ≥ 1.2 TV the track must also pass through L9; charge requirement as printed: 'Charge measurements on L1, the inner tracker, the upper TOF, and, for R > 1.2 TV, the lower TOF, and L9 are required to be compatible with charge Z = 26', namely 23.2 < Z_L1 < 27.6, 24.7 < Z_UTOF < 27.6, 25.5 < Z_InnerTracker < 26.5, Z_LTOF > 24.7, 24.6 < Z_L9 < 28.8; the rigidity resolution function for Fe has a Gaussian core of width σ and non-Gaussian tails more than 2.5σ from the center, given as smearing matrices for the L1-L8 and L1-L9 configurations",
+    "claim_types": [
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S57"
+    ],
+    "location": "Event selection; Data analysis",
+    "scope": {
+      "text": "Fe charge and track selection",
+      "species": [
+        "Fe"
+      ],
+      "range": "2.65 GV to 3.0 TV (L9 requirement at R ≥ 1.2 TV)",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "Fe event selection"
+    },
+    "limitations": "Main article only; Supplemental Material (SM-Fe-Rev3.pdf) not read, so per-cut definitions, Tables SI, SII and SA and Figs. S2-S9 are not checked. The text uses R ≥ 1.2 TV for the L9 track requirement and 'for R > 1.2 TV' in the charge sentence, quoted verbatim; the comma placement is ambiguous as to whether the lower-TOF charge requirement applies only above 1.2 TV (the parallel Ne, Mg, Si Letter, PRL 124, 211102, applies the lower TOF at all rigidities).",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C151",
+    "claim": "Fe sample purity and background: purities > 97% over the entire rigidity range; the main impurity is a residual background from Mn nuclei due to the finite AMS charge resolution, estimated as a function of rigidity with tight charge cuts on L1 and upper and lower TOF and found less than 3% over the entire rigidity range; the second source, interactions of heavy nuclei such as Co and Ni in the AMS materials above L2, is negligible, < 0.3%, over the entire rigidity range; after background subtraction 0.62 × 10⁶ iron nuclei remain; the uncertainty due to background subtraction is < 0.7% independent of rigidity, estimated by varying the purity of the Fe sample from 95% to 99% and by taking into account the statistical and systematic uncertainties in the template fit",
+    "claim_types": [
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S57"
+    ],
+    "location": "Event selection",
+    "scope": {
+      "text": "Fe purity, backgrounds and background systematic",
+      "species": [
+        "Fe",
+        "Mn",
+        "Co",
+        "Ni"
+      ],
+      "range": "2.65 GV to 3.0 TV",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "Fe background evaluation"
+    },
+    "limitations": "Main article only; Supplemental Material (SM-Fe-Rev3.pdf) not read, so per-cut definitions, Tables SI, SII and SA and Figs. S2-S9 are not checked.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C152",
+    "claim": "Fe bin-to-bin migration corrected by unfolding; the corrections (N_i - ℵ_i)/ℵ_i are +33% at 3 GV decreasing smoothly to +11% at 10 GV, +2% at 80 GV, +1% at 150 GV, and -2% at 3 TV",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S57"
+    ],
+    "location": "Data analysis",
+    "scope": {
+      "text": "Fe flux bin-to-bin migration correction",
+      "species": [
+        "Fe"
+      ],
+      "range": "3 GV to 3 TV",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "Fe flux unfolding"
+    },
+    "limitations": "Main article only; Supplemental Material (SM-Fe-Rev3.pdf) not read, so per-cut definitions, Tables SI, SII and SA and Figs. S2-S9 are not checked.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C153",
+    "claim": "Fe flux systematic errors quoted in the text: trigger efficiency < 1% over the entire rigidity range; geomagnetic cutoff factor varied from 1.0 to 1.4 giving < 0.1% below 30 GV; total data-to-MC corrections to the effective acceptance < 5% and the associated reconstruction and selection systematic < 1% over the entire rigidity range; inelastic cross section (material from the top of AMS to L9 primarily carbon and aluminum) < 4% up to 100 GV, rising smoothly to 4.5% at 3 TV; rigidity resolution function (Gaussian core width varied by 5%, non-Gaussian tail amplitude by 10%) < 1% below 300 GV rising smoothly to 2.5% at 3 TV; rigidity scale (tracker misalignment error estimated from the E/p ratio of electrons and positrons, quoted as 1/30 TV⁻¹ from Ref. [32], Berdugo et al., NIM A 869, 10 (2017), plus magnetic field map and temperature corrections [26]) < 1% up to 300 GV rising smoothly to 6% at 3 TV; several independent analyses on the same data sample by different study groups were consistent with this Letter",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S57"
+    ],
+    "location": "Data analysis",
+    "scope": {
+      "text": "Fe flux systematic error sizes",
+      "species": [
+        "Fe"
+      ],
+      "range": "as stated per item, 2.65 GV to 3.0 TV",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "Fe flux systematic errors"
+    },
+    "limitations": "Main article only; Supplemental Material (SM-Fe-Rev3.pdf) not read, so per-cut definitions, Tables SI, SII and SA and Figs. S2-S9 are not checked. Sizes are as stated per rigidity range in the text; no combined systematic table in the main article. The 1/30 TV⁻¹ misalignment value is cited from Ref. [32], not measured in this Letter.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C154",
+    "claim": "Fe flux and spectral index behaviour: above 80.5 GV the rigidity dependence of the Fe flux is identical to that of the primary He, C, and O fluxes; spectral indices γ = d[log(Φ)]/d[log(R)] were obtained model-independently over nonoverlapping rigidity intervals bounded by 7.09, 12.0, 16.6, 28.8, 45.1, 80.5, 175.0, and 3000.0 GV; above 80.5 GV the Fe flux and spectral index follow the oxygen flux and spectral index, the Fe flux behavior being consistent with the observed hardening of the oxygen flux; earlier AMS results showed an identical rigidity dependence of the He, C, and O fluxes above 60 GV and a hardening above ~200 GV, and differences of the Ne, Mg, and Si fluxes; the paper concludes that Fe belongs to the He, C, O class of primary cosmic rays, different from the Ne, Mg, Si class",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S57"
+    ],
+    "location": "Abstract; Introduction; Results; Conclusion",
+    "scope": {
+      "text": "Fe flux and spectral index versus O, He, C and Ne, Mg, Si classes",
+      "species": [
+        "Fe",
+        "He",
+        "C",
+        "O",
+        "Ne",
+        "Mg",
+        "Si"
+      ],
+      "range": "above 80.5 GV (index intervals 7.09 GV to 3000.0 GV)",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "Fe flux rigidity dependence"
+    },
+    "limitations": "Main article only; Supplemental Material (SM-Fe-Rev3.pdf) not read, so per-cut definitions, Tables SI, SII and SA and Figs. S2-S9 are not checked. No spectral-index values are quoted in the text (they are in Fig. 1(b) only); the paper's own wording calls the result unexpected. The oxygen flux and spectral index used for comparison are from earlier AMS papers (Refs. [2,34]), not this Letter.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C155",
+    "claim": "Fe/O flux ratio: above 80.5 GV a constant-value fit gives Fe/O = 0.155 ± 0.006 with χ²/d.o.f. = 8/11, which together with Fig. 1 shows Fe belongs to the same class of primary cosmic rays as He, C, and O; neither the GALPROP prediction based on data available before AMS nor the latest GALPROP and HELMOD prediction based on published AMS data (without this Letter) describes the data; a slab-model fit of Eq. (3) over the entire rigidity range gives k = 0.203 ± 0.008, Δ = -0.002 ± 0.017 and λ = 1.04 ± 0.11 g cm⁻² with χ²/d.o.f. = 22/43, with Δ consistent with zero (Fe/O at the source constant over the entire rigidity range in this model); the Fe/Si ratio at the source is not constant (at the 3σ level) in this model; the leaky-box model fails to describe the AMS results",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S57"
+    ],
+    "location": "Results; Conclusion",
+    "scope": {
+      "text": "Fe/O flux ratio fits and model comparison",
+      "species": [
+        "Fe",
+        "O",
+        "Si"
+      ],
+      "range": "Fe/O constant fit above 80.5 GV; slab-model fit over the entire rigidity range",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "Fe/O flux ratio"
+    },
+    "limitations": "Main article only; Supplemental Material (SM-Fe-Rev3.pdf) not read, so per-cut definitions, Tables SI, SII and SA and Figs. S2-S9 are not checked. The ± glyph is lost in the pdftotext output and was restored from the abstract and Fig. 3 caption (the text of Eqs. (4)-(5) and the k, Δ, λ uncertainties were read as printed after the lost glyph). The slab-model result depends on Eqs. (3)-(5): source term k(R/192 GV)^Δ, grammage from Refs. [4,34,41], helium mass fraction f = 0.28 ± 0.02; Fe/He, He/O and Fe/Si fits and the leaky-box details are in the Supplemental Material and not read.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C156",
+    "claim": "Fluorine flux measurement: 0.29 million fluorine nuclei (0.29 x 10^6 after all backgrounds subtracted) collected by AMS in the first 8.5 years, May 19, 2011 to October 30, 2019, in the rigidity range 2.15 GV to 2.9 TV; AMS collected 1.50 x 10^11 cosmic ray events in that period; the flux was measured in 49 rigidity bins from 2.15 GV to 2.9 TV; the total flux error is 5.9% at 100 GV; the paper states that there are no earlier measurements of the F flux in rigidity",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S58"
+    ],
+    "location": "Abstract; Introduction; Event selection; Data analysis",
+    "scope": {
+      "text": "F flux data sample",
+      "species": [
+        "F"
+      ],
+      "range": "2.15 GV to 2.9 TV",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "fluorine flux, data sample"
+    },
+    "limitations": "Total-error value is quoted at 100 GV only.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C157",
+    "claim": "Fluorine event selection and backgrounds: events are required to be downward going and to have a reconstructed track in the inner tracker; background from charge-adjacent noninteracting nuclei (O and Ne) is negligible, < 0.5% over the whole rigidity range; the main background is from heavier nuclei (Ne, Mg, Si) interacting above tracker L2; the part from interactions in the material between L1 and L2 (TRD and upper TOF) is evaluated by fitting the tracker L1 charge distribution with templates of O, F, Ne and Na, followed by cuts on the L1 charge, and varies from 4% to 15% depending on rigidity; the part from interactions in materials above L1 is estimated from simulation and is 14% at 2 GV, 18% at 100 GV and 15% at 2.9 TV; the uncertainty due to background subtraction is 1.5% at 2 GV, 2% at 100 GV and 6% at 2.9 TV",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S58"
+    ],
+    "location": "Event selection",
+    "scope": {
+      "text": "F event selection and backgrounds",
+      "species": [
+        "F"
+      ],
+      "range": "2 GV to 2.9 TV (values quoted at 2 GV, 100 GV, 2.9 TV)",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "fluorine flux, backgrounds"
+    },
+    "limitations": "Per-cut definitions are in the Supplemental Material, not read. The paper quotes the L1-L2 background only as a range (4% to 15%).",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C158",
+    "claim": "Fluorine bin-to-bin migration and systematic errors: migration is corrected by unfolding, with corrections (N_i - aleph_i)/aleph_i of +18% at 3 GV, +5% at 10 GV, -4% at 100 GV, -10% at 300 GV and -20% at 2.9 TV; systematic errors on the F flux: trigger efficiency < 1% over the entire rigidity range; geomagnetic cutoff factor varied from 1.0 to 1.4, < 0.1% below 30 GV; reconstruction and selection < 1% over the entire rigidity range; inelastic cross section < 3% up to 100 GV, rising smoothly to 4% at 2.9 TV; rigidity resolution function less than 1% below 200 GV rising to 7% at 2.9 TV; rigidity scale < 1% up to 200 GV rising to 6.5% at 2.9 TV (tracker misalignment estimated from E/p of electrons and positrons as 1/30 TV^-1)",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S58"
+    ],
+    "location": "Data analysis",
+    "scope": {
+      "text": "F flux unfolding corrections and systematic errors",
+      "species": [
+        "F"
+      ],
+      "range": "2.15 GV to 2.9 TV (values at the rigidities stated)",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "fluorine flux, unfolding and systematics"
+    },
+    "limitations": "Each error is quoted at the rigidities stated in the paper; no combined systematic is given in the text and Table SI is not read. Do not interpolate between quoted rigidities.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C159",
+    "claim": "Fluorine flux and F/B behaviour: the F spectrum deviates from a single power law above 200 GV (abstract and conclusion); the spectral index gamma = d[log(Phi)]/d[log(R)] was computed over nonoverlapping rigidity intervals bounded by 7.09, 12.0, 16.6, 28.8, 45.1, 175.0 and 2900.0 GV; in the rigidity interval 175-2900 GV the F spectral index is similar to the B spectral index, and both fluxes harden above ~200 GV; the F/B flux ratio above 7 GV was fitted with Eq. (3) (kappa for R > R0, kappa (R/R0)^Delta for R <= R0), giving kappa = 0.078 +- 0.003, R0 = 150 +- 60 GV, Delta = 0.083 +- 0.007 with chi2/d.o.f. = 19/33; above 150 +- 60 GV the F/B flux ratio is compatible with a constant; fitting above 20 GV gives kappa = 0.078 +- 0.003, R0 = 145 +- 65 GV, Delta = 0.084 +- 0.014 with chi2/d.o.f. = 16/21; the F/B ratio does not change with time from 5 to 20 GV (Fig. S6, not read)",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S58"
+    ],
+    "location": "Results; Fig. 1",
+    "scope": {
+      "text": "F flux spectral index and F/B ratio",
+      "species": [
+        "F",
+        "B"
+      ],
+      "range": "F/B fit above 7 GV; index intervals 7.09-2900 GV",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "fluorine spectral index, F/B fit"
+    },
+    "limitations": "Boron flux is taken from the earlier AMS publication (Ref. [11] of the paper), not re-measured here. Sign convention of Delta as printed; pdftotext renders the +- sign as a control character; uncertainties were read from the text as +-. The paper's wording is 'deviates from a single power law'; no break-rigidity or index value is given for F alone in the text.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C160",
+    "claim": "F/Si and B/O flux ratio fits: the F/Si flux ratio (Si taken as the characteristic heavy primary; Ne, Mg and Si have identical rigidity dependence above 80.5 GV) was fitted with Eq. (4), C (R/175 GV)^Delta1 for R <= 175 GV and C (R/175 GV)^Delta2 for R > 175 GV, over the rigidity interval 28.8-2900 GV, giving C = 0.044 +- 0.001, Delta1 = -0.34 +- 0.02 and Delta2 = -0.19 +- 0.07 with chi2/d.o.f. = 13/16; above 175 GV the spectral index of F/Si exhibits a hardening (Delta2 - Delta1) of 0.15 +- 0.07, compared by the paper with the AMS result on the hardening of the Li/C, Be/C, B/C, Li/O, Be/O and B/O flux ratios by 0.140 +- 0.025; for the AMS B/O flux ratio (data from Ref. [11]), the Eq. (4) fit reported in this Letter gives C^B/O = 0.097 +- 0.003, Delta1^B/O = -0.405 +- 0.005 and Delta2^B/O = -0.26 +- 0.03 with chi2/d.o.f. = 24/36",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S58"
+    ],
+    "location": "Results; Fig. 3(a)",
+    "scope": {
+      "text": "F/Si and B/O flux ratio fits with Eq. (4)",
+      "species": [
+        "F",
+        "Si",
+        "B",
+        "O"
+      ],
+      "range": "28.8-2900 GV (F/Si fit interval)",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "F/Si ratio spectral-index hardening"
+    },
+    "limitations": "The 0.140 +- 0.025 hardening of the light ratios is quoted from earlier AMS papers (Refs. [10,11] of the paper). The B/O fit interval is not stated explicitly in the text near the B/O values. The F/Si-B/O comparison with GALPROP and GALPROP-HELMOD predictions is shown in Fig. 3(a) only and is not summarized here. pdftotext renders the +- sign as a control character. The B/O data are the earlier AMS measurement (Ref. [11]), not a measurement of this Letter; only the Eq. (4) fit to them is reported here.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C161",
+    "claim": "[(F/Si)/(B/O)] ratio: fitted over the entire rigidity range with Eq. (5), k (R/R0)^deltal for R <= R0 and k (R/R0)^delta for R > R0, giving k = 0.39 +- 0.01, R0 = 9.8 +- 0.9 GV, deltal = -0.055 +- 0.013 and delta = 0.052 +- 0.007 with chi2/d.o.f. = 24/45; above 10 GV the [(F/Si)/(B/O)] ratio can be described by a single power law R^delta with delta = 0.052 +- 0.007 (a 7 sigma difference from zero, as stated by the paper); the paper concludes that the F/Si rigidity dependence is distinctly different from the B/O (or B/C) rigidity dependence, that the propagation properties of heavy cosmic rays from F to Si differ from those of light cosmic rays from He to O, and that secondary cosmic rays also have two classes; the ratio does not change with time below 20 GV (Fig. S8, not read); from Eq. (5) and the Si/O ratio above 86.5 GV the paper expects F/B proportional to R^0.012 +- 0.013, i.e. compatible with a constant above 86.5 GV",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S58"
+    ],
+    "location": "Results; Fig. 3(b); Conclusion",
+    "scope": {
+      "text": "[(F/Si)/(B/O)] ratio power-law fit",
+      "species": [
+        "F",
+        "Si",
+        "B",
+        "O"
+      ],
+      "range": "entire rigidity range (Eq. 5 fit); single power law above 10 GV",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "F/Si versus B/O rigidity dependence"
+    },
+    "limitations": "The statistical significance (7 sigma) and the two-class interpretation are the paper's own statements; the text does not give a trial factor or the details of the significance calculation. Exponent R^(0.012 +- 0.013) verified on the rendered page (p. 6). Si/O above 86.5 GV is taken from the earlier AMS Ne, Mg, Si paper (Ref. [13]).",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C162",
+    "claim": "Na and Al fluxes: 0.46 million sodium and 0.51 million aluminum nuclei collected by AMS in the rigidity range 2.15 GV to 3.0 TV during the first 8.5 years (May 19, 2011 to October 30, 2019) aboard the ISS, out of 1.50 × 10¹¹ cosmic ray events collected in that time; flux measured in 49 bins from 2.15 GV to 3.0 TV; total flux errors at 100 GV are 5.0% for Na and 4.8% for Al",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S59"
+    ],
+    "location": "Abstract; Introduction; Event selection; Data analysis",
+    "scope": {
+      "text": "Na and Al flux data sample",
+      "species": [
+        "Na",
+        "Al"
+      ],
+      "range": "2.15 GV to 3.0 TV",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "Na and Al flux measurement"
+    },
+    "limitations": "Main article only; Supplemental Material (per-cut definitions, figures S1-S8, Tables SI-SVI) not read.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C163",
+    "claim": "Na and Al selection and background: events required to be downward going with a reconstructed track in the inner tracker; charge confusion from non-interacted nuclei (Ne, Mg, Si) due to finite charge resolution is < 0.5% over the whole rigidity range; main background from heavier nuclei such as Mg and Si interacting above tracker L2; background from interactions between L1 and L2 (transition radiation detector and upper TOF) evaluated by fitting the L1 charge distribution with templates of Ne, Na, Mg, Al and Si, then cuts on the L1 charge; this background varies smoothly from 8% below 10 GV to 25% at 3 TV for Na and from 9% below 10 GV to 16% at 3 TV for Al; background from interactions above L1 (carbon fiber and aluminum honeycomb support structures) estimated from simulation validated with AMS charge changing cross sections; overall background-subtraction uncertainty is 1.5% at 2 GV, 1.5% at 100 GV and 6% at 3.0 TV for Na, and 1% at 2 GV, 1.5% at 100 GV and 5% at 3.0 TV for Al",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S59"
+    ],
+    "location": "Event selection",
+    "scope": {
+      "text": "Na and Al event selection, charge confusion and backgrounds",
+      "species": [
+        "Na",
+        "Al"
+      ],
+      "range": "2 GV to 3.0 TV as stated per number",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "Na and Al flux measurement"
+    },
+    "limitations": "Main article only; Supplemental Material (per-cut definitions, figures S1-S8, Tables SI-SVI) not read. Per-cut definitions are in the Supplemental Material.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C164",
+    "claim": "Na and Al bin-to-bin migration and small systematic errors: migration corrected by unfolding, with corrections (N_i - ℵ_i)/ℵ_i of +20% at 3 GV decreasing smoothly to +6% at 10 GV, -1% at 100 GV, -10% at 300 GV and -20% at 3.0 TV for Na and similar for Al; systematic error from trigger efficiency < 1% over the entire rigidity range; geomagnetic cutoff factor varied from 1.0 to 1.4 gives < 0.1% below 30 GV; total corrections to the effective acceptance from data-MC differences < 5% over the entire rigidity range; systematic errors from reconstruction and selection < 1% over the entire rigidity range",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S59"
+    ],
+    "location": "Data analysis",
+    "scope": {
+      "text": "Na and Al unfolding corrections and trigger, cutoff and acceptance systematics",
+      "species": [
+        "Na",
+        "Al"
+      ],
+      "range": "as stated per number, within 2.15 GV to 3.0 TV",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "Na and Al flux measurement"
+    },
+    "limitations": "Main article only; Supplemental Material (per-cut definitions, figures S1-S8, Tables SI-SVI) not read. Total systematic error budget per bin is not quoted in the text.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C165",
+    "claim": "Na and Al systematic errors from inelastic cross sections, rigidity resolution function and rigidity scale: inelastic cross-section error on both fluxes < 3.5% up to 100 GV, rising smoothly to 4% at 3.0 TV; rigidity resolution function error (Gaussian core widths varied by 5%, non-Gaussian tail amplitudes by 10%) is 3.5% at 2 GV, < 1% from 3 GV to 300 GV for both fluxes and increases smoothly to 5% for Na and 4% for Al at 3.0 TV; rigidity-scale error from tracker misalignment (E/p of 1/30 TV⁻¹) is < 0.4% up to 100 GV for both fluxes, increasing to 7% for Na and 6% for Al at 3.0 TV; magnetic-field-map error < 0.6% for both fluxes over the entire rigidity range; overall rigidity-scale error < 1% up to 200 GV, increasing smoothly to 7% for Na and 6% for Al at 3.0 TV",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S59"
+    ],
+    "location": "Data analysis",
+    "scope": {
+      "text": "Na and Al cross-section, resolution and rigidity-scale systematics",
+      "species": [
+        "Na",
+        "Al"
+      ],
+      "range": "as stated per number, up to 3.0 TV",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "Na and Al flux measurement"
+    },
+    "limitations": "Main article only; Supplemental Material (per-cut definitions, figures S1-S8, Tables SI-SVI) not read.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C166",
+    "claim": "Na and Al flux and spectral index versus rigidity: spectral index γ = d[log(Φ)]/d[log(R)] obtained in a model independent way over nonoverlapping rigidity intervals with boundaries 7.09, 12.0, 16.6, 28.8, 45.1, 80.5, 211.0 and 3000.0 GV; the paper states that below ~100 GV the Na flux and spectral index follow the N flux and spectral index and above ~100 GV the Al flux and spectral index follow the N flux and spectral index; the comparison N flux is the AMS N flux of Ref. [3] (Phys. Rep. 894), which the paper re-analysed over the same collection time as Na and Al (Ref. [3] note, p. 7), not an N measurement made in this Letter",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S59"
+    ],
+    "location": "Results; Fig. 1",
+    "scope": {
+      "text": "Na and Al flux spectral index compared with N (AMS N flux from Ref. [3])",
+      "species": [
+        "Na",
+        "Al",
+        "N"
+      ],
+      "range": "7.09 GV to 3000.0 GV (spectral index intervals)",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "Na and Al spectral index"
+    },
+    "limitations": "Main article only; Supplemental Material (per-cut definitions, figures S1-S8, Tables SI-SVI) not read. Index values and flux shapes are shown only in figures and were not read from them.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C167",
+    "claim": "Na and Al as primary plus secondary components: fitting Φ_Na and Φ_Al above 6 GV to the weighted sum of the silicon flux Φ_Si and the fluorine flux Φ_F gives Φ_Na^P = (0.036 ± 0.003) × Φ_Si and Φ_Na^S = (1.36 ± 0.04) × Φ_F with χ²/DOF = 19/36, and Φ_Al^P = (0.103 ± 0.004) × Φ_Si and Φ_Al^S = (1.04 ± 0.03) × Φ_F with χ²/DOF = 24/36; the primary fractions at 6 GV, 100 GV and 2 TV are 17 ± 2, 35 ± 2 and 62 ± 12 (%) for Na, 43 ± 1, 67 ± 1 and 78 ± 8 (%) for Al, and, for comparison, 31 ± 1, 56 ± 1 and 77 ± 3 (%) for N, with N primary (0.092 ± 0.002) × Φ_O and secondary (0.61 ± 0.02) × Φ_B, which Table I attributes to Ref. [3] (AMS Phys. Rep. 894, 2021); these N values are not a new result of this Letter; the Na/Si and Al/Si abundance ratios at the source are 0.036 ± 0.003 and 0.103 ± 0.004, determined without considering Galactic propagation, and the paper states that propagation effects on them are negligible",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S59"
+    ],
+    "location": "Results; Fig. 3; Table I; Conclusions",
+    "scope": {
+      "text": "Na and Al primary and secondary component fits and source abundance ratios; N is the comparison entry from Ref. [3]",
+      "species": [
+        "Na",
+        "Al",
+        "N"
+      ],
+      "range": "fit above 6 GV; primary fractions at 6 GV, 100 GV and 2 TV",
+      "data_period": "2011-05-19 to 2019-10-30",
+      "analysis": "Na and Al primary-plus-secondary fit"
+    },
+    "limitations": "Main article only; Supplemental Material (per-cut definitions, figures S1-S8, Tables SI-SVI) not read. Propagation-model details for the source abundance ratios are in the Supplemental Material; the fit result is a description of the measured fluxes, interpretation as source abundances is the paper's own statement. Φ_Si and Φ_F used in the fits are the AMS Si [6] and F [7] fluxes, taken over the same collection time as Na and Al (Ref. [3] note, p. 7).",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C168",
+    "claim": "Sulfur flux measurement: rigidity range 2.15 GV to 3.0 TV, based on 0.38 × 10^6 sulfur nuclei collected by AMS during the first ten years (May 19, 2011 to May 6, 2021) of operation aboard the ISS; in the first ten years AMS collected 1.8 × 10^11 cosmic-ray events; the flux was measured in 48 bins from 2.15 GV to 3.0 TV, with bin widths chosen according to the rigidity resolution and available statistics; the total flux error at 100 GV is 5%; the paper states there are no previous measurements of the S flux in rigidity",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S60"
+    ],
+    "location": "Abstract; Introduction; Event selection; Data analysis",
+    "scope": {
+      "text": "S flux, data sample and binning",
+      "species": [
+        "S"
+      ],
+      "range": "2.15 GV to 3.0 TV",
+      "data_period": "2011-05-19 to 2021-05-06",
+      "analysis": "sulfur flux, ten-year sample"
+    },
+    "limitations": "Sample size is after background subtraction. The 5% total error is quoted at 100 GV only. The 'no previous measurements in rigidity' statement is the paper's own (earlier measurements were in kinetic energy per nucleon).",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C169",
+    "claim": "Sulfur event selection and backgrounds: events are required to be downward going and to have a reconstructed track in the inner tracker that passes through L1; for R ≥ 1.2 TV the track is also required to pass through L9; charge confusion from non-interacted nuclei due to finite charge resolution is < 0.1% over the entire rigidity range; the main background is from interactions of heavier nuclei such as Cl, Ar, Ca and Fe in the AMS materials above tracker L2; the background from interactions between L1 and L2 (transition radiation detector and upper TOF) is evaluated by fitting the charge distribution of tracker L1 with charge distribution templates of S, Cl, and Ar; after the cut on the L1 charge, the residual background is < 0.6% over the entire rigidity range; the background from interactions above L1 (thin support structures made by carbon fiber and aluminum honeycomb) has been estimated from simulation using MC samples generated according to AMS flux measurements and is < 3% over the entire rigidity range",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S60"
+    ],
+    "location": "Event selection",
+    "scope": {
+      "text": "S event selection, charge confusion and backgrounds",
+      "species": [
+        "S"
+      ],
+      "range": "2.15 GV to 3.0 TV; L9 requirement for R ≥ 1.2 TV",
+      "data_period": "2011-05-19 to 2021-05-06",
+      "analysis": "sulfur flux, selection and background"
+    },
+    "limitations": "Detailed event-selection cuts are in the Supplemental Material (not read). Charge-method detail (tracker L1 charge cut definition) is not given in the main text beyond the statements quoted.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C170",
+    "claim": "Bin-to-bin migration of S events was corrected with the unfolding procedure of Ref. [28]; the corrections (Ni − ℵi)/ℵi are +24% at 3 GV, changing smoothly to +8% at 10 GV, +1% at 100 GV, −8% at 300 GV and −5% at 3.0 TV; the rigidity resolution function has a Gaussian core of width σ with non-Gaussian tails more than 2.5σ from the center, and the flux systematic error from it, obtained by varying the core width by 5% and the tail amplitudes by 10%, is 5% at 2 GV, < 1% from 3 to 300 GV and rises smoothly to 3% at 3.0 TV",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S60"
+    ],
+    "location": "Data analysis",
+    "scope": {
+      "text": "S flux, unfolding corrections and resolution-function systematic",
+      "species": [
+        "S"
+      ],
+      "range": "2 GV to 3.0 TV (as listed)",
+      "data_period": "2011-05-19 to 2021-05-06",
+      "analysis": "sulfur flux, unfolding"
+    },
+    "limitations": "Only the quoted rigidity points are given in the main text; do not interpolate between them as published values.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C171",
+    "claim": "Sulfur flux systematic errors quoted in the text: background subtraction < 0.5% over the entire rigidity range; trigger efficiency < 1% over the entire rigidity range; geomagnetic cutoff factor varied from 1.0 to 1.4 gives < 0.1% below 30 GV; data-to-MC acceptance corrections < 5% and the associated reconstruction and selection systematic < 3% over the entire rigidity range; inelastic cross-section uncertainty < 4% up to 100 GV; overall S flux systematic error < 4% up to 100 GV, rising smoothly to 6% at 3.0 TV; rigidity-scale systematic from tracker misalignment 1/34 TV−1 (from the E/p comparison of electrons and positrons), with the overall flux error from the rigidity scale < 1% up to 300 GV and rising smoothly to 5.5% at 3 TV; several independent analyses on the same data sample by different groups were consistent with the Letter",
+    "claim_types": [
+      "performance_number",
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S60"
+    ],
+    "location": "Data analysis",
+    "scope": {
+      "text": "S flux systematic uncertainties",
+      "species": [
+        "S"
+      ],
+      "range": "2.15 GV to 3.0 TV (each item as quoted)",
+      "data_period": "2011-05-19 to 2021-05-06",
+      "analysis": "sulfur flux, systematic errors"
+    },
+    "limitations": "Each number applies only to the source named in the claim and the rigidity range stated; the combination of errors in the total is not given in the main text beyond the overall figures quoted. The statistical error is not quoted in the text (it is in Table SI of the Supplemental Material, not read).",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C172",
+    "claim": "Rigidity dependence of S compared with Ne, Mg, Si and O: the S/Ne, S/Mg and S/Si flux ratios fitted above 5.9 GV with a smooth break function (Eq. 2) give k(S/Ne) = 0.194 ± 0.004, R0 = 77 ± 37 GV, Δ = 0.022 ± 0.008 (χ2/d.o.f. = 22/35); k(S/Mg) = 0.161 ± 0.004, R0 = 99 ± 47 GV, Δ = 0.015 ± 0.006 (20/35); k(S/Si) = 0.181 ± 0.005, R0 = 87 ± 18 GV, Δ = −0.046 ± 0.006 (20/35); the significance of the break around 90 GV, from χ2 of Eq. (2) fits versus fits with R0 fixed to 3 TV, is 2.35σ for S/Ne, 1.30σ for S/Mg and 2.95σ for S/Si; the paper concludes that the four fluxes have an identical rigidity dependence above R0 ~ 90 GV and that S belongs to the Ne-Mg-Si class; fitting S/O with Eq. (3) (break fixed at 86.5 GV), similar to Eq. (4) of Ref. [2], above 20 GV gives δ = −0.05 ± 0.02, compared with the average ⟨δ⟩ = −0.045 ± 0.008 of Ne/O, Mg/O and Si/O previously published by AMS in Ref. [2] (not a result of this Letter), and fitting above 5.9 GV the S/Ne, S/Mg and S/Si flux ratios with Eq. (3) gives δ = −0.008 ± 0.019, 0.006 ± 0.019 and −0.011 ± 0.020, all described as compatible with zero",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S60"
+    ],
+    "location": "Results; Figs. 3 and S7-S8",
+    "scope": {
+      "text": "S/Ne, S/Mg, S/Si, S/O flux-ratio fits",
+      "species": [
+        "S",
+        "Ne",
+        "Mg",
+        "Si",
+        "O"
+      ],
+      "range": "S/Ne, S/Mg, S/Si fits above 5.9 GV; S/O Eq. (3) fit above 20 GV",
+      "data_period": "2011-05-19 to 2021-05-06",
+      "analysis": "sulfur flux, ratio fits to Ne, Mg, Si and O"
+    },
+    "limitations": "Fit functions are empirical descriptions, not a proof of mechanism. S/Mg break significance is only 1.30σ (paper's number); the paper's ~90 GV conclusion is drawn from all three ratios. The ⟨δ⟩ = −0.045 ± 0.008 comparison value is from Ref. [2], not this Letter. Ne, Mg, Si, O fluxes used in the ratios are the ten-year values rebinned in the S bins (Tables SII-SVI of the Supplemental Material, not read).",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C173",
+    "claim": "Primary and secondary components (fits over the entire rigidity range to a weighted sum of a primary and a secondary flux): Φ_Ne = (0.833 ± 0.025) × Φ_Si + (2.07 ± 0.14) × Φ_F with χ2/d.o.f. = 26/47; Φ_Mg = (0.994 ± 0.029) × Φ_Si + (2.59 ± 0.19) × Φ_F with 22/47; Φ_S = (0.167 ± 0.006) × Φ_Si + (0.28 ± 0.05) × Φ_F with 23/47; Φ_C = (0.836 ± 0.025) × Φ_O + (0.67 ± 0.02) × Φ_B with 30/65; the abstract gives these primary coefficients as the source abundance ratios S/Si = 0.167 ± 0.006, Ne/Si = 0.833 ± 0.025, Mg/Si = 0.994 ± 0.029, C/O = 0.836 ± 0.025, stated to be determined independent of cosmic-ray propagation; Table I primary fractions at 6 GV, 100 GV and 2 TV: C 80 ± 1, 91 ± 0.5, 96 ± 0.5 %; Ne 76 ± 1, 89 ± 1, 95 ± 0.5 %; Mg 75 ± 1, 89 ± 1, 95 ± 0.5 %; S 82 ± 3, 91 ± 1, 97 ± 1 %; for odd-Z elements Table I gives N 31 ± 1, 56 ± 1, 77 ± 3 %, Na 17 ± 2, 35 ± 2, 62 ± 12 %, Al 43 ± 1, 67 ± 1, 78 ± 8 % (N, Na, Al from Ref. [36]); the paper states the primary component is above 70% for all four fluxes (Ne, Mg, S, C) over the entire rigidity range and that above ~4 GV the secondary contributions decrease with rigidity",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S60"
+    ],
+    "location": "Results; Table I; Fig. 4",
+    "scope": {
+      "text": "primary and secondary components of C, Ne, Mg, S fluxes; N, Na, Al primary fractions from Ref. [36], earlier AMS result",
+      "species": [
+        "C",
+        "Ne",
+        "Mg",
+        "S",
+        "Si",
+        "O",
+        "F",
+        "B",
+        "N",
+        "Na",
+        "Al"
+      ],
+      "range": "entire measured rigidity range; Table I at 6 GV, 100 GV, 2 TV",
+      "data_period": "2011-05-19 to 2021-05-06",
+      "analysis": "C, Ne, Mg, S flux decomposition"
+    },
+    "limitations": "The decomposition assumes Si (or O) as characteristic primary and F (or B) as characteristic secondary flux; the source-abundance interpretation of the primary coefficients is the paper's own statement, and the fit is a description, not a proof of mechanism. The Si and F fluxes used for Ne, Mg and S are ten-year values rebinned in the S bins (Tables SV, SVI of SM). The C, O and B fluxes used for the C decomposition are the ten-year values in Tables SVII-SIX of SM, which are not stated to be in the S bins (C fit has 65 d.o.f.). SM tables not read. The N, Na and Al primary fractions are from Ref. [36], an earlier AMS result, not this Letter.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C174",
+    "claim": "Spectral index of S compared with Ne, Mg, Si: the index γ = d[log(Φ)]/d[log(R)] was obtained model-independently over nonoverlapping rigidity intervals bounded by 5.9, 11.0, 16.6, 28.8, 45.1, 80.5, 211.0 and 3000.0 GV (results in Fig. S6 of the Supplemental Material, not read); in the range 5.9 to 80.5 GV the Ne, Mg and S spectral indices are all lower than the Si spectral index, and the spectral indices of the four elements are identical above ~80 GV; the paper also states that the S, Ne and Mg fluxes have very similar rigidity dependences but differ from the Si flux at low rigidities, and that C and O have identical rigidity dependences at high rigidities but differ at low rigidities",
+    "claim_types": [
+      "published_result"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S60"
+    ],
+    "location": "Results; Fig. 1; Fig. S6",
+    "scope": {
+      "text": "S, Ne, Mg, Si spectral indices",
+      "species": [
+        "S",
+        "Ne",
+        "Mg",
+        "Si",
+        "C",
+        "O"
+      ],
+      "range": "5.9 GV to 3000.0 GV (interval edges as listed)",
+      "data_period": "2011-05-19 to 2021-05-06",
+      "analysis": "sulfur flux, spectral index comparison"
+    },
+    "limitations": "Index values themselves are in Fig. S6 (Supplemental Material, not read) and are not quoted here; only the paper's qualitative ordering statement is recorded.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
   }
 ]

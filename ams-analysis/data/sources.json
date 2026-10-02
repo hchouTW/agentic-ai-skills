@@ -587,7 +587,7 @@
     "supersedes": [],
     "superseded_by": [],
     "supersession_note": null,
-    "notes": "One record row grouping several PRLs; only an example DOI was recorded originally. PRL 134, 051001 now has its own record S47 (read at main-article and Supplemental Material text level). Decision 2026-10-01: this row is a grouped pointer to the individual nuclei PRLs (S47 where split out) for navigation only; cite the individual record for any claim, not S20, and it stays metadata-only.",
+    "notes": "One record row grouping several PRLs; only an example DOI was recorded originally. PRL 134, 051001 now has its own record S47 (read at main-article and Supplemental Material text level). Decision 2026-10-01: this row is a grouped pointer to the individual nuclei PRLs (S47 where split out) for navigation only; cite the individual record for any claim, not S20, and it stays metadata-only. 2026-10-02: seven of the grouped PRLs now have their own records, read at main-article level: Li, Be, B S54 (PRL 120, 021101); N S55 (121, 051103); Ne, Mg, Si S56 (124, 211102); Fe S57 (126, 041104); F S58 (126, 081102); new group incl. Na and Al S59 (127, 021101); S and primary composition S60 (130, 211002).",
     "verification_limitations": "Metadata-only; treat titles as navigation."
   },
   {
@@ -1504,5 +1504,222 @@
     "verification_note": "abstract and metadata read from the INSPIRE-HEP record 1686996 (and the duplicate title record 1686182)",
     "access_date": "2026-10-02",
     "verification_limitations": "Abstract only; the database may have changed since 2017."
+  },
+  {
+    "id": "S54",
+    "title": "Observation of New Properties of Secondary Cosmic Rays Lithium, Beryllium, and Boron by the Alpha Magnetic Spectrometer on the International Space Station, PRL 120, 021101",
+    "authors": "AMS",
+    "year": 2018,
+    "year_text": "2018",
+    "dois": [
+      "10.1103/PhysRevLett.120.021101"
+    ],
+    "url": null,
+    "locator_text": "10.1103/PhysRevLett.120.021101",
+    "inspire_record_id": null,
+    "arxiv_ids": [],
+    "tier": 1,
+    "tier_range": null,
+    "tier_text": "1",
+    "verification_level": "full-text",
+    "verification_note": "main article only",
+    "access_date": "2026-10-02",
+    "publication_date": "2018-01-11",
+    "data_taking_period": {
+      "start": "2011-05-19",
+      "end": "2016-05-26",
+      "note": "from the main text (first 5 y of operation)"
+    },
+    "supersedes": [],
+    "superseded_by": [],
+    "supersession_note": null,
+    "notes": null,
+    "verification_limitations": "Main article (publisher PDF) read with pdftotext; figures were not interpreted. The Supplemental Material files (libeb-SM-3300-REV.pdf, in the cache directory supp/10.1103_PhysRevLett.120.021101) were not read, so the flux and ratio tables (Tables I-XI), the supplemental figures cited in the text (charge distributions, templates, survival probabilities, resolution checks) and the per-bin errors are missing."
+  },
+  {
+    "id": "S55",
+    "title": "Precision Measurement of Cosmic-Ray Nitrogen and its Primary and Secondary Components with the Alpha Magnetic Spectrometer on the International Space Station, PRL 121, 051103",
+    "authors": "AMS",
+    "year": 2018,
+    "year_text": "2018",
+    "dois": [
+      "10.1103/PhysRevLett.121.051103"
+    ],
+    "url": null,
+    "locator_text": "10.1103/PhysRevLett.121.051103",
+    "inspire_record_id": null,
+    "arxiv_ids": [],
+    "tier": 1,
+    "tier_range": null,
+    "tier_text": "1",
+    "verification_level": "full-text",
+    "verification_note": "main article only",
+    "access_date": "2026-10-02",
+    "publication_date": "2018-07-31",
+    "data_taking_period": {
+      "start": "2011-05-19",
+      "end": "2016-05-26",
+      "note": "from the main article (first five years of operation)"
+    },
+    "supersedes": [],
+    "superseded_by": [],
+    "supersession_note": null,
+    "notes": null,
+    "verification_limitations": "Main article (publisher PDF) read with pdftotext on 2026-10-02. The Supplemental Material file (SM-N-REV.pdf: figures, Tables I-III with the flux, N/O and N/B values, data-analysis details) was not read; the tabulated flux and ratio values, the supplemental figures and all figures of the main article were not interpreted."
+  },
+  {
+    "id": "S56",
+    "title": "Properties of Neon, Magnesium, and Silicon Primary Cosmic Rays Results from the Alpha Magnetic Spectrometer, PRL 124, 211102",
+    "authors": "AMS",
+    "year": 2020,
+    "year_text": "2020",
+    "dois": [
+      "10.1103/PhysRevLett.124.211102"
+    ],
+    "url": null,
+    "locator_text": "10.1103/PhysRevLett.124.211102",
+    "inspire_record_id": null,
+    "arxiv_ids": [],
+    "tier": 1,
+    "tier_range": null,
+    "tier_text": "1",
+    "verification_level": "full-text",
+    "verification_note": "main article only",
+    "access_date": "2026-10-02",
+    "publication_date": "2020-05-29",
+    "data_taking_period": {
+      "start": "2011-05-19",
+      "end": "2018-05-26",
+      "note": "first 7 years of operation, from the main text (May 19, 2011 to May 26, 2018)"
+    },
+    "supersedes": [],
+    "superseded_by": [],
+    "supersession_note": null,
+    "notes": null,
+    "verification_limitations": "Main article (publisher PDF) read with pdftotext on 2026-10-02. The Supplemental Material file SM-NeMgSi-REV.pdf (Figs. S1-S4, Tables SI-SVIII, fit parameters for Eq. (5)) was not read, so the flux tables, ratio tables, per-cut definitions and the Eq. (5) fit results are not covered; figures were not interpreted."
+  },
+  {
+    "id": "S57",
+    "title": "Properties of Iron Primary Cosmic Rays: Results from the Alpha Magnetic Spectrometer, PRL 126, 041104",
+    "authors": "AMS",
+    "year": 2021,
+    "year_text": "2021",
+    "dois": [
+      "10.1103/PhysRevLett.126.041104"
+    ],
+    "url": null,
+    "locator_text": "10.1103/PhysRevLett.126.041104",
+    "inspire_record_id": null,
+    "arxiv_ids": [],
+    "tier": 1,
+    "tier_range": null,
+    "tier_text": "1",
+    "verification_level": "full-text",
+    "verification_note": "main article only",
+    "access_date": "2026-10-02",
+    "publication_date": "2021-01-28",
+    "data_taking_period": {
+      "start": "2011-05-19",
+      "end": "2019-10-30",
+      "note": "from the main text (first 8.5 years)"
+    },
+    "supersedes": [],
+    "superseded_by": [],
+    "supersession_note": null,
+    "notes": null,
+    "verification_limitations": "Main article read with pdftotext; Supplemental Material file SM-Fe-Rev3.pdf was not read (Figs. S2-S9, Tables SI, SII, SA, per-cut event-selection details, smearing matrices and the leaky-box discussion are therefore unchecked); figures were not interpreted."
+  },
+  {
+    "id": "S58",
+    "title": "Properties of Heavy Secondary Fluorine Cosmic Rays: Results from the Alpha Magnetic Spectrometer, PRL 126, 081102",
+    "authors": "AMS",
+    "year": 2021,
+    "year_text": "2021",
+    "dois": [
+      "10.1103/PhysRevLett.126.081102"
+    ],
+    "url": null,
+    "locator_text": "10.1103/PhysRevLett.126.081102",
+    "inspire_record_id": null,
+    "arxiv_ids": [],
+    "tier": 1,
+    "tier_range": null,
+    "tier_text": "1",
+    "verification_level": "full-text",
+    "verification_note": "main article only",
+    "access_date": "2026-10-02",
+    "publication_date": "2021-02-25",
+    "data_taking_period": {
+      "start": "2011-05-19",
+      "end": "2019-10-30",
+      "note": "first 8.5 years, from the main text"
+    },
+    "supersedes": [],
+    "superseded_by": [],
+    "supersession_note": null,
+    "notes": null,
+    "verification_limitations": "Main article (publisher PDF) read with pdftotext on 2026-10-02. The Supplemental Material file SM-F-REV.pdf (Table SI-SIII, Figs. S1-S8, detector, selection and simulation details) was not read; figures were not interpreted."
+  },
+  {
+    "id": "S59",
+    "title": "Properties of a New Group of Cosmic Nuclei: Results from the Alpha Magnetic Spectrometer on Sodium, Aluminum, and Nitrogen, PRL 127, 021101",
+    "authors": "AMS",
+    "year": 2021,
+    "year_text": "2021",
+    "dois": [
+      "10.1103/PhysRevLett.127.021101"
+    ],
+    "url": null,
+    "locator_text": "10.1103/PhysRevLett.127.021101",
+    "inspire_record_id": null,
+    "arxiv_ids": [],
+    "tier": 1,
+    "tier_range": null,
+    "tier_text": "1",
+    "verification_level": "full-text",
+    "verification_note": "main article only",
+    "access_date": "2026-10-02",
+    "publication_date": "2021-07-07",
+    "data_taking_period": {
+      "start": "2011-05-19",
+      "end": "2019-10-30",
+      "note": "from the abstract/introduction (first 8.5 years); claim NEW1"
+    },
+    "supersedes": [],
+    "superseded_by": [],
+    "supersession_note": null,
+    "notes": "Na and Al fluxes; N flux taken from earlier AMS papers [2,3].",
+    "verification_limitations": "Main article (pdftotext) read; the Supplemental Material file (SM-NaAl-REV.pdf: Figs. S1-S8, Tables SI-SVI, per-cut event selection, propagation-model study) was not read; figures were not interpreted."
+  },
+  {
+    "id": "S60",
+    "title": "Properties of Cosmic-Ray Sulfur and Determination of the Composition of Primary Cosmic-Ray Carbon, Neon, Magnesium, and Sulfur: Ten-Year Results from the Alpha Magnetic Spectrometer, PRL 130, 211002",
+    "authors": "AMS",
+    "year": 2023,
+    "year_text": "2023",
+    "dois": [
+      "10.1103/PhysRevLett.130.211002"
+    ],
+    "url": null,
+    "locator_text": "10.1103/PhysRevLett.130.211002",
+    "inspire_record_id": null,
+    "arxiv_ids": [],
+    "tier": 1,
+    "tier_range": null,
+    "tier_text": "1",
+    "verification_level": "full-text",
+    "verification_note": "main article only",
+    "access_date": "2026-10-02",
+    "publication_date": "2023-05-25",
+    "data_taking_period": {
+      "start": "2011-05-19",
+      "end": "2021-05-06",
+      "note": "first ten years of operation, from the main text"
+    },
+    "supersedes": [],
+    "superseded_by": [],
+    "supersession_note": null,
+    "notes": "Publisher PDF; title taken from the PDF. Letter also reports the ten-year O, Ne, Mg, Si and F fluxes rebinned in the S rigidity bins (Tables SII-SVI of SM), and the ten-year C, O and B fluxes (Tables SVII, SVIII, SIX of SM; these are not stated to be in the S bins). Source abundance ratios are in Table SX of SM.",
+    "verification_limitations": "Main article only, read with pdftotext on 2026-10-02. The Supplemental Material (file SM-S-p1.pdf in the local cache, containing Figs. S1-S9 and Tables SI-SIX, event-selection details, trigger, MC and geomagnetic-cutoff information) was not read; the flux tables, the Fig. S6 spectral indices and per-cut definitions are therefore not checked. Figures were not interpreted. Table SX of the Supplemental Material (source abundance ratios) was also not read."
   }
 ]
