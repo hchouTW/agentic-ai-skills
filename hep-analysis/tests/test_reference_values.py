@@ -174,6 +174,34 @@ class SkillRunBeforeDeliverTest(unittest.TestCase):
         self.assertLess(text.index('Run any code you deliver'), text.index('## API selection'))
 
 
+class SkillUnitsAndScriptRulesTest(unittest.TestCase):
+    """P01 and P08 rules: the fb^-1 x pb factor, and running the flux script rather than dividing."""
+
+    def setUp(self):
+        self.text = (ROOT / 'SKILL.md').read_text()
+
+    def test_normalization_row_states_the_unit_factor(self):
+        self.assertIn('`lumi_fb * 1000 * xsec_pb / sumw`', self.text)
+        self.assertIn('reads `genEventSumw` from `Runs`', self.text)
+
+    def test_flux_row_asks_to_run_the_script_and_quote_its_output(self):
+        for needle in ('quote its `flux`, `flux_lower` and `flux_upper`', 'do not divide by hand'):
+            self.assertIn(needle, self.text)
+
+    def test_procedure_asks_to_run_bundled_scripts(self):
+        self.assertIn('run it and quote its output instead of computing by hand', self.text)
+
+    def test_unit_factor_is_right(self):
+        # 138 fb^-1 x 833.9 pb = 138e3 pb^-1 x 833.9 pb
+        self.assertAlmostEqual(138.0 * 1000 * 833.9, 138e3 * 833.9, places=6)
+
+    def test_flux_script_gives_the_documented_numbers(self):
+        r = flux_from_counts(3, exposure=1.8e7, bin_width=0.6)
+        self.assertAlmostEqual(r['flux'], 2.7778e-7, delta=1e-10)
+        self.assertAlmostEqual(r['flux_lower'], 1.2660e-7, delta=1e-10)
+        self.assertAlmostEqual(r['flux_upper'], 5.4799e-7, delta=1e-10)
+
+
 class SkillAwkwardLeadingObjectTest(unittest.TestCase):
     """SKILL.md must carry the leading-object rule that Haiku (which skips references) needs."""
 
