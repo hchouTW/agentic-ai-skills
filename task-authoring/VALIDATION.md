@@ -1,6 +1,6 @@
 # Package Validation Record
 
-Validation date: 2026-09-12 (latest pass: round 3j, 2026-10-02). Helper test environment: Python 3, standard library only.
+Validation date: 2026-09-12 (latest pass: round 3k, 2026-10-02). Helper test environment: Python 3, standard library only.
 
 ## Initial build (2026-09-12)
 
@@ -373,3 +373,16 @@ Run: skill arm, hand read, not scored, not blind. Haiku T2, T3, T8, T12, T14 x 3
 Sonnet: T14 states `invoice()`, `query` and `created_at` as Confirmed with the file evidence and asks no existence question (2 of 2); T2 and T12 keep the Round 3i behavior (2 of 2 each). No over-hedging found.
 
 Result: partial and directional. Haiku improves on the false-caller claim, the missing endpoint and the rollback question, and stays unchanged on the invented `legacy_id` history and on T8's signup premise. One benign over-hedge in 3 Haiku runs, none in Sonnet. Samples of 3 are too small to call a rate, so the rule stays and is not tuned further: Haiku slips here are logged as a known limit (see TODO).
+
+## Round 3k: description trim with both trigger sets rerun, reverted (2026-10-02)
+
+Candidate: 925 characters (was 1017). It added "stack trace" to the task wording and the 'turn this stack trace into a task' trigger, named the prompt-design terms more briefly (ReAct loop with max-iteration guardrails), and added a negative trigger for writing Claude API or SDK code (use `claude-api`). Harness: `hep-analysis/tests/routing_eval.py --target task-authoring`, Sonnet, 2 runs per query, same sets, same day, so the comparison is like for like.
+
+| Set | Current description (baseline) | Candidate |
+|---|---|---|
+| `trigger_queries.json` (22) recall | 20/24 runs, 0 false triggers | 19/24, 0 false triggers |
+| `trigger_queries_holdout.json` (16) recall | 12/16, 0 false triggers | 12/16, 0 false triggers |
+
+The misses did not move. Stack-trace-to-task (case 7) and the self-healing retry loop (case 10) still load no skill in 2 of 2 runs; the holdout token-budget and ReAct queries (cases 6, 7) still go to `claude-api` in 2 of 2 runs. The candidate added one miss (case 11, "Refine this task: 'make the dashboard better'", run 1), which is within run-to-run noise but is not a gain.
+
+Decision: reverted, the current description stays. Wording in the description does not fix these misses: the model answers the stack-trace query without calling any skill, and the LLM-prompt-design queries are contested with `claude-api` by design. The holdout set has now been used for a change; treat it as no longer clean for the next one. Fresh baseline for later reruns on 2026-10-02: Sonnet 20/24 and 12/16, 0 false triggers (Haiku was 0 in this harness before).

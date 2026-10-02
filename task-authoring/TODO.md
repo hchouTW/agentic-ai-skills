@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (task-authoring)
 
-State (2026-10-02, branch `ta-incident-rule` (Round 3i hand read recorded) on top of `main` 20a9426; nothing pushed). Round 3j added the premise-as-fact rule (Haiku partial, Sonnet clean, 1 of 3 Haiku over-hedges on benign T14); Round 3h added the illustrative-incident rule: T13(e) now P/~/P on Haiku and 3 P on Sonnet (3 runs, skill arm, not blind): `python3 scripts/validate_skill_bundle.py` OK (30 files, 12-section template contract); `python3 -m unittest discover -s tests` 104 tests OK; description 1017 of 1024 characters. Latest behavior eval is Round 3g in `VALIDATION.md` (T1-T13, Haiku and Sonnet, baseline vs skill, 2 runs each, 108 bullet verdicts per cell): Haiku skill 67 P / 36 ~ / 5 F against baseline 18 / 25 / 65; Sonnet skill 99 / 9 / 0 against 57 / 23 / 28. The blind scorer named the arm in 102 of 104 runs (the 12-section template gives it away), so the gap is overstated. Not yet tested: Opus, and the three newest example tasks (migration, agentic-loop, data-ml) that nobody has implemented. Read `VALIDATION.md` (Round 3g, then 3e) first, then this file.
+State (2026-10-02, branch `ta-incident-rule` (Round 3i hand read recorded) on top of `main` 20a9426; nothing pushed). Round 3k: description trim tried and reverted (no gain). Round 3j added the premise-as-fact rule (Haiku partial, Sonnet clean, 1 of 3 Haiku over-hedges on benign T14); Round 3h added the illustrative-incident rule: T13(e) now P/~/P on Haiku and 3 P on Sonnet (3 runs, skill arm, not blind): `python3 scripts/validate_skill_bundle.py` OK (30 files, 12-section template contract); `python3 -m unittest discover -s tests` 104 tests OK; description 1017 of 1024 characters. Latest behavior eval is Round 3g in `VALIDATION.md` (T1-T13, Haiku and Sonnet, baseline vs skill, 2 runs each, 108 bullet verdicts per cell): Haiku skill 67 P / 36 ~ / 5 F against baseline 18 / 25 / 65; Sonnet skill 99 / 9 / 0 against 57 / 23 / 28. The blind scorer named the arm in 102 of 104 runs (the 12-section template gives it away), so the gap is overstated. Not yet tested: Opus, and the three newest example tasks (migration, agentic-loop, data-ml) that nobody has implemented. Read `VALIDATION.md` (Round 3g, then 3e) first, then this file.
 
 Working rules:
 - Work on a branch in a worktree (`git worktree add .worktrees/<name> origin/main`); the main checkout is shared with other Claude sessions that switch branches under you. Check `git branch --show-current` before every commit. Ask before pushing or merging.
@@ -13,7 +13,7 @@ Working rules:
 Tooling to reuse instead of hand-run subagents:
 - Behavior eval: `tests/behavior_eval.py` (run / score / report; usage in its docstring) with `tests/prompts.md` (T1-T14, rubric bullets per prompt; T14 is a benign prompt whose premise is true) and `tests/fixtures/shop_repo`. Run it with `--runs 2` or more per arm. Keep `--max-turns` high; a scorer sometimes returns no JSON, so rescore with `--only`; a usage-limit notice comes back as an ordinary result, so check for it. Do not wait for a run with `pgrep -f` inside the same shell command: the pattern matches the waiting shell itself and never ends.
 - Generated-task linter: `scripts/lint_task.py TASK.md --repo ROOT`. It checks the section contract, placeholders, cited paths and loop limits. It cannot see an invented fact that is not a path.
-- Trigger tests: `../hep-analysis/tests/routing_eval.py --target task-authoring` (isolated `claude -p` with the 7 repo skills). Sets: `tests/trigger_queries.json` (22) and `tests/trigger_queries_holdout.json` (16). Sonnet recall 22/24 and 13/16, Haiku 0 in this harness (also 0 with the old description), 0 false triggers. These numbers date from 2026-10-01 and predate later description changes in ams-analysis and hep-analysis; rerun both sets with the next change to this description. The holdout is clean for one more change.
+- Trigger tests: `../hep-analysis/tests/routing_eval.py --target task-authoring` (isolated `claude -p` with the 7 repo skills). Sets: `tests/trigger_queries.json` (22) and `tests/trigger_queries_holdout.json` (16). Sonnet recall 20/24 and 12/16 (rerun 2026-10-02, 0 false triggers); Haiku 0 in this harness. Round 3k tried a trimmed description with a stack-trace trigger and a `claude-api` negative trigger: no gain (19/24, 12/16), reverted. Stack-trace-to-task and self-healing-loop queries load no skill, and token-budget and ReAct queries go to `claude-api`; description wording did not move either. The holdout has been used for a change, so it is no longer clean; rerun both sets with the next description change.
 
 ## Decisions
 
@@ -23,8 +23,7 @@ Tooling to reuse instead of hand-run subagents:
 
 ## Next, in this order
 
-1. **Description trim with both trigger sets rerun.** Shorten the description and use the room for negative triggers; stack-trace-to-task queries load no skill on Sonnet, and prompt-design queries (token budget, ReAct loop) often go to `claude-api`. Run both sets, then each affected sibling's validator and tests. The boundary with `agile-development` was added to both descriptions in ea98f0d.
-2. **Opus runs** (T1-T14, 2 runs per arm), if wanted.
+1. **Opus runs** (T1-T14, 2 runs per arm), if wanted.
 
 ## Known Haiku limits (do not over-tune)
 
