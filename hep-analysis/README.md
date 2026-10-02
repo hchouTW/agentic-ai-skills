@@ -65,6 +65,7 @@ python3 scripts/orbit_averaged_geomagnetic_cutoff.py --inclination 51.6 --altitu
 python3 scripts/solar_modulation_force_field.py --modulate --energy 1.0 --mass 0.938272 --charge 1 --phi 0.5 --lis-normalization 1e4 --lis-index 2.7
 python3 scripts/particle_ratio_with_uncertainty.py --n1 1200 --sigma1 40 --n2 85000 --sigma2 300
 python3 scripts/cosmic_ray_flux.py --counts 42 --exposure 1.5e7 --bin-width 10
+python3 scripts/make_synthetic_nanoaod.py --out /tmp/sample.root --events 400 --seed 1
 bash scripts/check_root_cpp_env.sh
 ```
 

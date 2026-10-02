@@ -1,10 +1,70 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, full Haiku rerun after the P08 wording (latest pass; P08 run-the-script wording the same day; full Haiku rerun after PR #101 the same day; P03 per-cut check line the same day; full Haiku rerun after PR #99 the same day; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, P02 synthetic sample generator (latest pass; no-data prompt experiment, not adopted, the same day; full Haiku rerun after the P08 wording the same day; P08 run-the-script wording the same day; full Haiku rerun after PR #101 the same day; P03 per-cut check line the same day; full Haiku rerun after PR #99 the same day; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
-Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 214 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+Current counts: bundle 121 required files (plus 40 eval cases in `evals/`); 222 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## P02 turn limit: a known-good synthetic sample generator (2026-10-02, branch `hep-analysis-nodata`)
+
+- Problem ("New finding" of the no-data experiment): about 1 of 8 to 2 of 8 P02 runs ended by
+  `error_max_turns` even with the three-fix cap (3 of 24 across the day). The recorded Bash commands show
+  where the turns go: the three turn-limit runs were not failing at the analysis. They reran
+  `make_test_data.py` / `make_synthetic_jets.py` four to five times and called `help(uproot...)` and
+  `dir(uproot.writing)` to learn how to write a jagged TTree, and one fought `uproot.writing.to_TH1x` to write the
+  output histogram. (A plain `f["Events"] = {...}` with awkward arrays writes an RNTuple, not a TTree, a trap.)
+- Fix: `scripts/make_synthetic_nanoaod.py` (+ `tests/test_synthetic_nanoaod.py`, 8 tests). It writes a
+  NanoAOD-like file (TTree `Events` with jagged `Jet_pt/eta/phi/mass` and signed `genWeight`, TTree `Runs`
+  with the full-sample `genEventCount`, `genEventSumw`, `genEventSumw2`) and prints, from a pure-Python
+  calculation, the expected number of events with two selected jets, their weight sum and sum of
+  squares, and the weighted mean and maximum of the leading-pair mass. For `--events 400 --seed 1`:
+  183 events, sum of weights 121.0, sum of squares 183.0, mean 213.85 GeV, maximum 1001.1 GeV, full-sample
+  `genEventSumw` 262.0; the tests compare these with an independent awkward recomputation and check the file
+  is a TTree. `SKILL.md` step 4 now says to build that sample with the script "instead of writing your own
+  ROOT-writing code", the awkward paragraph says to histogram with `np.histogram` (weights and weights**2) and
+  to write a ROOT output file only if asked, and the script is listed under executable resources and in the
+  README. Bundle 119 -> 121 files, tests 214 -> 222, description unchanged (1019 of 1024). uproot adds one
+  counter branch per jagged branch (`nJet_pt`, ...) instead of a single `nJet`; a shared counter name is not
+  supported by this uproot, so it is documented.
+- Rerun P02 x16 with the generator only, $2.44: **generator used 14/16**, **1/16 turn-limit** (that run
+  fought the output-histogram writing), 1 run asked instead of delivering, and on a fresh generator file 14
+  of the 15 delivered scripts printed the right count (183, weights 121); one reported 447 selected
+  events from 400 (a real bug), and two scripts that looked wrong only needed different arguments.
+- After adding the "no ROOT output unless asked" sentence, P02 x16, $1.87: **0/16 turn-limit, generator used
+  16/16, 16/16 delivered, all ran with no crash, and all 16 gave the expected numbers** (183 events, weights
+  121.0, sum of squares 183.0, mean mass 213.9 GeV, maximum 1001.1 GeV; one script needed `--input`, an
+  invocation difference, not a bug). Before: 3/24 turn-limit; all but one P02 run is now verified correct
+  by execution against known numbers (earlier reruns could only check counts by eye).
+- Limits: one prompt; 16 samples per arm; the first arm changed one thing and the second added one more, so
+  the second number is the combined effect; no full 16-prompt rerun after these changes.
+
+## No-data prompts: build a synthetic sample instead of asking? (2026-10-02, branch `hep-analysis-nodata`, NOT adopted)
+
+- Question from `TODO.md`: when a prompt names data that is not provided (P05, P02), should the model
+  build a labelled synthetic sample and deliver tested code instead of asking for files?
+- Baseline on the merged wording, P05 + P02 x8 each, $1.86: **P05 asks and delivers nothing in 8 of
+  8 runs**; **P02 already builds a synthetic sample and delivers in 8 of 8** (so the question is
+  really about P05); 2 of the 8 P02 runs ended by `error_max_turns` with no answer (in 5 and 9 Bash
+  commands), although the three-fix cap was in place.
+- Tried a rule in step 4 of the working procedure (do not stop at questions; build the synthetic
+  sample; label it synthetic in the file name, plot and printed text; never present synthetic
+  numbers as results; mask the blinded region by default, in the demo too). Guard test, 215 tests.
+  Rerun, P05 + P02 x8, $1.88:
+  - **P05: 1 of 8 delivered** (a plotting script, a synthetic-data generator and a PNG, 6 Bash
+    commands); 4 more offered to build a synthetic example but as a question ("would you like me
+    to?"); 3 asked as before. The delivered run masks the observed values above 1 TeV to NaN in the
+    script, but its summary describes the plot as if informative ("the ratio hovers around
+    0.86-1.0 ... suggesting reasonable agreement") without saying the numbers are synthetic, which
+    is what the rule forbids; it also sets the MC to NaN in the signal region "for visualization".
+  - **P02: unchanged**: 8 of 8 delivered, 1 of 8 hit the turn limit (before 2 of 8); cost the same.
+- Decision: **not adopted, the SKILL.md change was reverted** before commit. The effect on P05 is
+  small (1 of 8 against 0 of 8), the one delivery overclaims synthetic results in a blinded-analysis
+  context, and for P05 asking where the files are is a defensible answer. P02 needs no rule.
+- Residual found: P02 still hits the 25-turn limit in about 1 of 8 to 2 of 8 runs when it builds and
+  debugs its own test data; across the day's P02 runs with the cap in place the count is 3 of 24. The
+  cap line is not reliable; in real use there is no 25-turn limit, so the effect there is unknown.
+- Not done: P02 scripts from this run were not executed against the reference file.
 
 ## Full Haiku rerun after the P08 wording (2026-10-02, branch `hep-analysis-p08-script`)
 
