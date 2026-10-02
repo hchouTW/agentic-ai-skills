@@ -394,6 +394,30 @@ Format per test (compact YAML). `refs` lists expected references. All tests: `bl
   critical_requirements: [ratios do not cancel automatically so classify each nuisance as correlated, partial or independent with a stated correlation, bins sharing systematics need the joint covariance and a diagonal-only fit is wrong, run or propose ratio-measured (or ratio-cov when no measured covariance exists; ratio-toys checks cancellation, not a constant fit across bins), chi2 with the full covariance and goodness of fit with a trigger for adding an uncertainty, charge-dependent effects such as charge confusion and the different background do not cancel, a constant e+/e- is a hypothesis to test against time dependence (the chi2 and its p-value can reject it) and not an assumption, no AMS covariance values invented, labeled General method or Proposal]
   prohibited_claims: [full cancellation assumed, an AMS correlation value or chi2 not in the ledger, diagonal errors accepted]
   citation_expectation: none required
+- test_id: T46
+  category: source-scoped-numbers
+  prompt: "I want to quote the AMS positron fraction as a pure-secondary-production test. Which AMS paper should I cite for the 0.5-500 GeV fraction and what is the sample and the statement about its behaviour above 200 GeV? How does that compare with the 2013 first result?"
+  refs: [antimatter-and-leptons, source-index, source-policy]
+  critical_requirements: [cites the 2014 high-statistics paper (S03, PRL 113, 121101) for 0.5-500 GeV with its data period 2011-05-19 to 2013-11-26 and sample (C113), the fraction no longer increases above about 200 GeV (C113), the 2013 paper's statement that the 10-250 GeV rise is not consistent with only secondary production (C110), the 2013 first result (S02) covers 0.5-350 GeV on 6.8e6 events and 2011-05-19 to 2012-12-10 (C03, C107-C110) and is superseded in range and statistics, main-article level only (tables and supplement not read), the interpretation is the collaboration's qualitative reading and not a model proof, pulsar and dark-matter classes conditional, no cutoff energy or significance not in the ledger, does not merge the fluxes of PRL 113, 121102 with the fraction]
+  prohibited_claims: [a positron-fraction number not in C03, C107-C119, an exact decline slope or break energy for the fraction beyond C113, calling it proof of a source, merging S02 and S03 values]
+  citation_expectation: C113, C03, C107-C110
+
+- test_id: T47
+  category: time-dependent-antiproton
+  prompt: "Summarize what AMS published on the time dependence of the antiproton flux over the solar cycle, and say what I can and cannot get from the paper without the supplement."
+  refs: [time-dependent-analysis, antimatter-and-leptons, source-index]
+  critical_requirements: [S09 PRL 134, 051002 per Bartels rotation, 11 years May 2011 to June 2022, 1.1e6 antiprotons, 1.00-41.9 GV (C07, C120-C122), flux variation below about 10 GV and not visible above it (C122), antiproton variation smaller than the others below about 4 GV (C122), hysteresis between antiproton and proton and the 13-rotation moving averages (C123), the 4 sigma comparison comes from a supplement table that was not read (C123), per-rotation values are in Tables S1-S140 of the Supplemental Material and are not transcribed (C122), systematic ledger statements only as in C121, the interpretation is the collaboration's and not a model]
+  prohibited_claims: [any per-rotation flux value, a systematic size not in C121, a spectral index value, treating the main article as including the tables, hysteresis described as a model result]
+  citation_expectation: C07, C120-C124
+
+- test_id: T48
+  category: database-boundary
+  prompt: "I want to cross-check my AMS proton flux against CRDB and also the ASI SSDC cosmic-ray database. Give me the proton flux values AMS has in each database and tell me what the SSDC page offers."
+  refs: [cosmic-ray-databases, source-policy, source-index]
+  critical_requirements: [gives no AMS flux values from memory and says values must come from the AMS paper or from a recorded CRDB query with its version and retrieval date, treats database values as secondary compilations to be checked against the paper (C125-C128), explains native axis, combo level and energy conversion choices (C127, C128) and that time-series data are excluded by default, says the SSDC page content was not read (S52 not-verified) and describes at most the 2017 proceedings abstract as a database under development (C130), no coverage, query options or terms of the SSDC page claimed, no AMS-specific number attributed to either database]
+  prohibited_claims: [any AMS proton flux value, claiming the SSDC page offers specific datasets or query options, claiming CRDB contains a specific AMS dataset beyond the C129 statement that it was developed to retrieve AMS-02 results (no query has been run), describing the SSDC as current from the 2017 abstract]
+  citation_expectation: C125-C128, C130
+
 ```
 
 Tests T29-T34 exercise the specification and artifact workflow (`analysis-artifacts`), the deterministic checkers, the time-dependent reference and the source-status behavior. Grade the observable decisions listed (what was produced, what was refused, what was flagged as unresolved, which script or ledger entry was used), not keywords or exact phrasing. Their deterministic parts are covered by `tests/`: T30 by `test_covariance.py` and `test_response.py`, T31 by `test_analysis_spec.py`, T33 by `test_evidence_ledger.py`.
