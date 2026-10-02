@@ -1,6 +1,6 @@
 # TODO for future Claude sessions (hep-analysis)
 
-State (verified 2026-10-02 on `main`, all work merged; round 6 via PR #29; ref 13 re-check and caveats via PR #90-#92, fifth query set via PR #93, AMS numbers checked against Phys. Rept. 894 on 2026-10-02): `python3 scripts/validate_skill_bundle.py` OK (118 files); `python3 -m unittest discover -s tests` 213 tests OK. There are 12 skips without the optional environments: 7 ROOT, 4 pyhf, 1 Combine. There are 5 skips with `HEP_ROOT_PYTHON` set. P1-P4 and follow-up rounds 3-6 are done. Only recurring checks and one dated re-check are open. Read `VALIDATION.md` first, then this file.
+State (verified 2026-10-02 on `main`, all work merged; round 6 via PR #29; ref 13 re-check and caveats via PR #90-#92, fifth query set via PR #93, AMS numbers checked against Phys. Rept. 894 on 2026-10-02): `python3 scripts/validate_skill_bundle.py` OK (118 files); `python3 -m unittest discover -s tests` 214 tests OK. There are 12 skips without the optional environments: 7 ROOT, 4 pyhf, 1 Combine. There are 5 skips with `HEP_ROOT_PYTHON` set. P1-P4 and follow-up rounds 3-6 are done. Only recurring checks and one dated re-check are open. Read `VALIDATION.md` first, then this file.
 
 Working rules:
 - Work on a branch and ask before pushing or merging.
@@ -23,10 +23,10 @@ Working rules:
 
 ## Open
 
-- [ ] **Follow-ups after PR #99:** the full rerun after merge is done (28 PASS / 4 PARTIAL / 0 FAIL, best of five full reruns today). Open, each a `SKILL.md` change to ask about: (1) P03 has been PARTIAL in every rerun because no answer gives a per-cut yield check for a varied template (candidate: add it to the "Scaling the final histogram" row); (2) P08 is 1 PASS + 1 PARTIAL (one run only prints the script command); (3) whether a prompt with no data should build a synthetic sample instead of asking.
+- [ ] **Follow-ups after PR #99:** the full rerun after merge is done (28 PASS / 4 PARTIAL / 0 FAIL). The P03 per-cut check line is in (branch `hep-analysis-p03-check`): P03 6/6 PASS on 6 samples (MET propagation named in only 2 of 6). Open, each a `SKILL.md` change to ask about: (1) P08 is 1 PASS + 1 PARTIAL (one run only prints the script command); (2) whether a prompt with no data should build a synthetic sample instead of asking; (3) a full rerun after the P03 line merges.
 - [ ] **Dated re-check (after mid-2027):** check the AMS-02 Layer-0 status in ref 38. The installation creates a new detector era, and the schedule is known only from a CERN news item (ams-analysis C102).
 - [ ] **Recurring, on any change to references 02/17/37 or the `SKILL.md` invariants:** re-run `tests/prompts.md` on Haiku with `tests/prompts_eval.py`, at least 2 samples per prompt. Last run 2026-10-02: 24 PASS, 8 PARTIAL, 0 FAIL of 32, then 26 / 6 / 0 after the cycle-24 sentence was added to `SKILL.md`. P10 solar-epoch finding fixed the same day with one `SKILL.md` sentence: epoch correct 3/3, 2 PASS + 1 PARTIAL (no backtracing in one run, a wrong Voyager date in the same run).
-- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (file count, test count, skips). Last done 2026-10-02 (119 files, 213 tests, 12 skips).
+- [ ] **Recurring, after each pass:** update the `VALIDATION.md` header date and counts (file count, test count, skips). Last done 2026-10-02 (119 files, 214 tests, 12 skips).
 
 Accepted residuals (not tasks unless priorities change):
 - Haiku skips the skill for self-contained numeric questions: calorimeter resolution 0/4, Cherenkov angle, photoelectron yield, TOF reach.
