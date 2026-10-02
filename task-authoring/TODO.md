@@ -21,7 +21,7 @@ Sibling tooling to reuse instead of hand-run subagents:
 
 - Archetype-example tooling: keep and test it (P2 item "Depending on the archetype decision" is now live).
 - 12-section template: stays fixed.
-- Next session, in this order: (1) a human read of a few skill-arm tasks for invented facts, then add the canonical-example prompt(s) and a Haiku rerun after the destructive-change rule; (2) tests for the validator blind spots below; (3) the description trim with both trigger sets rerun; (4) Opus runs if wanted.
+- Next session, in this order: (1) done in part 2026-10-02 (Round 3g: T13 added, full Haiku and Sonnet rerun, T13 read by hand); left: add a rule that a worked example's incident is labelled illustrative and numbers are not presented as real (Haiku T13(e) failed, nothing in `SKILL.md` covers it), then rerun T13 on Haiku, and read more skill-arm tasks beyond T13 for invented facts; (2) tests for the validator blind spots below; (3) the description trim with both trigger sets rerun; (4) Opus runs if wanted.
 
 ## Questions for the user
 

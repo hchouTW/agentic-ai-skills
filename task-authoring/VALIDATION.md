@@ -287,6 +287,23 @@ after every edit in this section: both pass throughout.
 - `validate_skill_example.py` test-first checks searched the whole section, so "error" or "FAILED" in prose satisfied the Red check and a number in prose satisfied the Green metric. Both now search only inside closed fences (`fenced_blocks`, `fenced_text`). Three tests added (marker in prose only, metric in prose only, fence helper with prose and an unclosed fence). Suite 104 tests OK; bundle validator OK (30 files). The shipped examples are not archetype examples, so none changed.
 - Not done: the other items in the Next-session list (human read for invented facts, canonical-example prompt and Haiku rerun, description trim with trigger-set reruns, Opus); they need model runs.
 
+## Round 3g: full rerun with T13 (canonical example), Haiku and Sonnet (2026-10-02)
+
+- Set: T1-T13 (T13 new: a Postmortem canonical example for a migration-review skill, rubric (a)-(e) in `tests/prompts.md`), both arms, 2 runs per prompt, blind scorer, 108 bullet verdicts per cell. All 104 runs have output.
+
+| Model | Arm | P | ~ | F |
+|---|---|---|---|---|
+| Haiku | baseline | 18 | 25 | 65 |
+| Haiku | skill | 67 | 36 | 5 |
+| Sonnet | baseline | 57 | 23 | 28 |
+| Sonnet | skill | 99 | 9 | 0 |
+
+- Not blind in practice: the scorer named the arm right 50/52 (Haiku) and 52/52 (Sonnet). The baseline deficit is overstated for template-section bullets, as in Round 3. SKILL.md was read in 26/26 skill runs per model; references read per run: Haiku mean 1.1 (max 2), Sonnet mean 2.1 (max 3).
+- Haiku skill F bullets (5): T6(a) both runs (frame headings against the "no other headings" rubric, not tuned, see Round 3), T11(d) both runs (page size not an Open Question, unchanged since Round 3b), T13(e) one run. Sonnet skill ~ bullets (9): T2(c), T4(d), T6(b), T10(a), T12(d), T13(e); no F.
+- T13 read by hand (Haiku, skill arm, both runs): the incident is a dated production incident (2026-09-28, exact request counts, durations) with no sign it is illustrative, so (e) fails for real. Run 1 contradicts itself: the frontmatter says 4 hours of impact, the body says 16 minutes. Structure (five sections, fenced payload, five Whys) was fine. No rule in `SKILL.md` or `example-authoring.md` tells the writer to label a worked example's incident as illustrative; not added yet, so no T13 effect of a fix is measured.
+- Generated-task linter over the non-format prompts (T1-T4, T7-T9, T11, T12; the eval frame's heading and fence stripped): skill arm clean 16/18 (Haiku) and 17/18 (Sonnet); baseline 0/18 and 0/18, again by the section contract. Skill-arm errors: Haiku, an Open Questions section with prose and no list item (2); Sonnet, one task with missing sections and an extra "Open Questions (Requires Confirmation)" heading. Not evidence about invented facts.
+- Not done: Opus; a human read beyond T13; the description trim with trigger-set reruns.
+
 ## Limitations
 
 - `SKILL.md`/`references/*.md` are process guidance for an LLM to follow,
