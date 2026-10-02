@@ -3188,7 +3188,7 @@
       "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
       "analysis": "antiproton flux per Bartels rotation, method"
     },
-    "limitations": "Main article only. The event selection, the geomagnetic cutoff, the background templates and the collection time are described in the Supplemental Material and earlier papers (S08), which this claim does not cover; the unfolding method is cited, not described. Rigidity bins are absolute rigidity at the top of the detector.",
+    "limitations": "Main article only. The event selection, the geomagnetic cutoff, the background templates and the collection time are described in the Supplemental Material text (C175-C177, read 2026-10-02) and earlier papers (S08), which this claim does not cover; the unfolding method is cited, not described. Rigidity bins are absolute rigidity at the top of the detector.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-10-02"
@@ -3248,7 +3248,7 @@
   },
   {
     "id": "C123",
-    "claim": "Correlations between the antiproton and the other elementary particle fluxes (PRL 134, 051002), rigidity 1.00-2.97 GV with 13-rotation moving averages: the antiproton and proton fluxes show a hysteresis (two distinct branches at a given proton flux, before and after 2014-2015) like that between the electron and positron fluxes, and a hysteresis between the antiproton and proton fluxes is observed in every rigidity bin below 11.0 GV; below 4.88 GV the detailed antiproton-proton hysteresis differs from the electron-positron hysteresis by more than 4 sigma (from a table in the Supplemental Material, not read); the antiproton and electron fluxes show a linear relation in all rigidity bins from 1.00 to 7.09 GV, in which the antiproton flux is modulated significantly less than the electron flux, as the proton and positron fluxes show a linear relation with the proton modulated less than the positron; the paper concludes that particles with the same charge sign are modulated similarly with differences from mass and spectral shape, that the hysteresis shows a clear charge-sign effect, and that the difference between the antiproton-electron and proton-positron relations shows the importance of the spectral shape",
+    "claim": "Correlations between the antiproton and the other elementary particle fluxes (PRL 134, 051002), rigidity 1.00-2.97 GV with 13-rotation moving averages: the antiproton and proton fluxes show a hysteresis (two distinct branches at a given proton flux, before and after 2014-2015) like that between the electron and positron fluxes, and a hysteresis between the antiproton and proton fluxes is observed in every rigidity bin below 11.0 GV; below 4.88 GV the detailed antiproton-proton hysteresis differs from the electron-positron hysteresis by more than 4 sigma (the per-bin values are in Table SA of the Supplemental Material, C178); the antiproton and electron fluxes show a linear relation in all rigidity bins from 1.00 to 7.09 GV, in which the antiproton flux is modulated significantly less than the electron flux, as the proton and positron fluxes show a linear relation with the proton modulated less than the positron; the paper concludes that particles with the same charge sign are modulated similarly with differences from mass and spectral shape, that the hysteresis shows a clear charge-sign effect, and that the difference between the antiproton-electron and proton-positron relations shows the importance of the spectral shape",
     "claim_types": [
       "published_result"
     ],
@@ -3270,7 +3270,7 @@
       "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
       "analysis": "flux correlations and hysteresis"
     },
-    "limitations": "Main article only. The conclusions about charge-sign effect and spectral shape are the collaboration's interpretation of these correlations, not a model; the hysteresis method follows an earlier paper (S45) and the 4 sigma figure comes from a Supplemental Material table that was not read. Electron and positron flux inputs are from earlier AMS papers.",
+    "limitations": "Main article only. The conclusions about charge-sign effect and spectral shape are the collaboration's interpretation of these correlations, not a model; the hysteresis method follows an earlier paper (S45) and the 4 sigma figure is documented per bin in Table SA (C178, Supplemental Material text read 2026-10-02); the figures themselves (S4-S7) were not interpreted. Electron and positron flux inputs are from earlier AMS papers.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
     "last_reviewed": "2026-10-02"
@@ -4711,6 +4711,175 @@
     "limitations": "Index values themselves are in Fig. S6 (Supplemental Material, not read) and are not quoted here; only the paper's qualitative ordering statement is recorded.",
     "verification_strength": "full-text",
     "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C175",
+    "claim": "Detector description and trigger in the antiproton paper's Supplemental Material (PRL 134, 051002): the central magnetic field is 1.4 kG, measured before flight at 120 000 locations to better than 2 G, the magnet temperature varies on orbit from -3 to +20 C and the field is corrected with a measured temperature dependence of -0.09%/C; the tracker resolution in each layer is 10 um in the bending direction for |Z| = 1, the per-layer charge resolution is 0.092 and the inner tracker's is 0.049 charge units for |Z| = 1; the TOF velocity resolution is sigma(1/beta) = 0.04 for |Z| = 1 and the upper TOF charge accuracy is 0.06 charge units; the RICH velocity resolution for Z = 1 is 3.5e-3 for the NaF radiator and 1.2e-3 for the aerogel radiator, with thresholds beta > 0.75 (NaF) and beta > 0.952 (aerogel); the TRD has 5248 tubes in 20 layers and the antiproton versus electron separation uses the TRD estimator; the antiproton trigger efficiency is 80% above 10 GV, increasing to 83% at 1 GV; the Monte Carlo is a collaboration program based on geant4-10.3",
+    "claim_types": [
+      "detector_fact",
+      "performance_number"
+    ],
+    "location": "Supplemental Material, Detector",
+    "scope": {
+      "text": "detector description and antiproton trigger efficiency",
+      "species": [
+        "antiproton"
+      ],
+      "range": "1.00-41.9 GV for the trigger efficiency",
+      "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
+      "analysis": "antiproton paper detector description and trigger"
+    },
+    "limitations": "Supplemental Material text only. Resolutions are for |Z| = 1 particles as stated; they are not rigidity-dependent performance curves and are not the Gaussian-core widths used for unfolding systematics. The trigger efficiency here (80%, 83%) is a different quantity from the trigger-efficiency systematic in C121 and from the daily-flux papers' trigger efficiency.",
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S09"
+    ],
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C176",
+    "claim": "Antiproton event selection and collection time (PRL 134, 051002 Supplemental Material): more than 2.0e11 cosmic-ray events in the first 11 years; the collection time counts only seconds with normal detector operating conditions, AMS pointing within 40 degrees of the local zenith and the ISS outside the South Atlantic Anomaly; events need a track in the TRD and in the inner tracker and a TOF velocity beta > 0.3 for a downward-going particle; the track fit chi2/d.f. must be below 10 in both bending and non-bending projections, which rejects more than 95% of wrongly reconstructed tracks and keeps good tracks with efficiencies from 95% at 1 GV to 99% above 20 GV; dE/dx in the TRD, TOF and inner tracker must be consistent with |Z| = 1; to select primary cosmic rays the measured rigidity must exceed the maximum geomagnetic cutoff by a factor 1.2 for both positive and negative particles in all directions in the field of view, the cutoff derived from the IGRF model with external non-symmetric magnetic fields; the cutoff-factor systematic is estimated by varying the factor between 1.2 and 1.4 and gives 2% at 1 GV and below 0.4% above 2 GV on the fluxes",
+    "claim_types": [
+      "analysis_method",
+      "performance_number"
+    ],
+    "location": "Supplemental Material, Antiproton Event Selection",
+    "scope": {
+      "text": "antiproton selection, collection time and geomagnetic cutoff",
+      "species": [
+        "antiproton"
+      ],
+      "range": "1.00-41.9 GV",
+      "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
+      "analysis": "antiproton selection and cutoff"
+    },
+    "limitations": "Supplemental Material text only. The cutoff-factor systematic repeats the main-article value in C121; the other selection efficiencies are given in the Supplemental Material only for the track-quality cut. The collection time T is not given as a number. Selection of the proton sample used for the signal template is not described beyond the statements in C177.",
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S09"
+    ],
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C177",
+    "claim": "Negative-rigidity sample, backgrounds and template fit of the antiproton analysis (PRL 134, 051002 Supplemental Material): only the negative rigidity sample is used for antiprotons, which contains antiprotons, electrons, light negative mesons (pi- and a negligible amount of K-) produced in interactions of cosmic rays with the detector material, and charge-confusion protons; mesons are present only below 10 GV, charge confusion becomes noticeable only at higher rigidity and electrons are present at all rigidities; a charge-confusion estimator (the technique of an earlier AMS paper) reduces charge-confusion protons to a negligible amount, below 0.1%, in all rigidity bins; the signal and background numbers are found per rigidity bin by fitting signal and background templates to data with floating normalizations, and the signal template is always defined from the high-statistics proton data sample because the distribution of the template variables is the same for antiprotons and protons when both are reconstructed with the correct charge sign (verified with Monte Carlo and with antiproton and proton data); two rigidity regions use different templates, 1.00-2.97 GV and 2.97-41.9 GV; at low rigidity the mass distribution computed from the inner-tracker rigidity and the TOF velocity is used, with the TRD estimator cut and electron and pion templates defined per rigidity bin from data selected with the TRD, RICH and ECAL; at high rigidity the TRD estimator and the RICH velocity are used, the pi- background is removed by a rigidity-dependent RICH velocity cut and the electron template is defined per bin from data selected with the ECAL, with Monte Carlo used to verify that the electron template shapes inside and outside the ECAL acceptance are identical; in total 1.1e6 antiprotons are identified from 1.00 to 41.9 GV",
+    "claim_types": [
+      "analysis_method"
+    ],
+    "location": "Supplemental Material, Antiproton Event Selection",
+    "scope": {
+      "text": "antiproton template fit and backgrounds",
+      "species": [
+        "antiproton",
+        "e-",
+        "pi-",
+        "proton"
+      ],
+      "range": "1.00-41.9 GV (templates split at 2.97 GV)",
+      "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
+      "analysis": "antiproton negative-rigidity template fit"
+    },
+    "limitations": "Supplemental Material text only. No template-fit chi2, bin-by-bin purity or background fraction is given in the text read, and the numbers of events per bin are in the figures and tables (not transcribed). The 0.1% charge-confusion bound is a bound after the estimator cut, not a rate before it.",
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S09"
+    ],
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C178",
+    "claim": "Hysteresis analysis and Table SA (PRL 134, 051002 Supplemental Material): the significance follows a method of an earlier AMS paper; per rigidity bin two intervals of 13 Bartels rotations with the same normalized proton flux, one before and one after 2014-2015, are chosen with the most significant difference in the normalized antiproton flux; for 1.00-2.97 GV the proton flux Phi_p/<Phi_p> = 0.676 occurs from May 2012 to May 2013 (interval A) and from February 2015 to February 2016 (interval B); the same procedure with electron fluxes at equal normalized positron flux uses intervals C and D; Table SA gives, for the six rigidity bins 1.00-2.97, 2.97-4.88, 4.88-5.90, 5.90-7.09, 7.09-8.48 and 8.48-11.0 GV, the antiproton flux ratio Phi_pbar^A/Phi_pbar^B = 1.22 +- 0.04, 1.14 +- 0.02, 1.12 +- 0.02, 1.07 +- 0.02, 1.10 +- 0.02 and 1.06 +- 0.01 with significance of the difference from unity sigma_hys = 5.5, 5.8, 6.9, 4.0, 5.6 and 4.2, the electron ratio Phi_e-^C/Phi_e-^D = 1.52 +- 0.01, 1.25 +- 0.01, 1.16 +- 0.01, 1.12 +- 0.01, 1.09 +- 0.01 and 1.04 +- 0.01, and the significance of the difference between the antiproton and electron ratios sigma_diff = 7.4, 4.4, 1.9, 2.8, 0.5 and 1.1; the text says the antiproton ratio differs from unity by more than 5 sigma at 1.00-2.97 GV, decreasing to 4 sigma at 8.48-11.0 GV, that the ratio decreases with increasing rigidity, and that below 4.88 GV the antiproton and electron ratios differ by more than 4 sigma, from which the collaboration concludes a clear charge-sign effect in solar modulation and a hysteresis behaviour between antiproton and proton different from that between electron and positron",
+    "claim_types": [
+      "analysis_method",
+      "published_result"
+    ],
+    "location": "Supplemental Material, Hysteresis Between Phi_pbar and Phi_p, and Table SA",
+    "scope": {
+      "text": "hysteresis analysis and Table SA",
+      "species": [
+        "antiproton",
+        "proton",
+        "e-",
+        "e+"
+      ],
+      "range": "1.00-11.0 GV",
+      "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
+      "analysis": "antiproton-proton and electron-positron hysteresis significance"
+    },
+    "limitations": "Supplemental Material text and Table SA, values checked against the rendered page. The significance method is described only by reference to an earlier AMS paper and the text says nothing about how errors, the correlation between the chosen intervals or the choice of the most significant pair (a look-elsewhere effect) enter the quoted significances; treat them as the collaboration's numbers, not as validated global significances. The ratio is not monotonic in the table (1.07 at 5.90-7.09 GV, 1.10 at 7.09-8.48 GV) although the text says it decreases with rigidity. The significance for 8.48-11.0 GV in the table is 4.2 and in 5.90-7.09 GV 4.0.",
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S09"
+    ],
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C179",
+    "claim": "Linear relation between the antiproton and electron fluxes (PRL 134, 051002 Supplemental Material): the relative variations V = (Phi - <Phi>)/<Phi> of the electron and antiproton fluxes per Bartels rotation are fitted per rigidity bin with V_e- = k(e-, pbar) V_pbar (Eq. S1), with <Phi> the 11-year time-averaged flux; the relation is compatible with linear in the six bins from 1.00 to 7.09 GV shown, and k(e-, pbar) is greater than unity with significance over 4 sigma (below 7.09 GV per the Fig. S7 caption), so the antiproton flux is modulated less than the electron flux; k(e-, pbar) = 1.78 +- 0.12 in 1.00-1.92 GV, decreasing with rigidity to 1.31 +- 0.08 at 5.90-7.09 GV; for the positron and proton pair k(e+, p) is below 1.10 between 1.00 and 2.15 GV and rises to 1.20 +- 0.03 at 5.90-7.09 GV, so the two relations differ in size and in rigidity trend; the paper reads the difference, for pairs of equal charge sign and the same mass difference, as showing the importance of the spectral shape in solar modulation",
+    "claim_types": [
+      "analysis_method",
+      "published_result"
+    ],
+    "location": "Supplemental Material, Linear Relation Between Phi_pbar and Phi_e-",
+    "scope": {
+      "text": "antiproton-electron linear relation",
+      "species": [
+        "antiproton",
+        "e-",
+        "e+",
+        "proton"
+      ],
+      "range": "1.00-7.09 GV",
+      "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
+      "analysis": "linear relation of relative flux variations"
+    },
+    "limitations": "Supplemental Material text only (checked against the rendered page for the values). The k(e+, p) numbers come from an earlier AMS paper's method applied as stated here; the fit errors and chi2/d.f. of each bin are in Fig. S6 and were not read. The reading about spectral shape is the collaboration's interpretation, not a transport-model result.",
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S09"
+    ],
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": true,
+    "last_reviewed": "2026-10-02"
+  },
+  {
+    "id": "C180",
+    "claim": "Layout of the antiproton flux tables (PRL 134, 051002 Supplemental Material, introductory text of SM-antip-BR-Tables.pdf, table values not transcribed): Tables S1 to S139 give the antiproton flux for each Bartels rotation from May 2011 to June 2022 as a function of rigidity at the top of AMS, in units of [m^2 sr s GV]^-1 (inverse), each with a statistical error, a time-dependent systematic error and a total systematic error; the time-dependent systematic error has contributions from the background subtraction, the trigger efficiency and the unfolding; the total systematic error is the quadratic sum of the time-dependent systematic error, the geomagnetic cutoff, the effective acceptance, the unfolding and the rigidity scale; Table S140 gives the 11-year time-averaged antiproton flux with the statistical error and the total systematic error only",
+    "claim_types": [
+      "analysis_method"
+    ],
+    "claim_type_note": null,
+    "support_kind": "primary",
+    "source_ids": [
+      "S09"
+    ],
+    "location": "Supplemental Material tables, introductory text",
+    "scope": {
+      "text": "antiproton flux table layout and error columns",
+      "species": [
+        "antiproton"
+      ],
+      "range": "1.00-41.9 GV",
+      "data_period": "2011-05 to 2022-06 (139 Bartels rotations)",
+      "analysis": "antiproton flux supplement table layout"
+    },
+    "limitations": "Introductory page of the tables PDF only; the 140 tables (141 pages) were not transcribed or checked and no value is claimed. The text read does not mention any covariance or correlation between rigidity bins or between rotations (absence in that page only, not evidence that none exists). Table counts (139 rotations) agree with C120 but were not counted from the tables.",
+    "verification_strength": "full-text",
+    "numeric_quotation_allowed": false,
     "last_reviewed": "2026-10-02"
   }
 ]
