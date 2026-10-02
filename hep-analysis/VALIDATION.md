@@ -1,10 +1,38 @@
 # Package Validation Record
 
-Validation date: 2026-10-02, P01 units note and P08 run-the-script rule (latest pass; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
+Validation date: 2026-10-02, full Haiku rerun after PR #99 (latest pass; P01 units note and P08 run-the-script rule the same day; full Haiku rerun after the rule and cap the same day; P02 run-before-deliver rule the same day; P02 awkward leading-object rule the same day; P10 solar-epoch fix and rerun the same day; Haiku `tests/prompts.md` rerun the same day; AMS-02 numbers vs Phys. Rept. 894 the same day; ref 13 caveat follow-up the same day; ref 13 live re-check the same day; round 6 on 2026-09-28; earlier passes dated below). Helper test
 environment: Python 3, standard library plus PyYAML; optional scipy, and ROOT 6.38.04
 (Homebrew) via `/opt/homebrew/bin/python3.14` for the ROOT integration tests; Combine v11
 built against conda-forge ROOT 6.34.10 in a scratch env for `tests/test_combine_template.py`.
 Current counts: bundle 119 required files (plus 40 eval cases in `evals/`); 213 tests (7 ROOT, 4 pyhf and 1 Combine test skip without their environments).
+
+## Full Haiku rerun after PR #99 (2026-10-02, branch `hep-analysis-rerun-after-99`)
+
+Follow-up to PR #99, on merged `main` with the P01 units note, the run-the-script rule, the run-before-deliver
+rule and its cap all in place. `prompts_eval.py --model haiku --runs 2 -j 4`, 32 runs, $1.70, no
+errors. **28 PASS, 4 PARTIAL, 0 FAIL.** The same day's full reruns: 24/8/0, 26/6/0, 26/5/1, 24/8/0,
+and now 28/4/0; with 2 samples per prompt the spread is about the size of the noise, but the
+direction matches the fixes.
+
+- P01 2 PASS: both use `lumi_fb * 1000 * xsec_pb / sum`, the signed full-sample `genEventSumw`,
+  and give RDataFrame/ROOT code (6 of 6 P01 runs since PR #99; before it 0 of 4).
+- P02 2 PASS: both scripts executed on the synthetic TTree. Run 0 delivered two scripts; the main
+  one prints 185 events, weights 107.00, and the other 185 events, sum of weights 107.00 and
+  integral 108.00 over its 0-1000 GeV range (reference 108 and 184 for that range). Run 1 prints
+  185 events and a weighted integral of 95.00 with sumw2 169.00 (the 0-500 GeV reference).
+- P10 2 PASS: solar maximum, 1.2x margin, backtracing and demodulation in both runs (11/11
+  runs with the correct solar epoch since the cycle-24 sentence).
+- P08 1 PASS + 1 PARTIAL: run 0 gives flux (2.78 +2.7 -1.5)e-7, interval [1.37, 5.92] and
+  spillover/background, but then says sqrt(3)/exposure/dR is 1.6e-8 "a factor of ~10" away, a
+  wrong comparison. Run 1 gives only the script command with no numbers.
+- P05 1 PASS + 1 PARTIAL: run 1 asks to confirm the m > 1 TeV region stays hidden; run 0 never
+  mentions blinding.
+- P03 2 PARTIAL (unchanged in every rerun today): both say to vary the jets and rerun the
+  selection, but neither gives a yield-comparison check or mentions MET propagation.
+- PASS: P04 (no signal-contamination point in either), P06, P07, P09, P11 (no skill loaded in
+  either run, no number given), P12 (post-trial p 0.70, and 0.76/0.67), P13, P14, N01, N02.
+- Open candidate: the "Scaling the final histogram" row in `SKILL.md` could add "check by comparing
+  yields per cut, nominal against varied", which is the one E item P03 keeps missing.
 
 ## P01 units note and P08 run-the-script rule (2026-10-02, branch `hep-analysis-p01-p08-fixes`)
 
